@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +28,8 @@ public record AwsSupplychainCreateDataLakeNamespaceOptions : AwsOptions, IValida
     /// <summary>
     /// Enables you to programmatically create an Amazon Web Services Supply Chain data lake namespace. Developers can create the namespaces for a given instance ID. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The Amazon Web Services Supply Chain instance identifier. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
-    /// <param name="Name">The name of the namespace. Noted you cannot create namespace with name starting with asc , default , scn , aws , amazon , amzn Constraints: o min: 1 o max: 50 o pattern: [a-z0-9_]+</param>
+    /// <param name="InstanceId">The Amazon Web Services Supply Chain instance identifier. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="Name">The name of the namespace. Noted you cannot create namespace with name starting with asc , default , scn , aws , amazon , amzn Constraints: • min: 1 • max: 50 • pattern: [a-z0-9_]+</param>
     public AwsSupplychainCreateDataLakeNamespaceOptions(
         string InstanceId,
         string Name
@@ -61,25 +61,25 @@ public record AwsSupplychainCreateDataLakeNamespaceOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services Supply Chain instance identifier. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// The Amazon Web Services Supply Chain instance identifier. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The name of the namespace. Noted you cannot create namespace with name starting with asc , default , scn , aws , amazon , amzn Constraints: o min: 1 o max: 50 o pattern: [a-z0-9_]+
+    /// The name of the namespace. Noted you cannot create namespace with name starting with asc , default , scn , aws , amazon , amzn Constraints: • min: 1 • max: 50 • pattern: [a-z0-9_]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The description of the namespace. Constraints: o min: 1 o max: 500
+    /// The description of the namespace. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The tags of the namespace. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags of the namespace. Constraints: • min: 0 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -105,6 +105,15 @@ public record AwsSupplychainCreateDataLakeNamespaceOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new mobile device access rule for the specified WorkMail or- ganization. See also: AWS API Documentation
+/// Creates a new mobile device access rule for the specified WorkMail organization. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +28,11 @@ public record AwsWorkmailCreateMobileDeviceAccessRuleOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new mobile device access rule for the specified WorkMail or- ganization. See also: AWS API Documentation
+    /// Creates a new mobile device access rule for the specified WorkMail organization. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OrganizationId">The WorkMail organization under which the rule will be created. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$</param>
-    /// <param name="Name">The rule name. Constraints: o min: 1 o max: 64 o pattern: [\S\s]+</param>
-    /// <param name="Effect">The effect of the rule when it matches. Allowed values are ALLOW or DENY . Possible values: o ALLOW o DENY</param>
+    /// <param name="OrganizationId">The WorkMail organization under which the rule will be created. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$</param>
+    /// <param name="Name">The rule name. Constraints: • min: 1 • max: 64 • pattern: [\S\s]+</param>
+    /// <param name="Effect">The effect of the rule when it matches. Allowed values are ALLOW or DENY . Possible values: • ALLOW • DENY</param>
     public AwsWorkmailCreateMobileDeviceAccessRuleOptions(
         string OrganizationId,
         string Name,
@@ -65,80 +66,80 @@ public record AwsWorkmailCreateMobileDeviceAccessRuleOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The WorkMail organization under which the rule will be created. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$
+    /// The WorkMail organization under which the rule will be created. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$
     /// </summary>
     [CliOption("--organization-id")]
     public string? OrganizationId { get; private init; }
 
     /// <summary>
-    /// The rule name. Constraints: o min: 1 o max: 64 o pattern: [\S\s]+
+    /// The rule name. Constraints: • min: 1 • max: 64 • pattern: [\S\s]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The effect of the rule when it matches. Allowed values are ALLOW or DENY . Possible values: o ALLOW o DENY
+    /// The effect of the rule when it matches. Allowed values are ALLOW or DENY . Possible values: • ALLOW • DENY
     /// </summary>
     [CliOption("--effect")]
     public AwsWorkmailCreateMobileDeviceAccessRuleEffect? Effect { get; private init; }
 
     /// <summary>
-    /// The idempotency token for the client request. Constraints: o min: 1 o max: 128 o pattern: [\x21-\x7e]+
+    /// The idempotency token for the client request. Constraints: • min: 1 • max: 128 • pattern: [\x21-\x7e]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The rule description. Constraints: o min: 1 o max: 256 o pattern: [\S\s]+
+    /// The rule description. Constraints: • min: 1 • max: 256 • pattern: [\S\s]+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Device types that the rule will match. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 256 o pattern: [\u0020-\u00FF]+ Syntax: "string" "string" ...
+    /// Device types that the rule will match. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 256 • pattern: [\u0020-\u00FF]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--device-types", GroupValues = true)]
     public IEnumerable<string>? DeviceTypes { get; set; }
 
     /// <summary>
-    /// Device types that the rule will not match. All other device types will match. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 256 o pattern: [\u0020-\u00FF]+ Syntax: "string" "string" ...
+    /// Device types that the rule will not match. All other device types will match. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 256 • pattern: [\u0020-\u00FF]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--not-device-types", GroupValues = true)]
     public IEnumerable<string>? NotDeviceTypes { get; set; }
 
     /// <summary>
-    /// Device models that the rule will match. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 256 o pattern: [\u0020-\u00FF]+ Syntax: "string" "string" ...
+    /// Device models that the rule will match. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 256 • pattern: [\u0020-\u00FF]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--device-models", GroupValues = true)]
     public IEnumerable<string>? DeviceModels { get; set; }
 
     /// <summary>
-    /// Device models that the rule will not match. All other device models will match. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 256 o pattern: [\u0020-\u00FF]+ Syntax: "string" "string" ...
+    /// Device models that the rule will not match. All other device models will match. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 256 • pattern: [\u0020-\u00FF]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--not-device-models", GroupValues = true)]
     public IEnumerable<string>? NotDeviceModels { get; set; }
 
     /// <summary>
-    /// Device operating systems that the rule will match. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 256 o pattern: [\u0020-\u00FF]+ Syntax: "string" "string" ...
+    /// Device operating systems that the rule will match. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 256 • pattern: [\u0020-\u00FF]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--device-operating-systems", GroupValues = true)]
     public IEnumerable<string>? DeviceOperatingSystems { get; set; }
 
     /// <summary>
-    /// Device operating systems that the rule will not match. All other de- vice operating systems will match. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 256 o pattern: [\u0020-\u00FF]+ Syntax: "string" "string" ...
+    /// Device operating systems that the rule will not match. All other device operating systems will match. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 256 • pattern: [\u0020-\u00FF]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--not-device-operating-systems", GroupValues = true)]
     public IEnumerable<string>? NotDeviceOperatingSystems { get; set; }
 
     /// <summary>
-    /// Device user agents that the rule will match. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 256 o pattern: [\u0020-\u00FF]+ Syntax: "string" "string" ...
+    /// Device user agents that the rule will match. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 256 • pattern: [\u0020-\u00FF]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--device-user-agents", GroupValues = true)]
     public IEnumerable<string>? DeviceUserAgents { get; set; }
 
     /// <summary>
-    /// Device user agents that the rule will not match. All other device user agents will match. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 256 o pattern: [\u0020-\u00FF]+ Syntax: "string" "string" ...
+    /// Device user agents that the rule will not match. All other device user agents will match. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 256 • pattern: [\u0020-\u00FF]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--not-device-user-agents", GroupValues = true)]
     public IEnumerable<string>? NotDeviceUserAgents { get; set; }
@@ -164,6 +165,15 @@ public record AwsWorkmailCreateMobileDeviceAccessRuleOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

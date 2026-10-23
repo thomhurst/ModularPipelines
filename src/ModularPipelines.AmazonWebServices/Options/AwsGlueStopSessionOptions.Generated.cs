@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsGlueStopSessionOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Stops the session. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the session to be stopped. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="Id">The ID of the session to be stopped. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
     public AwsGlueStopSessionOptions(
         string Id
     )
@@ -56,13 +57,13 @@ public record AwsGlueStopSessionOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the session to be stopped. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The ID of the session to be stopped. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The origin of the request. Constraints: o min: 1 o max: 128 o pattern: [\.\-_A-Za-z0-9]+
+    /// The origin of the request. Constraints: • min: 1 • max: 128 • pattern: [\.\-_A-Za-z0-9]+
     /// </summary>
     [CliOption("--request-origin")]
     public string? RequestOrigin { get; set; }
@@ -88,6 +89,15 @@ public record AwsGlueStopSessionOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

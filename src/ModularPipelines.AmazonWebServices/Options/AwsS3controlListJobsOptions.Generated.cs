@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists current S3 Batch Operations jobs as well as the jobs that have ended within the last 90 days for the Amazon Web Services account mak- ing the request. For more information, see S3 Batch Operations in the Amazon S3 User Guide . Permissions To use the ListJobs operation, you must have permission to perform the s3:ListJobs action. Related actions include: o CreateJob o DescribeJob o UpdateJobPriority o UpdateJobStatus See also: AWS API Documentation
+/// Lists current S3 Batch Operations jobs as well as the jobs that have ended within the last 90 days for the Amazon Web Services account making the request. For more information, see S3 Batch Operations in the Amazon S3 User Guide . Permissions To use the ListJobs operation, you must have permission to perform the s3:ListJobs action. Related actions include: • CreateJob • DescribeJob • UpdateJobPriority • UpdateJobStatus See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsS3controlListJobsOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists current S3 Batch Operations jobs as well as the jobs that have ended within the last 90 days for the Amazon Web Services account mak- ing the request. For more information, see S3 Batch Operations in the Amazon S3 User Guide . Permissions To use the ListJobs operation, you must have permission to perform the s3:ListJobs action. Related actions include: o CreateJob o DescribeJob o UpdateJobPriority o UpdateJobStatus See also: AWS API Documentation
+    /// Lists current S3 Batch Operations jobs as well as the jobs that have ended within the last 90 days for the Amazon Web Services account making the request. For more information, see S3 Batch Operations in the Amazon S3 User Guide . Permissions To use the ListJobs operation, you must have permission to perform the s3:ListJobs action. Related actions include: • CreateJob • DescribeJob • UpdateJobPriority • UpdateJobStatus See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountId">The Amazon Web Services account ID associated with the S3 Batch Op- erations job. Constraints: o max: 64 o pattern: ^\d{12}$</param>
+    /// <param name="AccountId">The Amazon Web Services account ID associated with the S3 Batch Operations job. Constraints: • max: 64 • pattern: ^\d{12}$</param>
     public AwsS3controlListJobsOptions(
         string AccountId
     )
@@ -57,26 +58,26 @@ public record AwsS3controlListJobsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services account ID associated with the S3 Batch Op- erations job. Constraints: o max: 64 o pattern: ^\d{12}$
+    /// The Amazon Web Services account ID associated with the S3 Batch Operations job. Constraints: • max: 64 • pattern: ^\d{12}$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// The List Jobs request returns jobs that match the statuses listed in this element. (string) Possible values: o Active o Cancelled o Cancelling o Complete o Completing o Failed o Failing o New o Paused o Pausing o Preparing o Ready o Suspended Syntax: "string" "string" ...
+    /// The List Jobs request returns jobs that match the statuses listed in this element. (string) Possible values: • Active • Cancelled • Cancelling • Complete • Completing • Failed • Failing • New • Paused • Pausing • Preparing • Ready • Suspended Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--job-statuses", GroupValues = true)]
     public IEnumerable<string>? JobStatuses { get; set; }
 
     /// <summary>
-    /// A pagination token to request the next page of results. Use the to- ken that Amazon S3 returned in the NextToken element of the ListJob- sResult from the previous List Jobs request. Constraints: o min: 1 o max: 1024 o pattern: ^[A-Za-z0-9\+\:\/\=\?\#-_]+$
+    /// A pagination token to request the next page of results. Use the token that Amazon S3 returned in the NextToken element of the ListJobsResult from the previous List Jobs request. Constraints: • min: 1 • max: 1024 • pattern: ^[A-Za-z0-9\+\:\/\=\?\#-_]+$
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of jobs that Amazon S3 will include in the List Jobs response. If there are more jobs than this number, the response will include a pagination token in the NextToken field to enable you to retrieve the next page of results. Constraints: o min: 0 o max: 1000
+    /// The maximum number of jobs that Amazon S3 will include in the List Jobs response. If there are more jobs than this number, the response will include a pagination token in the NextToken field to enable you to retrieve the next page of results. Constraints: • min: 0 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -102,6 +103,15 @@ public record AwsS3controlListJobsOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

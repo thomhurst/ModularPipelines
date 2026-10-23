@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -23,31 +23,31 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsIvsCreatePlaybackRestrictionPolicyOptions : AwsOptions
 {
     /// <summary>
-    /// A list of country codes that control geoblocking restriction. Al- lowed values are the officially assigned ISO 3166-1 alpha-2 codes. Default: All countries (an empty array). (string) Constraints: o min: 2 o max: 2 Syntax: "string" "string" ...
+    /// A list of country codes that control geoblocking restriction. Allowed values are the officially assigned ISO 3166-1 alpha-2 codes. Default: All countries (an empty array). (string) Constraints: • min: 2 • max: 2 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--allowed-countries", GroupValues = true)]
     public IEnumerable<string>? AllowedCountries { get; set; }
 
     /// <summary>
-    /// A list of origin sites that control CORS restriction. Allowed values are the same as valid values of the Origin header defined at https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Origin . Default: All origins (an empty array). (string) Constraints: o min: 0 o max: 128 Syntax: "string" "string" ...
+    /// A list of origin sites that control CORS restriction. Allowed values are the same as valid values of the Origin header defined at https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Origin . Default: All origins (an empty array). (string) Constraints: • min: 0 • max: 128 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--allowed-origins", GroupValues = true)]
     public IEnumerable<string>? AllowedOrigins { get; set; }
 
     /// <summary>
-    /// ment (boolean) Whether channel playback is constrained by origin site. Default: false .
+    /// Whether channel playback is constrained by origin site. Default: false .
     /// </summary>
     [CliFlag("--enable-strict-origin-enforcement", NegatedName = "--no-enable-strict-origin-enforcement")]
     public bool? EnableStrictOriginEnforcement { get; set; }
 
     /// <summary>
-    /// Playback-restriction-policy name. The value does not need to be unique. Constraints: o min: 0 o max: 128 o pattern: [a-zA-Z0-9-_]*
+    /// Playback-restriction-policy name. The value does not need to be unique. Constraints: • min: 0 • max: 128 • pattern: [a-zA-Z0-9-_]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// Array of 1-50 maps, each of the form string:string (key:value) . See Best practices and strategies in Tagging Amazon Web Services Re- sources and Tag Editor for details, including restrictions that ap- ply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]+) value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Array of 1-50 maps, each of the form string:string (key:value) . See Best practices and strategies in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]+) value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -57,5 +57,14 @@ public record AwsIvsCreatePlaybackRestrictionPolicyOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

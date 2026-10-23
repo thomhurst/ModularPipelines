@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsVpcLatticeGetTargetGroupOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Retrieves information about the specified target group. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TargetGroupIdentifier">The ID or ARN of the target group. Constraints: o min: 17 o max: 2048 o pattern: ((tg-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:targetgroup/tg-[0-9a-z]{17}))</param>
+    /// <param name="TargetGroupIdentifier">The ID or ARN of the target group. Constraints: • min: 17 • max: 2048 • pattern: ((tg-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lattice:[a-zA-Z0-9\-]+:\d{12}:targetgroup/tg-[0-9a-z]{17}))</param>
     public AwsVpcLatticeGetTargetGroupOptions(
         string TargetGroupIdentifier
     )
@@ -56,7 +57,7 @@ public record AwsVpcLatticeGetTargetGroupOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID or ARN of the target group. Constraints: o min: 17 o max: 2048 o pattern: ((tg-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:targetgroup/tg-[0-9a-z]{17}))
+    /// The ID or ARN of the target group. Constraints: • min: 17 • max: 2048 • pattern: ((tg-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lattice:[a-zA-Z0-9\-]+:\d{12}:targetgroup/tg-[0-9a-z]{17}))
     /// </summary>
     [CliOption("--target-group-identifier")]
     public string? TargetGroupIdentifier { get; private init; }
@@ -82,6 +83,15 @@ public record AwsVpcLatticeGetTargetGroupOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

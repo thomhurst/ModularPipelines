@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns all tags on the specified KMS key. For general information about tags, including the format and syntax, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference . For information about using tags in KMS, see Tags in KMS . Cross-account use : No. You cannot perform this operation on a KMS key in a different Amazon Web Services account. Required permissions : kms:ListResourceTags (key policy) Related operations: o CreateKey o ReplicateKey o TagResource o Untag...
+/// Returns all tags on the specified KMS key. For general information about tags, including the format and syntax, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference . For information about using tags in KMS, see Tags in KMS . Cross-account use : No. You cannot perform this operation on a KMS key in a different Amazon Web Services account. Required permissions : kms:ListResourceTags (key policy) Related operations: • CreateKey • ReplicateKey • TagResource • Untag...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsKmsListResourceTagsOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns all tags on the specified KMS key. For general information about tags, including the format and syntax, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference . For information about using tags in KMS, see Tags in KMS . Cross-account use : No. You cannot perform this operation on a KMS key in a different Amazon Web Services account. Required permissions : kms:ListResourceTags (key policy) Related operations: o CreateKey o ReplicateKey o TagResource o Untag...
+    /// Returns all tags on the specified KMS key. For general information about tags, including the format and syntax, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference . For information about using tags in KMS, see Tags in KMS . Cross-account use : No. You cannot perform this operation on a KMS key in a different Amazon Web Services account. Required permissions : kms:ListResourceTags (key policy) Related operations: • CreateKey • ReplicateKey • TagResource • Untag...
     /// </summary>
-    /// <param name="KeyId">Gets tags on the specified KMS key. Specify the key ID or key ARN of the KMS key. For example: o Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab o Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab To get the key ID and key ARN for a KMS key, use ListKeys or De- scribeKey . Constraints: o min: 1 o max: 2048</param>
+    /// <param name="KeyId">Gets tags on the specified KMS key. Specify the key ID or key ARN of the KMS key. For example: • Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab • Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey . Constraints: • min: 1 • max: 2048</param>
     public AwsKmsListResourceTagsOptions(
         string KeyId
     )
@@ -57,16 +58,13 @@ public record AwsKmsListResourceTagsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Gets tags on the specified KMS key. Specify the key ID or key ARN of the KMS key. For example: o Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab o Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab To get the key ID and key ARN for a KMS key, use ListKeys or De- scribeKey . Constraints: o min: 1 o max: 2048
+    /// Gets tags on the specified KMS key. Specify the key ID or key ARN of the KMS key. For example: • Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab • Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey . Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--key-id")]
     public string? KeyId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -76,16 +74,19 @@ public record AwsKmsListResourceTagsOptions : AwsOptions, IValidatableObject
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 1000
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -102,6 +103,15 @@ public record AwsKmsListResourceTagsOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

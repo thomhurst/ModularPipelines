@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsTransferDeleteProfileOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes the profile that's specified in the ProfileId parameter. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProfileId">The identifier of the profile that you are deleting. Constraints: o min: 19 o max: 19 o pattern: p-([0-9a-f]{17})</param>
+    /// <param name="ProfileId">The identifier of the profile that you are deleting. Constraints: • min: 19 • max: 19 • pattern: p-([0-9a-f]{17})</param>
     public AwsTransferDeleteProfileOptions(
         string ProfileId
     )
@@ -56,7 +57,7 @@ public record AwsTransferDeleteProfileOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the profile that you are deleting. Constraints: o min: 19 o max: 19 o pattern: p-([0-9a-f]{17})
+    /// The identifier of the profile that you are deleting. Constraints: • min: 19 • max: 19 • pattern: p-([0-9a-f]{17})
     /// </summary>
     [CliOption("--profile-id")]
     public string? ProfileId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsTransferDeleteProfileOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

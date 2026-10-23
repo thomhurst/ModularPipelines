@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Disassociates the current GuardDuty member account from its administra- tor account. When you disassociate an invited member from a GuardDuty delegated ad- ministrator, the member account details obtained from the CreateMembers API, including the associated email addresses, are retained. This is done so that the delegated administrator can invoke the InviteMembers API without the need to invoke the CreateMembers API again. To remove the details associated with a member account, the delegated adm...
+/// Disassociates the current GuardDuty member account from its administrator account. When you disassociate an invited member from a GuardDuty delegated administrator, the member account details obtained from the CreateMembers API, including the associated email addresses, are retained. This is done so that the delegated administrator can invoke the InviteMembers API without the need to invoke the CreateMembers API again. To remove the details associated with a member account, the delegated adminis...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsGuarddutyDisassociateFromAdministratorAccountOptions : AwsOptio
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Disassociates the current GuardDuty member account from its administra- tor account. When you disassociate an invited member from a GuardDuty delegated ad- ministrator, the member account details obtained from the CreateMembers API, including the associated email addresses, are retained. This is done so that the delegated administrator can invoke the InviteMembers API without the need to invoke the CreateMembers API again. To remove the details associated with a member account, the delegated adm...
+    /// Disassociates the current GuardDuty member account from its administrator account. When you disassociate an invited member from a GuardDuty delegated administrator, the member account details obtained from the CreateMembers API, including the associated email addresses, are retained. This is done so that the delegated administrator can invoke the InviteMembers API without the need to invoke the CreateMembers API again. To remove the details associated with a member account, the delegated adminis...
     /// </summary>
-    /// <param name="DetectorId">The unique ID of the detector of the GuardDuty member account. Constraints: o min: 1 o max: 300</param>
+    /// <param name="DetectorId">The unique ID of the detector of the GuardDuty member account. Constraints: • min: 1 • max: 300</param>
     public AwsGuarddutyDisassociateFromAdministratorAccountOptions(
         string DetectorId
     )
@@ -56,7 +57,7 @@ public record AwsGuarddutyDisassociateFromAdministratorAccountOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique ID of the detector of the GuardDuty member account. Constraints: o min: 1 o max: 300
+    /// The unique ID of the detector of the GuardDuty member account. Constraints: • min: 1 • max: 300
     /// </summary>
     [CliOption("--detector-id")]
     public string? DetectorId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsGuarddutyDisassociateFromAdministratorAccountOptions : AwsOptio
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

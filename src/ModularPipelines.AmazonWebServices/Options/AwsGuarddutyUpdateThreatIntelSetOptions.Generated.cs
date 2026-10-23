@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsGuarddutyUpdateThreatIntelSetOptions : AwsOptions, IValidatable
     /// <summary>
     /// Updates the ThreatIntelSet specified by the ThreatIntelSet ID. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DetectorId">The detectorID that specifies the GuardDuty service whose ThreatIn- telSet you want to update. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300</param>
-    /// <param name="ThreatIntelSetId">The unique ID that specifies the ThreatIntelSet that you want to up- date.</param>
+    /// <param name="DetectorId">The detectorID that specifies the GuardDuty service whose ThreatIntelSet you want to update. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: • min: 1 • max: 300</param>
+    /// <param name="ThreatIntelSetId">The unique ID that specifies the ThreatIntelSet that you want to update.</param>
     public AwsGuarddutyUpdateThreatIntelSetOptions(
         string DetectorId,
         string ThreatIntelSetId
@@ -60,25 +61,25 @@ public record AwsGuarddutyUpdateThreatIntelSetOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The detectorID that specifies the GuardDuty service whose ThreatIn- telSet you want to update. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300
+    /// The detectorID that specifies the GuardDuty service whose ThreatIntelSet you want to update. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: • min: 1 • max: 300
     /// </summary>
     [CliOption("--detector-id")]
     public string? DetectorId { get; private init; }
 
     /// <summary>
-    /// The unique ID that specifies the ThreatIntelSet that you want to up- date.
+    /// The unique ID that specifies the ThreatIntelSet that you want to update.
     /// </summary>
     [CliOption("--threat-intel-set-id")]
     public string? ThreatIntelSetId { get; private init; }
 
     /// <summary>
-    /// The unique ID that specifies the ThreatIntelSet that you want to up- date. Constraints: o min: 1 o max: 300
+    /// The unique ID that specifies the ThreatIntelSet that you want to update. Constraints: • min: 1 • max: 300
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The updated URI of the file that contains the ThreateIntelSet. Constraints: o min: 1 o max: 300
+    /// The updated URI of the file that contains the ThreateIntelSet. Constraints: • min: 1 • max: 300
     /// </summary>
     [CliOption("--location")]
     public string? Location { get; set; }
@@ -90,7 +91,7 @@ public record AwsGuarddutyUpdateThreatIntelSetOptions : AwsOptions, IValidatable
     public bool? Activate { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services account ID that owns the Amazon S3 bucket specified in the location parameter. Constraints: o min: 12 o max: 12
+    /// The Amazon Web Services account ID that owns the Amazon S3 bucket specified in the location parameter. Constraints: • min: 12 • max: 12
     /// </summary>
     [CliOption("--expected-bucket-owner")]
     public string? ExpectedBucketOwner { get; set; }
@@ -116,6 +117,15 @@ public record AwsGuarddutyUpdateThreatIntelSetOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

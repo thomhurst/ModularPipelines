@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a blue/green deployment. A blue/green deployment creates a staging environment that copies the production environment. In a blue/green deployment, the blue environ- ment is the current production environment. The green environment is the staging environment, and it stays in sync with the current produc- tion environment. You can make changes to the databases in the green environment without affecting production workloads. For example, you can upgrade the major or minor DB engine version,...
+/// Creates a blue/green deployment. A blue/green deployment creates a staging environment that copies the production environment. In a blue/green deployment, the blue environment is the current production environment. The green environment is the staging environment, and it stays in sync with the current production environment. You can make changes to the databases in the green environment without affecting production workloads. For example, you can upgrade the major or minor DB engine version, cha...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsRdsCreateBlueGreenDeploymentOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a blue/green deployment. A blue/green deployment creates a staging environment that copies the production environment. In a blue/green deployment, the blue environ- ment is the current production environment. The green environment is the staging environment, and it stays in sync with the current produc- tion environment. You can make changes to the databases in the green environment without affecting production workloads. For example, you can upgrade the major or minor DB engine version,...
+    /// Creates a blue/green deployment. A blue/green deployment creates a staging environment that copies the production environment. In a blue/green deployment, the blue environment is the current production environment. The green environment is the staging environment, and it stays in sync with the current production environment. You can make changes to the databases in the green environment without affecting production workloads. For example, you can upgrade the major or minor DB engine version, cha...
     /// </summary>
-    /// <param name="BlueGreenDeploymentName">The name of the blue/green deployment. Constraints: o Can't be the same as an existing blue/green deployment name in the same account and Amazon Web Services Region. Constraints: o min: 1 o max: 60 o pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*</param>
-    /// <param name="Source">The Amazon Resource Name (ARN) of the source production database. Specify the database that you want to clone. The blue/green deploy- ment creates this database in the green environment. You can make updates to the database in the green environment, such as an engine version upgrade. When you are ready, you can switch the database in the green environment to be the production database. Constraints: o min: 1 o max: 2048 o pattern: arn:[A-Za-z][0-9A-Za-z-:._]*</param>
+    /// <param name="BlueGreenDeploymentName">The name of the blue/green deployment. Constraints: • Can't be the same as an existing blue/green deployment name in the same account and Amazon Web Services Region. Constraints: • min: 1 • max: 60 • pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*</param>
+    /// <param name="Source">The Amazon Resource Name (ARN) of the source production database. Specify the database that you want to clone. The blue/green deployment creates this database in the green environment. You can make updates to the database in the green environment, such as an engine version upgrade. When you are ready, you can switch the database in the green environment to be the production database. Constraints: • min: 1 • max: 2048 • pattern: arn:[A-Za-z][0-9A-Za-z-:._]*</param>
     public AwsRdsCreateBlueGreenDeploymentOptions(
         string BlueGreenDeploymentName,
         string Source
@@ -60,31 +61,31 @@ public record AwsRdsCreateBlueGreenDeploymentOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the blue/green deployment. Constraints: o Can't be the same as an existing blue/green deployment name in the same account and Amazon Web Services Region. Constraints: o min: 1 o max: 60 o pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*
+    /// The name of the blue/green deployment. Constraints: • Can't be the same as an existing blue/green deployment name in the same account and Amazon Web Services Region. Constraints: • min: 1 • max: 60 • pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*
     /// </summary>
     [CliOption("--blue-green-deployment-name")]
     public string? BlueGreenDeploymentName { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the source production database. Specify the database that you want to clone. The blue/green deploy- ment creates this database in the green environment. You can make updates to the database in the green environment, such as an engine version upgrade. When you are ready, you can switch the database in the green environment to be the production database. Constraints: o min: 1 o max: 2048 o pattern: arn:[A-Za-z][0-9A-Za-z-:._]*
+    /// The Amazon Resource Name (ARN) of the source production database. Specify the database that you want to clone. The blue/green deployment creates this database in the green environment. You can make updates to the database in the green environment, such as an engine version upgrade. When you are ready, you can switch the database in the green environment to be the production database. Constraints: • min: 1 • max: 2048 • pattern: arn:[A-Za-z][0-9A-Za-z-:._]*
     /// </summary>
     [CliOption("--source")]
     public string? Source { get; private init; }
 
     /// <summary>
-    /// The engine version of the database in the green environment. Specify the engine version to upgrade to in the green environment. Constraints: o min: 1 o max: 64 o pattern: [0-9A-Za-z-_.]+
+    /// The engine version of the database in the green environment. Specify the engine version to upgrade to in the green environment. Constraints: • min: 1 • max: 64 • pattern: [0-9A-Za-z-_.]+
     /// </summary>
     [CliOption("--target-engine-version")]
     public string? TargetEngineVersion { get; set; }
 
     /// <summary>
-    /// The DB parameter group associated with the DB instance in the green environment. To test parameter changes, specify a DB parameter group that is dif- ferent from the one associated with the source DB instance. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z](?!.*--)[0-9A-Za-z-]*[^-]|^de- fault(?!.*--)(?!.*\.\.)[0-9A-Za-z-.]*[^-]
+    /// The DB parameter group associated with the DB instance in the green environment. To test parameter changes, specify a DB parameter group that is different from the one associated with the source DB instance. Constraints: • min: 1 • max: 255 • pattern: [A-Za-z](?!.*--)[0-9A-Za-z-]*[^-]|^default(?!.*--)(?!.*\.\.)[0-9A-Za-z-.]*[^-]
     /// </summary>
     [CliOption("--target-db-parameter-group-name")]
     public string? TargetDbParameterGroupName { get; set; }
 
     /// <summary>
-    /// The DB cluster parameter group associated with the Aurora DB cluster in the green environment. To test parameter changes, specify a DB cluster parameter group that is different from the one associated with the source DB cluster. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z](?!.*--)[0-9A-Za-z-]*[^-]|^de- fault(?!.*--)(?!.*\.\.)[0-9A-Za-z-.]*[^-]
+    /// The DB cluster parameter group associated with the Aurora DB cluster in the green environment. To test parameter changes, specify a DB cluster parameter group that is different from the one associated with the source DB cluster. Constraints: • min: 1 • max: 255 • pattern: [A-Za-z](?!.*--)[0-9A-Za-z-]*[^-]|^default(?!.*--)(?!.*\.\.)[0-9A-Za-z-.]*[^-]
     /// </summary>
     [CliOption("--target-db-cluster-parameter-group-name")]
     public string? TargetDbClusterParameterGroupName { get; set; }
@@ -96,7 +97,7 @@ public record AwsRdsCreateBlueGreenDeploymentOptions : AwsOptions, IValidatableO
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Specify the DB instance class for the databases in the green envi- ronment. This parameter only applies to RDS DB instances, because DB in- stances within an Aurora DB cluster can have multiple different in- stance classes. If you're creating a blue/green deployment from an Aurora DB cluster, don't specify this parameter. After the green en- vironment is created, you can individually modify the instance classes of the DB instances within the green DB cluster. Constraints: o min: 5 o max: 20 o pattern: db\.[0-9a-z]{2,6}\.[0-9a-z]{4,9}
+    /// Specify the DB instance class for the databases in the green environment. This parameter only applies to RDS DB instances, because DB instances within an Aurora DB cluster can have multiple different instance classes. If you're creating a blue/green deployment from an Aurora DB cluster, don't specify this parameter. After the green environment is created, you can individually modify the instance classes of the DB instances within the green DB cluster. Constraints: • min: 5 • max: 20 • pattern: db\.[0-9a-z]{2,6}\.[0-9a-z]{4,9}
     /// </summary>
     [CliOption("--target-db-instance-class")]
     public string? TargetDbInstanceClass { get; set; }
@@ -132,7 +133,7 @@ public record AwsRdsCreateBlueGreenDeploymentOptions : AwsOptions, IValidatableO
     public int? TargetStorageThroughput { get; set; }
 
     /// <summary>
-    /// Specifies resource-level configuration overrides for the green envi- ronment. Each entry identifies a resource in the blue environment by its Ama- zon Resource Name (ARN). It defines the desired configuration for the corresponding resource in the green environment. Any resource that you don't include in this parameter retains the same configura- tion as its counterpart in the blue environment. Use this parameter when one or more resources in the green environ- ment require a different configuration than what they have in the blue environment. Constraints: o You can't specify the same SourceArn in more than one entry. Constraints: o min: 0 o max: 20 (structure) The configuration for a single resource in the green environment of a blue/green deployment. Use SourceArn to identify a resource in the blue environment. Amazon RDS creates the corresponding resource in the green envi- ronment using this configuration. This data type is a request parameter of the CreateBlueGreenDe- ployment operation. SourceArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the DB cluster or DB in- stance in the blue environment to which this configuration applies. Constraints: o min: 39 o max: 255 o pattern: arn:aws[a-z-]*:rds(-[a-z]+)?:[a-z0-9-]*:[0-9]{12}:(clus- ter|db):[a-zA-Z][a-zA-Z0-9-]{0,62} TargetKmsKeyId -&gt; (string) The Amazon Web Services KMS key identifier for encryption of the corresponding resource in the green environment. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. Specify this setting in either of the following cases: o You want the green resource to use a different KMS key than the blue resource. o The blue resource is unencrypted and you want to encrypt the green resource. For Aurora, encryption applies at the DB cluster level. Spec- ify a DB cluster ARN in SourceArn . All DB instances in that cluster use the same KMS key. For RDS, encryption applies at the DB instance level. Specify a DB instance ARN in SourceArn . To encrypt read replicas, include a separate entry for each one. Each entry can specify a different KMS key. Constraints: o min: 1 o max: 2048 o pattern: [a-zA-Z0-9_:\-\/]+ Shorthand Syntax: SourceArn=string,TargetKmsKeyId=string ... JSON Syntax: [ { "SourceArn": "string", "TargetKmsKeyId": "string" } ... ]
+    /// Specifies resource-level configuration overrides for the green environment. Each entry identifies a resource in the blue environment by its Amazon Resource Name (ARN). It defines the desired configuration for the corresponding resource in the green environment. Any resource that you don't include in this parameter retains the same configuration as its counterpart in the blue environment. Use this parameter when one or more resources in the green environment require a different configuration than what they have in the blue environment. Constraints: • You can't specify the same SourceArn in more than one entry. Constraints: • min: 0 • max: 20 (structure) The configuration for a single resource in the green environment of a blue/green deployment. Use SourceArn to identify a resource in the blue environment. Amazon RDS creates the corresponding resource in the green environment using this configuration. This data type is a request parameter of the CreateBlueGreenDeployment operation. SourceArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the DB cluster or DB instance in the blue environment to which this configuration applies. Constraints: • min: 39 • max: 255 • pattern: arn:aws[a-z-]*:rds(-[a-z]+)?:[a-z0-9-]*:[0-9]{12}:(cluster|db):[a-zA-Z][a-zA-Z0-9-]{0,62} TargetKmsKeyId -&gt; (string) The Amazon Web Services KMS key identifier for encryption of the corresponding resource in the green environment. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. Specify this setting in either of the following cases: • You want the green resource to use a different KMS key than the blue resource. • The blue resource is unencrypted and you want to encrypt the green resource. For Aurora, encryption applies at the DB cluster level. Specify a DB cluster ARN in SourceArn . All DB instances in that cluster use the same KMS key. For RDS, encryption applies at the DB instance level. Specify a DB instance ARN in SourceArn . To encrypt read replicas, include a separate entry for each one. Each entry can specify a different KMS key. Constraints: • min: 1 • max: 2048 • pattern: [a-zA-Z0-9_:\-\/]+ Shorthand Syntax: SourceArn=string,TargetKmsKeyId=string ... JSON Syntax: [ { "SourceArn": "string", "TargetKmsKeyId": "string" } ... ]
     /// </summary>
     [CliOption("--target-resource-configurations", GroupValues = true)]
     public IEnumerable<string>? TargetResourceConfigurations { get; set; }
@@ -158,6 +159,15 @@ public record AwsRdsCreateBlueGreenDeploymentOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the list of possible values for the specified LF-tag key. If the LF-tag does not exist, the operation throws an EntityNotFoundExcep- tion. The values in the delete key values will be deleted from list of possible values. If any value in the delete key values is attached to a resource, then API errors out with a 400 Exception - "Update not al- lowed". Untag the attribute before deleting the LF-tag key's value. See also: AWS API Documentation
+/// Updates the list of possible values for the specified LF-tag key. If the LF-tag does not exist, the operation throws an EntityNotFoundException. The values in the delete key values will be deleted from list of possible values. If any value in the delete key values is attached to a resource, then API errors out with a 400 Exception - "Update not allowed". Untag the attribute before deleting the LF-tag key's value. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsLakeformationUpdateLfTagOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the list of possible values for the specified LF-tag key. If the LF-tag does not exist, the operation throws an EntityNotFoundExcep- tion. The values in the delete key values will be deleted from list of possible values. If any value in the delete key values is attached to a resource, then API errors out with a 400 Exception - "Update not al- lowed". Untag the attribute before deleting the LF-tag key's value. See also: AWS API Documentation
+    /// Updates the list of possible values for the specified LF-tag key. If the LF-tag does not exist, the operation throws an EntityNotFoundException. The values in the delete key values will be deleted from list of possible values. If any value in the delete key values is attached to a resource, then API errors out with a 400 Exception - "Update not allowed". Untag the attribute before deleting the LF-tag key's value. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TagKey">The key-name for the LF-tag for which to add or delete values. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:\/=+\-@%]*)$</param>
+    /// <param name="TagKey">The key-name for the LF-tag for which to add or delete values. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:\/=+\-@%]*)$</param>
     public AwsLakeformationUpdateLfTagOptions(
         string TagKey
     )
@@ -56,25 +57,25 @@ public record AwsLakeformationUpdateLfTagOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The key-name for the LF-tag for which to add or delete values. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:\/=+\-@%]*)$
+    /// The key-name for the LF-tag for which to add or delete values. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:\/=+\-@%]*)$
     /// </summary>
     [CliOption("--tag-key")]
     public string? TagKey { get; private init; }
 
     /// <summary>
-    /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your Lake Formation environment. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your Lake Formation environment. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--catalog-id")]
     public string? CatalogId { get; set; }
 
     /// <summary>
-    /// A list of LF-tag values to delete from the LF-tag. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:\*\/=+\-@%]*)$ Syntax: "string" "string" ...
+    /// A list of LF-tag values to delete from the LF-tag. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:\*\/=+\-@%]*)$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-values-to-delete", GroupValues = true)]
     public IEnumerable<string>? TagValuesToDelete { get; set; }
 
     /// <summary>
-    /// A list of LF-tag values to add from the LF-tag. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:\*\/=+\-@%]*)$ Syntax: "string" "string" ...
+    /// A list of LF-tag values to add from the LF-tag. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:\*\/=+\-@%]*)$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-values-to-add", GroupValues = true)]
     public IEnumerable<string>? TagValuesToAdd { get; set; }
@@ -100,6 +101,15 @@ public record AwsLakeformationUpdateLfTagOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

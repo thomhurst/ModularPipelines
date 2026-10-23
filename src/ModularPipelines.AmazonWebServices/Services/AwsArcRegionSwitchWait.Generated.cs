@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws wait commands.
+/// aws arc-region-switch wait commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsArcRegionSwitchWait
@@ -32,7 +32,7 @@ public class AwsArcRegionSwitchWait
     #region Commands
 
     /// <summary>
-    /// Wait until JMESPath query evaluationState returns passed when polling with get-plan-evaluation-status. It will poll every 30 seconds until a successful state has been reached. This will exit with a return code of 255 after 5 failed checks. See also: AWS API Documentation plan-evaluation-status-passed is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --o...
+    /// Wait until JMESPath query evaluationState returns passed when polling with get-plan-evaluation-status. It will poll every 30 seconds until a successful state has been reached. This will exit with a return code of 255 after 5 failed checks. See also: AWS API Documentation plan-evaluation-status-passed is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --outpu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsArcRegionSwitchWait
     }
 
     /// <summary>
-    /// Wait until JMESPath query executionState returns completed when polling with get-plan-execution. It will poll every 30 seconds until a success- ful state has been reached. This will exit with a return code of 255 after 5 failed checks. See also: AWS API Documentation plan-execution-completed is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text an...
+    /// Wait until JMESPath query executionState returns completed when polling with get-plan-execution. It will poll every 30 seconds until a successful state has been reached. This will exit with a return code of 255 after 5 failed checks. See also: AWS API Documentation plan-execution-completed is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

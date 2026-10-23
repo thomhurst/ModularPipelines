@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsIvsDeletePlaybackRestrictionPolicyOptions : AwsOptions, IValida
     /// <summary>
     /// Deletes the specified playback restriction policy. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">ARN of the playback restriction policy to be deleted. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:playback-restriction-pol- icy/[a-zA-Z0-9-]+</param>
+    /// <param name="Arn">ARN of the playback restriction policy to be deleted. Constraints: • min: 1 • max: 128 • pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:playback-restriction-policy/[a-zA-Z0-9-]+</param>
     public AwsIvsDeletePlaybackRestrictionPolicyOptions(
         string Arn
     )
@@ -56,7 +57,7 @@ public record AwsIvsDeletePlaybackRestrictionPolicyOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ARN of the playback restriction policy to be deleted. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:playback-restriction-pol- icy/[a-zA-Z0-9-]+
+    /// ARN of the playback restriction policy to be deleted. Constraints: • min: 1 • max: 128 • pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:playback-restriction-policy/[a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsIvsDeletePlaybackRestrictionPolicyOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Detaches an internet gateway from a VPC, disabling connectivity between the internet and the VPC. The VPC must not contain any running in- stances with Elastic IP addresses or public IPv4 addresses. See also: AWS API Documentation
+/// Detaches an internet gateway from a VPC, disabling connectivity between the internet and the VPC. The VPC must not contain any running instances with Elastic IP addresses or public IPv4 addresses. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsEc2DetachInternetGatewayOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Detaches an internet gateway from a VPC, disabling connectivity between the internet and the VPC. The VPC must not contain any running in- stances with Elastic IP addresses or public IPv4 addresses. See also: AWS API Documentation
+    /// Detaches an internet gateway from a VPC, disabling connectivity between the internet and the VPC. The VPC must not contain any running instances with Elastic IP addresses or public IPv4 addresses. See also: AWS API Documentation
     /// </summary>
     /// <param name="InternetGatewayId">The ID of the internet gateway.</param>
     /// <param name="VpcId">The ID of the VPC.</param>
@@ -72,7 +73,7 @@ public record AwsEc2DetachInternetGatewayOptions : AwsOptions, IValidatableObjec
     public string? VpcId { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -98,6 +99,15 @@ public record AwsEc2DetachInternetGatewayOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

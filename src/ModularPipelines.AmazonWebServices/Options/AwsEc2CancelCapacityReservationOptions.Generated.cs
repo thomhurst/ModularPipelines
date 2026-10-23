@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Cancels the specified Capacity Reservation, releases the reserved ca- pacity, and changes the Capacity Reservation's state to cancelled . You can cancel a Capacity Reservation that is in the following states: o assessing o scheduled requires a cancellation quote. Use CreateCapacityReserva- tionCancellationQuote to generate a quote, then pass the quote ID with ApplyCancellationCharges set to commitment-wind-down . The can- cellation charge depends on how close the reservation is to its start date...
+/// Cancels the specified Capacity Reservation, releases the reserved capacity, and changes the Capacity Reservation's state to cancelled . You can cancel a Capacity Reservation that is in the following states: • assessing • scheduled requires a cancellation quote. Use CreateCapacityReservationCancellationQuote to generate a quote, then pass the quote ID with ApplyCancellationCharges set to commitment-wind-down . The cancellation charge depends on how close the reservation is to its start date. • ac...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsEc2CancelCapacityReservationOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Cancels the specified Capacity Reservation, releases the reserved ca- pacity, and changes the Capacity Reservation's state to cancelled . You can cancel a Capacity Reservation that is in the following states: o assessing o scheduled requires a cancellation quote. Use CreateCapacityReserva- tionCancellationQuote to generate a quote, then pass the quote ID with ApplyCancellationCharges set to commitment-wind-down . The can- cellation charge depends on how close the reservation is to its start date...
+    /// Cancels the specified Capacity Reservation, releases the reserved capacity, and changes the Capacity Reservation's state to cancelled . You can cancel a Capacity Reservation that is in the following states: • assessing • scheduled requires a cancellation quote. Use CreateCapacityReservationCancellationQuote to generate a quote, then pass the quote ID with ApplyCancellationCharges set to commitment-wind-down . The cancellation charge depends on how close the reservation is to its start date. • ac...
     /// </summary>
     /// <param name="CapacityReservationId">The ID of the Capacity Reservation to be cancelled.</param>
     public AwsEc2CancelCapacityReservationOptions(
@@ -62,19 +63,19 @@ public record AwsEc2CancelCapacityReservationOptions : AwsOptions, IValidatableO
     public string? CapacityReservationId { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// Specifies the cancellation charge type to apply when cancelling a future-dated Capacity Reservation during its commitment duration. Possible values include commitment-wind-down , which continues billing for the remaining commitment duration without delivering ca- pacity. Possible values: o commitment-wind-down
+    /// Specifies the cancellation charge type to apply when cancelling a future-dated Capacity Reservation during its commitment duration. Possible values include commitment-wind-down , which continues billing for the remaining commitment duration without delivering capacity. Possible values: • commitment-wind-down
     /// </summary>
     [CliOption("--apply-cancellation-charges")]
     public string? ApplyCancellationCharges { get; set; }
 
     /// <summary>
-    /// The ID of the cancellation quote to use for the cancellation. You can generate a cancellation quote by using the CreateCapacityReser- vationCancellationQuote action. The cancellation quote must be in an active state.
+    /// The ID of the cancellation quote to use for the cancellation. You can generate a cancellation quote by using the CreateCapacityReservationCancellationQuote action. The cancellation quote must be in an active state.
     /// </summary>
     [CliOption("--quote-id")]
     public string? QuoteId { get; set; }
@@ -100,6 +101,15 @@ public record AwsEc2CancelCapacityReservationOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Adds a natively supported Amazon Web Services service as an Amazon Se- curity Lake source. Enables source types for member accounts in re- quired Amazon Web Services Regions, based on the parameters you spec- ify. You can choose any source type in any Region for either accounts that are part of a trusted organization or standalone accounts. Once you add an Amazon Web Services service as a source, Security Lake starts collecting logs and events from it. You can use this API only to enable nativel...
+/// Adds a natively supported Amazon Web Services service as an Amazon Security Lake source. Enables source types for member accounts in required Amazon Web Services Regions, based on the parameters you specify. You can choose any source type in any Region for either accounts that are part of a trusted organization or standalone accounts. Once you add an Amazon Web Services service as a source, Security Lake starts collecting logs and events from it. You can use this API only to enable natively supp...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsSecuritylakeCreateAwsLogSourceOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Adds a natively supported Amazon Web Services service as an Amazon Se- curity Lake source. Enables source types for member accounts in re- quired Amazon Web Services Regions, based on the parameters you spec- ify. You can choose any source type in any Region for either accounts that are part of a trusted organization or standalone accounts. Once you add an Amazon Web Services service as a source, Security Lake starts collecting logs and events from it. You can use this API only to enable nativel...
+    /// Adds a natively supported Amazon Web Services service as an Amazon Security Lake source. Enables source types for member accounts in required Amazon Web Services Regions, based on the parameters you specify. You can choose any source type in any Region for either accounts that are part of a trusted organization or standalone accounts. Once you add an Amazon Web Services service as a source, Security Lake starts collecting logs and events from it. You can use this API only to enable natively supp...
     /// </summary>
-    /// <param name="Sources">Specify the natively-supported Amazon Web Services service to add as a source in Security Lake. Constraints: o min: 1 o max: 50 (structure) To add a natively-supported Amazon Web Services service as a log source, use these parameters to specify the configuration set- tings for the log source. accounts -&gt; (list) Specify the Amazon Web Services account information where you want to enable Security Lake. (string) Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$ regions -&gt; (list) [required] Specify the Regions where you want to enable Security Lake. (string) Constraints: o pattern: ^(us(-gov)?|af|ap|ca|eu|me|sa)-(cen- tral|north|(north(?:east|west))|south|south(?:east|west)|east|west)-\d+$ sourceName -&gt; (string) [required] The name for a Amazon Web Services source. Possible values: o ROUTE53 o VPC_FLOW o SH_FINDINGS o CLOUD_TRAIL_MGMT o LAMBDA_EXECUTION o S3_DATA o EKS_AUDIT o WAF sourceVersion -&gt; (string) The version for a Amazon Web Services source. Constraints: o pattern: ^(latest|[0-9]\.[0-9])$ Shorthand Syntax: accounts=string,string,regions=string,string,sourceName=string,sourceVersion=string ... JSON Syntax: [ { "accounts": ["string", ...], "regions": ["string", ...], "sourceName": "ROUTE53"|"VPC_FLOW"|"SH_FINDINGS"|"CLOUD_TRAIL_MGMT"|"LAMBDA_EXECUTION"|"S3_DATA"|"EKS_AUDIT"|"WAF", "sourceVersion": "string" } ... ]</param>
+    /// <param name="Sources">Specify the natively-supported Amazon Web Services service to add as a source in Security Lake. Constraints: • min: 1 • max: 50 (structure) To add a natively-supported Amazon Web Services service as a log source, use these parameters to specify the configuration settings for the log source. accounts -&gt; (list) Specify the Amazon Web Services account information where you want to enable Security Lake. (string) Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$ regions -&gt; (list) [required] Specify the Regions where you want to enable Security Lake. (string) Constraints: • pattern: ^(us(-gov)?|af|ap|ca|eu|me|sa)-(central|north|(north(?:east|west))|south|south(?:east|west)|east|west)-\d+$ sourceName -&gt; (string) [required] The name for a Amazon Web Services source. Possible values: • ROUTE53 • VPC_FLOW • SH_FINDINGS • CLOUD_TRAIL_MGMT • LAMBDA_EXECUTION • S3_DATA • EKS_AUDIT • WAF sourceVersion -&gt; (string) The version for a Amazon Web Services source. Constraints: • pattern: ^(latest|[0-9]\.[0-9])$ Shorthand Syntax: accounts=string,string,regions=string,string,sourceName=string,sourceVersion=string ... JSON Syntax: [ { "accounts": ["string", ...], "regions": ["string", ...], "sourceName": "ROUTE53"|"VPC_FLOW"|"SH_FINDINGS"|"CLOUD_TRAIL_MGMT"|"LAMBDA_EXECUTION"|"S3_DATA"|"EKS_AUDIT"|"WAF", "sourceVersion": "string" } ... ]</param>
     public AwsSecuritylakeCreateAwsLogSourceOptions(
         IEnumerable<string> Sources
     )
@@ -67,7 +68,7 @@ public record AwsSecuritylakeCreateAwsLogSourceOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specify the natively-supported Amazon Web Services service to add as a source in Security Lake. Constraints: o min: 1 o max: 50 (structure) To add a natively-supported Amazon Web Services service as a log source, use these parameters to specify the configuration set- tings for the log source. accounts -&gt; (list) Specify the Amazon Web Services account information where you want to enable Security Lake. (string) Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$ regions -&gt; (list) [required] Specify the Regions where you want to enable Security Lake. (string) Constraints: o pattern: ^(us(-gov)?|af|ap|ca|eu|me|sa)-(cen- tral|north|(north(?:east|west))|south|south(?:east|west)|east|west)-\d+$ sourceName -&gt; (string) [required] The name for a Amazon Web Services source. Possible values: o ROUTE53 o VPC_FLOW o SH_FINDINGS o CLOUD_TRAIL_MGMT o LAMBDA_EXECUTION o S3_DATA o EKS_AUDIT o WAF sourceVersion -&gt; (string) The version for a Amazon Web Services source. Constraints: o pattern: ^(latest|[0-9]\.[0-9])$ Shorthand Syntax: accounts=string,string,regions=string,string,sourceName=string,sourceVersion=string ... JSON Syntax: [ { "accounts": ["string", ...], "regions": ["string", ...], "sourceName": "ROUTE53"|"VPC_FLOW"|"SH_FINDINGS"|"CLOUD_TRAIL_MGMT"|"LAMBDA_EXECUTION"|"S3_DATA"|"EKS_AUDIT"|"WAF", "sourceVersion": "string" } ... ]
+    /// Specify the natively-supported Amazon Web Services service to add as a source in Security Lake. Constraints: • min: 1 • max: 50 (structure) To add a natively-supported Amazon Web Services service as a log source, use these parameters to specify the configuration settings for the log source. accounts -&gt; (list) Specify the Amazon Web Services account information where you want to enable Security Lake. (string) Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$ regions -&gt; (list) [required] Specify the Regions where you want to enable Security Lake. (string) Constraints: • pattern: ^(us(-gov)?|af|ap|ca|eu|me|sa)-(central|north|(north(?:east|west))|south|south(?:east|west)|east|west)-\d+$ sourceName -&gt; (string) [required] The name for a Amazon Web Services source. Possible values: • ROUTE53 • VPC_FLOW • SH_FINDINGS • CLOUD_TRAIL_MGMT • LAMBDA_EXECUTION • S3_DATA • EKS_AUDIT • WAF sourceVersion -&gt; (string) The version for a Amazon Web Services source. Constraints: • pattern: ^(latest|[0-9]\.[0-9])$ Shorthand Syntax: accounts=string,string,regions=string,string,sourceName=string,sourceVersion=string ... JSON Syntax: [ { "accounts": ["string", ...], "regions": ["string", ...], "sourceName": "ROUTE53"|"VPC_FLOW"|"SH_FINDINGS"|"CLOUD_TRAIL_MGMT"|"LAMBDA_EXECUTION"|"S3_DATA"|"EKS_AUDIT"|"WAF", "sourceVersion": "string" } ... ]
     /// </summary>
     [CliOption("--sources", GroupValues = true)]
     public IEnumerable<string>? Sources { get; private init; }
@@ -93,6 +94,15 @@ public record AwsSecuritylakeCreateAwsLogSourceOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

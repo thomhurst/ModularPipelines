@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws marketplacediscovery commands.
+/// aws marketplace-discovery commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsMarketplaceDiscovery : IAwsMarketplaceDiscovery
@@ -32,7 +32,7 @@ public class AwsMarketplaceDiscovery : IAwsMarketplaceDiscovery
     #region Commands
 
     /// <summary>
-    /// Provides details about a listing, such as descriptions, badges, cate- gories, pricing model summaries, reviews, and associated products and offers. See also: AWS API Documentation
+    /// Provides details about a listing, such as descriptions, badges, categories, pricing model summaries, reviews, and associated products and offers. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsMarketplaceDiscovery : IAwsMarketplaceDiscovery
     }
 
     /// <summary>
-    /// Returns the terms attached to an offer, such as pricing terms (us- age-based, contract, BYOL, free trial), legal terms, payment schedules, validity terms, support terms, and renewal terms. See also: AWS API Documentation get-offer-terms is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the ...
+    /// Returns the terms attached to an offer, such as pricing terms (usage-based, contract, BYOL, free trial), legal terms, payment schedules, validity terms, support terms, and renewal terms. See also: AWS API Documentation get-offer-terms is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --quer...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsMarketplaceDiscovery : IAwsMarketplaceDiscovery
     }
 
     /// <summary>
-    /// Returns the fulfillment options available for a product, including de- ployment details such as version information, operating systems, usage instructions, and release notes. See also: AWS API Documentation list-fulfillment-options is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query a...
+    /// Returns the fulfillment options available for a product, including deployment details such as version information, operating systems, usage instructions, and release notes. See also: AWS API Documentation list-fulfillment-options is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query arg...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsMarketplaceDiscovery : IAwsMarketplaceDiscovery
     }
 
     /// <summary>
-    /// Returns the purchase options (offers and offer sets) available to the buyer. You can filter results by product, seller, purchase option type, visibility scope, and availability status. NOTE: You must include at least one of the following filters in the re- quest: a PRODUCT_ID filter to specify the product for which to re- trieve purchase options, or a VISIBILITY_SCOPE filter to retrieve purchase options by visibility. See also: AWS API Documentation list-purchase-options is a paginated operation...
+    /// Returns the purchase options (offers and offer sets) available to the buyer. You can filter results by product, seller, purchase option type, visibility scope, and availability status. NOTE: You must include at least one of the following filters in the request: a PRODUCT_ID filter to specify the product for which to retrieve purchase options, or a VISIBILITY_SCOPE filter to retrieve purchase options by visibility. See also: AWS API Documentation list-purchase-options is a paginated operation. Mu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsMarketplaceDiscovery : IAwsMarketplaceDiscovery
     }
 
     /// <summary>
-    /// Returns available facet values for filtering listings, such as cate- gories, pricing models, fulfillment option types, publishers, and cus- tomer ratings. Each facet value includes a count of matching listings. See also: AWS API Documentation search-facets is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi...
+    /// Returns available facet values for filtering listings, such as categories, pricing models, fulfillment option types, publishers, and customer ratings. Each facet value includes a count of matching listings. See also: AWS API Documentation search-facets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated re...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsMarketplaceDiscovery : IAwsMarketplaceDiscovery
     }
 
     /// <summary>
-    /// Returns a list of product listings based on search criteria and fil- ters. You can search by keyword, filter by category, pricing model, fulfillment type, and other attributes, and sort results by relevance or customer rating. See also: AWS API Documentation search-listings is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query ...
+    /// Returns a list of product listings based on search criteria and filters. You can search by keyword, filter by category, pricing model, fulfillment type, and other attributes, and sort results by relevance or customer rating. See also: AWS API Documentation search-listings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argume...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

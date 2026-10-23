@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes the specified tags from the specified Amazon Transcribe re- source. If you include UntagResource in your request, you must also include Re- sourceArn and TagKeys . See also: AWS API Documentation
+/// Removes the specified tags from the specified Amazon Transcribe resource. If you include UntagResource in your request, you must also include ResourceArn and TagKeys . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsTranscribeUntagResourceOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes the specified tags from the specified Amazon Transcribe re- source. If you include UntagResource in your request, you must also include Re- sourceArn and TagKeys . See also: AWS API Documentation
+    /// Removes the specified tags from the specified Amazon Transcribe resource. If you include UntagResource in your request, you must also include ResourceArn and TagKeys . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the Amazon Transcribe resource you want to remove tags from. ARNs have the format arn:partition:ser- vice:region:account-id:resource-type/resource-id . For example, arn:aws:transcribe:us-west-2:111122223333:transcrip- tion-job/transcription-job-name . Valid values for resource-type are: transcription-job , med- ical-transcription-job , vocabulary , medical-vocabulary , vocabu- lary-filter , and language-model . Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[^:]+)?:tran- scribe:[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z-]*/[0-9a-zA-Z._-]+</param>
-    /// <param name="TagKeys">Removes the specified tag keys from the specified Amazon Transcribe resource. Constraints: o min: 1 o max: 200 (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the Amazon Transcribe resource you want to remove tags from. ARNs have the format arn:partition:service:region:account-id:resource-type/resource-id . For example, arn:aws:transcribe:us-west-2:111122223333:transcription-job/transcription-job-name . Valid values for resource-type are: transcription-job , medical-transcription-job , vocabulary , medical-vocabulary , vocabulary-filter , and language-model . Constraints: • min: 1 • max: 1011 • pattern: arn:aws(-[^:]+)?:transcribe:[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z-]*/[0-9a-zA-Z._-]+</param>
+    /// <param name="TagKeys">Removes the specified tag keys from the specified Amazon Transcribe resource. Constraints: • min: 1 • max: 200 (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...</param>
     public AwsTranscribeUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -71,13 +72,13 @@ public record AwsTranscribeUntagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Amazon Transcribe resource you want to remove tags from. ARNs have the format arn:partition:ser- vice:region:account-id:resource-type/resource-id . For example, arn:aws:transcribe:us-west-2:111122223333:transcrip- tion-job/transcription-job-name . Valid values for resource-type are: transcription-job , med- ical-transcription-job , vocabulary , medical-vocabulary , vocabu- lary-filter , and language-model . Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[^:]+)?:tran- scribe:[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z-]*/[0-9a-zA-Z._-]+
+    /// The Amazon Resource Name (ARN) of the Amazon Transcribe resource you want to remove tags from. ARNs have the format arn:partition:service:region:account-id:resource-type/resource-id . For example, arn:aws:transcribe:us-west-2:111122223333:transcription-job/transcription-job-name . Valid values for resource-type are: transcription-job , medical-transcription-job , vocabulary , medical-vocabulary , vocabulary-filter , and language-model . Constraints: • min: 1 • max: 1011 • pattern: arn:aws(-[^:]+)?:transcribe:[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z-]*/[0-9a-zA-Z._-]+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// Removes the specified tag keys from the specified Amazon Transcribe resource. Constraints: o min: 1 o max: 200 (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...
+    /// Removes the specified tag keys from the specified Amazon Transcribe resource. Constraints: • min: 1 • max: 200 (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }
@@ -103,6 +104,15 @@ public record AwsTranscribeUntagResourceOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

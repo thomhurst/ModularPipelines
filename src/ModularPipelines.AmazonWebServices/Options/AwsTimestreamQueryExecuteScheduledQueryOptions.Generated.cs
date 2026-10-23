@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// You can use this API to run a scheduled query manually. If you enabled QueryInsights , this API also returns insights and met- rics related to the query that you executed as part of an Amazon SNS notification. QueryInsights helps with performance tuning of your query. For more information about QueryInsights , see Using query in- sights to optimize queries in Amazon Timestream . See also: AWS API Documentation
+/// You can use this API to run a scheduled query manually. If you enabled QueryInsights , this API also returns insights and metrics related to the query that you executed as part of an Amazon SNS notification. QueryInsights helps with performance tuning of your query. For more information about QueryInsights , see Using query insights to optimize queries in Amazon Timestream . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsTimestreamQueryExecuteScheduledQueryOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// You can use this API to run a scheduled query manually. If you enabled QueryInsights , this API also returns insights and met- rics related to the query that you executed as part of an Amazon SNS notification. QueryInsights helps with performance tuning of your query. For more information about QueryInsights , see Using query in- sights to optimize queries in Amazon Timestream . See also: AWS API Documentation
+    /// You can use this API to run a scheduled query manually. If you enabled QueryInsights , this API also returns insights and metrics related to the query that you executed as part of an Amazon SNS notification. QueryInsights helps with performance tuning of your query. For more information about QueryInsights , see Using query insights to optimize queries in Amazon Timestream . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ScheduledQueryArn">ARN of the scheduled query. Constraints: o min: 1 o max: 2048</param>
+    /// <param name="ScheduledQueryArn">ARN of the scheduled query. Constraints: • min: 1 • max: 2048</param>
     /// <param name="InvocationTime">The timestamp in UTC. Query will be run as if it was invoked at this timestamp.</param>
     public AwsTimestreamQueryExecuteScheduledQueryOptions(
         string ScheduledQueryArn,
@@ -61,7 +62,7 @@ public record AwsTimestreamQueryExecuteScheduledQueryOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ARN of the scheduled query. Constraints: o min: 1 o max: 2048
+    /// ARN of the scheduled query. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--scheduled-query-arn")]
     public string? ScheduledQueryArn { get; private init; }
@@ -73,14 +74,14 @@ public record AwsTimestreamQueryExecuteScheduledQueryOptions : AwsOptions, IVali
     public string? InvocationTime { get; private init; }
 
     /// <summary>
-    /// Not used. Constraints: o min: 32 o max: 128
+    /// Not used. Constraints: • min: 32 • max: 128
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// Encapsulates settings for enabling QueryInsights . Enabling QueryInsights returns insights and metrics as a part of the Amazon SNS notification for the query that you executed. You can use QueryInsights to tune your query performance and cost. Mode -&gt; (string) [required] Provides the following modes to enable ScheduledQueryInsights : o ENABLED_WITH_RATE_CONTROL Enables ScheduledQueryInsights for the queries being processed. This mode also includes a rate control mechanism, which limits the QueryInsights feature to 1 query per second (QPS). o DISABLED Disables ScheduledQueryInsights . Possible values: o ENABLED_WITH_RATE_CONTROL o DISABLED Shorthand Syntax: Mode=string JSON Syntax: { "Mode": "ENABLED_WITH_RATE_CONTROL"|"DISABLED" }
+    /// Encapsulates settings for enabling QueryInsights . Enabling QueryInsights returns insights and metrics as a part of the Amazon SNS notification for the query that you executed. You can use QueryInsights to tune your query performance and cost. Mode -&gt; (string) [required] Provides the following modes to enable ScheduledQueryInsights : • ENABLED_WITH_RATE_CONTROL Enables ScheduledQueryInsights for the queries being processed. This mode also includes a rate control mechanism, which limits the QueryInsights feature to 1 query per second (QPS). • DISABLED Disables ScheduledQueryInsights . Possible values: • ENABLED_WITH_RATE_CONTROL • DISABLED Shorthand Syntax: Mode=string JSON Syntax: { "Mode": "ENABLED_WITH_RATE_CONTROL"|"DISABLED" }
     /// </summary>
     [CliOption("--query-insights")]
     public string? QueryInsights { get; set; }
@@ -106,6 +107,15 @@ public record AwsTimestreamQueryExecuteScheduledQueryOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

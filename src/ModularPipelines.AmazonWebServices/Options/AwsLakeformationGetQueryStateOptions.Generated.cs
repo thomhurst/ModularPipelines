@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the state of a query previously submitted. Clients are expected to poll GetQueryState to monitor the current state of the planning be- fore retrieving the work units. A query state is only visible to the principal that made the initial call to StartQueryPlanning . See also: AWS API Documentation
+/// Returns the state of a query previously submitted. Clients are expected to poll GetQueryState to monitor the current state of the planning before retrieving the work units. A query state is only visible to the principal that made the initial call to StartQueryPlanning . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsLakeformationGetQueryStateOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the state of a query previously submitted. Clients are expected to poll GetQueryState to monitor the current state of the planning be- fore retrieving the work units. A query state is only visible to the principal that made the initial call to StartQueryPlanning . See also: AWS API Documentation
+    /// Returns the state of a query previously submitted. Clients are expected to poll GetQueryState to monitor the current state of the planning before retrieving the work units. A query state is only visible to the principal that made the initial call to StartQueryPlanning . See also: AWS API Documentation
     /// </summary>
-    /// <param name="QueryId">The ID of the plan query operation. Constraints: o min: 36 o max: 36</param>
+    /// <param name="QueryId">The ID of the plan query operation. Constraints: • min: 36 • max: 36</param>
     public AwsLakeformationGetQueryStateOptions(
         string QueryId
     )
@@ -56,7 +57,7 @@ public record AwsLakeformationGetQueryStateOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the plan query operation. Constraints: o min: 36 o max: 36
+    /// The ID of the plan query operation. Constraints: • min: 36 • max: 36
     /// </summary>
     [CliOption("--query-id")]
     public string? QueryId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsLakeformationGetQueryStateOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

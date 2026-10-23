@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a container for a collection of data being ingested for analy- sis. The dataset contains the metadata describing where the data is and what the data actually looks like. For example, it contains the loca- tion of the data source, the data schema, and other information. A dataset also contains any tags associated with the ingested data. See also: AWS API Documentation
+/// Creates a container for a collection of data being ingested for analysis. The dataset contains the metadata describing where the data is and what the data actually looks like. For example, it contains the location of the data source, the data schema, and other information. A dataset also contains any tags associated with the ingested data. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsLookoutequipmentCreateDataSetOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a container for a collection of data being ingested for analy- sis. The dataset contains the metadata describing where the data is and what the data actually looks like. For example, it contains the loca- tion of the data source, the data schema, and other information. A dataset also contains any tags associated with the ingested data. See also: AWS API Documentation
+    /// Creates a container for a collection of data being ingested for analysis. The dataset contains the metadata describing where the data is and what the data actually looks like. For example, it contains the location of the data source, the data schema, and other information. A dataset also contains any tags associated with the ingested data. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DataSetName">The name of the dataset being created. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$</param>
+    /// <param name="DataSetName">The name of the dataset being created. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z_-]{1,200}$</param>
     public AwsLookoutequipmentCreateDataSetOptions(
         string DataSetName
     )
@@ -57,32 +58,32 @@ public record AwsLookoutequipmentCreateDataSetOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the dataset being created. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$
+    /// The name of the dataset being created. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z_-]{1,200}$
     /// </summary>
     [CliOption("--dataset-name")]
     public string? DataSetName { get; private init; }
 
     /// <summary>
-    /// A JSON description of the data that is in each time series dataset, including names, column names, and data types. InlineDataSchema -&gt; (string) The data schema used within the given dataset. Constraints: o min: 1 o max: 1000000 Shorthand Syntax: InlineDataSchema=string JSON Syntax: { "InlineDataSchema": "string" }
+    /// A JSON description of the data that is in each time series dataset, including names, column names, and data types. InlineDataSchema -&gt; (string) The data schema used within the given dataset. Constraints: • min: 1 • max: 1000000 Shorthand Syntax: InlineDataSchema=string JSON Syntax: { "InlineDataSchema": "string" }
     /// </summary>
     [CliOption("--dataset-schema")]
     public string? DataSetSchema { get; set; }
 
     /// <summary>
-    /// Provides the identifier of the KMS key used to encrypt dataset data by Amazon Lookout for Equipment. Constraints: o min: 1 o max: 2048 o pattern: ^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$
+    /// Provides the identifier of the KMS key used to encrypt dataset data by Amazon Lookout for Equipment. Constraints: • min: 1 • max: 2048 • pattern: ^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$
     /// </summary>
     [CliOption("--server-side-kms-key-id")]
     public string? ServerSideKmsKeyId { get; set; }
 
     /// <summary>
-    /// A unique identifier for the request. If you do not set the client request token, Amazon Lookout for Equipment generates one. Constraints: o min: 1 o max: 256 o pattern: \p{ASCII}{1,256}
+    /// A unique identifier for the request. If you do not set the client request token, Amazon Lookout for Equipment generates one. Constraints: • min: 1 • max: 256 • pattern: \p{ASCII}{1,256}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// Any tags associated with the ingested data described in the dataset. Constraints: o min: 0 o max: 200 (structure) A tag is a key-value pair that can be added to a resource as metadata. Key -&gt; (string) [required] The key for the specified tag. Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ Value -&gt; (string) [required] The value for the specified tag. Constraints: o min: 0 o max: 256 o pattern: [\s\w+-=\.:/@]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Any tags associated with the ingested data described in the dataset. Constraints: • min: 0 • max: 200 (structure) A tag is a key-value pair that can be added to a resource as metadata. Key -&gt; (string) [required] The key for the specified tag. Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ Value -&gt; (string) [required] The value for the specified tag. Constraints: • min: 0 • max: 256 • pattern: [\s\w+-=\.:/@]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -108,6 +109,15 @@ public record AwsLookoutequipmentCreateDataSetOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

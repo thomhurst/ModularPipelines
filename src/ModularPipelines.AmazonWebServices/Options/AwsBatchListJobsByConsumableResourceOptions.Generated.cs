@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of Batch jobs that require a specific consumable re- source. See also: AWS API Documentation list-jobs-by-consumable-resource is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: jobs
+/// Returns a list of Batch jobs that require a specific consumable resource. See also: AWS API Documentation list-jobs-by-consumable-resource is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: jobs
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +27,7 @@ public record AwsBatchListJobsByConsumableResourceOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns a list of Batch jobs that require a specific consumable re- source. See also: AWS API Documentation list-jobs-by-consumable-resource is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: jobs
+    /// Returns a list of Batch jobs that require a specific consumable resource. See also: AWS API Documentation list-jobs-by-consumable-resource is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: jobs
     /// </summary>
     /// <param name="ConsumableResource">The name or ARN of the consumable resource.</param>
     public AwsBatchListJobsByConsumableResourceOptions(
@@ -63,16 +64,13 @@ public record AwsBatchListJobsByConsumableResourceOptions : AwsOptions, IValidat
     public string? ConsumableResource { get; private init; }
 
     /// <summary>
-    /// The filters to apply to the job list query. If used, only those jobs requiring the specified consumable resource (consumableResource ) and that match the value of the filters are listed. The filter names and values can be: o name: JOB_STATUS values: SUBMITTED | PENDING | RUNNABLE | START- ING | RUNNING | SUCCEEDED | FAILED o name: JOB_NAME The values are case-insensitive matches for the job name. If a filter value ends with an asterisk (*), it matches any job name that begins with the string before the '*'. (structure) A filter name and value pair that's used to return a more spe- cific list of results from a ListJobs or ListJobsByConsumableRe- source API operation. name -&gt; (string) The name of the filter. Filter names are case sensitive. values -&gt; (list) The filter values. (string) Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "string", "values": ["string", ...] } ... ]
+    /// The filters to apply to the job list query. If used, only those jobs requiring the specified consumable resource (consumableResource ) and that match the value of the filters are listed. The filter names and values can be: • name: JOB_STATUS values: SUBMITTED | PENDING | RUNNABLE | STARTING | RUNNING | SUCCEEDED | FAILED • name: JOB_NAME The values are case-insensitive matches for the job name. If a filter value ends with an asterisk (*), it matches any job name that begins with the string before the '*'. (structure) A filter name and value pair that's used to return a more specific list of results from a ListJobs or ListJobsByConsumableResource API operation. name -&gt; (string) The name of the filter. Filter names are case sensitive. values -&gt; (list) The filter values. (string) Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "string", "values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -82,16 +80,19 @@ public record AwsBatchListJobsByConsumableResourceOptions : AwsOptions, IValidat
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -108,6 +109,15 @@ public record AwsBatchListJobsByConsumableResourceOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

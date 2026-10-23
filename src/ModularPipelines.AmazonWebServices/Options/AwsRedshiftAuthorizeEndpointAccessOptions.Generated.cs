@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsRedshiftAuthorizeEndpointAccessOptions : AwsOptions, IValidatab
     /// <summary>
     /// Grants access to a cluster. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Account">The Amazon Web Services account ID to grant access to. Constraints: o max: 2147483647</param>
+    /// <param name="Account">The Amazon Web Services account ID to grant access to. Constraints: • max: 2147483647</param>
     public AwsRedshiftAuthorizeEndpointAccessOptions(
         string Account
     )
@@ -56,19 +57,19 @@ public record AwsRedshiftAuthorizeEndpointAccessOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services account ID to grant access to. Constraints: o max: 2147483647
+    /// The Amazon Web Services account ID to grant access to. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--account")]
     public string? Account { get; private init; }
 
     /// <summary>
-    /// The cluster identifier of the cluster to grant access to. Constraints: o max: 2147483647
+    /// The cluster identifier of the cluster to grant access to. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--cluster-identifier")]
     public string? ClusterIdentifier { get; set; }
 
     /// <summary>
-    /// The virtual private cloud (VPC) identifiers to grant access to. (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...
+    /// The virtual private cloud (VPC) identifiers to grant access to. (string) Constraints: • max: 2147483647 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--vpc-ids", GroupValues = true)]
     public IEnumerable<string>? VpcIds { get; set; }
@@ -94,6 +95,15 @@ public record AwsRedshiftAuthorizeEndpointAccessOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

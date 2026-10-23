@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// UpdateContinuousBackups enables or disables point in time recovery for the specified table. A successful UpdateContinuousBackups call returns the current ContinuousBackupsDescription . Continuous back- ups are ENABLED on all tables at table creation. If point in time recovery is enabled, PointInTimeRecoveryStatus will be set to EN- ABLED. Once continuous backups and point in time recovery are enabled, you can restore to any point in time within EarliestRestorableDateTime and Lat- estRestorableDa...
+/// UpdateContinuousBackups enables or disables point in time recovery for the specified table. A successful UpdateContinuousBackups call returns the current ContinuousBackupsDescription . Continuous backups are ENABLED on all tables at table creation. If point in time recovery is enabled, PointInTimeRecoveryStatus will be set to ENABLED. Once continuous backups and point in time recovery are enabled, you can restore to any point in time within EarliestRestorableDateTime and LatestRestorableDateTime...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsDynamodbUpdateContinuousBackupsOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// UpdateContinuousBackups enables or disables point in time recovery for the specified table. A successful UpdateContinuousBackups call returns the current ContinuousBackupsDescription . Continuous back- ups are ENABLED on all tables at table creation. If point in time recovery is enabled, PointInTimeRecoveryStatus will be set to EN- ABLED. Once continuous backups and point in time recovery are enabled, you can restore to any point in time within EarliestRestorableDateTime and Lat- estRestorableDa...
+    /// UpdateContinuousBackups enables or disables point in time recovery for the specified table. A successful UpdateContinuousBackups call returns the current ContinuousBackupsDescription . Continuous backups are ENABLED on all tables at table creation. If point in time recovery is enabled, PointInTimeRecoveryStatus will be set to ENABLED. Once continuous backups and point in time recovery are enabled, you can restore to any point in time within EarliestRestorableDateTime and LatestRestorableDateTime...
     /// </summary>
-    /// <param name="TableName">The name of the table. You can also provide the Amazon Resource Name (ARN) of the table in this parameter. Constraints: o min: 1 o max: 1024</param>
-    /// <param name="PointInTimeRecoverySpecification">Represents the settings used to enable point in time recovery. PointInTimeRecoveryEnabled -&gt; (boolean) [required] Indicates whether point in time recovery is enabled (true) or disabled (false) on the table. RecoveryPeriodInDays -&gt; (integer) The number of preceding days for which continuous backups are taken and maintained. Your table data is only recoverable to any point-in-time from within the configured recovery period. This parameter is optional. If no value is provided, the value will default to 35. Constraints: o min: 1 o max: 35 Shorthand Syntax: PointInTimeRecoveryEnabled=boolean,RecoveryPeriodInDays=integer JSON Syntax: { "PointInTimeRecoveryEnabled": true|false, "RecoveryPeriodInDays": integer }</param>
+    /// <param name="TableName">The name of the table. You can also provide the Amazon Resource Name (ARN) of the table in this parameter. Constraints: • min: 1 • max: 1024</param>
+    /// <param name="PointInTimeRecoverySpecification">Represents the settings used to enable point in time recovery. PointInTimeRecoveryEnabled -&gt; (boolean) [required] Indicates whether point in time recovery is enabled (true) or disabled (false) on the table. RecoveryPeriodInDays -&gt; (integer) The number of preceding days for which continuous backups are taken and maintained. Your table data is only recoverable to any point-in-time from within the configured recovery period. This parameter is optional. If no value is provided, the value will default to 35. Constraints: • min: 1 • max: 35 Shorthand Syntax: PointInTimeRecoveryEnabled=boolean,RecoveryPeriodInDays=integer JSON Syntax: { "PointInTimeRecoveryEnabled": true|false, "RecoveryPeriodInDays": integer }</param>
     public AwsDynamodbUpdateContinuousBackupsOptions(
         string TableName,
         string PointInTimeRecoverySpecification
@@ -60,13 +61,13 @@ public record AwsDynamodbUpdateContinuousBackupsOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the table. You can also provide the Amazon Resource Name (ARN) of the table in this parameter. Constraints: o min: 1 o max: 1024
+    /// The name of the table. You can also provide the Amazon Resource Name (ARN) of the table in this parameter. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--table-name")]
     public string? TableName { get; private init; }
 
     /// <summary>
-    /// Represents the settings used to enable point in time recovery. PointInTimeRecoveryEnabled -&gt; (boolean) [required] Indicates whether point in time recovery is enabled (true) or disabled (false) on the table. RecoveryPeriodInDays -&gt; (integer) The number of preceding days for which continuous backups are taken and maintained. Your table data is only recoverable to any point-in-time from within the configured recovery period. This parameter is optional. If no value is provided, the value will default to 35. Constraints: o min: 1 o max: 35 Shorthand Syntax: PointInTimeRecoveryEnabled=boolean,RecoveryPeriodInDays=integer JSON Syntax: { "PointInTimeRecoveryEnabled": true|false, "RecoveryPeriodInDays": integer }
+    /// Represents the settings used to enable point in time recovery. PointInTimeRecoveryEnabled -&gt; (boolean) [required] Indicates whether point in time recovery is enabled (true) or disabled (false) on the table. RecoveryPeriodInDays -&gt; (integer) The number of preceding days for which continuous backups are taken and maintained. Your table data is only recoverable to any point-in-time from within the configured recovery period. This parameter is optional. If no value is provided, the value will default to 35. Constraints: • min: 1 • max: 35 Shorthand Syntax: PointInTimeRecoveryEnabled=boolean,RecoveryPeriodInDays=integer JSON Syntax: { "PointInTimeRecoveryEnabled": true|false, "RecoveryPeriodInDays": integer }
     /// </summary>
     [CliOption("--point-in-time-recovery-specification")]
     public string? PointInTimeRecoverySpecification { get; private init; }
@@ -92,6 +93,15 @@ public record AwsDynamodbUpdateContinuousBackupsOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

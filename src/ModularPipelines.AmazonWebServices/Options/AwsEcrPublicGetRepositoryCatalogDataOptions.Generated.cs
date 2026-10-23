@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsEcrPublicGetRepositoryCatalogDataOptions : AwsOptions, IValidat
     /// <summary>
     /// Retrieve catalog metadata for a repository in a public registry. This metadata is displayed publicly in the Amazon ECR Public Gallery. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RepositoryName">The name of the repository to retrieve the catalog metadata for. Constraints: o min: 2 o max: 205 o pattern: (?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*</param>
+    /// <param name="RepositoryName">The name of the repository to retrieve the catalog metadata for. Constraints: • min: 2 • max: 205 • pattern: (?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*</param>
     public AwsEcrPublicGetRepositoryCatalogDataOptions(
         string RepositoryName
     )
@@ -56,13 +57,13 @@ public record AwsEcrPublicGetRepositoryCatalogDataOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the repository to retrieve the catalog metadata for. Constraints: o min: 2 o max: 205 o pattern: (?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*
+    /// The name of the repository to retrieve the catalog metadata for. Constraints: • min: 2 • max: 205 • pattern: (?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*
     /// </summary>
     [CliOption("--repository-name")]
     public string? RepositoryName { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services account ID that's associated with the reg- istry that contains the repositories to be described. If you do not specify a registry, the default public registry is assumed. Constraints: o pattern: [0-9]{12}
+    /// The Amazon Web Services account ID that's associated with the registry that contains the repositories to be described. If you do not specify a registry, the default public registry is assumed. Constraints: • pattern: [0-9]{12}
     /// </summary>
     [CliOption("--registry-id")]
     public string? RegistryId { get; set; }
@@ -88,6 +89,15 @@ public record AwsEcrPublicGetRepositoryCatalogDataOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

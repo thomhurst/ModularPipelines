@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsConnectcampaignsUntagResourceOptions : AwsOptions, IValidatable
     /// <summary>
     /// Untag a resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">Arn Constraints: o min: 20 o max: 500 o pattern: arn:.*</param>
-    /// <param name="TagKeys">List of tag keys. Constraints: o min: 0 o max: 50 (string) Tag key. Constraints: o min: 1 o max: 128 o pattern: (?!aws:)[a-zA-Z+-=._:/]+ Syntax: "string" "string" ...</param>
+    /// <param name="Arn">Arn Constraints: • min: 20 • max: 500 • pattern: arn:.*</param>
+    /// <param name="TagKeys">List of tag keys. Constraints: • min: 0 • max: 50 (string) Tag key. Constraints: • min: 1 • max: 128 • pattern: (?!aws:)[a-zA-Z+-=._:/]+ Syntax: "string" "string" ...</param>
     public AwsConnectcampaignsUntagResourceOptions(
         string Arn,
         IEnumerable<string> TagKeys
@@ -71,13 +72,13 @@ public record AwsConnectcampaignsUntagResourceOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Arn Constraints: o min: 20 o max: 500 o pattern: arn:.*
+    /// Arn Constraints: • min: 20 • max: 500 • pattern: arn:.*
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// List of tag keys. Constraints: o min: 0 o max: 50 (string) Tag key. Constraints: o min: 1 o max: 128 o pattern: (?!aws:)[a-zA-Z+-=._:/]+ Syntax: "string" "string" ...
+    /// List of tag keys. Constraints: • min: 0 • max: 50 (string) Tag key. Constraints: • min: 1 • max: 128 • pattern: (?!aws:)[a-zA-Z+-=._:/]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }
@@ -103,6 +104,15 @@ public record AwsConnectcampaignsUntagResourceOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

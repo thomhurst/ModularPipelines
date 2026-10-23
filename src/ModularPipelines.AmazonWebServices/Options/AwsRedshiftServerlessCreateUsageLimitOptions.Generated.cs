@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a usage limit for a specified Amazon Redshift Serverless usage type. The usage limit is identified by the returned usage limit identi- fier. See also: AWS API Documentation
+/// Creates a usage limit for a specified Amazon Redshift Serverless usage type. The usage limit is identified by the returned usage limit identifier. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,13 +27,13 @@ public record AwsRedshiftServerlessCreateUsageLimitOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a usage limit for a specified Amazon Redshift Serverless usage type. The usage limit is identified by the returned usage limit identi- fier. See also: AWS API Documentation
+    /// Creates a usage limit for a specified Amazon Redshift Serverless usage type. The usage limit is identified by the returned usage limit identifier. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Amount">The limit amount. If time-based, this amount is in Redshift Process- ing Units (RPU) consumed per hour. If data-based, this amount is in terabytes (TB) of data transferred between Regions in cross-account sharing. The value must be a positive number.</param>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the Amazon Redshift Serverless re- source to create the usage limit for.</param>
-    /// <param name="UsageType">The type of Amazon Redshift Serverless usage to create a usage limit for. Possible values: o serverless-compute o cross-region-datasharing</param>
+    /// <param name="Amount">The limit amount. If time-based, this amount is in Redshift Processing Units (RPU) consumed per hour. If data-based, this amount is in terabytes (TB) of data transferred between Regions in cross-account sharing. The value must be a positive number.</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the Amazon Redshift Serverless resource to create the usage limit for.</param>
+    /// <param name="UsageType">The type of Amazon Redshift Serverless usage to create a usage limit for. Possible values: • serverless-compute • cross-region-datasharing</param>
     public AwsRedshiftServerlessCreateUsageLimitOptions(
-        int Amount,
+        long Amount,
         string ResourceArn,
         AwsRedshiftServerlessCreateUsageLimitUsageType UsageType
     )
@@ -63,31 +64,31 @@ public record AwsRedshiftServerlessCreateUsageLimitOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The limit amount. If time-based, this amount is in Redshift Process- ing Units (RPU) consumed per hour. If data-based, this amount is in terabytes (TB) of data transferred between Regions in cross-account sharing. The value must be a positive number.
+    /// The limit amount. If time-based, this amount is in Redshift Processing Units (RPU) consumed per hour. If data-based, this amount is in terabytes (TB) of data transferred between Regions in cross-account sharing. The value must be a positive number.
     /// </summary>
     [CliOption("--amount")]
-    public int? Amount { get; private init; }
+    public long? Amount { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Amazon Redshift Serverless re- source to create the usage limit for.
+    /// The Amazon Resource Name (ARN) of the Amazon Redshift Serverless resource to create the usage limit for.
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The type of Amazon Redshift Serverless usage to create a usage limit for. Possible values: o serverless-compute o cross-region-datasharing
+    /// The type of Amazon Redshift Serverless usage to create a usage limit for. Possible values: • serverless-compute • cross-region-datasharing
     /// </summary>
     [CliOption("--usage-type")]
     public AwsRedshiftServerlessCreateUsageLimitUsageType? UsageType { get; private init; }
 
     /// <summary>
-    /// The action that Amazon Redshift Serverless takes when the limit is reached. The default is log. Possible values: o log o emit-metric o deactivate
+    /// The action that Amazon Redshift Serverless takes when the limit is reached. The default is log. Possible values: • log • emit-metric • deactivate
     /// </summary>
     [CliOption("--breach-action")]
     public AwsRedshiftServerlessCreateUsageLimitBreachAction? BreachAction { get; set; }
 
     /// <summary>
-    /// The time period that the amount applies to. A weekly period begins on Sunday. The default is monthly. Possible values: o daily o weekly o monthly
+    /// The time period that the amount applies to. A weekly period begins on Sunday. The default is monthly. Possible values: • daily • weekly • monthly
     /// </summary>
     [CliOption("--period")]
     public AwsRedshiftServerlessCreateUsageLimitPeriod? Period { get; set; }
@@ -113,6 +114,15 @@ public record AwsRedshiftServerlessCreateUsageLimitOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

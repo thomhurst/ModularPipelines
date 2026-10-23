@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Sets the state of the specified WorkSpace. To maintain a WorkSpace without being interrupted, set the WorkSpace state to ADMIN_MAINTENANCE . WorkSpaces in this state do not respond to requests to reboot, stop, start, rebuild, or restore. An AutoStop Work- Space in this state is not stopped. Users cannot log into a WorkSpace in the ADMIN_MAINTENANCE state. See also: AWS API Documentation
+/// Sets the state of the specified WorkSpace. To maintain a WorkSpace without being interrupted, set the WorkSpace state to ADMIN_MAINTENANCE . WorkSpaces in this state do not respond to requests to reboot, stop, start, rebuild, or restore. An AutoStop WorkSpace in this state is not stopped. Users cannot log into a WorkSpace in the ADMIN_MAINTENANCE state. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsWorkspacesModifyWorkspaceStateOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Sets the state of the specified WorkSpace. To maintain a WorkSpace without being interrupted, set the WorkSpace state to ADMIN_MAINTENANCE . WorkSpaces in this state do not respond to requests to reboot, stop, start, rebuild, or restore. An AutoStop Work- Space in this state is not stopped. Users cannot log into a WorkSpace in the ADMIN_MAINTENANCE state. See also: AWS API Documentation
+    /// Sets the state of the specified WorkSpace. To maintain a WorkSpace without being interrupted, set the WorkSpace state to ADMIN_MAINTENANCE . WorkSpaces in this state do not respond to requests to reboot, stop, start, rebuild, or restore. An AutoStop WorkSpace in this state is not stopped. Users cannot log into a WorkSpace in the ADMIN_MAINTENANCE state. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkspaceId">The identifier of the WorkSpace. Constraints: o pattern: ^ws-[0-9a-z]{8,63}$</param>
-    /// <param name="WorkspaceState">The WorkSpace state. Possible values: o AVAILABLE o ADMIN_MAINTENANCE</param>
+    /// <param name="WorkspaceId">The identifier of the WorkSpace. Constraints: • pattern: ^ws-[0-9a-z]{8,63}$</param>
+    /// <param name="WorkspaceState">The WorkSpace state. Possible values: • AVAILABLE • ADMIN_MAINTENANCE</param>
     public AwsWorkspacesModifyWorkspaceStateOptions(
         string WorkspaceId,
         AwsWorkspacesModifyWorkspaceStateWorkspaceState WorkspaceState
@@ -60,13 +61,13 @@ public record AwsWorkspacesModifyWorkspaceStateOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the WorkSpace. Constraints: o pattern: ^ws-[0-9a-z]{8,63}$
+    /// The identifier of the WorkSpace. Constraints: • pattern: ^ws-[0-9a-z]{8,63}$
     /// </summary>
     [CliOption("--workspace-id")]
     public string? WorkspaceId { get; private init; }
 
     /// <summary>
-    /// The WorkSpace state. Possible values: o AVAILABLE o ADMIN_MAINTENANCE
+    /// The WorkSpace state. Possible values: • AVAILABLE • ADMIN_MAINTENANCE
     /// </summary>
     [CliOption("--workspace-state")]
     public AwsWorkspacesModifyWorkspaceStateWorkspaceState? WorkspaceState { get; private init; }
@@ -92,6 +93,15 @@ public record AwsWorkspacesModifyWorkspaceStateOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

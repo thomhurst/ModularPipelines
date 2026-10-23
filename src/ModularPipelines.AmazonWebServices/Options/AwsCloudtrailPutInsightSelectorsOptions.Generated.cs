@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lets you enable Insights event logging on specific event categories by specifying the Insights selectors that you want to enable on an exist- ing trail or event data store. You also use PutInsightSelectors to turn off Insights event logging, by passing an empty list of Insights types. The valid Insights event types are ApiErrorRateInsight and ApiCall- RateInsight , and valid EventCategories are Management and Data . NOTE: Insights on data events are not supported on event data stores. For event ...
+/// Lets you enable Insights event logging on specific event categories by specifying the Insights selectors that you want to enable on an existing trail or event data store. You also use PutInsightSelectors to turn off Insights event logging, by passing an empty list of Insights types. The valid Insights event types are ApiErrorRateInsight and ApiCallRateInsight , and valid EventCategories are Management and Data . NOTE: Insights on data events are not supported on event data stores. For event data...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsCloudtrailPutInsightSelectorsOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lets you enable Insights event logging on specific event categories by specifying the Insights selectors that you want to enable on an exist- ing trail or event data store. You also use PutInsightSelectors to turn off Insights event logging, by passing an empty list of Insights types. The valid Insights event types are ApiErrorRateInsight and ApiCall- RateInsight , and valid EventCategories are Management and Data . NOTE: Insights on data events are not supported on event data stores. For event ...
+    /// Lets you enable Insights event logging on specific event categories by specifying the Insights selectors that you want to enable on an existing trail or event data store. You also use PutInsightSelectors to turn off Insights event logging, by passing an empty list of Insights types. The valid Insights event types are ApiErrorRateInsight and ApiCallRateInsight , and valid EventCategories are Management and Data . NOTE: Insights on data events are not supported on event data stores. For event data...
     /// </summary>
-    /// <param name="InsightSelectors">Contains the Insights types you want to log on a specific category of events on a trail or event data store. ApiCallRateInsight and ApiErrorRateInsight are valid Insight types.The EventCategory field can specify Management or Data events or both. For event data store, you can log Insights for management events only. The ApiCallRateInsight Insights type analyzes write-only management API calls or read and write data API calls that are aggregated per minute against a baseline API call volume. The ApiErrorRateInsight Insights type analyzes management and data API calls that result in error codes. The error is shown if the API call is unsuccessful. (structure) A JSON string that contains a list of Insights types that are logged on a trail or event data store. InsightType -&gt; (string) The type of Insights events to log on a trail or event data store. ApiCallRateInsight and ApiErrorRateInsight are valid Insight types. The ApiCallRateInsight Insights type analyzes write-only man- agement API calls or read and write data API calls that are aggregated per minute against a baseline API call volume. The ApiErrorRateInsight Insights type analyzes management and data API calls that result in error codes. The error is shown if the API call is unsuccessful. Possible values: o ApiCallRateInsight o ApiErrorRateInsight EventCategories -&gt; (list) Select the event category on which Insights should be en- abled. o If EventCategories is not provided, the specified Insights types are enabled on management API calls by default. o If EventCategories is provided, the given event categories will overwrite the existing ones. For example, if a trail already has Insights enabled on management events, and then a PutInsightSelectors request is made with only data events specified in EventCategories, Insights on management events will be disabled. (string) Possible values: o Management o Data Shorthand Syntax: InsightType=string,EventCategories=string,string ... JSON Syntax: [ { "InsightType": "ApiCallRateInsight"|"ApiErrorRateInsight", "EventCategories": ["Management"|"Data", ...] } ... ]</param>
+    /// <param name="InsightSelectors">Contains the Insights types you want to log on a specific category of events on a trail or event data store. ApiCallRateInsight and ApiErrorRateInsight are valid Insight types.The EventCategory field can specify Management or Data events or both. For event data store, you can log Insights for management events only. The ApiCallRateInsight Insights type analyzes write-only management API calls or read and write data API calls that are aggregated per minute against a baseline API call volume. The ApiErrorRateInsight Insights type analyzes management and data API calls that result in error codes. The error is shown if the API call is unsuccessful. (structure) A JSON string that contains a list of Insights types that are logged on a trail or event data store. InsightType -&gt; (string) The type of Insights events to log on a trail or event data store. ApiCallRateInsight and ApiErrorRateInsight are valid Insight types. The ApiCallRateInsight Insights type analyzes write-only management API calls or read and write data API calls that are aggregated per minute against a baseline API call volume. The ApiErrorRateInsight Insights type analyzes management and data API calls that result in error codes. The error is shown if the API call is unsuccessful. Possible values: • ApiCallRateInsight • ApiErrorRateInsight EventCategories -&gt; (list) Select the event category on which Insights should be enabled. • If EventCategories is not provided, the specified Insights types are enabled on management API calls by default. • If EventCategories is provided, the given event categories will overwrite the existing ones. For example, if a trail already has Insights enabled on management events, and then a PutInsightSelectors request is made with only data events specified in EventCategories, Insights on management events will be disabled. (string) Possible values: • Management • Data Shorthand Syntax: InsightType=string,EventCategories=string,string ... JSON Syntax: [ { "InsightType": "ApiCallRateInsight"|"ApiErrorRateInsight", "EventCategories": ["Management"|"Data", ...] } ... ]</param>
     public AwsCloudtrailPutInsightSelectorsOptions(
         IEnumerable<string> InsightSelectors
     )
@@ -67,25 +68,25 @@ public record AwsCloudtrailPutInsightSelectorsOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Contains the Insights types you want to log on a specific category of events on a trail or event data store. ApiCallRateInsight and ApiErrorRateInsight are valid Insight types.The EventCategory field can specify Management or Data events or both. For event data store, you can log Insights for management events only. The ApiCallRateInsight Insights type analyzes write-only management API calls or read and write data API calls that are aggregated per minute against a baseline API call volume. The ApiErrorRateInsight Insights type analyzes management and data API calls that result in error codes. The error is shown if the API call is unsuccessful. (structure) A JSON string that contains a list of Insights types that are logged on a trail or event data store. InsightType -&gt; (string) The type of Insights events to log on a trail or event data store. ApiCallRateInsight and ApiErrorRateInsight are valid Insight types. The ApiCallRateInsight Insights type analyzes write-only man- agement API calls or read and write data API calls that are aggregated per minute against a baseline API call volume. The ApiErrorRateInsight Insights type analyzes management and data API calls that result in error codes. The error is shown if the API call is unsuccessful. Possible values: o ApiCallRateInsight o ApiErrorRateInsight EventCategories -&gt; (list) Select the event category on which Insights should be en- abled. o If EventCategories is not provided, the specified Insights types are enabled on management API calls by default. o If EventCategories is provided, the given event categories will overwrite the existing ones. For example, if a trail already has Insights enabled on management events, and then a PutInsightSelectors request is made with only data events specified in EventCategories, Insights on management events will be disabled. (string) Possible values: o Management o Data Shorthand Syntax: InsightType=string,EventCategories=string,string ... JSON Syntax: [ { "InsightType": "ApiCallRateInsight"|"ApiErrorRateInsight", "EventCategories": ["Management"|"Data", ...] } ... ]
+    /// Contains the Insights types you want to log on a specific category of events on a trail or event data store. ApiCallRateInsight and ApiErrorRateInsight are valid Insight types.The EventCategory field can specify Management or Data events or both. For event data store, you can log Insights for management events only. The ApiCallRateInsight Insights type analyzes write-only management API calls or read and write data API calls that are aggregated per minute against a baseline API call volume. The ApiErrorRateInsight Insights type analyzes management and data API calls that result in error codes. The error is shown if the API call is unsuccessful. (structure) A JSON string that contains a list of Insights types that are logged on a trail or event data store. InsightType -&gt; (string) The type of Insights events to log on a trail or event data store. ApiCallRateInsight and ApiErrorRateInsight are valid Insight types. The ApiCallRateInsight Insights type analyzes write-only management API calls or read and write data API calls that are aggregated per minute against a baseline API call volume. The ApiErrorRateInsight Insights type analyzes management and data API calls that result in error codes. The error is shown if the API call is unsuccessful. Possible values: • ApiCallRateInsight • ApiErrorRateInsight EventCategories -&gt; (list) Select the event category on which Insights should be enabled. • If EventCategories is not provided, the specified Insights types are enabled on management API calls by default. • If EventCategories is provided, the given event categories will overwrite the existing ones. For example, if a trail already has Insights enabled on management events, and then a PutInsightSelectors request is made with only data events specified in EventCategories, Insights on management events will be disabled. (string) Possible values: • Management • Data Shorthand Syntax: InsightType=string,EventCategories=string,string ... JSON Syntax: [ { "InsightType": "ApiCallRateInsight"|"ApiErrorRateInsight", "EventCategories": ["Management"|"Data", ...] } ... ]
     /// </summary>
     [CliOption("--insight-selectors", GroupValues = true)]
     public IEnumerable<string>? InsightSelectors { get; private init; }
 
     /// <summary>
-    /// The name of the CloudTrail trail for which you want to change or add Insights selectors. You cannot use this parameter with the EventDataStore and Insights- Destination parameters.
+    /// The name of the CloudTrail trail for which you want to change or add Insights selectors. You cannot use this parameter with the EventDataStore and InsightsDestination parameters.
     /// </summary>
     [CliOption("--trail-name")]
     public string? TrailName { get; set; }
 
     /// <summary>
-    /// The ARN (or ID suffix of the ARN) of the source event data store for which you want to change or add Insights selectors. To enable In- sights on an event data store, you must provide both the EventDataS- tore and InsightsDestination parameters. You cannot use this parameter with the TrailName parameter. Constraints: o min: 3 o max: 256 o pattern: ^[a-zA-Z0-9._/\-:]+$
+    /// The ARN (or ID suffix of the ARN) of the source event data store for which you want to change or add Insights selectors. To enable Insights on an event data store, you must provide both the EventDataStore and InsightsDestination parameters. You cannot use this parameter with the TrailName parameter. Constraints: • min: 3 • max: 256 • pattern: ^[a-zA-Z0-9._/\-:]+$
     /// </summary>
     [CliOption("--event-data-store")]
     public string? EventDataStore { get; set; }
 
     /// <summary>
-    /// The ARN (or ID suffix of the ARN) of the destination event data store that logs Insights events. To enable Insights on an event data store, you must provide both the EventDataStore and InsightsDestina- tion parameters. You cannot use this parameter with the TrailName parameter. Constraints: o min: 3 o max: 256 o pattern: ^[a-zA-Z0-9._/\-:]+$
+    /// The ARN (or ID suffix of the ARN) of the destination event data store that logs Insights events. To enable Insights on an event data store, you must provide both the EventDataStore and InsightsDestination parameters. You cannot use this parameter with the TrailName parameter. Constraints: • min: 3 • max: 256 • pattern: ^[a-zA-Z0-9._/\-:]+$
     /// </summary>
     [CliOption("--insights-destination")]
     public string? InsightsDestination { get; set; }
@@ -111,6 +112,15 @@ public record AwsCloudtrailPutInsightSelectorsOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

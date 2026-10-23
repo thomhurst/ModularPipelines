@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,9 +29,9 @@ public record AwsConnectStopTestCaseExecutionOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Stops a running test execution. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Amazon Connect instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="TestCaseExecutionId">The identifier of the test case execution to stop. Constraints: o max: 500</param>
-    /// <param name="TestCaseId">The identifier of the test case. Constraints: o max: 500</param>
+    /// <param name="InstanceId">The identifier of the Amazon Connect instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="TestCaseExecutionId">The identifier of the test case execution to stop. Constraints: • max: 500</param>
+    /// <param name="TestCaseId">The identifier of the test case. Constraints: • max: 500</param>
     public AwsConnectStopTestCaseExecutionOptions(
         string InstanceId,
         string TestCaseExecutionId,
@@ -65,25 +66,25 @@ public record AwsConnectStopTestCaseExecutionOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Amazon Connect instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Amazon Connect instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The identifier of the test case execution to stop. Constraints: o max: 500
+    /// The identifier of the test case execution to stop. Constraints: • max: 500
     /// </summary>
     [CliOption("--test-case-execution-id")]
     public string? TestCaseExecutionId { get; private init; }
 
     /// <summary>
-    /// The identifier of the test case. Constraints: o max: 500
+    /// The identifier of the test case. Constraints: • max: 500
     /// </summary>
     [CliOption("--test-case-id")]
     public string? TestCaseId { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: o max: 500
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: • max: 500
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -110,6 +111,15 @@ public record AwsConnectStopTestCaseExecutionOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

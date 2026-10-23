@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsRdsSwitchoverGlobalClusterOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Switches over the specified secondary DB cluster to be the new primary DB cluster in the global database cluster. Switchover operations were previously called "managed planned failovers." Aurora promotes the specified secondary cluster to assume full read/write capabilities and demotes the current primary cluster to a secondary (read-only) cluster, maintaining the orginal replication topology. All secondary clusters are synchronized with the primary at the beginning of the process so the new pri...
     /// </summary>
-    /// <param name="GlobalClusterIdentifier">The identifier of the global database cluster to switch over. This parameter isn't case-sensitive. Constraints: o Must match the identifier of an existing global database cluster (Aurora global database). Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][0-9A-Za-z-:._]*</param>
-    /// <param name="TargetDbClusterIdentifier">The identifier of the secondary Aurora DB cluster to promote to the new primary for the global database cluster. Use the Amazon Resource Name (ARN) for the identifier so that Aurora can locate the cluster in its Amazon Web Services Region. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][0-9A-Za-z-:._]*</param>
+    /// <param name="GlobalClusterIdentifier">The identifier of the global database cluster to switch over. This parameter isn't case-sensitive. Constraints: • Must match the identifier of an existing global database cluster (Aurora global database). Constraints: • min: 1 • max: 255 • pattern: [A-Za-z][0-9A-Za-z-:._]*</param>
+    /// <param name="TargetDbClusterIdentifier">The identifier of the secondary Aurora DB cluster to promote to the new primary for the global database cluster. Use the Amazon Resource Name (ARN) for the identifier so that Aurora can locate the cluster in its Amazon Web Services Region. Constraints: • min: 1 • max: 255 • pattern: [A-Za-z][0-9A-Za-z-:._]*</param>
     public AwsRdsSwitchoverGlobalClusterOptions(
         string GlobalClusterIdentifier,
         string TargetDbClusterIdentifier
@@ -60,13 +61,13 @@ public record AwsRdsSwitchoverGlobalClusterOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the global database cluster to switch over. This parameter isn't case-sensitive. Constraints: o Must match the identifier of an existing global database cluster (Aurora global database). Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][0-9A-Za-z-:._]*
+    /// The identifier of the global database cluster to switch over. This parameter isn't case-sensitive. Constraints: • Must match the identifier of an existing global database cluster (Aurora global database). Constraints: • min: 1 • max: 255 • pattern: [A-Za-z][0-9A-Za-z-:._]*
     /// </summary>
     [CliOption("--global-cluster-identifier")]
     public string? GlobalClusterIdentifier { get; private init; }
 
     /// <summary>
-    /// The identifier of the secondary Aurora DB cluster to promote to the new primary for the global database cluster. Use the Amazon Resource Name (ARN) for the identifier so that Aurora can locate the cluster in its Amazon Web Services Region. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][0-9A-Za-z-:._]*
+    /// The identifier of the secondary Aurora DB cluster to promote to the new primary for the global database cluster. Use the Amazon Resource Name (ARN) for the identifier so that Aurora can locate the cluster in its Amazon Web Services Region. Constraints: • min: 1 • max: 255 • pattern: [A-Za-z][0-9A-Za-z-:._]*
     /// </summary>
     [CliOption("--target-db-cluster-identifier")]
     public string? TargetDbClusterIdentifier { get; private init; }
@@ -92,6 +93,15 @@ public record AwsRdsSwitchoverGlobalClusterOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

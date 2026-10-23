@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsCodeguruReviewerDescribeRecommendationFeedbackOptions : AwsOpti
     /// <summary>
     /// Describes the customer feedback for a CodeGuru Reviewer recommendation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CodeReviewArn">The Amazon Resource Name (ARN) of the CodeReview object. Constraints: o min: 1 o max: 1600 o pattern: ^arn:aws[^:\s]*:codeguru-re- viewer:[^:\s]+:[\d]{12}:[a-z-]+:[\w-]+$</param>
-    /// <param name="RecommendationId">The recommendation ID that can be used to track the provided recom- mendations and then to collect the feedback. Constraints: o min: 1 o max: 64</param>
+    /// <param name="CodeReviewArn">The Amazon Resource Name (ARN) of the CodeReview object. Constraints: • min: 1 • max: 1600 • pattern: ^arn:aws[^:\s]*:codeguru-reviewer:[^:\s]+:[\d]{12}:[a-z-]+:[\w-]+$</param>
+    /// <param name="RecommendationId">The recommendation ID that can be used to track the provided recommendations and then to collect the feedback. Constraints: • min: 1 • max: 64</param>
     public AwsCodeguruReviewerDescribeRecommendationFeedbackOptions(
         string CodeReviewArn,
         string RecommendationId
@@ -60,19 +61,19 @@ public record AwsCodeguruReviewerDescribeRecommendationFeedbackOptions : AwsOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the CodeReview object. Constraints: o min: 1 o max: 1600 o pattern: ^arn:aws[^:\s]*:codeguru-re- viewer:[^:\s]+:[\d]{12}:[a-z-]+:[\w-]+$
+    /// The Amazon Resource Name (ARN) of the CodeReview object. Constraints: • min: 1 • max: 1600 • pattern: ^arn:aws[^:\s]*:codeguru-reviewer:[^:\s]+:[\d]{12}:[a-z-]+:[\w-]+$
     /// </summary>
     [CliOption("--code-review-arn")]
     public string? CodeReviewArn { get; private init; }
 
     /// <summary>
-    /// The recommendation ID that can be used to track the provided recom- mendations and then to collect the feedback. Constraints: o min: 1 o max: 64
+    /// The recommendation ID that can be used to track the provided recommendations and then to collect the feedback. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--recommendation-id")]
     public string? RecommendationId { get; private init; }
 
     /// <summary>
-    /// Optional parameter to describe the feedback for a given user. If this is not supplied, it defaults to the user making the request. The UserId is an IAM principal that can be specified as an Amazon Web Services account ID or an Amazon Resource Name (ARN). For more information, see Specifying a Principal in the Amazon Web Services Identity and Access Management User Guide . Constraints: o min: 1 o max: 256
+    /// Optional parameter to describe the feedback for a given user. If this is not supplied, it defaults to the user making the request. The UserId is an IAM principal that can be specified as an Amazon Web Services account ID or an Amazon Resource Name (ARN). For more information, see Specifying a Principal in the Amazon Web Services Identity and Access Management User Guide . Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--user-id")]
     public string? UserId { get; set; }
@@ -98,6 +99,15 @@ public record AwsCodeguruReviewerDescribeRecommendationFeedbackOptions : AwsOpti
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

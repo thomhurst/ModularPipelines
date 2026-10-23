@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,8 +30,8 @@ public record AwsChimeSdkMessagingListChannelMembershipsOptions : AwsOptions, IV
     /// <summary>
     /// Lists all channel memberships in a channel. NOTE: The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header. If you want to list the channels to which a specific app instance user belongs, see the ListChannelMembershipsForAppInstanceUser API. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ChannelArn">The maximum number of channel memberships that you want returned. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
-    /// <param name="ChimeBearer">The ARN of the AppInstanceUser or AppInstanceBot that makes the API call. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
+    /// <param name="ChannelArn">The maximum number of channel memberships that you want returned. Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
+    /// <param name="ChimeBearer">The ARN of the AppInstanceUser or AppInstanceBot that makes the API call. Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
     public AwsChimeSdkMessagingListChannelMembershipsOptions(
         string ChannelArn,
         string ChimeBearer
@@ -62,38 +63,38 @@ public record AwsChimeSdkMessagingListChannelMembershipsOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The maximum number of channel memberships that you want returned. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
+    /// The maximum number of channel memberships that you want returned. Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
     /// </summary>
     [CliOption("--channel-arn")]
     public string? ChannelArn { get; private init; }
 
     /// <summary>
-    /// The ARN of the AppInstanceUser or AppInstanceBot that makes the API call. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
+    /// The ARN of the AppInstanceUser or AppInstanceBot that makes the API call. Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
     /// </summary>
     [CliOption("--chime-bearer")]
     public string? ChimeBearer { get; private init; }
 
     /// <summary>
-    /// The membership type of a user, DEFAULT or HIDDEN . Default members are returned as part of ListChannelMemberships if no type is speci- fied. Hidden members are only returned if the type filter in ListChannelMemberships equals HIDDEN . Possible values: o DEFAULT o HIDDEN
+    /// The membership type of a user, DEFAULT or HIDDEN . Default members are returned as part of ListChannelMemberships if no type is specified. Hidden members are only returned if the type filter in ListChannelMemberships equals HIDDEN . Possible values: • DEFAULT • HIDDEN
     /// </summary>
     [CliOption("--type")]
     public AwsChimeSdkMessagingListChannelMembershipsType? Type { get; set; }
 
     /// <summary>
-    /// The maximum number of channel memberships that you want returned. Constraints: o min: 1 o max: 50
+    /// The maximum number of channel memberships that you want returned. Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The token passed by previous API calls until all requested channel memberships are returned. Constraints: o min: 0 o max: 2048 o pattern: .*
+    /// The token passed by previous API calls until all requested channel memberships are returned. Constraints: • min: 0 • max: 2048 • pattern: .*
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The ID of the SubChannel in the request. NOTE: Only required when listing a user's memberships in a particular sub-channel of an elastic channel. Constraints: o min: 1 o max: 128 o pattern: [-_a-zA-Z0-9]*
+    /// The ID of the SubChannel in the request. NOTE: Only required when listing a user's memberships in a particular sub-channel of an elastic channel. Constraints: • min: 1 • max: 128 • pattern: [-_a-zA-Z0-9]*
     /// </summary>
     [CliOption("--sub-channel-id")]
     public string? SubChannelId { get; set; }
@@ -119,6 +120,15 @@ public record AwsChimeSdkMessagingListChannelMembershipsOptions : AwsOptions, IV
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

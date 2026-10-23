@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsWorkmailPutRetentionPolicyOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Puts a retention policy to the specified organization. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OrganizationId">The organization ID. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$</param>
-    /// <param name="Name">The retention policy name. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+</param>
-    /// <param name="FolderConfigurations">The retention policy folder configurations. (structure) The configuration applied to an organization's folders by its retention policy. Name -&gt; (string) [required] The folder name. Possible values: o INBOX o DELETED_ITEMS o SENT_ITEMS o DRAFTS o JUNK_EMAIL Action -&gt; (string) [required] The action to take on the folder contents at the end of the folder configuration period. Possible values: o NONE o DELETE o PERMANENTLY_DELETE Period -&gt; (integer) The number of days for which the folder-configuration action applies. Constraints: o min: 1 o max: 730 Shorthand Syntax: Name=string,Action=string,Period=integer ... JSON Syntax: [ { "Name": "INBOX"|"DELETED_ITEMS"|"SENT_ITEMS"|"DRAFTS"|"JUNK_EMAIL", "Action": "NONE"|"DELETE"|"PERMANENTLY_DELETE", "Period": integer } ... ]</param>
+    /// <param name="OrganizationId">The organization ID. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$</param>
+    /// <param name="Name">The retention policy name. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="FolderConfigurations">The retention policy folder configurations. (structure) The configuration applied to an organization's folders by its retention policy. Name -&gt; (string) [required] The folder name. Possible values: • INBOX • DELETED_ITEMS • SENT_ITEMS • DRAFTS • JUNK_EMAIL Action -&gt; (string) [required] The action to take on the folder contents at the end of the folder configuration period. Possible values: • NONE • DELETE • PERMANENTLY_DELETE Period -&gt; (integer) The number of days for which the folder-configuration action applies. Constraints: • min: 1 • max: 730 Shorthand Syntax: Name=string,Action=string,Period=integer ... JSON Syntax: [ { "Name": "INBOX"|"DELETED_ITEMS"|"SENT_ITEMS"|"DRAFTS"|"JUNK_EMAIL", "Action": "NONE"|"DELETE"|"PERMANENTLY_DELETE", "Period": integer } ... ]</param>
     public AwsWorkmailPutRetentionPolicyOptions(
         string OrganizationId,
         string Name,
@@ -75,31 +76,31 @@ public record AwsWorkmailPutRetentionPolicyOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The organization ID. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$
+    /// The organization ID. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$
     /// </summary>
     [CliOption("--organization-id")]
     public string? OrganizationId { get; private init; }
 
     /// <summary>
-    /// The retention policy name. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+
+    /// The retention policy name. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The retention policy folder configurations. (structure) The configuration applied to an organization's folders by its retention policy. Name -&gt; (string) [required] The folder name. Possible values: o INBOX o DELETED_ITEMS o SENT_ITEMS o DRAFTS o JUNK_EMAIL Action -&gt; (string) [required] The action to take on the folder contents at the end of the folder configuration period. Possible values: o NONE o DELETE o PERMANENTLY_DELETE Period -&gt; (integer) The number of days for which the folder-configuration action applies. Constraints: o min: 1 o max: 730 Shorthand Syntax: Name=string,Action=string,Period=integer ... JSON Syntax: [ { "Name": "INBOX"|"DELETED_ITEMS"|"SENT_ITEMS"|"DRAFTS"|"JUNK_EMAIL", "Action": "NONE"|"DELETE"|"PERMANENTLY_DELETE", "Period": integer } ... ]
+    /// The retention policy folder configurations. (structure) The configuration applied to an organization's folders by its retention policy. Name -&gt; (string) [required] The folder name. Possible values: • INBOX • DELETED_ITEMS • SENT_ITEMS • DRAFTS • JUNK_EMAIL Action -&gt; (string) [required] The action to take on the folder contents at the end of the folder configuration period. Possible values: • NONE • DELETE • PERMANENTLY_DELETE Period -&gt; (integer) The number of days for which the folder-configuration action applies. Constraints: • min: 1 • max: 730 Shorthand Syntax: Name=string,Action=string,Period=integer ... JSON Syntax: [ { "Name": "INBOX"|"DELETED_ITEMS"|"SENT_ITEMS"|"DRAFTS"|"JUNK_EMAIL", "Action": "NONE"|"DELETE"|"PERMANENTLY_DELETE", "Period": integer } ... ]
     /// </summary>
     [CliOption("--folder-configurations", GroupValues = true)]
     public IEnumerable<string>? FolderConfigurations { get; private init; }
 
     /// <summary>
-    /// The retention policy ID. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+
+    /// The retention policy ID. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; set; }
 
     /// <summary>
-    /// The retention policy description. Constraints: o max: 256 o pattern: [\w\d\s\S\-!?=,.;:'_]+
+    /// The retention policy description. Constraints: • max: 256 • pattern: [\w\d\s\S\-!?=,.;:'_]+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
@@ -125,6 +126,15 @@ public record AwsWorkmailPutRetentionPolicyOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

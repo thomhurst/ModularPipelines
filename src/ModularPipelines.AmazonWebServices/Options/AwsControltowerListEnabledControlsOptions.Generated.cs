@@ -23,28 +23,25 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsControltowerListEnabledControlsOptions : AwsOptions
 {
     /// <summary>
-    /// The ARN of the target. The value depends on the target type: o Organizational unit (OU) Specify the ARN of the OU. o Account Specify the ARN of the account. For information on how to find the targetIdentifier , see the overview page . Constraints: o min: 20 o max: 2048 o pattern: arn:aws[0-9a-zA-Z_\-:\/]+
+    /// The ARN of the target. The value depends on the target type: • Organizational unit (OU) Specify the ARN of the OU. • Account Specify the ARN of the account. For information on how to find the targetIdentifier , see the overview page . Constraints: • min: 20 • max: 2048 • pattern: arn:aws[0-9a-zA-Z_\-:\/]+
     /// </summary>
     [CliOption("--target-identifier")]
     public string? TargetIdentifier { get; set; }
 
     /// <summary>
-    /// An input filter for the ListEnabledControls API that lets you select the types of control operations to view. controlIdentifiers -&gt; (list) The set of controlIdentifier returned by the filter. Constraints: o min: 1 o max: 1 (string) Constraints: o min: 20 o max: 2048 o pattern: arn:aws[0-9a-zA-Z_\-:\/]+ statuses -&gt; (list) A list of EnablementStatus items. Constraints: o min: 1 o max: 1 (string) Possible values: o SUCCEEDED o FAILED o UNDER_CHANGE driftStatuses -&gt; (list) A list of DriftStatus items. Constraints: o min: 1 o max: 1 (string) Possible values: o DRIFTED o IN_SYNC o NOT_CHECKING o UNKNOWN parentIdentifiers -&gt; (list) Filters enabled controls by their parent control identifiers, allowing you to find child controls of specific parent controls. Constraints: o min: 1 o max: 1 (string) Constraints: o min: 20 o max: 2048 o pattern: arn:aws[0-9a-zA-Z_\-:\/]+ inheritanceDriftStatuses -&gt; (list) Filters enabled controls by their inheritance drift status, al- lowing you to find controls with specific inheritance-related drift conditions. Constraints: o min: 1 o max: 1 (string) Possible values: o DRIFTED o IN_SYNC o NOT_CHECKING o UNKNOWN resourceDriftStatuses -&gt; (list) Filters enabled controls by their resource drift status, allow- ing you to find controls with specific resource-related drift conditions. Constraints: o min: 1 o max: 1 (string) Possible values: o DRIFTED o IN_SYNC o NOT_CHECKING o UNKNOWN Shorthand Syntax: controlIdentifiers=string,string,statuses=string,string,driftStatuses=string,string,parentIdentifiers=string,string,inheritanceDriftStatuses=string,string,resourceDriftStatuses=string,string JSON Syntax: { "controlIdentifiers": ["string", ...], "statuses": ["SUCCEEDED"|"FAILED"|"UNDER_CHANGE", ...], "driftStatuses": ["DRIFTED"|"IN_SYNC"|"NOT_CHECKING"|"UNKNOWN", ...], "parentIdentifiers": ["string", ...], "inheritanceDriftStatuses": ["DRIFTED"|"IN_SYNC"|"NOT_CHECKING"|"UNKNOWN", ...], "resourceDriftStatuses": ["DRIFTED"|"IN_SYNC"|"NOT_CHECKING"|"UNKNOWN", ...] }
+    /// An input filter for the ListEnabledControls API that lets you select the types of control operations to view. controlIdentifiers -&gt; (list) The set of controlIdentifier returned by the filter. Constraints: • min: 1 • max: 1 (string) Constraints: • min: 20 • max: 2048 • pattern: arn:aws[0-9a-zA-Z_\-:\/]+ statuses -&gt; (list) A list of EnablementStatus items. Constraints: • min: 1 • max: 1 (string) Possible values: • SUCCEEDED • FAILED • UNDER_CHANGE driftStatuses -&gt; (list) A list of DriftStatus items. Constraints: • min: 1 • max: 1 (string) Possible values: • DRIFTED • IN_SYNC • NOT_CHECKING • UNKNOWN parentIdentifiers -&gt; (list) Filters enabled controls by their parent control identifiers, allowing you to find child controls of specific parent controls. Constraints: • min: 1 • max: 1 (string) Constraints: • min: 20 • max: 2048 • pattern: arn:aws[0-9a-zA-Z_\-:\/]+ inheritanceDriftStatuses -&gt; (list) Filters enabled controls by their inheritance drift status, allowing you to find controls with specific inheritance-related drift conditions. Constraints: • min: 1 • max: 1 (string) Possible values: • DRIFTED • IN_SYNC • NOT_CHECKING • UNKNOWN resourceDriftStatuses -&gt; (list) Filters enabled controls by their resource drift status, allowing you to find controls with specific resource-related drift conditions. Constraints: • min: 1 • max: 1 (string) Possible values: • DRIFTED • IN_SYNC • NOT_CHECKING • UNKNOWN Shorthand Syntax: controlIdentifiers=string,string,statuses=string,string,driftStatuses=string,string,parentIdentifiers=string,string,inheritanceDriftStatuses=string,string,resourceDriftStatuses=string,string JSON Syntax: { "controlIdentifiers": ["string", ...], "statuses": ["SUCCEEDED"|"FAILED"|"UNDER_CHANGE", ...], "driftStatuses": ["DRIFTED"|"IN_SYNC"|"NOT_CHECKING"|"UNKNOWN", ...], "parentIdentifiers": ["string", ...], "inheritanceDriftStatuses": ["DRIFTED"|"IN_SYNC"|"NOT_CHECKING"|"UNKNOWN", ...], "resourceDriftStatuses": ["DRIFTED"|"IN_SYNC"|"NOT_CHECKING"|"UNKNOWN", ...] }
     /// </summary>
     [CliOption("--filter")]
     public string? Filter { get; set; }
 
     /// <summary>
-    /// Specifies whether to include enabled controls from child organiza- tional units and child accounts in the response.
+    /// Specifies whether to include enabled controls from child organizational units and child accounts in the response.
     /// </summary>
     [CliFlag("--include-children", NegatedName = "--no-include-children")]
     public bool? IncludeChildren { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -54,15 +51,27 @@ public record AwsControltowerListEnabledControlsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 200
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 200
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

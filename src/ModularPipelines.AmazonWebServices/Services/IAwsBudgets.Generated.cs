@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Models;
+using ModularPipelines;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -28,18 +28,16 @@ public interface IAwsBudgets
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateBudgetActionAsync(AwsBudgetsCreateBudgetActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateBudgetActionAsync(AwsBudgetsCreateBudgetActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates a budget and, if included, notifications and subscribers. WARNING: Only one of BudgetLimit or PlannedBudgetLimits can be present in the syntax at one time. Use the syntax that matches your use case. The Request Syntax section shows the BudgetLimit syntax. For PlannedBud- getLimits , see the Examples section. Similarly, only one set of filter and metric selections can be present in the syntax at one time. Either FilterExpression and Met- rics or CostFilters and CostTypes , not both or a d...
+    /// Creates a budget and, if included, notifications and subscribers. WARNING: Only one of BudgetLimit or PlannedBudgetLimits can be present in the syntax at one time. Use the syntax that matches your use case. The Request Syntax section shows the BudgetLimit syntax. For PlannedBudgetLimits , see the Examples section. Similarly, only one set of filter and metric selections can be present in the syntax at one time. Either FilterExpression and Metrics or CostFilters and CostTypes , not both or a diffe...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateBudgetAsync(AwsBudgetsCreateBudgetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateBudgetAsync(AwsBudgetsCreateBudgetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a notification. You must create the budget before you create the associated notification. See also: AWS API Documentation
@@ -48,18 +46,16 @@ public interface IAwsBudgets
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateNotificationAsync(AwsBudgetsCreateNotificationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateNotificationAsync(AwsBudgetsCreateNotificationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates a subscriber. You must create the associated budget and notifi- cation before you create the subscriber. See also: AWS API Documentation
+    /// Creates a subscriber. You must create the associated budget and notification before you create the subscriber. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateSubscriberAsync(AwsBudgetsCreateSubscriberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateSubscriberAsync(AwsBudgetsCreateSubscriberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a budget action. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsBudgets
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteBudgetActionAsync(AwsBudgetsDeleteBudgetActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteBudgetActionAsync(AwsBudgetsDeleteBudgetActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a budget. You can delete your budget at any time. WARNING: Deleting a budget also deletes the notifications and subscribers that are associated with that budget. See also: AWS API Documentation
@@ -78,38 +73,34 @@ public interface IAwsBudgets
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteBudgetAsync(AwsBudgetsDeleteBudgetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteBudgetAsync(AwsBudgetsDeleteBudgetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deletes a notification. WARNING: Deleting a notification also deletes the subscribers that are asso- ciated with the notification. See also: AWS API Documentation
+    /// Deletes a notification. WARNING: Deleting a notification also deletes the subscribers that are associated with the notification. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteNotificationAsync(AwsBudgetsDeleteNotificationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteNotificationAsync(AwsBudgetsDeleteNotificationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deletes a subscriber. WARNING: Deleting the last subscriber to a notification also deletes the no- tification. See also: AWS API Documentation
+    /// Deletes a subscriber. WARNING: Deleting the last subscriber to a notification also deletes the notification. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteSubscriberAsync(AwsBudgetsDeleteSubscriberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteSubscriberAsync(AwsBudgetsDeleteSubscriberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Describes a budget action history detail. See also: AWS API Documentation describe-budget-action-histories is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ActionHistories
+    /// Describes a budget action history detail. See also: AWS API Documentation describe-budget-action-histories is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ActionHistories
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeBudgetActionHistoriesAsync(AwsBudgetsDescribeBudgetActionHistoriesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeBudgetActionHistoriesAsync(AwsBudgetsDescribeBudgetActionHistoriesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes a budget action detail. See also: AWS API Documentation
@@ -118,38 +109,34 @@ public interface IAwsBudgets
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeBudgetActionAsync(AwsBudgetsDescribeBudgetActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeBudgetActionAsync(AwsBudgetsDescribeBudgetActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Describes all of the budget actions for an account. See also: AWS API Documentation describe-budget-actions-for-account is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Actions
+    /// Describes all of the budget actions for an account. See also: AWS API Documentation describe-budget-actions-for-account is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Actions
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeBudgetActionsForAccountAsync(AwsBudgetsDescribeBudgetActionsForAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeBudgetActionsForAccountAsync(AwsBudgetsDescribeBudgetActionsForAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Describes all of the budget actions for a budget. See also: AWS API Documentation describe-budget-actions-for-budget is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Actions
+    /// Describes all of the budget actions for a budget. See also: AWS API Documentation describe-budget-actions-for-budget is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Actions
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeBudgetActionsForBudgetAsync(AwsBudgetsDescribeBudgetActionsForBudgetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeBudgetActionsForBudgetAsync(AwsBudgetsDescribeBudgetActionsForBudgetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists the budget names and notifications that are associated with an account. See also: AWS API Documentation describe-budget-notifications-for-account is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following query expression...
+    /// Lists the budget names and notifications that are associated with an account. See also: AWS API Documentation describe-budget-notifications-for-account is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: B...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeBudgetNotificationsForAccountAsync(AwsBudgetsDescribeBudgetNotificationsForAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeBudgetNotificationsForAccountAsync(AwsBudgetsDescribeBudgetNotificationsForAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes a budget. WARNING: The Request Syntax section shows the BudgetLimit syntax. For PlannedBudgetLimits , see the Examples section. See also: AWS API Documentation
@@ -158,18 +145,16 @@ public interface IAwsBudgets
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeBudgetAsync(AwsBudgetsDescribeBudgetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeBudgetAsync(AwsBudgetsDescribeBudgetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Describes the history for DAILY , MONTHLY , and QUARTERLY budgets. Bud- get history isn't available for ANNUAL budgets. See also: AWS API Documentation describe-budget-performance-history is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the resul...
+    /// Describes the history for DAILY , MONTHLY , and QUARTERLY budgets. Budget history isn't available for ANNUAL budgets. See also: AWS API Documentation describe-budget-performance-history is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeBudgetPerformanceHistoryAsync(AwsBudgetsDescribeBudgetPerformanceHistoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeBudgetPerformanceHistoryAsync(AwsBudgetsDescribeBudgetPerformanceHistoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the budgets that are associated with an account. WARNING: The Request Syntax section shows the BudgetLimit syntax. For PlannedBudgetLimits , see the Examples section. See also: AWS API Documentation describe-budgets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument mu...
@@ -178,28 +163,25 @@ public interface IAwsBudgets
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeBudgetsAsync(AwsBudgetsDescribeBudgetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeBudgetsAsync(AwsBudgetsDescribeBudgetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists the notifications that are associated with a budget. See also: AWS API Documentation describe-notifications-for-budget is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Notifications
+    /// Lists the notifications that are associated with a budget. See also: AWS API Documentation describe-notifications-for-budget is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Notifications
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeNotificationsForBudgetAsync(AwsBudgetsDescribeNotificationsForBudgetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeNotificationsForBudgetAsync(AwsBudgetsDescribeNotificationsForBudgetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists the subscribers that are associated with a notification. See also: AWS API Documentation describe-subscribers-for-notification is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: Subscribers
+    /// Lists the subscribers that are associated with a notification. See also: AWS API Documentation describe-subscribers-for-notification is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Subscribers
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeSubscribersForNotificationAsync(AwsBudgetsDescribeSubscribersForNotificationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeSubscribersForNotificationAsync(AwsBudgetsDescribeSubscribersForNotificationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Executes a budget action. See also: AWS API Documentation
@@ -208,8 +190,7 @@ public interface IAwsBudgets
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteBudgetActionAsync(AwsBudgetsExecuteBudgetActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteBudgetActionAsync(AwsBudgetsExecuteBudgetActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists tags associated with a budget or budget action resource. See also: AWS API Documentation
@@ -218,8 +199,7 @@ public interface IAwsBudgets
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsBudgetsListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsBudgetsListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates tags for a budget or budget action resource. See also: AWS API Documentation
@@ -228,8 +208,7 @@ public interface IAwsBudgets
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsBudgetsTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsBudgetsTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes tags associated with a budget or budget action resource. See also: AWS API Documentation
@@ -238,8 +217,7 @@ public interface IAwsBudgets
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsBudgetsUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsBudgetsUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a budget action. See also: AWS API Documentation
@@ -248,18 +226,16 @@ public interface IAwsBudgets
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateBudgetActionAsync(AwsBudgetsUpdateBudgetActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateBudgetActionAsync(AwsBudgetsUpdateBudgetActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Updates a budget. You can change every part of a budget except for the budgetName and the calculatedSpend . When you modify a budget, the cal- culatedSpend drops to zero until Amazon Web Services has new usage data to use for forecasting. WARNING: Only one of BudgetLimit or PlannedBudgetLimits can be present in the syntax at one time. Use the syntax that matches your case. The Re- quest Syntax section shows the BudgetLimit syntax. For PlannedBud- getLimits , see the Examples section. Similarly, ...
+    /// Updates a budget. You can change every part of a budget except for the budgetName and the calculatedSpend . When you modify a budget, the calculatedSpend drops to zero until Amazon Web Services has new usage data to use for forecasting. WARNING: Only one of BudgetLimit or PlannedBudgetLimits can be present in the syntax at one time. Use the syntax that matches your case. The Request Syntax section shows the BudgetLimit syntax. For PlannedBudgetLimits , see the Examples section. Similarly, only o...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateBudgetAsync(AwsBudgetsUpdateBudgetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateBudgetAsync(AwsBudgetsUpdateBudgetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a notification. See also: AWS API Documentation
@@ -268,8 +244,7 @@ public interface IAwsBudgets
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateNotificationAsync(AwsBudgetsUpdateNotificationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateNotificationAsync(AwsBudgetsUpdateNotificationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a subscriber. See also: AWS API Documentation
@@ -278,7 +253,6 @@ public interface IAwsBudgets
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateSubscriberAsync(AwsBudgetsUpdateSubscriberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateSubscriberAsync(AwsBudgetsUpdateSubscriberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

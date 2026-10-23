@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsMarketplaceCatalogCancelChangeSetOptions : AwsOptions, IValidat
     /// <summary>
     /// Used to cancel an open change request. Must be sent before the status of the request changes to APPLYING , the final stage of completing your change request. You can describe a change during the 60-day request history retention period for API calls. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Catalog">Required. The catalog related to the request. Fixed value: AWSMar- ketplace . Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z]+$</param>
-    /// <param name="ChangeSetId">Required. The unique identifier of the StartChangeSet request that you want to cancel. Constraints: o min: 1 o max: 255 o pattern: ^[\w\-]+$</param>
+    /// <param name="Catalog">Required. The catalog related to the request. Fixed value: AWSMarketplace . Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z]+$</param>
+    /// <param name="ChangeSetId">Required. The unique identifier of the StartChangeSet request that you want to cancel. Constraints: • min: 1 • max: 255 • pattern: ^[\w\-]+$</param>
     public AwsMarketplaceCatalogCancelChangeSetOptions(
         string Catalog,
         string ChangeSetId
@@ -60,13 +61,13 @@ public record AwsMarketplaceCatalogCancelChangeSetOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Required. The catalog related to the request. Fixed value: AWSMar- ketplace . Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z]+$
+    /// Required. The catalog related to the request. Fixed value: AWSMarketplace . Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z]+$
     /// </summary>
     [CliOption("--catalog")]
     public string? Catalog { get; private init; }
 
     /// <summary>
-    /// Required. The unique identifier of the StartChangeSet request that you want to cancel. Constraints: o min: 1 o max: 255 o pattern: ^[\w\-]+$
+    /// Required. The unique identifier of the StartChangeSet request that you want to cancel. Constraints: • min: 1 • max: 255 • pattern: ^[\w\-]+$
     /// </summary>
     [CliOption("--change-set-id")]
     public string? ChangeSetId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsMarketplaceCatalogCancelChangeSetOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

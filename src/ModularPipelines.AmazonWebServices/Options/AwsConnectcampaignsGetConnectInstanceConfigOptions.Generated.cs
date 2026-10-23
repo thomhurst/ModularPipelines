@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsConnectcampaignsGetConnectInstanceConfigOptions : AwsOptions, I
     /// <summary>
     /// Get the specific Connect instance config. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConnectInstanceId">Amazon Connect Instance Id Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9_\-.]*</param>
+    /// <param name="ConnectInstanceId">Amazon Connect Instance Id Constraints: • min: 0 • max: 256 • pattern: [a-zA-Z0-9_\-.]*</param>
     public AwsConnectcampaignsGetConnectInstanceConfigOptions(
         string ConnectInstanceId
     )
@@ -56,7 +57,7 @@ public record AwsConnectcampaignsGetConnectInstanceConfigOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Amazon Connect Instance Id Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9_\-.]*
+    /// Amazon Connect Instance Id Constraints: • min: 0 • max: 256 • pattern: [a-zA-Z0-9_\-.]*
     /// </summary>
     [CliOption("--connect-instance-id")]
     public string? ConnectInstanceId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsConnectcampaignsGetConnectInstanceConfigOptions : AwsOptions, I
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

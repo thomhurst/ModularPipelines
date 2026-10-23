@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a dataset group. Before you delete a dataset group, you must delete the following: o All associated event trackers. o All associated solutions. o All datasets in the dataset group. See also: AWS API Documentation
+/// Deletes a dataset group. Before you delete a dataset group, you must delete the following: • All associated event trackers. • All associated solutions. • All datasets in the dataset group. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsPersonalizeDeleteDataSetGroupOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a dataset group. Before you delete a dataset group, you must delete the following: o All associated event trackers. o All associated solutions. o All datasets in the dataset group. See also: AWS API Documentation
+    /// Deletes a dataset group. Before you delete a dataset group, you must delete the following: • All associated event trackers. • All associated solutions. • All datasets in the dataset group. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DataSetGroupArn">The ARN of the dataset group to delete. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
+    /// <param name="DataSetGroupArn">The ARN of the dataset group to delete. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
     public AwsPersonalizeDeleteDataSetGroupOptions(
         string DataSetGroupArn
     )
@@ -56,7 +57,7 @@ public record AwsPersonalizeDeleteDataSetGroupOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the dataset group to delete. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
+    /// The ARN of the dataset group to delete. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
     /// </summary>
     [CliOption("--dataset-group-arn")]
     public string? DataSetGroupArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsPersonalizeDeleteDataSetGroupOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

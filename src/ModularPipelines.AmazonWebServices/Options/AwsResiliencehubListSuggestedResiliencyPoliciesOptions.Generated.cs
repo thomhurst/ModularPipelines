@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists the suggested resiliency policies for the Resilience Hub applica- tions. See also: AWS API Documentation
+/// Lists the suggested resiliency policies for the Resilience Hub applications. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,13 +23,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsResiliencehubListSuggestedResiliencyPoliciesOptions : AwsOptions
 {
     /// <summary>
-    /// Maximum number of results to include in the response. If more re- sults exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved. Constraints: o min: 1 o max: 100
+    /// Maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// Null, or the token from a previous call to get the next set of re- sults. Constraints: o pattern: ^\S{1,2000}$
+    /// Null, or the token from a previous call to get the next set of results. Constraints: • pattern: ^\S{1,2000}$
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -40,5 +40,14 @@ public record AwsResiliencehubListSuggestedResiliencyPoliciesOptions : AwsOption
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

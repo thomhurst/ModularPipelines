@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Provides a pre-signed URL for download of a completed attachment. This is an asynchronous API for use with active contacts. For security recommendations, see Connect Customer Chat security best practices . NOTE: o The participant role CUSTOM_BOT is not permitted to access attach- ments customers may upload. An AccessDeniedException can indicate that the participant may be a CUSTOM_BOT, and it doesn't have ac- cess to attachments. o ConnectionToken is used for invoking this API instead of Partici...
+/// Provides a pre-signed URL for download of a completed attachment. This is an asynchronous API for use with active contacts. For security recommendations, see Connect Customer Chat security best practices . NOTE: • The participant role CUSTOM_BOT is not permitted to access attachments customers may upload. An AccessDeniedException can indicate that the participant may be a CUSTOM_BOT, and it doesn't have access to attachments. • ConnectionToken is used for invoking this API instead of Participant...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsConnectparticipantGetAttachmentOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Provides a pre-signed URL for download of a completed attachment. This is an asynchronous API for use with active contacts. For security recommendations, see Connect Customer Chat security best practices . NOTE: o The participant role CUSTOM_BOT is not permitted to access attach- ments customers may upload. An AccessDeniedException can indicate that the participant may be a CUSTOM_BOT, and it doesn't have ac- cess to attachments. o ConnectionToken is used for invoking this API instead of Partici...
+    /// Provides a pre-signed URL for download of a completed attachment. This is an asynchronous API for use with active contacts. For security recommendations, see Connect Customer Chat security best practices . NOTE: • The participant role CUSTOM_BOT is not permitted to access attachments customers may upload. An AccessDeniedException can indicate that the participant may be a CUSTOM_BOT, and it doesn't have access to attachments. • ConnectionToken is used for invoking this API instead of Participant...
     /// </summary>
-    /// <param name="AttachmentId">A unique identifier for the attachment. Constraints: o min: 1 o max: 256</param>
-    /// <param name="ConnectionToken">The authentication token associated with the participant's connec- tion. Constraints: o min: 1 o max: 1000</param>
+    /// <param name="AttachmentId">A unique identifier for the attachment. Constraints: • min: 1 • max: 256</param>
+    /// <param name="ConnectionToken">The authentication token associated with the participant's connection. Constraints: • min: 1 • max: 1000</param>
     public AwsConnectparticipantGetAttachmentOptions(
         string AttachmentId,
         string ConnectionToken
@@ -61,20 +62,20 @@ public record AwsConnectparticipantGetAttachmentOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the attachment. Constraints: o min: 1 o max: 256
+    /// A unique identifier for the attachment. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--attachment-id")]
     public string? AttachmentId { get; private init; }
 
     /// <summary>
-    /// The authentication token associated with the participant's connec- tion. Constraints: o min: 1 o max: 1000
+    /// The authentication token associated with the participant's connection. Constraints: • min: 1 • max: 1000
     /// </summary>
     [SecretValue]
     [CliOption("--connection-token")]
     public string? ConnectionToken { get; private init; }
 
     /// <summary>
-    /// The expiration time of the URL in ISO timestamp. It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z. Constraints: o min: 5 o max: 300
+    /// The expiration time of the URL in ISO timestamp. It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z. Constraints: • min: 5 • max: 300
     /// </summary>
     [CliOption("--url-expiry-in-seconds")]
     public int? UrlExpiryInSeconds { get; set; }
@@ -100,6 +101,15 @@ public record AwsConnectparticipantGetAttachmentOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

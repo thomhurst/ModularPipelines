@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// o This feature is in preview release and is subject to change. Your use of Amazon Web Services Price List API is subject to the Beta Service Participation terms of the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Section 1.10). * This returns the URL that you can retrieve your Price List file from. This URL is based on the PriceListArn and FileFormat that you retrieve from the ListPriceLists response. See also: AWS API Documentation
+/// • This feature is in preview release and is subject to change. Your use of Amazon Web Services Price List API is subject to the Beta Service Participation terms of the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Section 1.10). * This returns the URL that you can retrieve your Price List file from. This URL is based on the PriceListArn and FileFormat that you retrieve from the ListPriceLists response. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsPricingGetPriceListFileUrlOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// o This feature is in preview release and is subject to change. Your use of Amazon Web Services Price List API is subject to the Beta Service Participation terms of the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Section 1.10). * This returns the URL that you can retrieve your Price List file from. This URL is based on the PriceListArn and FileFormat that you retrieve from the ListPriceLists response. See also: AWS API Documentation
+    /// • This feature is in preview release and is subject to change. Your use of Amazon Web Services Price List API is subject to the Beta Service Participation terms of the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Section 1.10). * This returns the URL that you can retrieve your Price List file from. This URL is based on the PriceListArn and FileFormat that you retrieve from the ListPriceLists response. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PriceListArn">The unique identifier that maps to where your Price List files are located. PriceListArn can be obtained from the ListPriceLists re- sponse. Constraints: o min: 18 o max: 2048 o pattern: arn:[A-Za-z0-9][-.A-Za-z0-9]{0,62}:pric- ing:::price-list/[A-Za-z0-9+_/.-]{1,1023}</param>
-    /// <param name="FileFormat">The format that you want to retrieve your Price List files in. The FileFormat can be obtained from the ListPriceLists response. Constraints: o min: 1 o max: 255</param>
+    /// <param name="PriceListArn">The unique identifier that maps to where your Price List files are located. PriceListArn can be obtained from the ListPriceLists response. Constraints: • min: 18 • max: 2048 • pattern: arn:[A-Za-z0-9][-.A-Za-z0-9]{0,62}:pricing:::price-list/[A-Za-z0-9+_/.-]{1,1023}</param>
+    /// <param name="FileFormat">The format that you want to retrieve your Price List files in. The FileFormat can be obtained from the ListPriceLists response. Constraints: • min: 1 • max: 255</param>
     public AwsPricingGetPriceListFileUrlOptions(
         string PriceListArn,
         string FileFormat
@@ -60,13 +61,13 @@ public record AwsPricingGetPriceListFileUrlOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier that maps to where your Price List files are located. PriceListArn can be obtained from the ListPriceLists re- sponse. Constraints: o min: 18 o max: 2048 o pattern: arn:[A-Za-z0-9][-.A-Za-z0-9]{0,62}:pric- ing:::price-list/[A-Za-z0-9+_/.-]{1,1023}
+    /// The unique identifier that maps to where your Price List files are located. PriceListArn can be obtained from the ListPriceLists response. Constraints: • min: 18 • max: 2048 • pattern: arn:[A-Za-z0-9][-.A-Za-z0-9]{0,62}:pricing:::price-list/[A-Za-z0-9+_/.-]{1,1023}
     /// </summary>
     [CliOption("--price-list-arn")]
     public string? PriceListArn { get; private init; }
 
     /// <summary>
-    /// The format that you want to retrieve your Price List files in. The FileFormat can be obtained from the ListPriceLists response. Constraints: o min: 1 o max: 255
+    /// The format that you want to retrieve your Price List files in. The FileFormat can be obtained from the ListPriceLists response. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--file-format")]
     public string? FileFormat { get; private init; }
@@ -92,6 +93,15 @@ public record AwsPricingGetPriceListFileUrlOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

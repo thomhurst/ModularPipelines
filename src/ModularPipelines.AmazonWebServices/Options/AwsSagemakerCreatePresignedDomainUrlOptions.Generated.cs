@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a URL for a specified UserProfile in a Domain. When accessed in a web browser, the user will be automatically signed in to the domain, and granted access to all of the Apps and files associated with the Do- main's Amazon Elastic File System volume. This operation can only be called when the authentication mode equals IAM. The IAM role or user passed to this API defines the permissions to ac- cess the app. Once the presigned URL is created, no additional permis- sion is required to access...
+/// Creates a URL for a specified UserProfile in a Domain. When accessed in a web browser, the user will be automatically signed in to the domain, and granted access to all of the Apps and files associated with the Domain's Amazon Elastic File System volume. This operation can only be called when the authentication mode equals IAM. The IAM role or user passed to this API defines the permissions to access the app. Once the presigned URL is created, no additional permission is required to access this ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsSagemakerCreatePresignedDomainUrlOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a URL for a specified UserProfile in a Domain. When accessed in a web browser, the user will be automatically signed in to the domain, and granted access to all of the Apps and files associated with the Do- main's Amazon Elastic File System volume. This operation can only be called when the authentication mode equals IAM. The IAM role or user passed to this API defines the permissions to ac- cess the app. Once the presigned URL is created, no additional permis- sion is required to access...
+    /// Creates a URL for a specified UserProfile in a Domain. When accessed in a web browser, the user will be automatically signed in to the domain, and granted access to all of the Apps and files associated with the Domain's Amazon Elastic File System volume. This operation can only be called when the authentication mode equals IAM. The IAM role or user passed to this API defines the permissions to access the app. Once the presigned URL is created, no additional permission is required to access this ...
     /// </summary>
-    /// <param name="DomainId">The domain ID. Constraints: o min: 0 o max: 63 o pattern: d-(-*[a-z0-9]){1,61}</param>
-    /// <param name="UserProfileName">The name of the UserProfile to sign-in as. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="DomainId">The domain ID. Constraints: • min: 0 • max: 63 • pattern: d-(-*[a-z0-9]){1,61}</param>
+    /// <param name="UserProfileName">The name of the UserProfile to sign-in as. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
     public AwsSagemakerCreatePresignedDomainUrlOptions(
         string DomainId,
         string UserProfileName
@@ -60,37 +61,37 @@ public record AwsSagemakerCreatePresignedDomainUrlOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The domain ID. Constraints: o min: 0 o max: 63 o pattern: d-(-*[a-z0-9]){1,61}
+    /// The domain ID. Constraints: • min: 0 • max: 63 • pattern: d-(-*[a-z0-9]){1,61}
     /// </summary>
     [CliOption("--domain-id")]
     public string? DomainId { get; private init; }
 
     /// <summary>
-    /// The name of the UserProfile to sign-in as. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// The name of the UserProfile to sign-in as. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--user-profile-name")]
     public string? UserProfileName { get; private init; }
 
     /// <summary>
-    /// The session expiration duration in seconds. This value defaults to 43200. Constraints: o min: 1800 o max: 43200
+    /// The session expiration duration in seconds. This value defaults to 43200. Constraints: • min: 1800 • max: 43200
     /// </summary>
     [CliOption("--session-expiration-duration-in-seconds")]
     public int? SessionExpirationDurationInSeconds { get; set; }
 
     /// <summary>
-    /// The number of seconds until the pre-signed URL expires. This value defaults to 300. Constraints: o min: 5 o max: 300
+    /// The number of seconds until the pre-signed URL expires. This value defaults to 300. Constraints: • min: 5 • max: 300
     /// </summary>
     [CliOption("--expires-in-seconds")]
     public int? ExpiresInSeconds { get; set; }
 
     /// <summary>
-    /// The name of the space. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// The name of the space. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--space-name")]
     public string? SpaceName { get; set; }
 
     /// <summary>
-    /// The landing page that the user is directed to when accessing the presigned URL. Using this value, users can access Studio or Studio Classic, even if it is not the default experience for the domain. The supported values are: o studio::relative/path : Directs users to the relative path in Stu- dio. o app:JupyterServer:relative/path : Directs users to the relative path in the Studio Classic application. o app:JupyterLab:relative/path : Directs users to the relative path in the JupyterLab application. o app:RStudioServerPro:relative/path : Directs users to the relative path in the RStudio application. o app:CodeEditor:relative/path : Directs users to the relative path in the Code Editor, based on Code-OSS, Visual Studio Code - Open Source application. o app:Canvas:relative/path : Directs users to the relative path in the Canvas application. Constraints: o min: 0 o max: 1023
+    /// The landing page that the user is directed to when accessing the presigned URL. Using this value, users can access Studio or Studio Classic, even if it is not the default experience for the domain. The supported values are: • studio::relative/path : Directs users to the relative path in Studio. • app:JupyterServer:relative/path : Directs users to the relative path in the Studio Classic application. • app:JupyterLab:relative/path : Directs users to the relative path in the JupyterLab application. • app:RStudioServerPro:relative/path : Directs users to the relative path in the RStudio application. • app:CodeEditor:relative/path : Directs users to the relative path in the Code Editor, based on Code-OSS, Visual Studio Code - Open Source application. • app:Canvas:relative/path : Directs users to the relative path in the Canvas application. Constraints: • min: 0 • max: 1023
     /// </summary>
     [CliOption("--landing-uri")]
     public string? LandingUri { get; set; }
@@ -116,6 +117,15 @@ public record AwsSagemakerCreatePresignedDomainUrlOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +29,8 @@ public record AwsNetworkFirewallUpdateProxyConfigurationOptions : AwsOptions, IV
     /// <summary>
     /// Updates the properties of the specified proxy configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DefaultRulePhaseActions">Evaluation points in the traffic flow where rules are applied. There are three phases in a traffic where the rule match is applied. PreDNS -&gt; (string) Before domain resolution. Possible values: o ALLOW o DENY o ALERT PreREQUEST -&gt; (string) After DNS, before request. Possible values: o ALLOW o DENY o ALERT PostRESPONSE -&gt; (string) After receiving response. Possible values: o ALLOW o DENY o ALERT Shorthand Syntax: PreDNS=string,PreREQUEST=string,PostRESPONSE=string JSON Syntax: { "PreDNS": "ALLOW"|"DENY"|"ALERT", "PreREQUEST": "ALLOW"|"DENY"|"ALERT", "PostRESPONSE": "ALLOW"|"DENY"|"ALERT" }</param>
-    /// <param name="UpdateToken">A token used for optimistic locking. Network Firewall returns a to- ken to your requests that access the proxy configuration. The token marks the state of the proxy configuration resource at the time of the request. To make changes to the proxy configuration, you provide the token in your request. Network Firewall uses the token to ensure that the proxy configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException . If this happens, retrieve the proxy configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token. Constraints: o min: 1 o max: 1024 o pattern: ^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$</param>
+    /// <param name="DefaultRulePhaseActions">Evaluation points in the traffic flow where rules are applied. There are three phases in a traffic where the rule match is applied. PreDNS -&gt; (string) Before domain resolution. Possible values: • ALLOW • DENY • ALERT PreREQUEST -&gt; (string) After DNS, before request. Possible values: • ALLOW • DENY • ALERT PostRESPONSE -&gt; (string) After receiving response. Possible values: • ALLOW • DENY • ALERT Shorthand Syntax: PreDNS=string,PreREQUEST=string,PostRESPONSE=string JSON Syntax: { "PreDNS": "ALLOW"|"DENY"|"ALERT", "PreREQUEST": "ALLOW"|"DENY"|"ALERT", "PostRESPONSE": "ALLOW"|"DENY"|"ALERT" }</param>
+    /// <param name="UpdateToken">A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy configuration. The token marks the state of the proxy configuration resource at the time of the request. To make changes to the proxy configuration, you provide the token in your request. Network Firewall uses the token to ensure that the proxy configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException . If this happens, retrieve the proxy configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token. Constraints: • min: 1 • max: 1024 • pattern: ^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$</param>
     public AwsNetworkFirewallUpdateProxyConfigurationOptions(
         string DefaultRulePhaseActions,
         string UpdateToken
@@ -61,26 +62,26 @@ public record AwsNetworkFirewallUpdateProxyConfigurationOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Evaluation points in the traffic flow where rules are applied. There are three phases in a traffic where the rule match is applied. PreDNS -&gt; (string) Before domain resolution. Possible values: o ALLOW o DENY o ALERT PreREQUEST -&gt; (string) After DNS, before request. Possible values: o ALLOW o DENY o ALERT PostRESPONSE -&gt; (string) After receiving response. Possible values: o ALLOW o DENY o ALERT Shorthand Syntax: PreDNS=string,PreREQUEST=string,PostRESPONSE=string JSON Syntax: { "PreDNS": "ALLOW"|"DENY"|"ALERT", "PreREQUEST": "ALLOW"|"DENY"|"ALERT", "PostRESPONSE": "ALLOW"|"DENY"|"ALERT" }
+    /// Evaluation points in the traffic flow where rules are applied. There are three phases in a traffic where the rule match is applied. PreDNS -&gt; (string) Before domain resolution. Possible values: • ALLOW • DENY • ALERT PreREQUEST -&gt; (string) After DNS, before request. Possible values: • ALLOW • DENY • ALERT PostRESPONSE -&gt; (string) After receiving response. Possible values: • ALLOW • DENY • ALERT Shorthand Syntax: PreDNS=string,PreREQUEST=string,PostRESPONSE=string JSON Syntax: { "PreDNS": "ALLOW"|"DENY"|"ALERT", "PreREQUEST": "ALLOW"|"DENY"|"ALERT", "PostRESPONSE": "ALLOW"|"DENY"|"ALERT" }
     /// </summary>
     [CliOption("--default-rule-phase-actions")]
     public string? DefaultRulePhaseActions { get; private init; }
 
     /// <summary>
-    /// A token used for optimistic locking. Network Firewall returns a to- ken to your requests that access the proxy configuration. The token marks the state of the proxy configuration resource at the time of the request. To make changes to the proxy configuration, you provide the token in your request. Network Firewall uses the token to ensure that the proxy configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException . If this happens, retrieve the proxy configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token. Constraints: o min: 1 o max: 1024 o pattern: ^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$
+    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy configuration. The token marks the state of the proxy configuration resource at the time of the request. To make changes to the proxy configuration, you provide the token in your request. Network Firewall uses the token to ensure that the proxy configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException . If this happens, retrieve the proxy configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token. Constraints: • min: 1 • max: 1024 • pattern: ^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$
     /// </summary>
     [SecretValue]
     [CliOption("--update-token")]
     public string? UpdateToken { get; private init; }
 
     /// <summary>
-    /// The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it. You must specify the ARN or the name, and you can specify both. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9-]+$
+    /// The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it. You must specify the ARN or the name, and you can specify both. Constraints: • min: 1 • max: 128 • pattern: ^[a-zA-Z0-9-]+$
     /// </summary>
     [CliOption("--proxy-configuration-name")]
     public string? ProxyConfigurationName { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of a proxy configuration. You must specify the ARN or the name, and you can specify both. Constraints: o min: 1 o max: 256 o pattern: ^arn:aws.*
+    /// The Amazon Resource Name (ARN) of a proxy configuration. You must specify the ARN or the name, and you can specify both. Constraints: • min: 1 • max: 256 • pattern: ^arn:aws.*
     /// </summary>
     [CliOption("--proxy-configuration-arn")]
     public string? ProxyConfigurationArn { get; set; }
@@ -106,6 +107,15 @@ public record AwsNetworkFirewallUpdateProxyConfigurationOptions : AwsOptions, IV
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

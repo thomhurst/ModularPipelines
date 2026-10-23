@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes any tags from the on-premises instance; deregisters the on-premises instance from AWS CodeDeploy; and, unless requested other- wise, deletes the IAM user for the on-premises instance.
+/// Removes any tags from the on-premises instance; deregisters the on-premises instance from AWS CodeDeploy; and, unless requested otherwise, deletes the IAM user for the on-premises instance.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsDeployDeregisterOptions : AwsOptions
 {
     /// <summary>
-    /// Removes any tags from the on-premises instance; deregisters the on-premises instance from AWS CodeDeploy; and, unless requested other- wise, deletes the IAM user for the on-premises instance.
+    /// Removes any tags from the on-premises instance; deregisters the on-premises instance from AWS CodeDeploy; and, unless requested otherwise, deletes the IAM user for the on-premises instance.
     /// </summary>
     /// <param name="InstanceName"></param>
     public AwsDeployDeregisterOptions(
@@ -43,5 +43,14 @@ public record AwsDeployDeregisterOptions : AwsOptions
 
     [CliFlag("--no-delete-iam-user")]
     public bool? NoDeleteIamUser { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

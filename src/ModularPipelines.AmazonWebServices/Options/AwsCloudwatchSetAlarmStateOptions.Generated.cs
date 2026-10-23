@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Temporarily sets the state of an alarm for testing purposes. When the updated state differs from the previous value, the action configured for the appropriate state is invoked. For example, if your alarm is configured to send an Amazon SNS message when an alarm is triggered, temporarily changing the alarm state to ALARM sends an SNS message. Metric alarms returns to their actual state quickly, often within sec- onds. Because the metric alarm state change happens quickly, it is typ- ically only v...
+/// Temporarily sets the state of an alarm for testing purposes. When the updated state differs from the previous value, the action configured for the appropriate state is invoked. For example, if your alarm is configured to send an Amazon SNS message when an alarm is triggered, temporarily changing the alarm state to ALARM sends an SNS message. Metric alarms returns to their actual state quickly, often within seconds. Because the metric alarm state change happens quickly, it is typically only visib...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsCloudwatchSetAlarmStateOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Temporarily sets the state of an alarm for testing purposes. When the updated state differs from the previous value, the action configured for the appropriate state is invoked. For example, if your alarm is configured to send an Amazon SNS message when an alarm is triggered, temporarily changing the alarm state to ALARM sends an SNS message. Metric alarms returns to their actual state quickly, often within sec- onds. Because the metric alarm state change happens quickly, it is typ- ically only v...
+    /// Temporarily sets the state of an alarm for testing purposes. When the updated state differs from the previous value, the action configured for the appropriate state is invoked. For example, if your alarm is configured to send an Amazon SNS message when an alarm is triggered, temporarily changing the alarm state to ALARM sends an SNS message. Metric alarms returns to their actual state quickly, often within seconds. Because the metric alarm state change happens quickly, it is typically only visib...
     /// </summary>
-    /// <param name="AlarmName">The name of the alarm. Constraints: o min: 1 o max: 255</param>
-    /// <param name="StateValue">The value of the state. Possible values: o OK o ALARM o INSUFFICIENT_DATA</param>
-    /// <param name="StateReason">The reason that this alarm is set to this specific state, in text format. Constraints: o min: 0 o max: 1023</param>
+    /// <param name="AlarmName">The name of the alarm. Constraints: • min: 1 • max: 255</param>
+    /// <param name="StateValue">The value of the state. Possible values: • OK • ALARM • INSUFFICIENT_DATA</param>
+    /// <param name="StateReason">The reason that this alarm is set to this specific state, in text format. Constraints: • min: 0 • max: 1023</param>
     public AwsCloudwatchSetAlarmStateOptions(
         string AlarmName,
         AwsCloudwatchSetAlarmStateStateValue StateValue,
@@ -64,25 +65,25 @@ public record AwsCloudwatchSetAlarmStateOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the alarm. Constraints: o min: 1 o max: 255
+    /// The name of the alarm. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--alarm-name")]
     public string? AlarmName { get; private init; }
 
     /// <summary>
-    /// The value of the state. Possible values: o OK o ALARM o INSUFFICIENT_DATA
+    /// The value of the state. Possible values: • OK • ALARM • INSUFFICIENT_DATA
     /// </summary>
     [CliOption("--state-value")]
     public AwsCloudwatchSetAlarmStateStateValue? StateValue { get; private init; }
 
     /// <summary>
-    /// The reason that this alarm is set to this specific state, in text format. Constraints: o min: 0 o max: 1023
+    /// The reason that this alarm is set to this specific state, in text format. Constraints: • min: 0 • max: 1023
     /// </summary>
     [CliOption("--state-reason")]
     public string? StateReason { get; private init; }
 
     /// <summary>
-    /// The reason that this alarm is set to this specific state, in JSON format. For SNS or EC2 alarm actions, this is just informational. But for EC2 Auto Scaling or application Auto Scaling alarm actions, the Auto Scaling policy uses the information in this field to take the cor- rect action. Constraints: o min: 0 o max: 4000
+    /// The reason that this alarm is set to this specific state, in JSON format. For SNS or EC2 alarm actions, this is just informational. But for EC2 Auto Scaling or application Auto Scaling alarm actions, the Auto Scaling policy uses the information in this field to take the correct action. Constraints: • min: 0 • max: 4000
     /// </summary>
     [CliOption("--state-reason-data")]
     public string? StateReasonData { get; set; }
@@ -108,6 +109,15 @@ public record AwsCloudwatchSetAlarmStateOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsMigrationhuborchestratorUpdateTemplateOptions : AwsOptions, IVa
     /// <summary>
     /// Updates a migration workflow template. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the request to update a migration workflow template. Constraints: o min: 1 o max: 100 o pattern: [-a-zA-Z0-9_.+]+[-a-zA-Z0-9_.+ ]*</param>
+    /// <param name="Id">The ID of the request to update a migration workflow template. Constraints: • min: 1 • max: 100 • pattern: [-a-zA-Z0-9_.+]+[-a-zA-Z0-9_.+ ]*</param>
     public AwsMigrationhuborchestratorUpdateTemplateOptions(
         string Id
     )
@@ -57,25 +58,25 @@ public record AwsMigrationhuborchestratorUpdateTemplateOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the request to update a migration workflow template. Constraints: o min: 1 o max: 100 o pattern: [-a-zA-Z0-9_.+]+[-a-zA-Z0-9_.+ ]*
+    /// The ID of the request to update a migration workflow template. Constraints: • min: 1 • max: 100 • pattern: [-a-zA-Z0-9_.+]+[-a-zA-Z0-9_.+ ]*
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The name of the migration workflow template to update. Constraints: o min: 1 o max: 128 o pattern: [ a-zA-Z0-9]*
+    /// The name of the migration workflow template to update. Constraints: • min: 1 • max: 128 • pattern: [ a-zA-Z0-9]*
     /// </summary>
     [CliOption("--template-name")]
     public string? TemplateName { get; set; }
 
     /// <summary>
-    /// The description of the migration workflow template to update. Constraints: o min: 0 o max: 250 o pattern: .*
+    /// The description of the migration workflow template to update. Constraints: • min: 0 • max: 250 • pattern: .*
     /// </summary>
     [CliOption("--template-description")]
     public string? TemplateDescription { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 1 o max: 256 o pattern: [-a-zA-Z0-9]*
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: • min: 1 • max: 256 • pattern: [-a-zA-Z0-9]*
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -102,6 +103,15 @@ public record AwsMigrationhuborchestratorUpdateTemplateOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

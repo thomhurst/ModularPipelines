@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSecurityhubDescribeHubOptions : AwsOptions
 {
     /// <summary>
-    /// The ARN of the Hub resource to retrieve. Constraints: o pattern: .*\S.*
+    /// The ARN of the Hub resource to retrieve. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--hub-arn")]
     public string? HubArn { get; set; }
@@ -32,5 +32,14 @@ public record AwsSecurityhubDescribeHubOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

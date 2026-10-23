@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,10 +28,10 @@ public record AwsApplicationInsightsCreateLogPatternOptions : AwsOptions, IValid
     /// <summary>
     /// Adds an log pattern to a LogPatternSet . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceGroupName">The name of the resource group. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9\.\-_]*</param>
-    /// <param name="PatternSetName">The name of the log pattern set. Constraints: o min: 1 o max: 30 o pattern: [a-zA-Z0-9\.\-_]*</param>
-    /// <param name="PatternName">The name of the log pattern. Constraints: o min: 1 o max: 50 o pattern: [a-zA-Z0-9\.\-_]*</param>
-    /// <param name="Pattern">The log pattern. The pattern must be DFA compatible. Patterns that utilize forward lookahead or backreference constructions are not supported. Constraints: o min: 1 o max: 50 o pattern: [\S\s]+</param>
+    /// <param name="ResourceGroupName">The name of the resource group. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9\.\-_]*</param>
+    /// <param name="PatternSetName">The name of the log pattern set. Constraints: • min: 1 • max: 30 • pattern: [a-zA-Z0-9\.\-_]*</param>
+    /// <param name="PatternName">The name of the log pattern. Constraints: • min: 1 • max: 50 • pattern: [a-zA-Z0-9\.\-_]*</param>
+    /// <param name="Pattern">The log pattern. The pattern must be DFA compatible. Patterns that utilize forward lookahead or backreference constructions are not supported. Constraints: • min: 1 • max: 50 • pattern: [\S\s]+</param>
     /// <param name="Rank">Rank of the log pattern. Must be a value between 1 and 1,000,000 . The patterns are sorted by rank, so we recommend that you set your highest priority patterns with the lowest rank. A pattern of rank 1 will be the first to get matched to a log line. A pattern of rank 1,000,000 will be last to get matched. When you configure custom log patterns from the console, a Low severity pattern translates to a 750,000 rank. A Medium severity pattern translates to a 500,000 rank. And a High severity pattern translates to a 250,000 rank. Rank values less than 1 or greater than 1,000,000 are reserved for Amazon Web Services provided patterns.</param>
     public AwsApplicationInsightsCreateLogPatternOptions(
         string ResourceGroupName,
@@ -71,25 +72,25 @@ public record AwsApplicationInsightsCreateLogPatternOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the resource group. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9\.\-_]*
+    /// The name of the resource group. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9\.\-_]*
     /// </summary>
     [CliOption("--resource-group-name")]
     public string? ResourceGroupName { get; private init; }
 
     /// <summary>
-    /// The name of the log pattern set. Constraints: o min: 1 o max: 30 o pattern: [a-zA-Z0-9\.\-_]*
+    /// The name of the log pattern set. Constraints: • min: 1 • max: 30 • pattern: [a-zA-Z0-9\.\-_]*
     /// </summary>
     [CliOption("--pattern-set-name")]
     public string? PatternSetName { get; private init; }
 
     /// <summary>
-    /// The name of the log pattern. Constraints: o min: 1 o max: 50 o pattern: [a-zA-Z0-9\.\-_]*
+    /// The name of the log pattern. Constraints: • min: 1 • max: 50 • pattern: [a-zA-Z0-9\.\-_]*
     /// </summary>
     [CliOption("--pattern-name")]
     public string? PatternName { get; private init; }
 
     /// <summary>
-    /// The log pattern. The pattern must be DFA compatible. Patterns that utilize forward lookahead or backreference constructions are not supported. Constraints: o min: 1 o max: 50 o pattern: [\S\s]+
+    /// The log pattern. The pattern must be DFA compatible. Patterns that utilize forward lookahead or backreference constructions are not supported. Constraints: • min: 1 • max: 50 • pattern: [\S\s]+
     /// </summary>
     [CliOption("--pattern")]
     public string? Pattern { get; private init; }
@@ -121,6 +122,15 @@ public record AwsApplicationInsightsCreateLogPatternOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

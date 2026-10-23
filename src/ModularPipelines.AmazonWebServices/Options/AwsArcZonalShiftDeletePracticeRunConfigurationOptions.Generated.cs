@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsArcZonalShiftDeletePracticeRunConfigurationOptions : AwsOptions
     /// <summary>
     /// Deletes the practice run configuration for a resource. Before you can delete a practice run configuration for a resource., you must disable zonal autoshift for the resource. Practice runs must be configured for zonal autoshift to be enabled. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceIdentifier">The identifier for the resource that you want to delete the practice run configuration for. The identifier is the Amazon Resource Name (ARN) for the resource. Constraints: o min: 8 o max: 1024</param>
+    /// <param name="ResourceIdentifier">The identifier for the resource that you want to delete the practice run configuration for. The identifier is the Amazon Resource Name (ARN) for the resource. Constraints: • min: 8 • max: 1024</param>
     public AwsArcZonalShiftDeletePracticeRunConfigurationOptions(
         string ResourceIdentifier
     )
@@ -56,7 +57,7 @@ public record AwsArcZonalShiftDeletePracticeRunConfigurationOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier for the resource that you want to delete the practice run configuration for. The identifier is the Amazon Resource Name (ARN) for the resource. Constraints: o min: 8 o max: 1024
+    /// The identifier for the resource that you want to delete the practice run configuration for. The identifier is the Amazon Resource Name (ARN) for the resource. Constraints: • min: 8 • max: 1024
     /// </summary>
     [CliOption("--resource-identifier")]
     public string? ResourceIdentifier { get; private init; }
@@ -82,6 +83,15 @@ public record AwsArcZonalShiftDeletePracticeRunConfigurationOptions : AwsOptions
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

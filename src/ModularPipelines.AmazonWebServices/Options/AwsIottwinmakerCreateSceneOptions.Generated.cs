@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,9 +28,9 @@ public record AwsIottwinmakerCreateSceneOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a scene. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkspaceId">The ID of the workspace that contains the scene. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+</param>
-    /// <param name="SceneId">The ID of the scene. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+</param>
-    /// <param name="ContentLocation">The relative path that specifies the location of the content defini- tion file. Constraints: o min: 0 o max: 256 o pattern: [sS]3://[A-Za-z0-9._/-]+</param>
+    /// <param name="WorkspaceId">The ID of the workspace that contains the scene. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+</param>
+    /// <param name="SceneId">The ID of the scene. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+</param>
+    /// <param name="ContentLocation">The relative path that specifies the location of the content definition file. Constraints: • min: 0 • max: 256 • pattern: [sS]3://[A-Za-z0-9._/-]+</param>
     public AwsIottwinmakerCreateSceneOptions(
         string WorkspaceId,
         string SceneId,
@@ -65,43 +65,43 @@ public record AwsIottwinmakerCreateSceneOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the workspace that contains the scene. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+
+    /// The ID of the workspace that contains the scene. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+
     /// </summary>
     [CliOption("--workspace-id")]
     public string? WorkspaceId { get; private init; }
 
     /// <summary>
-    /// The ID of the scene. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+
+    /// The ID of the scene. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+
     /// </summary>
     [CliOption("--scene-id")]
     public string? SceneId { get; private init; }
 
     /// <summary>
-    /// The relative path that specifies the location of the content defini- tion file. Constraints: o min: 0 o max: 256 o pattern: [sS]3://[A-Za-z0-9._/-]+
+    /// The relative path that specifies the location of the content definition file. Constraints: • min: 0 • max: 256 • pattern: [sS]3://[A-Za-z0-9._/-]+
     /// </summary>
     [CliOption("--content-location")]
     public string? ContentLocation { get; private init; }
 
     /// <summary>
-    /// The description for this scene. Constraints: o min: 0 o max: 2048 o pattern: .*
+    /// The description for this scene. Constraints: • min: 0 • max: 2048 • pattern: .*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// A list of capabilities that the scene uses to render itself. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 0 o max: 256 o pattern: .* Syntax: "string" "string" ...
+    /// A list of capabilities that the scene uses to render itself. Constraints: • min: 0 • max: 50 (string) Constraints: • min: 0 • max: 256 • pattern: .* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--capabilities", GroupValues = true)]
     public IEnumerable<string>? Capabilities { get; set; }
 
     /// <summary>
-    /// Metadata that you can use to manage the scene. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) value -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: .* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Metadata that you can use to manage the scene. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) value -&gt; (string) Constraints: • min: 1 • max: 256 • pattern: .* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// The request metadata. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z_\-0-9]+ value -&gt; (string) Constraints: o min: 0 o max: 2048 o pattern: .* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The request metadata. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z_\-0-9]+ value -&gt; (string) Constraints: • min: 0 • max: 2048 • pattern: .* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--scene-metadata", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? SceneMetadata { get; set; }
@@ -127,6 +127,15 @@ public record AwsIottwinmakerCreateSceneOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

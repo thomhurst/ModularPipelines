@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsSagemakerEdgeSendHeartbeatOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Use to get the current status of devices registered on SageMaker Edge Manager. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AgentVersion">Returns the version of the agent. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9\ \_\.]+</param>
-    /// <param name="DeviceName">The unique name of the device. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z0-9](-*_*[a-zA-Z0-9])*$</param>
-    /// <param name="DeviceFleetName">The name of the fleet that the device belongs to. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z0-9](-*_*[a-zA-Z0-9])*$</param>
+    /// <param name="AgentVersion">Returns the version of the agent. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9\ \_\.]+</param>
+    /// <param name="DeviceName">The unique name of the device. Constraints: • min: 1 • max: 63 • pattern: ^[a-zA-Z0-9](-*_*[a-zA-Z0-9])*$</param>
+    /// <param name="DeviceFleetName">The name of the fleet that the device belongs to. Constraints: • min: 1 • max: 63 • pattern: ^[a-zA-Z0-9](-*_*[a-zA-Z0-9])*$</param>
     public AwsSagemakerEdgeSendHeartbeatOptions(
         string AgentVersion,
         string DeviceName,
@@ -64,37 +65,37 @@ public record AwsSagemakerEdgeSendHeartbeatOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Returns the version of the agent. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9\ \_\.]+
+    /// Returns the version of the agent. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9\ \_\.]+
     /// </summary>
     [CliOption("--agent-version")]
     public string? AgentVersion { get; private init; }
 
     /// <summary>
-    /// The unique name of the device. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z0-9](-*_*[a-zA-Z0-9])*$
+    /// The unique name of the device. Constraints: • min: 1 • max: 63 • pattern: ^[a-zA-Z0-9](-*_*[a-zA-Z0-9])*$
     /// </summary>
     [CliOption("--device-name")]
     public string? DeviceName { get; private init; }
 
     /// <summary>
-    /// The name of the fleet that the device belongs to. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z0-9](-*_*[a-zA-Z0-9])*$
+    /// The name of the fleet that the device belongs to. Constraints: • min: 1 • max: 63 • pattern: ^[a-zA-Z0-9](-*_*[a-zA-Z0-9])*$
     /// </summary>
     [CliOption("--device-fleet-name")]
     public string? DeviceFleetName { get; private init; }
 
     /// <summary>
-    /// For internal use. Returns a list of SageMaker Edge Manager agent op- erating metrics. (structure) Information required for edge device metrics. Dimension -&gt; (string) The dimension of metrics published. Constraints: o min: 1 o max: 1000 o pattern: ^[a-zA-Z0-9](-*[a-zA-Z0-9\/])*$ MetricName -&gt; (string) Returns the name of the metric. Constraints: o min: 4 o max: 100 o pattern: ^[a-zA-Z0-9](-*[a-zA-Z0-9])*$ Value -&gt; (double) Returns the value of the metric. Timestamp -&gt; (timestamp) Timestamp of when the metric was requested. Shorthand Syntax: Dimension=string,MetricName=string,Value=double,Timestamp=timestamp ... JSON Syntax: [ { "Dimension": "string", "MetricName": "string", "Value": double, "Timestamp": timestamp } ... ]
+    /// For internal use. Returns a list of SageMaker Edge Manager agent operating metrics. (structure) Information required for edge device metrics. Dimension -&gt; (string) The dimension of metrics published. Constraints: • min: 1 • max: 1000 • pattern: ^[a-zA-Z0-9](-*[a-zA-Z0-9\/])*$ MetricName -&gt; (string) Returns the name of the metric. Constraints: • min: 4 • max: 100 • pattern: ^[a-zA-Z0-9](-*[a-zA-Z0-9])*$ Value -&gt; (double) Returns the value of the metric. Timestamp -&gt; (timestamp) Timestamp of when the metric was requested. Shorthand Syntax: Dimension=string,MetricName=string,Value=double,Timestamp=timestamp ... JSON Syntax: [ { "Dimension": "string", "MetricName": "string", "Value": double, "Timestamp": timestamp } ... ]
     /// </summary>
     [CliOption("--agent-metrics", GroupValues = true)]
     public IEnumerable<string>? AgentMetrics { get; set; }
 
     /// <summary>
-    /// Returns a list of models deployed on the the device. (structure) Information about a model deployed on an edge device that is registered with SageMaker Edge Manager. ModelName -&gt; (string) The name of the model. Constraints: o min: 4 o max: 255 o pattern: ^[a-zA-Z0-9](-*[a-zA-Z0-9])*$ ModelVersion -&gt; (string) The version of the model. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9\ \_\.]+ LatestSampleTime -&gt; (timestamp) The timestamp of the last data sample taken. LatestInference -&gt; (timestamp) The timestamp of the last inference that was made. ModelMetrics -&gt; (list) Information required for model metrics. (structure) Information required for edge device metrics. Dimension -&gt; (string) The dimension of metrics published. Constraints: o min: 1 o max: 1000 o pattern: ^[a-zA-Z0-9](-*[a-zA-Z0-9\/])*$ MetricName -&gt; (string) Returns the name of the metric. Constraints: o min: 4 o max: 100 o pattern: ^[a-zA-Z0-9](-*[a-zA-Z0-9])*$ Value -&gt; (double) Returns the value of the metric. Timestamp -&gt; (timestamp) Timestamp of when the metric was requested. Shorthand Syntax: ModelName=string,ModelVersion=string,LatestSampleTime=timestamp,LatestInference=timestamp,ModelMetrics=[{Dimension=string,MetricName=string,Value=double,Timestamp=timestamp},{Dimension=string,MetricName=string,Value=double,Timestamp=timestamp}] ... JSON Syntax: [ { "ModelName": "string", "ModelVersion": "string", "LatestSampleTime": timestamp, "LatestInference": timestamp, "ModelMetrics": [ { "Dimension": "string", "MetricName": "string", "Value": double, "Timestamp": timestamp } ... ] } ... ]
+    /// Returns a list of models deployed on the the device. (structure) Information about a model deployed on an edge device that is registered with SageMaker Edge Manager. ModelName -&gt; (string) The name of the model. Constraints: • min: 4 • max: 255 • pattern: ^[a-zA-Z0-9](-*[a-zA-Z0-9])*$ ModelVersion -&gt; (string) The version of the model. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9\ \_\.]+ LatestSampleTime -&gt; (timestamp) The timestamp of the last data sample taken. LatestInference -&gt; (timestamp) The timestamp of the last inference that was made. ModelMetrics -&gt; (list) Information required for model metrics. (structure) Information required for edge device metrics. Dimension -&gt; (string) The dimension of metrics published. Constraints: • min: 1 • max: 1000 • pattern: ^[a-zA-Z0-9](-*[a-zA-Z0-9\/])*$ MetricName -&gt; (string) Returns the name of the metric. Constraints: • min: 4 • max: 100 • pattern: ^[a-zA-Z0-9](-*[a-zA-Z0-9])*$ Value -&gt; (double) Returns the value of the metric. Timestamp -&gt; (timestamp) Timestamp of when the metric was requested. Shorthand Syntax: ModelName=string,ModelVersion=string,LatestSampleTime=timestamp,LatestInference=timestamp,ModelMetrics=[{Dimension=string,MetricName=string,Value=double,Timestamp=timestamp},{Dimension=string,MetricName=string,Value=double,Timestamp=timestamp}] ... JSON Syntax: [ { "ModelName": "string", "ModelVersion": "string", "LatestSampleTime": timestamp, "LatestInference": timestamp, "ModelMetrics": [ { "Dimension": "string", "MetricName": "string", "Value": double, "Timestamp": timestamp } ... ] } ... ]
     /// </summary>
     [CliOption("--models", GroupValues = true)]
     public IEnumerable<string>? Models { get; set; }
 
     /// <summary>
-    /// Returns the result of a deployment on the device. DeploymentName -&gt; (string) The name and unique ID of the deployment. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z0-9](-*[a-zA-Z0-9])*$ DeploymentStatus -&gt; (string) Returns the bucket error code. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z0-9](-*[a-zA-Z0-9])*$ DeploymentStatusMessage -&gt; (string) Returns the detailed error message. DeploymentStartTime -&gt; (timestamp) The timestamp of when the deployment was started on the agent. DeploymentEndTime -&gt; (timestamp) The timestamp of when the deployment was ended, and the agent got the deployment results. DeploymentModels -&gt; (list) Returns a list of models deployed on the agent. (structure) ModelHandle -&gt; (string) The unique handle of the model. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z0-9](-*[a-zA-Z0-9])*$ ModelName -&gt; (string) The name of the model. Constraints: o min: 4 o max: 255 o pattern: ^[a-zA-Z0-9](-*[a-zA-Z0-9])*$ ModelVersion -&gt; (string) The version of the model. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9\ \_\.]+ DesiredState -&gt; (string) The desired state of the model. Possible values: o DEPLOY o UNDEPLOY State -&gt; (string) Returns the current state of the model. Possible values: o DEPLOY o UNDEPLOY Status -&gt; (string) Returns the deployment status of the model. Possible values: o SUCCESS o FAIL StatusReason -&gt; (string) Returns the error message for the deployment status re- sult. RollbackFailureReason -&gt; (string) Returns the error message if there is a rollback. Shorthand Syntax: DeploymentName=string,DeploymentStatus=string,DeploymentStatusMessage=string,DeploymentStartTime=timestamp,DeploymentEndTime=timestamp,DeploymentModels=[{ModelHandle=string,ModelName=string,ModelVersion=string,DesiredState=string,State=string,Status=string,StatusReason=string,RollbackFailureReason=string},{ModelHandle=string,ModelName=string,ModelVersion=string,DesiredState=string,State=string,Status=string,StatusReason=string,RollbackFailureReason=string}] JSON Syntax: { "DeploymentName": "string", "DeploymentStatus": "string", "DeploymentStatusMessage": "string", "DeploymentStartTime": timestamp, "DeploymentEndTime": timestamp, "DeploymentModels": [ { "ModelHandle": "string", "ModelName": "string", "ModelVersion": "string", "DesiredState": "DEPLOY"|"UNDEPLOY", "State": "DEPLOY"|"UNDEPLOY", "Status": "SUCCESS"|"FAIL", "StatusReason": "string", "RollbackFailureReason": "string" } ... ] }
+    /// Returns the result of a deployment on the device. DeploymentName -&gt; (string) The name and unique ID of the deployment. Constraints: • min: 1 • max: 63 • pattern: ^[a-zA-Z0-9](-*[a-zA-Z0-9])*$ DeploymentStatus -&gt; (string) Returns the bucket error code. Constraints: • min: 1 • max: 63 • pattern: ^[a-zA-Z0-9](-*[a-zA-Z0-9])*$ DeploymentStatusMessage -&gt; (string) Returns the detailed error message. DeploymentStartTime -&gt; (timestamp) The timestamp of when the deployment was started on the agent. DeploymentEndTime -&gt; (timestamp) The timestamp of when the deployment was ended, and the agent got the deployment results. DeploymentModels -&gt; (list) Returns a list of models deployed on the agent. (structure) ModelHandle -&gt; (string) The unique handle of the model. Constraints: • min: 1 • max: 63 • pattern: ^[a-zA-Z0-9](-*[a-zA-Z0-9])*$ ModelName -&gt; (string) The name of the model. Constraints: • min: 4 • max: 255 • pattern: ^[a-zA-Z0-9](-*[a-zA-Z0-9])*$ ModelVersion -&gt; (string) The version of the model. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9\ \_\.]+ DesiredState -&gt; (string) The desired state of the model. Possible values: • DEPLOY • UNDEPLOY State -&gt; (string) Returns the current state of the model. Possible values: • DEPLOY • UNDEPLOY Status -&gt; (string) Returns the deployment status of the model. Possible values: • SUCCESS • FAIL StatusReason -&gt; (string) Returns the error message for the deployment status result. RollbackFailureReason -&gt; (string) Returns the error message if there is a rollback. Shorthand Syntax: DeploymentName=string,DeploymentStatus=string,DeploymentStatusMessage=string,DeploymentStartTime=timestamp,DeploymentEndTime=timestamp,DeploymentModels=[{ModelHandle=string,ModelName=string,ModelVersion=string,DesiredState=string,State=string,Status=string,StatusReason=string,RollbackFailureReason=string},{ModelHandle=string,ModelName=string,ModelVersion=string,DesiredState=string,State=string,Status=string,StatusReason=string,RollbackFailureReason=string}] JSON Syntax: { "DeploymentName": "string", "DeploymentStatus": "string", "DeploymentStatusMessage": "string", "DeploymentStartTime": timestamp, "DeploymentEndTime": timestamp, "DeploymentModels": [ { "ModelHandle": "string", "ModelName": "string", "ModelVersion": "string", "DesiredState": "DEPLOY"|"UNDEPLOY", "State": "DEPLOY"|"UNDEPLOY", "Status": "SUCCESS"|"FAIL", "StatusReason": "string", "RollbackFailureReason": "string" } ... ] }
     /// </summary>
     [CliOption("--deployment-result")]
     public string? DeploymentResult { get; set; }
@@ -120,6 +121,15 @@ public record AwsSagemakerEdgeSendHeartbeatOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

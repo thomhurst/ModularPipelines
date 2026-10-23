@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsSagemakerDescribeNotebookInstanceLifecycleConfigOptions : AwsOp
     /// <summary>
     /// Returns a description of a notebook instance lifecycle configuration. For information about notebook instance lifestyle configurations, see Step 2.1: (Optional) Customize a Notebook Instance . See also: AWS API Documentation
     /// </summary>
-    /// <param name="NotebookInstanceLifecycleConfigName">The name of the lifecycle configuration to describe. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9])*</param>
+    /// <param name="NotebookInstanceLifecycleConfigName">The name of the lifecycle configuration to describe. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9])*</param>
     public AwsSagemakerDescribeNotebookInstanceLifecycleConfigOptions(
         string NotebookInstanceLifecycleConfigName
     )
@@ -56,7 +57,7 @@ public record AwsSagemakerDescribeNotebookInstanceLifecycleConfigOptions : AwsOp
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the lifecycle configuration to describe. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9])*
+    /// The name of the lifecycle configuration to describe. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9])*
     /// </summary>
     [CliOption("--notebook-instance-lifecycle-config-name")]
     public string? NotebookInstanceLifecycleConfigName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSagemakerDescribeNotebookInstanceLifecycleConfigOptions : AwsOp
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

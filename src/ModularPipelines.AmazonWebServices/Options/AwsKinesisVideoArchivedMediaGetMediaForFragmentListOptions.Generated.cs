@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets media for a list of fragments (specified by fragment number) from the archived data in an Amazon Kinesis video stream. NOTE: You must first call the GetDataEndpoint API to get an endpoint. Then send the GetMediaForFragmentList requests to this endpoint using the --endpoint-url parameter . For limits, see Kinesis Video Streams Limits . WARNING: If an error is thrown after invoking a Kinesis Video Streams archived media API, in addition to the HTTP status code and the re- sponse body, it incl...
+/// Gets media for a list of fragments (specified by fragment number) from the archived data in an Amazon Kinesis video stream. NOTE: You must first call the GetDataEndpoint API to get an endpoint. Then send the GetMediaForFragmentList requests to this endpoint using the --endpoint-url parameter . For limits, see Kinesis Video Streams Limits . WARNING: If an error is thrown after invoking a Kinesis Video Streams archived media API, in addition to the HTTP status code and the response body, it includ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,9 +22,9 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsKinesisVideoArchivedMediaGetMediaForFragmentListOptions : AwsOptions
 {
     /// <summary>
-    /// Gets media for a list of fragments (specified by fragment number) from the archived data in an Amazon Kinesis video stream. NOTE: You must first call the GetDataEndpoint API to get an endpoint. Then send the GetMediaForFragmentList requests to this endpoint using the --endpoint-url parameter . For limits, see Kinesis Video Streams Limits . WARNING: If an error is thrown after invoking a Kinesis Video Streams archived media API, in addition to the HTTP status code and the re- sponse body, it incl...
+    /// Gets media for a list of fragments (specified by fragment number) from the archived data in an Amazon Kinesis video stream. NOTE: You must first call the GetDataEndpoint API to get an endpoint. Then send the GetMediaForFragmentList requests to this endpoint using the --endpoint-url parameter . For limits, see Kinesis Video Streams Limits . WARNING: If an error is thrown after invoking a Kinesis Video Streams archived media API, in addition to the HTTP status code and the response body, it includ...
     /// </summary>
-    /// <param name="Fragments">A list of the numbers of fragments for which to retrieve media. You retrieve these values with ListFragments . Constraints: o min: 1 o max: 1000 (string) Constraints: o min: 1 o max: 128 o pattern: ^[0-9]+$ Syntax: "string" "string" ... outfile (string) [required] Filename where the content will be saved</param>
+    /// <param name="Fragments">A list of the numbers of fragments for which to retrieve media. You retrieve these values with ListFragments . Constraints: • min: 1 • max: 1000 (string) Constraints: • min: 1 • max: 128 • pattern: ^[0-9]+$ Syntax: "string" "string" ... outfile (string) [required] Filename where the content will be saved</param>
     /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
     public AwsKinesisVideoArchivedMediaGetMediaForFragmentListOptions(
         IEnumerable<string> Fragments,
@@ -55,19 +55,19 @@ public record AwsKinesisVideoArchivedMediaGetMediaForFragmentListOptions : AwsOp
     }
 
     /// <summary>
-    /// A list of the numbers of fragments for which to retrieve media. You retrieve these values with ListFragments . Constraints: o min: 1 o max: 1000 (string) Constraints: o min: 1 o max: 128 o pattern: ^[0-9]+$ Syntax: "string" "string" ... outfile (string) [required] Filename where the content will be saved
+    /// A list of the numbers of fragments for which to retrieve media. You retrieve these values with ListFragments . Constraints: • min: 1 • max: 1000 (string) Constraints: • min: 1 • max: 128 • pattern: ^[0-9]+$ Syntax: "string" "string" ... outfile (string) [required] Filename where the content will be saved
     /// </summary>
     [CliOption("--fragments", GroupValues = true)]
     public IEnumerable<string> Fragments { get; private init; }
 
     /// <summary>
-    /// The name of the stream from which to retrieve fragment media. Spec- ify either this parameter or the StreamARN parameter. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_.-]+
+    /// The name of the stream from which to retrieve fragment media. Specify either this parameter or the StreamARN parameter. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--stream-name")]
     public string? StreamName { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the stream from which to retrieve fragment media. Specify either this parameter or the StreamName pa- rameter. Constraints: o min: 1 o max: 1024 o pattern: arn:[a-z\d-]+:kine- sisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+
+    /// The Amazon Resource Name (ARN) of the stream from which to retrieve fragment media. Specify either this parameter or the StreamName parameter. Constraints: • min: 1 • max: 1024 • pattern: arn:[a-z\d-]+:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+
     /// </summary>
     [CliOption("--stream-arn")]
     public string? StreamArn { get; set; }
@@ -77,5 +77,14 @@ public record AwsKinesisVideoArchivedMediaGetMediaForFragmentListOptions : AwsOp
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
     public string Outfile { get; private init; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

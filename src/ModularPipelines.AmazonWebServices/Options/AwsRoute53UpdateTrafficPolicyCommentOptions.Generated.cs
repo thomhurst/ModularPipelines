@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsRoute53UpdateTrafficPolicyCommentOptions : AwsOptions, IValidat
     /// <summary>
     /// Updates the comment for a specified traffic policy version. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The value of Id for the traffic policy that you want to update the comment for. Constraints: o min: 1 o max: 36</param>
-    /// <param name="Comment">The new comment for the specified traffic policy and version. Constraints: o max: 1024</param>
-    /// <param name="TrafficPolicyVersion">The value of Version for the traffic policy that you want to update the comment for. Constraints: o min: 1 o max: 1000</param>
+    /// <param name="Id">The value of Id for the traffic policy that you want to update the comment for. Constraints: • min: 1 • max: 36</param>
+    /// <param name="Comment">The new comment for the specified traffic policy and version. Constraints: • max: 1024</param>
+    /// <param name="TrafficPolicyVersion">The value of Version for the traffic policy that you want to update the comment for. Constraints: • min: 1 • max: 1000</param>
     public AwsRoute53UpdateTrafficPolicyCommentOptions(
         string Id,
         string Comment,
@@ -63,19 +64,19 @@ public record AwsRoute53UpdateTrafficPolicyCommentOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The value of Id for the traffic policy that you want to update the comment for. Constraints: o min: 1 o max: 36
+    /// The value of Id for the traffic policy that you want to update the comment for. Constraints: • min: 1 • max: 36
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The new comment for the specified traffic policy and version. Constraints: o max: 1024
+    /// The new comment for the specified traffic policy and version. Constraints: • max: 1024
     /// </summary>
     [CliOption("--comment")]
     public string? Comment { get; private init; }
 
     /// <summary>
-    /// The value of Version for the traffic policy that you want to update the comment for. Constraints: o min: 1 o max: 1000
+    /// The value of Version for the traffic policy that you want to update the comment for. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--traffic-policy-version")]
     public int? TrafficPolicyVersion { get; private init; }
@@ -101,6 +102,15 @@ public record AwsRoute53UpdateTrafficPolicyCommentOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,13 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Runs the stored query of an intermediate table and makes the results available for querying. Each call creates a new version. Use GetPro- tectedQuery with the returned analysis ID to track progress. Only the intermediate table owner can call this operation. See also: AWS API Documentation
+/// Runs the stored query of an intermediate table and makes the results available for querying. Each call creates a new version. Use GetProtectedQuery with the returned analysis ID to track progress. Only the intermediate table owner can call this operation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +26,10 @@ public record AwsCleanroomsPopulateIntermediateTableOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Runs the stored query of an intermediate table and makes the results available for querying. Each call creates a new version. Use GetPro- tectedQuery with the returned analysis ID to track progress. Only the intermediate table owner can call this operation. See also: AWS API Documentation
+    /// Runs the stored query of an intermediate table and makes the results available for querying. Each call creates a new version. Use GetProtectedQuery with the returned analysis ID to track progress. Only the intermediate table owner can call this operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="IntermediateTableIdentifier">The unique identifier of the intermediate table to populate. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
-    /// <param name="MembershipIdentifier">The unique identifier of the membership that contains the intermedi- ate table. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="IntermediateTableIdentifier">The unique identifier of the intermediate table to populate. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="MembershipIdentifier">The unique identifier of the membership that contains the intermediate table. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
     public AwsCleanroomsPopulateIntermediateTableOptions(
         string IntermediateTableIdentifier,
         string MembershipIdentifier
@@ -61,31 +61,31 @@ public record AwsCleanroomsPopulateIntermediateTableOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the intermediate table to populate. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The unique identifier of the intermediate table to populate. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--intermediate-table-identifier")]
     public string? IntermediateTableIdentifier { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the membership that contains the intermedi- ate table. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The unique identifier of the membership that contains the intermediate table. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--membership-identifier")]
     public string? MembershipIdentifier { get; private init; }
 
     /// <summary>
-    /// The runtime parameter values that override the defaults in the stored query. key -&gt; (string) Constraints: o min: 1 o max: 100 o pattern: [0-9a-zA-Z_]+ value -&gt; (string) Constraints: o min: 0 o max: 1000 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The runtime parameter values that override the defaults in the stored query. key -&gt; (string) Constraints: • min: 1 • max: 100 • pattern: [0-9a-zA-Z_]+ value -&gt; (string) Constraints: • min: 0 • max: 1000 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Parameters { get; set; }
 
     /// <summary>
-    /// The compute configuration for the population query execution. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: queryComputeConfiguration. queryComputeConfiguration -&gt; (structure) The configuration of the compute resources for workers running an analysis with the Clean Rooms SQL analytics engine. type -&gt; (string) The worker compute configuration type. Possible values: o CR.1X o CR.4X o CR.8X number -&gt; (integer) The number of workers. SQL queries support a minimum value of 2 and a maximum value of 400. PySpark jobs support a minimum value of 4 and a maximum value of 128. Constraints: o min: 2 o max: 1024 properties -&gt; (tagged union structure) The configuration properties for the worker compute environ- ment. These properties allow you to customize the compute settings for your Clean Rooms workloads. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: spark. spark -&gt; (map) The Spark configuration properties for SQL and PySpark workloads. This map contains key-value pairs that config- ure Apache Spark settings to optimize performance for your data processing jobs. You can specify up to 50 Spark properties, with each key being 1-200 characters and each value being 0-500 characters. These properties allow you to adjust compute capacity for large datasets and complex workloads. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 200 value -&gt; (string) Constraints: o min: 0 o max: 500 JSON Syntax: { "queryComputeConfiguration": { "type": "CR.1X"|"CR.4X"|"CR.8X", "number": integer, "properties": { "spark": {"string": "string" ...} } } }
+    /// The compute configuration for the population query execution. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: queryComputeConfiguration. queryComputeConfiguration -&gt; (structure) The configuration of the compute resources for workers running an analysis with the Clean Rooms SQL analytics engine. type -&gt; (string) The worker compute configuration type. Possible values: • CR.1X • CR.4X • CR.8X number -&gt; (integer) The number of workers. SQL queries support a minimum value of 2 and a maximum value of 400. PySpark jobs support a minimum value of 4 and a maximum value of 128. Constraints: • min: 2 • max: 1024 properties -&gt; (tagged union structure) The configuration properties for the worker compute environment. These properties allow you to customize the compute settings for your Clean Rooms workloads. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: spark. spark -&gt; (map) The Spark configuration properties for SQL and PySpark workloads. This map contains key-value pairs that configure Apache Spark settings to optimize performance for your data processing jobs. You can specify up to 50 Spark properties, with each key being 1-200 characters and each value being 0-500 characters. These properties allow you to adjust compute capacity for large datasets and complex workloads. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 200 value -&gt; (string) Constraints: • min: 0 • max: 500 JSON Syntax: { "queryComputeConfiguration": { "type": "CR.1X"|"CR.4X"|"CR.8X", "number": integer, "properties": { "spark": {"string": "string" ...} } } }
     /// </summary>
     [CliOption("--compute-configuration")]
     public string? ComputeConfiguration { get; set; }
 
     /// <summary>
-    /// The account ID of the member that pays for the analysis compute costs. Constraints: o min: 12 o max: 12 o pattern: \d+
+    /// The account ID of the member that pays for the analysis compute costs. Constraints: • min: 12 • max: 12 • pattern: \d+
     /// </summary>
     [CliOption("--analysis-payer-account-id")]
     public string? AnalysisPayerAccountId { get; set; }
@@ -111,6 +111,15 @@ public record AwsCleanroomsPopulateIntermediateTableOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

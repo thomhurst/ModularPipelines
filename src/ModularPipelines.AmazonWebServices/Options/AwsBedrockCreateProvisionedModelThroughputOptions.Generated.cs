@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates dedicated throughput for a base or custom model with the model units and for the duration that you specify. For pricing details, see Amazon Bedrock Pricing . For more information, see Provisioned Through- put in the Amazon Bedrock User Guide . See also: AWS API Documentation
+/// Creates dedicated throughput for a base or custom model with the model units and for the duration that you specify. For pricing details, see Amazon Bedrock Pricing . For more information, see Provisioned Throughput in the Amazon Bedrock User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +28,11 @@ public record AwsBedrockCreateProvisionedModelThroughputOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates dedicated throughput for a base or custom model with the model units and for the duration that you specify. For pricing details, see Amazon Bedrock Pricing . For more information, see Provisioned Through- put in the Amazon Bedrock User Guide . See also: AWS API Documentation
+    /// Creates dedicated throughput for a base or custom model with the model units and for the duration that you specify. For pricing details, see Amazon Bedrock Pricing . For more information, see Provisioned Throughput in the Amazon Bedrock User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ModelUnits">Number of model units to allocate. A model unit delivers a specific throughput level for the specified model. The throughput level of a model unit specifies the total number of input and output tokens that it can process and generate within a span of one minute. By de- fault, your account has no model units for purchasing Provisioned Throughputs with commitment. You must first visit the Amazon Web Services support center to request MUs. For model unit quotas, see Provisioned Throughput quotas in the Amazon Bedrock User Guide . For more information about what an MU specifies, contact your Amazon Web Services account manager. Constraints: o min: 1</param>
-    /// <param name="ProvisionedModelName">The name for this Provisioned Throughput. Constraints: o min: 1 o max: 63 o pattern: ([0-9a-zA-Z][_-]?)+</param>
-    /// <param name="ModelId">The Amazon Resource Name (ARN) or name of the model to associate with this Provisioned Throughput. For a list of models for which you can purchase Provisioned Throughput, see Amazon Bedrock model IDs for purchasing Provisioned Throughput in the Amazon Bedrock User Guide . Constraints: o min: 1 o max: 2048 o pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:cus- tom-model/((im- ported)|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}))(([:][a-z0-9-]{1,63}){0,2})?/[a-z0-9]{12})|(:foun- da- tion-model/([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2})))|(([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2}))|(([0-9a-zA-Z][_-]?)+)</param>
+    /// <param name="ModelUnits">Number of model units to allocate. A model unit delivers a specific throughput level for the specified model. The throughput level of a model unit specifies the total number of input and output tokens that it can process and generate within a span of one minute. By default, your account has no model units for purchasing Provisioned Throughputs with commitment. You must first visit the Amazon Web Services support center to request MUs. For model unit quotas, see Provisioned Throughput quotas in the Amazon Bedrock User Guide . For more information about what an MU specifies, contact your Amazon Web Services account manager. Constraints: • min: 1</param>
+    /// <param name="ProvisionedModelName">The name for this Provisioned Throughput. Constraints: • min: 1 • max: 63 • pattern: ([0-9a-zA-Z][_-]?)+</param>
+    /// <param name="ModelId">The Amazon Resource Name (ARN) or name of the model to associate with this Provisioned Throughput. For a list of models for which you can purchase Provisioned Throughput, see Amazon Bedrock model IDs for purchasing Provisioned Throughput in the Amazon Bedrock User Guide . Constraints: • min: 1 • max: 2048 • pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/((imported)|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}))(([:][a-z0-9-]{1,63}){0,2})?/[a-z0-9]{12})|(:foundation-model/([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2})))|(([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2}))|(([0-9a-zA-Z][_-]?)+)</param>
     public AwsBedrockCreateProvisionedModelThroughputOptions(
         int ModelUnits,
         string ProvisionedModelName,
@@ -65,38 +66,38 @@ public record AwsBedrockCreateProvisionedModelThroughputOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Number of model units to allocate. A model unit delivers a specific throughput level for the specified model. The throughput level of a model unit specifies the total number of input and output tokens that it can process and generate within a span of one minute. By de- fault, your account has no model units for purchasing Provisioned Throughputs with commitment. You must first visit the Amazon Web Services support center to request MUs. For model unit quotas, see Provisioned Throughput quotas in the Amazon Bedrock User Guide . For more information about what an MU specifies, contact your Amazon Web Services account manager. Constraints: o min: 1
+    /// Number of model units to allocate. A model unit delivers a specific throughput level for the specified model. The throughput level of a model unit specifies the total number of input and output tokens that it can process and generate within a span of one minute. By default, your account has no model units for purchasing Provisioned Throughputs with commitment. You must first visit the Amazon Web Services support center to request MUs. For model unit quotas, see Provisioned Throughput quotas in the Amazon Bedrock User Guide . For more information about what an MU specifies, contact your Amazon Web Services account manager. Constraints: • min: 1
     /// </summary>
     [CliOption("--model-units")]
     public int? ModelUnits { get; private init; }
 
     /// <summary>
-    /// The name for this Provisioned Throughput. Constraints: o min: 1 o max: 63 o pattern: ([0-9a-zA-Z][_-]?)+
+    /// The name for this Provisioned Throughput. Constraints: • min: 1 • max: 63 • pattern: ([0-9a-zA-Z][_-]?)+
     /// </summary>
     [CliOption("--provisioned-model-name")]
     public string? ProvisionedModelName { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) or name of the model to associate with this Provisioned Throughput. For a list of models for which you can purchase Provisioned Throughput, see Amazon Bedrock model IDs for purchasing Provisioned Throughput in the Amazon Bedrock User Guide . Constraints: o min: 1 o max: 2048 o pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:cus- tom-model/((im- ported)|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}))(([:][a-z0-9-]{1,63}){0,2})?/[a-z0-9]{12})|(:foun- da- tion-model/([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2})))|(([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2}))|(([0-9a-zA-Z][_-]?)+)
+    /// The Amazon Resource Name (ARN) or name of the model to associate with this Provisioned Throughput. For a list of models for which you can purchase Provisioned Throughput, see Amazon Bedrock model IDs for purchasing Provisioned Throughput in the Amazon Bedrock User Guide . Constraints: • min: 1 • max: 2048 • pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/((imported)|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}))(([:][a-z0-9-]{1,63}){0,2})?/[a-z0-9]{12})|(:foundation-model/([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2})))|(([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2}))|(([0-9a-zA-Z][_-]?)+)
     /// </summary>
     [CliOption("--model-id")]
     public string? ModelId { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency in the Amazon S3 User Guide. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9]([-a-zA-Z0-9]{0,254}[a-zA-Z0-9])?
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency in the Amazon S3 User Guide. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9]([-a-zA-Z0-9]{0,254}[a-zA-Z0-9])?
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
     /// <summary>
-    /// The commitment duration requested for the Provisioned Throughput. Billing occurs hourly and is discounted for longer commitment terms. To request a no-commit Provisioned Throughput, omit this field. Custom models support all levels of commitment. To see which base models support no commitment, see Supported regions and models for Provisioned Throughput in the Amazon Bedrock User Guide Possible values: o OneMonth o SixMonths
+    /// The commitment duration requested for the Provisioned Throughput. Billing occurs hourly and is discounted for longer commitment terms. To request a no-commit Provisioned Throughput, omit this field. Custom models support all levels of commitment. To see which base models support no commitment, see Supported regions and models for Provisioned Throughput in the Amazon Bedrock User Guide Possible values: • OneMonth • SixMonths
     /// </summary>
     [CliOption("--commitment-duration")]
     public AwsBedrockCreateProvisionedModelThroughputCommitmentDuration? CommitmentDuration { get; set; }
 
     /// <summary>
-    /// Tags to associate with this Provisioned Throughput. Constraints: o min: 0 o max: 200 (structure) Definition of the key/value pair for a tag. key -&gt; (string) [required] Key for the tag. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\s._:/=+@-]* value -&gt; (string) [required] Value for the tag. Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9\s._:/=+@-]* Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// Tags to associate with this Provisioned Throughput. Constraints: • min: 0 • max: 200 (structure) Definition of the key/value pair for a tag. key -&gt; (string) [required] Key for the tag. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9\s._:/=+@-]* value -&gt; (string) [required] Value for the tag. Constraints: • min: 0 • max: 256 • pattern: [a-zA-Z0-9\s._:/=+@-]* Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -122,6 +123,15 @@ public record AwsBedrockCreateProvisionedModelThroughputOptions : AwsOptions, IV
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a component build version. The request fails with ResourceDe- pendencyException if an image recipe or container recipe references this component version. It also fails if the component build version is shared with other accounts. See also: AWS API Documentation
+/// Deletes a component build version. The request fails with ResourceDependencyException if an image recipe or container recipe references this component version. It also fails if the component build version is shared with other accounts. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsImagebuilderDeleteComponentOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a component build version. The request fails with ResourceDe- pendencyException if an image recipe or container recipe references this component version. It also fails if the component build version is shared with other accounts. See also: AWS API Documentation
+    /// Deletes a component build version. The request fails with ResourceDependencyException if an image recipe or container recipe references this component version. It also fails if the component build version is shared with other accounts. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ComponentBuildVersionArn">The Amazon Resource Name (ARN) of the component build version to delete. Constraints: o pattern: ^arn:aws[^:]*:image- builder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?|third-party):compo- nent/[a-z0-9-_]+/[0-9]+\.[0-9]+\.[0-9]+/[0-9]+$</param>
+    /// <param name="ComponentBuildVersionArn">The Amazon Resource Name (ARN) of the component build version to delete. Constraints: • pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?|third-party):component/[a-z0-9-_]+/[0-9]+\.[0-9]+\.[0-9]+/[0-9]+$</param>
     public AwsImagebuilderDeleteComponentOptions(
         string ComponentBuildVersionArn
     )
@@ -56,7 +57,7 @@ public record AwsImagebuilderDeleteComponentOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the component build version to delete. Constraints: o pattern: ^arn:aws[^:]*:image- builder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?|third-party):compo- nent/[a-z0-9-_]+/[0-9]+\.[0-9]+\.[0-9]+/[0-9]+$
+    /// The Amazon Resource Name (ARN) of the component build version to delete. Constraints: • pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?|third-party):component/[a-z0-9-_]+/[0-9]+\.[0-9]+\.[0-9]+/[0-9]+$
     /// </summary>
     [CliOption("--component-build-version-arn")]
     public string? ComponentBuildVersionArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsImagebuilderDeleteComponentOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

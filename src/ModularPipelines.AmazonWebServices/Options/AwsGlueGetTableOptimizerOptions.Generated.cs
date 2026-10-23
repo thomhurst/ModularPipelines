@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,10 +29,10 @@ public record AwsGlueGetTableOptimizerOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Returns the configuration of all optimizers associated with a specified table. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CatalogId">The Catalog ID of the table. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
-    /// <param name="DatabaseName">The name of the database in the catalog in which the table resides. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
-    /// <param name="TableName">The name of the table. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
-    /// <param name="Type">The type of table optimizer. Possible values: o compaction o retention o orphan_file_deletion</param>
+    /// <param name="CatalogId">The Catalog ID of the table. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="DatabaseName">The name of the database in the catalog in which the table resides. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="TableName">The name of the table. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="Type">The type of table optimizer. Possible values: • compaction • retention • orphan_file_deletion</param>
     public AwsGlueGetTableOptimizerOptions(
         string CatalogId,
         string DatabaseName,
@@ -68,25 +69,25 @@ public record AwsGlueGetTableOptimizerOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Catalog ID of the table. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The Catalog ID of the table. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--catalog-id")]
     public string? CatalogId { get; private init; }
 
     /// <summary>
-    /// The name of the database in the catalog in which the table resides. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The name of the database in the catalog in which the table resides. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--database-name")]
     public string? DatabaseName { get; private init; }
 
     /// <summary>
-    /// The name of the table. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The name of the table. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--table-name")]
     public string? TableName { get; private init; }
 
     /// <summary>
-    /// The type of table optimizer. Possible values: o compaction o retention o orphan_file_deletion
+    /// The type of table optimizer. Possible values: • compaction • retention • orphan_file_deletion
     /// </summary>
     [CliOption("--type")]
     public AwsGlueGetTableOptimizerType? Type { get; private init; }
@@ -112,6 +113,15 @@ public record AwsGlueGetTableOptimizerOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

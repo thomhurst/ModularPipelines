@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets an asset property's current value. For more information, see Querying current values in the IoT SiteWise User Guide . To identify an asset property, you must specify one of the following: o The assetId and propertyId of an asset property. o A propertyAlias , which is a data stream alias (for example, /com- pany/windfarm/3/turbine/7/temperature ). To define an asset prop- erty's alias, see UpdateAssetProperty . See also: AWS API Documentation
+/// Gets an asset property's current value. For more information, see Querying current values in the IoT SiteWise User Guide . To identify an asset property, you must specify one of the following: • The assetId and propertyId of an asset property. • A propertyAlias , which is a data stream alias (for example, /company/windfarm/3/turbine/7/temperature ). To define an asset property's alias, see UpdateAssetProperty . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,19 +22,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsIotsitewiseGetAssetPropertyValueOptions : AwsOptions
 {
     /// <summary>
-    /// The ID of the asset, in UUID format. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+    /// The ID of the asset, in UUID format. Constraints: • min: 36 • max: 36 • pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
     /// </summary>
     [CliOption("--asset-id")]
     public string? AssetId { get; set; }
 
     /// <summary>
-    /// The ID of the asset property, in UUID format. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+    /// The ID of the asset property, in UUID format. Constraints: • min: 36 • max: 36 • pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
     /// </summary>
     [CliOption("--property-id")]
     public string? PropertyId { get; set; }
 
     /// <summary>
-    /// The alias that identifies the property, such as an OPC-UA server data stream path (for example, /company/windfarm/3/turbine/7/temper- ature ). For more information, see Mapping industrial data streams to asset properties in the IoT SiteWise User Guide . Constraints: o min: 1 o max: 2048 o pattern: [^\u0000-\u001F\u007F]+
+    /// The alias that identifies the property, such as an OPC-UA server data stream path (for example, /company/windfarm/3/turbine/7/temperature ). For more information, see Mapping industrial data streams to asset properties in the IoT SiteWise User Guide . Constraints: • min: 1 • max: 2048 • pattern: [^\u0000-\u001F\u007F]+
     /// </summary>
     [CliOption("--property-alias")]
     public string? PropertyAlias { get; set; }
@@ -44,5 +44,14 @@ public record AwsIotsitewiseGetAssetPropertyValueOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

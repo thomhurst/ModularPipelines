@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Get the import job properties to learn more about the job or job progress. NOTE: The jobStatus refers to the execution of the import job. Therefore, an import job can return a jobStatus as COMPLETED even if validation issues are discovered during the import process. If a jobStatus re- turns as COMPLETED , we still recommend you review the output mani- fests written to S3, as they provide details on the success or fail- ure of individual P10 object imports. See also: AWS API Documentation
+/// Get the import job properties to learn more about the job or job progress. NOTE: The jobStatus refers to the execution of the import job. Therefore, an import job can return a jobStatus as COMPLETED even if validation issues are discovered during the import process. If a jobStatus returns as COMPLETED , we still recommend you review the output manifests written to S3, as they provide details on the success or failure of individual P10 object imports. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsMedicalImagingGetDicomImportJobOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Get the import job properties to learn more about the job or job progress. NOTE: The jobStatus refers to the execution of the import job. Therefore, an import job can return a jobStatus as COMPLETED even if validation issues are discovered during the import process. If a jobStatus re- turns as COMPLETED , we still recommend you review the output mani- fests written to S3, as they provide details on the success or fail- ure of individual P10 object imports. See also: AWS API Documentation
+    /// Get the import job properties to learn more about the job or job progress. NOTE: The jobStatus refers to the execution of the import job. Therefore, an import job can return a jobStatus as COMPLETED even if validation issues are discovered during the import process. If a jobStatus returns as COMPLETED , we still recommend you review the output manifests written to S3, as they provide details on the success or failure of individual P10 object imports. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DatastoreId">The data store identifier. Constraints: o pattern: [0-9a-z]{32}</param>
-    /// <param name="JobId">The import job identifier. Constraints: o min: 1 o max: 32 o pattern: [0-9a-z]+</param>
+    /// <param name="DatastoreId">The data store identifier. Constraints: • pattern: [0-9a-z]{32}</param>
+    /// <param name="JobId">The import job identifier. Constraints: • min: 1 • max: 32 • pattern: [0-9a-z]+</param>
     public AwsMedicalImagingGetDicomImportJobOptions(
         string DatastoreId,
         string JobId
@@ -60,13 +61,13 @@ public record AwsMedicalImagingGetDicomImportJobOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The data store identifier. Constraints: o pattern: [0-9a-z]{32}
+    /// The data store identifier. Constraints: • pattern: [0-9a-z]{32}
     /// </summary>
     [CliOption("--datastore-id")]
     public string? DatastoreId { get; private init; }
 
     /// <summary>
-    /// The import job identifier. Constraints: o min: 1 o max: 32 o pattern: [0-9a-z]+
+    /// The import job identifier. Constraints: • min: 1 • max: 32 • pattern: [0-9a-z]+
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsMedicalImagingGetDicomImportJobOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

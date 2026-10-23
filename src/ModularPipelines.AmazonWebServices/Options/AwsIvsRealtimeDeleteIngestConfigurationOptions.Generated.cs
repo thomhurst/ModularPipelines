@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsIvsRealtimeDeleteIngestConfigurationOptions : AwsOptions, IVali
     /// <summary>
     /// Deletes a specified IngestConfiguration, so it can no longer be used to broadcast. An IngestConfiguration cannot be deleted if the publisher is actively streaming to a stage, unless force is set to true . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">ARN of the IngestConfiguration. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:ingest-configura- tion/[a-zA-Z0-9-]+</param>
+    /// <param name="Arn">ARN of the IngestConfiguration. Constraints: • min: 1 • max: 128 • pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:ingest-configuration/[a-zA-Z0-9-]+</param>
     public AwsIvsRealtimeDeleteIngestConfigurationOptions(
         string Arn
     )
@@ -56,13 +57,13 @@ public record AwsIvsRealtimeDeleteIngestConfigurationOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ARN of the IngestConfiguration. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:ingest-configura- tion/[a-zA-Z0-9-]+
+    /// ARN of the IngestConfiguration. Constraints: • min: 1 • max: 128 • pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:ingest-configuration/[a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// Optional field to force deletion of the IngestConfiguration. If this is set to true when a participant is actively publishing, the par- ticipant is disconnected from the stage, followed by deletion of the IngestConfiguration. Default: false .
+    /// Optional field to force deletion of the IngestConfiguration. If this is set to true when a participant is actively publishing, the participant is disconnected from the stage, followed by deletion of the IngestConfiguration. Default: false .
     /// </summary>
     [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }
@@ -88,6 +89,15 @@ public record AwsIvsRealtimeDeleteIngestConfigurationOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

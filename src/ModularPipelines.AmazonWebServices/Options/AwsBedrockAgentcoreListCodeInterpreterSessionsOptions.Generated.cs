@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves a list of code interpreter sessions in Amazon Bedrock Agent- Core that match the specified criteria. This operation returns summary information about each session, including identifiers, status, and timestamps. You can filter the results by code interpreter identifier and session status. The operation supports pagination to handle large result sets efficiently. We recommend using pagination to ensure that the operation returns quickly and successfully when retrieving large numbers of s...
+/// Retrieves a list of code interpreter sessions in Amazon Bedrock AgentCore that match the specified criteria. This operation returns summary information about each session, including identifiers, status, and timestamps. You can filter the results by code interpreter identifier and session status. The operation supports pagination to handle large result sets efficiently. We recommend using pagination to ensure that the operation returns quickly and successfully when retrieving large numbers of ses...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,7 +28,7 @@ public record AwsBedrockAgentcoreListCodeInterpreterSessionsOptions : AwsOptions
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves a list of code interpreter sessions in Amazon Bedrock Agent- Core that match the specified criteria. This operation returns summary information about each session, including identifiers, status, and timestamps. You can filter the results by code interpreter identifier and session status. The operation supports pagination to handle large result sets efficiently. We recommend using pagination to ensure that the operation returns quickly and successfully when retrieving large numbers of s...
+    /// Retrieves a list of code interpreter sessions in Amazon Bedrock AgentCore that match the specified criteria. This operation returns summary information about each session, including identifiers, status, and timestamps. You can filter the results by code interpreter identifier and session status. The operation supports pagination to handle large result sets efficiently. We recommend using pagination to ensure that the operation returns quickly and successfully when retrieving large numbers of ses...
     /// </summary>
     /// <param name="CodeInterpreterIdentifier">The unique identifier of the code interpreter to list sessions for. If specified, only sessions for this code interpreter are returned. If not specified, sessions for all code interpreters are returned.</param>
     public AwsBedrockAgentcoreListCodeInterpreterSessionsOptions(
@@ -64,20 +65,20 @@ public record AwsBedrockAgentcoreListCodeInterpreterSessionsOptions : AwsOptions
     public string? CodeInterpreterIdentifier { get; private init; }
 
     /// <summary>
-    /// The maximum number of results to return in a single call. The de- fault value is 10. Valid values range from 1 to 100. To retrieve the remaining results, make another call with the returned nextToken value. Constraints: o min: 1 o max: 100
+    /// The maximum number of results to return in a single call. The default value is 10. Valid values range from 1 to 100. To retrieve the remaining results, make another call with the returned nextToken value. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. If not specified, Amazon Bedrock AgentCore returns the first page of results. Constraints: o min: 1 o max: 2048 o pattern: \S*
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. If not specified, Amazon Bedrock AgentCore returns the first page of results. Constraints: • min: 1 • max: 2048 • pattern: \S*
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The status of the code interpreter sessions to list. Valid values include ACTIVE, STOPPING, and STOPPED. If not specified, sessions with any status are returned. Possible values: o READY o TERMINATED
+    /// The status of the code interpreter sessions to list. Valid values include ACTIVE, STOPPING, and STOPPED. If not specified, sessions with any status are returned. Possible values: • READY • TERMINATED
     /// </summary>
     [CliOption("--status")]
     public AwsBedrockAgentcoreListCodeInterpreterSessionsStatus? Status { get; set; }
@@ -103,6 +104,15 @@ public record AwsBedrockAgentcoreListCodeInterpreterSessionsOptions : AwsOptions
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the most closely associated package group to the specified package. This API does not require that the package exist in any repos- itory in the domain. As such, GetAssociatedPackageGroup can be used to see which package group's origin configuration applies to a package be- fore that package is in a repository. This can be helpful to check if public packages are blocked without ingesting them. For information package group association and matching, see Package group definition syntax and ...
+/// Returns the most closely associated package group to the specified package. This API does not require that the package exist in any repository in the domain. As such, GetAssociatedPackageGroup can be used to see which package group's origin configuration applies to a package before that package is in a repository. This can be helpful to check if public packages are blocked without ingesting them. For information package group association and matching, see Package group definition syntax and matc...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsCodeartifactGetAssociatedPackageGroupOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the most closely associated package group to the specified package. This API does not require that the package exist in any repos- itory in the domain. As such, GetAssociatedPackageGroup can be used to see which package group's origin configuration applies to a package be- fore that package is in a repository. This can be helpful to check if public packages are blocked without ingesting them. For information package group association and matching, see Package group definition syntax and ...
+    /// Returns the most closely associated package group to the specified package. This API does not require that the package exist in any repository in the domain. As such, GetAssociatedPackageGroup can be used to see which package group's origin configuration applies to a package before that package is in a repository. This can be helpful to check if public packages are blocked without ingesting them. For information package group association and matching, see Package group definition syntax and matc...
     /// </summary>
-    /// <param name="Domain">The name of the domain that contains the package from which to get the associated package group. Constraints: o min: 2 o max: 50 o pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]</param>
-    /// <param name="Format">The format of the package from which to get the associated package group. Possible values: o npm o pypi o maven o nuget o generic o ruby o swift o cargo</param>
-    /// <param name="Package">The package from which to get the associated package group. Constraints: o min: 1 o max: 255 o pattern: [^#/\s]+</param>
+    /// <param name="Domain">The name of the domain that contains the package from which to get the associated package group. Constraints: • min: 2 • max: 50 • pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]</param>
+    /// <param name="Format">The format of the package from which to get the associated package group. Possible values: • npm • pypi • maven • nuget • generic • ruby • swift • cargo</param>
+    /// <param name="Package">The package from which to get the associated package group. Constraints: • min: 1 • max: 255 • pattern: [^#/\s]+</param>
     public AwsCodeartifactGetAssociatedPackageGroupOptions(
         string Domain,
         AwsCodeartifactGetAssociatedPackageGroupFormat Format,
@@ -64,31 +65,31 @@ public record AwsCodeartifactGetAssociatedPackageGroupOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the domain that contains the package from which to get the associated package group. Constraints: o min: 2 o max: 50 o pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]
+    /// The name of the domain that contains the package from which to get the associated package group. Constraints: • min: 2 • max: 50 • pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]
     /// </summary>
     [CliOption("--domain")]
     public string? Domain { get; private init; }
 
     /// <summary>
-    /// The format of the package from which to get the associated package group. Possible values: o npm o pypi o maven o nuget o generic o ruby o swift o cargo
+    /// The format of the package from which to get the associated package group. Possible values: • npm • pypi • maven • nuget • generic • ruby • swift • cargo
     /// </summary>
     [CliOption("--format")]
     public AwsCodeartifactGetAssociatedPackageGroupFormat? Format { get; private init; }
 
     /// <summary>
-    /// The package from which to get the associated package group. Constraints: o min: 1 o max: 255 o pattern: [^#/\s]+
+    /// The package from which to get the associated package group. Constraints: • min: 1 • max: 255 • pattern: [^#/\s]+
     /// </summary>
     [CliOption("--package")]
     public string? Package { get; private init; }
 
     /// <summary>
-    /// The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include dashes or spaces. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12}
+    /// The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include dashes or spaces. Constraints: • min: 12 • max: 12 • pattern: [0-9]{12}
     /// </summary>
     [CliOption("--domain-owner")]
     public string? DomainOwner { get; set; }
 
     /// <summary>
-    /// The namespace of the package from which to get the associated pack- age group. The package component that specifies its namespace de- pends on its type. For example: NOTE: The namespace is required when getting associated package groups from packages of the following formats: o Maven o Swift o generic o The namespace of a Maven package version is its groupId . o The namespace of an npm or Swift package version is its scope . o The namespace of a generic package is its namespace . o Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding component, package versions of those formats do not have a namespace. Constraints: o min: 1 o max: 255 o pattern: [^#/\s]+
+    /// The namespace of the package from which to get the associated package group. The package component that specifies its namespace depends on its type. For example: NOTE: The namespace is required when getting associated package groups from packages of the following formats: • Maven • Swift • generic • The namespace of a Maven package version is its groupId . • The namespace of an npm or Swift package version is its scope . • The namespace of a generic package is its namespace . • Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding component, package versions of those formats do not have a namespace. Constraints: • min: 1 • max: 255 • pattern: [^#/\s]+
     /// </summary>
     [CliOption("--namespace")]
     public string? Namespace { get; set; }
@@ -114,6 +115,15 @@ public record AwsCodeartifactGetAssociatedPackageGroupOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

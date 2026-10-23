@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of available endpoints to make Timestream API calls against. This API operation is available through both the Write and Query APIs. Because the Timestream SDKs are designed to transparently work with the services architecture, including the management and mapping of the ser- vice endpoints, we don't recommend that you use this API operation un- less : o You are using VPC endpoints (Amazon Web Services PrivateLink) with Timestream o Your application uses a programming language that...
+/// Returns a list of available endpoints to make Timestream API calls against. This API operation is available through both the Write and Query APIs. Because the Timestream SDKs are designed to transparently work with the services architecture, including the management and mapping of the service endpoints, we don't recommend that you use this API operation unless : • You are using VPC endpoints (Amazon Web Services PrivateLink) with Timestream • Your application uses a programming language that doe...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,5 +26,14 @@ public record AwsTimestreamWriteDescribeEndpointsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

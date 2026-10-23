@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsConfigserviceDescribeRemediationConfigurationsOptions : AwsOpti
     /// <summary>
     /// Returns the details of one or more remediation configurations. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConfigRuleNames">A list of Config rule names of remediation configurations for which you want details. Constraints: o min: 0 o max: 25 (string) Constraints: o min: 1 o max: 128 o pattern: .*\S.* Syntax: "string" "string" ...</param>
+    /// <param name="ConfigRuleNames">A list of Config rule names of remediation configurations for which you want details. Constraints: • min: 0 • max: 25 (string) Constraints: • min: 1 • max: 128 • pattern: .*\S.* Syntax: "string" "string" ...</param>
     public AwsConfigserviceDescribeRemediationConfigurationsOptions(
         IEnumerable<string> ConfigRuleNames
     )
@@ -67,7 +68,7 @@ public record AwsConfigserviceDescribeRemediationConfigurationsOptions : AwsOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A list of Config rule names of remediation configurations for which you want details. Constraints: o min: 0 o max: 25 (string) Constraints: o min: 1 o max: 128 o pattern: .*\S.* Syntax: "string" "string" ...
+    /// A list of Config rule names of remediation configurations for which you want details. Constraints: • min: 0 • max: 25 (string) Constraints: • min: 1 • max: 128 • pattern: .*\S.* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--config-rule-names", GroupValues = true)]
     public IEnumerable<string>? ConfigRuleNames { get; private init; }
@@ -93,6 +94,15 @@ public record AwsConfigserviceDescribeRemediationConfigurationsOptions : AwsOpti
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

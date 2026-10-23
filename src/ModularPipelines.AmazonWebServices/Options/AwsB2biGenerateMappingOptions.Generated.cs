@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Takes sample input and output documents and uses Amazon Bedrock to gen- erate a mapping automatically. Depending on the accuracy and other fac- tors, you can then edit the mapping for your needs. NOTE: Before you can use the AI-assisted feature for Amazon Web Services B2B Data Interchange you must enable models in Amazon Bedrock. For details, see AI-assisted template mapping prerequisites in the Ama- zon Web Services B2B Data Interchange User guide . To generate a mapping, perform the following ...
+/// Takes sample input and output documents and uses Amazon Bedrock to generate a mapping automatically. Depending on the accuracy and other factors, you can then edit the mapping for your needs. NOTE: Before you can use the AI-assisted feature for Amazon Web Services B2B Data Interchange you must enable models in Amazon Bedrock. For details, see AI-assisted template mapping prerequisites in the Amazon Web Services B2B Data Interchange User guide . To generate a mapping, perform the following steps:...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsB2biGenerateMappingOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Takes sample input and output documents and uses Amazon Bedrock to gen- erate a mapping automatically. Depending on the accuracy and other fac- tors, you can then edit the mapping for your needs. NOTE: Before you can use the AI-assisted feature for Amazon Web Services B2B Data Interchange you must enable models in Amazon Bedrock. For details, see AI-assisted template mapping prerequisites in the Ama- zon Web Services B2B Data Interchange User guide . To generate a mapping, perform the following ...
+    /// Takes sample input and output documents and uses Amazon Bedrock to generate a mapping automatically. Depending on the accuracy and other factors, you can then edit the mapping for your needs. NOTE: Before you can use the AI-assisted feature for Amazon Web Services B2B Data Interchange you must enable models in Amazon Bedrock. For details, see AI-assisted template mapping prerequisites in the Amazon Web Services B2B Data Interchange User guide . To generate a mapping, perform the following steps:...
     /// </summary>
-    /// <param name="InputFileContent">Provide the contents of a sample X12 EDI file, either in JSON or XML format, to use as a starting point for the mapping. Constraints: o min: 0 o max: 5000000</param>
-    /// <param name="OutputFileContent">Provide the contents of a sample X12 EDI file, either in JSON or XML format, to use as a target for the mapping. Constraints: o min: 0 o max: 5000000</param>
-    /// <param name="MappingType">Specify the mapping type: either JSONATA or XSLT. Possible values: o JSONATA o XSLT</param>
+    /// <param name="InputFileContent">Provide the contents of a sample X12 EDI file, either in JSON or XML format, to use as a starting point for the mapping. Constraints: • min: 0 • max: 5000000</param>
+    /// <param name="OutputFileContent">Provide the contents of a sample X12 EDI file, either in JSON or XML format, to use as a target for the mapping. Constraints: • min: 0 • max: 5000000</param>
+    /// <param name="MappingType">Specify the mapping type: either JSONATA or XSLT. Possible values: • JSONATA • XSLT</param>
     public AwsB2biGenerateMappingOptions(
         string InputFileContent,
         string OutputFileContent,
@@ -64,19 +65,19 @@ public record AwsB2biGenerateMappingOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Provide the contents of a sample X12 EDI file, either in JSON or XML format, to use as a starting point for the mapping. Constraints: o min: 0 o max: 5000000
+    /// Provide the contents of a sample X12 EDI file, either in JSON or XML format, to use as a starting point for the mapping. Constraints: • min: 0 • max: 5000000
     /// </summary>
     [CliOption("--input-file-content")]
     public string? InputFileContent { get; private init; }
 
     /// <summary>
-    /// Provide the contents of a sample X12 EDI file, either in JSON or XML format, to use as a target for the mapping. Constraints: o min: 0 o max: 5000000
+    /// Provide the contents of a sample X12 EDI file, either in JSON or XML format, to use as a target for the mapping. Constraints: • min: 0 • max: 5000000
     /// </summary>
     [CliOption("--output-file-content")]
     public string? OutputFileContent { get; private init; }
 
     /// <summary>
-    /// Specify the mapping type: either JSONATA or XSLT. Possible values: o JSONATA o XSLT
+    /// Specify the mapping type: either JSONATA or XSLT. Possible values: • JSONATA • XSLT
     /// </summary>
     [CliOption("--mapping-type")]
     public AwsB2biGenerateMappingMappingType? MappingType { get; private init; }
@@ -102,6 +103,15 @@ public record AwsB2biGenerateMappingOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

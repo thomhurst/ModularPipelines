@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsMgnDeleteLaunchConfigurationTemplateOptions : AwsOptions, IVali
     /// <summary>
     /// Deletes a single Launch Configuration Template by ID. See also: AWS API Documentation
     /// </summary>
-    /// <param name="LaunchConfigurationTemplateId">ID of resource to be deleted. Constraints: o min: 21 o max: 21 o pattern: lct-[0-9a-zA-Z]{17}</param>
+    /// <param name="LaunchConfigurationTemplateId">ID of resource to be deleted. Constraints: • min: 21 • max: 21 • pattern: lct-[0-9a-zA-Z]{17}</param>
     public AwsMgnDeleteLaunchConfigurationTemplateOptions(
         string LaunchConfigurationTemplateId
     )
@@ -56,7 +57,7 @@ public record AwsMgnDeleteLaunchConfigurationTemplateOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ID of resource to be deleted. Constraints: o min: 21 o max: 21 o pattern: lct-[0-9a-zA-Z]{17}
+    /// ID of resource to be deleted. Constraints: • min: 21 • max: 21 • pattern: lct-[0-9a-zA-Z]{17}
     /// </summary>
     [CliOption("--launch-configuration-template-id")]
     public string? LaunchConfigurationTemplateId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsMgnDeleteLaunchConfigurationTemplateOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

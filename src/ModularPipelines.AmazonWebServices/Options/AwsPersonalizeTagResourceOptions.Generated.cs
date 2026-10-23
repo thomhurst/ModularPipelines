@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsPersonalizeTagResourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Add a list of tags to a resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The resource's Amazon Resource Name (ARN). Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
-    /// <param name="Tags">Tags to apply to the resource. For more information see Tagging Ama- zon Personalize resources . Constraints: o min: 0 o max: 200 (structure) The optional metadata that you apply to resources to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. For more information see Tagging Amazon Personalize resources . tagKey -&gt; (string) [required] One part of a key-value pair that makes up a tag. A key is a general label that acts like a category for more specific tag values. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ tagValue -&gt; (string) [required] The optional part of a key-value pair that makes up a tag. A value acts as a descriptor within a tag category (key). Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: tagKey=string,tagValue=string ... JSON Syntax: [ { "tagKey": "string", "tagValue": "string" } ... ]</param>
+    /// <param name="ResourceArn">The resource's Amazon Resource Name (ARN). Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
+    /// <param name="Tags">Tags to apply to the resource. For more information see Tagging Amazon Personalize resources . Constraints: • min: 0 • max: 200 (structure) The optional metadata that you apply to resources to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. For more information see Tagging Amazon Personalize resources . tagKey -&gt; (string) [required] One part of a key-value pair that makes up a tag. A key is a general label that acts like a category for more specific tag values. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ tagValue -&gt; (string) [required] The optional part of a key-value pair that makes up a tag. A value acts as a descriptor within a tag category (key). Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: tagKey=string,tagValue=string ... JSON Syntax: [ { "tagKey": "string", "tagValue": "string" } ... ]</param>
     public AwsPersonalizeTagResourceOptions(
         string ResourceArn,
         IEnumerable<string> Tags
@@ -71,13 +72,13 @@ public record AwsPersonalizeTagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The resource's Amazon Resource Name (ARN). Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
+    /// The resource's Amazon Resource Name (ARN). Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// Tags to apply to the resource. For more information see Tagging Ama- zon Personalize resources . Constraints: o min: 0 o max: 200 (structure) The optional metadata that you apply to resources to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. For more information see Tagging Amazon Personalize resources . tagKey -&gt; (string) [required] One part of a key-value pair that makes up a tag. A key is a general label that acts like a category for more specific tag values. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ tagValue -&gt; (string) [required] The optional part of a key-value pair that makes up a tag. A value acts as a descriptor within a tag category (key). Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: tagKey=string,tagValue=string ... JSON Syntax: [ { "tagKey": "string", "tagValue": "string" } ... ]
+    /// Tags to apply to the resource. For more information see Tagging Amazon Personalize resources . Constraints: • min: 0 • max: 200 (structure) The optional metadata that you apply to resources to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. For more information see Tagging Amazon Personalize resources . tagKey -&gt; (string) [required] One part of a key-value pair that makes up a tag. A key is a general label that acts like a category for more specific tag values. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ tagValue -&gt; (string) [required] The optional part of a key-value pair that makes up a tag. A value acts as a descriptor within a tag category (key). Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: tagKey=string,tagValue=string ... JSON Syntax: [ { "tagKey": "string", "tagValue": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; private init; }
@@ -103,6 +104,15 @@ public record AwsPersonalizeTagResourceOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

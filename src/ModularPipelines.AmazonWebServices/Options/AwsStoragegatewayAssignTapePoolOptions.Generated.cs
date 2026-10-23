@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Assigns a tape to a tape pool for archiving. The tape assigned to a pool is archived in the S3 storage class that is associated with the pool. When you use your backup application to eject the tape, the tape is archived directly into the S3 storage class (S3 Glacier or S3 Glac- ier Deep Archive) that corresponds to the pool. See also: AWS API Documentation
+/// Assigns a tape to a tape pool for archiving. The tape assigned to a pool is archived in the S3 storage class that is associated with the pool. When you use your backup application to eject the tape, the tape is archived directly into the S3 storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to the pool. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsStoragegatewayAssignTapePoolOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Assigns a tape to a tape pool for archiving. The tape assigned to a pool is archived in the S3 storage class that is associated with the pool. When you use your backup application to eject the tape, the tape is archived directly into the S3 storage class (S3 Glacier or S3 Glac- ier Deep Archive) that corresponds to the pool. See also: AWS API Documentation
+    /// Assigns a tape to a tape pool for archiving. The tape assigned to a pool is archived in the S3 storage class that is associated with the pool. When you use your backup application to eject the tape, the tape is archived directly into the S3 storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to the pool. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TapeArn">The unique Amazon Resource Name (ARN) of the virtual tape that you want to add to the tape pool. Constraints: o min: 50 o max: 500 o pattern: arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):storage- gateway:[a-z\-0-9]+:[0-9]+:tape\/[0-9A-Z]{5,16}$</param>
-    /// <param name="PoolId">The ID of the pool that you want to add your tape to for archiving. The tape in this pool is archived in the S3 storage class that is associated with the pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to the pool. Constraints: o min: 1 o max: 100</param>
+    /// <param name="TapeArn">The unique Amazon Resource Name (ARN) of the virtual tape that you want to add to the tape pool. Constraints: • min: 50 • max: 500 • pattern: arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):storagegateway:[a-z\-0-9]+:[0-9]+:tape\/[0-9A-Z]{5,16}$</param>
+    /// <param name="PoolId">The ID of the pool that you want to add your tape to for archiving. The tape in this pool is archived in the S3 storage class that is associated with the pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to the pool. Constraints: • min: 1 • max: 100</param>
     public AwsStoragegatewayAssignTapePoolOptions(
         string TapeArn,
         string PoolId
@@ -60,13 +61,13 @@ public record AwsStoragegatewayAssignTapePoolOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique Amazon Resource Name (ARN) of the virtual tape that you want to add to the tape pool. Constraints: o min: 50 o max: 500 o pattern: arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):storage- gateway:[a-z\-0-9]+:[0-9]+:tape\/[0-9A-Z]{5,16}$
+    /// The unique Amazon Resource Name (ARN) of the virtual tape that you want to add to the tape pool. Constraints: • min: 50 • max: 500 • pattern: arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):storagegateway:[a-z\-0-9]+:[0-9]+:tape\/[0-9A-Z]{5,16}$
     /// </summary>
     [CliOption("--tape-arn")]
     public string? TapeArn { get; private init; }
 
     /// <summary>
-    /// The ID of the pool that you want to add your tape to for archiving. The tape in this pool is archived in the S3 storage class that is associated with the pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to the pool. Constraints: o min: 1 o max: 100
+    /// The ID of the pool that you want to add your tape to for archiving. The tape in this pool is archived in the S3 storage class that is associated with the pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to the pool. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--pool-id")]
     public string? PoolId { get; private init; }
@@ -98,6 +99,15 @@ public record AwsStoragegatewayAssignTapePoolOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

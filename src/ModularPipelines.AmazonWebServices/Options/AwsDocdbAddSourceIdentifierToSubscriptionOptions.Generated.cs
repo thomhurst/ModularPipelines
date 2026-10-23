@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Adds a source identifier to an existing event notification subscrip- tion. See also: AWS API Documentation
+/// Adds a source identifier to an existing event notification subscription. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsDocdbAddSourceIdentifierToSubscriptionOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Adds a source identifier to an existing event notification subscrip- tion. See also: AWS API Documentation
+    /// Adds a source identifier to an existing event notification subscription. See also: AWS API Documentation
     /// </summary>
     /// <param name="SubscriptionName">The name of the Amazon DocumentDB event notification subscription that you want to add a source identifier to.</param>
-    /// <param name="SourceIdentifier">The identifier of the event source to be added: o If the source type is an instance, a DBInstanceIdentifier must be provided. o If the source type is a security group, a DBSecurityGroupName must be provided. o If the source type is a parameter group, a DBParameterGroupName must be provided. o If the source type is a snapshot, a DBSnapshotIdentifier must be provided.</param>
+    /// <param name="SourceIdentifier">The identifier of the event source to be added: • If the source type is an instance, a DBInstanceIdentifier must be provided. • If the source type is a security group, a DBSecurityGroupName must be provided. • If the source type is a parameter group, a DBParameterGroupName must be provided. • If the source type is a snapshot, a DBSnapshotIdentifier must be provided.</param>
     public AwsDocdbAddSourceIdentifierToSubscriptionOptions(
         string SubscriptionName,
         string SourceIdentifier
@@ -66,7 +67,7 @@ public record AwsDocdbAddSourceIdentifierToSubscriptionOptions : AwsOptions, IVa
     public string? SubscriptionName { get; private init; }
 
     /// <summary>
-    /// The identifier of the event source to be added: o If the source type is an instance, a DBInstanceIdentifier must be provided. o If the source type is a security group, a DBSecurityGroupName must be provided. o If the source type is a parameter group, a DBParameterGroupName must be provided. o If the source type is a snapshot, a DBSnapshotIdentifier must be provided.
+    /// The identifier of the event source to be added: • If the source type is an instance, a DBInstanceIdentifier must be provided. • If the source type is a security group, a DBSecurityGroupName must be provided. • If the source type is a parameter group, a DBParameterGroupName must be provided. • If the source type is a snapshot, a DBSnapshotIdentifier must be provided.
     /// </summary>
     [CliOption("--source-identifier")]
     public string? SourceIdentifier { get; private init; }
@@ -92,6 +93,15 @@ public record AwsDocdbAddSourceIdentifierToSubscriptionOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

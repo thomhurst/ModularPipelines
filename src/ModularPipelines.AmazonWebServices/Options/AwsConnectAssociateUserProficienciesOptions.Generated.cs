@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsConnectAssociateUserProficienciesOptions : AwsOptions, IValidat
     /// <summary>
     /// Associates a set of proficiencies with a user. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN of the instance). Constraints: o min: 1 o max: 100</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN of the instance). Constraints: • min: 1 • max: 100</param>
     /// <param name="UserId">The identifier of the user account.</param>
-    /// <param name="UserProficiencies">The proficiencies to associate with the user. (structure) Information about proficiency of a user. AttributeName -&gt; (string) [required] The name of user's proficiency. You must use name of prede- fined attribute present in the Connect Customer instance. Constraints: o min: 1 o max: 100 AttributeValue -&gt; (string) [required] The value of user's proficiency. You must use value of prede- fined attribute present in the Connect Customer instance. Constraints: o min: 1 o max: 100 Level -&gt; (float) [required] The level of the proficiency. The valid values are 1, 2, 3, 4 and 5. Constraints: o min: 1.0 o max: 5.0 Shorthand Syntax: AttributeName=string,AttributeValue=string,Level=float ... JSON Syntax: [ { "AttributeName": "string", "AttributeValue": "string", "Level": float } ... ]</param>
+    /// <param name="UserProficiencies">The proficiencies to associate with the user. (structure) Information about proficiency of a user. AttributeName -&gt; (string) [required] The name of user's proficiency. You must use name of predefined attribute present in the Connect Customer instance. Constraints: • min: 1 • max: 100 AttributeValue -&gt; (string) [required] The value of user's proficiency. You must use value of predefined attribute present in the Connect Customer instance. Constraints: • min: 1 • max: 100 Level -&gt; (float) [required] The level of the proficiency. The valid values are 1, 2, 3, 4 and 5. Constraints: • min: 1.0 • max: 5.0 Shorthand Syntax: AttributeName=string,AttributeValue=string,Level=float ... JSON Syntax: [ { "AttributeName": "string", "AttributeValue": "string", "Level": float } ... ]</param>
     public AwsConnectAssociateUserProficienciesOptions(
         string InstanceId,
         string UserId,
@@ -75,7 +76,7 @@ public record AwsConnectAssociateUserProficienciesOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN of the instance). Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN of the instance). Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
@@ -87,7 +88,7 @@ public record AwsConnectAssociateUserProficienciesOptions : AwsOptions, IValidat
     public string? UserId { get; private init; }
 
     /// <summary>
-    /// The proficiencies to associate with the user. (structure) Information about proficiency of a user. AttributeName -&gt; (string) [required] The name of user's proficiency. You must use name of prede- fined attribute present in the Connect Customer instance. Constraints: o min: 1 o max: 100 AttributeValue -&gt; (string) [required] The value of user's proficiency. You must use value of prede- fined attribute present in the Connect Customer instance. Constraints: o min: 1 o max: 100 Level -&gt; (float) [required] The level of the proficiency. The valid values are 1, 2, 3, 4 and 5. Constraints: o min: 1.0 o max: 5.0 Shorthand Syntax: AttributeName=string,AttributeValue=string,Level=float ... JSON Syntax: [ { "AttributeName": "string", "AttributeValue": "string", "Level": float } ... ]
+    /// The proficiencies to associate with the user. (structure) Information about proficiency of a user. AttributeName -&gt; (string) [required] The name of user's proficiency. You must use name of predefined attribute present in the Connect Customer instance. Constraints: • min: 1 • max: 100 AttributeValue -&gt; (string) [required] The value of user's proficiency. You must use value of predefined attribute present in the Connect Customer instance. Constraints: • min: 1 • max: 100 Level -&gt; (float) [required] The level of the proficiency. The valid values are 1, 2, 3, 4 and 5. Constraints: • min: 1.0 • max: 5.0 Shorthand Syntax: AttributeName=string,AttributeValue=string,Level=float ... JSON Syntax: [ { "AttributeName": "string", "AttributeValue": "string", "Level": float } ... ]
     /// </summary>
     [CliOption("--user-proficiencies", GroupValues = true)]
     public IEnumerable<string>? UserProficiencies { get; private init; }
@@ -113,6 +114,15 @@ public record AwsConnectAssociateUserProficienciesOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

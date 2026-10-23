@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsDatabrewSendProjectSessionActionOptions : AwsOptions, IValidata
     /// <summary>
     /// Performs a recipe step within an interactive DataBrew session that's currently open. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the project to apply the action to. Constraints: o min: 1 o max: 255</param>
+    /// <param name="Name">The name of the project to apply the action to. Constraints: • min: 1 • max: 255</param>
     public AwsDatabrewSendProjectSessionActionOptions(
         string Name
     )
@@ -56,37 +57,37 @@ public record AwsDatabrewSendProjectSessionActionOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the project to apply the action to. Constraints: o min: 1 o max: 255
+    /// The name of the project to apply the action to. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// If true, the result of the recipe step will be returned, but not ap- plied.
+    /// If true, the result of the recipe step will be returned, but not applied.
     /// </summary>
     [CliFlag("--preview", NegatedName = "--no-preview")]
     public bool? Preview { get; set; }
 
     /// <summary>
-    /// Represents a single step from a DataBrew recipe to be performed. Action -&gt; (structure) [required] The particular action to be performed in the recipe step. Operation -&gt; (string) [required] The name of a valid DataBrew transformation to be performed on the data. Constraints: o min: 1 o max: 128 o pattern: ^[A-Z\_]+$ Parameters -&gt; (map) Contextual parameters for the transformation. key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^[A-Za-z0-9]+$ value -&gt; (string) Constraints: o min: 1 o max: 32768 ConditionExpressions -&gt; (list) One or more conditions that must be met for the recipe step to succeed. NOTE: All of the conditions in the array must be met. In other words, all of the conditions must be combined using a logical AND operation. (structure) Represents an individual condition that evaluates to true or false. Conditions are used with recipe actions. The action is only performed for column values where the condition evaluates to true. If a recipe requires more than one condition, then the recipe must specify multiple ConditionExpression elements. Each con- dition is applied to the rows in a dataset first, before the recipe action is performed. Condition -&gt; (string) [required] A specific condition to apply to a recipe action. For more information, see Recipe structure in the Glue Data- Brew Developer Guide . Constraints: o min: 1 o max: 128 o pattern: ^[A-Z\_]+$ Value -&gt; (string) A value that the condition must evaluate to for the con- dition to succeed. Constraints: o max: 1024 TargetColumn -&gt; (string) [required] A column to apply this condition to. Constraints: o min: 1 o max: 1024 Shorthand Syntax: Action={Operation=string,Parameters={KeyName1=string,KeyName2=string}},ConditionExpressions=[{Condition=string,Value=string,TargetColumn=string},{Condition=string,Value=string,TargetColumn=string}] JSON Syntax: { "Action": { "Operation": "string", "Parameters": {"string": "string" ...} }, "ConditionExpressions": [ { "Condition": "string", "Value": "string", "TargetColumn": "string" } ... ] }
+    /// Represents a single step from a DataBrew recipe to be performed. Action -&gt; (structure) [required] The particular action to be performed in the recipe step. Operation -&gt; (string) [required] The name of a valid DataBrew transformation to be performed on the data. Constraints: • min: 1 • max: 128 • pattern: ^[A-Z\_]+$ Parameters -&gt; (map) Contextual parameters for the transformation. key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^[A-Za-z0-9]+$ value -&gt; (string) Constraints: • min: 1 • max: 32768 ConditionExpressions -&gt; (list) One or more conditions that must be met for the recipe step to succeed. NOTE: All of the conditions in the array must be met. In other words, all of the conditions must be combined using a logical AND operation. (structure) Represents an individual condition that evaluates to true or false. Conditions are used with recipe actions. The action is only performed for column values where the condition evaluates to true. If a recipe requires more than one condition, then the recipe must specify multiple ConditionExpression elements. Each condition is applied to the rows in a dataset first, before the recipe action is performed. Condition -&gt; (string) [required] A specific condition to apply to a recipe action. For more information, see Recipe structure in the Glue DataBrew Developer Guide . Constraints: • min: 1 • max: 128 • pattern: ^[A-Z\_]+$ Value -&gt; (string) A value that the condition must evaluate to for the condition to succeed. Constraints: • max: 1024 TargetColumn -&gt; (string) [required] A column to apply this condition to. Constraints: • min: 1 • max: 1024 Shorthand Syntax: Action={Operation=string,Parameters={KeyName1=string,KeyName2=string}},ConditionExpressions=[{Condition=string,Value=string,TargetColumn=string},{Condition=string,Value=string,TargetColumn=string}] JSON Syntax: { "Action": { "Operation": "string", "Parameters": {"string": "string" ...} }, "ConditionExpressions": [ { "Condition": "string", "Value": "string", "TargetColumn": "string" } ... ] }
     /// </summary>
     [CliOption("--recipe-step")]
     public string? RecipeStep { get; set; }
 
     /// <summary>
-    /// The index from which to preview a step. This index is used to pre- view the result of steps that have already been applied, so that the resulting view frame is from earlier in the view frame stack. Constraints: o min: 0
+    /// The index from which to preview a step. This index is used to preview the result of steps that have already been applied, so that the resulting view frame is from earlier in the view frame stack. Constraints: • min: 0
     /// </summary>
     [CliOption("--step-index")]
     public int? StepIndex { get; set; }
 
     /// <summary>
-    /// A unique identifier for an interactive session that's currently open and ready for work. The action will be performed on this session. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-]*$
+    /// A unique identifier for an interactive session that's currently open and ready for work. The action will be performed on this session. Constraints: • min: 1 • max: 255 • pattern: ^[a-zA-Z0-9][a-zA-Z0-9-]*$
     /// </summary>
     [CliOption("--client-session-id")]
     public string? ClientSessionId { get; set; }
 
     /// <summary>
-    /// Represents the data being transformed during an action. StartColumnIndex -&gt; (integer) [required] The starting index for the range of columns to return in the view frame. Constraints: o min: 0 ColumnRange -&gt; (integer) The number of columns to include in the view frame, beginning with the StartColumnIndex value and ignoring any columns in the HiddenColumns list. Constraints: o min: 0 o max: 20 HiddenColumns -&gt; (list) A list of columns to hide in the view frame. (string) Constraints: o min: 1 o max: 255 StartRowIndex -&gt; (integer) The starting index for the range of rows to return in the view frame. Constraints: o min: 0 RowRange -&gt; (integer) The number of rows to include in the view frame, beginning with the StartRowIndex value. Analytics -&gt; (string) Controls if analytics computation is enabled or disabled. En- abled by default. Possible values: o ENABLE o DISABLE Shorthand Syntax: StartColumnIndex=integer,ColumnRange=integer,HiddenColumns=string,string,StartRowIndex=integer,RowRange=integer,Analytics=string JSON Syntax: { "StartColumnIndex": integer, "ColumnRange": integer, "HiddenColumns": ["string", ...], "StartRowIndex": integer, "RowRange": integer, "Analytics": "ENABLE"|"DISABLE" }
+    /// Represents the data being transformed during an action. StartColumnIndex -&gt; (integer) [required] The starting index for the range of columns to return in the view frame. Constraints: • min: 0 ColumnRange -&gt; (integer) The number of columns to include in the view frame, beginning with the StartColumnIndex value and ignoring any columns in the HiddenColumns list. Constraints: • min: 0 • max: 20 HiddenColumns -&gt; (list) A list of columns to hide in the view frame. (string) Constraints: • min: 1 • max: 255 StartRowIndex -&gt; (integer) The starting index for the range of rows to return in the view frame. Constraints: • min: 0 RowRange -&gt; (integer) The number of rows to include in the view frame, beginning with the StartRowIndex value. Analytics -&gt; (string) Controls if analytics computation is enabled or disabled. Enabled by default. Possible values: • ENABLE • DISABLE Shorthand Syntax: StartColumnIndex=integer,ColumnRange=integer,HiddenColumns=string,string,StartRowIndex=integer,RowRange=integer,Analytics=string JSON Syntax: { "StartColumnIndex": integer, "ColumnRange": integer, "HiddenColumns": ["string", ...], "StartRowIndex": integer, "RowRange": integer, "Analytics": "ENABLE"|"DISABLE" }
     /// </summary>
     [CliOption("--view-frame")]
     public string? ViewFrame { get; set; }
@@ -112,6 +113,15 @@ public record AwsDatabrewSendProjectSessionActionOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

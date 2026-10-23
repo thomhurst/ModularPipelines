@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws workspacesweb commands.
+/// aws workspaces-web commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsWorkspacesWeb : IAwsWorkspacesWeb
@@ -287,7 +287,7 @@ public class AwsWorkspacesWeb : IAwsWorkspacesWeb
     }
 
     /// <summary>
-    /// Creates a user settings resource that can be associated with a web por- tal. Once associated with a web portal, user settings control how users can transfer data between a streaming session and the their local de- vices. See also: AWS API Documentation
+    /// Creates a user settings resource that can be associated with a web portal. Once associated with a web portal, user settings control how users can transfer data between a streaming session and the their local devices. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -797,7 +797,7 @@ public class AwsWorkspacesWeb : IAwsWorkspacesWeb
     }
 
     /// <summary>
-    /// Retrieves a list of data protection settings. See also: AWS API Documentation list-data-protection-settings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: dataProtectionSettings
+    /// Retrieves a list of data protection settings. See also: AWS API Documentation list-data-protection-settings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: dataProtectionSettings
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -887,7 +887,7 @@ public class AwsWorkspacesWeb : IAwsWorkspacesWeb
     }
 
     /// <summary>
-    /// Lists information for multiple secure browser sessions from a specific portal. See also: AWS API Documentation list-sessions is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: sessions
+    /// Lists information for multiple secure browser sessions from a specific portal. See also: AWS API Documentation list-sessions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: sessions
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

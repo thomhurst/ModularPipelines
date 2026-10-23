@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns your API key in decrypted form. Use this to check the token do- mains that you have defined for the key. API keys are required for the integration of the CAPTCHA API in your JavaScript client applications. The API lets you customize the place- ment and characteristics of the CAPTCHA puzzle for your end users. For more information about the CAPTCHA JavaScript integration, see WAF client application integration in the WAF Developer Guide . See also: AWS API Documentation
+/// Returns your API key in decrypted form. Use this to check the token domains that you have defined for the key. API keys are required for the integration of the CAPTCHA API in your JavaScript client applications. The API lets you customize the placement and characteristics of the CAPTCHA puzzle for your end users. For more information about the CAPTCHA JavaScript integration, see WAF client application integration in the WAF Developer Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +28,10 @@ public record AwsWafv2GetDecryptedApiKeyOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns your API key in decrypted form. Use this to check the token do- mains that you have defined for the key. API keys are required for the integration of the CAPTCHA API in your JavaScript client applications. The API lets you customize the place- ment and characteristics of the CAPTCHA puzzle for your end users. For more information about the CAPTCHA JavaScript integration, see WAF client application integration in the WAF Developer Guide . See also: AWS API Documentation
+    /// Returns your API key in decrypted form. Use this to check the token domains that you have defined for the key. API keys are required for the integration of the CAPTCHA API in your JavaScript client applications. The API lets you customize the placement and characteristics of the CAPTCHA puzzle for your end users. For more information about the CAPTCHA JavaScript integration, see WAF client application integration in the WAF Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Scope">Specifies whether this is for a global resource type, such as a Ama- zon CloudFront distribution. For an Amplify application, use CLOUD- FRONT . To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows: o CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1 . o API and SDKs - For all calls, use the Region endpoint us-east-1. Possible values: o CLOUDFRONT o REGIONAL</param>
-    /// <param name="ApiKey">The encrypted API key. Constraints: o min: 1 o max: 2048 o pattern: .*\S.*</param>
+    /// <param name="Scope">Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT . To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows: • CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1 . • API and SDKs - For all calls, use the Region endpoint us-east-1. Possible values: • CLOUDFRONT • REGIONAL</param>
+    /// <param name="ApiKey">The encrypted API key. Constraints: • min: 1 • max: 2048 • pattern: .*\S.*</param>
     public AwsWafv2GetDecryptedApiKeyOptions(
         AwsWafv2GetDecryptedApiKeyScope Scope,
         string ApiKey
@@ -61,13 +62,13 @@ public record AwsWafv2GetDecryptedApiKeyOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies whether this is for a global resource type, such as a Ama- zon CloudFront distribution. For an Amplify application, use CLOUD- FRONT . To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows: o CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1 . o API and SDKs - For all calls, use the Region endpoint us-east-1. Possible values: o CLOUDFRONT o REGIONAL
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT . To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows: • CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1 . • API and SDKs - For all calls, use the Region endpoint us-east-1. Possible values: • CLOUDFRONT • REGIONAL
     /// </summary>
     [CliOption("--scope")]
     public AwsWafv2GetDecryptedApiKeyScope? Scope { get; private init; }
 
     /// <summary>
-    /// The encrypted API key. Constraints: o min: 1 o max: 2048 o pattern: .*\S.*
+    /// The encrypted API key. Constraints: • min: 1 • max: 2048 • pattern: .*\S.*
     /// </summary>
     [SecretValue]
     [CliOption("--api-key")]
@@ -94,6 +95,15 @@ public record AwsWafv2GetDecryptedApiKeyOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

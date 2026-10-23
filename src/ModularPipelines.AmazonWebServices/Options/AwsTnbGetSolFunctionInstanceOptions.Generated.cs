@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets the details of a network function instance, including the instan- tiation state and metadata from the function package descriptor in the network function package. A network function instance is a function in a function package . See also: AWS API Documentation
+/// Gets the details of a network function instance, including the instantiation state and metadata from the function package descriptor in the network function package. A network function instance is a function in a function package . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsTnbGetSolFunctionInstanceOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets the details of a network function instance, including the instan- tiation state and metadata from the function package descriptor in the network function package. A network function instance is a function in a function package . See also: AWS API Documentation
+    /// Gets the details of a network function instance, including the instantiation state and metadata from the function package descriptor in the network function package. A network function instance is a function in a function package . See also: AWS API Documentation
     /// </summary>
-    /// <param name="VnfInstanceId">ID of the network function. Constraints: o pattern: ^fi-[a-f0-9]{17}$</param>
+    /// <param name="VnfInstanceId">ID of the network function. Constraints: • pattern: ^fi-[a-f0-9]{17}$</param>
     public AwsTnbGetSolFunctionInstanceOptions(
         string VnfInstanceId
     )
@@ -56,7 +57,7 @@ public record AwsTnbGetSolFunctionInstanceOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ID of the network function. Constraints: o pattern: ^fi-[a-f0-9]{17}$
+    /// ID of the network function. Constraints: • pattern: ^fi-[a-f0-9]{17}$
     /// </summary>
     [CliOption("--vnf-instance-id")]
     public string? VnfInstanceId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsTnbGetSolFunctionInstanceOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

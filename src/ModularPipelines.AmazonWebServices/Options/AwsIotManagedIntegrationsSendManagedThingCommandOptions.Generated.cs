@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Send the command to the device represented by the managed thing. See also: AWS API Documentation send-managed-thing-command uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be pro- vided as JSON. Shorthand syntax does not support document types.
+/// Send the command to the device represented by the managed thing. See also: AWS API Documentation send-managed-thing-command uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsIotManagedIntegrationsSendManagedThingCommandOptions : AwsOptio
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Send the command to the device represented by the managed thing. See also: AWS API Documentation send-managed-thing-command uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be pro- vided as JSON. Shorthand syntax does not support document types.
+    /// Send the command to the device represented by the managed thing. See also: AWS API Documentation send-managed-thing-command uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
-    /// <param name="ManagedThingId">The id of the device. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9:_-]*</param>
-    /// <param name="Endpoints">The device endpoint. Constraints: o min: 1 o max: 5 (structure) The endpoint for a managed thing when sending a command. endpointId -&gt; (string) [required] The id of the endpoint for a managed thing. Constraints: o min: 1 o max: 64 o pattern: [0-9a-zA-Z]+ capabilities -&gt; (list) [required] Describe the endpoint with an id, a name, and the relevant capabilities for sending commands. Constraints: o min: 1 o max: 5 (structure) The command capabilities added for the managed thing id -&gt; (string) [required] Describe the capability with an id. Constraints: o min: 7 o max: 128 o pattern: [a-zA-Z0-9.]+@(\d+\.\d+(\.\d+)?|\$latest) name -&gt; (string) [required] Describe the capability with an name. Constraints: o min: 1 o max: 128 o pattern: [/a-zA-Z0-9\._ -]+ version -&gt; (string) [required] Describe the capability with a version. Constraints: o min: 1 o max: 64 o pattern: (0|[1-9][0-9]*) actions -&gt; (list) [required] Describe the command capability with the actions it supports. Constraints: o min: 1 o max: 5 (structure) Action for an Amazon Web Services capability, con- taining the action parameters for control. name -&gt; (string) [required] Describe a capability action with a name. Constraints: o pattern: [/a-zA-Z]+ ref -&gt; (string) Describe a capability action with an reference. Constraints: o pattern: [a-zA-Z.]+ actionTraceId -&gt; (string) Describe a capability action with an actionTra- ceId for a response command. Constraints: o min: 16 o max: 20 o pattern: [a-zA-Z0-9]+=(?:_[0-9]+)? parameters -&gt; (document) Describe a capability action with a capability property. JSON Syntax: [ { "endpointId": "string", "capabilities": [ { "id": "string", "name": "string", "version": "string", "actions": [ { "name": "string", "ref": "string", "actionTraceId": "string", "parameters": {...} } ... ] } ... ] } ... ]</param>
+    /// <param name="ManagedThingId">The id of the device. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9:_-]*</param>
+    /// <param name="Endpoints">The device endpoint. Constraints: • min: 1 • max: 5 (structure) The endpoint for a managed thing when sending a command. endpointId -&gt; (string) [required] The id of the endpoint for a managed thing. Constraints: • min: 1 • max: 64 • pattern: [0-9a-zA-Z]+ capabilities -&gt; (list) [required] Describe the endpoint with an id, a name, and the relevant capabilities for sending commands. Constraints: • min: 1 • max: 5 (structure) The command capabilities added for the managed thing id -&gt; (string) [required] Describe the capability with an id. Constraints: • min: 7 • max: 128 • pattern: [a-zA-Z0-9.]+@(\d+\.\d+(\.\d+)?|\$latest) name -&gt; (string) [required] Describe the capability with an name. Constraints: • min: 1 • max: 128 • pattern: [/a-zA-Z0-9\._ -]+ version -&gt; (string) [required] Describe the capability with a version. Constraints: • min: 1 • max: 64 • pattern: (0|[1-9][0-9]*) actions -&gt; (list) [required] Describe the command capability with the actions it supports. Constraints: • min: 1 • max: 5 (structure) Action for an Amazon Web Services capability, containing the action parameters for control. name -&gt; (string) [required] Describe a capability action with a name. Constraints: • pattern: [/a-zA-Z]+ ref -&gt; (string) Describe a capability action with an reference. Constraints: • pattern: [a-zA-Z.]+ actionTraceId -&gt; (string) Describe a capability action with an actionTraceId for a response command. Constraints: • min: 16 • max: 20 • pattern: [a-zA-Z0-9]+=(?:_[0-9]+)? parameters -&gt; (document) Describe a capability action with a capability property. JSON Syntax: [ { "endpointId": "string", "capabilities": [ { "id": "string", "name": "string", "version": "string", "actions": [ { "name": "string", "ref": "string", "actionTraceId": "string", "parameters": {...} } ... ] } ... ] } ... ]</param>
     public AwsIotManagedIntegrationsSendManagedThingCommandOptions(
         string ManagedThingId,
         IEnumerable<string> Endpoints
@@ -71,25 +72,25 @@ public record AwsIotManagedIntegrationsSendManagedThingCommandOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The id of the device. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9:_-]*
+    /// The id of the device. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9:_-]*
     /// </summary>
     [CliOption("--managed-thing-id")]
     public string? ManagedThingId { get; private init; }
 
     /// <summary>
-    /// The device endpoint. Constraints: o min: 1 o max: 5 (structure) The endpoint for a managed thing when sending a command. endpointId -&gt; (string) [required] The id of the endpoint for a managed thing. Constraints: o min: 1 o max: 64 o pattern: [0-9a-zA-Z]+ capabilities -&gt; (list) [required] Describe the endpoint with an id, a name, and the relevant capabilities for sending commands. Constraints: o min: 1 o max: 5 (structure) The command capabilities added for the managed thing id -&gt; (string) [required] Describe the capability with an id. Constraints: o min: 7 o max: 128 o pattern: [a-zA-Z0-9.]+@(\d+\.\d+(\.\d+)?|\$latest) name -&gt; (string) [required] Describe the capability with an name. Constraints: o min: 1 o max: 128 o pattern: [/a-zA-Z0-9\._ -]+ version -&gt; (string) [required] Describe the capability with a version. Constraints: o min: 1 o max: 64 o pattern: (0|[1-9][0-9]*) actions -&gt; (list) [required] Describe the command capability with the actions it supports. Constraints: o min: 1 o max: 5 (structure) Action for an Amazon Web Services capability, con- taining the action parameters for control. name -&gt; (string) [required] Describe a capability action with a name. Constraints: o pattern: [/a-zA-Z]+ ref -&gt; (string) Describe a capability action with an reference. Constraints: o pattern: [a-zA-Z.]+ actionTraceId -&gt; (string) Describe a capability action with an actionTra- ceId for a response command. Constraints: o min: 16 o max: 20 o pattern: [a-zA-Z0-9]+=(?:_[0-9]+)? parameters -&gt; (document) Describe a capability action with a capability property. JSON Syntax: [ { "endpointId": "string", "capabilities": [ { "id": "string", "name": "string", "version": "string", "actions": [ { "name": "string", "ref": "string", "actionTraceId": "string", "parameters": {...} } ... ] } ... ] } ... ]
+    /// The device endpoint. Constraints: • min: 1 • max: 5 (structure) The endpoint for a managed thing when sending a command. endpointId -&gt; (string) [required] The id of the endpoint for a managed thing. Constraints: • min: 1 • max: 64 • pattern: [0-9a-zA-Z]+ capabilities -&gt; (list) [required] Describe the endpoint with an id, a name, and the relevant capabilities for sending commands. Constraints: • min: 1 • max: 5 (structure) The command capabilities added for the managed thing id -&gt; (string) [required] Describe the capability with an id. Constraints: • min: 7 • max: 128 • pattern: [a-zA-Z0-9.]+@(\d+\.\d+(\.\d+)?|\$latest) name -&gt; (string) [required] Describe the capability with an name. Constraints: • min: 1 • max: 128 • pattern: [/a-zA-Z0-9\._ -]+ version -&gt; (string) [required] Describe the capability with a version. Constraints: • min: 1 • max: 64 • pattern: (0|[1-9][0-9]*) actions -&gt; (list) [required] Describe the command capability with the actions it supports. Constraints: • min: 1 • max: 5 (structure) Action for an Amazon Web Services capability, containing the action parameters for control. name -&gt; (string) [required] Describe a capability action with a name. Constraints: • pattern: [/a-zA-Z]+ ref -&gt; (string) Describe a capability action with an reference. Constraints: • pattern: [a-zA-Z.]+ actionTraceId -&gt; (string) Describe a capability action with an actionTraceId for a response command. Constraints: • min: 16 • max: 20 • pattern: [a-zA-Z0-9]+=(?:_[0-9]+)? parameters -&gt; (document) Describe a capability action with a capability property. JSON Syntax: [ { "endpointId": "string", "capabilities": [ { "id": "string", "name": "string", "version": "string", "actions": [ { "name": "string", "ref": "string", "actionTraceId": "string", "parameters": {...} } ... ] } ... ] } ... ]
     /// </summary>
     [CliOption("--endpoints", GroupValues = true)]
     public IEnumerable<string>? Endpoints { get; private init; }
 
     /// <summary>
-    /// The ID tracking the current discovery process for one connector as- sociation. Constraints: o min: 1 o max: 64 o pattern: [0-9a-zA-Z]+
+    /// The ID tracking the current discovery process for one connector association. Constraints: • min: 1 • max: 64 • pattern: [0-9a-zA-Z]+
     /// </summary>
     [CliOption("--connector-association-id")]
     public string? ConnectorAssociationId { get; set; }
 
     /// <summary>
-    /// The identifier of the account association to use when sending a com- mand to a managed thing. Constraints: o min: 1 o max: 64 o pattern: [0-9a-zA-Z]+
+    /// The identifier of the account association to use when sending a command to a managed thing. Constraints: • min: 1 • max: 64 • pattern: [0-9a-zA-Z]+
     /// </summary>
     [CliOption("--account-association-id")]
     public string? AccountAssociationId { get; set; }
@@ -115,6 +116,15 @@ public record AwsIotManagedIntegrationsSendManagedThingCommandOptions : AwsOptio
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

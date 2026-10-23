@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associates a canary with a group. Using groups can help you with manag- ing and automating your canaries, and you can also view aggregated run results and statistics for all canaries in a group. You must run this operation in the Region where the canary exists. See also: AWS API Documentation
+/// Associates a canary with a group. Using groups can help you with managing and automating your canaries, and you can also view aggregated run results and statistics for all canaries in a group. You must run this operation in the Region where the canary exists. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsSyntheticsAssociateResourceOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associates a canary with a group. Using groups can help you with manag- ing and automating your canaries, and you can also view aggregated run results and statistics for all canaries in a group. You must run this operation in the Region where the canary exists. See also: AWS API Documentation
+    /// Associates a canary with a group. Using groups can help you with managing and automating your canaries, and you can also view aggregated run results and statistics for all canaries in a group. You must run this operation in the Region where the canary exists. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GroupIdentifier">Specifies the group. You can specify the group name, the ARN, or the group ID as the GroupIdentifier . Constraints: o min: 1 o max: 128</param>
-    /// <param name="ResourceArn">The ARN of the canary that you want to associate with the specified group. Constraints: o min: 1 o max: 2048 o pattern: arn:(aws[a-zA-Z-]*)?:synthet- ics:[a-z]{2,4}(-[a-z]{2,4})?-[a-z]+-\d{1}:\d{12}:ca- nary:[0-9a-z_\-]{1,255}</param>
+    /// <param name="GroupIdentifier">Specifies the group. You can specify the group name, the ARN, or the group ID as the GroupIdentifier . Constraints: • min: 1 • max: 128</param>
+    /// <param name="ResourceArn">The ARN of the canary that you want to associate with the specified group. Constraints: • min: 1 • max: 2048 • pattern: arn:(aws[a-zA-Z-]*)?:synthetics:[a-z]{2,4}(-[a-z]{2,4})?-[a-z]+-\d{1}:\d{12}:canary:[0-9a-z_\-]{1,255}</param>
     public AwsSyntheticsAssociateResourceOptions(
         string GroupIdentifier,
         string ResourceArn
@@ -60,13 +61,13 @@ public record AwsSyntheticsAssociateResourceOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the group. You can specify the group name, the ARN, or the group ID as the GroupIdentifier . Constraints: o min: 1 o max: 128
+    /// Specifies the group. You can specify the group name, the ARN, or the group ID as the GroupIdentifier . Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--group-identifier")]
     public string? GroupIdentifier { get; private init; }
 
     /// <summary>
-    /// The ARN of the canary that you want to associate with the specified group. Constraints: o min: 1 o max: 2048 o pattern: arn:(aws[a-zA-Z-]*)?:synthet- ics:[a-z]{2,4}(-[a-z]{2,4})?-[a-z]+-\d{1}:\d{12}:ca- nary:[0-9a-z_\-]{1,255}
+    /// The ARN of the canary that you want to associate with the specified group. Constraints: • min: 1 • max: 2048 • pattern: arn:(aws[a-zA-Z-]*)?:synthetics:[a-z]{2,4}(-[a-z]{2,4})?-[a-z]+-\d{1}:\d{12}:canary:[0-9a-z_\-]{1,255}
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
@@ -92,6 +93,15 @@ public record AwsSyntheticsAssociateResourceOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

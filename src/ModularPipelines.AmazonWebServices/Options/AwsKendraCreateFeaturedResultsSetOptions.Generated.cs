@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a set of featured results to display at the top of the search results page. Featured results are placed above all other results for certain queries. You map specific queries to specific documents for featuring in the results. If a query contains an exact match, then one or more specific documents are featured in the search results. You can create up to 50 sets of featured results per index. You can re- quest to increase this limit by contacting Support . See also: AWS API Documentation
+/// Creates a set of featured results to display at the top of the search results page. Featured results are placed above all other results for certain queries. You map specific queries to specific documents for featuring in the results. If a query contains an exact match, then one or more specific documents are featured in the search results. You can create up to 50 sets of featured results per index. You can request to increase this limit by contacting Support . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +28,10 @@ public record AwsKendraCreateFeaturedResultsSetOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a set of featured results to display at the top of the search results page. Featured results are placed above all other results for certain queries. You map specific queries to specific documents for featuring in the results. If a query contains an exact match, then one or more specific documents are featured in the search results. You can create up to 50 sets of featured results per index. You can re- quest to increase this limit by contacting Support . See also: AWS API Documentation
+    /// Creates a set of featured results to display at the top of the search results page. Featured results are placed above all other results for certain queries. You map specific queries to specific documents for featuring in the results. If a query contains an exact match, then one or more specific documents are featured in the search results. You can create up to 50 sets of featured results per index. You can request to increase this limit by contacting Support . See also: AWS API Documentation
     /// </summary>
-    /// <param name="IndexId">The identifier of the index that you want to use for featuring re- sults. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*</param>
-    /// <param name="FeaturedResultsSetName">A name for the set of featured results. Constraints: o min: 1 o max: 1000 o pattern: [a-zA-Z0-9][ a-zA-Z0-9_-]*</param>
+    /// <param name="IndexId">The identifier of the index that you want to use for featuring results. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]*</param>
+    /// <param name="FeaturedResultsSetName">A name for the set of featured results. Constraints: • min: 1 • max: 1000 • pattern: [a-zA-Z0-9][ a-zA-Z0-9_-]*</param>
     public AwsKendraCreateFeaturedResultsSetOptions(
         string IndexId,
         string FeaturedResultsSetName
@@ -62,50 +63,50 @@ public record AwsKendraCreateFeaturedResultsSetOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the index that you want to use for featuring re- sults. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*
+    /// The identifier of the index that you want to use for featuring results. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]*
     /// </summary>
     [CliOption("--index-id")]
     public string? IndexId { get; private init; }
 
     /// <summary>
-    /// A name for the set of featured results. Constraints: o min: 1 o max: 1000 o pattern: [a-zA-Z0-9][ a-zA-Z0-9_-]*
+    /// A name for the set of featured results. Constraints: • min: 1 • max: 1000 • pattern: [a-zA-Z0-9][ a-zA-Z0-9_-]*
     /// </summary>
     [CliOption("--featured-results-set-name")]
     public string? FeaturedResultsSetName { get; private init; }
 
     /// <summary>
-    /// A description for the set of featured results. Constraints: o min: 0 o max: 1000 o pattern: ^\P{C}*$
+    /// A description for the set of featured results. Constraints: • min: 0 • max: 1000 • pattern: ^\P{C}*$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// A token that you provide to identify the request to create a set of featured results. Multiple calls to the CreateFeaturedResultsSet API with the same client token will create only one featured results set. Constraints: o min: 1 o max: 100
+    /// A token that you provide to identify the request to create a set of featured results. Multiple calls to the CreateFeaturedResultsSet API with the same client token will create only one featured results set. Constraints: • min: 1 • max: 100
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The current status of the set of featured results. When the value is ACTIVE , featured results are ready for use. You can still configure your settings before setting the status to ACTIVE . You can set the status to ACTIVE or INACTIVE using the UpdateFeaturedResultsSet API. The queries you specify for featured results must be unique per fea- tured results set for each index, whether the status is ACTIVE or INACTIVE . Possible values: o ACTIVE o INACTIVE
+    /// The current status of the set of featured results. When the value is ACTIVE , featured results are ready for use. You can still configure your settings before setting the status to ACTIVE . You can set the status to ACTIVE or INACTIVE using the UpdateFeaturedResultsSet API. The queries you specify for featured results must be unique per featured results set for each index, whether the status is ACTIVE or INACTIVE . Possible values: • ACTIVE • INACTIVE
     /// </summary>
     [CliOption("--status")]
     public AwsKendraCreateFeaturedResultsSetStatus? Status { get; set; }
 
     /// <summary>
-    /// A list of queries for featuring results. For more information on the list of queries, see FeaturedResultsSet . Constraints: o min: 0 o max: 49 (string) Syntax: "string" "string" ...
+    /// A list of queries for featuring results. For more information on the list of queries, see FeaturedResultsSet . Constraints: • min: 0 • max: 49 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--query-texts", GroupValues = true)]
     public IEnumerable<string>? QueryTexts { get; set; }
 
     /// <summary>
-    /// A list of document IDs for the documents you want to feature at the top of the search results page. For more information on the list of documents, see FeaturedResultsSet . (structure) A featured document. This document is displayed at the top of the search results page, placed above all other results for cer- tain queries. If there's an exact match of a query, then the document is featured in the search results. Id -&gt; (string) The identifier of the document to feature in the search re- sults. You can use the Query API to search for specific docu- ments with their document IDs included in the result items, or you can use the console. Constraints: o min: 1 o max: 2048 Shorthand Syntax: Id=string ... JSON Syntax: [ { "Id": "string" } ... ]
+    /// A list of document IDs for the documents you want to feature at the top of the search results page. For more information on the list of documents, see FeaturedResultsSet . (structure) A featured document. This document is displayed at the top of the search results page, placed above all other results for certain queries. If there's an exact match of a query, then the document is featured in the search results. Id -&gt; (string) The identifier of the document to feature in the search results. You can use the Query API to search for specific documents with their document IDs included in the result items, or you can use the console. Constraints: • min: 1 • max: 2048 Shorthand Syntax: Id=string ... JSON Syntax: [ { "Id": "string" } ... ]
     /// </summary>
     [CliOption("--featured-documents", GroupValues = true)]
     public IEnumerable<string>? FeaturedDocuments { get; set; }
 
     /// <summary>
-    /// A list of key-value pairs that identify or categorize the featured results set. You can also use tags to help control access to the featured results set. Tag keys and values can consist of Unicode letters, digits, white space, and any of the following symbols:_ . : / = + - @. Constraints: o min: 0 o max: 200 (structure) A key-value pair that identifies or categorizes an index, FAQ, data source, or other resource. TA tag key and value can consist of Unicode letters, digits, white space, and any of the follow- ing symbols: _ . : / = + - @. Key -&gt; (string) [required] The key for the tag. Keys are not case sensitive and must be unique for the index, FAQ, data source, or other resource. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value associated with the tag. The value may be an empty string but it can't be null. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of key-value pairs that identify or categorize the featured results set. You can also use tags to help control access to the featured results set. Tag keys and values can consist of Unicode letters, digits, white space, and any of the following symbols:_ . : / = + - @. Constraints: • min: 0 • max: 200 (structure) A key-value pair that identifies or categorizes an index, FAQ, data source, or other resource. TA tag key and value can consist of Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @. Key -&gt; (string) [required] The key for the tag. Keys are not case sensitive and must be unique for the index, FAQ, data source, or other resource. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] The value associated with the tag. The value may be an empty string but it can't be null. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -131,6 +132,15 @@ public record AwsKendraCreateFeaturedResultsSetOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

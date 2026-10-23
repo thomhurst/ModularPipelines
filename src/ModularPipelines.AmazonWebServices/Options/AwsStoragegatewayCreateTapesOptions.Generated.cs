@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,14 +29,14 @@ public record AwsStoragegatewayCreateTapesOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Creates one or more virtual tapes. You write data to the virtual tapes and then archive the tapes. This operation is only supported in the tape gateway type. NOTE: Cache storage must be allocated to the gateway before you can create virtual tapes. Use the AddCache operation to add cache storage to a gateway. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GatewayArn">The unique Amazon Resource Name (ARN) that represents the gateway to associate the virtual tapes with. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region. Constraints: o min: 50 o max: 500</param>
+    /// <param name="GatewayArn">The unique Amazon Resource Name (ARN) that represents the gateway to associate the virtual tapes with. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region. Constraints: • min: 50 • max: 500</param>
     /// <param name="TapeSizeInBytes">The size, in bytes, of the virtual tapes that you want to create. NOTE: The size must be aligned by gigabyte (1024*1024*1024 bytes).</param>
-    /// <param name="ClientToken">A unique identifier that you use to retry a request. If you retry a request, use the same ClientToken you specified in the initial re- quest. NOTE: Using the same ClientToken prevents creating the tape multiple times. Constraints: o min: 5 o max: 100</param>
-    /// <param name="NumTapesToCreate">The number of virtual tapes that you want to create. Constraints: o min: 1 o max: 10</param>
-    /// <param name="TapeBarcodePrefix">A prefix that you append to the barcode of the virtual tape you are creating. This prefix makes the barcode unique. NOTE: The prefix must be 1-4 characters in length and must be one of the uppercase letters from A to Z. Constraints: o min: 1 o max: 4 o pattern: ^[A-Z]*$</param>
+    /// <param name="ClientToken">A unique identifier that you use to retry a request. If you retry a request, use the same ClientToken you specified in the initial request. NOTE: Using the same ClientToken prevents creating the tape multiple times. Constraints: • min: 5 • max: 100</param>
+    /// <param name="NumTapesToCreate">The number of virtual tapes that you want to create. Constraints: • min: 1 • max: 10</param>
+    /// <param name="TapeBarcodePrefix">A prefix that you append to the barcode of the virtual tape you are creating. This prefix makes the barcode unique. NOTE: The prefix must be 1-4 characters in length and must be one of the uppercase letters from A to Z. Constraints: • min: 1 • max: 4 • pattern: ^[A-Z]*$</param>
     public AwsStoragegatewayCreateTapesOptions(
         string GatewayArn,
-        int TapeSizeInBytes,
+        long TapeSizeInBytes,
         string ClientToken,
         int NumTapesToCreate,
         string TapeBarcodePrefix
@@ -71,7 +72,7 @@ public record AwsStoragegatewayCreateTapesOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique Amazon Resource Name (ARN) that represents the gateway to associate the virtual tapes with. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region. Constraints: o min: 50 o max: 500
+    /// The unique Amazon Resource Name (ARN) that represents the gateway to associate the virtual tapes with. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region. Constraints: • min: 50 • max: 500
     /// </summary>
     [CliOption("--gateway-arn")]
     public string? GatewayArn { get; private init; }
@@ -80,23 +81,23 @@ public record AwsStoragegatewayCreateTapesOptions : AwsOptions, IValidatableObje
     /// The size, in bytes, of the virtual tapes that you want to create. NOTE: The size must be aligned by gigabyte (1024*1024*1024 bytes).
     /// </summary>
     [CliOption("--tape-size-in-bytes")]
-    public int? TapeSizeInBytes { get; private init; }
+    public long? TapeSizeInBytes { get; private init; }
 
     /// <summary>
-    /// A unique identifier that you use to retry a request. If you retry a request, use the same ClientToken you specified in the initial re- quest. NOTE: Using the same ClientToken prevents creating the tape multiple times. Constraints: o min: 5 o max: 100
+    /// A unique identifier that you use to retry a request. If you retry a request, use the same ClientToken you specified in the initial request. NOTE: Using the same ClientToken prevents creating the tape multiple times. Constraints: • min: 5 • max: 100
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; private init; }
 
     /// <summary>
-    /// The number of virtual tapes that you want to create. Constraints: o min: 1 o max: 10
+    /// The number of virtual tapes that you want to create. Constraints: • min: 1 • max: 10
     /// </summary>
     [CliOption("--num-tapes-to-create")]
     public int? NumTapesToCreate { get; private init; }
 
     /// <summary>
-    /// A prefix that you append to the barcode of the virtual tape you are creating. This prefix makes the barcode unique. NOTE: The prefix must be 1-4 characters in length and must be one of the uppercase letters from A to Z. Constraints: o min: 1 o max: 4 o pattern: ^[A-Z]*$
+    /// A prefix that you append to the barcode of the virtual tape you are creating. This prefix makes the barcode unique. NOTE: The prefix must be 1-4 characters in length and must be one of the uppercase letters from A to Z. Constraints: • min: 1 • max: 4 • pattern: ^[A-Z]*$
     /// </summary>
     [CliOption("--tape-barcode-prefix")]
     public string? TapeBarcodePrefix { get; private init; }
@@ -108,13 +109,13 @@ public record AwsStoragegatewayCreateTapesOptions : AwsOptions, IValidatableObje
     public bool? KmsEncrypted { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value can only be set when KMSEncrypted is true . Optional. Constraints: o min: 7 o max: 2048 o pattern: (^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\S+)$)|(^alias/(\S+)$)
+    /// The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value can only be set when KMSEncrypted is true . Optional. Constraints: • min: 7 • max: 2048 • pattern: (^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\S+)$)|(^alias/(\S+)$)
     /// </summary>
     [CliOption("--kms-key")]
     public string? KmsKey { get; set; }
 
     /// <summary>
-    /// The ID of the pool that you want to add your tape to for archiving. The tape in this pool is archived in the S3 storage class that is associated with the pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to the pool. Constraints: o min: 1 o max: 100
+    /// The ID of the pool that you want to add your tape to for archiving. The tape in this pool is archived in the S3 storage class that is associated with the pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to the pool. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--pool-id")]
     public string? PoolId { get; set; }
@@ -126,7 +127,7 @@ public record AwsStoragegatewayCreateTapesOptions : AwsOptions, IValidatableObje
     public bool? Worm { get; set; }
 
     /// <summary>
-    /// A list of up to 50 tags that can be assigned to a virtual tape. Each tag is a key-value pair. NOTE: Valid characters for key and value are letters, spaces, and num- bers representable in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum length of a tag's key is 128 characters, and the maximum length for a tag's value is 256. (structure) A key-value pair that helps you manage, filter, and search for your resource. Allowed characters: letters, white space, and numbers, representable in UTF-8, and the following characters: + - = . _ : /. Key -&gt; (string) [required] Tag key. The key can't start with aws:. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] Value of the tag key. Constraints: o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of up to 50 tags that can be assigned to a virtual tape. Each tag is a key-value pair. NOTE: Valid characters for key and value are letters, spaces, and numbers representable in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum length of a tag's key is 128 characters, and the maximum length for a tag's value is 256. (structure) A key-value pair that helps you manage, filter, and search for your resource. Allowed characters: letters, white space, and numbers, representable in UTF-8, and the following characters: + - = . _ : /. Key -&gt; (string) [required] Tag key. The key can't start with aws:. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] Value of the tag key. Constraints: • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -152,6 +153,15 @@ public record AwsStoragegatewayCreateTapesOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

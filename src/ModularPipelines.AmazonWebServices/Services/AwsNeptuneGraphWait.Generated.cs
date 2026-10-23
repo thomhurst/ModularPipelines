@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws wait commands.
+/// aws neptune-graph wait commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsNeptuneGraphWait
@@ -47,7 +47,7 @@ public class AwsNeptuneGraphWait
     }
 
     /// <summary>
-    /// Wait until Export Task is Successful It will poll every 60 seconds un- til a successful state has been reached. This will exit with a return code of 255 after 480 failed checks. See also: AWS API Documentation
+    /// Wait until Export Task is Successful It will poll every 60 seconds until a successful state has been reached. This will exit with a return code of 255 after 480 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsNeptuneGraphWait
     }
 
     /// <summary>
-    /// Wait until Graph is Deleted It will poll every 60 seconds until a suc- cessful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
+    /// Wait until Graph is Deleted It will poll every 60 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsNeptuneGraphWait
     }
 
     /// <summary>
-    /// Wait until GraphSnapshot is Available It will poll every 60 seconds un- til a successful state has been reached. This will exit with a return code of 255 after 120 failed checks. See also: AWS API Documentation
+    /// Wait until GraphSnapshot is Available It will poll every 60 seconds until a successful state has been reached. This will exit with a return code of 255 after 120 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsNeptuneGraphWait
     }
 
     /// <summary>
-    /// Wait until Graph is Stopped It will poll every 20 seconds until a suc- cessful state has been reached. This will exit with a return code of 255 after 90 failed checks. See also: AWS API Documentation
+    /// Wait until Graph is Stopped It will poll every 20 seconds until a successful state has been reached. This will exit with a return code of 255 after 90 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsNeptuneGraphWait
     }
 
     /// <summary>
-    /// Wait until Import Task is Successful It will poll every 60 seconds un- til a successful state has been reached. This will exit with a return code of 255 after 480 failed checks. See also: AWS API Documentation
+    /// Wait until Import Task is Successful It will poll every 60 seconds until a successful state has been reached. This will exit with a return code of 255 after 480 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsNeptuneGraphWait
     }
 
     /// <summary>
-    /// Wait until PrivateGraphEndpoint is Available It will poll every 10 sec- onds until a successful state has been reached. This will exit with a return code of 255 after 180 failed checks. See also: AWS API Documentation
+    /// Wait until PrivateGraphEndpoint is Available It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 180 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsNeptuneGraphWait
     }
 
     /// <summary>
-    /// Wait until PrivateGraphEndpoint is Deleted It will poll every 10 sec- onds until a successful state has been reached. This will exit with a return code of 255 after 180 failed checks. See also: AWS API Documentation
+    /// Wait until PrivateGraphEndpoint is Deleted It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 180 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

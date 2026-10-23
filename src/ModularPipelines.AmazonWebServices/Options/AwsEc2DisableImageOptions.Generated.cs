@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Sets the AMI state to disabled and removes all launch permissions from the AMI. A disabled AMI can't be used for instance launches. A disabled AMI can't be shared. If an AMI was public or previously shared, it is made private. If an AMI was shared with an Amazon Web Services account, organization, or Organizational Unit, they lose ac- cess to the disabled AMI. A disabled AMI does not appear in DescribeImages API calls by default. Only the AMI owner can disable an AMI. You can re-enable a disable...
+/// Sets the AMI state to disabled and removes all launch permissions from the AMI. A disabled AMI can't be used for instance launches. A disabled AMI can't be shared. If an AMI was public or previously shared, it is made private. If an AMI was shared with an Amazon Web Services account, organization, or Organizational Unit, they lose access to the disabled AMI. A disabled AMI does not appear in DescribeImages API calls by default. Only the AMI owner can disable an AMI. You can re-enable a disabled ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsEc2DisableImageOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Sets the AMI state to disabled and removes all launch permissions from the AMI. A disabled AMI can't be used for instance launches. A disabled AMI can't be shared. If an AMI was public or previously shared, it is made private. If an AMI was shared with an Amazon Web Services account, organization, or Organizational Unit, they lose ac- cess to the disabled AMI. A disabled AMI does not appear in DescribeImages API calls by default. Only the AMI owner can disable an AMI. You can re-enable a disable...
+    /// Sets the AMI state to disabled and removes all launch permissions from the AMI. A disabled AMI can't be used for instance launches. A disabled AMI can't be shared. If an AMI was public or previously shared, it is made private. If an AMI was shared with an Amazon Web Services account, organization, or Organizational Unit, they lose access to the disabled AMI. A disabled AMI does not appear in DescribeImages API calls by default. Only the AMI owner can disable an AMI. You can re-enable a disabled ...
     /// </summary>
     /// <param name="ImageId">The ID of the AMI.</param>
     public AwsEc2DisableImageOptions(
@@ -62,7 +63,7 @@ public record AwsEc2DisableImageOptions : AwsOptions, IValidatableObject
     public string? ImageId { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -88,6 +89,15 @@ public record AwsEc2DisableImageOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

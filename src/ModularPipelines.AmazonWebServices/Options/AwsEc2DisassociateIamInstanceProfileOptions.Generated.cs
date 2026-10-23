@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Disassociates an IAM instance profile from a running or stopped in- stance. Use DescribeIamInstanceProfileAssociations to get the association ID. See also: AWS API Documentation
+/// Disassociates an IAM instance profile from a running or stopped instance. Use DescribeIamInstanceProfileAssociations to get the association ID. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsEc2DisassociateIamInstanceProfileOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Disassociates an IAM instance profile from a running or stopped in- stance. Use DescribeIamInstanceProfileAssociations to get the association ID. See also: AWS API Documentation
+    /// Disassociates an IAM instance profile from a running or stopped instance. Use DescribeIamInstanceProfileAssociations to get the association ID. See also: AWS API Documentation
     /// </summary>
     /// <param name="AssociationId">The ID of the IAM instance profile association.</param>
     public AwsEc2DisassociateIamInstanceProfileOptions(
@@ -82,6 +83,15 @@ public record AwsEc2DisassociateIamInstanceProfileOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

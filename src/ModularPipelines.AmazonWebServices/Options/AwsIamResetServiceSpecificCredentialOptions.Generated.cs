@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Resets the password for a service-specific credential. The new password is Amazon Web Services generated and cryptographically strong. It can- not be configured by the user. Resetting the password immediately in- validates the previous password associated with this user. See also: AWS API Documentation
+/// Resets the password for a service-specific credential. The new password is Amazon Web Services generated and cryptographically strong. It cannot be configured by the user. Resetting the password immediately invalidates the previous password associated with this user. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsIamResetServiceSpecificCredentialOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Resets the password for a service-specific credential. The new password is Amazon Web Services generated and cryptographically strong. It can- not be configured by the user. Resetting the password immediately in- validates the previous password associated with this user. See also: AWS API Documentation
+    /// Resets the password for a service-specific credential. The new password is Amazon Web Services generated and cryptographically strong. It cannot be configured by the user. Resetting the password immediately invalidates the previous password associated with this user. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ServiceSpecificCredentialId">The unique identifier of the service-specific credential. This parameter allows (through its regex pattern ) a string of char- acters that can consist of any upper or lowercased letter or digit. Constraints: o min: 20 o max: 128 o pattern: [\w]+</param>
+    /// <param name="ServiceSpecificCredentialId">The unique identifier of the service-specific credential. This parameter allows (through its regex pattern ) a string of characters that can consist of any upper or lowercased letter or digit. Constraints: • min: 20 • max: 128 • pattern: [\w]+</param>
     public AwsIamResetServiceSpecificCredentialOptions(
         string ServiceSpecificCredentialId
     )
@@ -56,13 +57,13 @@ public record AwsIamResetServiceSpecificCredentialOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the service-specific credential. This parameter allows (through its regex pattern ) a string of char- acters that can consist of any upper or lowercased letter or digit. Constraints: o min: 20 o max: 128 o pattern: [\w]+
+    /// The unique identifier of the service-specific credential. This parameter allows (through its regex pattern ) a string of characters that can consist of any upper or lowercased letter or digit. Constraints: • min: 20 • max: 128 • pattern: [\w]+
     /// </summary>
     [CliOption("--service-specific-credential-id")]
     public string? ServiceSpecificCredentialId { get; private init; }
 
     /// <summary>
-    /// The name of the IAM user associated with the service-specific cre- dential. If this value is not specified, then the operation assumes the user whose credentials are used to call the operation. This parameter allows (through its regex pattern ) a string of char- acters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following charac- ters: _+=,.@- Constraints: o min: 1 o max: 64 o pattern: [\w+=,.@-]+
+    /// The name of the IAM user associated with the service-specific credential. If this value is not specified, then the operation assumes the user whose credentials are used to call the operation. This parameter allows (through its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@- Constraints: • min: 1 • max: 64 • pattern: [\w+=,.@-]+
     /// </summary>
     [CliOption("--user-name")]
     public string? UserName { get; set; }
@@ -88,6 +89,15 @@ public record AwsIamResetServiceSpecificCredentialOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

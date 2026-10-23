@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsPinpointSmsVoiceV2DeleteResourcePolicyOptions : AwsOptions, IVa
     /// <summary>
     /// Deletes the resource-based policy document attached to the End User Messaging SMS resource. A shared resource can be a Pool, Opt-out list, Sender Id, or Phone number. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the End User Messaging SMS re- source you're deleting the resource-based policy from. Constraints: o min: 20 o max: 256 o pattern: arn:[A-Za-z0-9_:/-]+</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the End User Messaging SMS resource you're deleting the resource-based policy from. Constraints: • min: 20 • max: 256 • pattern: arn:[A-Za-z0-9_:/-]+</param>
     public AwsPinpointSmsVoiceV2DeleteResourcePolicyOptions(
         string ResourceArn
     )
@@ -56,7 +57,7 @@ public record AwsPinpointSmsVoiceV2DeleteResourcePolicyOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the End User Messaging SMS re- source you're deleting the resource-based policy from. Constraints: o min: 20 o max: 256 o pattern: arn:[A-Za-z0-9_:/-]+
+    /// The Amazon Resource Name (ARN) of the End User Messaging SMS resource you're deleting the resource-based policy from. Constraints: • min: 20 • max: 256 • pattern: arn:[A-Za-z0-9_:/-]+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsPinpointSmsVoiceV2DeleteResourcePolicyOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

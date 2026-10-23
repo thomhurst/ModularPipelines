@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This is a request for a summary of scan jobs created or running within the most recent 14 days. See also: AWS API Documentation list-scan-job-summaries is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions:...
+/// This is a request for a summary of scan jobs created or running within the most recent 14 days. See also: AWS API Documentation list-scan-job-summaries is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: S...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -24,46 +24,43 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsBackupListScanJobSummariesOptions : AwsOptions
 {
     /// <summary>
-    /// Returns the job count for the specified account. If the request is sent from a member account or an account not part of Amazon Web Services Organizations, jobs within requestor's ac- count will be returned. Root, admin, and delegated administrator accounts can use the value ANY to return job counts from every account in the organization. AGGREGATE_ALL aggregates job counts from all accounts within the authenticated organization, then returns the sum. Constraints: o pattern: ^[0-9]{12}$
+    /// Returns the job count for the specified account. If the request is sent from a member account or an account not part of Amazon Web Services Organizations, jobs within requestor's account will be returned. Root, admin, and delegated administrator accounts can use the value ANY to return job counts from every account in the organization. AGGREGATE_ALL aggregates job counts from all accounts within the authenticated organization, then returns the sum. Constraints: • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; set; }
 
     /// <summary>
-    /// Returns the job count for the specified resource type. Use request GetSupportedResourceTypes to obtain strings for supported resource types. The the value ANY returns count of all resource types. AGGREGATE_ALL aggregates job counts for all resource types and returns the sum. Constraints: o pattern: ^[a-zA-Z0-9\-\_\.]{1,50}$
+    /// Returns the job count for the specified resource type. Use request GetSupportedResourceTypes to obtain strings for supported resource types. The the value ANY returns count of all resource types. AGGREGATE_ALL aggregates job counts for all resource types and returns the sum. Constraints: • pattern: ^[a-zA-Z0-9\-\_\.]{1,50}$
     /// </summary>
     [CliOption("--resource-type")]
     public string? ResourceType { get; set; }
 
     /// <summary>
-    /// Returns only the scan jobs for the specified malware scanner. Cur- rently the only MalwareScanner is GUARDDUTY . But the field also supports ANY , and AGGREGATE_ALL . Possible values: o GUARDDUTY
+    /// Returns only the scan jobs for the specified malware scanner. Currently the only MalwareScanner is GUARDDUTY . But the field also supports ANY , and AGGREGATE_ALL . Possible values: • GUARDDUTY
     /// </summary>
     [CliOption("--malware-scanner")]
     public string? MalwareScanner { get; set; }
 
     /// <summary>
-    /// Returns only the scan jobs for the specified scan results. Possible values: o NO_THREATS_FOUND o THREATS_FOUND o UNKNOWN
+    /// Returns only the scan jobs for the specified scan results. Possible values: • NO_THREATS_FOUND • THREATS_FOUND • UNKNOWN
     /// </summary>
     [CliOption("--scan-result-status")]
     public AwsBackupListScanJobSummariesScanResultStatus? ScanResultStatus { get; set; }
 
     /// <summary>
-    /// Returns only the scan jobs for the specified scanning job state. Possible values: o CREATED o COMPLETED o COMPLETED_WITH_ISSUES o RUNNING o FAILED o CANCELED o AGGREGATE_ALL o ANY
+    /// Returns only the scan jobs for the specified scanning job state. Possible values: • CREATED • COMPLETED • COMPLETED_WITH_ISSUES • RUNNING • FAILED • CANCELED • AGGREGATE_ALL • ANY
     /// </summary>
     [CliOption("--state")]
     public AwsBackupListScanJobSummariesState? State { get; set; }
 
     /// <summary>
-    /// The period for the returned results. o ONE_DAY The daily job count for the prior 1 day. o SEVEN_DAYS The daily job count for the prior 7 days. o FOURTEEN_DAYS The daily job count for the prior 14 days. Possible values: o ONE_DAY o SEVEN_DAYS o FOURTEEN_DAYS
+    /// The period for the returned results. • ONE_DAY The daily job count for the prior 1 day. • SEVEN_DAYS The daily job count for the prior 7 days. • FOURTEEN_DAYS The daily job count for the prior 14 days. Possible values: • ONE_DAY • SEVEN_DAYS • FOURTEEN_DAYS
     /// </summary>
     [CliOption("--aggregation-period")]
     public AwsBackupListScanJobSummariesAggregationPeriod? AggregationPeriod { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -73,15 +70,27 @@ public record AwsBackupListScanJobSummariesOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 1000
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

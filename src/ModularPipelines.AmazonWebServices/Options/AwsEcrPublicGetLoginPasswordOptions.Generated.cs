@@ -14,11 +14,20 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// To log in to an Amazon ECR public registry Retrieves and displays an authentication token using the GetAuthoriza- tionToken API that you can use to authenticate to an Amazon ECR public registry. You can pass the authorization token to the login command of the container client of your preference, such as the Docker CLI. After you have authenticated to an Amazon ECR public registry with this com- mand, you can use the client to push and pull images from that registry as long as your IAM principal ...
+/// To log in to an Amazon ECR public registry Retrieves and displays an authentication token using the GetAuthorizationToken API that you can use to authenticate to an Amazon ECR public registry. You can pass the authorization token to the login command of the container client of your preference, such as the Docker CLI. After you have authenticated to an Amazon ECR public registry with this command, you can use the client to push and pull images from that registry as long as your IAM principal has ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ecr-public", "get-login-password")]
 public record AwsEcrPublicGetLoginPasswordOptions : AwsOptions
 {
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
+
 }

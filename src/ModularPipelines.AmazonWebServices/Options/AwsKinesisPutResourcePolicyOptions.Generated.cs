@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Attaches a resource-based policy to a data stream or registered con- sumer. If you are using an identity other than the root user of the Amazon Web Services account that owns the resource, the calling iden- tity must have the PutResourcePolicy permissions on the specified Kine- sis Data Streams resource and belong to the owner's account in order to use this operation. If you don't have PutResourcePolicy permissions, Amazon Kinesis Data Streams returns a 403 Access Denied error . If you receive a...
+/// Attaches a resource-based policy to a data stream or registered consumer. If you are using an identity other than the root user of the Amazon Web Services account that owns the resource, the calling identity must have the PutResourcePolicy permissions on the specified Kinesis Data Streams resource and belong to the owner's account in order to use this operation. If you don't have PutResourcePolicy permissions, Amazon Kinesis Data Streams returns a 403 Access Denied error . If you receive a Resou...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsKinesisPutResourcePolicyOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Attaches a resource-based policy to a data stream or registered con- sumer. If you are using an identity other than the root user of the Amazon Web Services account that owns the resource, the calling iden- tity must have the PutResourcePolicy permissions on the specified Kine- sis Data Streams resource and belong to the owner's account in order to use this operation. If you don't have PutResourcePolicy permissions, Amazon Kinesis Data Streams returns a 403 Access Denied error . If you receive a...
+    /// Attaches a resource-based policy to a data stream or registered consumer. If you are using an identity other than the root user of the Amazon Web Services account that owns the resource, the calling identity must have the PutResourcePolicy permissions on the specified Kinesis Data Streams resource and belong to the owner's account in order to use this operation. If you don't have PutResourcePolicy permissions, Amazon Kinesis Data Streams returns a 403 Access Denied error . If you receive a Resou...
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the data stream or consumer. Constraints: o min: 1 o max: 2048 o pattern: arn:aws.*:kinesis:.*:\d{12}:.*(stream|channel)/\S+</param>
-    /// <param name="Policy">Details of the resource policy. It must include the identity of the principal and the actions allowed on this resource. This is format- ted as a JSON string.</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the data stream or consumer. Constraints: • min: 1 • max: 2048 • pattern: arn:aws.*:kinesis:.*:\d{12}:.*(stream|channel)/\S+</param>
+    /// <param name="Policy">Details of the resource policy. It must include the identity of the principal and the actions allowed on this resource. This is formatted as a JSON string.</param>
     public AwsKinesisPutResourcePolicyOptions(
         string ResourceArn,
         string Policy
@@ -60,19 +61,19 @@ public record AwsKinesisPutResourcePolicyOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the data stream or consumer. Constraints: o min: 1 o max: 2048 o pattern: arn:aws.*:kinesis:.*:\d{12}:.*(stream|channel)/\S+
+    /// The Amazon Resource Name (ARN) of the data stream or consumer. Constraints: • min: 1 • max: 2048 • pattern: arn:aws.*:kinesis:.*:\d{12}:.*(stream|channel)/\S+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// Details of the resource policy. It must include the identity of the principal and the actions allowed on this resource. This is format- ted as a JSON string.
+    /// Details of the resource policy. It must include the identity of the principal and the actions allowed on this resource. This is formatted as a JSON string.
     /// </summary>
     [CliOption("--policy")]
     public string? Policy { get; private init; }
 
     /// <summary>
-    /// Not Implemented. Reserved for future use. Constraints: o min: 1 o max: 24 o pattern: [a-z0-9]{20}-[a-z0-9]{3}
+    /// Not Implemented. Reserved for future use. Constraints: • min: 1 • max: 24 • pattern: [a-z0-9]{20}-[a-z0-9]{3}
     /// </summary>
     [CliOption("--stream-id")]
     public string? StreamId { get; set; }
@@ -98,6 +99,15 @@ public record AwsKinesisPutResourcePolicyOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

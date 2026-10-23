@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API works with the following fleet types: EC2, Anywhere Retrieves current usage data for a fleet location. Utilization data provides a snapshot of current game hosting activity at the requested location. Use this operation to retrieve utilization information for a fleet's remote location or home Region (you can also retrieve home Re- gion utilization by calling DescribeFleetUtilization ). To retrieve utilization data, identify a fleet and location. If successful, a FleetUtilization object i...
+/// This API works with the following fleet types: EC2, Anywhere Retrieves current usage data for a fleet location. Utilization data provides a snapshot of current game hosting activity at the requested location. Use this operation to retrieve utilization information for a fleet's remote location or home Region (you can also retrieve home Region utilization by calling DescribeFleetUtilization ). To retrieve utilization data, identify a fleet and location. If successful, a FleetUtilization object is ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsGameliftDescribeFleetLocationUtilizationOptions : AwsOptions, I
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere Retrieves current usage data for a fleet location. Utilization data provides a snapshot of current game hosting activity at the requested location. Use this operation to retrieve utilization information for a fleet's remote location or home Region (you can also retrieve home Re- gion utilization by calling DescribeFleetUtilization ). To retrieve utilization data, identify a fleet and location. If successful, a FleetUtilization object i...
+    /// This API works with the following fleet types: EC2, Anywhere Retrieves current usage data for a fleet location. Utilization data provides a snapshot of current game hosting activity at the requested location. Use this operation to retrieve utilization information for a fleet's remote location or home Region (you can also retrieve home Region utilization by calling DescribeFleetUtilization ). To retrieve utilization data, identify a fleet and location. If successful, a FleetUtilization object is ...
     /// </summary>
-    /// <param name="FleetId">A unique identifier for the fleet to request location utilization for. You can use either the fleet ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$</param>
-    /// <param name="Location">The fleet location to retrieve utilization information for. Specify a location in the form of an Amazon Web Services Region code, such as us-west-2 . Constraints: o min: 1 o max: 64 o pattern: ^[A-Za-z0-9\-]+$</param>
+    /// <param name="FleetId">A unique identifier for the fleet to request location utilization for. You can use either the fleet ID or ARN value. Constraints: • min: 1 • max: 512 • pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$</param>
+    /// <param name="Location">The fleet location to retrieve utilization information for. Specify a location in the form of an Amazon Web Services Region code, such as us-west-2 . Constraints: • min: 1 • max: 64 • pattern: ^[A-Za-z0-9\-]+$</param>
     public AwsGameliftDescribeFleetLocationUtilizationOptions(
         string FleetId,
         string Location
@@ -60,13 +61,13 @@ public record AwsGameliftDescribeFleetLocationUtilizationOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the fleet to request location utilization for. You can use either the fleet ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$
+    /// A unique identifier for the fleet to request location utilization for. You can use either the fleet ID or ARN value. Constraints: • min: 1 • max: 512 • pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$
     /// </summary>
     [CliOption("--fleet-id")]
     public string? FleetId { get; private init; }
 
     /// <summary>
-    /// The fleet location to retrieve utilization information for. Specify a location in the form of an Amazon Web Services Region code, such as us-west-2 . Constraints: o min: 1 o max: 64 o pattern: ^[A-Za-z0-9\-]+$
+    /// The fleet location to retrieve utilization information for. Specify a location in the form of an Amazon Web Services Region code, such as us-west-2 . Constraints: • min: 1 • max: 64 • pattern: ^[A-Za-z0-9\-]+$
     /// </summary>
     [CliOption("--location")]
     public string? Location { get; private init; }
@@ -92,6 +93,15 @@ public record AwsGameliftDescribeFleetLocationUtilizationOptions : AwsOptions, I
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

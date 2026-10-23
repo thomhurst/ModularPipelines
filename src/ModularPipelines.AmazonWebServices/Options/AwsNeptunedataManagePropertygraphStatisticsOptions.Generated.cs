@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Manages the generation and use of property graph statistics. When invoking this operation in a Neptune cluster that has IAM authen- tication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ManageStatistics IAM action in that cluster. See also: AWS API Documentation
+/// Manages the generation and use of property graph statistics. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ManageStatistics IAM action in that cluster. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsNeptunedataManagePropertygraphStatisticsOptions : AwsOptions
 {
     /// <summary>
-    /// The statistics generation mode. One of: DISABLE_AUTOCOMPUTE , EN- ABLE_AUTOCOMPUTE , or REFRESH , the last of which manually triggers DFE statistics generation. Possible values: o disableAutoCompute o enableAutoCompute o refresh
+    /// The statistics generation mode. One of: DISABLE_AUTOCOMPUTE , ENABLE_AUTOCOMPUTE , or REFRESH , the last of which manually triggers DFE statistics generation. Possible values: • disableAutoCompute • enableAutoCompute • refresh
     /// </summary>
     [CliOption("--mode")]
     public AwsNeptunedataManagePropertygraphStatisticsMode? Mode { get; set; }
@@ -33,5 +33,14 @@ public record AwsNeptunedataManagePropertygraphStatisticsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

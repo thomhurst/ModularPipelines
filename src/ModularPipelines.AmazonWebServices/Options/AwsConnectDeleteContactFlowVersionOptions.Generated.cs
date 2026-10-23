@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,13 +28,13 @@ public record AwsConnectDeleteContactFlowVersionOptions : AwsOptions, IValidatab
     /// <summary>
     /// Deletes the particular version specified in flow version identifier. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
     /// <param name="ContactFlowId">The identifier of the flow.</param>
-    /// <param name="ContactFlowVersion">The identifier of the flow version. Constraints: o min: 1</param>
+    /// <param name="ContactFlowVersion">The identifier of the flow version. Constraints: • min: 1</param>
     public AwsConnectDeleteContactFlowVersionOptions(
         string InstanceId,
         string ContactFlowId,
-        int ContactFlowVersion
+        long ContactFlowVersion
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(InstanceId);
@@ -63,7 +64,7 @@ public record AwsConnectDeleteContactFlowVersionOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
@@ -75,10 +76,10 @@ public record AwsConnectDeleteContactFlowVersionOptions : AwsOptions, IValidatab
     public string? ContactFlowId { get; private init; }
 
     /// <summary>
-    /// The identifier of the flow version. Constraints: o min: 1
+    /// The identifier of the flow version. Constraints: • min: 1
     /// </summary>
     [CliOption("--contact-flow-version")]
-    public int? ContactFlowVersion { get; private init; }
+    public long? ContactFlowVersion { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -101,6 +102,15 @@ public record AwsConnectDeleteContactFlowVersionOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

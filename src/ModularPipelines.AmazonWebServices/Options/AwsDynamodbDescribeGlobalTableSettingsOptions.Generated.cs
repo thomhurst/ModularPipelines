@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes Region-specific settings for a global table. WARNING: This documentation is for version 2017.11.29 (Legacy) of global ta- bles, which should be avoided for new global tables. Customers should use Global Tables version 2019.11.21 (Current) when possible, because it provides greater flexibility, higher efficiency, and con- sumes less write capacity than 2017.11.29 (Legacy). To determine which version you're using, see Determining the global table version you are using . To update existin...
+/// Describes Region-specific settings for a global table. WARNING: This documentation is for version 2017.11.29 (Legacy) of global tables, which should be avoided for new global tables. Customers should use Global Tables version 2019.11.21 (Current) when possible, because it provides greater flexibility, higher efficiency, and consumes less write capacity than 2017.11.29 (Legacy). To determine which version you're using, see Determining the global table version you are using . To update existing gl...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsDynamodbDescribeGlobalTableSettingsOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Describes Region-specific settings for a global table. WARNING: This documentation is for version 2017.11.29 (Legacy) of global ta- bles, which should be avoided for new global tables. Customers should use Global Tables version 2019.11.21 (Current) when possible, because it provides greater flexibility, higher efficiency, and con- sumes less write capacity than 2017.11.29 (Legacy). To determine which version you're using, see Determining the global table version you are using . To update existin...
+    /// Describes Region-specific settings for a global table. WARNING: This documentation is for version 2017.11.29 (Legacy) of global tables, which should be avoided for new global tables. Customers should use Global Tables version 2019.11.21 (Current) when possible, because it provides greater flexibility, higher efficiency, and consumes less write capacity than 2017.11.29 (Legacy). To determine which version you're using, see Determining the global table version you are using . To update existing gl...
     /// </summary>
-    /// <param name="GlobalTableName">The name of the global table to describe. Constraints: o min: 3 o max: 255 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="GlobalTableName">The name of the global table to describe. Constraints: • min: 3 • max: 255 • pattern: [a-zA-Z0-9_.-]+</param>
     public AwsDynamodbDescribeGlobalTableSettingsOptions(
         string GlobalTableName
     )
@@ -56,7 +57,7 @@ public record AwsDynamodbDescribeGlobalTableSettingsOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the global table to describe. Constraints: o min: 3 o max: 255 o pattern: [a-zA-Z0-9_.-]+
+    /// The name of the global table to describe. Constraints: • min: 3 • max: 255 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--global-table-name")]
     public string? GlobalTableName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsDynamodbDescribeGlobalTableSettingsOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

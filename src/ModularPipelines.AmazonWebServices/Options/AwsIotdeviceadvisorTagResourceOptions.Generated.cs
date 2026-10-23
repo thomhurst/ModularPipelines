@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +28,8 @@ public record AwsIotdeviceadvisorTagResourceOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Adds to and modifies existing tags of an IoT Device Advisor resource. Requires permission to access the TagResource action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The resource ARN of an IoT Device Advisor resource. This can be SuiteDefinition ARN or SuiteRun ARN. Constraints: o min: 20 o max: 2048</param>
-    /// <param name="Tags">The tags to be attached to the IoT Device Advisor resource. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 1 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    /// <param name="ResourceArn">The resource ARN of an IoT Device Advisor resource. This can be SuiteDefinition ARN or SuiteRun ARN. Constraints: • min: 20 • max: 2048</param>
+    /// <param name="Tags">The tags to be attached to the IoT Device Advisor resource. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 1 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
     public AwsIotdeviceadvisorTagResourceOptions(
         string ResourceArn,
         IReadOnlyList<KeyValue> Tags
@@ -72,13 +72,13 @@ public record AwsIotdeviceadvisorTagResourceOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The resource ARN of an IoT Device Advisor resource. This can be SuiteDefinition ARN or SuiteRun ARN. Constraints: o min: 20 o max: 2048
+    /// The resource ARN of an IoT Device Advisor resource. This can be SuiteDefinition ARN or SuiteRun ARN. Constraints: • min: 20 • max: 2048
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The tags to be attached to the IoT Device Advisor resource. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 1 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags to be attached to the IoT Device Advisor resource. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 1 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; private init; }
@@ -104,6 +104,15 @@ public record AwsIotdeviceadvisorTagResourceOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

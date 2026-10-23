@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +29,8 @@ public record AwsEcrWaitImageScanCompleteOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Wait until an image scan is complete and findings can be accessed It will poll every 5 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation image-scan-complete is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated ...
     /// </summary>
-    /// <param name="RepositoryName">The repository for the image for which to describe the scan find- ings. Constraints: o min: 2 o max: 256 o pattern: [a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*</param>
-    /// <param name="ImageId">An object with identifying information for an image in an Amazon ECR repository. imageDigest -&gt; (string) The sha256 digest of the image manifest. imageTag -&gt; (string) The tag used for the image. Constraints: o min: 1 o max: 300 Shorthand Syntax: imageDigest=string,imageTag=string JSON Syntax: { "imageDigest": "string", "imageTag": "string" }</param>
+    /// <param name="RepositoryName">The repository for the image for which to describe the scan findings. Constraints: • min: 2 • max: 256 • pattern: [a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*</param>
+    /// <param name="ImageId">An object with identifying information for an image in an Amazon ECR repository. imageDigest -&gt; (string) The sha256 digest of the image manifest. imageTag -&gt; (string) The tag used for the image. Constraints: • min: 1 • max: 300 Shorthand Syntax: imageDigest=string,imageTag=string JSON Syntax: { "imageDigest": "string", "imageTag": "string" }</param>
     public AwsEcrWaitImageScanCompleteOptions(
         string RepositoryName,
         string ImageId
@@ -61,28 +62,25 @@ public record AwsEcrWaitImageScanCompleteOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The repository for the image for which to describe the scan find- ings. Constraints: o min: 2 o max: 256 o pattern: [a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*
+    /// The repository for the image for which to describe the scan findings. Constraints: • min: 2 • max: 256 • pattern: [a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*
     /// </summary>
     [CliOption("--repository-name")]
     public string? RepositoryName { get; private init; }
 
     /// <summary>
-    /// An object with identifying information for an image in an Amazon ECR repository. imageDigest -&gt; (string) The sha256 digest of the image manifest. imageTag -&gt; (string) The tag used for the image. Constraints: o min: 1 o max: 300 Shorthand Syntax: imageDigest=string,imageTag=string JSON Syntax: { "imageDigest": "string", "imageTag": "string" }
+    /// An object with identifying information for an image in an Amazon ECR repository. imageDigest -&gt; (string) The sha256 digest of the image manifest. imageTag -&gt; (string) The tag used for the image. Constraints: • min: 1 • max: 300 Shorthand Syntax: imageDigest=string,imageTag=string JSON Syntax: { "imageDigest": "string", "imageTag": "string" }
     /// </summary>
     [CliOption("--image-id")]
     public string? ImageId { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services account ID associated with the registry that contains the repository in which to describe the image scan findings for. If you do not specify a registry, the default registry is as- sumed. Constraints: o pattern: [0-9]{12}
+    /// The Amazon Web Services account ID associated with the registry that contains the repository in which to describe the image scan findings for. If you do not specify a registry, the default registry is assumed. Constraints: • pattern: [0-9]{12}
     /// </summary>
     [CliOption("--registry-id")]
     public string? RegistryId { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -92,16 +90,19 @@ public record AwsEcrWaitImageScanCompleteOptions : AwsOptions, IValidatableObjec
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 1000
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -118,6 +119,15 @@ public record AwsEcrWaitImageScanCompleteOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

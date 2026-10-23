@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Models;
+using ModularPipelines;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -22,94 +22,94 @@ namespace ModularPipelines.AmazonWebServices.Services;
 public interface IAwsSecretsmanager
 {
     /// <summary>
-    /// Retrieves the contents of the encrypted fields SecretString or Secret- Binary for up to 20 secrets. To retrieve a single secret, call GetSe- cretValue . To choose which secrets to retrieve, you can specify a list of secrets by name or ARN, or you can use filters. If Secrets Manager encounters errors such as AccessDeniedException while attempting to retrieve any of the secrets, you can see the errors in Errors in the response. Secrets Manager generates CloudTrail GetSecretValue log entries for ea...
+    /// Retrieves the contents of the encrypted fields SecretString or SecretBinary for up to 20 secrets. To retrieve a single secret, call GetSecretValue . To choose which secrets to retrieve, you can specify a list of secrets by name or ARN, or you can use filters. If Secrets Manager encounters errors such as AccessDeniedException while attempting to retrieve any of the secrets, you can see the errors in Errors in the response. Secrets Manager generates CloudTrail GetSecretValue log entries for each s...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchGetSecretValueAsync(AwsSecretsmanagerBatchGetSecretValueOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchGetSecretValueAsync(AwsSecretsmanagerBatchGetSecretValueOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Turns off automatic rotation, and if a rotation is currently in progress, cancels the rotation. If you cancel a rotation in progress, it can leave the VersionStage la- bels in an unexpected state. You might need to remove the staging label AWSPENDING from the partially created version. You also need to deter- mine whether to roll back to the previous version of the secret by mov- ing the staging label AWSCURRENT to the version that has AWSPENDING . To determine which version has a specific stagi...
+    /// Turns off automatic rotation, and if a rotation is currently in progress, cancels the rotation. If you cancel a rotation in progress, it can leave the VersionStage labels in an unexpected state. You might need to remove the staging label AWSPENDING from the partially created version. You also need to determine whether to roll back to the previous version of the secret by moving the staging label AWSCURRENT to the version that has AWSPENDING . To determine which version has a specific staging lab...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelRotateSecretAsync(AwsSecretsmanagerCancelRotateSecretOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CancelRotateSecretAsync(AwsSecretsmanagerCancelRotateSecretOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates a new secret. A secret can be a password, a set of credentials such as a user name and password, an OAuth token, or other secret in- formation that you store in an encrypted form in Secrets Manager. The secret also includes the connection information to access a database or other service, which Secrets Manager doesn't encrypt. A secret in Se- crets Manager consists of both the protected secret data and the impor- tant information needed to manage the secret. For secrets that use managed ...
+    /// Creates a new secret. A secret can be a password, a set of credentials such as a user name and password, an OAuth token, or other secret information that you store in an encrypted form in Secrets Manager. The secret also includes the connection information to access a database or other service, which Secrets Manager doesn't encrypt. A secret in Secrets Manager consists of both the protected secret data and the important information needed to manage the secret. For secrets that use managed rotati...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateSecretAsync(AwsSecretsmanagerCreateSecretOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateSecretAsync(AwsSecretsmanagerCreateSecretOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deletes the resource-based permission policy attached to the secret. To attach a policy to a secret, use PutResourcePolicy . Secrets Manager generates a CloudTrail log entry when you call this ac- tion. Do not include sensitive information in request parameters be- cause it might be logged. For more information, see Logging Secrets Manager events with CloudTrail . Required permissions: secretsmanager:DeleteResourcePolicy . For more information, see IAM policy actions for Secrets Manager and Auth...
+    /// Deletes the resource-based permission policy attached to the secret. To attach a policy to a secret, use PutResourcePolicy . Secrets Manager generates a CloudTrail log entry when you call this action. Do not include sensitive information in request parameters because it might be logged. For more information, see Logging Secrets Manager events with CloudTrail . Required permissions: secretsmanager:DeleteResourcePolicy . For more information, see IAM policy actions for Secrets Manager and Authenti...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteResourcePolicyAsync(AwsSecretsmanagerDeleteResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteResourcePolicyAsync(AwsSecretsmanagerDeleteResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deletes a secret and all of its versions. You can specify a recovery window during which you can restore the secret. The minimum recovery window is 7 days. The default recovery window is 30 days. Secrets Man- ager attaches a DeletionDate stamp to the secret that specifies the end of the recovery window. At the end of the recovery window, Secrets Man- ager deletes the secret permanently. You can't delete a primary secret that is replicated to other Regions. You must first delete the replicas usin...
+    /// Deletes a secret and all of its versions. You can specify a recovery window during which you can restore the secret. The minimum recovery window is 7 days. The default recovery window is 30 days. Secrets Manager attaches a DeletionDate stamp to the secret that specifies the end of the recovery window. At the end of the recovery window, Secrets Manager deletes the secret permanently. You can't delete a primary secret that is replicated to other Regions. You must first delete the replicas using Re...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteSecretAsync(AwsSecretsmanagerDeleteSecretOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteSecretAsync(AwsSecretsmanagerDeleteSecretOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves the details of a secret. It does not include the encrypted secret value. Secrets Manager only returns fields that have a value in the response. Secrets Manager generates a CloudTrail log entry when you call this ac- tion. Do not include sensitive information in request parameters be- cause it might be logged. For more information, see Logging Secrets Manager events with CloudTrail . Required permissions: secretsmanager:DescribeSecret . For more in- formation, see IAM policy actions for...
+    /// Retrieves the details of a secret. It does not include the encrypted secret value. Secrets Manager only returns fields that have a value in the response. Secrets Manager generates a CloudTrail log entry when you call this action. Do not include sensitive information in request parameters because it might be logged. For more information, see Logging Secrets Manager events with CloudTrail . Required permissions: secretsmanager:DescribeSecret . For more information, see IAM policy actions for Secre...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeSecretAsync(AwsSecretsmanagerDescribeSecretOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeSecretAsync(AwsSecretsmanagerDescribeSecretOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Generates a random password. We recommend that you specify the maximum length and include every character type that the system you are gener- ating a password for can support. By default, Secrets Manager uses up- percase and lowercase letters, numbers, and the following characters in passwords: !\"#$%&amp;'()*+,-./:;&lt;=&gt;?@[\\]^_`{|}~ Secrets Manager generates a CloudTrail log entry when you call this ac- tion. Required permissions: secretsmanager:GetRandomPassword . For more information, see IAM poli...
+    /// Generates a random password. We recommend that you specify the maximum length and include every character type that the system you are generating a password for can support. By default, Secrets Manager uses uppercase and lowercase letters, numbers, and the following characters in passwords: !\"#$%&amp;'()*+,-./:;&lt;=&gt;?@[\\]^_`{|}~ Secrets Manager generates a CloudTrail log entry when you call this action. Required permissions: secretsmanager:GetRandomPassword . For more information, see IAM policy act...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRandomPasswordAsync(AwsSecretsmanagerGetRandomPasswordOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRandomPasswordAsync(AwsSecretsmanagerGetRandomPasswordOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves the JSON text of the resource-based policy document attached to the secret. For more information about permissions policies attached to a secret, see Permissions policies attached to a secret . Secrets Manager generates a CloudTrail log entry when you call this ac- tion. Do not include sensitive information in request parameters be- cause it might be logged. For more information, see Logging Secrets Manager events with CloudTrail . Required permissions: secretsmanager:GetResourcePolicy...
+    /// Retrieves the JSON text of the resource-based policy document attached to the secret. For more information about permissions policies attached to a secret, see Permissions policies attached to a secret . Secrets Manager generates a CloudTrail log entry when you call this action. Do not include sensitive information in request parameters because it might be logged. For more information, see Logging Secrets Manager events with CloudTrail . Required permissions: secretsmanager:GetResourcePolicy . F...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetResourcePolicyAsync(AwsSecretsmanagerGetResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetResourcePolicyAsync(AwsSecretsmanagerGetResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves the contents of the encrypted fields SecretString or Secret- Binary from the specified version of a secret, whichever contains con- tent. To retrieve the values for a group of secrets, call BatchGetSecret- Value . We recommend that you cache your secret values by using client-side caching. Caching secrets improves speed and reduces your costs. For more information, see Cache secrets for your applications . To retrieve the previous version of a secret, use VersionStage and specify AWSPR...
+    /// Retrieves the contents of the encrypted fields SecretString or SecretBinary from the specified version of a secret, whichever contains content. To retrieve the values for a group of secrets, call BatchGetSecretValue . We recommend that you cache your secret values by using client-side caching. Caching secrets improves speed and reduces your costs. For more information, see Cache secrets for your applications . To retrieve the previous version of a secret, use VersionStage and specify AWSPREVIOUS...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSecretValueAsync(AwsSecretsmanagerGetSecretValueOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSecretValueAsync(AwsSecretsmanagerGetSecretValueOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Lists the versions of a secret. Secrets Manager uses staging labels to indicate the different versions of a secret. For more information, see Secrets Manager concepts: Versions . To list the secrets in the account, use ListSecrets . Secrets Manager generates a CloudTrail log entry when you call this action. Do not include sensitive information in request parameters because it might be logged. For more information, see Logging Secrets Manager events with CloudTrail . Required permissions: secrets...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ListSecretVersionIdsAsync(AwsSecretsmanagerListSecretVersionIdsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the secrets that are stored by Secrets Manager in the Amazon Web Services account, not including secrets that are marked for deletion. To see secrets marked for deletion, use the Secrets Manager console. All Secrets Manager operations are eventually consistent. ListSecrets might not reflect changes from the last five minutes. You can get more recent information for a specific secret by calling DescribeSecret . To list the versions of a secret, use ListSecretVersionIds . To retrieve the val...
@@ -118,28 +118,16 @@ public interface IAwsSecretsmanager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSecretsAsync(AwsSecretsmanagerListSecretsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSecretsAsync(AwsSecretsmanagerListSecretsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists the versions of a secret. Secrets Manager uses staging labels to indicate the different versions of a secret. For more information, see Secrets Manager concepts: Versions . To list the secrets in the account, use ListSecrets . Secrets Manager generates a CloudTrail log entry when you call this ac- tion. Do not include sensitive information in request parameters be- cause it might be logged. For more information, see Logging Secrets Manager events with CloudTrail . Required permissions: sec...
+    /// Attaches a resource-based permission policy to a secret. A resource-based policy is optional. For more information, see Authentication and access control for Secrets Manager For information about attaching a policy in the console, see Attach a permissions policy to a secret . Secrets Manager generates a CloudTrail log entry when you call this action. Do not include sensitive information in request parameters because it might be logged. For more information, see Logging Secrets Manager events wit...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSecretVersionIdsAsync(AwsSecretsmanagerListSecretVersionIdsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// Attaches a resource-based permission policy to a secret. A re- source-based policy is optional. For more information, see Authentication and access control for Secrets Manager For information about attaching a policy in the console, see Attach a permissions policy to a secret . Secrets Manager generates a CloudTrail log entry when you call this ac- tion. Do not include sensitive information in request parameters be- cause it might be logged. For more information, see Logging Secrets Manager even...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> PutResourcePolicyAsync(AwsSecretsmanagerPutResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutResourcePolicyAsync(AwsSecretsmanagerPutResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new version of your secret by creating a new encrypted value and attaching it to the secret. version can contain a new SecretString value or a new SecretBinary value. Do not call PutSecretValue at a sustained rate of more than once every 10 minutes. When you update the secret value, Secrets Manager creates a new version of the secret. Secrets Manager keeps 100 of the most recent versions, but it keeps all secret versions created in the last 24 hours. If you call PutSecretValue more tha...
@@ -148,88 +136,79 @@ public interface IAwsSecretsmanager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutSecretValueAsync(AwsSecretsmanagerPutSecretValueOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutSecretValueAsync(AwsSecretsmanagerPutSecretValueOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// For a secret that is replicated to other Regions, deletes the secret replicas from the Regions you specify. Secrets Manager generates a CloudTrail log entry when you call this ac- tion. Do not include sensitive information in request parameters be- cause it might be logged. For more information, see Logging Secrets Manager events with CloudTrail . Required permissions: secretsmanager:RemoveRegionsFromReplication . For more information, see IAM policy actions for Secrets Manager and Authenticatio...
+    /// For a secret that is replicated to other Regions, deletes the secret replicas from the Regions you specify. Secrets Manager generates a CloudTrail log entry when you call this action. Do not include sensitive information in request parameters because it might be logged. For more information, see Logging Secrets Manager events with CloudTrail . Required permissions: secretsmanager:RemoveRegionsFromReplication . For more information, see IAM policy actions for Secrets Manager and Authentication an...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RemoveRegionsFromReplicationAsync(AwsSecretsmanagerRemoveRegionsFromReplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RemoveRegionsFromReplicationAsync(AwsSecretsmanagerRemoveRegionsFromReplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Replicates the secret to a new Regions. See Multi-Region secrets . Secrets Manager generates a CloudTrail log entry when you call this ac- tion. Do not include sensitive information in request parameters be- cause it might be logged. For more information, see Logging Secrets Manager events with CloudTrail . Required permissions: secretsmanager:ReplicateSecretToRegions . If the primary secret is encrypted with a KMS key other than aws/se- cretsmanager , you also need kms:Decrypt permission to the...
+    /// Replicates the secret to a new Regions. See Multi-Region secrets . Secrets Manager generates a CloudTrail log entry when you call this action. Do not include sensitive information in request parameters because it might be logged. For more information, see Logging Secrets Manager events with CloudTrail . Required permissions: secretsmanager:ReplicateSecretToRegions . If the primary secret is encrypted with a KMS key other than aws/secretsmanager , you also need kms:Decrypt permission to the key. ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ReplicateSecretToRegionsAsync(AwsSecretsmanagerReplicateSecretToRegionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ReplicateSecretToRegionsAsync(AwsSecretsmanagerReplicateSecretToRegionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Cancels the scheduled deletion of a secret by removing the DeletedDate time stamp. You can access a secret again after it has been restored. Secrets Manager generates a CloudTrail log entry when you call this ac- tion. Do not include sensitive information in request parameters be- cause it might be logged. For more information, see Logging Secrets Manager events with CloudTrail . Required permissions: secretsmanager:RestoreSecret . For more in- formation, see IAM policy actions for Secrets Manag...
+    /// Cancels the scheduled deletion of a secret by removing the DeletedDate time stamp. You can access a secret again after it has been restored. Secrets Manager generates a CloudTrail log entry when you call this action. Do not include sensitive information in request parameters because it might be logged. For more information, see Logging Secrets Manager events with CloudTrail . Required permissions: secretsmanager:RestoreSecret . For more information, see IAM policy actions for Secrets Manager and...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RestoreSecretAsync(AwsSecretsmanagerRestoreSecretOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RestoreSecretAsync(AwsSecretsmanagerRestoreSecretOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Configures and starts the asynchronous process of rotating the secret. For information about rotation, see Rotate secrets in the Secrets Man- ager User Guide . If you include the configuration parameters, the op- eration sets the values for the secret and then immediately starts a rotation. If you don't include the configuration parameters, the opera- tion starts a rotation with the values already stored in the secret. When rotation is successful, the AWSPENDING staging label might be at- tached...
+    /// Configures and starts the asynchronous process of rotating the secret. For information about rotation, see Rotate secrets in the Secrets Manager User Guide . If you include the configuration parameters, the operation sets the values for the secret and then immediately starts a rotation. If you don't include the configuration parameters, the operation starts a rotation with the values already stored in the secret. When rotation is successful, the AWSPENDING staging label might be attached to the ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RotateSecretAsync(AwsSecretsmanagerRotateSecretOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RotateSecretAsync(AwsSecretsmanagerRotateSecretOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Removes the link between the replica secret and the primary secret and promotes the replica to a primary secret in the replica Region. You must call this operation from the Region in which you want to pro- mote the replica to a primary secret. Secrets Manager generates a CloudTrail log entry when you call this ac- tion. Do not include sensitive information in request parameters be- cause it might be logged. For more information, see Logging Secrets Manager events with CloudTrail . Required permi...
+    /// Removes the link between the replica secret and the primary secret and promotes the replica to a primary secret in the replica Region. You must call this operation from the Region in which you want to promote the replica to a primary secret. Secrets Manager generates a CloudTrail log entry when you call this action. Do not include sensitive information in request parameters because it might be logged. For more information, see Logging Secrets Manager events with CloudTrail . Required permissions...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopReplicationToReplicaAsync(AwsSecretsmanagerStopReplicationToReplicaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopReplicationToReplicaAsync(AwsSecretsmanagerStopReplicationToReplicaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Attaches tags to a secret. Tags consist of a key name and a value. Tags are part of the secret's metadata. They are not associated with spe- cific versions of the secret. This operation appends tags to the exist- ing list of tags. For tag quotas and naming restrictions, see Service quotas for Tagging in the Amazon Web Services General Reference guide . WARNING: If you use tags as part of your security strategy, then adding or removing a tag can change permissions. If successfully completing this...
+    /// Attaches tags to a secret. Tags consist of a key name and a value. Tags are part of the secret's metadata. They are not associated with specific versions of the secret. This operation appends tags to the existing list of tags. For tag quotas and naming restrictions, see Service quotas for Tagging in the Amazon Web Services General Reference guide . WARNING: If you use tags as part of your security strategy, then adding or removing a tag can change permissions. If successfully completing this ope...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsSecretsmanagerTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsSecretsmanagerTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Removes specific tags from a secret. This operation is idempotent. If a requested tag is not attached to the secret, no error is returned and the secret metadata is unchanged. WARNING: If you use tags as part of your security strategy, then removing a tag can change permissions. If successfully completing this opera- tion would result in you losing your permissions for this secret, then the operation is blocked and returns an Access Denied error. Secrets Manager generates a CloudTrail log entry ...
+    /// Removes specific tags from a secret. This operation is idempotent. If a requested tag is not attached to the secret, no error is returned and the secret metadata is unchanged. WARNING: If you use tags as part of your security strategy, then removing a tag can change permissions. If successfully completing this operation would result in you losing your permissions for this secret, then the operation is blocked and returns an Access Denied error. Secrets Manager generates a CloudTrail log entry wh...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsSecretsmanagerUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsSecretsmanagerUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Modifies the details of a secret, including metadata and the secret value. To change the secret value, you can also use PutSecretValue . To change the rotation configuration of a secret, use RotateSecret in- stead. To change a secret so that it is managed by another service, you need to recreate the secret in that service. See Secrets Manager secrets managed by other Amazon Web Services services . We recommend you avoid calling UpdateSecret at a sustained rate of more than once every 10 minutes....
+    /// Modifies the details of a secret, including metadata and the secret value. To change the secret value, you can also use PutSecretValue . To change the rotation configuration of a secret, use RotateSecret instead. To change a secret so that it is managed by another service, you need to recreate the secret in that service. See Secrets Manager secrets managed by other Amazon Web Services services . We recommend you avoid calling UpdateSecret at a sustained rate of more than once every 10 minutes. W...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateSecretAsync(AwsSecretsmanagerUpdateSecretOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateSecretAsync(AwsSecretsmanagerUpdateSecretOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the staging labels attached to a version of a secret. Secrets Manager uses staging labels to track a version as it progresses through the secret rotation process. Each staging label can be attached to only one version at a time. To add a staging label to a version when it is already attached to another version, Secrets Manager first removes it from the other version first and then attaches it to this one. For more information about versions and staging labels, see Concepts: Version . Th...
@@ -238,17 +217,15 @@ public interface IAwsSecretsmanager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateSecretVersionStageAsync(AwsSecretsmanagerUpdateSecretVersionStageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateSecretVersionStageAsync(AwsSecretsmanagerUpdateSecretVersionStageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Validates that a resource policy does not grant a wide range of princi- pals access to your secret. A resource-based policy is optional for se- crets. The API performs three checks when validating the policy: o Sends a call to Zelkova , an automated reasoning engine, to ensure your resource policy does not allow broad access to your secret, for example policies that use a wildcard for the principal. o Checks for correct syntax in a policy. o Verifies the policy does not lock out a caller. Secret...
+    /// Validates that a resource policy does not grant a wide range of principals access to your secret. A resource-based policy is optional for secrets. The API performs three checks when validating the policy: • Sends a call to Zelkova , an automated reasoning engine, to ensure your resource policy does not allow broad access to your secret, for example policies that use a wildcard for the principal. • Checks for correct syntax in a policy. • Verifies the policy does not lock out a caller. Secrets Ma...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ValidateResourcePolicyAsync(AwsSecretsmanagerValidateResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ValidateResourcePolicyAsync(AwsSecretsmanagerValidateResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

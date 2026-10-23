@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -73,31 +74,31 @@ public record AwsXrayGetInsightSummariesOptions : AwsOptions, IValidatableObject
     public string? EndTime { get; private init; }
 
     /// <summary>
-    /// The list of insight states. Constraints: o min: 0 o max: 1 (string) Possible values: o ACTIVE o CLOSED Syntax: "string" "string" ...
+    /// The list of insight states. Constraints: • min: 0 • max: 1 (string) Possible values: • ACTIVE • CLOSED Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--states", GroupValues = true)]
     public IEnumerable<string>? States { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the group. Required if the Group- Name isn't provided. Constraints: o min: 1 o max: 400
+    /// The Amazon Resource Name (ARN) of the group. Required if the GroupName isn't provided. Constraints: • min: 1 • max: 400
     /// </summary>
     [CliOption("--group-arn")]
     public string? GroupArn { get; set; }
 
     /// <summary>
-    /// The name of the group. Required if the GroupARN isn't provided. Constraints: o min: 1 o max: 32
+    /// The name of the group. Required if the GroupARN isn't provided. Constraints: • min: 1 • max: 32
     /// </summary>
     [CliOption("--group-name")]
     public string? GroupName { get; set; }
 
     /// <summary>
-    /// The maximum number of results to display. Constraints: o min: 1 o max: 100
+    /// The maximum number of results to display. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// Pagination token. Constraints: o min: 1 o max: 2000
+    /// Pagination token. Constraints: • min: 1 • max: 2000
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -124,6 +125,15 @@ public record AwsXrayGetInsightSummariesOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

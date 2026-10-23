@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the specified fields containing personally identifiable infor- mation (PII) from a contact in the specified Connect Customer instance. We redact PII (such as customer endpoints, additional email recipients, and the email subject) from the contact and its associated contact trace record (CTR). The contact must be in a terminated state. WARNING: This deletion is permanent and cannot be undone. Performing this op- eration permanently deletes the specified PII. There is no retention period; ...
+/// Deletes the specified fields containing personally identifiable information (PII) from a contact in the specified Connect Customer instance. We redact PII (such as customer endpoints, additional email recipients, and the email subject) from the contact and its associated contact trace record (CTR). The contact must be in a terminated state. WARNING: This deletion is permanent and cannot be undone. Performing this operation permanently deletes the specified PII. There is no retention period; you ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsConnectDeleteContactDataOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the specified fields containing personally identifiable infor- mation (PII) from a contact in the specified Connect Customer instance. We redact PII (such as customer endpoints, additional email recipients, and the email subject) from the contact and its associated contact trace record (CTR). The contact must be in a terminated state. WARNING: This deletion is permanent and cannot be undone. Performing this op- eration permanently deletes the specified PII. There is no retention period; ...
+    /// Deletes the specified fields containing personally identifiable information (PII) from a contact in the specified Connect Customer instance. We redact PII (such as customer endpoints, additional email recipients, and the email subject) from the contact and its associated contact trace record (CTR). The contact must be in a terminated state. WARNING: This deletion is permanent and cannot be undone. Performing this operation permanently deletes the specified PII. There is no retention period; you ...
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="ContactId">The identifier of the contact. You can delete PII only from a con- tact that has been disconnected (is in a terminated state). Constraints: o min: 1 o max: 256</param>
-    /// <param name="ContactFields">The categories of PII to redact from the contact. Specify one or more of the following values: o CUSTOMER_ENDPOINT The customer's contact endpoint. o ADDITIONAL_EMAIL_RECIPIENTS Additional recipients on an email contact (email channel only). o EMAIL_SUBJECT The subject line of an email contact (email channel only). (string) Possible values: o CUSTOMER_ENDPOINT o ADDITIONAL_EMAIL_RECIPIENTS o EMAIL_SUBJECT Syntax: "string" "string" ...</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="ContactId">The identifier of the contact. You can delete PII only from a contact that has been disconnected (is in a terminated state). Constraints: • min: 1 • max: 256</param>
+    /// <param name="ContactFields">The categories of PII to redact from the contact. Specify one or more of the following values: • CUSTOMER_ENDPOINT The customer's contact endpoint. • ADDITIONAL_EMAIL_RECIPIENTS Additional recipients on an email contact (email channel only). • EMAIL_SUBJECT The subject line of an email contact (email channel only). (string) Possible values: • CUSTOMER_ENDPOINT • ADDITIONAL_EMAIL_RECIPIENTS • EMAIL_SUBJECT Syntax: "string" "string" ...</param>
     public AwsConnectDeleteContactDataOptions(
         string InstanceId,
         string ContactId,
@@ -75,19 +76,19 @@ public record AwsConnectDeleteContactDataOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The identifier of the contact. You can delete PII only from a con- tact that has been disconnected (is in a terminated state). Constraints: o min: 1 o max: 256
+    /// The identifier of the contact. You can delete PII only from a contact that has been disconnected (is in a terminated state). Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--contact-id")]
     public string? ContactId { get; private init; }
 
     /// <summary>
-    /// The categories of PII to redact from the contact. Specify one or more of the following values: o CUSTOMER_ENDPOINT The customer's contact endpoint. o ADDITIONAL_EMAIL_RECIPIENTS Additional recipients on an email contact (email channel only). o EMAIL_SUBJECT The subject line of an email contact (email channel only). (string) Possible values: o CUSTOMER_ENDPOINT o ADDITIONAL_EMAIL_RECIPIENTS o EMAIL_SUBJECT Syntax: "string" "string" ...
+    /// The categories of PII to redact from the contact. Specify one or more of the following values: • CUSTOMER_ENDPOINT The customer's contact endpoint. • ADDITIONAL_EMAIL_RECIPIENTS Additional recipients on an email contact (email channel only). • EMAIL_SUBJECT The subject line of an email contact (email channel only). (string) Possible values: • CUSTOMER_ENDPOINT • ADDITIONAL_EMAIL_RECIPIENTS • EMAIL_SUBJECT Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--contact-fields", GroupValues = true)]
     public IEnumerable<string>? ContactFields { get; private init; }
@@ -113,6 +114,15 @@ public record AwsConnectDeleteContactDataOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

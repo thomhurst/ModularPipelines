@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsKinesisvideoGetDataEndpointOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Gets an endpoint for a specified stream for either reading or writing. Use this endpoint in your application to read from the specified stream (using the GetMedia or GetMediaForFragmentList operations) or write to it (using the PutMedia operation). NOTE: The returned endpoint does not have the API name appended. The client needs to add the API name to the returned endpoint. In the request, specify the stream either by StreamName or StreamARN . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApiName">The name of the API action for which to get an endpoint. Possible values: o PUT_MEDIA o GET_MEDIA o LIST_FRAGMENTS o GET_MEDIA_FOR_FRAGMENT_LIST o GET_HLS_STREAMING_SESSION_URL o GET_DASH_STREAMING_SESSION_URL o GET_CLIP o GET_IMAGES</param>
+    /// <param name="ApiName">The name of the API action for which to get an endpoint. Possible values: • PUT_MEDIA • GET_MEDIA • LIST_FRAGMENTS • GET_MEDIA_FOR_FRAGMENT_LIST • GET_HLS_STREAMING_SESSION_URL • GET_DASH_STREAMING_SESSION_URL • GET_CLIP • GET_IMAGES</param>
     public AwsKinesisvideoGetDataEndpointOptions(
         AwsKinesisvideoGetDataEndpointApiName ApiName
     )
@@ -56,19 +57,19 @@ public record AwsKinesisvideoGetDataEndpointOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the API action for which to get an endpoint. Possible values: o PUT_MEDIA o GET_MEDIA o LIST_FRAGMENTS o GET_MEDIA_FOR_FRAGMENT_LIST o GET_HLS_STREAMING_SESSION_URL o GET_DASH_STREAMING_SESSION_URL o GET_CLIP o GET_IMAGES
+    /// The name of the API action for which to get an endpoint. Possible values: • PUT_MEDIA • GET_MEDIA • LIST_FRAGMENTS • GET_MEDIA_FOR_FRAGMENT_LIST • GET_HLS_STREAMING_SESSION_URL • GET_DASH_STREAMING_SESSION_URL • GET_CLIP • GET_IMAGES
     /// </summary>
     [CliOption("--api-name")]
     public AwsKinesisvideoGetDataEndpointApiName? ApiName { get; private init; }
 
     /// <summary>
-    /// The name of the stream that you want to get the endpoint for. You must specify either this parameter or a StreamARN in the request. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_.-]+
+    /// The name of the stream that you want to get the endpoint for. You must specify either this parameter or a StreamARN in the request. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--stream-name")]
     public string? StreamName { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the stream that you want to get the endpoint for. You must specify either this parameter or a StreamName in the request. Constraints: o min: 1 o max: 1024 o pattern: arn:[a-z\d-]+:kine- sisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+
+    /// The Amazon Resource Name (ARN) of the stream that you want to get the endpoint for. You must specify either this parameter or a StreamName in the request. Constraints: • min: 1 • max: 1024 • pattern: arn:[a-z\d-]+:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+
     /// </summary>
     [CliOption("--stream-arn")]
     public string? StreamArn { get; set; }
@@ -94,6 +95,15 @@ public record AwsKinesisvideoGetDataEndpointOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

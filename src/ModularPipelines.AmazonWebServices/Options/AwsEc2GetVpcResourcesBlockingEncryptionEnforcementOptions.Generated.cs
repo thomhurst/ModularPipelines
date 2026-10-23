@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets information about resources in a VPC that are blocking encryption enforcement. For more information, see Enforce VPC encryption in transit in the Ama- zon VPC User Guide . See also: AWS API Documentation
+/// Gets information about resources in a VPC that are blocking encryption enforcement. For more information, see Enforce VPC encryption in transit in the Amazon VPC User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsEc2GetVpcResourcesBlockingEncryptionEnforcementOptions : AwsOpt
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets information about resources in a VPC that are blocking encryption enforcement. For more information, see Enforce VPC encryption in transit in the Ama- zon VPC User Guide . See also: AWS API Documentation
+    /// Gets information about resources in a VPC that are blocking encryption enforcement. For more information, see Enforce VPC encryption in transit in the Amazon VPC User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="VpcId">The ID of the VPC to check for resources blocking encryption en- forcement.</param>
+    /// <param name="VpcId">The ID of the VPC to check for resources blocking encryption enforcement.</param>
     public AwsEc2GetVpcResourcesBlockingEncryptionEnforcementOptions(
         string VpcId
     )
@@ -57,26 +58,26 @@ public record AwsEc2GetVpcResourcesBlockingEncryptionEnforcementOptions : AwsOpt
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the VPC to check for resources blocking encryption en- forcement.
+    /// The ID of the VPC to check for resources blocking encryption enforcement.
     /// </summary>
     [CliOption("--vpc-id")]
     public string? VpcId { get; private init; }
 
     /// <summary>
-    /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. For more information, see Pagination . Constraints: o min: 5 o max: 1000
+    /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. For more information, see Pagination . Constraints: • min: 5 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous re- quest.
+    /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -102,6 +103,15 @@ public record AwsEc2GetVpcResourcesBlockingEncryptionEnforcementOptions : AwsOpt
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

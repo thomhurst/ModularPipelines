@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new Glue Identity Center configuration to enable integration between Glue and Amazon Web Services IAM Identity Center for authenti- cation and authorization. See also: AWS API Documentation
+/// Creates a new Glue Identity Center configuration to enable integration between Glue and Amazon Web Services IAM Identity Center for authentication and authorization. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsGlueCreateGlueIdentityCenterConfigurationOptions : AwsOptions, 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new Glue Identity Center configuration to enable integration between Glue and Amazon Web Services IAM Identity Center for authenti- cation and authorization. See also: AWS API Documentation
+    /// Creates a new Glue Identity Center configuration to enable integration between Glue and Amazon Web Services IAM Identity Center for authentication and authorization. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceArn">The Amazon Resource Name (ARN) of the Identity Center instance to be associated with the Glue configuration. Constraints: o min: 10 o max: 1224</param>
+    /// <param name="InstanceArn">The Amazon Resource Name (ARN) of the Identity Center instance to be associated with the Glue configuration. Constraints: • min: 10 • max: 1224</param>
     public AwsGlueCreateGlueIdentityCenterConfigurationOptions(
         string InstanceArn
     )
@@ -56,19 +57,19 @@ public record AwsGlueCreateGlueIdentityCenterConfigurationOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Identity Center instance to be associated with the Glue configuration. Constraints: o min: 10 o max: 1224
+    /// The Amazon Resource Name (ARN) of the Identity Center instance to be associated with the Glue configuration. Constraints: • min: 10 • max: 1224
     /// </summary>
     [CliOption("--instance-arn")]
     public string? InstanceArn { get; private init; }
 
     /// <summary>
-    /// A list of Identity Center scopes that define the permissions and ac- cess levels for the Glue configuration. Constraints: o min: 1 o max: 50 (string) Constraints: o max: 50 Syntax: "string" "string" ...
+    /// A list of Identity Center scopes that define the permissions and access levels for the Glue configuration. Constraints: • min: 1 • max: 50 (string) Constraints: • max: 50 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--scopes", GroupValues = true)]
     public IEnumerable<string>? Scopes { get; set; }
 
     /// <summary>
-    /// abled (boolean) Specifies whether users can run background sessions when using Iden- tity Center authentication with Glue services.
+    /// Specifies whether users can run background sessions when using Identity Center authentication with Glue services.
     /// </summary>
     [CliFlag("--user-background-sessions-enabled", NegatedName = "--no-user-background-sessions-enabled")]
     public bool? UserBackgroundSessionsEnabled { get; set; }
@@ -94,6 +95,15 @@ public record AwsGlueCreateGlueIdentityCenterConfigurationOptions : AwsOptions, 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

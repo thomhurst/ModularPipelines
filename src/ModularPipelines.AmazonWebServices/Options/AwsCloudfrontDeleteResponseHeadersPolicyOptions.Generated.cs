@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a response headers policy. You cannot delete a response headers policy if it's attached to a cache behavior. First update your distributions to remove the response head- ers policy from all cache behaviors, then delete the response headers policy. To delete a response headers policy, you must provide the policy's identifier and version. To get these values, you can use ListResponse- HeadersPolicies or GetResponseHeadersPolicy . See also: AWS API Documentation
+/// Deletes a response headers policy. You cannot delete a response headers policy if it's attached to a cache behavior. First update your distributions to remove the response headers policy from all cache behaviors, then delete the response headers policy. To delete a response headers policy, you must provide the policy's identifier and version. To get these values, you can use ListResponseHeadersPolicies or GetResponseHeadersPolicy . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsCloudfrontDeleteResponseHeadersPolicyOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a response headers policy. You cannot delete a response headers policy if it's attached to a cache behavior. First update your distributions to remove the response head- ers policy from all cache behaviors, then delete the response headers policy. To delete a response headers policy, you must provide the policy's identifier and version. To get these values, you can use ListResponse- HeadersPolicies or GetResponseHeadersPolicy . See also: AWS API Documentation
+    /// Deletes a response headers policy. You cannot delete a response headers policy if it's attached to a cache behavior. First update your distributions to remove the response headers policy from all cache behaviors, then delete the response headers policy. To delete a response headers policy, you must provide the policy's identifier and version. To get these values, you can use ListResponseHeadersPolicies or GetResponseHeadersPolicy . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The identifier for the response headers policy that you are delet- ing. To get the identifier, you can use ListResponseHeadersPolicies .</param>
+    /// <param name="Id">The identifier for the response headers policy that you are deleting. To get the identifier, you can use ListResponseHeadersPolicies .</param>
     public AwsCloudfrontDeleteResponseHeadersPolicyOptions(
         string Id
     )
@@ -56,7 +57,7 @@ public record AwsCloudfrontDeleteResponseHeadersPolicyOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier for the response headers policy that you are delet- ing. To get the identifier, you can use ListResponseHeadersPolicies .
+    /// The identifier for the response headers policy that you are deleting. To get the identifier, you can use ListResponseHeadersPolicies .
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
@@ -88,6 +89,15 @@ public record AwsCloudfrontDeleteResponseHeadersPolicyOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

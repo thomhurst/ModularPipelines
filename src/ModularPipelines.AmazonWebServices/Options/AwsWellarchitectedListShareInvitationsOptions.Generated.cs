@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// List the share invitations. WorkloadNamePrefix , LensNamePrefix , ProfileNamePrefix , and Tem- plateNamePrefix are mutually exclusive. Use the parameter that matches your ShareResourceType . See also: AWS API Documentation
+/// List the share invitations. WorkloadNamePrefix , LensNamePrefix , ProfileNamePrefix , and TemplateNamePrefix are mutually exclusive. Use the parameter that matches your ShareResourceType . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -24,44 +24,44 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsWellarchitectedListShareInvitationsOptions : AwsOptions
 {
     /// <summary>
-    /// An optional string added to the beginning of each workload name re- turned in the results. Constraints: o min: 0 o max: 100
+    /// An optional string added to the beginning of each workload name returned in the results. Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--workload-name-prefix")]
     public string? WorkloadNamePrefix { get; set; }
 
     /// <summary>
-    /// An optional string added to the beginning of each lens name returned in the results. Constraints: o min: 0 o max: 100
+    /// An optional string added to the beginning of each lens name returned in the results. Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--lens-name-prefix")]
     public string? LensNamePrefix { get; set; }
 
     /// <summary>
-    /// The type of share invitations to be returned. Possible values: o WORKLOAD o LENS o PROFILE o TEMPLATE
+    /// The type of share invitations to be returned. Possible values: • WORKLOAD • LENS • PROFILE • TEMPLATE
     /// </summary>
     [CliOption("--share-resource-type")]
     public AwsWellarchitectedListShareInvitationsShareResourceType? ShareResourceType { get; set; }
 
     /// <summary>
-    /// The token to use to retrieve the next set of results. Constraints: o pattern: [A-Za-z0-9+\/=_-]+
+    /// The token to use to retrieve the next set of results. Constraints: • pattern: [A-Za-z0-9+\/=_-]+
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return for this request. Constraints: o min: 1 o max: 50
+    /// The maximum number of results to return for this request. Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// An optional string added to the beginning of each profile name re- turned in the results. Constraints: o min: 0 o max: 100
+    /// An optional string added to the beginning of each profile name returned in the results. Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--profile-name-prefix")]
     public string? ProfileNamePrefix { get; set; }
 
     /// <summary>
-    /// An optional string added to the beginning of each review template name returned in the results. Constraints: o min: 0 o max: 100 o pattern: [A-Za-z0-9-_.,:/()@!&amp;?#+'\s]+
+    /// An optional string added to the beginning of each review template name returned in the results. Constraints: • min: 0 • max: 100 • pattern: [A-Za-z0-9-_.,:/()@!&amp;?#+'\s]+
     /// </summary>
     [CliOption("--template-name-prefix")]
     public string? TemplateNamePrefix { get; set; }
@@ -71,5 +71,14 @@ public record AwsWellarchitectedListShareInvitationsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

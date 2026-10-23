@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsVoiceIdTagResourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Tags a Voice ID resource with the provided list of tags. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the Voice ID resource you want to tag. Constraints: o min: 1 o max: 1011 o pattern: ^arn:aws(-[^:]+)?:voiceid.+:[0-9]{12}:do- main/[a-zA-Z0-9]{22}$</param>
-    /// <param name="Tags">The list of tags to assign to the specified resource. Constraints: o min: 0 o max: 200 (structure) The tags used to organize, track, or control access for this re- source. For example, { "tags": {"key1":"value1", "key2":"value2"} }. Key -&gt; (string) [required] The first part of a key:value pair that forms a tag associ- ated with a given resource. For example, in the tag 'Depart- ment':'Sales', the key is 'Department'. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The second part of a key:value pair that forms a tag associ- ated with a given resource. For example, in the tag 'Depart- ment':'Sales', the value is 'Sales'. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the Voice ID resource you want to tag. Constraints: • min: 1 • max: 1011 • pattern: ^arn:aws(-[^:]+)?:voiceid.+:[0-9]{12}:domain/[a-zA-Z0-9]{22}$</param>
+    /// <param name="Tags">The list of tags to assign to the specified resource. Constraints: • min: 0 • max: 200 (structure) The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }. Key -&gt; (string) [required] The first part of a key:value pair that forms a tag associated with a given resource. For example, in the tag 'Department':'Sales', the key is 'Department'. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The second part of a key:value pair that forms a tag associated with a given resource. For example, in the tag 'Department':'Sales', the value is 'Sales'. Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
     public AwsVoiceIdTagResourceOptions(
         string ResourceArn,
         IEnumerable<string> Tags
@@ -71,13 +72,13 @@ public record AwsVoiceIdTagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Voice ID resource you want to tag. Constraints: o min: 1 o max: 1011 o pattern: ^arn:aws(-[^:]+)?:voiceid.+:[0-9]{12}:do- main/[a-zA-Z0-9]{22}$
+    /// The Amazon Resource Name (ARN) of the Voice ID resource you want to tag. Constraints: • min: 1 • max: 1011 • pattern: ^arn:aws(-[^:]+)?:voiceid.+:[0-9]{12}:domain/[a-zA-Z0-9]{22}$
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The list of tags to assign to the specified resource. Constraints: o min: 0 o max: 200 (structure) The tags used to organize, track, or control access for this re- source. For example, { "tags": {"key1":"value1", "key2":"value2"} }. Key -&gt; (string) [required] The first part of a key:value pair that forms a tag associ- ated with a given resource. For example, in the tag 'Depart- ment':'Sales', the key is 'Department'. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The second part of a key:value pair that forms a tag associ- ated with a given resource. For example, in the tag 'Depart- ment':'Sales', the value is 'Sales'. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The list of tags to assign to the specified resource. Constraints: • min: 0 • max: 200 (structure) The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }. Key -&gt; (string) [required] The first part of a key:value pair that forms a tag associated with a given resource. For example, in the tag 'Department':'Sales', the key is 'Department'. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The second part of a key:value pair that forms a tag associated with a given resource. For example, in the tag 'Department':'Sales', the value is 'Sales'. Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; private init; }
@@ -103,6 +104,15 @@ public record AwsVoiceIdTagResourceOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

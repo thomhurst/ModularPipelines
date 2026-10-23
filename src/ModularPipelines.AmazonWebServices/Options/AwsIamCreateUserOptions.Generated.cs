@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new IAM user for your Amazon Web Services account. For information about quotas for the number of IAM users you can cre- ate, see IAM and STS quotas in the IAM User Guide . See also: AWS API Documentation
+/// Creates a new IAM user for your Amazon Web Services account. For information about quotas for the number of IAM users you can create, see IAM and STS quotas in the IAM User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsIamCreateUserOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new IAM user for your Amazon Web Services account. For information about quotas for the number of IAM users you can cre- ate, see IAM and STS quotas in the IAM User Guide . See also: AWS API Documentation
+    /// Creates a new IAM user for your Amazon Web Services account. For information about quotas for the number of IAM users you can create, see IAM and STS quotas in the IAM User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="UserName">The name of the user to create. IAM user, group, role, and policy names must be unique within the account. Names are not distinguished by case. For example, you can- not create resources named both "MyResource" and "myresource". Constraints: o min: 1 o max: 64 o pattern: [\w+=,.@-]+</param>
+    /// <param name="UserName">The name of the user to create. IAM user, group, role, and policy names must be unique within the account. Names are not distinguished by case. For example, you cannot create resources named both "MyResource" and "myresource". Constraints: • min: 1 • max: 64 • pattern: [\w+=,.@-]+</param>
     public AwsIamCreateUserOptions(
         string UserName
     )
@@ -56,25 +57,25 @@ public record AwsIamCreateUserOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the user to create. IAM user, group, role, and policy names must be unique within the account. Names are not distinguished by case. For example, you can- not create resources named both "MyResource" and "myresource". Constraints: o min: 1 o max: 64 o pattern: [\w+=,.@-]+
+    /// The name of the user to create. IAM user, group, role, and policy names must be unique within the account. Names are not distinguished by case. For example, you cannot create resources named both "MyResource" and "myresource". Constraints: • min: 1 • max: 64 • pattern: [\w+=,.@-]+
     /// </summary>
     [CliOption("--user-name")]
     public string? UserName { get; private init; }
 
     /// <summary>
-    /// The path for the user name. For more information about paths, see IAM identifiers in the IAM User Guide . This parameter is optional. If it is not included, it defaults to a slash (/). This parameter allows (through its regex pattern ) a string of char- acters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (\u0021 ) through the DEL character (\u007F ), including most punctuation characters, digits, and upper and lowercased letters. Constraints: o min: 1 o max: 512 o pattern: (\u002F)|(\u002F[\u0021-\u007E]+\u002F)
+    /// The path for the user name. For more information about paths, see IAM identifiers in the IAM User Guide . This parameter is optional. If it is not included, it defaults to a slash (/). This parameter allows (through its regex pattern ) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (\u0021 ) through the DEL character (\u007F ), including most punctuation characters, digits, and upper and lowercased letters. Constraints: • min: 1 • max: 512 • pattern: (\u002F)|(\u002F[\u0021-\u007E]+\u002F)
     /// </summary>
     [CliOption("--path")]
     public string? Path { get; set; }
 
     /// <summary>
-    /// The ARN of the managed policy that is used to set the permissions boundary for the user. A permissions boundary policy defines the maximum permissions that identity-based policies can grant to an entity, but does not grant permissions. Permissions boundaries do not define the maximum per- missions that a resource-based policy can grant to an entity. To learn more, see Permissions boundaries for IAM entities in the IAM User Guide . For more information about policy types, see Policy types in the IAM User Guide . Constraints: o min: 20 o max: 2048
+    /// The ARN of the managed policy that is used to set the permissions boundary for the user. A permissions boundary policy defines the maximum permissions that identity-based policies can grant to an entity, but does not grant permissions. Permissions boundaries do not define the maximum permissions that a resource-based policy can grant to an entity. To learn more, see Permissions boundaries for IAM entities in the IAM User Guide . For more information about policy types, see Policy types in the IAM User Guide . Constraints: • min: 20 • max: 2048
     /// </summary>
     [CliOption("--permissions-boundary")]
     public string? PermissionsBoundary { get; set; }
 
     /// <summary>
-    /// A list of tags that you want to attach to the new user. Each tag consists of a key name and an associated value. For more information about tagging, see Tagging IAM resources in the IAM User Guide . NOTE: If any one of the tags is invalid or if you exceed the allowed maximum number of tags, then the entire request fails and the resource is not created. Constraints: o max: 50 (structure) A structure that represents user-provided metadata that can be associated with an IAM resource. For more information about tag- ging, see Tagging IAM resources in the IAM User Guide . Key -&gt; (string) [required] The key name that can be used to look up or retrieve the as- sociated value. For example, Department or Cost Center are common choices. Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]+ Value -&gt; (string) [required] The value associated with this tag. For example, tags with a key name of Department could have values such as Human Re- sources , Accounting , and Support . Tags with a key name of Cost Center might have values that consist of the number as- sociated with the different cost centers in your company. Typically, many resources have tags with the same key name but with different values. Constraints: o min: 0 o max: 256 o pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of tags that you want to attach to the new user. Each tag consists of a key name and an associated value. For more information about tagging, see Tagging IAM resources in the IAM User Guide . NOTE: If any one of the tags is invalid or if you exceed the allowed maximum number of tags, then the entire request fails and the resource is not created. Constraints: • max: 50 (structure) A structure that represents user-provided metadata that can be associated with an IAM resource. For more information about tagging, see Tagging IAM resources in the IAM User Guide . Key -&gt; (string) [required] The key name that can be used to look up or retrieve the associated value. For example, Department or Cost Center are common choices. Constraints: • min: 1 • max: 128 • pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]+ Value -&gt; (string) [required] The value associated with this tag. For example, tags with a key name of Department could have values such as Human Resources , Accounting , and Support . Tags with a key name of Cost Center might have values that consist of the number associated with the different cost centers in your company. Typically, many resources have tags with the same key name but with different values. Constraints: • min: 0 • max: 256 • pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -100,6 +101,15 @@ public record AwsIamCreateUserOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

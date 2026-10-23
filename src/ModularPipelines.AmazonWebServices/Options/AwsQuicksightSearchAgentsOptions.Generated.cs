@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +29,8 @@ public record AwsQuicksightSearchAgentsOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Searches for agents based on specified filters. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the agents. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="Filters">The filters to apply when searching agents. Constraints: o min: 1 o max: 1 (structure) A filter to apply when searching agents. Name -&gt; (string) The name of the field to filter on. Possible values: o DIRECT_QUICKSIGHT_OWNER o DIRECT_QUICKSIGHT_VIEWER_OR_OWNER o DIRECT_QUICKSIGHT_SOLE_OWNER o AGENT_NAME Operator -&gt; (string) The comparison operator to use for the filter. Possible values: o StringEquals o StringLike Value -&gt; (string) The value to filter on. Shorthand Syntax: Name=string,Operator=string,Value=string ... JSON Syntax: [ { "Name": "DIRECT_QUICKSIGHT_OWNER"|"DIRECT_QUICKSIGHT_VIEWER_OR_OWNER"|"DIRECT_QUICKSIGHT_SOLE_OWNER"|"AGENT_NAME", "Operator": "StringEquals"|"StringLike", "Value": "string" } ... ]</param>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the agents. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="Filters">The filters to apply when searching agents. Constraints: • min: 1 • max: 1 (structure) A filter to apply when searching agents. Name -&gt; (string) The name of the field to filter on. Possible values: • DIRECT_QUICKSIGHT_OWNER • DIRECT_QUICKSIGHT_VIEWER_OR_OWNER • DIRECT_QUICKSIGHT_SOLE_OWNER • AGENT_NAME Operator -&gt; (string) The comparison operator to use for the filter. Possible values: • StringEquals • StringLike Value -&gt; (string) The value to filter on. Shorthand Syntax: Name=string,Operator=string,Value=string ... JSON Syntax: [ { "Name": "DIRECT_QUICKSIGHT_OWNER"|"DIRECT_QUICKSIGHT_VIEWER_OR_OWNER"|"DIRECT_QUICKSIGHT_SOLE_OWNER"|"AGENT_NAME", "Operator": "StringEquals"|"StringLike", "Value": "string" } ... ]</param>
     public AwsQuicksightSearchAgentsOptions(
         string AwsAccountId,
         IEnumerable<string> Filters
@@ -72,19 +73,19 @@ public record AwsQuicksightSearchAgentsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon Web Services account that contains the agents. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID of the Amazon Web Services account that contains the agents. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The filters to apply when searching agents. Constraints: o min: 1 o max: 1 (structure) A filter to apply when searching agents. Name -&gt; (string) The name of the field to filter on. Possible values: o DIRECT_QUICKSIGHT_OWNER o DIRECT_QUICKSIGHT_VIEWER_OR_OWNER o DIRECT_QUICKSIGHT_SOLE_OWNER o AGENT_NAME Operator -&gt; (string) The comparison operator to use for the filter. Possible values: o StringEquals o StringLike Value -&gt; (string) The value to filter on. Shorthand Syntax: Name=string,Operator=string,Value=string ... JSON Syntax: [ { "Name": "DIRECT_QUICKSIGHT_OWNER"|"DIRECT_QUICKSIGHT_VIEWER_OR_OWNER"|"DIRECT_QUICKSIGHT_SOLE_OWNER"|"AGENT_NAME", "Operator": "StringEquals"|"StringLike", "Value": "string" } ... ]
+    /// The filters to apply when searching agents. Constraints: • min: 1 • max: 1 (structure) A filter to apply when searching agents. Name -&gt; (string) The name of the field to filter on. Possible values: • DIRECT_QUICKSIGHT_OWNER • DIRECT_QUICKSIGHT_VIEWER_OR_OWNER • DIRECT_QUICKSIGHT_SOLE_OWNER • AGENT_NAME Operator -&gt; (string) The comparison operator to use for the filter. Possible values: • StringEquals • StringLike Value -&gt; (string) The value to filter on. Shorthand Syntax: Name=string,Operator=string,Value=string ... JSON Syntax: [ { "Name": "DIRECT_QUICKSIGHT_OWNER"|"DIRECT_QUICKSIGHT_VIEWER_OR_OWNER"|"DIRECT_QUICKSIGHT_SOLE_OWNER"|"AGENT_NAME", "Operator": "StringEquals"|"StringLike", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; private init; }
 
     /// <summary>
-    /// The maximum number of results to return. Constraints: o min: 1 o max: 100
+    /// The maximum number of results to return. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -117,6 +118,15 @@ public record AwsQuicksightSearchAgentsOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

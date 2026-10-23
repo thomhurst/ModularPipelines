@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// The DeleteQualificationType deletes a Qualification type and deletes any HIT types that are associated with the Qualification type. This operation does not revoke Qualifications already assigned to Work- ers because the Qualifications might be needed for active HITs. If there are any pending requests for the Qualification type, Amazon Me- chanical Turk rejects those requests. After you delete a Qualification type, you can no longer use it to create HITs or HIT types. NOTE: DeleteQualificationTyp...
+/// The DeleteQualificationType deletes a Qualification type and deletes any HIT types that are associated with the Qualification type. This operation does not revoke Qualifications already assigned to Workers because the Qualifications might be needed for active HITs. If there are any pending requests for the Qualification type, Amazon Mechanical Turk rejects those requests. After you delete a Qualification type, you can no longer use it to create HITs or HIT types. NOTE: DeleteQualificationType mu...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsMturkDeleteQualificationTypeOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// The DeleteQualificationType deletes a Qualification type and deletes any HIT types that are associated with the Qualification type. This operation does not revoke Qualifications already assigned to Work- ers because the Qualifications might be needed for active HITs. If there are any pending requests for the Qualification type, Amazon Me- chanical Turk rejects those requests. After you delete a Qualification type, you can no longer use it to create HITs or HIT types. NOTE: DeleteQualificationTyp...
+    /// The DeleteQualificationType deletes a Qualification type and deletes any HIT types that are associated with the Qualification type. This operation does not revoke Qualifications already assigned to Workers because the Qualifications might be needed for active HITs. If there are any pending requests for the Qualification type, Amazon Mechanical Turk rejects those requests. After you delete a Qualification type, you can no longer use it to create HITs or HIT types. NOTE: DeleteQualificationType mu...
     /// </summary>
-    /// <param name="QualificationTypeId">The ID of the QualificationType to dispose. Constraints: o min: 1 o max: 64 o pattern: ^[A-Z0-9]+$</param>
+    /// <param name="QualificationTypeId">The ID of the QualificationType to dispose. Constraints: • min: 1 • max: 64 • pattern: ^[A-Z0-9]+$</param>
     public AwsMturkDeleteQualificationTypeOptions(
         string QualificationTypeId
     )
@@ -56,7 +57,7 @@ public record AwsMturkDeleteQualificationTypeOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the QualificationType to dispose. Constraints: o min: 1 o max: 64 o pattern: ^[A-Z0-9]+$
+    /// The ID of the QualificationType to dispose. Constraints: • min: 1 • max: 64 • pattern: ^[A-Z0-9]+$
     /// </summary>
     [CliOption("--qualification-type-id")]
     public string? QualificationTypeId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsMturkDeleteQualificationTypeOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

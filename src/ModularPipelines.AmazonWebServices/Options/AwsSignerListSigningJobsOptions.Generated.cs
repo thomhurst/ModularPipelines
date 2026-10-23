@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists all your signing jobs. You can use the maxResults parameter to limit the number of signing jobs that are returned in the response. If additional jobs remain to be listed, AWS Signer returns a nextToken value. Use this value in subsequent calls to ListSigningJobs to fetch the remaining values. You can continue calling ListSigningJobs with your maxResults parameter and with new values that Signer returns in the nextToken parameter until all of your signing jobs have been re- turned. See also...
+/// Lists all your signing jobs. You can use the maxResults parameter to limit the number of signing jobs that are returned in the response. If additional jobs remain to be listed, AWS Signer returns a nextToken value. Use this value in subsequent calls to ListSigningJobs to fetch the remaining values. You can continue calling ListSigningJobs with your maxResults parameter and with new values that Signer returns in the nextToken parameter until all of your signing jobs have been returned. See also: ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -24,13 +24,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSignerListSigningJobsOptions : AwsOptions
 {
     /// <summary>
-    /// A status value with which to filter your results. Possible values: o InProgress o Failed o Succeeded
+    /// A status value with which to filter your results. Possible values: • InProgress • Failed • Succeeded
     /// </summary>
     [CliOption("--status")]
     public AwsSignerListSigningJobsStatus? Status { get; set; }
 
     /// <summary>
-    /// The ID of microcontroller platform that you specified for the dis- tribution of your code image.
+    /// The ID of microcontroller platform that you specified for the distribution of your code image.
     /// </summary>
     [CliOption("--platform-id")]
     public string? PlatformId { get; set; }
@@ -60,16 +60,13 @@ public record AwsSignerListSigningJobsOptions : AwsOptions
     public string? SignatureExpiresAfter { get; set; }
 
     /// <summary>
-    /// Filters results to return only signing jobs initiated by a specified IAM entity. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// Filters results to return only signing jobs initiated by a specified IAM entity. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--job-invoker")]
     public string? JobInvoker { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -79,15 +76,27 @@ public record AwsSignerListSigningJobsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 25
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 25
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes an Amazon Chime SDK Voice Connector group. Any VoiceConnec- torItems and phone numbers associated with the group must be removed before it can be deleted. See also: AWS API Documentation
+/// Deletes an Amazon Chime SDK Voice Connector group. Any VoiceConnectorItems and phone numbers associated with the group must be removed before it can be deleted. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsChimeSdkVoiceDeleteVoiceConnectorGroupOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes an Amazon Chime SDK Voice Connector group. Any VoiceConnec- torItems and phone numbers associated with the group must be removed before it can be deleted. See also: AWS API Documentation
+    /// Deletes an Amazon Chime SDK Voice Connector group. Any VoiceConnectorItems and phone numbers associated with the group must be removed before it can be deleted. See also: AWS API Documentation
     /// </summary>
-    /// <param name="VoiceConnectorGroupId">The Voice Connector Group ID. Constraints: o pattern: .*\S.*</param>
+    /// <param name="VoiceConnectorGroupId">The Voice Connector Group ID. Constraints: • pattern: .*\S.*</param>
     public AwsChimeSdkVoiceDeleteVoiceConnectorGroupOptions(
         string VoiceConnectorGroupId
     )
@@ -56,7 +57,7 @@ public record AwsChimeSdkVoiceDeleteVoiceConnectorGroupOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Voice Connector Group ID. Constraints: o pattern: .*\S.*
+    /// The Voice Connector Group ID. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--voice-connector-group-id")]
     public string? VoiceConnectorGroupId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsChimeSdkVoiceDeleteVoiceConnectorGroupOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

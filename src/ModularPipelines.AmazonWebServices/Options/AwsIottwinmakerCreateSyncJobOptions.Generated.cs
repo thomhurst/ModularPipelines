@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,9 +28,9 @@ public record AwsIottwinmakerCreateSyncJobOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// This action creates a SyncJob. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkspaceId">The workspace ID. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+</param>
-    /// <param name="SyncSource">The sync source. NOTE: Currently the only supported syncSoource is SITEWISE . Constraints: o pattern: [a-zA-Z_0-9]+</param>
-    /// <param name="SyncRole">The SyncJob IAM role. This IAM role is used by the SyncJob to read from the syncSource, and create, update, or delete the corresponding resources. Constraints: o min: 20 o max: 2048 o pattern: arn:((aws)|(aws-cn)|(aws-us-gov)):iam::[0-9]{12}:role/.*</param>
+    /// <param name="WorkspaceId">The workspace ID. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+</param>
+    /// <param name="SyncSource">The sync source. NOTE: Currently the only supported syncSoource is SITEWISE . Constraints: • pattern: [a-zA-Z_0-9]+</param>
+    /// <param name="SyncRole">The SyncJob IAM role. This IAM role is used by the SyncJob to read from the syncSource, and create, update, or delete the corresponding resources. Constraints: • min: 20 • max: 2048 • pattern: arn:((aws)|(aws-cn)|(aws-us-gov)):iam::[0-9]{12}:role/.*</param>
     public AwsIottwinmakerCreateSyncJobOptions(
         string WorkspaceId,
         string SyncSource,
@@ -65,25 +65,25 @@ public record AwsIottwinmakerCreateSyncJobOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The workspace ID. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+
+    /// The workspace ID. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+
     /// </summary>
     [CliOption("--workspace-id")]
     public string? WorkspaceId { get; private init; }
 
     /// <summary>
-    /// The sync source. NOTE: Currently the only supported syncSoource is SITEWISE . Constraints: o pattern: [a-zA-Z_0-9]+
+    /// The sync source. NOTE: Currently the only supported syncSoource is SITEWISE . Constraints: • pattern: [a-zA-Z_0-9]+
     /// </summary>
     [CliOption("--sync-source")]
     public string? SyncSource { get; private init; }
 
     /// <summary>
-    /// The SyncJob IAM role. This IAM role is used by the SyncJob to read from the syncSource, and create, update, or delete the corresponding resources. Constraints: o min: 20 o max: 2048 o pattern: arn:((aws)|(aws-cn)|(aws-us-gov)):iam::[0-9]{12}:role/.*
+    /// The SyncJob IAM role. This IAM role is used by the SyncJob to read from the syncSource, and create, update, or delete the corresponding resources. Constraints: • min: 20 • max: 2048 • pattern: arn:((aws)|(aws-cn)|(aws-us-gov)):iam::[0-9]{12}:role/.*
     /// </summary>
     [CliOption("--sync-role")]
     public string? SyncRole { get; private init; }
 
     /// <summary>
-    /// The SyncJob tags. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) value -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: .* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The SyncJob tags. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) value -&gt; (string) Constraints: • min: 1 • max: 256 • pattern: .* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -109,6 +109,15 @@ public record AwsIottwinmakerCreateSyncJobOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

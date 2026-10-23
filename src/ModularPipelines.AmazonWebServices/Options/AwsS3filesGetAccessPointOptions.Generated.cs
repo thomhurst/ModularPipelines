@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsS3filesGetAccessPointOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Returns resource information for an S3 File System Access Point. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccessPointId">The ID or Amazon Resource Name (ARN) of the access point to retrieve information for. Constraints: o min: 0 o max: 256 o pattern: (arn:aws[-a-z]*:s3files:[0-9a-z-:]+:file-sys- tem/fs-[0-9a-f]{17,40}/ac- cess-point/fsap-[0-9a-f]{17,40}|fsap-[0-9a-f]{17,40})</param>
+    /// <param name="AccessPointId">The ID or Amazon Resource Name (ARN) of the access point to retrieve information for. Constraints: • min: 0 • max: 256 • pattern: (arn:aws[-a-z]*:s3files:[0-9a-z-:]+:file-system/fs-[0-9a-f]{17,40}/access-point/fsap-[0-9a-f]{17,40}|fsap-[0-9a-f]{17,40})</param>
     public AwsS3filesGetAccessPointOptions(
         string AccessPointId
     )
@@ -56,7 +57,7 @@ public record AwsS3filesGetAccessPointOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID or Amazon Resource Name (ARN) of the access point to retrieve information for. Constraints: o min: 0 o max: 256 o pattern: (arn:aws[-a-z]*:s3files:[0-9a-z-:]+:file-sys- tem/fs-[0-9a-f]{17,40}/ac- cess-point/fsap-[0-9a-f]{17,40}|fsap-[0-9a-f]{17,40})
+    /// The ID or Amazon Resource Name (ARN) of the access point to retrieve information for. Constraints: • min: 0 • max: 256 • pattern: (arn:aws[-a-z]*:s3files:[0-9a-z-:]+:file-system/fs-[0-9a-f]{17,40}/access-point/fsap-[0-9a-f]{17,40}|fsap-[0-9a-f]{17,40})
     /// </summary>
     [CliOption("--access-point-id")]
     public string? AccessPointId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsS3filesGetAccessPointOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

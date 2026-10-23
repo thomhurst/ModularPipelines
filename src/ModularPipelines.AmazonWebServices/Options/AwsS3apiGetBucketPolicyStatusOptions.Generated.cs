@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: This operation is not supported for directory buckets. Retrieves the policy status for an Amazon S3 bucket, indicating whether the bucket is public. In order to use this operation, you must have the s3:GetBucketPolicyStatus permission. For more information about Amazon S3 permissions, see Specifying Permissions in a Policy . For more information about when Amazon S3 considers a bucket public, see The Meaning of "Public" . The following operations are related to GetBucketPolicyStatus : o Us...
+/// NOTE: This operation is not supported for directory buckets. Retrieves the policy status for an Amazon S3 bucket, indicating whether the bucket is public. In order to use this operation, you must have the s3:GetBucketPolicyStatus permission. For more information about Amazon S3 permissions, see Specifying Permissions in a Policy . For more information about when Amazon S3 considers a bucket public, see The Meaning of "Public" . The following operations are related to GetBucketPolicyStatus : • Us...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsS3apiGetBucketPolicyStatusOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: This operation is not supported for directory buckets. Retrieves the policy status for an Amazon S3 bucket, indicating whether the bucket is public. In order to use this operation, you must have the s3:GetBucketPolicyStatus permission. For more information about Amazon S3 permissions, see Specifying Permissions in a Policy . For more information about when Amazon S3 considers a bucket public, see The Meaning of "Public" . The following operations are related to GetBucketPolicyStatus : o Us...
+    /// NOTE: This operation is not supported for directory buckets. Retrieves the policy status for an Amazon S3 bucket, indicating whether the bucket is public. In order to use this operation, you must have the s3:GetBucketPolicyStatus permission. For more information about Amazon S3 permissions, see Specifying Permissions in a Policy . For more information about when Amazon S3 considers a bucket public, see The Meaning of "Public" . The following operations are related to GetBucketPolicyStatus : • Us...
     /// </summary>
-    /// <param name="Bucket">The name of the Amazon S3 bucket whose policy status you want to re- trieve.</param>
+    /// <param name="Bucket">The name of the Amazon S3 bucket whose policy status you want to retrieve.</param>
     public AwsS3apiGetBucketPolicyStatusOptions(
         string Bucket
     )
@@ -56,13 +57,13 @@ public record AwsS3apiGetBucketPolicyStatusOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the Amazon S3 bucket whose policy status you want to re- trieve.
+    /// The name of the Amazon S3 bucket whose policy status you want to retrieve.
     /// </summary>
     [CliOption("--bucket")]
     public string? Bucket { get; private init; }
 
     /// <summary>
-    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the re- quest fails with the HTTP status code 403 Forbidden (access denied).
+    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
     /// </summary>
     [CliOption("--expected-bucket-owner")]
     public string? ExpectedBucketOwner { get; set; }
@@ -88,6 +89,15 @@ public record AwsS3apiGetBucketPolicyStatusOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

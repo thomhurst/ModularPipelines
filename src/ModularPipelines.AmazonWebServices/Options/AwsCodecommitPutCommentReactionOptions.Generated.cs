@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Adds or updates a reaction to a specified comment for the user whose identity is used to make the request. You can only add or update a re- action for yourself. You cannot add, modify, or delete a reaction for another user. See also: AWS API Documentation
+/// Adds or updates a reaction to a specified comment for the user whose identity is used to make the request. You can only add or update a reaction for yourself. You cannot add, modify, or delete a reaction for another user. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsCodecommitPutCommentReactionOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Adds or updates a reaction to a specified comment for the user whose identity is used to make the request. You can only add or update a re- action for yourself. You cannot add, modify, or delete a reaction for another user. See also: AWS API Documentation
+    /// Adds or updates a reaction to a specified comment for the user whose identity is used to make the request. You can only add or update a reaction for yourself. You cannot add, modify, or delete a reaction for another user. See also: AWS API Documentation
     /// </summary>
     /// <param name="CommentId">The ID of the comment to which you want to add or update a reaction.</param>
-    /// <param name="ReactionValue">The emoji reaction you want to add or update. To remove a reaction, provide a value of blank or null. You can also provide the value of none. For information about emoji reaction values supported in Code- Commit, see the CodeCommit User Guide .</param>
+    /// <param name="ReactionValue">The emoji reaction you want to add or update. To remove a reaction, provide a value of blank or null. You can also provide the value of none. For information about emoji reaction values supported in CodeCommit, see the CodeCommit User Guide .</param>
     public AwsCodecommitPutCommentReactionOptions(
         string CommentId,
         string ReactionValue
@@ -66,7 +67,7 @@ public record AwsCodecommitPutCommentReactionOptions : AwsOptions, IValidatableO
     public string? CommentId { get; private init; }
 
     /// <summary>
-    /// The emoji reaction you want to add or update. To remove a reaction, provide a value of blank or null. You can also provide the value of none. For information about emoji reaction values supported in Code- Commit, see the CodeCommit User Guide .
+    /// The emoji reaction you want to add or update. To remove a reaction, provide a value of blank or null. You can also provide the value of none. For information about emoji reaction values supported in CodeCommit, see the CodeCommit User Guide .
     /// </summary>
     [CliOption("--reaction-value")]
     public string? ReactionValue { get; private init; }
@@ -92,6 +93,15 @@ public record AwsCodecommitPutCommentReactionOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

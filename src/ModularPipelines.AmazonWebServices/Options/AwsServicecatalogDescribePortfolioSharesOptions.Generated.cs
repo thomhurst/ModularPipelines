@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,8 +30,8 @@ public record AwsServicecatalogDescribePortfolioSharesOptions : AwsOptions, IVal
     /// <summary>
     /// Returns a summary of each of the portfolio shares that were created for the specified portfolio. You can use this API to determine which accounts or organizational nodes this portfolio have been shared, whether the recipient entity has imported the share, and whether TagOptions are included with the share. The PortfolioId and Type parameters are both required. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PortfolioId">The unique identifier of the portfolio for which shares will be re- trieved. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*</param>
-    /// <param name="Type">The type of portfolio share to summarize. This field acts as a fil- ter on the type of portfolio share, which can be one of the follow- ing: 1. ACCOUNT - Represents an external account to account share. 2. ORGANIZATION - Represents a share to an organization. This share is available to every account in the organization. 3. ORGANIZATIONAL_UNIT - Represents a share to an organizational unit. 4. ORGANIZATION_MEMBER_ACCOUNT - Represents a share to an account in the organization. Possible values: o ACCOUNT o ORGANIZATION o ORGANIZATIONAL_UNIT o ORGANIZATION_MEMBER_ACCOUNT</param>
+    /// <param name="PortfolioId">The unique identifier of the portfolio for which shares will be retrieved. Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*</param>
+    /// <param name="Type">The type of portfolio share to summarize. This field acts as a filter on the type of portfolio share, which can be one of the following: 1. ACCOUNT - Represents an external account to account share. 2. ORGANIZATION - Represents a share to an organization. This share is available to every account in the organization. 3. ORGANIZATIONAL_UNIT - Represents a share to an organizational unit. 4. ORGANIZATION_MEMBER_ACCOUNT - Represents a share to an account in the organization. Possible values: • ACCOUNT • ORGANIZATION • ORGANIZATIONAL_UNIT • ORGANIZATION_MEMBER_ACCOUNT</param>
     public AwsServicecatalogDescribePortfolioSharesOptions(
         string PortfolioId,
         AwsServicecatalogDescribePortfolioSharesType Type
@@ -61,26 +62,26 @@ public record AwsServicecatalogDescribePortfolioSharesOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the portfolio for which shares will be re- trieved. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// The unique identifier of the portfolio for which shares will be retrieved. Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*
     /// </summary>
     [CliOption("--portfolio-id")]
     public string? PortfolioId { get; private init; }
 
     /// <summary>
-    /// The type of portfolio share to summarize. This field acts as a fil- ter on the type of portfolio share, which can be one of the follow- ing: 1. ACCOUNT - Represents an external account to account share. 2. ORGANIZATION - Represents a share to an organization. This share is available to every account in the organization. 3. ORGANIZATIONAL_UNIT - Represents a share to an organizational unit. 4. ORGANIZATION_MEMBER_ACCOUNT - Represents a share to an account in the organization. Possible values: o ACCOUNT o ORGANIZATION o ORGANIZATIONAL_UNIT o ORGANIZATION_MEMBER_ACCOUNT
+    /// The type of portfolio share to summarize. This field acts as a filter on the type of portfolio share, which can be one of the following: 1. ACCOUNT - Represents an external account to account share. 2. ORGANIZATION - Represents a share to an organization. This share is available to every account in the organization. 3. ORGANIZATIONAL_UNIT - Represents a share to an organizational unit. 4. ORGANIZATION_MEMBER_ACCOUNT - Represents a share to an account in the organization. Possible values: • ACCOUNT • ORGANIZATION • ORGANIZATIONAL_UNIT • ORGANIZATION_MEMBER_ACCOUNT
     /// </summary>
     [CliOption("--type")]
     public AwsServicecatalogDescribePortfolioSharesType? Type { get; private init; }
 
     /// <summary>
-    /// The page token for the next set of results. To retrieve the first set of results, use null. Constraints: o max: 2024 o pattern: [\u0009\u000a\u000d\u0020-\uD7FF\uE000-\uFFFD]*
+    /// The page token for the next set of results. To retrieve the first set of results, use null. Constraints: • max: 2024 • pattern: [\u0009\u000a\u000d\u0020-\uD7FF\uE000-\uFFFD]*
     /// </summary>
     [SecretValue]
     [CliOption("--page-token")]
     public string? PageToken { get; set; }
 
     /// <summary>
-    /// The maximum number of items to return with this call. Constraints: o min: 0 o max: 100
+    /// The maximum number of items to return with this call. Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
@@ -106,6 +107,15 @@ public record AwsServicecatalogDescribePortfolioSharesOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

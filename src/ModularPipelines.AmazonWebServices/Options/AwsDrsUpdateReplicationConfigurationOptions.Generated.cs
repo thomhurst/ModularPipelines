@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,7 +29,7 @@ public record AwsDrsUpdateReplicationConfigurationOptions : AwsOptions, IValidat
     /// <summary>
     /// Allows you to update a ReplicationConfiguration by Source Server ID. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SourceServerId">The ID of the Source Server for this Replication Configuration. Constraints: o min: 19 o max: 19 o pattern: s-[0-9a-zA-Z]{17}</param>
+    /// <param name="SourceServerId">The ID of the Source Server for this Replication Configuration. Constraints: • min: 19 • max: 19 • pattern: s-[0-9a-zA-Z]{17}</param>
     public AwsDrsUpdateReplicationConfigurationOptions(
         string SourceServerId
     )
@@ -58,79 +58,79 @@ public record AwsDrsUpdateReplicationConfigurationOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Source Server for this Replication Configuration. Constraints: o min: 19 o max: 19 o pattern: s-[0-9a-zA-Z]{17}
+    /// The ID of the Source Server for this Replication Configuration. Constraints: • min: 19 • max: 19 • pattern: s-[0-9a-zA-Z]{17}
     /// </summary>
     [CliOption("--source-server-id")]
     public string? SourceServerId { get; private init; }
 
     /// <summary>
-    /// The name of the Replication Configuration. Constraints: o min: 0 o max: 128
+    /// The name of the Replication Configuration. Constraints: • min: 0 • max: 128
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The subnet to be used by the replication staging area. Constraints: o min: 0 o max: 255 o pattern: subnet-[0-9a-fA-F]{8,}
+    /// The subnet to be used by the replication staging area. Constraints: • min: 0 • max: 255 • pattern: subnet-[0-9a-fA-F]{8,}
     /// </summary>
     [CliOption("--staging-area-subnet-id")]
     public string? StagingAreaSubnetId { get; set; }
 
     /// <summary>
-    /// rity-group (boolean) Whether to associate the default Elastic Disaster Recovery Security group with the Replication Configuration.
+    /// Whether to associate the default Elastic Disaster Recovery Security group with the Replication Configuration.
     /// </summary>
     [CliFlag("--associate-default-security-group", NegatedName = "--no-associate-default-security-group")]
     public bool? AssociateDefaultSecurityGroup { get; set; }
 
     /// <summary>
-    /// The security group IDs that will be used by the replication server. Constraints: o min: 0 o max: 32 (string) Constraints: o min: 0 o max: 255 o pattern: sg-[0-9a-fA-F]{8,} Syntax: "string" "string" ...
+    /// The security group IDs that will be used by the replication server. Constraints: • min: 0 • max: 32 (string) Constraints: • min: 0 • max: 255 • pattern: sg-[0-9a-fA-F]{8,} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--replication-servers-security-groups-ids", GroupValues = true)]
     public IEnumerable<string>? ReplicationServersSecurityGroupsIds { get; set; }
 
     /// <summary>
-    /// The instance type to be used for the replication server. Constraints: o min: 0 o max: 255
+    /// The instance type to be used for the replication server. Constraints: • min: 0 • max: 255
     /// </summary>
     [CliOption("--replication-server-instance-type")]
     public string? ReplicationServerInstanceType { get; set; }
 
     /// <summary>
-    /// tion-server (boolean) Whether to use a dedicated Replication Server in the replication staging area.
+    /// Whether to use a dedicated Replication Server in the replication staging area.
     /// </summary>
     [CliFlag("--use-dedicated-replication-server", NegatedName = "--no-use-dedicated-replication-server")]
     public bool? UseDedicatedReplicationServer { get; set; }
 
     /// <summary>
-    /// The Staging Disk EBS volume type to be used during replication. Possible values: o GP2 o GP3 o ST1 o AUTO
+    /// The Staging Disk EBS volume type to be used during replication. Possible values: • GP2 • GP3 • ST1 • AUTO
     /// </summary>
     [CliOption("--default-large-staging-disk-type")]
     public AwsDrsUpdateReplicationConfigurationDefaultLargeStagingDiskType? DefaultLargeStagingDiskType { get; set; }
 
     /// <summary>
-    /// The configuration of the disks of the Source Server to be repli- cated. Constraints: o min: 0 o max: 60 (structure) The configuration of a disk of the Source Server to be repli- cated. deviceName -&gt; (string) The name of the device. Constraints: o min: 0 o max: 256 isBootDisk -&gt; (boolean) Whether to boot from this disk or not. stagingDiskType -&gt; (string) The Staging Disk EBS volume type to be used during replica- tion. Possible values: o AUTO o GP2 o GP3 o IO1 o SC1 o ST1 o STANDARD iops -&gt; (long) The requested number of I/O operations per second (IOPS). Constraints: o min: 0 throughput -&gt; (long) The throughput to use for the EBS volume in MiB/s. This para- meter is valid only for gp3 volumes. Constraints: o min: 0 optimizedStagingDiskType -&gt; (string) The Staging Disk EBS volume type to be used during replica- tion when stagingDiskType is set to Auto. This is a read-only field. Possible values: o AUTO o GP2 o GP3 o IO1 o SC1 o ST1 o STANDARD Shorthand Syntax: deviceName=string,isBootDisk=boolean,stagingDiskType=string,iops=long,throughput=long,optimizedStagingDiskType=string ... JSON Syntax: [ { "deviceName": "string", "isBootDisk": true|false, "stagingDiskType": "AUTO"|"GP2"|"GP3"|"IO1"|"SC1"|"ST1"|"STANDARD", "iops": long, "throughput": long, "optimizedStagingDiskType": "AUTO"|"GP2"|"GP3"|"IO1"|"SC1"|"ST1"|"STANDARD" } ... ]
+    /// The configuration of the disks of the Source Server to be replicated. Constraints: • min: 0 • max: 60 (structure) The configuration of a disk of the Source Server to be replicated. deviceName -&gt; (string) The name of the device. Constraints: • min: 0 • max: 256 isBootDisk -&gt; (boolean) Whether to boot from this disk or not. stagingDiskType -&gt; (string) The Staging Disk EBS volume type to be used during replication. Possible values: • AUTO • GP2 • GP3 • IO1 • SC1 • ST1 • STANDARD iops -&gt; (long) The requested number of I/O operations per second (IOPS). Constraints: • min: 0 throughput -&gt; (long) The throughput to use for the EBS volume in MiB/s. This parameter is valid only for gp3 volumes. Constraints: • min: 0 optimizedStagingDiskType -&gt; (string) The Staging Disk EBS volume type to be used during replication when stagingDiskType is set to Auto. This is a read-only field. Possible values: • AUTO • GP2 • GP3 • IO1 • SC1 • ST1 • STANDARD Shorthand Syntax: deviceName=string,isBootDisk=boolean,stagingDiskType=string,iops=long,throughput=long,optimizedStagingDiskType=string ... JSON Syntax: [ { "deviceName": "string", "isBootDisk": true|false, "stagingDiskType": "AUTO"|"GP2"|"GP3"|"IO1"|"SC1"|"ST1"|"STANDARD", "iops": long, "throughput": long, "optimizedStagingDiskType": "AUTO"|"GP2"|"GP3"|"IO1"|"SC1"|"ST1"|"STANDARD" } ... ]
     /// </summary>
     [CliOption("--replicated-disks", GroupValues = true)]
     public IEnumerable<string>? ReplicatedDisks { get; set; }
 
     /// <summary>
-    /// The type of EBS encryption to be used during replication. Possible values: o DEFAULT o CUSTOM o NONE
+    /// The type of EBS encryption to be used during replication. Possible values: • DEFAULT • CUSTOM • NONE
     /// </summary>
     [CliOption("--ebs-encryption")]
     public AwsDrsUpdateReplicationConfigurationEbsEncryption? EbsEncryption { get; set; }
 
     /// <summary>
-    /// The ARN of the EBS encryption key to be used during replication. Constraints: o min: 20 o max: 2048 o pattern: arn:.{16,2044}
+    /// The ARN of the EBS encryption key to be used during replication. Constraints: • min: 20 • max: 2048 • pattern: arn:.{16,2044}
     /// </summary>
     [CliOption("--ebs-encryption-key-arn")]
     public string? EbsEncryptionKeyArn { get; set; }
 
     /// <summary>
-    /// Configure bandwidth throttling for the outbound data transfer rate of the Source Server in Mbps. Constraints: o min: 0
+    /// Configure bandwidth throttling for the outbound data transfer rate of the Source Server in Mbps. Constraints: • min: 0
     /// </summary>
     [CliOption("--bandwidth-throttling")]
-    public int? BandwidthThrottling { get; set; }
+    public long? BandwidthThrottling { get; set; }
 
     /// <summary>
-    /// The data plane routing mechanism that will be used for replication. Possible values: o PRIVATE_IP o PUBLIC_IP
+    /// The data plane routing mechanism that will be used for replication. Possible values: • PRIVATE_IP • PUBLIC_IP
     /// </summary>
     [CliOption("--data-plane-routing")]
     public AwsDrsUpdateReplicationConfigurationDataPlaneRouting? DataPlaneRouting { get; set; }
@@ -142,25 +142,25 @@ public record AwsDrsUpdateReplicationConfigurationOptions : AwsOptions, IValidat
     public bool? CreatePublicIp { get; set; }
 
     /// <summary>
-    /// A set of tags to be associated with all resources created in the replication staging area: EC2 replication server, EBS volumes, EBS snapshots, etc. key -&gt; (string) Constraints: o min: 0 o max: 256 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A set of tags to be associated with all resources created in the replication staging area: EC2 replication server, EBS volumes, EBS snapshots, etc. key -&gt; (string) Constraints: • min: 0 • max: 256 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--staging-area-tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? StagingAreaTags { get; set; }
 
     /// <summary>
-    /// The Point in time (PIT) policy to manage snapshots taken during replication. Constraints: o min: 3 o max: 3 (structure) A rule in the Point in Time (PIT) policy representing when to take snapshots and how long to retain them for. ruleID -&gt; (long) The ID of the rule. Constraints: o min: 0 units -&gt; (string) [required] The units used to measure the interval and retentionDuration. Possible values: o MINUTE o HOUR o DAY interval -&gt; (integer) [required] How often, in the chosen units, a snapshot should be taken. Constraints: o min: 1 retentionDuration -&gt; (integer) [required] The duration to retain a snapshot for, in the chosen units. Constraints: o min: 1 enabled -&gt; (boolean) Whether this rule is enabled or not. Shorthand Syntax: ruleID=long,units=string,interval=integer,retentionDuration=integer,enabled=boolean ... JSON Syntax: [ { "ruleID": long, "units": "MINUTE"|"HOUR"|"DAY", "interval": integer, "retentionDuration": integer, "enabled": true|false } ... ]
+    /// The Point in time (PIT) policy to manage snapshots taken during replication. Constraints: • min: 3 • max: 3 (structure) A rule in the Point in Time (PIT) policy representing when to take snapshots and how long to retain them for. ruleID -&gt; (long) The ID of the rule. Constraints: • min: 0 units -&gt; (string) [required] The units used to measure the interval and retentionDuration. Possible values: • MINUTE • HOUR • DAY interval -&gt; (integer) [required] How often, in the chosen units, a snapshot should be taken. Constraints: • min: 1 retentionDuration -&gt; (integer) [required] The duration to retain a snapshot for, in the chosen units. Constraints: • min: 1 enabled -&gt; (boolean) Whether this rule is enabled or not. Shorthand Syntax: ruleID=long,units=string,interval=integer,retentionDuration=integer,enabled=boolean ... JSON Syntax: [ { "ruleID": long, "units": "MINUTE"|"HOUR"|"DAY", "interval": integer, "retentionDuration": integer, "enabled": true|false } ... ]
     /// </summary>
     [CliOption("--pit-policy", GroupValues = true)]
     public IEnumerable<string>? PitPolicy { get; set; }
 
     /// <summary>
-    /// Whether to allow the AWS replication agent to automatically repli- cate newly added disks.
+    /// Whether to allow the AWS replication agent to automatically replicate newly added disks.
     /// </summary>
     [CliFlag("--auto-replicate-new-disks", NegatedName = "--no-auto-replicate-new-disks")]
     public bool? AutoReplicateNewDisks { get; set; }
 
     /// <summary>
-    /// Which version of the Internet Protocol to use for replication of data. (IPv4 or IPv6) Possible values: o IPV4 o IPV6
+    /// Which version of the Internet Protocol to use for replication of data. (IPv4 or IPv6) Possible values: • IPV4 • IPV6
     /// </summary>
     [CliOption("--internet-protocol")]
     public AwsDrsUpdateReplicationConfigurationInternetProtocol? InternetProtocol { get; set; }
@@ -186,6 +186,15 @@ public record AwsDrsUpdateReplicationConfigurationOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

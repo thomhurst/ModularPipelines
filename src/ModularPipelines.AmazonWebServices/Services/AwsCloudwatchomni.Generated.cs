@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -32,7 +32,7 @@ public class AwsCloudwatchomni : IAwsCloudwatchomni
     #region Commands
 
     /// <summary>
-    /// Creates an AccessGrant that authorizes a principal to perform a set of actions on resources in a space. Optionally narrow the grant with scoped actions that limit it to spe- cific resources and fields. Use ListAccessGrants and GetAccessGrant to retrieve grants, and DeleteAccessGrant to remove them. See also: AWS API Documentation
+    /// Creates an AccessGrant that authorizes a principal to perform a set of actions on resources in a space. Optionally narrow the grant with scoped actions that limit it to specific resources and fields. Use ListAccessGrants and GetAccessGrant to retrieve grants, and DeleteAccessGrant to remove them. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsCloudwatchomni : IAwsCloudwatchomni
     }
 
     /// <summary>
-    /// Creates an AccessGrant that authorizes a principal to administer an or- ganization domain. See also: AWS API Documentation
+    /// Creates an AccessGrant that authorizes a principal to administer an organization domain. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsCloudwatchomni : IAwsCloudwatchomni
     }
 
     /// <summary>
-    /// Creates an organization-scoped domain for the caller's AWS Organiza- tion. Only the organization's management account can call this opera- tion. See also: AWS API Documentation
+    /// Creates an organization-scoped domain for the caller's AWS Organization. Only the organization's management account can call this operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsCloudwatchomni : IAwsCloudwatchomni
     }
 
     /// <summary>
-    /// Creates a domain with identity provider configuration. Use GetDomain to retrieve the domain, UpdateDomain to change its con- figuration, and CreateSpace to add spaces within it. See also: AWS API Documentation
+    /// Creates a domain with identity provider configuration. Use GetDomain to retrieve the domain, UpdateDomain to change its configuration, and CreateSpace to add spaces within it. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsCloudwatchomni : IAwsCloudwatchomni
     }
 
     /// <summary>
-    /// Creates an integration with a third-party provider. Returns the inte- gration identifier and its initial status; when the provider requires interactive consent, an authorization URL is returned for the user to complete setup. See also: AWS API Documentation
+    /// Creates an integration with a third-party provider. Returns the integration identifier and its initial status; when the provider requires interactive consent, an authorization URL is returned for the user to complete setup. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsCloudwatchomni : IAwsCloudwatchomni
     }
 
     /// <summary>
-    /// Creates a new dashboard within a space. Use GetOmniDashboard and ListOmniDashboards to retrieve dashboards, Up- dateOmniDashboard to modify one, and DeleteOmniDashboard to remove it. See also: AWS API Documentation
+    /// Creates a new dashboard within a space. Use GetOmniDashboard and ListOmniDashboards to retrieve dashboards, UpdateOmniDashboard to modify one, and DeleteOmniDashboard to remove it. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsCloudwatchomni : IAwsCloudwatchomni
     }
 
     /// <summary>
-    /// Generates a one-time code for deep-link authentication. Direct the user's browser to the returned deepLinkUrl before it ex- pires. The code is exchanged for an authenticated, domain-scoped ses- sion and can be used only once. See also: AWS API Documentation
+    /// Generates a one-time code for deep-link authentication. Direct the user's browser to the returned deepLinkUrl before it expires. The code is exchanged for an authenticated, domain-scoped session and can be used only once. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsCloudwatchomni : IAwsCloudwatchomni
     }
 
     /// <summary>
-    /// Creates a space in a domain. Use GetSpace to retrieve the space, ListSpaces to enumerate spaces, Up- dateSpace to modify it, and DeleteSpace to remove it. See also: AWS API Documentation
+    /// Creates a space in a domain. Use GetSpace to retrieve the space, ListSpaces to enumerate spaces, UpdateSpace to modify it, and DeleteSpace to remove it. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsCloudwatchomni : IAwsCloudwatchomni
     }
 
     /// <summary>
-    /// Creates a new SQL view. A view is a named, reusable SQL query that can be referenced from telemetry queries. View names must be unique within the account and re- gion. Only USER views can be created MANAGED views are provisioned by AWS. See also: AWS API Documentation
+    /// Creates a new SQL view. A view is a named, reusable SQL query that can be referenced from telemetry queries. View names must be unique within the account and region. Only USER views can be created MANAGED views are provisioned by AWS. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -257,7 +257,7 @@ public class AwsCloudwatchomni : IAwsCloudwatchomni
     }
 
     /// <summary>
-    /// Removes an organization domain and all of its resources. Call this op- eration in the Region where the domain was created. A domain cannot be deleted while it contains spaces. See also: AWS API Documentation
+    /// Removes an organization domain and all of its resources. Call this operation in the Region where the domain was created. A domain cannot be deleted while it contains spaces. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public class AwsCloudwatchomni : IAwsCloudwatchomni
     }
 
     /// <summary>
-    /// Retrieves an access profile by ID. The response indicates whether the calling principal is currently al- lowed to assume the profile. See also: AWS API Documentation
+    /// Retrieves an access profile by ID. The response indicates whether the calling principal is currently allowed to assume the profile. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -392,7 +392,7 @@ public class AwsCloudwatchomni : IAwsCloudwatchomni
     }
 
     /// <summary>
-    /// Queries the context graph with filtering, traversal, and pagination support. Pagination note: nodes and edges are returned together as a coherent subgraph. Pagination cursors advance over nodes (the primary collec- tion); each page includes all edges connecting nodes within that page. Callers should treat nodes as the paginated collection and edges as supplementary relationship data attached to those nodes. See also: AWS API Documentation get-context-graph is a paginated operation. Multiple API ...
+    /// Queries the context graph with filtering, traversal, and pagination support. Pagination note: nodes and edges are returned together as a coherent subgraph. Pagination cursors advance over nodes (the primary collection); each page includes all edges connecting nodes within that page. Callers should treat nodes as the paginated collection and edges as supplementary relationship data attached to those nodes. See also: AWS API Documentation get-context-graph is a paginated operation. Multiple API ca...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -452,7 +452,7 @@ public class AwsCloudwatchomni : IAwsCloudwatchomni
     }
 
     /// <summary>
-    /// Returns the details of a single integration, identified by its identi- fier, Amazon Resource Name, or name. See also: AWS API Documentation
+    /// Returns the details of a single integration, identified by its identifier, Amazon Resource Name, or name. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -467,7 +467,7 @@ public class AwsCloudwatchomni : IAwsCloudwatchomni
     }
 
     /// <summary>
-    /// Retrieves the intelligence configuration for the calling account. Ac- count is identified via FAS (caller identity). Returns the default con- figuration if none exists yet. See also: AWS API Documentation
+    /// Retrieves the intelligence configuration for the calling account. Account is identified via FAS (caller identity). Returns the default configuration if none exists yet. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -497,7 +497,7 @@ public class AwsCloudwatchomni : IAwsCloudwatchomni
     }
 
     /// <summary>
-    /// Returns temporary credentials for a space in an organization member ac- count. The credentials are valid for one hour. The caller must be the organization's management account or a delegated administrator with access to the target space. The target account must be an active member of the same organization as the domain, and the space must already exist. See also: AWS API Documentation
+    /// Returns temporary credentials for a space in an organization member account. The credentials are valid for one hour. The caller must be the organization's management account or a delegated administrator with access to the target space. The target account must be an active member of the same organization as the domain, and the space must already exist. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -527,7 +527,7 @@ public class AwsCloudwatchomni : IAwsCloudwatchomni
     }
 
     /// <summary>
-    /// Returns the results for the specified query. See also: AWS API Documentation get-telemetry-query-results is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: rows
+    /// Returns the results for the specified query. See also: AWS API Documentation get-telemetry-query-results is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: rows
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -557,7 +557,7 @@ public class AwsCloudwatchomni : IAwsCloudwatchomni
     }
 
     /// <summary>
-    /// Returns AccessGrants, with optional filtering by domain, space, princi- pal, or permission. A grant is returned only when it matches every fil- ter supplied. With no filters, returns the grants for the current ac- count and Region. See also: AWS API Documentation list-access-grants is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --qu...
+    /// Returns AccessGrants, with optional filtering by domain, space, principal, or permission. A grant is returned only when it matches every filter supplied. With no filters, returns the grants for the current account and Region. See also: AWS API Documentation list-access-grants is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query ar...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -587,7 +587,7 @@ public class AwsCloudwatchomni : IAwsCloudwatchomni
     }
 
     /// <summary>
-    /// Lists alerts within a space, optionally filtered by exact name(s), a single name prefix, or exact alertId(s), with pagination. Use GetAlert to retrieve a single alert's full detail. See also: AWS API Documentation list-alerts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argum...
+    /// Lists alerts within a space, optionally filtered by exact name(s), a single name prefix, or exact alertId(s), with pagination. Use GetAlert to retrieve a single alert's full detail. See also: AWS API Documentation list-alerts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argumen...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -602,7 +602,7 @@ public class AwsCloudwatchomni : IAwsCloudwatchomni
     }
 
     /// <summary>
-    /// Returns organization-level domain access grants, with optional filter- ing by domain, principal, or permission. A grant is returned only when it matches every filter supplied. With no filters, returns the grants for the caller's organization. See also: AWS API Documentation list-domain-access-grants-for-organization is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. ...
+    /// Returns organization-level domain access grants, with optional filtering by domain, principal, or permission. A grant is returned only when it matches every filter supplied. With no filters, returns the grants for the caller's organization. See also: AWS API Documentation list-domain-access-grants-for-organization is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -617,7 +617,7 @@ public class AwsCloudwatchomni : IAwsCloudwatchomni
     }
 
     /// <summary>
-    /// Returns the caller's domains: the account-scoped domain and the organi- zation-scoped domain, if either exists. At most two domains are re- turned. See also: AWS API Documentation list-domains is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the re...
+    /// Returns the caller's domains: the account-scoped domain and the organization-scoped domain, if either exists. At most two domains are returned. See also: AWS API Documentation list-domains is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -662,7 +662,7 @@ public class AwsCloudwatchomni : IAwsCloudwatchomni
     }
 
     /// <summary>
-    /// Returns the spaces across all member accounts in the organization. See also: AWS API Documentation list-spaces-for-organization is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
+    /// Returns the spaces across all member accounts in the organization. See also: AWS API Documentation list-spaces-for-organization is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -677,7 +677,7 @@ public class AwsCloudwatchomni : IAwsCloudwatchomni
     }
 
     /// <summary>
-    /// Returns the spaces in the account, optionally filtered by domain. See also: AWS API Documentation list-spaces is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: items
+    /// Returns the spaces in the account, optionally filtered by domain. See also: AWS API Documentation list-spaces is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -707,7 +707,7 @@ public class AwsCloudwatchomni : IAwsCloudwatchomni
     }
 
     /// <summary>
-    /// Lists telemetry query sessions. Returns a list of telemetry query sessions owned by the caller. See also: AWS API Documentation list-telemetry-query-sessions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expr...
+    /// Lists telemetry query sessions. Returns a list of telemetry query sessions owned by the caller. See also: AWS API Documentation list-telemetry-query-sessions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -722,7 +722,7 @@ public class AwsCloudwatchomni : IAwsCloudwatchomni
     }
 
     /// <summary>
-    /// Lists the views in the caller's account and region. Returns a summary for each view, optionally filtered by view type. View definitions are not included use GetView to retrieve them. See also: AWS API Documentation list-views is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argum...
+    /// Lists the views in the caller's account and region. Returns a summary for each view, optionally filtered by view type. View definitions are not included use GetView to retrieve them. See also: AWS API Documentation list-views is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argumen...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -737,7 +737,7 @@ public class AwsCloudwatchomni : IAwsCloudwatchomni
     }
 
     /// <summary>
-    /// Creates or updates the intelligence configuration for the calling ac- count. Account is identified via FAS (caller identity). See also: AWS API Documentation
+    /// Creates or updates the intelligence configuration for the calling account. Account is identified via FAS (caller identity). See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -767,7 +767,7 @@ public class AwsCloudwatchomni : IAwsCloudwatchomni
     }
 
     /// <summary>
-    /// Starts a telemetry query within a session. Submits the provided query string for execution in the specified ses- sion. Use GetTelemetryQueryResults to poll for results and check query status. See also: AWS API Documentation
+    /// Starts a telemetry query within a session. Submits the provided query string for execution in the specified session. Use GetTelemetryQueryResults to poll for results and check query status. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -827,7 +827,7 @@ public class AwsCloudwatchomni : IAwsCloudwatchomni
     }
 
     /// <summary>
-    /// Updates the name or description of an access profile. Only the provided fields are changed; omitted fields are left un- changed. See also: AWS API Documentation
+    /// Updates the name or description of an access profile. Only the provided fields are changed; omitted fields are left unchanged. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -857,7 +857,7 @@ public class AwsCloudwatchomni : IAwsCloudwatchomni
     }
 
     /// <summary>
-    /// Updates an organization domain's name or identity provider configura- tion. Call this operation in the Region where the domain was created. Only the provided fields are changed; omitted fields are left un- changed. Renaming a domain also changes the endpoint URLs derived from its name. See also: AWS API Documentation
+    /// Updates an organization domain's name or identity provider configuration. Call this operation in the Region where the domain was created. Only the provided fields are changed; omitted fields are left unchanged. Renaming a domain also changes the endpoint URLs derived from its name. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -872,7 +872,7 @@ public class AwsCloudwatchomni : IAwsCloudwatchomni
     }
 
     /// <summary>
-    /// Updates a domain's name or identity provider configuration. Only the provided fields are changed; omitted fields are left un- changed. Renaming a domain also changes the endpoint URLs derived from its name. See also: AWS API Documentation
+    /// Updates a domain's name or identity provider configuration. Only the provided fields are changed; omitted fields are left unchanged. Renaming a domain also changes the endpoint URLs derived from its name. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -902,7 +902,7 @@ public class AwsCloudwatchomni : IAwsCloudwatchomni
     }
 
     /// <summary>
-    /// Updates an existing dashboard within a space. Only the provided fields are changed; omitted fields are left un- changed. See also: AWS API Documentation
+    /// Updates an existing dashboard within a space. Only the provided fields are changed; omitted fields are left unchanged. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -917,7 +917,7 @@ public class AwsCloudwatchomni : IAwsCloudwatchomni
     }
 
     /// <summary>
-    /// Updates a space. Only the provided fields are changed; omitted fields are left un- changed. See also: AWS API Documentation
+    /// Updates a space. Only the provided fields are changed; omitted fields are left unchanged. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -932,7 +932,7 @@ public class AwsCloudwatchomni : IAwsCloudwatchomni
     }
 
     /// <summary>
-    /// Updates an existing view's definition and/or description. Only the fields you provide are changed. Managed views cannot be up- dated. See also: AWS API Documentation
+    /// Updates an existing view's definition and/or description. Only the fields you provide are changed. Managed views cannot be updated. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

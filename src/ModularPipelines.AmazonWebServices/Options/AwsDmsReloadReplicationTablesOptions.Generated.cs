@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Reloads the target database table with the source data for a given DMS Serverless replication configuration. You can only use this operation with a task in the RUNNING state, oth- erwise the service will throw an InvalidResourceStateFault exception. See also: AWS API Documentation
+/// Reloads the target database table with the source data for a given DMS Serverless replication configuration. You can only use this operation with a task in the RUNNING state, otherwise the service will throw an InvalidResourceStateFault exception. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsDmsReloadReplicationTablesOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Reloads the target database table with the source data for a given DMS Serverless replication configuration. You can only use this operation with a task in the RUNNING state, oth- erwise the service will throw an InvalidResourceStateFault exception. See also: AWS API Documentation
+    /// Reloads the target database table with the source data for a given DMS Serverless replication configuration. You can only use this operation with a task in the RUNNING state, otherwise the service will throw an InvalidResourceStateFault exception. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ReplicationConfigArn">The Amazon Resource Name of the replication config for which to re- load tables.</param>
+    /// <param name="ReplicationConfigArn">The Amazon Resource Name of the replication config for which to reload tables.</param>
     /// <param name="TablesToReload">The list of tables to reload. (structure) Provides the name of the schema and table to be reloaded. SchemaName -&gt; (string) [required] The schema name of the table to be reloaded. TableName -&gt; (string) [required] The table name of the table to be reloaded. Shorthand Syntax: SchemaName=string,TableName=string ... JSON Syntax: [ { "SchemaName": "string", "TableName": "string" } ... ]</param>
     public AwsDmsReloadReplicationTablesOptions(
         string ReplicationConfigArn,
@@ -72,7 +73,7 @@ public record AwsDmsReloadReplicationTablesOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name of the replication config for which to re- load tables.
+    /// The Amazon Resource Name of the replication config for which to reload tables.
     /// </summary>
     [CliOption("--replication-config-arn")]
     public string? ReplicationConfigArn { get; private init; }
@@ -84,7 +85,7 @@ public record AwsDmsReloadReplicationTablesOptions : AwsOptions, IValidatableObj
     public IEnumerable<string>? TablesToReload { get; private init; }
 
     /// <summary>
-    /// Options for reload. Specify data-reload to reload the data and re-validate it if validation is enabled. Specify validate-only to re-validate the table. This option applies only when validation is enabled for the replication. Possible values: o data-reload o validate-only
+    /// Options for reload. Specify data-reload to reload the data and re-validate it if validation is enabled. Specify validate-only to re-validate the table. This option applies only when validation is enabled for the replication. Possible values: • data-reload • validate-only
     /// </summary>
     [CliOption("--reload-option")]
     public AwsDmsReloadReplicationTablesReloadOption? ReloadOption { get; set; }
@@ -110,6 +111,15 @@ public record AwsDmsReloadReplicationTablesOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

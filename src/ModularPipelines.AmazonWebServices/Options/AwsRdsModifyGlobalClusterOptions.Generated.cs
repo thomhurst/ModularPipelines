@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modifies a setting for an Amazon Aurora global database cluster. You can change one or more database configuration parameters by specifying these parameters and the new values in the request. For more informa- tion on Amazon Aurora, see What is Amazon Aurora? in the Amazon Aurora User Guide . NOTE: This operation only applies to Aurora global database clusters. See also: AWS API Documentation
+/// Modifies a setting for an Amazon Aurora global database cluster. You can change one or more database configuration parameters by specifying these parameters and the new values in the request. For more information on Amazon Aurora, see What is Amazon Aurora? in the Amazon Aurora User Guide . NOTE: This operation only applies to Aurora global database clusters. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsRdsModifyGlobalClusterOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Modifies a setting for an Amazon Aurora global database cluster. You can change one or more database configuration parameters by specifying these parameters and the new values in the request. For more informa- tion on Amazon Aurora, see What is Amazon Aurora? in the Amazon Aurora User Guide . NOTE: This operation only applies to Aurora global database clusters. See also: AWS API Documentation
+    /// Modifies a setting for an Amazon Aurora global database cluster. You can change one or more database configuration parameters by specifying these parameters and the new values in the request. For more information on Amazon Aurora, see What is Amazon Aurora? in the Amazon Aurora User Guide . NOTE: This operation only applies to Aurora global database clusters. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GlobalClusterIdentifier">The cluster identifier for the global cluster to modify. This para- meter isn't case-sensitive. Constraints: o Must match the identifier of an existing global database cluster. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][0-9A-Za-z-:._]*</param>
+    /// <param name="GlobalClusterIdentifier">The cluster identifier for the global cluster to modify. This parameter isn't case-sensitive. Constraints: • Must match the identifier of an existing global database cluster. Constraints: • min: 1 • max: 255 • pattern: [A-Za-z][0-9A-Za-z-:._]*</param>
     public AwsRdsModifyGlobalClusterOptions(
         string GlobalClusterIdentifier
     )
@@ -56,31 +57,31 @@ public record AwsRdsModifyGlobalClusterOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The cluster identifier for the global cluster to modify. This para- meter isn't case-sensitive. Constraints: o Must match the identifier of an existing global database cluster. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][0-9A-Za-z-:._]*
+    /// The cluster identifier for the global cluster to modify. This parameter isn't case-sensitive. Constraints: • Must match the identifier of an existing global database cluster. Constraints: • min: 1 • max: 255 • pattern: [A-Za-z][0-9A-Za-z-:._]*
     /// </summary>
     [CliOption("--global-cluster-identifier")]
     public string? GlobalClusterIdentifier { get; private init; }
 
     /// <summary>
-    /// The new cluster identifier for the global database cluster. This value is stored as a lowercase string. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens. o The first character must be a letter. o Can't end with a hyphen or contain two consecutive hyphens. Example: my-cluster2 Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][0-9A-Za-z-:._]*
+    /// The new cluster identifier for the global database cluster. This value is stored as a lowercase string. Constraints: • Must contain from 1 to 63 letters, numbers, or hyphens. • The first character must be a letter. • Can't end with a hyphen or contain two consecutive hyphens. Example: my-cluster2 Constraints: • min: 1 • max: 255 • pattern: [A-Za-z][0-9A-Za-z-:._]*
     /// </summary>
     [CliOption("--new-global-cluster-identifier")]
     public string? NewGlobalClusterIdentifier { get; set; }
 
     /// <summary>
-    /// Specifies whether to enable deletion protection for the global data- base cluster. The global database cluster can't be deleted when deletion protection is enabled.
+    /// Specifies whether to enable deletion protection for the global database cluster. The global database cluster can't be deleted when deletion protection is enabled.
     /// </summary>
     [CliFlag("--deletion-protection", NegatedName = "--no-deletion-protection")]
     public bool? DeletionProtection { get; set; }
 
     /// <summary>
-    /// The version number of the database engine to which you want to up- grade. To list all of the available engine versions for aurora-mysql (for MySQL-based Aurora global databases), use the following command: aws rds describe-db-engine-versions --engine aurora-mysql --query '*[]|[?SupportsGlobalDatabases == `true`].[EngineVer- sion]' To list all of the available engine versions for aurora-postgresql (for PostgreSQL-based Aurora global databases), use the following command: aws rds describe-db-engine-versions --engine aurora-postgresql --query '*[]|[?SupportsGlobalDatabases == `true`].[EngineVer- sion]'
+    /// The version number of the database engine to which you want to upgrade. To list all of the available engine versions for aurora-mysql (for MySQL-based Aurora global databases), use the following command: aws rds describe-db-engine-versions --engine aurora-mysql --query '*[]|[?SupportsGlobalDatabases == `true`].[EngineVersion]' To list all of the available engine versions for aurora-postgresql (for PostgreSQL-based Aurora global databases), use the following command: aws rds describe-db-engine-versions --engine aurora-postgresql --query '*[]|[?SupportsGlobalDatabases == `true`].[EngineVersion]'
     /// </summary>
     [CliOption("--engine-version")]
     public string? EngineVersion { get; set; }
 
     /// <summary>
-    /// Specifies whether to allow major version upgrades. Constraints: Must be enabled if you specify a value for the EngineV- ersion parameter that's a different major version than the global cluster's current version. If you upgrade the major version of a global database, the cluster and DB instance parameter groups are set to the default parameter groups for the new version. Apply any custom parameter groups after completing the upgrade.
+    /// Specifies whether to allow major version upgrades. Constraints: Must be enabled if you specify a value for the EngineVersion parameter that's a different major version than the global cluster's current version. If you upgrade the major version of a global database, the cluster and DB instance parameter groups are set to the default parameter groups for the new version. Apply any custom parameter groups after completing the upgrade.
     /// </summary>
     [CliFlag("--allow-major-version-upgrade", NegatedName = "--no-allow-major-version-upgrade")]
     public bool? AllowMajorVersionUpgrade { get; set; }
@@ -106,6 +107,15 @@ public record AwsRdsModifyGlobalClusterOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

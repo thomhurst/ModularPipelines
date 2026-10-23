@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Set the user's multi-factor authentication (MFA) method preference, in- cluding which MFA factors are activated and if any are preferred. Only one factor can be set as preferred. The preferred MFA factor will be used to authenticate a user if multiple factors are activated. If mul- tiple options are activated and no preference is set, a challenge to choose an MFA option will be returned during sign-in. If an MFA type is activated for a user, the user will be prompted for MFA during all sign-in a...
+/// Set the user's multi-factor authentication (MFA) method preference, including which MFA factors are activated and if any are preferred. Only one factor can be set as preferred. The preferred MFA factor will be used to authenticate a user if multiple factors are activated. If multiple options are activated and no preference is set, a challenge to choose an MFA option will be returned during sign-in. If an MFA type is activated for a user, the user will be prompted for MFA during all sign-in attem...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsCognitoIdpSetUserMfaPreferenceOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Set the user's multi-factor authentication (MFA) method preference, in- cluding which MFA factors are activated and if any are preferred. Only one factor can be set as preferred. The preferred MFA factor will be used to authenticate a user if multiple factors are activated. If mul- tiple options are activated and no preference is set, a challenge to choose an MFA option will be returned during sign-in. If an MFA type is activated for a user, the user will be prompted for MFA during all sign-in a...
+    /// Set the user's multi-factor authentication (MFA) method preference, including which MFA factors are activated and if any are preferred. Only one factor can be set as preferred. The preferred MFA factor will be used to authenticate a user if multiple factors are activated. If multiple options are activated and no preference is set, a challenge to choose an MFA option will be returned during sign-in. If an MFA type is activated for a user, the user will be prompted for MFA during all sign-in attem...
     /// </summary>
-    /// <param name="AccessToken">A valid access token that Amazon Cognito issued to the currently signed-in user. Must include a scope claim for aws.cog- nito.signin.user.admin . Constraints: o pattern: [A-Za-z0-9-_=.]+</param>
+    /// <param name="AccessToken">A valid access token that Amazon Cognito issued to the currently signed-in user. Must include a scope claim for aws.cognito.signin.user.admin . Constraints: • pattern: [A-Za-z0-9-_=.]+</param>
     public AwsCognitoIdpSetUserMfaPreferenceOptions(
         string AccessToken
     )
@@ -57,20 +58,20 @@ public record AwsCognitoIdpSetUserMfaPreferenceOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A valid access token that Amazon Cognito issued to the currently signed-in user. Must include a scope claim for aws.cog- nito.signin.user.admin . Constraints: o pattern: [A-Za-z0-9-_=.]+
+    /// A valid access token that Amazon Cognito issued to the currently signed-in user. Must include a scope claim for aws.cognito.signin.user.admin . Constraints: • pattern: [A-Za-z0-9-_=.]+
     /// </summary>
     [SecretValue]
     [CliOption("--access-token")]
     public string? AccessToken { get; private init; }
 
     /// <summary>
-    /// User preferences for SMS message MFA. Activates or deactivates SMS MFA and sets it as the preferred MFA method when multiple methods are available. Enabled -&gt; (boolean) Specifies whether SMS message MFA is activated. If an MFA type is activated for a user, the user will be prompted for MFA dur- ing all sign-in attempts, unless device tracking is turned on and the device has been trusted. PreferredMfa -&gt; (boolean) Specifies whether SMS is the preferred MFA method. If true, your user pool prompts the specified user for a code delivered by SMS message after username-password sign-in succeeds. Shorthand Syntax: Enabled=boolean,PreferredMfa=boolean JSON Syntax: { "Enabled": true|false, "PreferredMfa": true|false }
+    /// User preferences for SMS message MFA. Activates or deactivates SMS MFA and sets it as the preferred MFA method when multiple methods are available. Enabled -&gt; (boolean) Specifies whether SMS message MFA is activated. If an MFA type is activated for a user, the user will be prompted for MFA during all sign-in attempts, unless device tracking is turned on and the device has been trusted. PreferredMfa -&gt; (boolean) Specifies whether SMS is the preferred MFA method. If true, your user pool prompts the specified user for a code delivered by SMS message after username-password sign-in succeeds. Shorthand Syntax: Enabled=boolean,PreferredMfa=boolean JSON Syntax: { "Enabled": true|false, "PreferredMfa": true|false }
     /// </summary>
     [CliOption("--sms-mfa-settings")]
     public string? SmsMfaSettings { get; set; }
 
     /// <summary>
-    /// User preferences for time-based one-time password (TOTP) MFA. Acti- vates or deactivates TOTP MFA and sets it as the preferred MFA method when multiple methods are available. Users must register a TOTP authenticator before they set this as their preferred MFA method. Enabled -&gt; (boolean) Specifies whether software token MFA is activated. If an MFA type is activated for a user, the user will be prompted for MFA during all sign-in attempts, unless device tracking is turned on and the device has been trusted. PreferredMfa -&gt; (boolean) Specifies whether software token MFA is the preferred MFA method. Shorthand Syntax: Enabled=boolean,PreferredMfa=boolean JSON Syntax: { "Enabled": true|false, "PreferredMfa": true|false }
+    /// User preferences for time-based one-time password (TOTP) MFA. Activates or deactivates TOTP MFA and sets it as the preferred MFA method when multiple methods are available. Users must register a TOTP authenticator before they set this as their preferred MFA method. Enabled -&gt; (boolean) Specifies whether software token MFA is activated. If an MFA type is activated for a user, the user will be prompted for MFA during all sign-in attempts, unless device tracking is turned on and the device has been trusted. PreferredMfa -&gt; (boolean) Specifies whether software token MFA is the preferred MFA method. Shorthand Syntax: Enabled=boolean,PreferredMfa=boolean JSON Syntax: { "Enabled": true|false, "PreferredMfa": true|false }
     /// </summary>
     [SecretValue]
     [CliOption("--software-token-mfa-settings")]
@@ -83,7 +84,7 @@ public record AwsCognitoIdpSetUserMfaPreferenceOptions : AwsOptions, IValidatabl
     public string? EmailMfaSettings { get; set; }
 
     /// <summary>
-    /// User preferences for passkey MFA. Activates or deactivates passkey MFA for the user. When activated, passkey authentication requires user verification, and passkey sign-in is available when MFA is re- quired. To activate this setting, the FactorConfiguration of your user pool WebAuthnConfiguration must be MULTI_FACTOR_WITH_USER_VERI- FICATION . To activate this setting, your user pool must be in the Essentials tier or higher. Enabled -&gt; (boolean) Specifies whether passkey MFA is activated for a user. When ac- tivated, the user's passkey authentication requires user verifi- cation, and passkey sign-in is available when MFA is required. The user must also have at least one other MFA method such as SMS, TOTP, or email activated to prevent account lockout. Shorthand Syntax: Enabled=boolean JSON Syntax: { "Enabled": true|false }
+    /// User preferences for passkey MFA. Activates or deactivates passkey MFA for the user. When activated, passkey authentication requires user verification, and passkey sign-in is available when MFA is required. To activate this setting, the FactorConfiguration of your user pool WebAuthnConfiguration must be MULTI_FACTOR_WITH_USER_VERIFICATION . To activate this setting, your user pool must be in the Essentials tier or higher. Enabled -&gt; (boolean) Specifies whether passkey MFA is activated for a user. When activated, the user's passkey authentication requires user verification, and passkey sign-in is available when MFA is required. The user must also have at least one other MFA method such as SMS, TOTP, or email activated to prevent account lockout. Shorthand Syntax: Enabled=boolean JSON Syntax: { "Enabled": true|false }
     /// </summary>
     [CliOption("--web-authn-mfa-settings")]
     public string? WebAuthnMfaSettings { get; set; }
@@ -109,6 +110,15 @@ public record AwsCognitoIdpSetUserMfaPreferenceOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

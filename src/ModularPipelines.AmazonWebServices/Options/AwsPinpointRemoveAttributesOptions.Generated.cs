@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes one or more custom attributes, of the same attribute type, from the application. Existing endpoints still have the attributes but Ama- zon Pinpoint will stop capturing new or changed values for these at- tributes. See also: AWS API Documentation
+/// Removes one or more custom attributes, of the same attribute type, from the application. Existing endpoints still have the attributes but Amazon Pinpoint will stop capturing new or changed values for these attributes. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsPinpointRemoveAttributesOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes one or more custom attributes, of the same attribute type, from the application. Existing endpoints still have the attributes but Ama- zon Pinpoint will stop capturing new or changed values for these at- tributes. See also: AWS API Documentation
+    /// Removes one or more custom attributes, of the same attribute type, from the application. Existing endpoints still have the attributes but Amazon Pinpoint will stop capturing new or changed values for these attributes. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The unique identifier for the application. This identifier is dis- played as the Project ID on the Amazon Pinpoint console.</param>
-    /// <param name="AttributeType">The type of attribute or attributes to remove. Valid values are: o endpoint-custom-attributes - Custom attributes that describe end- points, such as the date when an associated user opted in or out of receiving communications from you through a specific type of channel. o endpoint-metric-attributes - Custom metrics that your app reports to Amazon Pinpoint for endpoints, such as the number of app ses- sions or the number of items left in a cart. o endpoint-user-attributes - Custom attributes that describe users, such as first name, last name, and age.</param>
-    /// <param name="UpdateAttributesRequest">Specifies one or more attributes to remove from all the endpoints that are associated with an application. Blacklist -&gt; (list) An array of the attributes to remove from all the endpoints that are associated with the application. The array can specify the complete, exact name of each attribute to remove or it can spec- ify a glob pattern that an attribute name must match in order for the attribute to be removed. (string) Shorthand Syntax: Blacklist=string,string JSON Syntax: { "Blacklist": ["string", ...] }</param>
+    /// <param name="ApplicationId">The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.</param>
+    /// <param name="AttributeType">The type of attribute or attributes to remove. Valid values are: • endpoint-custom-attributes - Custom attributes that describe endpoints, such as the date when an associated user opted in or out of receiving communications from you through a specific type of channel. • endpoint-metric-attributes - Custom metrics that your app reports to Amazon Pinpoint for endpoints, such as the number of app sessions or the number of items left in a cart. • endpoint-user-attributes - Custom attributes that describe users, such as first name, last name, and age.</param>
+    /// <param name="UpdateAttributesRequest">Specifies one or more attributes to remove from all the endpoints that are associated with an application. Blacklist -&gt; (list) An array of the attributes to remove from all the endpoints that are associated with the application. The array can specify the complete, exact name of each attribute to remove or it can specify a glob pattern that an attribute name must match in order for the attribute to be removed. (string) Shorthand Syntax: Blacklist=string,string JSON Syntax: { "Blacklist": ["string", ...] }</param>
     public AwsPinpointRemoveAttributesOptions(
         string ApplicationId,
         string AttributeType,
@@ -64,19 +65,19 @@ public record AwsPinpointRemoveAttributesOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the application. This identifier is dis- played as the Project ID on the Amazon Pinpoint console.
+    /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// The type of attribute or attributes to remove. Valid values are: o endpoint-custom-attributes - Custom attributes that describe end- points, such as the date when an associated user opted in or out of receiving communications from you through a specific type of channel. o endpoint-metric-attributes - Custom metrics that your app reports to Amazon Pinpoint for endpoints, such as the number of app ses- sions or the number of items left in a cart. o endpoint-user-attributes - Custom attributes that describe users, such as first name, last name, and age.
+    /// The type of attribute or attributes to remove. Valid values are: • endpoint-custom-attributes - Custom attributes that describe endpoints, such as the date when an associated user opted in or out of receiving communications from you through a specific type of channel. • endpoint-metric-attributes - Custom metrics that your app reports to Amazon Pinpoint for endpoints, such as the number of app sessions or the number of items left in a cart. • endpoint-user-attributes - Custom attributes that describe users, such as first name, last name, and age.
     /// </summary>
     [CliOption("--attribute-type")]
     public string? AttributeType { get; private init; }
 
     /// <summary>
-    /// Specifies one or more attributes to remove from all the endpoints that are associated with an application. Blacklist -&gt; (list) An array of the attributes to remove from all the endpoints that are associated with the application. The array can specify the complete, exact name of each attribute to remove or it can spec- ify a glob pattern that an attribute name must match in order for the attribute to be removed. (string) Shorthand Syntax: Blacklist=string,string JSON Syntax: { "Blacklist": ["string", ...] }
+    /// Specifies one or more attributes to remove from all the endpoints that are associated with an application. Blacklist -&gt; (list) An array of the attributes to remove from all the endpoints that are associated with the application. The array can specify the complete, exact name of each attribute to remove or it can specify a glob pattern that an attribute name must match in order for the attribute to be removed. (string) Shorthand Syntax: Blacklist=string,string JSON Syntax: { "Blacklist": ["string", ...] }
     /// </summary>
     [CliOption("--update-attributes-request")]
     public string? UpdateAttributesRequest { get; private init; }
@@ -102,6 +103,15 @@ public record AwsPinpointRemoveAttributesOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

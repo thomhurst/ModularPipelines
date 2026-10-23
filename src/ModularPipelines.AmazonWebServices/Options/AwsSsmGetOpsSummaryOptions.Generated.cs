@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// View a summary of operations metadata (OpsData) based on specified fil- ters and aggregators. OpsData can include information about Amazon Web Services Systems Manager OpsCenter operational workitems (OpsItems) as well as information about any Amazon Web Services resource or service configured to report OpsData to Amazon Web Services Systems Manager Ex- plorer. See also: AWS API Documentation get-ops-summary is a paginated operation. Multiple API calls may be is- sued in order to retrieve the en...
+/// View a summary of operations metadata (OpsData) based on specified filters and aggregators. OpsData can include information about Amazon Web Services Systems Manager OpsCenter operational workitems (OpsItems) as well as information about any Amazon Web Services resource or service configured to report OpsData to Amazon Web Services Systems Manager Explorer. See also: AWS API Documentation get-ops-summary is a paginated operation. Multiple API calls may be issued in order to retrieve the entire d...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,34 +23,31 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSsmGetOpsSummaryOptions : AwsOptions
 {
     /// <summary>
-    /// Specify the name of a resource data sync to get. Constraints: o min: 1 o max: 64
+    /// Specify the name of a resource data sync to get. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--sync-name")]
     public string? SyncName { get; set; }
 
     /// <summary>
-    /// Optional filters used to scope down the returned OpsData. Constraints: o min: 1 o max: 5 (structure) A filter for viewing OpsData summaries. Key -&gt; (string) [required] The name of the filter. Constraints: o min: 1 o max: 200 Values -&gt; (list) [required] The filter value. Constraints: o min: 1 o max: 40 (string) Constraints: o min: 0 o max: 256 Type -&gt; (string) The type of filter. Possible values: o Equal o NotEqual o BeginWith o LessThan o GreaterThan o Exists Shorthand Syntax: Key=string,Values=string,string,Type=string ... JSON Syntax: [ { "Key": "string", "Values": ["string", ...], "Type": "Equal"|"NotEqual"|"BeginWith"|"LessThan"|"GreaterThan"|"Exists" } ... ]
+    /// Optional filters used to scope down the returned OpsData. Constraints: • min: 1 • max: 5 (structure) A filter for viewing OpsData summaries. Key -&gt; (string) [required] The name of the filter. Constraints: • min: 1 • max: 200 Values -&gt; (list) [required] The filter value. Constraints: • min: 1 • max: 40 (string) Constraints: • min: 0 • max: 256 Type -&gt; (string) The type of filter. Possible values: • Equal • NotEqual • BeginWith • LessThan • GreaterThan • Exists Shorthand Syntax: Key=string,Values=string,string,Type=string ... JSON Syntax: [ { "Key": "string", "Values": ["string", ...], "Type": "Equal"|"NotEqual"|"BeginWith"|"LessThan"|"GreaterThan"|"Exists" } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
-    /// Optional aggregators that return counts of OpsData based on one or more expressions. Constraints: o min: 1 o max: 12 (structure) One or more aggregators for viewing counts of OpsData using dif- ferent dimensions such as Source , CreatedTime , or Source and CreatedTime , to name a few. AggregatorType -&gt; (string) Either a Range or Count aggregator for limiting an OpsData summary. Constraints: o min: 1 o max: 20 o pattern: ^(range|count|sum) TypeName -&gt; (string) The data type name to use for viewing counts of OpsData. Constraints: o min: 1 o max: 100 o pattern: ^(AWS|Custom):.*$ AttributeName -&gt; (string) The name of an OpsData attribute on which to limit the count of OpsData. Constraints: o min: 1 o max: 128 Values -&gt; (map) The aggregator value. Constraints: o min: 0 o max: 5 key -&gt; (string) Constraints: o min: 1 o max: 32 value -&gt; (string) Constraints: o min: 0 o max: 2048 Filters -&gt; (list) The aggregator filters. Constraints: o min: 1 o max: 5 (structure) A filter for viewing OpsData summaries. Key -&gt; (string) [required] The name of the filter. Constraints: o min: 1 o max: 200 Values -&gt; (list) [required] The filter value. Constraints: o min: 1 o max: 40 (string) Constraints: o min: 0 o max: 256 Type -&gt; (string) The type of filter. Possible values: o Equal o NotEqual o BeginWith o LessThan o GreaterThan o Exists Aggregators -&gt; (list) A nested aggregator for viewing counts of OpsData. Constraints: o min: 1 o max: 12 (structure) One or more aggregators for viewing counts of OpsData us- ing different dimensions such as Source , CreatedTime , or Source and CreatedTime , to name a few. AggregatorType -&gt; (string) Either a Range or Count aggregator for limiting an OpsData summary. Constraints: o min: 1 o max: 20 o pattern: ^(range|count|sum) TypeName -&gt; (string) The data type name to use for viewing counts of Ops- Data. Constraints: o min: 1 o max: 100 o pattern: ^(AWS|Custom):.*$ AttributeName -&gt; (string) The name of an OpsData attribute on which to limit the count of OpsData. Constraints: o min: 1 o max: 128 Values -&gt; (map) The aggregator value. Constraints: o min: 0 o max: 5 key -&gt; (string) Constraints: o min: 1 o max: 32 value -&gt; (string) Constraints: o min: 0 o max: 2048 Filters -&gt; (list) The aggregator filters. Constraints: o min: 1 o max: 5 (structure) A filter for viewing OpsData summaries. Key -&gt; (string) [required] The name of the filter. Constraints: o min: 1 o max: 200 Values -&gt; (list) [required] The filter value. Constraints: o min: 1 o max: 40 (string) Constraints: o min: 0 o max: 256 Type -&gt; (string) The type of filter. Possible values: o Equal o NotEqual o BeginWith o LessThan o GreaterThan o Exists JSON Syntax: [ { "AggregatorType": "string", "TypeName": "string", "AttributeName": "string", "Values": {"string": "string" ...}, "Filters": [ { "Key": "string", "Values": ["string", ...], "Type": "Equal"|"NotEqual"|"BeginWith"|"LessThan"|"GreaterThan"|"Exists" } ... ], "Aggregators": [ { "AggregatorType": "string", "TypeName": "string", "AttributeName": "string", "Values": {"string": "string" ...}, "Filters": [ { "Key": "string", "Values": ["string", ...], "Type": "Equal"|"NotEqual"|"BeginWith"|"LessThan"|"GreaterThan"|"Exists" } ... ], "Aggregators": } ... ] } ... ]
+    /// Optional aggregators that return counts of OpsData based on one or more expressions. Constraints: • min: 1 • max: 12 (structure) One or more aggregators for viewing counts of OpsData using different dimensions such as Source , CreatedTime , or Source and CreatedTime , to name a few. AggregatorType -&gt; (string) Either a Range or Count aggregator for limiting an OpsData summary. Constraints: • min: 1 • max: 20 • pattern: ^(range|count|sum) TypeName -&gt; (string) The data type name to use for viewing counts of OpsData. Constraints: • min: 1 • max: 100 • pattern: ^(AWS|Custom):.*$ AttributeName -&gt; (string) The name of an OpsData attribute on which to limit the count of OpsData. Constraints: • min: 1 • max: 128 Values -&gt; (map) The aggregator value. Constraints: • min: 0 • max: 5 key -&gt; (string) Constraints: • min: 1 • max: 32 value -&gt; (string) Constraints: • min: 0 • max: 2048 Filters -&gt; (list) The aggregator filters. Constraints: • min: 1 • max: 5 (structure) A filter for viewing OpsData summaries. Key -&gt; (string) [required] The name of the filter. Constraints: • min: 1 • max: 200 Values -&gt; (list) [required] The filter value. Constraints: • min: 1 • max: 40 (string) Constraints: • min: 0 • max: 256 Type -&gt; (string) The type of filter. Possible values: • Equal • NotEqual • BeginWith • LessThan • GreaterThan • Exists Aggregators -&gt; (list) A nested aggregator for viewing counts of OpsData. Constraints: • min: 1 • max: 12 (structure) One or more aggregators for viewing counts of OpsData using different dimensions such as Source , CreatedTime , or Source and CreatedTime , to name a few. AggregatorType -&gt; (string) Either a Range or Count aggregator for limiting an OpsData summary. Constraints: • min: 1 • max: 20 • pattern: ^(range|count|sum) TypeName -&gt; (string) The data type name to use for viewing counts of OpsData. Constraints: • min: 1 • max: 100 • pattern: ^(AWS|Custom):.*$ AttributeName -&gt; (string) The name of an OpsData attribute on which to limit the count of OpsData. Constraints: • min: 1 • max: 128 Values -&gt; (map) The aggregator value. Constraints: • min: 0 • max: 5 key -&gt; (string) Constraints: • min: 1 • max: 32 value -&gt; (string) Constraints: • min: 0 • max: 2048 Filters -&gt; (list) The aggregator filters. Constraints: • min: 1 • max: 5 (structure) A filter for viewing OpsData summaries. Key -&gt; (string) [required] The name of the filter. Constraints: • min: 1 • max: 200 Values -&gt; (list) [required] The filter value. Constraints: • min: 1 • max: 40 (string) Constraints: • min: 0 • max: 256 Type -&gt; (string) The type of filter. Possible values: • Equal • NotEqual • BeginWith • LessThan • GreaterThan • Exists JSON Syntax: [ { "AggregatorType": "string", "TypeName": "string", "AttributeName": "string", "Values": {"string": "string" ...}, "Filters": [ { "Key": "string", "Values": ["string", ...], "Type": "Equal"|"NotEqual"|"BeginWith"|"LessThan"|"GreaterThan"|"Exists" } ... ], "Aggregators": [ { "AggregatorType": "string", "TypeName": "string", "AttributeName": "string", "Values": {"string": "string" ...}, "Filters": [ { "Key": "string", "Values": ["string", ...], "Type": "Equal"|"NotEqual"|"BeginWith"|"LessThan"|"GreaterThan"|"Exists" } ... ], "Aggregators": } ... ] } ... ]
     /// </summary>
     [CliOption("--aggregators", GroupValues = true)]
     public IEnumerable<string>? Aggregators { get; set; }
 
     /// <summary>
-    /// The OpsData data type to return. Constraints: o min: 1 (structure) The OpsItem data type to return. TypeName -&gt; (string) [required] Name of the data type. Valid value: AWS:OpsItem , AWS:EC2In- stanceInformation , AWS:OpsItemTrendline , or AWS:Compliance- Summary . Constraints: o min: 1 o max: 100 o pattern: ^(AWS|Custom):.*$ Shorthand Syntax: TypeName=string ... JSON Syntax: [ { "TypeName": "string" } ... ]
+    /// The OpsData data type to return. Constraints: • min: 1 (structure) The OpsItem data type to return. TypeName -&gt; (string) [required] Name of the data type. Valid value: AWS:OpsItem , AWS:EC2InstanceInformation , AWS:OpsItemTrendline , or AWS:ComplianceSummary . Constraints: • min: 1 • max: 100 • pattern: ^(AWS|Custom):.*$ Shorthand Syntax: TypeName=string ... JSON Syntax: [ { "TypeName": "string" } ... ]
     /// </summary>
     [CliOption("--result-attributes", GroupValues = true)]
     public IEnumerable<string>? ResultAttributes { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -60,15 +57,27 @@ public record AwsSsmGetOpsSummaryOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 50
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

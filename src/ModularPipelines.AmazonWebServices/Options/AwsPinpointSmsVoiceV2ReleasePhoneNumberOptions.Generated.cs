@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Releases an existing origination phone number in your account. Once re- leased, a phone number is no longer available for sending messages. If the origination phone number has deletion protection enabled or is associated with a pool, an error is returned. See also: AWS API Documentation
+/// Releases an existing origination phone number in your account. Once released, a phone number is no longer available for sending messages. If the origination phone number has deletion protection enabled or is associated with a pool, an error is returned. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsPinpointSmsVoiceV2ReleasePhoneNumberOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Releases an existing origination phone number in your account. Once re- leased, a phone number is no longer available for sending messages. If the origination phone number has deletion protection enabled or is associated with a pool, an error is returned. See also: AWS API Documentation
+    /// Releases an existing origination phone number in your account. Once released, a phone number is no longer available for sending messages. If the origination phone number has deletion protection enabled or is associated with a pool, an error is returned. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PhoneNumberId">The PhoneNumberId or PhoneNumberArn of the phone number to release. You can use DescribePhoneNumbers to get the values for PhoneNum- berId and PhoneNumberArn. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+</param>
+    /// <param name="PhoneNumberId">The PhoneNumberId or PhoneNumberArn of the phone number to release. You can use DescribePhoneNumbers to get the values for PhoneNumberId and PhoneNumberArn. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+</param>
     public AwsPinpointSmsVoiceV2ReleasePhoneNumberOptions(
         string PhoneNumberId
     )
@@ -56,7 +57,7 @@ public record AwsPinpointSmsVoiceV2ReleasePhoneNumberOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The PhoneNumberId or PhoneNumberArn of the phone number to release. You can use DescribePhoneNumbers to get the values for PhoneNum- berId and PhoneNumberArn. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// The PhoneNumberId or PhoneNumberArn of the phone number to release. You can use DescribePhoneNumbers to get the values for PhoneNumberId and PhoneNumberArn. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+
     /// </summary>
     [CliOption("--phone-number-id")]
     public string? PhoneNumberId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsPinpointSmsVoiceV2ReleasePhoneNumberOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

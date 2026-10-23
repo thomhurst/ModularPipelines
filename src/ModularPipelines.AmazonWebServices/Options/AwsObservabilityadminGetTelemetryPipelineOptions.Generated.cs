@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsObservabilityadminGetTelemetryPipelineOptions : AwsOptions, IVa
     /// <summary>
     /// Retrieves information about a specific telemetry pipeline, including its configuration, status, and metadata. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PipelineIdentifier">The identifier (name or ARN) of the telemetry pipeline to retrieve. Constraints: o min: 1 o max: 512</param>
+    /// <param name="PipelineIdentifier">The identifier (name or ARN) of the telemetry pipeline to retrieve. Constraints: • min: 1 • max: 512</param>
     public AwsObservabilityadminGetTelemetryPipelineOptions(
         string PipelineIdentifier
     )
@@ -56,7 +57,7 @@ public record AwsObservabilityadminGetTelemetryPipelineOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier (name or ARN) of the telemetry pipeline to retrieve. Constraints: o min: 1 o max: 512
+    /// The identifier (name or ARN) of the telemetry pipeline to retrieve. Constraints: • min: 1 • max: 512
     /// </summary>
     [CliOption("--pipeline-identifier")]
     public string? PipelineIdentifier { get; private init; }
@@ -82,6 +83,15 @@ public record AwsObservabilityadminGetTelemetryPipelineOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

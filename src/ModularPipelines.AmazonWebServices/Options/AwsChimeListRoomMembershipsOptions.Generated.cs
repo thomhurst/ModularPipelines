@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +29,8 @@ public record AwsChimeListRoomMembershipsOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Lists the membership details for the specified room in an Amazon Chime Enterprise account, such as the members' IDs, email addresses, and names. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountId">The Amazon Chime account ID. Constraints: o pattern: .*\S.*</param>
-    /// <param name="RoomId">The room ID. Constraints: o pattern: .*\S.*</param>
+    /// <param name="AccountId">The Amazon Chime account ID. Constraints: • pattern: .*\S.*</param>
+    /// <param name="RoomId">The room ID. Constraints: • pattern: .*\S.*</param>
     public AwsChimeListRoomMembershipsOptions(
         string AccountId,
         string RoomId
@@ -61,19 +62,19 @@ public record AwsChimeListRoomMembershipsOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Chime account ID. Constraints: o pattern: .*\S.*
+    /// The Amazon Chime account ID. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// The room ID. Constraints: o pattern: .*\S.*
+    /// The room ID. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--room-id")]
     public string? RoomId { get; private init; }
 
     /// <summary>
-    /// The maximum number of results to return in a single call. Constraints: o min: 1 o max: 99
+    /// The maximum number of results to return in a single call. Constraints: • min: 1 • max: 99
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -106,6 +107,15 @@ public record AwsChimeListRoomMembershipsOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

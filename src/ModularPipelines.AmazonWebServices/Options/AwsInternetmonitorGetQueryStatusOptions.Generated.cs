@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the current status of a query for the Amazon CloudWatch Inter- net Monitor query interface, for a specified query ID and monitor. When you run a query, check the status to make sure that the query has SUC- CEEDED before you review the results. o QUEUED : The query is scheduled to run. o RUNNING : The query is in progress but not complete. o SUCCEEDED : The query completed sucessfully. o FAILED : The query failed due to an error. o CANCELED : The query was canceled. See also: AWS API Docu...
+/// Returns the current status of a query for the Amazon CloudWatch Internet Monitor query interface, for a specified query ID and monitor. When you run a query, check the status to make sure that the query has SUCCEEDED before you review the results. • QUEUED : The query is scheduled to run. • RUNNING : The query is in progress but not complete. • SUCCEEDED : The query completed sucessfully. • FAILED : The query failed due to an error. • CANCELED : The query was canceled. See also: AWS API Document...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsInternetmonitorGetQueryStatusOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the current status of a query for the Amazon CloudWatch Inter- net Monitor query interface, for a specified query ID and monitor. When you run a query, check the status to make sure that the query has SUC- CEEDED before you review the results. o QUEUED : The query is scheduled to run. o RUNNING : The query is in progress but not complete. o SUCCEEDED : The query completed sucessfully. o FAILED : The query failed due to an error. o CANCELED : The query was canceled. See also: AWS API Docu...
+    /// Returns the current status of a query for the Amazon CloudWatch Internet Monitor query interface, for a specified query ID and monitor. When you run a query, check the status to make sure that the query has SUCCEEDED before you review the results. • QUEUED : The query is scheduled to run. • RUNNING : The query is in progress but not complete. • SUCCEEDED : The query completed sucessfully. • FAILED : The query failed due to an error. • CANCELED : The query was canceled. See also: AWS API Document...
     /// </summary>
-    /// <param name="MonitorName">The name of the monitor. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="MonitorName">The name of the monitor. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9_.-]+</param>
     /// <param name="QueryId">The ID of the query that you want to return the status for. A QueryId is an internally-generated dentifier for a specific query.</param>
     public AwsInternetmonitorGetQueryStatusOptions(
         string MonitorName,
@@ -60,7 +61,7 @@ public record AwsInternetmonitorGetQueryStatusOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the monitor. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.-]+
+    /// The name of the monitor. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--monitor-name")]
     public string? MonitorName { get; private init; }
@@ -92,6 +93,15 @@ public record AwsInternetmonitorGetQueryStatusOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

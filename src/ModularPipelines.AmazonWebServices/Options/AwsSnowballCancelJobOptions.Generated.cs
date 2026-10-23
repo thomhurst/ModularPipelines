@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Cancels the specified job. You can only cancel a job before its Job- State value changes to PreparingAppliance . Requesting the ListJobs or DescribeJob action returns a job's JobState as part of the response el- ement data returned. See also: AWS API Documentation
+/// Cancels the specified job. You can only cancel a job before its JobState value changes to PreparingAppliance . Requesting the ListJobs or DescribeJob action returns a job's JobState as part of the response element data returned. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsSnowballCancelJobOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Cancels the specified job. You can only cancel a job before its Job- State value changes to PreparingAppliance . Requesting the ListJobs or DescribeJob action returns a job's JobState as part of the response el- ement data returned. See also: AWS API Documentation
+    /// Cancels the specified job. You can only cancel a job before its JobState value changes to PreparingAppliance . Requesting the ListJobs or DescribeJob action returns a job's JobState as part of the response element data returned. See also: AWS API Documentation
     /// </summary>
-    /// <param name="JobId">The 39-character job ID for the job that you want to cancel, for ex- ample JID123e4567-e89b-12d3-a456-426655440000 . Constraints: o min: 39 o max: 39 o pattern: (M|J)ID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="JobId">The 39-character job ID for the job that you want to cancel, for example JID123e4567-e89b-12d3-a456-426655440000 . Constraints: • min: 39 • max: 39 • pattern: (M|J)ID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
     public AwsSnowballCancelJobOptions(
         string JobId
     )
@@ -56,7 +57,7 @@ public record AwsSnowballCancelJobOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The 39-character job ID for the job that you want to cancel, for ex- ample JID123e4567-e89b-12d3-a456-426655440000 . Constraints: o min: 39 o max: 39 o pattern: (M|J)ID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The 39-character job ID for the job that you want to cancel, for example JID123e4567-e89b-12d3-a456-426655440000 . Constraints: • min: 39 • max: 39 • pattern: (M|J)ID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSnowballCancelJobOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

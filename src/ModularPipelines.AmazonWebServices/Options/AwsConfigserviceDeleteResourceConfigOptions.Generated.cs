@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Records the configuration state for a custom resource that has been deleted. This API records a new ConfigurationItem with a Re- sourceDeleted status. You can retrieve the ConfigurationItems recorded for this resource in your Config History. See also: AWS API Documentation
+/// Records the configuration state for a custom resource that has been deleted. This API records a new ConfigurationItem with a ResourceDeleted status. You can retrieve the ConfigurationItems recorded for this resource in your Config History. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsConfigserviceDeleteResourceConfigOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Records the configuration state for a custom resource that has been deleted. This API records a new ConfigurationItem with a Re- sourceDeleted status. You can retrieve the ConfigurationItems recorded for this resource in your Config History. See also: AWS API Documentation
+    /// Records the configuration state for a custom resource that has been deleted. This API records a new ConfigurationItem with a ResourceDeleted status. You can retrieve the ConfigurationItems recorded for this resource in your Config History. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceType">The type of the resource. Constraints: o min: 1 o max: 196</param>
-    /// <param name="ResourceId">Unique identifier of the resource. Constraints: o min: 1 o max: 768</param>
+    /// <param name="ResourceType">The type of the resource. Constraints: • min: 1 • max: 196</param>
+    /// <param name="ResourceId">Unique identifier of the resource. Constraints: • min: 1 • max: 768</param>
     public AwsConfigserviceDeleteResourceConfigOptions(
         string ResourceType,
         string ResourceId
@@ -60,13 +61,13 @@ public record AwsConfigserviceDeleteResourceConfigOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The type of the resource. Constraints: o min: 1 o max: 196
+    /// The type of the resource. Constraints: • min: 1 • max: 196
     /// </summary>
     [CliOption("--resource-type")]
     public string? ResourceType { get; private init; }
 
     /// <summary>
-    /// Unique identifier of the resource. Constraints: o min: 1 o max: 768
+    /// Unique identifier of the resource. Constraints: • min: 1 • max: 768
     /// </summary>
     [CliOption("--resource-id")]
     public string? ResourceId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsConfigserviceDeleteResourceConfigOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

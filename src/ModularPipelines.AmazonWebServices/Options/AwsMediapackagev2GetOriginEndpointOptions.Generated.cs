@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the specified origin endpoint that's configured in AWS Ele- mental MediaPackage to obtain its playback URL and to view the packag- ing settings that it's currently using. See also: AWS API Documentation
+/// Retrieves the specified origin endpoint that's configured in AWS Elemental MediaPackage to obtain its playback URL and to view the packaging settings that it's currently using. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsMediapackagev2GetOriginEndpointOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves the specified origin endpoint that's configured in AWS Ele- mental MediaPackage to obtain its playback URL and to view the packag- ing settings that it's currently using. See also: AWS API Documentation
+    /// Retrieves the specified origin endpoint that's configured in AWS Elemental MediaPackage to obtain its playback URL and to view the packaging settings that it's currently using. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ChannelGroupName">The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your ac- count in the AWS Region. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+</param>
-    /// <param name="ChannelName">The name that describes the channel. The name is the primary identi- fier for the channel, and must be unique for your account in the AWS Region and channel group. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+</param>
-    /// <param name="OriginEndpointName">The name that describes the origin endpoint. The name is the primary identifier for the origin endpoint, and and must be unique for your account in the AWS Region and channel. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="ChannelGroupName">The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="ChannelName">The name that describes the channel. The name is the primary identifier for the channel, and must be unique for your account in the AWS Region and channel group. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="OriginEndpointName">The name that describes the origin endpoint. The name is the primary identifier for the origin endpoint, and and must be unique for your account in the AWS Region and channel. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_-]+</param>
     public AwsMediapackagev2GetOriginEndpointOptions(
         string ChannelGroupName,
         string ChannelName,
@@ -64,19 +65,19 @@ public record AwsMediapackagev2GetOriginEndpointOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your ac- count in the AWS Region. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+
+    /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--channel-group-name")]
     public string? ChannelGroupName { get; private init; }
 
     /// <summary>
-    /// The name that describes the channel. The name is the primary identi- fier for the channel, and must be unique for your account in the AWS Region and channel group. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+
+    /// The name that describes the channel. The name is the primary identifier for the channel, and must be unique for your account in the AWS Region and channel group. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--channel-name")]
     public string? ChannelName { get; private init; }
 
     /// <summary>
-    /// The name that describes the origin endpoint. The name is the primary identifier for the origin endpoint, and and must be unique for your account in the AWS Region and channel. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+
+    /// The name that describes the origin endpoint. The name is the primary identifier for the origin endpoint, and and must be unique for your account in the AWS Region and channel. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--origin-endpoint-name")]
     public string? OriginEndpointName { get; private init; }
@@ -102,6 +103,15 @@ public record AwsMediapackagev2GetOriginEndpointOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

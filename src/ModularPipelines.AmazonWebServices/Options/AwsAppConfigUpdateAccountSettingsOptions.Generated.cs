@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsAppConfigUpdateAccountSettingsOptions : AwsOptions
 {
     /// <summary>
-    /// A parameter to configure deletion protection. Deletion protection prevents a user from deleting a configuration profile or an environ- ment if AppConfig has called either GetLatestConfiguration or for the configuration profile or from the environment during the speci- fied interval. The default interval for ProtectionPeriodInMinutes is 60. Enabled -&gt; (boolean) A parameter that indicates if deletion protection is enabled or not. ProtectionPeriodInMinutes -&gt; (integer) The time interval during which AppConfig monitors for calls to GetLatestConfiguration or for a configuration profile or from an environment. AppConfig returns an error if a user calls or for the designated configuration profile or environment. To bypass the error and delete a configuration profile or an environment, specify BYPASS for the DeletionProtectionCheck parameter for ei- ther or . Constraints: o min: 15 o max: 1440 Shorthand Syntax: Enabled=boolean,ProtectionPeriodInMinutes=integer JSON Syntax: { "Enabled": true|false, "ProtectionPeriodInMinutes": integer }
+    /// A parameter to configure deletion protection. Deletion protection prevents a user from deleting a configuration profile or an environment if AppConfig has called either GetLatestConfiguration or for the configuration profile or from the environment during the specified interval. The default interval for ProtectionPeriodInMinutes is 60. Enabled -&gt; (boolean) A parameter that indicates if deletion protection is enabled or not. ProtectionPeriodInMinutes -&gt; (integer) The time interval during which AppConfig monitors for calls to GetLatestConfiguration or for a configuration profile or from an environment. AppConfig returns an error if a user calls or for the designated configuration profile or environment. To bypass the error and delete a configuration profile or an environment, specify BYPASS for the DeletionProtectionCheck parameter for either or . Constraints: • min: 15 • max: 1440 Shorthand Syntax: Enabled=boolean,ProtectionPeriodInMinutes=integer JSON Syntax: { "Enabled": true|false, "ProtectionPeriodInMinutes": integer }
     /// </summary>
     [CliOption("--deletion-protection")]
     public string? DeletionProtection { get; set; }
@@ -38,5 +38,14 @@ public record AwsAppConfigUpdateAccountSettingsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

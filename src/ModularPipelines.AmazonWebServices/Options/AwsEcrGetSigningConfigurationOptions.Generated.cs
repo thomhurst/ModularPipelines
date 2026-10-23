@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the registry's signing configuration, which defines rules for automatically signing images using Amazon Web Services Signer. For more information, see Managed signing in the Amazon Elastic Con- tainer Registry User Guide . See also: AWS API Documentation
+/// Retrieves the registry's signing configuration, which defines rules for automatically signing images using Amazon Web Services Signer. For more information, see Managed signing in the Amazon Elastic Container Registry User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,5 +26,14 @@ public record AwsEcrGetSigningConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

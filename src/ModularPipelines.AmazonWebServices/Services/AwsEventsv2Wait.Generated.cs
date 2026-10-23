@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws wait commands.
+/// aws eventsv2 wait commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsEventsv2Wait
@@ -32,7 +32,7 @@ public class AwsEventsv2Wait
     #region Commands
 
     /// <summary>
-    /// Waits until the event bus reports ACTIVE. Use after CreateEventBus (bus starts in CREATING) or UpdateEventBus (bus moves to UPDATING) before invoking operations that require an ACTIVE bus. Fails fast on the ter- minal failure states CREATE_FAILED, UPDATE_FAILED, and DELETE_FAILED, surfacing StateReason. CREATING, UPDATING, and DELETING are intention- ally unmodeled intermediate states that fall through to the implicit retry. It will poll every 2 seconds until a successful state has been reached....
+    /// Waits until the event bus reports ACTIVE. Use after CreateEventBus (bus starts in CREATING) or UpdateEventBus (bus moves to UPDATING) before invoking operations that require an ACTIVE bus. Fails fast on the terminal failure states CREATE_FAILED, UPDATE_FAILED, and DELETE_FAILED, surfacing StateReason. CREATING, UPDATING, and DELETING are intentionally unmodeled intermediate states that fall through to the implicit retry. It will poll every 2 seconds until a successful state has been reached. Thi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsEventsv2Wait
     }
 
     /// <summary>
-    /// Waits until the event bus is fully deleted, signaled by DescribeEvent- Bus returning ResourceNotFoundException. Use after DeleteEventBus. Fails fast on the terminal DELETE_FAILED state, surfacing StateReason; retry DeleteEventBus after removing subscribers. It will poll every 2 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
+    /// Waits until the event bus is fully deleted, signaled by DescribeEventBus returning ResourceNotFoundException. Use after DeleteEventBus. Fails fast on the terminal DELETE_FAILED state, surfacing StateReason; retry DeleteEventBus after removing subscribers. It will poll every 2 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a transfer location for an Amazon S3 bucket. DataSync can use this location as a source or destination for transferring data. WARNING: Before you begin, make sure that you read the following topics: o Storage class considerations with Amazon S3 locations o Evaluating S3 request costs when using DataSync For more information, see Configuring transfers with Amazon S3 . See also: AWS API Documentation
+/// Creates a transfer location for an Amazon S3 bucket. DataSync can use this location as a source or destination for transferring data. WARNING: Before you begin, make sure that you read the following topics: • Storage class considerations with Amazon S3 locations • Evaluating S3 request costs when using DataSync For more information, see Configuring transfers with Amazon S3 . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsDatasyncCreateLocationS3Options : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a transfer location for an Amazon S3 bucket. DataSync can use this location as a source or destination for transferring data. WARNING: Before you begin, make sure that you read the following topics: o Storage class considerations with Amazon S3 locations o Evaluating S3 request costs when using DataSync For more information, see Configuring transfers with Amazon S3 . See also: AWS API Documentation
+    /// Creates a transfer location for an Amazon S3 bucket. DataSync can use this location as a source or destination for transferring data. WARNING: Before you begin, make sure that you read the following topics: • Storage class considerations with Amazon S3 locations • Evaluating S3 request costs when using DataSync For more information, see Configuring transfers with Amazon S3 . See also: AWS API Documentation
     /// </summary>
-    /// <param name="S3BucketArn">Specifies the ARN of the S3 bucket that you want to use as a loca- tion. (When creating your DataSync task later, you specify whether this location is a transfer source or destination.) If your S3 bucket is located on an Outposts resource, you must spec- ify an Amazon S3 access point. For more information, see Managing data access with Amazon S3 access points in the Amazon S3 User Guide . Constraints: o max: 268 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):s3:[a-z\-0-9]*:[0-9]{12}:ac- cess- point[/:][a-zA-Z0-9\-.]{1,63}$|^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):s3-out- posts:[a-z\-0-9]+:[0-9]{12}:outpost[/:][a-zA-Z0-9\-]{1,63}[/:]ac- cess- point[/:][a-zA-Z0-9\-]{1,63}$|^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):s3:::[a-zA-Z0-9.\-_]{1,255}$</param>
-    /// <param name="S3Config">Specifies the Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that DataSync uses to access your S3 bucket. For more information, see Providing DataSync access to S3 buckets . BucketAccessRoleArn -&gt; (string) [required] Specifies the ARN of the IAM role that DataSync uses to access your S3 bucket. Constraints: o max: 2048 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):iam::[0-9]{12}:role/.*$ Shorthand Syntax: BucketAccessRoleArn=string JSON Syntax: { "BucketAccessRoleArn": "string" }</param>
+    /// <param name="S3BucketArn">Specifies the ARN of the S3 bucket that you want to use as a location. (When creating your DataSync task later, you specify whether this location is a transfer source or destination.) If your S3 bucket is located on an Outposts resource, you must specify an Amazon S3 access point. For more information, see Managing data access with Amazon S3 access points in the Amazon S3 User Guide . Constraints: • max: 268 • pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):s3:[a-z\-0-9]*:[0-9]{12}:accesspoint[/:][a-zA-Z0-9\-.]{1,63}$|^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):s3-outposts:[a-z\-0-9]+:[0-9]{12}:outpost[/:][a-zA-Z0-9\-]{1,63}[/:]accesspoint[/:][a-zA-Z0-9\-]{1,63}$|^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):s3:::[a-zA-Z0-9.\-_]{1,255}$</param>
+    /// <param name="S3Config">Specifies the Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that DataSync uses to access your S3 bucket. For more information, see Providing DataSync access to S3 buckets . BucketAccessRoleArn -&gt; (string) [required] Specifies the ARN of the IAM role that DataSync uses to access your S3 bucket. Constraints: • max: 2048 • pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):iam::[0-9]{12}:role/.*$ Shorthand Syntax: BucketAccessRoleArn=string JSON Syntax: { "BucketAccessRoleArn": "string" }</param>
     public AwsDatasyncCreateLocationS3Options(
         string S3BucketArn,
         string S3Config
@@ -61,37 +62,37 @@ public record AwsDatasyncCreateLocationS3Options : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the ARN of the S3 bucket that you want to use as a loca- tion. (When creating your DataSync task later, you specify whether this location is a transfer source or destination.) If your S3 bucket is located on an Outposts resource, you must spec- ify an Amazon S3 access point. For more information, see Managing data access with Amazon S3 access points in the Amazon S3 User Guide . Constraints: o max: 268 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):s3:[a-z\-0-9]*:[0-9]{12}:ac- cess- point[/:][a-zA-Z0-9\-.]{1,63}$|^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):s3-out- posts:[a-z\-0-9]+:[0-9]{12}:outpost[/:][a-zA-Z0-9\-]{1,63}[/:]ac- cess- point[/:][a-zA-Z0-9\-]{1,63}$|^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):s3:::[a-zA-Z0-9.\-_]{1,255}$
+    /// Specifies the ARN of the S3 bucket that you want to use as a location. (When creating your DataSync task later, you specify whether this location is a transfer source or destination.) If your S3 bucket is located on an Outposts resource, you must specify an Amazon S3 access point. For more information, see Managing data access with Amazon S3 access points in the Amazon S3 User Guide . Constraints: • max: 268 • pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):s3:[a-z\-0-9]*:[0-9]{12}:accesspoint[/:][a-zA-Z0-9\-.]{1,63}$|^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):s3-outposts:[a-z\-0-9]+:[0-9]{12}:outpost[/:][a-zA-Z0-9\-]{1,63}[/:]accesspoint[/:][a-zA-Z0-9\-]{1,63}$|^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):s3:::[a-zA-Z0-9.\-_]{1,255}$
     /// </summary>
     [CliOption("--s3-bucket-arn")]
     public string? S3BucketArn { get; private init; }
 
     /// <summary>
-    /// Specifies the Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that DataSync uses to access your S3 bucket. For more information, see Providing DataSync access to S3 buckets . BucketAccessRoleArn -&gt; (string) [required] Specifies the ARN of the IAM role that DataSync uses to access your S3 bucket. Constraints: o max: 2048 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):iam::[0-9]{12}:role/.*$ Shorthand Syntax: BucketAccessRoleArn=string JSON Syntax: { "BucketAccessRoleArn": "string" }
+    /// Specifies the Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that DataSync uses to access your S3 bucket. For more information, see Providing DataSync access to S3 buckets . BucketAccessRoleArn -&gt; (string) [required] Specifies the ARN of the IAM role that DataSync uses to access your S3 bucket. Constraints: • max: 2048 • pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):iam::[0-9]{12}:role/.*$ Shorthand Syntax: BucketAccessRoleArn=string JSON Syntax: { "BucketAccessRoleArn": "string" }
     /// </summary>
     [CliOption("--s3-config")]
     public string? S3Config { get; private init; }
 
     /// <summary>
-    /// Specifies a prefix in the S3 bucket that DataSync reads from or writes to (depending on whether the bucket is a source or destina- tion location). NOTE: DataSync can't transfer objects with a prefix that begins with a slash (/ ) or includes // , /./ , or /../ patterns. For example: o /photos o photos//2006/January o photos/./2006/February o photos/../2006/March Constraints: o max: 4096 o pattern: ^[a-zA-Z0-9_\-\+\./\(\)\p{Zs}]*$
+    /// Specifies a prefix in the S3 bucket that DataSync reads from or writes to (depending on whether the bucket is a source or destination location). NOTE: DataSync can't transfer objects with a prefix that begins with a slash (/ ) or includes // , /./ , or /../ patterns. For example: • /photos • photos//2006/January • photos/./2006/February • photos/../2006/March Constraints: • max: 4096 • pattern: ^[a-zA-Z0-9_\-\+\./\(\)\p{Zs}]*$
     /// </summary>
     [CliOption("--subdirectory")]
     public string? Subdirectory { get; set; }
 
     /// <summary>
-    /// Specifies the storage class that you want your objects to use when Amazon S3 is a transfer destination. For buckets in Amazon Web Services Regions, the storage class de- faults to STANDARD . For buckets on Outposts, the storage class de- faults to OUTPOSTS . For more information, see Storage class considerations with Amazon S3 transfers . Possible values: o STANDARD o STANDARD_IA o ONEZONE_IA o INTELLIGENT_TIERING o GLACIER o DEEP_ARCHIVE o OUTPOSTS o GLACIER_INSTANT_RETRIEVAL
+    /// Specifies the storage class that you want your objects to use when Amazon S3 is a transfer destination. For buckets in Amazon Web Services Regions, the storage class defaults to STANDARD . For buckets on Outposts, the storage class defaults to OUTPOSTS . For more information, see Storage class considerations with Amazon S3 transfers . Possible values: • STANDARD • STANDARD_IA • ONEZONE_IA • INTELLIGENT_TIERING • GLACIER • DEEP_ARCHIVE • OUTPOSTS • GLACIER_INSTANT_RETRIEVAL
     /// </summary>
     [CliOption("--s3-storage-class")]
     public AwsDatasyncCreateLocationS3S3StorageClass? S3StorageClass { get; set; }
 
     /// <summary>
-    /// (Amazon S3 on Outposts only) Specifies the Amazon Resource Name (ARN) of the DataSync agent on your Outpost. For more information, see Deploy your DataSync agent on Outposts . Constraints: o min: 1 o max: 8 (string) Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):data- sync:[a-z\-0-9]+:[0-9]{12}:agent/agent-[0-9a-z]{17}$ Syntax: "string" "string" ...
+    /// (Amazon S3 on Outposts only) Specifies the Amazon Resource Name (ARN) of the DataSync agent on your Outpost. For more information, see Deploy your DataSync agent on Outposts . Constraints: • min: 1 • max: 8 (string) Constraints: • max: 128 • pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):datasync:[a-z\-0-9]+:[0-9]{12}:agent/agent-[0-9a-z]{17}$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--agent-arns", GroupValues = true)]
     public IEnumerable<string>? AgentArns { get; set; }
 
     /// <summary>
-    /// Specifies labels that help you categorize, filter, and search for your Amazon Web Services resources. We recommend creating at least a name tag for your transfer location. Constraints: o min: 0 o max: 50 (structure) A key-value pair representing a single tag that's been applied to an Amazon Web Services resource. Key -&gt; (string) [required] The key for an Amazon Web Services resource tag. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9\s+=._:/-]+$ Value -&gt; (string) The value for an Amazon Web Services resource tag. Constraints: o min: 0 o max: 256 o pattern: ^[a-zA-Z0-9\s+=._:@/-]+$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Specifies labels that help you categorize, filter, and search for your Amazon Web Services resources. We recommend creating at least a name tag for your transfer location. Constraints: • min: 0 • max: 50 (structure) A key-value pair representing a single tag that's been applied to an Amazon Web Services resource. Key -&gt; (string) [required] The key for an Amazon Web Services resource tag. Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z0-9\s+=._:/-]+$ Value -&gt; (string) The value for an Amazon Web Services resource tag. Constraints: • min: 0 • max: 256 • pattern: ^[a-zA-Z0-9\s+=._:@/-]+$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -117,6 +118,15 @@ public record AwsDatasyncCreateLocationS3Options : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

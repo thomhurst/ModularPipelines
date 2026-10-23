@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets information on the settings of query suggestions for an index. This is used to check the current settings applied to query sugges- tions. DescribeQuerySuggestionsConfig is currently not supported in the Amazon Web Services GovCloud (US-West) region. See also: AWS API Documentation
+/// Gets information on the settings of query suggestions for an index. This is used to check the current settings applied to query suggestions. DescribeQuerySuggestionsConfig is currently not supported in the Amazon Web Services GovCloud (US-West) region. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsKendraDescribeQuerySuggestionsConfigOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets information on the settings of query suggestions for an index. This is used to check the current settings applied to query sugges- tions. DescribeQuerySuggestionsConfig is currently not supported in the Amazon Web Services GovCloud (US-West) region. See also: AWS API Documentation
+    /// Gets information on the settings of query suggestions for an index. This is used to check the current settings applied to query suggestions. DescribeQuerySuggestionsConfig is currently not supported in the Amazon Web Services GovCloud (US-West) region. See also: AWS API Documentation
     /// </summary>
-    /// <param name="IndexId">The identifier of the index with query suggestions that you want to get information on. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*</param>
+    /// <param name="IndexId">The identifier of the index with query suggestions that you want to get information on. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]*</param>
     public AwsKendraDescribeQuerySuggestionsConfigOptions(
         string IndexId
     )
@@ -56,7 +57,7 @@ public record AwsKendraDescribeQuerySuggestionsConfigOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the index with query suggestions that you want to get information on. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*
+    /// The identifier of the index with query suggestions that you want to get information on. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]*
     /// </summary>
     [CliOption("--index-id")]
     public string? IndexId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsKendraDescribeQuerySuggestionsConfigOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

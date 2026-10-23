@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the specified migration project. Required permissions: dms:DeleteMigrationProject . For more infor- mation, see Actions, resources, and condition keys for Database Mi- gration Service . NOTE: The migration project must be closed before you can delete it. See also: AWS API Documentation
+/// Deletes the specified migration project. Required permissions: dms:DeleteMigrationProject . For more information, see Actions, resources, and condition keys for Database Migration Service . NOTE: The migration project must be closed before you can delete it. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsDmsDeleteMigrationProjectOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the specified migration project. Required permissions: dms:DeleteMigrationProject . For more infor- mation, see Actions, resources, and condition keys for Database Mi- gration Service . NOTE: The migration project must be closed before you can delete it. See also: AWS API Documentation
+    /// Deletes the specified migration project. Required permissions: dms:DeleteMigrationProject . For more information, see Actions, resources, and condition keys for Database Migration Service . NOTE: The migration project must be closed before you can delete it. See also: AWS API Documentation
     /// </summary>
     /// <param name="MigrationProjectIdentifier">The name or Amazon Resource Name (ARN) of the migration project to delete.</param>
     public AwsDmsDeleteMigrationProjectOptions(
@@ -82,6 +83,15 @@ public record AwsDmsDeleteMigrationProjectOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

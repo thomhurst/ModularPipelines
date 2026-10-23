@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws wait commands.
+/// aws ecr wait commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsEcrWait
@@ -47,7 +47,7 @@ public class AwsEcrWait
     }
 
     /// <summary>
-    /// Wait until a lifecycle policy preview request is complete and results can be accessed It will poll every 5 seconds until a successful state has been reached. This will exit with a return code of 255 after 20 failed checks. See also: AWS API Documentation lifecycle-policy-preview-complete is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text an...
+    /// Wait until a lifecycle policy preview request is complete and results can be accessed It will poll every 5 seconds until a successful state has been reached. This will exit with a return code of 255 after 20 failed checks. See also: AWS API Documentation lifecycle-policy-preview-complete is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and th...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

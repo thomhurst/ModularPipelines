@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets the results for an Amazon Textract asynchronous operation that an- alyzes text in a document. You start asynchronous text analysis by calling StartDocumentAnalysis , which returns a job identifier (JobId ). When the text analysis oper- ation finishes, Amazon Textract publishes a completion status to the Amazon Simple Notification Service (Amazon SNS) topic that's registered in the initial call to StartDocumentAnalysis . To get the results of the text-detection operation, first check that th...
+/// Gets the results for an Amazon Textract asynchronous operation that analyzes text in a document. You start asynchronous text analysis by calling StartDocumentAnalysis , which returns a job identifier (JobId ). When the text analysis operation finishes, Amazon Textract publishes a completion status to the Amazon Simple Notification Service (Amazon SNS) topic that's registered in the initial call to StartDocumentAnalysis . To get the results of the text-detection operation, first check that the st...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsTextractGetDocumentAnalysisOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets the results for an Amazon Textract asynchronous operation that an- alyzes text in a document. You start asynchronous text analysis by calling StartDocumentAnalysis , which returns a job identifier (JobId ). When the text analysis oper- ation finishes, Amazon Textract publishes a completion status to the Amazon Simple Notification Service (Amazon SNS) topic that's registered in the initial call to StartDocumentAnalysis . To get the results of the text-detection operation, first check that th...
+    /// Gets the results for an Amazon Textract asynchronous operation that analyzes text in a document. You start asynchronous text analysis by calling StartDocumentAnalysis , which returns a job identifier (JobId ). When the text analysis operation finishes, Amazon Textract publishes a completion status to the Amazon Simple Notification Service (Amazon SNS) topic that's registered in the initial call to StartDocumentAnalysis . To get the results of the text-detection operation, first check that the st...
     /// </summary>
-    /// <param name="JobId">A unique identifier for the text-detection job. The JobId is re- turned from StartDocumentAnalysis . A JobId value is only valid for 7 days. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-_]+$</param>
+    /// <param name="JobId">A unique identifier for the text-detection job. The JobId is returned from StartDocumentAnalysis . A JobId value is only valid for 7 days. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9-_]+$</param>
     public AwsTextractGetDocumentAnalysisOptions(
         string JobId
     )
@@ -57,19 +58,19 @@ public record AwsTextractGetDocumentAnalysisOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the text-detection job. The JobId is re- turned from StartDocumentAnalysis . A JobId value is only valid for 7 days. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-_]+$
+    /// A unique identifier for the text-detection job. The JobId is returned from StartDocumentAnalysis . A JobId value is only valid for 7 days. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9-_]+$
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }
 
     /// <summary>
-    /// The maximum number of results to return per paginated call. The largest value that you can specify is 1,000. If you specify a value greater than 1,000, a maximum of 1,000 results is returned. The de- fault value is 1,000. Constraints: o min: 1
+    /// The maximum number of results to return per paginated call. The largest value that you can specify is 1,000. If you specify a value greater than 1,000, a maximum of 1,000 results is returned. The default value is 1,000. Constraints: • min: 1
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// If the previous response was incomplete (because there are more blocks to retrieve), Amazon Textract returns a pagination token in the response. You can use this pagination token to retrieve the next set of blocks. Constraints: o min: 1 o max: 1024 o pattern: .*\S.*
+    /// If the previous response was incomplete (because there are more blocks to retrieve), Amazon Textract returns a pagination token in the response. You can use this pagination token to retrieve the next set of blocks. Constraints: • min: 1 • max: 1024 • pattern: .*\S.*
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -96,6 +97,15 @@ public record AwsTextractGetDocumentAnalysisOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

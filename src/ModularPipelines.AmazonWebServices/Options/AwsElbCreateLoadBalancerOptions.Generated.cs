@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a Classic Load Balancer. You can add listeners, security groups, subnets, and tags when you cre- ate your load balancer, or you can add them later using CreateLoadBal- ancerListeners , ApplySecurityGroupsToLoadBalancer , AttachLoadBal- ancerToSubnets , and AddTags . To describe your current load balancers, see DescribeLoadBalancers . When you are finished with a load balancer, you can delete it using DeleteLoadBalancer . You can create up to 20 load balancers per region per account. You ...
+/// Creates a Classic Load Balancer. You can add listeners, security groups, subnets, and tags when you create your load balancer, or you can add them later using CreateLoadBalancerListeners , ApplySecurityGroupsToLoadBalancer , AttachLoadBalancerToSubnets , and AddTags . To describe your current load balancers, see DescribeLoadBalancers . When you are finished with a load balancer, you can delete it using DeleteLoadBalancer . You can create up to 20 load balancers per region per account. You can re...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsElbCreateLoadBalancerOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a Classic Load Balancer. You can add listeners, security groups, subnets, and tags when you cre- ate your load balancer, or you can add them later using CreateLoadBal- ancerListeners , ApplySecurityGroupsToLoadBalancer , AttachLoadBal- ancerToSubnets , and AddTags . To describe your current load balancers, see DescribeLoadBalancers . When you are finished with a load balancer, you can delete it using DeleteLoadBalancer . You can create up to 20 load balancers per region per account. You ...
+    /// Creates a Classic Load Balancer. You can add listeners, security groups, subnets, and tags when you create your load balancer, or you can add them later using CreateLoadBalancerListeners , ApplySecurityGroupsToLoadBalancer , AttachLoadBalancerToSubnets , and AddTags . To describe your current load balancers, see DescribeLoadBalancers . When you are finished with a load balancer, you can delete it using DeleteLoadBalancer . You can create up to 20 load balancers per region per account. You can re...
     /// </summary>
-    /// <param name="LoadBalancerName">The name of the load balancer. This name must be unique within your set of load balancers for the region, must have a maximum of 32 characters, must contain only al- phanumeric characters or hyphens, and cannot begin or end with a hy- phen.</param>
-    /// <param name="Listeners">The listeners. For more information, see Listeners for Your Classic Load Balancer in the Classic Load Balancers Guide . (structure) Information about a listener. For information about the protocols and the ports supported by Elastic Load Balancing, see Listeners for Your Classic Load Bal- ancer in the Classic Load Balancers Guide . Protocol -&gt; (string) [required] The load balancer transport protocol to use for routing: HTTP, HTTPS, TCP, or SSL. LoadBalancerPort -&gt; (integer) [required] The port on which the load balancer is listening. On EC2-VPC, you can specify any port from the range 1-65535. On EC2-Clas- sic, you can specify any port from the following list: 25, 80, 443, 465, 587, 1024-65535. InstanceProtocol -&gt; (string) The protocol to use for routing traffic to instances: HTTP, HTTPS, TCP, or SSL. If the front-end protocol is TCP or SSL, the back-end proto- col must be TCP or SSL. If the front-end protocol is HTTP or HTTPS, the back-end protocol must be HTTP or HTTPS. If there is another listener with the same InstancePort whose InstanceProtocol is secure, (HTTPS or SSL), the listener's InstanceProtocol must also be secure. If there is another listener with the same InstancePort whose InstanceProtocol is HTTP or TCP, the listener's InstancePro- tocol must be HTTP or TCP. InstancePort -&gt; (integer) [required] The port on which the instance is listening. Constraints: o min: 1 o max: 65535 SSLCertificateId -&gt; (string) The Amazon Resource Name (ARN) of the server certificate. Shorthand Syntax: Protocol=string,LoadBalancerPort=integer,InstanceProtocol=string,InstancePort=integer,SSLCertificateId=string ... JSON Syntax: [ { "Protocol": "string", "LoadBalancerPort": integer, "InstanceProtocol": "string", "InstancePort": integer, "SSLCertificateId": "string" } ... ]</param>
+    /// <param name="LoadBalancerName">The name of the load balancer. This name must be unique within your set of load balancers for the region, must have a maximum of 32 characters, must contain only alphanumeric characters or hyphens, and cannot begin or end with a hyphen.</param>
+    /// <param name="Listeners">The listeners. For more information, see Listeners for Your Classic Load Balancer in the Classic Load Balancers Guide . (structure) Information about a listener. For information about the protocols and the ports supported by Elastic Load Balancing, see Listeners for Your Classic Load Balancer in the Classic Load Balancers Guide . Protocol -&gt; (string) [required] The load balancer transport protocol to use for routing: HTTP, HTTPS, TCP, or SSL. LoadBalancerPort -&gt; (integer) [required] The port on which the load balancer is listening. On EC2-VPC, you can specify any port from the range 1-65535. On EC2-Classic, you can specify any port from the following list: 25, 80, 443, 465, 587, 1024-65535. InstanceProtocol -&gt; (string) The protocol to use for routing traffic to instances: HTTP, HTTPS, TCP, or SSL. If the front-end protocol is TCP or SSL, the back-end protocol must be TCP or SSL. If the front-end protocol is HTTP or HTTPS, the back-end protocol must be HTTP or HTTPS. If there is another listener with the same InstancePort whose InstanceProtocol is secure, (HTTPS or SSL), the listener's InstanceProtocol must also be secure. If there is another listener with the same InstancePort whose InstanceProtocol is HTTP or TCP, the listener's InstanceProtocol must be HTTP or TCP. InstancePort -&gt; (integer) [required] The port on which the instance is listening. Constraints: • min: 1 • max: 65535 SSLCertificateId -&gt; (string) The Amazon Resource Name (ARN) of the server certificate. Shorthand Syntax: Protocol=string,LoadBalancerPort=integer,InstanceProtocol=string,InstancePort=integer,SSLCertificateId=string ... JSON Syntax: [ { "Protocol": "string", "LoadBalancerPort": integer, "InstanceProtocol": "string", "InstancePort": integer, "SSLCertificateId": "string" } ... ]</param>
     public AwsElbCreateLoadBalancerOptions(
         string LoadBalancerName,
         IEnumerable<string> Listeners
@@ -71,25 +72,25 @@ public record AwsElbCreateLoadBalancerOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the load balancer. This name must be unique within your set of load balancers for the region, must have a maximum of 32 characters, must contain only al- phanumeric characters or hyphens, and cannot begin or end with a hy- phen.
+    /// The name of the load balancer. This name must be unique within your set of load balancers for the region, must have a maximum of 32 characters, must contain only alphanumeric characters or hyphens, and cannot begin or end with a hyphen.
     /// </summary>
     [CliOption("--load-balancer-name")]
     public string? LoadBalancerName { get; private init; }
 
     /// <summary>
-    /// The listeners. For more information, see Listeners for Your Classic Load Balancer in the Classic Load Balancers Guide . (structure) Information about a listener. For information about the protocols and the ports supported by Elastic Load Balancing, see Listeners for Your Classic Load Bal- ancer in the Classic Load Balancers Guide . Protocol -&gt; (string) [required] The load balancer transport protocol to use for routing: HTTP, HTTPS, TCP, or SSL. LoadBalancerPort -&gt; (integer) [required] The port on which the load balancer is listening. On EC2-VPC, you can specify any port from the range 1-65535. On EC2-Clas- sic, you can specify any port from the following list: 25, 80, 443, 465, 587, 1024-65535. InstanceProtocol -&gt; (string) The protocol to use for routing traffic to instances: HTTP, HTTPS, TCP, or SSL. If the front-end protocol is TCP or SSL, the back-end proto- col must be TCP or SSL. If the front-end protocol is HTTP or HTTPS, the back-end protocol must be HTTP or HTTPS. If there is another listener with the same InstancePort whose InstanceProtocol is secure, (HTTPS or SSL), the listener's InstanceProtocol must also be secure. If there is another listener with the same InstancePort whose InstanceProtocol is HTTP or TCP, the listener's InstancePro- tocol must be HTTP or TCP. InstancePort -&gt; (integer) [required] The port on which the instance is listening. Constraints: o min: 1 o max: 65535 SSLCertificateId -&gt; (string) The Amazon Resource Name (ARN) of the server certificate. Shorthand Syntax: Protocol=string,LoadBalancerPort=integer,InstanceProtocol=string,InstancePort=integer,SSLCertificateId=string ... JSON Syntax: [ { "Protocol": "string", "LoadBalancerPort": integer, "InstanceProtocol": "string", "InstancePort": integer, "SSLCertificateId": "string" } ... ]
+    /// The listeners. For more information, see Listeners for Your Classic Load Balancer in the Classic Load Balancers Guide . (structure) Information about a listener. For information about the protocols and the ports supported by Elastic Load Balancing, see Listeners for Your Classic Load Balancer in the Classic Load Balancers Guide . Protocol -&gt; (string) [required] The load balancer transport protocol to use for routing: HTTP, HTTPS, TCP, or SSL. LoadBalancerPort -&gt; (integer) [required] The port on which the load balancer is listening. On EC2-VPC, you can specify any port from the range 1-65535. On EC2-Classic, you can specify any port from the following list: 25, 80, 443, 465, 587, 1024-65535. InstanceProtocol -&gt; (string) The protocol to use for routing traffic to instances: HTTP, HTTPS, TCP, or SSL. If the front-end protocol is TCP or SSL, the back-end protocol must be TCP or SSL. If the front-end protocol is HTTP or HTTPS, the back-end protocol must be HTTP or HTTPS. If there is another listener with the same InstancePort whose InstanceProtocol is secure, (HTTPS or SSL), the listener's InstanceProtocol must also be secure. If there is another listener with the same InstancePort whose InstanceProtocol is HTTP or TCP, the listener's InstanceProtocol must be HTTP or TCP. InstancePort -&gt; (integer) [required] The port on which the instance is listening. Constraints: • min: 1 • max: 65535 SSLCertificateId -&gt; (string) The Amazon Resource Name (ARN) of the server certificate. Shorthand Syntax: Protocol=string,LoadBalancerPort=integer,InstanceProtocol=string,InstancePort=integer,SSLCertificateId=string ... JSON Syntax: [ { "Protocol": "string", "LoadBalancerPort": integer, "InstanceProtocol": "string", "InstancePort": integer, "SSLCertificateId": "string" } ... ]
     /// </summary>
     [CliOption("--listeners", GroupValues = true)]
     public IEnumerable<string>? Listeners { get; private init; }
 
     /// <summary>
-    /// One or more Availability Zones from the same region as the load bal- ancer. You must specify at least one Availability Zone. You can add more Availability Zones after you create the load bal- ancer using EnableAvailabilityZonesForLoadBalancer . (string) Syntax: "string" "string" ...
+    /// One or more Availability Zones from the same region as the load balancer. You must specify at least one Availability Zone. You can add more Availability Zones after you create the load balancer using EnableAvailabilityZonesForLoadBalancer . (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--availability-zones", GroupValues = true)]
     public IEnumerable<string>? AvailabilityZones { get; set; }
 
     /// <summary>
-    /// The IDs of the subnets in your VPC to attach to the load balancer. Specify one subnet per Availability Zone specified in Availability- Zones . (string) Syntax: "string" "string" ...
+    /// The IDs of the subnets in your VPC to attach to the load balancer. Specify one subnet per Availability Zone specified in AvailabilityZones . (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--subnets", GroupValues = true)]
     public IEnumerable<string>? Subnets { get; set; }
@@ -101,13 +102,13 @@ public record AwsElbCreateLoadBalancerOptions : AwsOptions, IValidatableObject
     public IEnumerable<string>? SecurityGroups { get; set; }
 
     /// <summary>
-    /// The type of a load balancer. Valid only for load balancers in a VPC. By default, Elastic Load Balancing creates an Internet-facing load balancer with a DNS name that resolves to public IP addresses. For more information about Internet-facing and Internal load balancers, see Load Balancer Scheme in the Elastic Load Balancing User Guide . Specify internal to create a load balancer with a DNS name that re- solves to private IP addresses.
+    /// The type of a load balancer. Valid only for load balancers in a VPC. By default, Elastic Load Balancing creates an Internet-facing load balancer with a DNS name that resolves to public IP addresses. For more information about Internet-facing and Internal load balancers, see Load Balancer Scheme in the Elastic Load Balancing User Guide . Specify internal to create a load balancer with a DNS name that resolves to private IP addresses.
     /// </summary>
     [CliOption("--scheme")]
     public string? Scheme { get; set; }
 
     /// <summary>
-    /// A list of tags to assign to the load balancer. For more information about tagging your load balancer, see Tag Your Classic Load Balancer in the Classic Load Balancers Guide . Constraints: o min: 1 (structure) Information about a tag. Key -&gt; (string) [required] The key of the tag. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) The value of the tag. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of tags to assign to the load balancer. For more information about tagging your load balancer, see Tag Your Classic Load Balancer in the Classic Load Balancers Guide . Constraints: • min: 1 (structure) Information about a tag. Key -&gt; (string) [required] The key of the tag. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) The value of the tag. Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -133,6 +134,15 @@ public record AwsElbCreateLoadBalancerOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Models;
+using ModularPipelines;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -22,14 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Services;
 public interface IAwsForecastquery
 {
     /// <summary>
-    /// Retrieves a forecast for a single item, filtered by the supplied crite- ria. The criteria is a key-value pair. The key is either item_id (or the equivalent non-timestamp, non-target field) from the TARGET_TIME_SERIES dataset, or one of the forecast dimensions specified as part of the FeaturizationConfig object. By default, QueryForecast returns the complete date range for the fil- tered forecast. You can request a specific date range. To get the full forecast, use the CreateForecastExportJob ope...
+    /// Retrieves a forecast for a single item, filtered by the supplied criteria. The criteria is a key-value pair. The key is either item_id (or the equivalent non-timestamp, non-target field) from the TARGET_TIME_SERIES dataset, or one of the forecast dimensions specified as part of the FeaturizationConfig object. By default, QueryForecast returns the complete date range for the filtered forecast. You can request a specific date range. To get the full forecast, use the CreateForecastExportJob operati...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> QueryForecastAsync(AwsForecastqueryQueryForecastOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> QueryForecastAsync(AwsForecastqueryQueryForecastOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a what-if forecast. See also: AWS API Documentation
@@ -38,7 +37,6 @@ public interface IAwsForecastquery
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> QueryWhatIfForecastAsync(AwsForecastqueryQueryWhatIfForecastOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> QueryWhatIfForecastAsync(AwsForecastqueryQueryWhatIfForecastOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

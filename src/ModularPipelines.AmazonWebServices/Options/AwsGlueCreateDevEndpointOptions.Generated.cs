@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -30,7 +30,7 @@ public record AwsGlueCreateDevEndpointOptions : AwsOptions, IValidatableObject
     /// Creates a new development endpoint. See also: AWS API Documentation
     /// </summary>
     /// <param name="EndpointName">The name to be assigned to the new DevEndpoint .</param>
-    /// <param name="RoleArn">The IAM role for the DevEndpoint . Constraints: o pattern: arn:aws:iam::\d{12}:role/.*</param>
+    /// <param name="RoleArn">The IAM role for the DevEndpoint . Constraints: • pattern: arn:aws:iam::\d{12}:role/.*</param>
     public AwsGlueCreateDevEndpointOptions(
         string EndpointName,
         string RoleArn
@@ -68,13 +68,13 @@ public record AwsGlueCreateDevEndpointOptions : AwsOptions, IValidatableObject
     public string? EndpointName { get; private init; }
 
     /// <summary>
-    /// The IAM role for the DevEndpoint . Constraints: o pattern: arn:aws:iam::\d{12}:role/.*
+    /// The IAM role for the DevEndpoint . Constraints: • pattern: arn:aws:iam::\d{12}:role/.*
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; private init; }
 
     /// <summary>
-    /// Security group IDs for the security groups to be used by the new De- vEndpoint . (string) Syntax: "string" "string" ...
+    /// Security group IDs for the security groups to be used by the new DevEndpoint . (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--security-group-ids", GroupValues = true)]
     public IEnumerable<string>? SecurityGroupIds { get; set; }
@@ -92,7 +92,7 @@ public record AwsGlueCreateDevEndpointOptions : AwsOptions, IValidatableObject
     public string? PublicKey { get; set; }
 
     /// <summary>
-    /// A list of public keys to be used by the development endpoints for authentication. The use of this attribute is preferred over a single public key because the public keys allow you to have a different private key per client. NOTE: If you previously created an endpoint with a public key, you must remove that key to be able to set a list of public keys. Call the UpdateDevEndpoint API with the public key content in the deletePublicKeys attribute, and the list of new keys in the addPublicKeys attribute. Constraints: o max: 5 (string) Syntax: "string" "string" ...
+    /// A list of public keys to be used by the development endpoints for authentication. The use of this attribute is preferred over a single public key because the public keys allow you to have a different private key per client. NOTE: If you previously created an endpoint with a public key, you must remove that key to be able to set a list of public keys. Call the UpdateDevEndpoint API with the public key content in the deletePublicKeys attribute, and the list of new keys in the addPublicKeys attribute. Constraints: • max: 5 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--public-keys", GroupValues = true)]
     public IEnumerable<string>? PublicKeys { get; set; }
@@ -104,13 +104,13 @@ public record AwsGlueCreateDevEndpointOptions : AwsOptions, IValidatableObject
     public int? NumberOfNodes { get; set; }
 
     /// <summary>
-    /// The type of predefined worker that is allocated to the development endpoint. Accepts a value of Standard, G.1X, or G.2X. o For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker. o For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs. o For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs. Known issue: when a development endpoint is created with the G.2X WorkerType configuration, the Spark drivers for the development end- point will run on 4 vCPU, 16 GB of memory, and a 64 GB disk. Possible values: o Standard o G.1X o G.2X o G.025X o G.4X o G.8X o Z.2X
+    /// The type of predefined worker that is allocated to the development endpoint. Accepts a value of Standard, G.1X, or G.2X. • For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker. • For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs. • For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs. Known issue: when a development endpoint is created with the G.2X WorkerType configuration, the Spark drivers for the development endpoint will run on 4 vCPU, 16 GB of memory, and a 64 GB disk. Possible values: • Standard • G.1X • G.2X • G.025X • G.4X • G.8X • Z.2X
     /// </summary>
     [CliOption("--worker-type")]
     public AwsGlueCreateDevEndpointWorkerType? WorkerType { get; set; }
 
     /// <summary>
-    /// Glue version determines the versions of Apache Spark and Python that Glue supports. The Python version indicates the version supported for running your ETL scripts on development endpoints. For more information about the available Glue versions and corre- sponding Spark and Python versions, see Glue version in the devel- oper guide. Development endpoints that are created without specifying a Glue version default to Glue 0.9. You can specify a version of Python support for development end- points by using the Arguments parameter in the CreateDevEndpoint or UpdateDevEndpoint APIs. If no arguments are provided, the version defaults to Python 2. Constraints: o min: 1 o max: 255 o pattern: ^(\w+\.)+\w+$
+    /// Glue version determines the versions of Apache Spark and Python that Glue supports. The Python version indicates the version supported for running your ETL scripts on development endpoints. For more information about the available Glue versions and corresponding Spark and Python versions, see Glue version in the developer guide. Development endpoints that are created without specifying a Glue version default to Glue 0.9. You can specify a version of Python support for development endpoints by using the Arguments parameter in the CreateDevEndpoint or UpdateDevEndpoint APIs. If no arguments are provided, the version defaults to Python 2. Constraints: • min: 1 • max: 255 • pattern: ^(\w+\.)+\w+$
     /// </summary>
     [CliOption("--glue-version")]
     public string? GlueVersion { get; set; }
@@ -122,7 +122,7 @@ public record AwsGlueCreateDevEndpointOptions : AwsOptions, IValidatableObject
     public int? NumberOfWorkers { get; set; }
 
     /// <summary>
-    /// The paths to one or more Python libraries in an Amazon S3 bucket that should be loaded in your DevEndpoint . Multiple values must be complete paths separated by a comma. NOTE: You can only use pure Python libraries with a DevEndpoint . Li- braries that rely on C extensions, such as the pandas Python data analysis library, are not yet supported.
+    /// The paths to one or more Python libraries in an Amazon S3 bucket that should be loaded in your DevEndpoint . Multiple values must be complete paths separated by a comma. NOTE: You can only use pure Python libraries with a DevEndpoint . Libraries that rely on C extensions, such as the pandas Python data analysis library, are not yet supported.
     /// </summary>
     [CliOption("--extra-python-libs-s3-path")]
     public string? ExtraPythonLibsS3Path { get; set; }
@@ -134,19 +134,19 @@ public record AwsGlueCreateDevEndpointOptions : AwsOptions, IValidatableObject
     public string? ExtraJarsS3Path { get; set; }
 
     /// <summary>
-    /// The name of the SecurityConfiguration structure to be used with this DevEndpoint . Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The name of the SecurityConfiguration structure to be used with this DevEndpoint . Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--security-configuration")]
     public string? SecurityConfiguration { get; set; }
 
     /// <summary>
-    /// The tags to use with this DevEndpoint. You may use tags to limit ac- cess to the DevEndpoint. For more information about tags in Glue, see Amazon Web Services Tags in Glue in the developer guide. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags to use with this DevEndpoint. You may use tags to limit access to the DevEndpoint. For more information about tags in Glue, see Amazon Web Services Tags in Glue in the developer guide. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// A map of arguments used to configure the DevEndpoint . Constraints: o min: 0 o max: 100 key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A map of arguments used to configure the DevEndpoint . Constraints: • min: 0 • max: 100 key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--arguments", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? GlueArguments { get; set; }
@@ -172,6 +172,15 @@ public record AwsGlueCreateDevEndpointOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

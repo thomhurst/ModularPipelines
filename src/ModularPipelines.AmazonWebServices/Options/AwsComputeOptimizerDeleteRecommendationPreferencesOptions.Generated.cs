@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +29,8 @@ public record AwsComputeOptimizerDeleteRecommendationPreferencesOptions : AwsOpt
     /// <summary>
     /// Deletes a recommendation preference, such as enhanced infrastructure metrics. For more information, see Activating enhanced infrastructure metrics in the Compute Optimizer User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceType">The target resource type of the recommendation preference to delete. The Ec2Instance option encompasses standalone instances and in- stances that are part of Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Auto Scaling group. Possible values: o Ec2Instance o AutoScalingGroup o EbsVolume o LambdaFunction o NotApplicable o EcsService o License o RdsDBInstance o AuroraDBClusterStorage o Idle</param>
-    /// <param name="RecommendationPreferenceNames">The name of the recommendation preference to delete. (string) Possible values: o EnhancedInfrastructureMetrics o InferredWorkloadTypes o ExternalMetricsPreference o LookBackPeriodPreference o PreferredResources o UtilizationPreferences Syntax: "string" "string" ...</param>
+    /// <param name="ResourceType">The target resource type of the recommendation preference to delete. The Ec2Instance option encompasses standalone instances and instances that are part of Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Auto Scaling group. Possible values: • Ec2Instance • AutoScalingGroup • EbsVolume • LambdaFunction • NotApplicable • EcsService • License • RdsDBInstance • AuroraDBClusterStorage • Idle</param>
+    /// <param name="RecommendationPreferenceNames">The name of the recommendation preference to delete. (string) Possible values: • EnhancedInfrastructureMetrics • InferredWorkloadTypes • ExternalMetricsPreference • LookBackPeriodPreference • PreferredResources • UtilizationPreferences Syntax: "string" "string" ...</param>
     public AwsComputeOptimizerDeleteRecommendationPreferencesOptions(
         AwsComputeOptimizerDeleteRecommendationPreferencesResourceType ResourceType,
         IEnumerable<string> RecommendationPreferenceNames
@@ -71,19 +72,19 @@ public record AwsComputeOptimizerDeleteRecommendationPreferencesOptions : AwsOpt
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The target resource type of the recommendation preference to delete. The Ec2Instance option encompasses standalone instances and in- stances that are part of Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Auto Scaling group. Possible values: o Ec2Instance o AutoScalingGroup o EbsVolume o LambdaFunction o NotApplicable o EcsService o License o RdsDBInstance o AuroraDBClusterStorage o Idle
+    /// The target resource type of the recommendation preference to delete. The Ec2Instance option encompasses standalone instances and instances that are part of Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Auto Scaling group. Possible values: • Ec2Instance • AutoScalingGroup • EbsVolume • LambdaFunction • NotApplicable • EcsService • License • RdsDBInstance • AuroraDBClusterStorage • Idle
     /// </summary>
     [CliOption("--resource-type")]
     public AwsComputeOptimizerDeleteRecommendationPreferencesResourceType? ResourceType { get; private init; }
 
     /// <summary>
-    /// The name of the recommendation preference to delete. (string) Possible values: o EnhancedInfrastructureMetrics o InferredWorkloadTypes o ExternalMetricsPreference o LookBackPeriodPreference o PreferredResources o UtilizationPreferences Syntax: "string" "string" ...
+    /// The name of the recommendation preference to delete. (string) Possible values: • EnhancedInfrastructureMetrics • InferredWorkloadTypes • ExternalMetricsPreference • LookBackPeriodPreference • PreferredResources • UtilizationPreferences Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--recommendation-preference-names", GroupValues = true)]
     public IEnumerable<string>? RecommendationPreferenceNames { get; private init; }
 
     /// <summary>
-    /// An object that describes the scope of the recommendation preference to delete. You can delete recommendation preferences that are created at the organization level (for management accounts of an organization only), account level, and resource level. For more information, see Activating enhanced infrastructure metrics in the Compute Optimizer User Guide . name -&gt; (string) The name of the scope. The following scopes are possible: o Organization - Specifies that the recommendation preference applies at the organization level, for all member accounts of an organization. o AccountId - Specifies that the recommendation preference ap- plies at the account level, for all resources of a given re- source type in an account. o ResourceArn - Specifies that the recommendation preference ap- plies at the individual resource level. Possible values: o Organization o AccountId o ResourceArn value -&gt; (string) The value of the scope. If you specified the name of the scope as: o Organization - The value must be ALL_ACCOUNTS . o AccountId - The value must be a 12-digit Amazon Web Services account ID. o ResourceArn - The value must be the Amazon Resource Name (ARN) of an EC2 instance or an Auto Scaling group. Only EC2 instance and Auto Scaling group ARNs are currently sup- ported. Shorthand Syntax: name=string,value=string JSON Syntax: { "name": "Organization"|"AccountId"|"ResourceArn", "value": "string" }
+    /// An object that describes the scope of the recommendation preference to delete. You can delete recommendation preferences that are created at the organization level (for management accounts of an organization only), account level, and resource level. For more information, see Activating enhanced infrastructure metrics in the Compute Optimizer User Guide . name -&gt; (string) The name of the scope. The following scopes are possible: • Organization - Specifies that the recommendation preference applies at the organization level, for all member accounts of an organization. • AccountId - Specifies that the recommendation preference applies at the account level, for all resources of a given resource type in an account. • ResourceArn - Specifies that the recommendation preference applies at the individual resource level. Possible values: • Organization • AccountId • ResourceArn value -&gt; (string) The value of the scope. If you specified the name of the scope as: • Organization - The value must be ALL_ACCOUNTS . • AccountId - The value must be a 12-digit Amazon Web Services account ID. • ResourceArn - The value must be the Amazon Resource Name (ARN) of an EC2 instance or an Auto Scaling group. Only EC2 instance and Auto Scaling group ARNs are currently supported. Shorthand Syntax: name=string,value=string JSON Syntax: { "name": "Organization"|"AccountId"|"ResourceArn", "value": "string" }
     /// </summary>
     [CliOption("--scope")]
     public string? Scope { get; set; }
@@ -109,6 +110,15 @@ public record AwsComputeOptimizerDeleteRecommendationPreferencesOptions : AwsOpt
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

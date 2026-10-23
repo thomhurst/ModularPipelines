@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +28,7 @@ public record AwsGlueCreateRegistryOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a new registry which may be used to hold a collection of schemas. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RegistryName">Name of the registry to be created of max length of 255, and may only contain letters, numbers, hyphen, underscore, dollar sign, or hash mark. No whitespace. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9-_$#.]+</param>
+    /// <param name="RegistryName">Name of the registry to be created of max length of 255, and may only contain letters, numbers, hyphen, underscore, dollar sign, or hash mark. No whitespace. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9-_$#.]+</param>
     public AwsGlueCreateRegistryOptions(
         string RegistryName
     )
@@ -57,19 +57,19 @@ public record AwsGlueCreateRegistryOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Name of the registry to be created of max length of 255, and may only contain letters, numbers, hyphen, underscore, dollar sign, or hash mark. No whitespace. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9-_$#.]+
+    /// Name of the registry to be created of max length of 255, and may only contain letters, numbers, hyphen, underscore, dollar sign, or hash mark. No whitespace. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9-_$#.]+
     /// </summary>
     [CliOption("--registry-name")]
     public string? RegistryName { get; private init; }
 
     /// <summary>
-    /// A description of the registry. If description is not provided, there will not be any default value for this. Constraints: o min: 0 o max: 2048 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// A description of the registry. If description is not provided, there will not be any default value for this. Constraints: • min: 0 • max: 2048 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Amazon Web Services tags that contain a key value pair and may be searched by console, command line, or API. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Amazon Web Services tags that contain a key value pair and may be searched by console, command line, or API. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -95,6 +95,15 @@ public record AwsGlueCreateRegistryOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

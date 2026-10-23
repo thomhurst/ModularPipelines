@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API works with the following fleet types: EC2, Anywhere Creates a new script record for your Amazon GameLift Servers Realtime script. Realtime scripts are JavaScript that provide configuration set- tings and optional custom game logic for your game. The script is de- ployed when you create a Amazon GameLift Servers Realtime fleet to host your game sessions. Script logic is executed during an active game ses- sion. To create a new script record, specify a script name and provide the script f...
+/// This API works with the following fleet types: EC2, Anywhere Creates a new script record for your Amazon GameLift Servers Realtime script. Realtime scripts are JavaScript that provide configuration settings and optional custom game logic for your game. The script is deployed when you create a Amazon GameLift Servers Realtime fleet to host your game sessions. Script logic is executed during an active game session. To create a new script record, specify a script name and provide the script file(s)...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,37 +22,37 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsGameliftCreateScriptOptions : AwsOptions
 {
     /// <summary>
-    /// A descriptive label that is associated with a script. Script names do not need to be unique. You can use UpdateScript to change this value later. Constraints: o min: 1 o max: 1024
+    /// A descriptive label that is associated with a script. Script names do not need to be unique. You can use UpdateScript to change this value later. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The location of the Amazon S3 bucket where a zipped file containing your Realtime scripts is stored. The storage location must specify the Amazon S3 bucket name, the zip file name (the "key"), and a role ARN that allows Amazon GameLift Servers to access the Amazon S3 storage location. The S3 bucket must be in the same Region where you want to create a new script. By default, Amazon GameLift Servers up- loads the latest version of the zip file; if you have S3 object ver- sioning turned on, you can use the ObjectVersion parameter to spec- ify an earlier version. Bucket -&gt; (string) An Amazon S3 bucket identifier. Thename of the S3 bucket. NOTE: Amazon GameLift Servers doesn't support uploading from Amazon S3 buckets with names that contain a dot (.). Constraints: o min: 1 Key -&gt; (string) The name of the zip file that contains the build files or script files. Constraints: o min: 1 RoleArn -&gt; (string) The Amazon Resource Name (ARN ) for an IAM role that allows Ama- zon GameLift Servers to access the S3 bucket. Constraints: o min: 1 ObjectVersion -&gt; (string) The version of the file, if object versioning is turned on for the bucket. Amazon GameLift Servers uses this information when retrieving files from an S3 bucket that you own. Use this para- meter to specify a specific version of the file. If not set, the latest version of the file is retrieved. Constraints: o min: 1 Shorthand Syntax: Bucket=string,Key=string,RoleArn=string,ObjectVersion=string JSON Syntax: { "Bucket": "string", "Key": "string", "RoleArn": "string", "ObjectVersion": "string" }
+    /// The location of the Amazon S3 bucket where a zipped file containing your Realtime scripts is stored. The storage location must specify the Amazon S3 bucket name, the zip file name (the "key"), and a role ARN that allows Amazon GameLift Servers to access the Amazon S3 storage location. The S3 bucket must be in the same Region where you want to create a new script. By default, Amazon GameLift Servers uploads the latest version of the zip file; if you have S3 object versioning turned on, you can use the ObjectVersion parameter to specify an earlier version. Bucket -&gt; (string) An Amazon S3 bucket identifier. The name of the S3 bucket. NOTE: Amazon GameLift Servers doesn't support uploading from Amazon S3 buckets with names that contain a dot (.). Constraints: • min: 1 Key -&gt; (string) The name of the zip file that contains the build files or script files. Constraints: • min: 1 RoleArn -&gt; (string) The Amazon Resource Name (ARN ) for an IAM role that allows Amazon GameLift Servers to access the S3 bucket. Constraints: • min: 1 ObjectVersion -&gt; (string) The version of the file, if object versioning is turned on for the bucket. Amazon GameLift Servers uses this information when retrieving files from an S3 bucket that you own. Use this parameter to specify a specific version of the file. If not set, the latest version of the file is retrieved. Constraints: • min: 1 Shorthand Syntax: Bucket=string,Key=string,RoleArn=string,ObjectVersion=string JSON Syntax: { "Bucket": "string", "Key": "string", "RoleArn": "string", "ObjectVersion": "string" }
     /// </summary>
     [CliOption("--storage-location")]
     public string? StorageLocation { get; set; }
 
     /// <summary>
-    /// A data object containing your Realtime scripts and dependencies as a zip file. The zip file can have one or multiple files. Maximum size of a zip file is 5 MB. When using the Amazon Web Services CLI tool to create a script, this parameter is set to the zip file name. It must be prepended with the string "fileb://" to indicate that the file data is a binary object. For example: --zip-file fileb://myRealtimeScript.zip . Constraints: o max: 5000000
+    /// A data object containing your Realtime scripts and dependencies as a zip file. The zip file can have one or multiple files. Maximum size of a zip file is 5 MB. When using the Amazon Web Services CLI tool to create a script, this parameter is set to the zip file name. It must be prepended with the string "fileb://" to indicate that the file data is a binary object. For example: --zip-file fileb://myRealtimeScript.zip . Constraints: • max: 5000000
     /// </summary>
     [CliOption("--zip-file")]
     public string? ZipFile { get; set; }
 
     /// <summary>
-    /// A list of labels to assign to the new script resource. Tags are de- veloper-defined key-value pairs. Tagging Amazon Web Services re- sources are useful for resource management, access management and cost allocation. For more information, see Tagging Amazon Web Ser- vices Resources in the Amazon Web Services General Reference . Once the resource is created, you can use TagResource , UntagResource , and ListTagsForResource to add, remove, and view tags. The maximum tag limit may be lower than stated. See the Amazon Web Services Gen- eral Reference for actual tagging limits. Constraints: o min: 0 o max: 200 (structure) A label that you can assign to a Amazon GameLift Servers re- source. Learn more Tagging Amazon Web Services Resources in the Amazon Web Ser- vices General Reference Amazon Web Services Tagging Strategies Related actions All APIs by task Key -&gt; (string) [required] The key for a developer-defined key value pair for tagging an Amazon Web Services resource. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value for a developer-defined key value pair for tagging an Amazon Web Services resource. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of labels to assign to the new script resource. Tags are developer-defined key-value pairs. Tagging Amazon Web Services resources is useful for resource management, access management and cost allocation. For more information, see Tagging Amazon Web Services Resources in the Amazon Web Services General Reference . Once the resource is created, you can use TagResource , UntagResource , and ListTagsForResource to add, remove, and view tags. The maximum tag limit may be lower than stated. See the Amazon Web Services General Reference for actual tagging limits. Constraints: • min: 0 • max: 200 (structure) A label that you can assign to a Amazon GameLift Servers resource. Learn more Tagging Amazon Web Services Resources in the Amazon Web Services General Reference Amazon Web Services Tagging Strategies Related actions All APIs by task Key -&gt; (string) [required] The key for a developer-defined key value pair for tagging an Amazon Web Services resource. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] The value for a developer-defined key value pair for tagging an Amazon Web Services resource. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// The Node.js version used for execution of your Realtime script. The valid values are 10.x | 24.x . By default, NodeJsVersion is 10.x . This value cannot be updated later. NOTE: Node.js 10 will reach end of support on September 30, 2026. See more details in the Node.js 10 FAQs . For migration guidance, see Migrating from Node.js 10 to 24 . Constraints: o max: 16 o pattern: ^[0-9]+\.(?:x|[0-9]+)$
+    /// The Node.js version used for execution of your Realtime script. The valid values are 10.x | 24.x . By default, NodeJsVersion is 10.x . This value cannot be updated later. NOTE: Node.js 10 will reach end of support on September 30, 2026. See more details in the Node.js 10 FAQs . For migration guidance, see Migrating from Node.js 10 to 24 . Constraints: • max: 16 • pattern: ^[0-9]+\.(?:x|[0-9]+)$
     /// </summary>
     [CliOption("--node-js-version")]
     public string? NodeJsVersion { get; set; }
 
     /// <summary>
-    /// Version information that is associated with a build or script. Ver- sion strings do not need to be unique. You can use UpdateScript to change this value later. Constraints: o min: 1 o max: 1024
+    /// Version information that is associated with a build or script. Version strings do not need to be unique. You can use UpdateScript to change this value later. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--script-version")]
     public string? ScriptVersion { get; set; }
@@ -62,5 +62,14 @@ public record AwsGameliftCreateScriptOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

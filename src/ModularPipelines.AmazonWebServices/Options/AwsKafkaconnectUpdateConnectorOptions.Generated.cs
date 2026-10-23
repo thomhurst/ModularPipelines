@@ -10,13 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the specified connector. For request body, specify only one pa- rameter: either capacity or connectorConfiguration . See also: AWS API Documentation
+/// Updates the specified connector. For request body, specify only one parameter: either capacity or connectorConfiguration . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +26,9 @@ public record AwsKafkaconnectUpdateConnectorOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the specified connector. For request body, specify only one pa- rameter: either capacity or connectorConfiguration . See also: AWS API Documentation
+    /// Updates the specified connector. For request body, specify only one parameter: either capacity or connectorConfiguration . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConnectorArn">The Amazon Resource Name (ARN) of the connector that you want to up- date.</param>
+    /// <param name="ConnectorArn">The Amazon Resource Name (ARN) of the connector that you want to update.</param>
     /// <param name="CurrentVersion">The current version of the connector that you want to update.</param>
     public AwsKafkaconnectUpdateConnectorOptions(
         string ConnectorArn,
@@ -61,7 +61,7 @@ public record AwsKafkaconnectUpdateConnectorOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the connector that you want to up- date.
+    /// The Amazon Resource Name (ARN) of the connector that you want to update.
     /// </summary>
     [CliOption("--connector-arn")]
     public string? ConnectorArn { get; private init; }
@@ -73,7 +73,7 @@ public record AwsKafkaconnectUpdateConnectorOptions : AwsOptions, IValidatableOb
     public string? CurrentVersion { get; private init; }
 
     /// <summary>
-    /// The target capacity. autoScaling -&gt; (structure) The target auto scaling setting. maxWorkerCount -&gt; (integer) [required] The target maximum number of workers allocated to the connec- tor. mcuCount -&gt; (integer) [required] The target number of microcontroller units (MCUs) allocated to each connector worker. The valid values are 1,2,4,8. Constraints: o min: 1 o max: 8 minWorkerCount -&gt; (integer) [required] The target minimum number of workers allocated to the connec- tor. scaleInPolicy -&gt; (structure) [required] The target scale-in policy for the connector. cpuUtilizationPercentage -&gt; (integer) [required] The target CPU utilization percentage threshold at which you want connector scale in to be triggered. Constraints: o min: 1 o max: 100 scaleOutPolicy -&gt; (structure) [required] The target scale-out policy for the connector. cpuUtilizationPercentage -&gt; (integer) [required] The target CPU utilization percentage threshold at which you want connector scale out to be triggered. Constraints: o min: 1 o max: 100 maxAutoscalingTaskCount -&gt; (integer) The maximum number of tasks allocated to the connector during autoscaling operations. Must be at least equal to maxWorker- Count. provisionedCapacity -&gt; (structure) The target settings for provisioned capacity. mcuCount -&gt; (integer) [required] The number of microcontroller units (MCUs) allocated to each connector worker. The valid values are 1,2,4,8. Constraints: o min: 1 o max: 8 workerCount -&gt; (integer) [required] The number of workers that are allocated to the connector. Shorthand Syntax: autoScaling={maxWorkerCount=integer,mcuCount=integer,minWorkerCount=integer,scaleInPolicy={cpuUtilizationPercentage=integer},scaleOutPolicy={cpuUtilizationPercentage=integer},maxAutoscalingTaskCount=integer},provisionedCapacity={mcuCount=integer,workerCount=integer} JSON Syntax: { "autoScaling": { "maxWorkerCount": integer, "mcuCount": integer, "minWorkerCount": integer, "scaleInPolicy": { "cpuUtilizationPercentage": integer }, "scaleOutPolicy": { "cpuUtilizationPercentage": integer }, "maxAutoscalingTaskCount": integer }, "provisionedCapacity": { "mcuCount": integer, "workerCount": integer } }
+    /// The target capacity. autoScaling -&gt; (structure) The target auto scaling setting. maxWorkerCount -&gt; (integer) [required] The target maximum number of workers allocated to the connector. mcuCount -&gt; (integer) [required] The target number of microcontroller units (MCUs) allocated to each connector worker. The valid values are 1,2,4,8. Constraints: • min: 1 • max: 8 minWorkerCount -&gt; (integer) [required] The target minimum number of workers allocated to the connector. scaleInPolicy -&gt; (structure) [required] The target scale-in policy for the connector. cpuUtilizationPercentage -&gt; (integer) [required] The target CPU utilization percentage threshold at which you want connector scale in to be triggered. Constraints: • min: 1 • max: 100 scaleOutPolicy -&gt; (structure) [required] The target scale-out policy for the connector. cpuUtilizationPercentage -&gt; (integer) [required] The target CPU utilization percentage threshold at which you want connector scale out to be triggered. Constraints: • min: 1 • max: 100 maxAutoscalingTaskCount -&gt; (integer) The maximum number of tasks allocated to the connector during autoscaling operations. Must be at least equal to maxWorkerCount. provisionedCapacity -&gt; (structure) The target settings for provisioned capacity. mcuCount -&gt; (integer) [required] The number of microcontroller units (MCUs) allocated to each connector worker. The valid values are 1,2,4,8. Constraints: • min: 1 • max: 8 workerCount -&gt; (integer) [required] The number of workers that are allocated to the connector. Shorthand Syntax: autoScaling={maxWorkerCount=integer,mcuCount=integer,minWorkerCount=integer,scaleInPolicy={cpuUtilizationPercentage=integer},scaleOutPolicy={cpuUtilizationPercentage=integer},maxAutoscalingTaskCount=integer},provisionedCapacity={mcuCount=integer,workerCount=integer} JSON Syntax: { "autoScaling": { "maxWorkerCount": integer, "mcuCount": integer, "minWorkerCount": integer, "scaleInPolicy": { "cpuUtilizationPercentage": integer }, "scaleOutPolicy": { "cpuUtilizationPercentage": integer }, "maxAutoscalingTaskCount": integer }, "provisionedCapacity": { "mcuCount": integer, "workerCount": integer } }
     /// </summary>
     [CliOption("--capacity")]
     public string? Capacity { get; set; }
@@ -105,6 +105,15 @@ public record AwsKafkaconnectUpdateConnectorOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

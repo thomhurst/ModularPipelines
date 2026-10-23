@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets information about the instance refreshes for the specified Auto Scaling group from the previous six weeks. This operation is part of the instance refresh feature in Amazon EC2 Auto Scaling, which helps you update instances in your Auto Scaling group after you make configuration changes. To help you determine the status of an instance refresh, Amazon EC2 Auto Scaling returns information about the instance refreshes you pre- viously initiated, including their status, start time, end time, the...
+/// Gets information about the instance refreshes for the specified Auto Scaling group from the previous six weeks. This operation is part of the instance refresh feature in Amazon EC2 Auto Scaling, which helps you update instances in your Auto Scaling group after you make configuration changes. To help you determine the status of an instance refresh, Amazon EC2 Auto Scaling returns information about the instance refreshes you previously initiated, including their status, start time, end time, the p...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsAutoscalingDescribeInstanceRefreshesOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets information about the instance refreshes for the specified Auto Scaling group from the previous six weeks. This operation is part of the instance refresh feature in Amazon EC2 Auto Scaling, which helps you update instances in your Auto Scaling group after you make configuration changes. To help you determine the status of an instance refresh, Amazon EC2 Auto Scaling returns information about the instance refreshes you pre- viously initiated, including their status, start time, end time, the...
+    /// Gets information about the instance refreshes for the specified Auto Scaling group from the previous six weeks. This operation is part of the instance refresh feature in Amazon EC2 Auto Scaling, which helps you update instances in your Auto Scaling group after you make configuration changes. To help you determine the status of an instance refresh, Amazon EC2 Auto Scaling returns information about the instance refreshes you previously initiated, including their status, start time, end time, the p...
     /// </summary>
-    /// <param name="AutoScalingGroupName">The name of the Auto Scaling group. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
+    /// <param name="AutoScalingGroupName">The name of the Auto Scaling group. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
     public AwsAutoscalingDescribeInstanceRefreshesOptions(
         string AutoScalingGroupName
     )
@@ -57,19 +58,19 @@ public record AwsAutoscalingDescribeInstanceRefreshesOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the Auto Scaling group. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// The name of the Auto Scaling group. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
     [CliOption("--auto-scaling-group-name")]
     public string? AutoScalingGroupName { get; private init; }
 
     /// <summary>
-    /// One or more instance refresh IDs. (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Syntax: "string" "string" ...
+    /// One or more instance refresh IDs. (string) Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--instance-refresh-ids", GroupValues = true)]
     public IEnumerable<string>? InstanceRefreshIds { get; set; }
 
     /// <summary>
-    /// The token for the next set of items to return. (You received this token from a previous call.) Constraints: o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// The token for the next set of items to return. (You received this token from a previous call.) Constraints: • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -102,6 +103,15 @@ public record AwsAutoscalingDescribeInstanceRefreshesOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

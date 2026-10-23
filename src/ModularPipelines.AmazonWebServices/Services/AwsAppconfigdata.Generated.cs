@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -32,7 +32,7 @@ public class AwsAppconfigdata : IAwsAppconfigdata
     #region Commands
 
     /// <summary>
-    /// Retrieves the latest deployed configuration. This API may return empty configuration data if the client already has the latest version. For more information about this API action and to view example CLI commands that show how to use it with the StartConfigurationSession API action, see Retrieving the configuration in the AppConfig User Guide . WARNING: Note the following important information. o Each configuration token is only valid for one call to GetLatest- Configuration . The GetLatestConfig...
+    /// Retrieves the latest deployed configuration. This API may return empty configuration data if the client already has the latest version. For more information about this API action and to view example CLI commands that show how to use it with the StartConfigurationSession API action, see Retrieving the configuration in the AppConfig User Guide . WARNING: Note the following important information. • Each configuration token is only valid for one call to GetLatestConfiguration . The GetLatestConfigur...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsAppconfigdata : IAwsAppconfigdata
     }
 
     /// <summary>
-    /// Starts a configuration session used to retrieve a deployed configura- tion. For more information about this API action and to view example CLI commands that show how to use it with the GetLatestConfiguration API action, see Retrieving the configuration in the AppConfig User Guide . See also: AWS API Documentation
+    /// Starts a configuration session used to retrieve a deployed configuration. For more information about this API action and to view example CLI commands that show how to use it with the GetLatestConfiguration API action, see Retrieving the configuration in the AppConfig User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

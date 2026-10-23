@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Displays details about an event bus in your account. This can include the external Amazon Web Services accounts that are permitted to write events to your default event bus, and the associated policy. For custom event buses and partner event buses, it displays the name, ARN, policy, state, and creation time. To enable your account to receive events from other accounts on its de- fault event bus, use PutPermission . For more information about partner event buses, see CreateEventBus . See also: AW...
+/// Displays details about an event bus in your account. This can include the external Amazon Web Services accounts that are permitted to write events to your default event bus, and the associated policy. For custom event buses and partner event buses, it displays the name, ARN, policy, state, and creation time. To enable your account to receive events from other accounts on its default event bus, use PutPermission . For more information about partner event buses, see CreateEventBus . See also: AWS ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsEventsDescribeEventBusOptions : AwsOptions
 {
     /// <summary>
-    /// The name or ARN of the event bus to show details for. If you omit this, the default event bus is displayed. Constraints: o min: 1 o max: 1600 o pattern: (arn:aws[\w-]*:events:[a-z]+-[a-z]+-[\w-]+:[0-9]{12}:event-bus\/)?[/\.\-_A-Za-z0-9]+
+    /// The name or ARN of the event bus to show details for. If you omit this, the default event bus is displayed. Constraints: • min: 1 • max: 1600 • pattern: (arn:aws[\w-]*:events:[a-z]+-[a-z]+-[\w-]+:[0-9]{12}:event-bus\/)?[/\.\-_A-Za-z0-9]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
@@ -32,5 +32,14 @@ public record AwsEventsDescribeEventBusOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

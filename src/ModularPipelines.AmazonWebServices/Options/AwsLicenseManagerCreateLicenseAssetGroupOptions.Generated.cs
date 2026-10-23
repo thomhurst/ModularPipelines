@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,9 +29,9 @@ public record AwsLicenseManagerCreateLicenseAssetGroupOptions : AwsOptions, IVal
     /// <summary>
     /// Creates a license asset group. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">License asset group name. Constraints: o max: 128</param>
+    /// <param name="Name">License asset group name. Constraints: • max: 128</param>
     /// <param name="LicenseAssetGroupConfigurations">License asset group configurations. (structure) License asset group configuration. UsageDimension -&gt; (string) License Asset Group Configuration Usage dimension. Shorthand Syntax: UsageDimension=string ... JSON Syntax: [ { "UsageDimension": "string" } ... ]</param>
-    /// <param name="AssociatedLicenseAssetRulesetArns">ARNs of associated license asset rulesets. (string) Constraints: o max: 2048 o pattern: ^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$ Syntax: "string" "string" ...</param>
+    /// <param name="AssociatedLicenseAssetRulesetArns">ARNs of associated license asset rulesets. (string) Constraints: • max: 2048 • pattern: ^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$ Syntax: "string" "string" ...</param>
     /// <param name="ClientToken">Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.</param>
     public AwsLicenseManagerCreateLicenseAssetGroupOptions(
         string Name,
@@ -91,7 +92,7 @@ public record AwsLicenseManagerCreateLicenseAssetGroupOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// License asset group name. Constraints: o max: 128
+    /// License asset group name. Constraints: • max: 128
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
@@ -103,7 +104,7 @@ public record AwsLicenseManagerCreateLicenseAssetGroupOptions : AwsOptions, IVal
     public IEnumerable<string>? LicenseAssetGroupConfigurations { get; private init; }
 
     /// <summary>
-    /// ARNs of associated license asset rulesets. (string) Constraints: o max: 2048 o pattern: ^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$ Syntax: "string" "string" ...
+    /// ARNs of associated license asset rulesets. (string) Constraints: • max: 2048 • pattern: ^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--associated-license-asset-ruleset-arns", GroupValues = true)]
     public IEnumerable<string>? AssociatedLicenseAssetRulesetArns { get; private init; }
@@ -116,7 +117,7 @@ public record AwsLicenseManagerCreateLicenseAssetGroupOptions : AwsOptions, IVal
     public string? ClientToken { get; private init; }
 
     /// <summary>
-    /// License asset group description. Constraints: o max: 1024
+    /// License asset group description. Constraints: • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
@@ -154,6 +155,15 @@ public record AwsLicenseManagerCreateLicenseAssetGroupOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

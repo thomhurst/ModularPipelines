@@ -11,14 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates an image pipeline. Use image pipelines to automate the creation and distribution of images. You must specify exactly one recipe for your image, using either a containerRecipeArn or an imageRecipeArn . The recipe must be the same type, image or container, as the pipeline's current recipe. NOTE: UpdateImagePipeline does not support selective updates. The request replaces the pipeline's entire configuration, so include every set- ting that you want to keep. Any optional property that you om...
+/// Updates an image pipeline. Use image pipelines to automate the creation and distribution of images. You must specify exactly one recipe for your image, using either a containerRecipeArn or an imageRecipeArn . The recipe must be the same type, image or container, as the pipeline's current recipe. NOTE: UpdateImagePipeline does not support selective updates. The request replaces the pipeline's entire configuration, so include every setting that you want to keep. Any optional property that you omit...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -28,10 +28,10 @@ public record AwsImagebuilderUpdateImagePipelineOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates an image pipeline. Use image pipelines to automate the creation and distribution of images. You must specify exactly one recipe for your image, using either a containerRecipeArn or an imageRecipeArn . The recipe must be the same type, image or container, as the pipeline's current recipe. NOTE: UpdateImagePipeline does not support selective updates. The request replaces the pipeline's entire configuration, so include every set- ting that you want to keep. Any optional property that you om...
+    /// Updates an image pipeline. Use image pipelines to automate the creation and distribution of images. You must specify exactly one recipe for your image, using either a containerRecipeArn or an imageRecipeArn . The recipe must be the same type, image or container, as the pipeline's current recipe. NOTE: UpdateImagePipeline does not support selective updates. The request replaces the pipeline's entire configuration, so include every setting that you want to keep. Any optional property that you omit...
     /// </summary>
-    /// <param name="ImagePipelineArn">The Amazon Resource Name (ARN) of the image pipeline that you want to update. Constraints: o pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):im- age-pipeline/[a-z0-9-_]+$</param>
-    /// <param name="InfrastructureConfigurationArn">The Amazon Resource Name (ARN) of the infrastructure configuration that Image Builder uses to build images created by this image pipeline. Constraints: o pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):infra- structure-configuration/[a-z0-9-_]+$</param>
+    /// <param name="ImagePipelineArn">The Amazon Resource Name (ARN) of the image pipeline that you want to update. Constraints: • pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):image-pipeline/[a-z0-9-_]+$</param>
+    /// <param name="InfrastructureConfigurationArn">The Amazon Resource Name (ARN) of the infrastructure configuration that Image Builder uses to build images created by this image pipeline. Constraints: • pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):infrastructure-configuration/[a-z0-9-_]+$</param>
     public AwsImagebuilderUpdateImagePipelineOptions(
         string ImagePipelineArn,
         string InfrastructureConfigurationArn
@@ -63,98 +63,98 @@ public record AwsImagebuilderUpdateImagePipelineOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the image pipeline that you want to update. Constraints: o pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):im- age-pipeline/[a-z0-9-_]+$
+    /// The Amazon Resource Name (ARN) of the image pipeline that you want to update. Constraints: • pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):image-pipeline/[a-z0-9-_]+$
     /// </summary>
     [CliOption("--image-pipeline-arn")]
     public string? ImagePipelineArn { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the infrastructure configuration that Image Builder uses to build images created by this image pipeline. Constraints: o pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):infra- structure-configuration/[a-z0-9-_]+$
+    /// The Amazon Resource Name (ARN) of the infrastructure configuration that Image Builder uses to build images created by this image pipeline. Constraints: • pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):infrastructure-configuration/[a-z0-9-_]+$
     /// </summary>
     [CliOption("--infrastructure-configuration-arn")]
     public string? InfrastructureConfigurationArn { get; private init; }
 
     /// <summary>
-    /// The description of the image pipeline. Constraints: o min: 1 o max: 1024
+    /// The description of the image pipeline. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the image recipe that configures images created by this image pipeline. You must specify either this property or containerRecipeArn , but not both. Constraints: o pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):im- age-recipe/[a-z0-9-_]+/(?:[0-9]+|x)\.(?:[0-9]+|x)\.(?:[0-9]+|x)$
+    /// The Amazon Resource Name (ARN) of the image recipe that configures images created by this image pipeline. You must specify either this property or containerRecipeArn , but not both. Constraints: • pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):image-recipe/[a-z0-9-_]+/(?:[0-9]+|x)\.(?:[0-9]+|x)\.(?:[0-9]+|x)$
     /// </summary>
     [CliOption("--image-recipe-arn")]
     public string? ImageRecipeArn { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the container recipe that is used to configure images created by this container pipeline. You must specify either this property or imageRecipeArn , but not both. Constraints: o pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):con- tainer-recipe/[a-z0-9-_]+/(?:[0-9]+|x)\.(?:[0-9]+|x)\.(?:[0-9]+|x)$
+    /// The Amazon Resource Name (ARN) of the container recipe that is used to configure images created by this container pipeline. You must specify either this property or imageRecipeArn , but not both. Constraints: • pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):container-recipe/[a-z0-9-_]+/(?:[0-9]+|x)\.(?:[0-9]+|x)\.(?:[0-9]+|x)$
     /// </summary>
     [CliOption("--container-recipe-arn")]
     public string? ContainerRecipeArn { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the distribution configuration that Image Builder uses to configure and distribute images created by this image pipeline. Constraints: o pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):dis- tribution-configuration/[a-z0-9-_]+$
+    /// The Amazon Resource Name (ARN) of the distribution configuration that Image Builder uses to configure and distribute images created by this image pipeline. Constraints: • pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):distribution-configuration/[a-z0-9-_]+$
     /// </summary>
     [CliOption("--distribution-configuration-arn")]
     public string? DistributionConfigurationArn { get; set; }
 
     /// <summary>
-    /// Specifies the test settings that Image Builder applies to images that this pipeline creates. If you don't provide test settings, Im- age Builder stores a default configuration with image tests enabled. imageTestsEnabled -&gt; (boolean) Specifies whether tests run after building the image. When en- abled, tests run after the image build and before image distrib- ution. Defaults to true . timeoutMinutes -&gt; (integer) The maximum time in minutes that tests are permitted to run. If you don't specify a value, Image Builder stores and returns 720. NOTE: The timeout property is not currently active. This value is ignored. Constraints: o min: 60 o max: 1440 Shorthand Syntax: imageTestsEnabled=boolean,timeoutMinutes=integer JSON Syntax: { "imageTestsEnabled": true|false, "timeoutMinutes": integer }
+    /// Specifies the test settings that Image Builder applies to images that this pipeline creates. If you don't provide test settings, Image Builder stores a default configuration with image tests enabled. imageTestsEnabled -&gt; (boolean) Specifies whether tests run after building the image. When enabled, tests run after the image build and before image distribution. Defaults to true . timeoutMinutes -&gt; (integer) The maximum time in minutes that tests are permitted to run. If you don't specify a value, Image Builder stores and returns 720. NOTE: The timeout property is not currently active. This value is ignored. Constraints: • min: 60 • max: 1440 Shorthand Syntax: imageTestsEnabled=boolean,timeoutMinutes=integer JSON Syntax: { "imageTestsEnabled": true|false, "timeoutMinutes": integer }
     /// </summary>
     [CliOption("--image-tests-configuration")]
     public string? ImageTestsConfiguration { get; set; }
 
     /// <summary>
-    /// abled (boolean) Specifies whether to collect additional information about the image being created, including the operating system (OS) version and pack- age list. Defaults to true .
+    /// Specifies whether to collect additional information about the image being created, including the operating system (OS) version and package list. Defaults to true .
     /// </summary>
     [CliFlag("--enhanced-image-metadata-enabled", NegatedName = "--no-enhanced-image-metadata-enabled")]
     public bool? EnhancedImageMetadataEnabled { get; set; }
 
     /// <summary>
-    /// The schedule of the image pipeline. Because the update replaces the entire configuration, omitting this property removes any existing schedule. The pipeline then runs only when you call StartIm- agePipelineExecution . scheduleExpression -&gt; (string) The expression determines how often EC2 Image Builder evaluates your pipelineExecutionStartCondition . You can specify a cron expression, or a rate expression such as rate(1 day) . For information on how to format a cron expression in Image Builder, see Use cron expressions in EC2 Image Builder . Constraints: o min: 1 o max: 1024 timezone -&gt; (string) The timezone that applies to the scheduling expression. Specify a value in IANA timezone format , for example Etc/UTC or Amer- ica/Los_Angeles . If not specified, this defaults to UTC. Constraints: o min: 3 o max: 100 o pattern: [a-zA-Z0-9]{2,}(?:\/[a-zA-Z0-9-_+]+)* pipelineExecutionStartCondition -&gt; (string) The start condition configures when the pipeline should trigger a new image build, as follows. If no value is set Image Builder defaults to EXPRESSION_MATCH_AND_DEPENDENCY_UPDATES_AVAILABLE . o EXPRESSION_MATCH_AND_DEPENDENCY_UPDATES_AVAILABLE (default) When you use semantic version filters on the base image or components in your image recipe, EC2 Image Builder builds a new image only when there are new versions of the base image or components in your recipe that match the filter. NOTE: For semantic version syntax, see CreateComponent . o EXPRESSION_MATCH_ONLY This condition builds a new image every time the CRON expression matches the current time. NOTE: If the recipe references its base image through an Amazon Web Services Systems Manager Parameter Store parameter, a change in the parameter's value also counts as an available depen- dency update. Possible values: o EXPRESSION_MATCH_ONLY o EXPRESSION_MATCH_AND_DEPENDENCY_UPDATES_AVAILABLE autoDisablePolicy -&gt; (structure) The policy that configures when Image Builder should automati- cally disable a pipeline that is failing. failureCount -&gt; (integer) [required] The number of consecutive scheduled image pipeline executions that must fail before Image Builder automatically disables the pipeline. Constraints: o min: 1 o max: 10 Shorthand Syntax: scheduleExpression=string,timezone=string,pipelineExecutionStartCondition=string,autoDisablePolicy={failureCount=integer} JSON Syntax: { "scheduleExpression": "string", "timezone": "string", "pipelineExecutionStartCondition": "EXPRESSION_MATCH_ONLY"|"EXPRESSION_MATCH_AND_DEPENDENCY_UPDATES_AVAILABLE", "autoDisablePolicy": { "failureCount": integer } }
+    /// The schedule of the image pipeline. Because the update replaces the entire configuration, omitting this property removes any existing schedule. The pipeline then runs only when you call StartImagePipelineExecution . scheduleExpression -&gt; (string) The expression determines how often EC2 Image Builder evaluates your pipelineExecutionStartCondition . You can specify a cron expression, or a rate expression such as rate(1 day) . For information on how to format a cron expression in Image Builder, see Use cron expressions in EC2 Image Builder . Constraints: • min: 1 • max: 1024 timezone -&gt; (string) The timezone that applies to the scheduling expression. Specify a value in IANA timezone format , for example Etc/UTC or America/Los_Angeles . If not specified, this defaults to UTC. Constraints: • min: 3 • max: 100 • pattern: [a-zA-Z0-9]{2,}(?:\/[a-zA-Z0-9-_+]+)* pipelineExecutionStartCondition -&gt; (string) The start condition configures when the pipeline should trigger a new image build, as follows. If no value is set Image Builder defaults to EXPRESSION_MATCH_AND_DEPENDENCY_UPDATES_AVAILABLE . • EXPRESSION_MATCH_AND_DEPENDENCY_UPDATES_AVAILABLE (default) When you use semantic version filters on the base image or components in your image recipe, EC2 Image Builder builds a new image only when there are new versions of the base image or components in your recipe that match the filter. NOTE: For semantic version syntax, see CreateComponent . • EXPRESSION_MATCH_ONLY This condition builds a new image every time the CRON expression matches the current time. NOTE: If the recipe references its base image through an Amazon Web Services Systems Manager Parameter Store parameter, a change in the parameter's value also counts as an available dependency update. Possible values: • EXPRESSION_MATCH_ONLY • EXPRESSION_MATCH_AND_DEPENDENCY_UPDATES_AVAILABLE autoDisablePolicy -&gt; (structure) The policy that configures when Image Builder should automatically disable a pipeline that is failing. failureCount -&gt; (integer) [required] The number of consecutive scheduled image pipeline executions that must fail before Image Builder automatically disables the pipeline. Constraints: • min: 1 • max: 10 Shorthand Syntax: scheduleExpression=string,timezone=string,pipelineExecutionStartCondition=string,autoDisablePolicy={failureCount=integer} JSON Syntax: { "scheduleExpression": "string", "timezone": "string", "pipelineExecutionStartCondition": "EXPRESSION_MATCH_ONLY"|"EXPRESSION_MATCH_AND_DEPENDENCY_UPDATES_AVAILABLE", "autoDisablePolicy": { "failureCount": integer } }
     /// </summary>
     [CliOption("--schedule")]
     public string? Schedule { get; set; }
 
     /// <summary>
-    /// The status of the image pipeline. Defaults to ENABLED when omitted. To keep a pipeline disabled, include this property set to DISABLED in your update request. Possible values: o DISABLED o ENABLED
+    /// The status of the image pipeline. Defaults to ENABLED when omitted. To keep a pipeline disabled, include this property set to DISABLED in your update request. Possible values: • DISABLED • ENABLED
     /// </summary>
     [CliOption("--status")]
     public AwsImagebuilderUpdateImagePipelineStatus? Status { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client token, Image Builder returns the original response without running the operation again. For more information, see Ensuring idempotency in the Amazon EC2 API Reference . Constraints: o min: 1 o max: 64
+    /// A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client token, Image Builder returns the original response without running the operation again. For more information, see Ensuring idempotency in the Amazon EC2 API Reference . Constraints: • min: 1 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// Contains settings for vulnerability scans that Amazon Inspector runs against the test instance during image creation. imageScanningEnabled -&gt; (boolean) Specifies whether Amazon Inspector scans for vulnerabilities when you create a new image, and whether Image Builder saves the findings. Amazon Inspector must be enabled in the account. Image tests must also be enabled. For AMI output, Amazon Inspector scans the test instance. For container output, Amazon Inspector scans the container image that Image Builder pushes to the Ama- zon ECR repository from your ecrConfiguration settings. ecrConfiguration -&gt; (structure) Contains Amazon ECR settings for vulnerability scans. repositoryName -&gt; (string) The name of the container repository where Image Builder pushes the container image for the vulnerability scan. Pro- vide the repository name only (a namespace path is allowed, but not the registry hostname); the repository must already exist in your account. If you don't specify a repository name, Image Builder creates the default repository im- age-builder-image-scanning-repository in your account. Constraints: o min: 1 o max: 1024 containerTags -&gt; (list) Tags for Image Builder to apply to the output container image that Amazon Inspector scans. Tags can help you identify and manage your scanned images. (string) Constraints: o min: 1 o max: 1024 Shorthand Syntax: imageScanningEnabled=boolean,ecrConfiguration={repositoryName=string,containerTags=[string,string]} JSON Syntax: { "imageScanningEnabled": true|false, "ecrConfiguration": { "repositoryName": "string", "containerTags": ["string", ...] } }
+    /// Contains settings for vulnerability scans that Amazon Inspector runs against the test instance during image creation. imageScanningEnabled -&gt; (boolean) Specifies whether Amazon Inspector scans for vulnerabilities when you create a new image, and whether Image Builder saves the findings. Amazon Inspector must be enabled in the account. Image tests must also be enabled. For AMI output, Amazon Inspector scans the test instance. For container output, Amazon Inspector scans the container image that Image Builder pushes to the Amazon ECR repository from your ecrConfiguration settings. ecrConfiguration -&gt; (structure) Contains Amazon ECR settings for vulnerability scans. repositoryName -&gt; (string) The name of the container repository where Image Builder pushes the container image for the vulnerability scan. Provide the repository name only (a namespace path is allowed, but not the registry hostname); the repository must already exist in your account. If you don't specify a repository name, Image Builder creates the default repository image-builder-image-scanning-repository in your account. Constraints: • min: 1 • max: 1024 containerTags -&gt; (list) Tags for Image Builder to apply to the output container image that Amazon Inspector scans. Tags can help you identify and manage your scanned images. (string) Constraints: • min: 1 • max: 1024 Shorthand Syntax: imageScanningEnabled=boolean,ecrConfiguration={repositoryName=string,containerTags=[string,string]} JSON Syntax: { "imageScanningEnabled": true|false, "ecrConfiguration": { "repositoryName": "string", "containerTags": ["string", ...] } }
     /// </summary>
     [CliOption("--image-scanning-configuration")]
     public string? ImageScanningConfiguration { get; set; }
 
     /// <summary>
-    /// The array of workflow configuration objects for builds that this pipeline starts. You must also specify executionRole when you pro- vide workflows. (structure) Contains control settings and configurable inputs for a workflow resource. workflowArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the workflow resource. Constraints: o pattern: ^arn:aws(?:-[a-z]+)*:image- builder:[a-z]{2,}(?:-[a-z]+)+-[0-9]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):work- flow/(build|test|distribu- tion)/[a-z0-9-_]+/(?:(?:([0-9]+|x)\.([0-9]+|x)\.([0-9]+|x))|(?:[0-9]+\.[0-9]+\.[0-9]+/[0-9]+))$ parameters -&gt; (list) Contains parameter values for each of the parameters that the workflow document defined for the workflow resource. Constraints: o min: 1 (structure) Contains a key/value pair that sets the named workflow parameter. name -&gt; (string) [required] The name of the workflow parameter to set. Constraints: o min: 1 o max: 128 o pattern: [^\x00]+ value -&gt; (list) [required] Sets the value for the named workflow parameter. (string) Constraints: o min: 0 o pattern: [^\x00]* parallelGroup -&gt; (string) Test workflows are defined within named runtime groups called parallel groups. The parallel group is the named group that contains this test workflow. Test workflows within a parallel group can run at the same time. Image Builder starts up to five test workflows in the group at the same time, and starts additional workflows as others complete, until all workflows in the group have completed. This field only applies for test workflows. Constraints: o min: 1 o max: 100 o pattern: ^[A-Za-z0-9][A-Za-z0-9-_+#]{0,99}$ onFailure -&gt; (string) The action to take if the workflow fails. With CONTINUE , a failed workflow is logged and image creation proceeds to the next workflow. If you don't set a value, the image build fails when the workflow fails. You can only set this property for test workflows. Possible values: o CONTINUE o ABORT JSON Syntax: [ { "workflowArn": "string", "parameters": [ { "name": "string", "value": ["string", ...] } ... ], "parallelGroup": "string", "onFailure": "CONTINUE"|"ABORT" } ... ]
+    /// The array of workflow configuration objects for builds that this pipeline starts. You must also specify executionRole when you provide workflows. (structure) Contains control settings and configurable inputs for a workflow resource. workflowArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the workflow resource. Constraints: • pattern: ^arn:aws(?:-[a-z]+)*:imagebuilder:[a-z]{2,}(?:-[a-z]+)+-[0-9]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):workflow/(build|test|distribution)/[a-z0-9-_]+/(?:(?:([0-9]+|x)\.([0-9]+|x)\.([0-9]+|x))|(?:[0-9]+\.[0-9]+\.[0-9]+/[0-9]+))$ parameters -&gt; (list) Contains parameter values for each of the parameters that the workflow document defined for the workflow resource. Constraints: • min: 1 (structure) Contains a key/value pair that sets the named workflow parameter. name -&gt; (string) [required] The name of the workflow parameter to set. Constraints: • min: 1 • max: 128 • pattern: [^\x00]+ value -&gt; (list) [required] Sets the value for the named workflow parameter. (string) Constraints: • min: 0 • pattern: [^\x00]* parallelGroup -&gt; (string) Test workflows are defined within named runtime groups called parallel groups. The parallel group is the named group that contains this test workflow. Test workflows within a parallel group can run at the same time. Image Builder starts up to five test workflows in the group at the same time, and starts additional workflows as others complete, until all workflows in the group have completed. This field only applies for test workflows. Constraints: • min: 1 • max: 100 • pattern: ^[A-Za-z0-9][A-Za-z0-9-_+#]{0,99}$ onFailure -&gt; (string) The action to take if the workflow fails. With CONTINUE , a failed workflow is logged and image creation proceeds to the next workflow. If you don't set a value, the image build fails when the workflow fails. You can only set this property for test workflows. Possible values: • CONTINUE • ABORT JSON Syntax: [ { "workflowArn": "string", "parameters": [ { "name": "string", "value": ["string", ...] } ... ], "parallelGroup": "string", "onFailure": "CONTINUE"|"ABORT" } ... ]
     /// </summary>
     [CliOption("--workflows", GroupValues = true)]
     public IEnumerable<string>? Workflows { get; set; }
 
     /// <summary>
-    /// Specifies the logging configuration for the image pipeline. Use this to define custom CloudWatch Logs log groups for your pipeline execu- tion logs and image build logs. The service manages log groups with names starting with /aws/imagebuilder/ using the service-linked role. For custom log group names outside of this prefix, you must also provide an executionRole . imageLogGroupName -&gt; (string) Specifies the CloudWatch Logs log group name for image build logs. The log group name can contain alphanumeric characters, hyphens, underscores, forward slashes, and periods, up to 512 characters. Log group names not starting with /aws/imagebuilder/ require an executionRole with CloudWatch Logs write permissions. If not specified, defaults to /aws/imagebuilder/image-name . Constraints: o min: 1 o max: 512 o pattern: ^[a-zA-Z0-9\-_/\.]{1,512}$ pipelineLogGroupName -&gt; (string) Specifies the CloudWatch Logs log group name for pipeline execu- tion logs. The log group name can contain alphanumeric charac- ters, hyphens, underscores, forward slashes, and periods, up to 512 characters. Log group names not starting with /aws/image- builder/ require an executionRole with CloudWatch Logs write permissions. If not specified, defaults to /aws/image- builder/pipeline/pipeline-name . Constraints: o min: 1 o max: 512 o pattern: ^[a-zA-Z0-9\-_/\.]{1,512}$ Shorthand Syntax: imageLogGroupName=string,pipelineLogGroupName=string JSON Syntax: { "imageLogGroupName": "string", "pipelineLogGroupName": "string" }
+    /// Specifies the logging configuration for the image pipeline. Use this to define custom CloudWatch Logs log groups for your pipeline execution logs and image build logs. The service manages log groups with names starting with /aws/imagebuilder/ using the service-linked role. For custom log group names outside of this prefix, you must also provide an executionRole . imageLogGroupName -&gt; (string) Specifies the CloudWatch Logs log group name for image build logs. The log group name can contain alphanumeric characters, hyphens, underscores, forward slashes, and periods, up to 512 characters. Log group names not starting with /aws/imagebuilder/ require an executionRole with CloudWatch Logs write permissions. If not specified, defaults to /aws/imagebuilder/image-name . Constraints: • min: 1 • max: 512 • pattern: ^[a-zA-Z0-9\-_/\.]{1,512}$ pipelineLogGroupName -&gt; (string) Specifies the CloudWatch Logs log group name for pipeline execution logs. The log group name can contain alphanumeric characters, hyphens, underscores, forward slashes, and periods, up to 512 characters. Log group names not starting with /aws/imagebuilder/ require an executionRole with CloudWatch Logs write permissions. If not specified, defaults to /aws/imagebuilder/pipeline/pipeline-name . Constraints: • min: 1 • max: 512 • pattern: ^[a-zA-Z0-9\-_/\.]{1,512}$ Shorthand Syntax: imageLogGroupName=string,pipelineLogGroupName=string JSON Syntax: { "imageLogGroupName": "string", "pipelineLogGroupName": "string" }
     /// </summary>
     [CliOption("--logging-configuration")]
     public string? LoggingConfiguration { get; set; }
 
     /// <summary>
-    /// The name or Amazon Resource Name (ARN) for the IAM role you create that grants Image Builder access to perform workflow actions. If you omit this property, the pipeline reverts to the Image Builder ser- vice-linked role. Constraints: o min: 1 o max: 2048 o pattern: ^(?:arn:aws(?:-[a-z]+)*:iam::[0-9]{12}:role/)?[a-zA-Z_0-9+=,.@\-_/]+$
+    /// The name or Amazon Resource Name (ARN) for the IAM role you create that grants Image Builder access to perform workflow actions. If you omit this property, the pipeline reverts to the Image Builder service-linked role. Constraints: • min: 1 • max: 2048 • pattern: ^(?:arn:aws(?:-[a-z]+)*:iam::[0-9]{12}:role/)?[a-zA-Z_0-9+=,.@\-_/]+$
     /// </summary>
     [CliOption("--execution-role")]
     public string? ExecutionRole { get; set; }
 
     /// <summary>
-    /// The tags that Image Builder applies to the Image Builder image re- source that this pipeline's scheduled executions create. These tags don't apply to the output AMI. To tag output AMIs, use amiTags in the pipeline's distribution configuration. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z0-9\s_.:/=+\-@]*$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags that Image Builder applies to the Image Builder image resource that this pipeline's scheduled executions create. These tags don't apply to the output AMI. To tag output AMIs, use amiTags in the pipeline's distribution configuration. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[a-zA-Z0-9\s_.:/=+\-@]*$ value -&gt; (string) Constraints: • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--image-tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ImageTags { get; set; }
@@ -180,6 +180,15 @@ public record AwsImagebuilderUpdateImagePipelineOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

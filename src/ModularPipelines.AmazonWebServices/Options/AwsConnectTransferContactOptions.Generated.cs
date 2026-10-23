@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Transfers TASK or EMAIL contacts from one agent or queue to another agent or queue at any point after a contact is created. You can trans- fer a contact to another queue by providing the flow which orchestrates the contact to the destination queue. This gives you more control over contact handling and helps you adhere to the service level agreement (SLA) guaranteed to your customers. Note the following requirements: o Transfer is only supported for TASK and EMAIL contacts. o Do not use both Queu...
+/// Transfers TASK or EMAIL contacts from one agent or queue to another agent or queue at any point after a contact is created. You can transfer a contact to another queue by providing the flow which orchestrates the contact to the destination queue. This gives you more control over contact handling and helps you adhere to the service level agreement (SLA) guaranteed to your customers. Note the following requirements: • Transfer is only supported for TASK and EMAIL contacts. • Do not use both QueueI...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsConnectTransferContactOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Transfers TASK or EMAIL contacts from one agent or queue to another agent or queue at any point after a contact is created. You can trans- fer a contact to another queue by providing the flow which orchestrates the contact to the destination queue. This gives you more control over contact handling and helps you adhere to the service level agreement (SLA) guaranteed to your customers. Note the following requirements: o Transfer is only supported for TASK and EMAIL contacts. o Do not use both Queu...
+    /// Transfers TASK or EMAIL contacts from one agent or queue to another agent or queue at any point after a contact is created. You can transfer a contact to another queue by providing the flow which orchestrates the contact to the destination queue. This gives you more control over contact handling and helps you adhere to the service level agreement (SLA) guaranteed to your customers. Note the following requirements: • Transfer is only supported for TASK and EMAIL contacts. • Do not use both QueueI...
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="ContactId">The identifier of the contact in this instance of Connect Customer. Constraints: o min: 1 o max: 256</param>
-    /// <param name="ContactFlowId">The identifier of the flow. Constraints: o max: 500</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="ContactId">The identifier of the contact in this instance of Connect Customer. Constraints: • min: 1 • max: 256</param>
+    /// <param name="ContactFlowId">The identifier of the flow. Constraints: • max: 500</param>
     public AwsConnectTransferContactOptions(
         string InstanceId,
         string ContactId,
@@ -65,19 +66,19 @@ public record AwsConnectTransferContactOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The identifier of the contact in this instance of Connect Customer. Constraints: o min: 1 o max: 256
+    /// The identifier of the contact in this instance of Connect Customer. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--contact-id")]
     public string? ContactId { get; private init; }
 
     /// <summary>
-    /// The identifier of the flow. Constraints: o max: 500
+    /// The identifier of the flow. Constraints: • max: 500
     /// </summary>
     [CliOption("--contact-flow-id")]
     public string? ContactFlowId { get; private init; }
@@ -89,13 +90,13 @@ public record AwsConnectTransferContactOptions : AwsOptions, IValidatableObject
     public string? QueueId { get; set; }
 
     /// <summary>
-    /// The identifier for the user. This can be the ID or the ARN of the user. Constraints: o min: 1 o max: 256
+    /// The identifier for the user. This can be the ID or the ARN of the user. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--user-id")]
     public string? UserId { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: o max: 500
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: • max: 500
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -122,6 +123,15 @@ public record AwsConnectTransferContactOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

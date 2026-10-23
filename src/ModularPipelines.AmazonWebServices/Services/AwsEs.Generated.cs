@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -47,7 +47,7 @@ public class AwsEs : IAwsEs
     }
 
     /// <summary>
-    /// Attaches tags to an existing Elasticsearch domain. Tags are a set of case-sensitive key value pairs. An Elasticsearch domain may have up to 10 tags. See Tagging Amazon Elasticsearch Service Domains for more in- formation. See also: AWS API Documentation
+    /// Attaches tags to an existing Elasticsearch domain. Tags are a set of case-sensitive key value pairs. An Elasticsearch domain may have up to 10 tags. See Tagging Amazon Elasticsearch Service Domains for more information. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsEs : IAwsEs
     }
 
     /// <summary>
-    /// Deletes the service-linked role that Elasticsearch Service uses to man- age and maintain VPC domains. Role deletion will fail if any existing VPC domains use the role. You must delete any such Elasticsearch do- mains before deleting the role. See Deleting Elasticsearch Service Role in VPC Endpoints for Amazon Elasticsearch Service Domains . See also: AWS API Documentation
+    /// Deletes the service-linked role that Elasticsearch Service uses to manage and maintain VPC domains. Role deletion will fail if any existing VPC domains use the role. You must delete any such Elasticsearch domains before deleting the role. See Deleting Elasticsearch Service Role in VPC Endpoints for Amazon Elasticsearch Service Domains . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +272,7 @@ public class AwsEs : IAwsEs
     }
 
     /// <summary>
-    /// Provides scheduled Auto-Tune action details for the Elasticsearch do- main, such as Auto-Tune action type, description, severity, and sched- uled date. See also: AWS API Documentation
+    /// Provides scheduled Auto-Tune action details for the Elasticsearch domain, such as Auto-Tune action type, description, severity, and scheduled date. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -302,7 +302,7 @@ public class AwsEs : IAwsEs
     }
 
     /// <summary>
-    /// Provides cluster configuration information about the specified Elastic- search domain, such as the state, creation date, update version, and update date for cluster options. See also: AWS API Documentation
+    /// Provides cluster configuration information about the specified Elasticsearch domain, such as the state, creation date, update version, and update date for cluster options. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -317,7 +317,7 @@ public class AwsEs : IAwsEs
     }
 
     /// <summary>
-    /// Returns domain configuration information about the specified Elastic- search domain, including the domain ID, domain endpoint, and domain ARN. See also: AWS API Documentation
+    /// Returns domain configuration information about the specified Elasticsearch domain, including the domain ID, domain endpoint, and domain ARN. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -332,7 +332,7 @@ public class AwsEs : IAwsEs
     }
 
     /// <summary>
-    /// Returns domain configuration information about the specified Elastic- search domains, including the domain ID, domain endpoint, and domain ARN. See also: AWS API Documentation
+    /// Returns domain configuration information about the specified Elasticsearch domains, including the domain ID, domain endpoint, and domain ARN. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -347,7 +347,7 @@ public class AwsEs : IAwsEs
     }
 
     /// <summary>
-    /// Describe Elasticsearch Limits for a given InstanceType and Elastic- searchVersion. When modifying existing Domain, specify the `` Domain- Name `` to know what Limits are supported for modifying. See also: AWS API Documentation
+    /// Describe Elasticsearch Limits for a given InstanceType and ElasticsearchVersion. When modifying existing Domain, specify the `` DomainName `` to know what Limits are supported for modifying. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public class AwsEs : IAwsEs
     }
 
     /// <summary>
-    /// Lists all the inbound cross-cluster search connections for a destina- tion domain. See also: AWS API Documentation
+    /// Lists all the inbound cross-cluster search connections for a destination domain. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -407,7 +407,7 @@ public class AwsEs : IAwsEs
     }
 
     /// <summary>
-    /// Lists available reserved Elasticsearch instance offerings. See also: AWS API Documentation describe-reserved-elasticsearch-instance-offerings is a paginated oper- ation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must extract data from the results of the following query expressions: Reserve...
+    /// Lists available reserved Elasticsearch instance offerings. See also: AWS API Documentation describe-reserved-elasticsearch-instance-offerings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ReservedEla...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -422,7 +422,7 @@ public class AwsEs : IAwsEs
     }
 
     /// <summary>
-    /// Returns information about reserved Elasticsearch instances for this ac- count. See also: AWS API Documentation describe-reserved-elasticsearch-instances is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following query expressio...
+    /// Returns information about reserved Elasticsearch instances for this account. See also: AWS API Documentation describe-reserved-elasticsearch-instances is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Re...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -467,7 +467,7 @@ public class AwsEs : IAwsEs
     }
 
     /// <summary>
-    /// Returns a list of upgrade compatible Elastisearch versions. You can op- tionally pass a `` DomainName `` to get all upgrade compatible Elas- ticsearch versions for that specific domain. See also: AWS API Documentation
+    /// Returns a list of upgrade compatible Elastisearch versions. You can optionally pass a `` DomainName `` to get all upgrade compatible Elasticsearch versions for that specific domain. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -497,7 +497,7 @@ public class AwsEs : IAwsEs
     }
 
     /// <summary>
-    /// Retrieves the complete history of the last 10 upgrades that were per- formed on the domain. See also: AWS API Documentation get-upgrade-history is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: UpgradeHi...
+    /// Retrieves the complete history of the last 10 upgrades that were performed on the domain. See also: AWS API Documentation get-upgrade-history is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: UpgradeHist...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -557,7 +557,7 @@ public class AwsEs : IAwsEs
     }
 
     /// <summary>
-    /// List all Elasticsearch instance types that are supported for given ElasticsearchVersion See also: AWS API Documentation list-elasticsearch-instance-types is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressi...
+    /// List all Elasticsearch instance types that are supported for given ElasticsearchVersion See also: AWS API Documentation list-elasticsearch-instance-types is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions:...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -572,7 +572,7 @@ public class AwsEs : IAwsEs
     }
 
     /// <summary>
-    /// List all supported Elasticsearch versions See also: AWS API Documentation list-elasticsearch-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ElasticsearchVersions
+    /// List all supported Elasticsearch versions See also: AWS API Documentation list-elasticsearch-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ElasticsearchVersions
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -632,7 +632,7 @@ public class AwsEs : IAwsEs
     }
 
     /// <summary>
-    /// Retrieves all Amazon OpenSearch Service-managed VPC endpoints associ- ated with a particular domain. See also: AWS API Documentation
+    /// Retrieves all Amazon OpenSearch Service-managed VPC endpoints associated with a particular domain. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -692,7 +692,7 @@ public class AwsEs : IAwsEs
     }
 
     /// <summary>
-    /// Removes the specified set of tags from the specified Elasticsearch do- main. See also: AWS API Documentation
+    /// Removes the specified set of tags from the specified Elasticsearch domain. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -737,7 +737,7 @@ public class AwsEs : IAwsEs
     }
 
     /// <summary>
-    /// Modifies the cluster configuration of the specified Elasticsearch do- main, setting as setting the instance type and the number of instances. See also: AWS API Documentation
+    /// Modifies the cluster configuration of the specified Elasticsearch domain, setting as setting the instance type and the number of instances. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -782,7 +782,7 @@ public class AwsEs : IAwsEs
     }
 
     /// <summary>
-    /// Allows you to either upgrade your domain or perform an Upgrade eligi- bility check to a compatible Elasticsearch version. See also: AWS API Documentation
+    /// Allows you to either upgrade your domain or perform an Upgrade eligibility check to a compatible Elasticsearch version. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

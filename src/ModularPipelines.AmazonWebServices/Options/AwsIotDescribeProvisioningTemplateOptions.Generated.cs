@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsIotDescribeProvisioningTemplateOptions : AwsOptions, IValidatab
     /// <summary>
     /// Returns information about a provisioning template. Requires permission to access the DescribeProvisioningTemplate action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TemplateName">The name of the provisioning template. Constraints: o min: 1 o max: 36 o pattern: ^[0-9A-Za-z_-]+$</param>
+    /// <param name="TemplateName">The name of the provisioning template. Constraints: • min: 1 • max: 36 • pattern: ^[0-9A-Za-z_-]+$</param>
     public AwsIotDescribeProvisioningTemplateOptions(
         string TemplateName
     )
@@ -56,7 +57,7 @@ public record AwsIotDescribeProvisioningTemplateOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the provisioning template. Constraints: o min: 1 o max: 36 o pattern: ^[0-9A-Za-z_-]+$
+    /// The name of the provisioning template. Constraints: • min: 1 • max: 36 • pattern: ^[0-9A-Za-z_-]+$
     /// </summary>
     [CliOption("--template-name")]
     public string? TemplateName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsIotDescribeProvisioningTemplateOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

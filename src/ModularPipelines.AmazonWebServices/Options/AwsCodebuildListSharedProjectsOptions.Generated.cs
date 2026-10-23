@@ -24,22 +24,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsCodebuildListSharedProjectsOptions : AwsOptions
 {
     /// <summary>
-    /// The criterion to be used to list build projects shared with the cur- rent Amazon Web Services account or user. Valid values include: o ARN : List based on the ARN. o MODIFIED_TIME : List based on when information about the shared project was last changed. Possible values: o ARN o MODIFIED_TIME
+    /// The criterion to be used to list build projects shared with the current Amazon Web Services account or user. Valid values include: • ARN : List based on the ARN. • MODIFIED_TIME : List based on when information about the shared project was last changed. Possible values: • ARN • MODIFIED_TIME
     /// </summary>
     [CliOption("--sort-by")]
     public AwsCodebuildListSharedProjectsSortBy? SortBy { get; set; }
 
     /// <summary>
-    /// The order in which to list shared build projects. Valid values in- clude: o ASCENDING : List in ascending order. o DESCENDING : List in descending order. Possible values: o ASCENDING o DESCENDING
+    /// The order in which to list shared build projects. Valid values include: • ASCENDING : List in ascending order. • DESCENDING : List in descending order. Possible values: • ASCENDING • DESCENDING
     /// </summary>
     [CliOption("--sort-order")]
     public AwsCodebuildListSharedProjectsSortOrder? SortOrder { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -49,15 +46,27 @@ public record AwsCodebuildListSharedProjectsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

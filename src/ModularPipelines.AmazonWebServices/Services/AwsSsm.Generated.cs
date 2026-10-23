@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -33,7 +33,7 @@ public class AwsSsm : IAwsSsm
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws ssm wait sub-commands.
     /// </summary>
     public AwsSsmWait Wait => _wait ??= new AwsSsmWait(_command);
 
@@ -42,7 +42,7 @@ public class AwsSsm : IAwsSsm
     #region Commands
 
     /// <summary>
-    /// Adds or overwrites one or more tags for the specified resource. Tags are metadata that you can assign to your automations, documents, man- aged nodes, maintenance windows, Parameter Store parameters, and patch baselines. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment. Each tag consists of a key and an optional value, both of which you define. For example, you could define a set of tags for your account's managed nodes that helps you...
+    /// Adds or overwrites one or more tags for the specified resource. Tags are metadata that you can assign to your automations, documents, managed nodes, maintenance windows, Parameter Store parameters, and patch baselines. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment. Each tag consists of a key and an optional value, both of which you define. For example, you could define a set of tags for your account's managed nodes that helps you t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -102,7 +102,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Generates an activation code and activation ID you can use to register your on-premises servers, edge devices, or virtual machine (VM) with Amazon Web Services Systems Manager. Registering these machines with Systems Manager makes it possible to manage them using Systems Manager tools. You use the activation code and ID when installing SSM Agent on machines in your hybrid environment. For more information about re- quirements for managing on-premises machines using Systems Manager, see Using Ama...
+    /// Generates an activation code and activation ID you can use to register your on-premises servers, edge devices, or virtual machine (VM) with Amazon Web Services Systems Manager. Registering these machines with Systems Manager makes it possible to manage them using Systems Manager tools. You use the activation code and ID when installing SSM Agent on machines in your hybrid environment. For more information about requirements for managing on-premises machines using Systems Manager, see Using Amazo...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -117,7 +117,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Associates the specified Amazon Web Services Systems Manager document (SSM document) with the specified managed nodes or targets. When you associate a document with one or more managed nodes using IDs or tags, Amazon Web Services Systems Manager Agent (SSM Agent) running on the managed node processes the document and configures the node as specified. If you associate a document with a managed node that already has an as- sociated document, the system returns the AssociationAlreadyExists ex- cept...
+    /// Associates the specified Amazon Web Services Systems Manager document (SSM document) with the specified managed nodes or targets. When you associate a document with one or more managed nodes using IDs or tags, Amazon Web Services Systems Manager Agent (SSM Agent) running on the managed node processes the document and configures the node as specified. If you associate a document with a managed node that already has an associated document, the system returns the AssociationAlreadyExists exception....
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -132,7 +132,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// A State Manager association defines the state that you want to maintain on your managed nodes. For example, an association can specify that anti-virus software must be installed and running on your managed nodes, or that certain ports must be closed. For static targets, the association specifies a schedule for when the configuration is reap- plied. For dynamic targets, such as an Amazon Web Services resource group or an Amazon Web Services autoscaling group, State Manager, a tool in Amazon Web S...
+    /// A State Manager association defines the state that you want to maintain on your managed nodes. For example, an association can specify that anti-virus software must be installed and running on your managed nodes, or that certain ports must be closed. For static targets, the association specifies a schedule for when the configuration is reapplied. For dynamic targets, such as an Amazon Web Services resource group or an Amazon Web Services autoscaling group, State Manager, a tool in Amazon Web Ser...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -162,7 +162,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Creates a Amazon Web Services Systems Manager (SSM document). An SSM document defines the actions that Systems Manager performs on your man- aged nodes. For more information about SSM documents, including infor- mation about supported schemas, features, and syntax, see Amazon Web Services Systems Manager Documents in the Amazon Web Services Systems Manager User Guide . See also: AWS API Documentation
+    /// Creates a Amazon Web Services Systems Manager (SSM document). An SSM document defines the actions that Systems Manager performs on your managed nodes. For more information about SSM documents, including information about supported schemas, features, and syntax, see Amazon Web Services Systems Manager Documents in the Amazon Web Services Systems Manager User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -177,7 +177,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Creates a new maintenance window. NOTE: The value you specify for Duration determines the specific end time for the maintenance window based on the time it begins. No mainte- nance window tasks are permitted to start after the resulting end- time minus the number of hours you specify for Cutoff . For example, if the maintenance window starts at 3 PM, the duration is three hours, and the value you specify for Cutoff is one hour, no mainte- nance window tasks can start after 5 PM. See also: AWS AP...
+    /// Creates a new maintenance window. NOTE: The value you specify for Duration determines the specific end time for the maintenance window based on the time it begins. No maintenance window tasks are permitted to start after the resulting endtime minus the number of hours you specify for Cutoff . For example, if the maintenance window starts at 3 PM, the duration is three hours, and the value you specify for Cutoff is one hour, no maintenance window tasks can start after 5 PM. See also: AWS API Docu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -192,7 +192,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Creates a new OpsItem. You must have permission in Identity and Access Management (IAM) to create a new OpsItem. For more information, see Set up OpsCenter in the Amazon Web Services Systems Manager User Guide . Operations engineers and IT professionals use Amazon Web Services Sys- tems Manager OpsCenter to view, investigate, and remediate operational issues impacting the performance and health of their Amazon Web Ser- vices resources. For more information, see Amazon Web Services Systems Manage...
+    /// Creates a new OpsItem. You must have permission in Identity and Access Management (IAM) to create a new OpsItem. For more information, see Set up OpsCenter in the Amazon Web Services Systems Manager User Guide . Operations engineers and IT professionals use Amazon Web Services Systems Manager OpsCenter to view, investigate, and remediate operational issues impacting the performance and health of their Amazon Web Services resources. For more information, see Amazon Web Services Systems Manager Op...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -207,7 +207,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// If you create a new application in Application Manager, Amazon Web Ser- vices Systems Manager calls this API operation to specify information about the new application, including the application type. See also: AWS API Documentation
+    /// If you create a new application in Application Manager, Amazon Web Services Systems Manager calls this API operation to specify information about the new application, including the application type. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -237,7 +237,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// A resource data sync helps you view data from multiple sources in a single location. Amazon Web Services Systems Manager offers two types of resource data sync: SyncToDestination and SyncFromSource . You can configure Systems Manager Inventory to use the SyncToDestina- tion type to synchronize Inventory data from multiple Amazon Web Ser- vices Regions to a single Amazon Simple Storage Service (Amazon S3) bucket. For more information, see Creating a resource data sync for In- ventory in the Amazo...
+    /// A resource data sync helps you view data from multiple sources in a single location. Amazon Web Services Systems Manager offers two types of resource data sync: SyncToDestination and SyncFromSource . You can configure Systems Manager Inventory to use the SyncToDestination type to synchronize Inventory data from multiple Amazon Web Services Regions to a single Amazon Simple Storage Service (Amazon S3) bucket. For more information, see Creating a resource data sync for Inventory in the Amazon Web ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -252,7 +252,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Deletes an activation. You aren't required to delete an activation. If you delete an activation, you can no longer use it to register addi- tional managed nodes. Deleting an activation doesn't de-register man- aged nodes. You must manually de-register managed nodes. See also: AWS API Documentation
+    /// Deletes an activation. You aren't required to delete an activation. If you delete an activation, you can no longer use it to register additional managed nodes. Deleting an activation doesn't de-register managed nodes. You must manually de-register managed nodes. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -267,7 +267,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Disassociates the specified Amazon Web Services Systems Manager docu- ment (SSM document) from the specified managed node. If you created the association by using the Targets parameter, then you must delete the association by using the association ID. When you disassociate a document from a managed node, it doesn't change the configuration of the node. To change the configuration state of a managed node after you disassociate a document, you must create a new document with the desired configurat...
+    /// Disassociates the specified Amazon Web Services Systems Manager document (SSM document) from the specified managed node. If you created the association by using the Targets parameter, then you must delete the association by using the association ID. When you disassociate a document from a managed node, it doesn't change the configuration of the node. To change the configuration state of a managed node after you disassociate a document, you must create a new document with the desired configuratio...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -297,7 +297,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Deletes the Amazon Web Services Systems Manager document (SSM document) and all managed node associations to the document. Before you delete the document, we recommend that you use DeleteAsso- ciation to disassociate all managed nodes that are associated with the document. See also: AWS API Documentation
+    /// Deletes the Amazon Web Services Systems Manager document (SSM document) and all managed node associations to the document. Before you delete the document, we recommend that you use DeleteAssociation to disassociate all managed nodes that are associated with the document. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -312,7 +312,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Delete a custom inventory type or the data associated with a custom In- ventory type. Deleting a custom inventory type is also referred to as deleting a custom inventory schema. See also: AWS API Documentation
+    /// Delete a custom inventory type or the data associated with a custom Inventory type. Deleting a custom inventory type is also referred to as deleting a custom inventory schema. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -342,7 +342,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Delete an OpsItem. You must have permission in Identity and Access Man- agement (IAM) to delete an OpsItem. WARNING: Note the following important information about this operation. o Deleting an OpsItem is irreversible. You can't restore a deleted OpsItem. o This operation uses an eventual consistency model , which means the system can take a few minutes to complete this operation. If you delete an OpsItem and immediately call, for example, GetOp- sItem , the deleted OpsItem might still appear in...
+    /// Delete an OpsItem. You must have permission in Identity and Access Management (IAM) to delete an OpsItem. WARNING: Note the following important information about this operation. • Deleting an OpsItem is irreversible. You can't restore a deleted OpsItem. • This operation uses an eventual consistency model , which means the system can take a few minutes to complete this operation. If you delete an OpsItem and immediately call, for example, GetOpsItem , the deleted OpsItem might still appear in the...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -432,7 +432,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Deletes a Systems Manager resource policy. A resource policy helps you to define the IAM entity (for example, an Amazon Web Services account) that can manage your Systems Manager resources. The following resources support Systems Manager resource policies. o OpsItemGroup - The resource policy for OpsItemGroup enables Amazon Web Services accounts to view and interact with OpsCenter operational work items (OpsItems). o Parameter - The resource policy is used to share a parameter with other account...
+    /// Deletes a Systems Manager resource policy. A resource policy helps you to define the IAM entity (for example, an Amazon Web Services account) that can manage your Systems Manager resources. The following resources support Systems Manager resource policies. • OpsItemGroup - The resource policy for OpsItemGroup enables Amazon Web Services accounts to view and interact with OpsCenter operational work items (OpsItems). • Parameter - The resource policy is used to share a parameter with other account...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -522,22 +522,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Views all executions for a specific association ID. See also: AWS API Documentation describe-association-executions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: AssociationExecutions
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeAssociationExecutionsAsync(
-        AwsSsmDescribeAssociationExecutionsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Views information about a specific execution of a specific association. See also: AWS API Documentation describe-association-execution-targets is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: Asso...
+    /// Views information about a specific execution of a specific association. See also: AWS API Documentation describe-association-execution-targets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Associatio...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -545,6 +530,21 @@ public class AwsSsm : IAwsSsm
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeAssociationExecutionTargetsAsync(
         AwsSsmDescribeAssociationExecutionTargetsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Views all executions for a specific association ID. See also: AWS API Documentation describe-association-executions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: AssociationExecutions
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeAssociationExecutionsAsync(
+        AwsSsmDescribeAssociationExecutionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -567,7 +567,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Provides details about all active and terminated Automation executions. See also: AWS API Documentation describe-automation-executions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: AutomationExec...
+    /// Provides details about all active and terminated Automation executions. See also: AWS API Documentation describe-automation-executions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: AutomationExecutio...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -582,7 +582,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Information about all active and terminated step executions in an Au- tomation workflow. See also: AWS API Documentation describe-automation-step-executions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expre...
+    /// Information about all active and terminated step executions in an Automation workflow. See also: AWS API Documentation describe-automation-step-executions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -642,7 +642,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// All associations for the managed nodes. See also: AWS API Documentation describe-effective-instance-associations is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: Associations
+    /// All associations for the managed nodes. See also: AWS API Documentation describe-effective-instance-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Associations
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -657,7 +657,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Retrieves the current effective patches (the patch and the approval state) for the specified patch baseline. Applies to patch baselines for Windows only. See also: AWS API Documentation describe-effective-patches-for-patch-baseline is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query...
+    /// Retrieves the current effective patches (the patch and the approval state) for the specified patch baseline. Applies to patch baselines for Windows only. See also: AWS API Documentation describe-effective-patches-for-patch-baseline is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query a...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -672,7 +672,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// The status of the associations for the managed nodes. See also: AWS API Documentation describe-instance-associations-status is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: InstanceAssociationStat...
+    /// The status of the associations for the managed nodes. See also: AWS API Documentation describe-instance-associations-status is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: InstanceAssociationStatusInfo...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -687,7 +687,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Provides information about one or more of your managed nodes, including the operating system platform, SSM Agent version, association status, and IP address. This operation does not return information for nodes that are either Stopped or Terminated. If you specify one or more node IDs, the operation returns information for those managed nodes. If you don't specify node IDs, it returns in- formation for all your managed nodes. If you specify a node ID that isn't valid or a node that you don't own...
+    /// Provides information about one or more of your managed nodes, including the operating system platform, SSM Agent version, association status, and IP address. This operation does not return information for nodes that are either Stopped or Terminated. If you specify one or more node IDs, the operation returns information for those managed nodes. If you don't specify node IDs, it returns information for all your managed nodes. If you specify a node ID that isn't valid or a node that you don't own, ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -699,6 +699,36 @@ public class AwsSsm : IAwsSsm
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSsmDescribeInstanceInformationOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Retrieves the high-level patch state for the managed nodes in the specified patch group. See also: AWS API Documentation describe-instance-patch-states-for-patch-group is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following quer...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeInstancePatchStatesForPatchGroupAsync(
+        AwsSsmDescribeInstancePatchStatesForPatchGroupOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Retrieves the high-level patch state of one or more managed nodes. See also: AWS API Documentation describe-instance-patch-states is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: InstancePatchStates
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeInstancePatchStatesAsync(
+        AwsSsmDescribeInstancePatchStatesOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -717,37 +747,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Retrieves the high-level patch state for the managed nodes in the spec- ified patch group. See also: AWS API Documentation describe-instance-patch-states-for-patch-group is a paginated opera- tion. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must extract data from the results of the followin...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeInstancePatchStatesForPatchGroupAsync(
-        AwsSsmDescribeInstancePatchStatesForPatchGroupOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Retrieves the high-level patch state of one or more managed nodes. See also: AWS API Documentation describe-instance-patch-states is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: InstancePatchStates
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeInstancePatchStatesAsync(
-        AwsSsmDescribeInstancePatchStatesOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// An API operation used by the Systems Manager console to display infor- mation about Systems Manager managed nodes. See also: AWS API Documentation describe-instance-properties is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the fo...
+    /// An API operation used by the Systems Manager console to display information about Systems Manager managed nodes. See also: AWS API Documentation describe-instance-properties is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the followin...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -762,7 +762,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Describes a specific delete inventory operation. See also: AWS API Documentation describe-inventory-deletions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: InventoryDeletions
+    /// Describes a specific delete inventory operation. See also: AWS API Documentation describe-inventory-deletions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: InventoryDeletions
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -777,22 +777,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Lists the executions of a maintenance window. This includes information about when the maintenance window was scheduled to be active, and in- formation about tasks registered and run with the maintenance window. See also: AWS API Documentation describe-maintenance-window-executions is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the ...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeMaintenanceWindowExecutionsAsync(
-        AwsSsmDescribeMaintenanceWindowExecutionsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Retrieves the individual task executions (one per target) for a partic- ular task run as part of a maintenance window execution. See also: AWS API Documentation describe-maintenance-window-execution-task-invocations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must e...
+    /// Retrieves the individual task executions (one per target) for a particular task run as part of a maintenance window execution. See also: AWS API Documentation describe-maintenance-window-execution-task-invocations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extra...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -807,7 +792,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// For a given maintenance window execution, lists the tasks that were run. See also: AWS API Documentation describe-maintenance-window-execution-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following query expressions: ...
+    /// For a given maintenance window execution, lists the tasks that were run. See also: AWS API Documentation describe-maintenance-window-execution-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Wind...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -822,7 +807,22 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Retrieves information about upcoming executions of a maintenance win- dow. See also: AWS API Documentation describe-maintenance-window-schedule is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Sched...
+    /// Lists the executions of a maintenance window. This includes information about when the maintenance window was scheduled to be active, and information about tasks registered and run with the maintenance window. See also: AWS API Documentation describe-maintenance-window-executions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --quer...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeMaintenanceWindowExecutionsAsync(
+        AwsSsmDescribeMaintenanceWindowExecutionsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Retrieves information about upcoming executions of a maintenance window. See also: AWS API Documentation describe-maintenance-window-schedule is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ScheduledWi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -837,37 +837,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Retrieves information about the maintenance window targets or tasks that a managed node is associated with. See also: AWS API Documentation describe-maintenance-windows-for-target is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of th...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeMaintenanceWindowsForTargetAsync(
-        AwsSsmDescribeMaintenanceWindowsForTargetOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Retrieves the maintenance windows in an Amazon Web Services account. See also: AWS API Documentation describe-maintenance-windows is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: WindowIdentities
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeMaintenanceWindowsAsync(
-        AwsSsmDescribeMaintenanceWindowsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSsmDescribeMaintenanceWindowsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Lists the targets registered with the maintenance window. See also: AWS API Documentation describe-maintenance-window-targets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Targets
+    /// Lists the targets registered with the maintenance window. See also: AWS API Documentation describe-maintenance-window-targets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Targets
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -897,7 +867,37 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Query a set of OpsItems. You must have permission in Identity and Ac- cess Management (IAM) to query a list of OpsItems. For more informa- tion, see Set up OpsCenter in the Amazon Web Services Systems Manager User Guide . Operations engineers and IT professionals use Amazon Web Services Sys- tems Manager OpsCenter to view, investigate, and remediate operational issues impacting the performance and health of their Amazon Web Ser- vices resources. For more information, see Amazon Web Services Syst...
+    /// Retrieves information about the maintenance window targets or tasks that a managed node is associated with. See also: AWS API Documentation describe-maintenance-windows-for-target is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the fo...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeMaintenanceWindowsForTargetAsync(
+        AwsSsmDescribeMaintenanceWindowsForTargetOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Retrieves the maintenance windows in an Amazon Web Services account. See also: AWS API Documentation describe-maintenance-windows is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: WindowIdentities
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeMaintenanceWindowsAsync(
+        AwsSsmDescribeMaintenanceWindowsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSsmDescribeMaintenanceWindowsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Query a set of OpsItems. You must have permission in Identity and Access Management (IAM) to query a list of OpsItems. For more information, see Set up OpsCenter in the Amazon Web Services Systems Manager User Guide . Operations engineers and IT professionals use Amazon Web Services Systems Manager OpsCenter to view, investigate, and remediate operational issues impacting the performance and health of their Amazon Web Services resources. For more information, see Amazon Web Services Systems Mana...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -912,7 +912,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Lists the parameters in your Amazon Web Services account or the parame- ters shared with you when you enable the Shared option. Request results are returned on a best-effort basis. If you specify MaxResults in the request, the response includes information up to the limit specified. The number of items returned, however, can be between zero and the value of MaxResults . If the service reaches an internal limit while processing the results, it stops the operation and returns the matching values u...
+    /// Lists the parameters in your Amazon Web Services account or the parameters shared with you when you enable the Shared option. Request results are returned on a best-effort basis. If you specify MaxResults in the request, the response includes information up to the limit specified. The number of items returned, however, can be between zero and the value of MaxResults . If the service reaches an internal limit while processing the results, it stops the operation and returns the matching values up ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -927,7 +927,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Lists the patch baselines in your Amazon Web Services account. See also: AWS API Documentation describe-patch-baselines is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: BaselineIdentities
+    /// Lists the patch baselines in your Amazon Web Services account. See also: AWS API Documentation describe-patch-baselines is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: BaselineIdentities
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -939,21 +939,6 @@ public class AwsSsm : IAwsSsm
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSsmDescribePatchBaselinesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Lists all patch groups that have been registered with patch baselines. See also: AWS API Documentation describe-patch-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Mappings
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribePatchGroupsAsync(
-        AwsSsmDescribePatchGroupsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSsmDescribePatchGroupsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -972,7 +957,22 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Lists the properties of available patches organized by product, product family, classification, severity, and other properties of available patches. You can use the reported properties in the filters you specify in requests for operations such as CreatePatchBaseline , UpdatePatch- Baseline , DescribeAvailablePatches , and DescribePatchBaselines . The following section lists the properties that can be used in filters for each major operating system type: AMAZON_LINUX Valid properties: PRODUCT | C...
+    /// Lists all patch groups that have been registered with patch baselines. See also: AWS API Documentation describe-patch-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Mappings
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribePatchGroupsAsync(
+        AwsSsmDescribePatchGroupsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSsmDescribePatchGroupsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists the properties of available patches organized by product, product family, classification, severity, and other properties of available patches. You can use the reported properties in the filters you specify in requests for operations such as CreatePatchBaseline , UpdatePatchBaseline , DescribeAvailablePatches , and DescribePatchBaselines . The following section lists the properties that can be used in filters for each major operating system type: AMAZON_LINUX Valid properties: PRODUCT | CLA...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -987,7 +987,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Retrieves a list of all active sessions (both connected and discon- nected) or terminated sessions from the past 30 days. See also: AWS API Documentation describe-sessions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following ...
+    /// Retrieves a list of all active sessions (both connected and disconnected) or terminated sessions from the past 30 days. See also: AWS API Documentation describe-sessions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following qu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1002,7 +1002,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Deletes the association between an OpsItem and a related item. For ex- ample, this API operation can delete an Incident Manager incident from an OpsItem. Incident Manager is a tool in Amazon Web Services Systems Manager. See also: AWS API Documentation
+    /// Deletes the association between an OpsItem and a related item. For example, this API operation can delete an Incident Manager incident from an OpsItem. Incident Manager is a tool in Amazon Web Services Systems Manager. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1047,7 +1047,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Gets the state of a Amazon Web Services Systems Manager change calendar at the current time or a specified time. If you specify a time, GetCal- endarState returns the state of the calendar at that specific time, and returns the next time that the change calendar state will transition. If you don't specify a time, GetCalendarState uses the current time. Change Calendar entries have two possible states: OPEN or CLOSED . If you specify more than one calendar in a request, the command returns the st...
+    /// Gets the state of a Amazon Web Services Systems Manager change calendar at the current time or a specified time. If you specify a time, GetCalendarState returns the state of the calendar at that specific time, and returns the next time that the change calendar state will transition. If you don't specify a time, GetCalendarState uses the current time. Change Calendar entries have two possible states: OPEN or CLOSED . If you specify more than one calendar in a request, the command returns the stat...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1077,7 +1077,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Returns detailed information about command execution for an invocation or plugin. The Run Command API follows an eventual consistency model, due to the distributed nature of the system supporting the API. This means that the result of an API command you run that affects your re- sources might not be immediately visible to all subsequent commands you run. You should keep this in mind when you carry out an API command that immediately follows a previous API command. GetCommandInvocation only gives...
+    /// Returns detailed information about command execution for an invocation or plugin. The Run Command API follows an eventual consistency model, due to the distributed nature of the system supporting the API. This means that the result of an API command you run that affects your resources might not be immediately visible to all subsequent commands you run. You should keep this in mind when you carry out an API command that immediately follows a previous API command. GetCommandInvocation only gives t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1107,7 +1107,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Retrieves the default patch baseline. Amazon Web Services Systems Man- ager supports creating multiple default patch baselines. For example, you can create a default patch baseline for each operating system. If you don't specify an operating system value, the default patch base- line for Windows is returned. See also: AWS API Documentation
+    /// Retrieves the default patch baseline. Amazon Web Services Systems Manager supports creating multiple default patch baselines. For example, you can create a default patch baseline for each operating system. If you don't specify an operating system value, the default patch baseline for Windows is returned. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1122,7 +1122,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Retrieves the current snapshot for the patch baseline the managed node uses. This API is primarily used by the AWS-RunPatchBaseline Systems Manager document (SSM document). NOTE: If you run the command locally, such as with the Command Line Inter- face (CLI), the system attempts to use your local Amazon Web Ser- vices credentials and the operation fails. To avoid this, you can run the command in the Amazon Web Services Systems Manager console. Use Run Command, a tool in Amazon Web Services Syste...
+    /// Retrieves the current snapshot for the patch baseline the managed node uses. This API is primarily used by the AWS-RunPatchBaseline Systems Manager document (SSM document). NOTE: If you run the command locally, such as with the Command Line Interface (CLI), the system attempts to use your local Amazon Web Services credentials and the operation fails. To avoid this, you can run the command in the Amazon Web Services Systems Manager console. Use Run Command, a tool in Amazon Web Services Systems M...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1167,7 +1167,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Query inventory information. This includes managed node status, such as Stopped or Terminated . See also: AWS API Documentation get-inventory is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Entitie...
+    /// Query inventory information. This includes managed node status, such as Stopped or Terminated . See also: AWS API Documentation get-inventory is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Entities
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1212,7 +1212,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Retrieves information about a specific task running on a specific tar- get. See also: AWS API Documentation
+    /// Retrieves information about a specific task running on a specific target. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1227,7 +1227,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Retrieves the details about a specific task run as part of a mainte- nance window execution. See also: AWS API Documentation
+    /// Retrieves the details about a specific task run as part of a maintenance window execution. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1272,7 +1272,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Get information about an OpsItem by using the ID. You must have permis- sion in Identity and Access Management (IAM) to view information about an OpsItem. For more information, see Set up OpsCenter in the Amazon Web Services Systems Manager User Guide . Operations engineers and IT professionals use Amazon Web Services Sys- tems Manager OpsCenter to view, investigate, and remediate operational issues impacting the performance and health of their Amazon Web Ser- vices resources. For more informati...
+    /// Get information about an OpsItem by using the ID. You must have permission in Identity and Access Management (IAM) to view information about an OpsItem. For more information, see Set up OpsCenter in the Amazon Web Services Systems Manager User Guide . Operations engineers and IT professionals use Amazon Web Services Systems Manager OpsCenter to view, investigate, and remediate operational issues impacting the performance and health of their Amazon Web Services resources. For more information, se...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1287,7 +1287,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// View operational metadata related to an application in Application Man- ager. See also: AWS API Documentation
+    /// View operational metadata related to an application in Application Manager. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1302,7 +1302,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// View a summary of operations metadata (OpsData) based on specified fil- ters and aggregators. OpsData can include information about Amazon Web Services Systems Manager OpsCenter operational workitems (OpsItems) as well as information about any Amazon Web Services resource or service configured to report OpsData to Amazon Web Services Systems Manager Ex- plorer. See also: AWS API Documentation get-ops-summary is a paginated operation. Multiple API calls may be is- sued in order to retrieve the en...
+    /// View a summary of operations metadata (OpsData) based on specified filters and aggregators. OpsData can include information about Amazon Web Services Systems Manager OpsCenter operational workitems (OpsItems) as well as information about any Amazon Web Services resource or service configured to report OpsData to Amazon Web Services Systems Manager Explorer. See also: AWS API Documentation get-ops-summary is a paginated operation. Multiple API calls may be issued in order to retrieve the entire d...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1317,7 +1317,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Retrieves the history of all changes to a parameter. Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the speci- fied name for a parameter contains spaces between characters, the re- quest fails with a ValidationException error. WARNING: If you change the KMS key alias for the KMS key used to encrypt a parameter, then you must also update the key alias the parameter uses to reference KMS. Otherwise, GetParameterHistor...
+    /// Retrieves the history of all changes to a parameter. Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the specified name for a parameter contains spaces between characters, the request fails with a ValidationException error. WARNING: If you change the KMS key alias for the KMS key used to encrypt a parameter, then you must also update the key alias the parameter uses to reference KMS. Otherwise, GetParameterHistory re...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1332,7 +1332,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Get information about a single parameter by specifying the parameter name. Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the speci- fied name for a parameter contains spaces between characters, the re- quest fails with a ValidationException error. NOTE: To get information about more than one parameter at a time, use the GetParameters operation. NOTE: Parameter Store throughput defines the number of API transactions...
+    /// Get information about a single parameter by specifying the parameter name. Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the specified name for a parameter contains spaces between characters, the request fails with a ValidationException error. NOTE: To get information about more than one parameter at a time, use the GetParameters operation. NOTE: Parameter Store throughput defines the number of API transactions per...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1362,7 +1362,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Get information about one or more parameters by specifying multiple pa- rameter names. NOTE: To get information about a single parameter, you can use the GetPa- rameter operation instead. Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the speci- fied name for a parameter contains spaces between characters, the re- quest fails with a ValidationException error. NOTE: Parameter Store throughput defines the number of AP...
+    /// Get information about one or more parameters by specifying multiple parameter names. NOTE: To get information about a single parameter, you can use the GetParameter operation instead. Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the specified name for a parameter contains spaces between characters, the request fails with a ValidationException error. NOTE: Parameter Store throughput defines the number of API transa...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1422,7 +1422,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// ServiceSetting is an account-level setting for an Amazon Web Ser- vices service. This setting defines how a user interacts with or uses a service or a feature of a service. For example, if an Amazon Web Services service charges money to the account based on feature or service usage, then the Amazon Web Services service team might create a default setting of false . This means the user can't use this feature unless they change the setting to true and intention- ally opt in for a paid feature. Ser...
+    /// ServiceSetting is an account-level setting for an Amazon Web Services service. This setting defines how a user interacts with or uses a service or a feature of a service. For example, if an Amazon Web Services service charges money to the account based on feature or service usage, then the Amazon Web Services service team might create a default setting of false . This means the user can't use this feature unless they change the setting to true and intentionally opt in for a paid feature. Service...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1437,7 +1437,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// A parameter label is a user-defined alias to help you manage different versions of a parameter. When you modify a parameter, Amazon Web Ser- vices Systems Manager automatically saves a new version and increments the version number by one. A label can help you remember the purpose of a parameter when there are multiple versions. Parameter labels have the following requirements and restrictions. o A version of a parameter can have a maximum of 10 labels. o You can't attach the same label to differ...
+    /// A parameter label is a user-defined alias to help you manage different versions of a parameter. When you modify a parameter, Amazon Web Services Systems Manager automatically saves a new version and increments the version number by one. A label can help you remember the purpose of a parameter when there are multiple versions. Parameter labels have the following requirements and restrictions. • A version of a parameter can have a maximum of 10 labels. • You can't attach the same label to differen...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1452,22 +1452,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Returns all State Manager associations in the current Amazon Web Ser- vices account and Amazon Web Services Region. You can limit the results to a specific State Manager association document or managed node by specifying a filter. State Manager is a tool in Amazon Web Services Systems Manager. See also: AWS API Documentation list-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListAssociationsAsync(
-        AwsSsmListAssociationsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSsmListAssociationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Retrieves all versions of an association for a specific association ID. See also: AWS API Documentation list-association-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: AssociationVersions
+    /// Retrieves all versions of an association for a specific association ID. See also: AWS API Documentation list-association-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: AssociationVersions
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1479,6 +1464,21 @@ public class AwsSsm : IAwsSsm
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns all State Manager associations in the current Amazon Web Services account and Amazon Web Services Region. You can limit the results to a specific State Manager association document or managed node by specifying a filter. State Manager is a tool in Amazon Web Services Systems Manager. See also: AWS API Documentation list-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the -...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListAssociationsAsync(
+        AwsSsmListAssociationsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSsmListAssociationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1512,7 +1512,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Lists the commands requested by users of the Amazon Web Services ac- count. See also: AWS API Documentation list-commands is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Commands
+    /// Lists the commands requested by users of the Amazon Web Services account. See also: AWS API Documentation list-commands is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Commands
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1527,7 +1527,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// For a specified resource ID, this API operation returns a list of com- pliance statuses for different resource types. Currently, you can only specify one resource ID per call. List results depend on the criteria specified in the filter. See also: AWS API Documentation list-compliance-items is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and ...
+    /// For a specified resource ID, this API operation returns a list of compliance statuses for different resource types. Currently, you can only specify one resource ID per call. List results depend on the criteria specified in the filter. See also: AWS API Documentation list-compliance-items is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and th...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1542,7 +1542,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Returns a summary count of compliant and non-compliant resources for a compliance type. For example, this call can return State Manager asso- ciations, patches, or custom compliance types according to the filter criteria that you specify. See also: AWS API Documentation list-compliance-summaries is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output tex...
+    /// Returns a summary count of compliant and non-compliant resources for a compliance type. For example, this call can return State Manager associations, patches, or custom compliance types according to the filter criteria that you specify. See also: AWS API Documentation list-compliance-summaries is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1572,21 +1572,6 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Returns all Systems Manager (SSM) documents in the current Amazon Web Services account and Amazon Web Services Region. You can limit the re- sults of this request by using a filter. See also: AWS API Documentation list-documents is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query ...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListDocumentsAsync(
-        AwsSsmListDocumentsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSsmListDocumentsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// List all versions for a document. See also: AWS API Documentation list-document-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: DocumentVersions
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -1599,6 +1584,21 @@ public class AwsSsm : IAwsSsm
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns all Systems Manager (SSM) documents in the current Amazon Web Services account and Amazon Web Services Region. You can limit the results of this request by using a filter. See also: AWS API Documentation list-documents is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argume...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListDocumentsAsync(
+        AwsSsmListDocumentsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSsmListDocumentsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1617,7 +1617,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Takes in filters and returns a list of managed nodes matching the fil- ter criteria. See also: AWS API Documentation list-nodes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: Nodes
+    /// Takes in filters and returns a list of managed nodes matching the filter criteria. See also: AWS API Documentation list-nodes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Nodes
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1632,7 +1632,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Generates a summary of managed instance/node metadata based on the fil- ters and aggregators you specify. Results are grouped by the input ag- gregator you specify. See also: AWS API Documentation list-nodes-summary is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must ext...
+    /// Generates a summary of managed instance/node metadata based on the filters and aggregators you specify. Results are grouped by the input aggregator you specify. See also: AWS API Documentation list-nodes-summary is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1662,7 +1662,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Lists all related-item resources associated with a Systems Manager Ops- Center OpsItem. OpsCenter is a tool in Amazon Web Services Systems Man- ager. See also: AWS API Documentation list-ops-item-related-items is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extra...
+    /// Lists all related-item resources associated with a Systems Manager OpsCenter OpsItem. OpsCenter is a tool in Amazon Web Services Systems Manager. See also: AWS API Documentation list-ops-item-related-items is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1677,7 +1677,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Amazon Web Services Systems Manager calls this API operation when dis- playing all Application Manager OpsMetadata objects or blobs. See also: AWS API Documentation list-ops-metadata is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the...
+    /// Amazon Web Services Systems Manager calls this API operation when displaying all Application Manager OpsMetadata objects or blobs. See also: AWS API Documentation list-ops-metadata is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the f...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1692,7 +1692,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Returns a resource-level summary count. The summary includes informa- tion about compliant and non-compliant statuses and detailed compli- ance-item severity counts, according to the filter criteria you spec- ify. See also: AWS API Documentation list-resource-compliance-summaries is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --...
+    /// Returns a resource-level summary count. The summary includes information about compliant and non-compliant statuses and detailed compliance-item severity counts, according to the filter criteria you specify. See also: AWS API Documentation list-resource-compliance-summaries is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1737,7 +1737,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Shares a Amazon Web Services Systems Manager document (SSM docu- ment)publicly or privately. If you share a document privately, you must specify the Amazon Web Services user IDs for those people who can use the document. If you share a document publicly, you must specify All as the account ID. See also: AWS API Documentation
+    /// Shares a Amazon Web Services Systems Manager document (SSM document)publicly or privately. If you share a document privately, you must specify the Amazon Web Services user IDs for those people who can use the document. If you share a document publicly, you must specify All as the account ID. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1752,7 +1752,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Registers a compliance type and other compliance details on a desig- nated resource. This operation lets you register custom compliance de- tails with a resource. This call overwrites existing compliance infor- mation on the resource, so you must provide a full list of compliance items each time that you send the request. ComplianceType can be one of the following: o ExecutionId: The execution ID when the patch, association, or custom compliance item was applied. o ExecutionType: Specify patch, ...
+    /// Registers a compliance type and other compliance details on a designated resource. This operation lets you register custom compliance details with a resource. This call overwrites existing compliance information on the resource, so you must provide a full list of compliance items each time that you send the request. ComplianceType can be one of the following: • ExecutionId: The execution ID when the patch, association, or custom compliance item was applied. • ExecutionType: Specify patch, associ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1782,7 +1782,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Create or update a parameter in Parameter Store. NOTE: Parameter Store throughput defines the number of API transactions per second (TPS) that Systems Manager can process. This applies to GetParameter , GetParameters , and PutParameter API calls for your Amazon Web Services account and Amazon Web Services Region. By de- fault, Parameter Store is configured with a standard throughput quota suitable for low- to moderate-volume workloads. Applications that retrieve configuration data infrequently o...
+    /// Create or update a parameter in Parameter Store. NOTE: Parameter Store throughput defines the number of API transactions per second (TPS) that Systems Manager can process. This applies to GetParameter , GetParameters , and PutParameter API calls for your Amazon Web Services account and Amazon Web Services Region. By default, Parameter Store is configured with a standard throughput quota suitable for low- to moderate-volume workloads. Applications that retrieve configuration data infrequently or ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1797,7 +1797,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Creates or updates a Systems Manager resource policy. A resource policy helps you to define the IAM entity (for example, an Amazon Web Services account) that can manage your Systems Manager resources. The following resources support Systems Manager resource policies. o OpsItemGroup - The resource policy for OpsItemGroup enables Amazon Web Services accounts to view and interact with OpsCenter operational work items (OpsItems). o Parameter - The resource policy is used to share a parameter with ot...
+    /// Creates or updates a Systems Manager resource policy. A resource policy helps you to define the IAM entity (for example, an Amazon Web Services account) that can manage your Systems Manager resources. The following resources support Systems Manager resource policies. • OpsItemGroup - The resource policy for OpsItemGroup enables Amazon Web Services accounts to view and interact with OpsCenter operational work items (OpsItems). • Parameter - The resource policy is used to share a parameter with ot...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1812,7 +1812,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Defines the default patch baseline for the relevant operating system. To reset the Amazon Web Services-predefined patch baseline as the de- fault, specify the full patch baseline Amazon Resource Name (ARN) as the baseline ID value. For example, for CentOS, specify arn:aws:ssm:us-east-2:733109147000:patchbaseline/pb-0574b43a65ea646ed instead of pb-0574b43a65ea646ed . See also: AWS API Documentation
+    /// Defines the default patch baseline for the relevant operating system. To reset the Amazon Web Services-predefined patch baseline as the default, specify the full patch baseline Amazon Resource Name (ARN) as the baseline ID value. For example, for CentOS, specify arn:aws:ssm:us-east-2:733109147000:patchbaseline/pb-0574b43a65ea646ed instead of pb-0574b43a65ea646ed . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1887,7 +1887,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// ServiceSetting is an account-level setting for an Amazon Web Ser- vices service. This setting defines how a user interacts with or uses a service or a feature of a service. For example, if an Amazon Web Services service charges money to the account based on feature or service usage, then the Amazon Web Services service team might create a default setting of "false". This means the user can't use this feature unless they change the setting to "true" and intention- ally opt in for a paid feature. ...
+    /// ServiceSetting is an account-level setting for an Amazon Web Services service. This setting defines how a user interacts with or uses a service or a feature of a service. For example, if an Amazon Web Services service charges money to the account based on feature or service usage, then the Amazon Web Services service team might create a default setting of "false". This means the user can't use this feature unless they change the setting to "true" and intentionally opt in for a paid feature. Serv...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1902,7 +1902,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Reconnects a session to a managed node after it has been disconnected. Connections can be resumed for disconnected sessions, but not termi- nated sessions. NOTE: This command is primarily for use by client machines to automati- cally reconnect during intermittent network issues. It isn't in- tended for any other use. See also: AWS API Documentation
+    /// Reconnects a session to a managed node after it has been disconnected. Connections can be resumed for disconnected sessions, but not terminated sessions. NOTE: This command is primarily for use by client machines to automatically reconnect during intermittent network issues. It isn't intended for any other use. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1917,7 +1917,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Sends a signal to an Automation execution to change the current behav- ior or status of the execution. See also: AWS API Documentation
+    /// Sends a signal to an Automation execution to change the current behavior or status of the execution. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2007,7 +2007,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Initiates the process of creating a preview showing the effects that running a specified Automation runbook would have on the targeted re- sources. See also: AWS API Documentation
+    /// Initiates the process of creating a preview showing the effects that running a specified Automation runbook would have on the targeted resources. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2022,7 +2022,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Initiates a connection to a target (for example, a managed node) for a Session Manager session. Returns a URL and token that can be used to open a WebSocket connection for sending input and receiving outputs. NOTE: Amazon Web Services CLI usage: start-session is an interactive com- mand that requires the Session Manager plugin to be installed on the client machine making the call. For information, see Install the Session Manager plugin for the Amazon Web Services CLI in the Amazon Web Services S...
+    /// Initiates a connection to a target (for example, a managed node) for a Session Manager session. Returns a URL and token that can be used to open a WebSocket connection for sending input and receiving outputs. NOTE: Amazon Web Services CLI usage: start-session is an interactive command that requires the Session Manager plugin to be installed on the client machine making the call. For information, see Install the Session Manager plugin for the Amazon Web Services CLI in the Amazon Web Services Sys...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2067,7 +2067,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Remove a label or labels from a parameter. Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the speci- fied name for a parameter contains spaces between characters, the re- quest fails with a ValidationException error. See also: AWS API Documentation
+    /// Remove a label or labels from a parameter. Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the specified name for a parameter contains spaces between characters, the request fails with a ValidationException error. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2082,7 +2082,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Updates an association. You can update the association name and ver- sion, the document version, schedule, parameters, and Amazon Simple Storage Service (Amazon S3) output. When you call UpdateAssociation , the system removes all optional parameters from the request and over- writes the association with null values for those parameters. This is by design. You must specify all optional parameters in the call, even if you are not changing the parameters. This includes the Name parame- ter. Before ...
+    /// Updates an association. You can update the association name and version, the document version, schedule, parameters, and Amazon Simple Storage Service (Amazon S3) output. When you call UpdateAssociation , the system removes all optional parameters from the request and overwrites the association with null values for those parameters. This is by design. You must specify all optional parameters in the call, even if you are not changing the parameters. This includes the Name parameter. Before callin...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2127,7 +2127,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Set the default version of a document. NOTE: If you change a document version for a State Manager association, Systems Manager immediately runs the association unless you previ- ously specifed the apply-only-at-cron-interval parameter. See also: AWS API Documentation
+    /// Set the default version of a document. NOTE: If you change a document version for a State Manager association, Systems Manager immediately runs the association unless you previously specifed the apply-only-at-cron-interval parameter. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2172,7 +2172,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Updates an existing maintenance window. Only specified parameters are modified. NOTE: The value you specify for Duration determines the specific end time for the maintenance window based on the time it begins. No mainte- nance window tasks are permitted to start after the resulting end- time minus the number of hours you specify for Cutoff . For example, if the maintenance window starts at 3 PM, the duration is three hours, and the value you specify for Cutoff is one hour, no mainte- nance windo...
+    /// Updates an existing maintenance window. Only specified parameters are modified. NOTE: The value you specify for Duration determines the specific end time for the maintenance window based on the time it begins. No maintenance window tasks are permitted to start after the resulting endtime minus the number of hours you specify for Cutoff . For example, if the maintenance window starts at 3 PM, the duration is three hours, and the value you specify for Cutoff is one hour, no maintenance window task...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2187,7 +2187,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Modifies the target of an existing maintenance window. You can change the following: o Name o Description o Owner o IDs for an ID target o Tags for a Tag target o From any supported tag type to another. The three supported tag types are ID target, Tag target, and resource group. For more information, see Target . NOTE: If a parameter is null, then the corresponding field isn't modified. See also: AWS API Documentation
+    /// Modifies the target of an existing maintenance window. You can change the following: • Name • Description • Owner • IDs for an ID target • Tags for a Tag target • From any supported tag type to another. The three supported tag types are ID target, Tag target, and resource group. For more information, see Target . NOTE: If a parameter is null, then the corresponding field isn't modified. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2202,7 +2202,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Modifies a task assigned to a maintenance window. You can't change the task type, but you can change the following values: o TaskARN . For example, you can change a RUN_COMMAND task from AWS-RunPowerShellScript to AWS-RunShellScript . o ServiceRoleArn o TaskInvocationParameters o Priority o MaxConcurrency o MaxErrors NOTE: One or more targets must be specified for maintenance window Run Command-type tasks. Depending on the task, targets are optional for other maintenance window task types (Autom...
+    /// Modifies a task assigned to a maintenance window. You can't change the task type, but you can change the following values: • TaskARN . For example, you can change a RUN_COMMAND task from AWS-RunPowerShellScript to AWS-RunShellScript . • ServiceRoleArn • TaskInvocationParameters • Priority • MaxConcurrency • MaxErrors NOTE: One or more targets must be specified for maintenance window Run Command-type tasks. Depending on the task, targets are optional for other maintenance window task types (Autom...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2232,7 +2232,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Edit or change an OpsItem. You must have permission in Identity and Ac- cess Management (IAM) to update an OpsItem. For more information, see Set up OpsCenter in the Amazon Web Services Systems Manager User Guide . Operations engineers and IT professionals use Amazon Web Services Sys- tems Manager OpsCenter to view, investigate, and remediate operational issues impacting the performance and health of their Amazon Web Ser- vices resources. For more information, see Amazon Web Services Systems Man...
+    /// Edit or change an OpsItem. You must have permission in Identity and Access Management (IAM) to update an OpsItem. For more information, see Set up OpsCenter in the Amazon Web Services Systems Manager User Guide . Operations engineers and IT professionals use Amazon Web Services Systems Manager OpsCenter to view, investigate, and remediate operational issues impacting the performance and health of their Amazon Web Services resources. For more information, see Amazon Web Services Systems Manager O...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2262,7 +2262,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Modifies an existing patch baseline. Fields not specified in the re- quest are left unchanged. NOTE: For information about valid key-value pairs in PatchFilters for each supported operating system type, see PatchFilter . See also: AWS API Documentation
+    /// Modifies an existing patch baseline. Fields not specified in the request are left unchanged. NOTE: For information about valid key-value pairs in PatchFilters for each supported operating system type, see PatchFilter . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2277,7 +2277,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Update a resource data sync. After you create a resource data sync for a Region, you can't change the account options for that sync. For exam- ple, if you create a sync in the us-east-2 (Ohio) Region and you choose the Include only the current account option, you can't edit that sync later and choose the Include all accounts from my Organizations config- uration option. Instead, you must delete the first resource data sync, and create a new one. NOTE: This API operation only supports a resource ...
+    /// Update a resource data sync. After you create a resource data sync for a Region, you can't change the account options for that sync. For example, if you create a sync in the us-east-2 (Ohio) Region and you choose the Include only the current account option, you can't edit that sync later and choose the Include all accounts from my Organizations configuration option. Instead, you must delete the first resource data sync, and create a new one. NOTE: This API operation only supports a resource data...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2292,7 +2292,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// ServiceSetting is an account-level setting for an Amazon Web Ser- vices service. This setting defines how a user interacts with or uses a service or a feature of a service. For example, if an Amazon Web Services service charges money to the account based on feature or service usage, then the Amazon Web Services service team might create a default setting of "false". This means the user can't use this feature unless they change the setting to "true" and intention- ally opt in for a paid feature. ...
+    /// ServiceSetting is an account-level setting for an Amazon Web Services service. This setting defines how a user interacts with or uses a service or a feature of a service. For example, if an Amazon Web Services service charges money to the account based on feature or service usage, then the Amazon Web Services service team might create a default setting of "false". This means the user can't use this feature unless they change the setting to "true" and intentionally opt in for a paid feature. Serv...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2307,7 +2307,7 @@ public class AwsSsm : IAwsSsm
     }
 
     /// <summary>
-    /// Validates the configuration and connectivity of a cloud connector. See also: AWS API Documentation validate-cloud-connector is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: ValidationFindings
+    /// Validates the configuration and connectivity of a cloud connector. See also: AWS API Documentation validate-cloud-connector is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ValidationFindings
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsIvsGetStreamSessionOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Gets metadata on a specified stream. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ChannelArn">ARN of the channel resource Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+</param>
+    /// <param name="ChannelArn">ARN of the channel resource Constraints: • min: 1 • max: 128 • pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+</param>
     public AwsIvsGetStreamSessionOptions(
         string ChannelArn
     )
@@ -56,13 +57,13 @@ public record AwsIvsGetStreamSessionOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ARN of the channel resource Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+
+    /// ARN of the channel resource Constraints: • min: 1 • max: 128 • pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--channel-arn")]
     public string? ChannelArn { get; private init; }
 
     /// <summary>
-    /// Unique identifier for a live or previously live stream in the speci- fied channel. If no streamId is provided, this returns the most re- cent stream session for the channel, if it exists. Constraints: o min: 26 o max: 26 o pattern: st-[a-zA-Z0-9]+
+    /// Unique identifier for a live or previously live stream in the specified channel. If no streamId is provided, this returns the most recent stream session for the channel, if it exists. Constraints: • min: 26 • max: 26 • pattern: st-[a-zA-Z0-9]+
     /// </summary>
     [CliOption("--stream-id")]
     public string? StreamId { get; set; }
@@ -88,6 +89,15 @@ public record AwsIvsGetStreamSessionOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

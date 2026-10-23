@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: This operation is not supported for directory buckets. This action removes the website configuration for a bucket. Amazon S3 returns a 200 OK response upon successfully deleting a website configu- ration on the specified bucket. You will get a 200 OK response if the website configuration you are trying to delete does not exist on the bucket. Amazon S3 returns a 404 response if the bucket specified in the request does not exist. This DELETE action requires the S3:DeleteBucketWebsite permiss...
+/// NOTE: This operation is not supported for directory buckets. This action removes the website configuration for a bucket. Amazon S3 returns a 200 OK response upon successfully deleting a website configuration on the specified bucket. You will get a 200 OK response if the website configuration you are trying to delete does not exist on the bucket. Amazon S3 returns a 404 response if the bucket specified in the request does not exist. This DELETE action requires the S3:DeleteBucketWebsite permissio...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsS3apiDeleteBucketWebsiteOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: This operation is not supported for directory buckets. This action removes the website configuration for a bucket. Amazon S3 returns a 200 OK response upon successfully deleting a website configu- ration on the specified bucket. You will get a 200 OK response if the website configuration you are trying to delete does not exist on the bucket. Amazon S3 returns a 404 response if the bucket specified in the request does not exist. This DELETE action requires the S3:DeleteBucketWebsite permiss...
+    /// NOTE: This operation is not supported for directory buckets. This action removes the website configuration for a bucket. Amazon S3 returns a 200 OK response upon successfully deleting a website configuration on the specified bucket. You will get a 200 OK response if the website configuration you are trying to delete does not exist on the bucket. Amazon S3 returns a 404 response if the bucket specified in the request does not exist. This DELETE action requires the S3:DeleteBucketWebsite permissio...
     /// </summary>
-    /// <param name="Bucket">The bucket name for which you want to remove the website configura- tion.</param>
+    /// <param name="Bucket">The bucket name for which you want to remove the website configuration.</param>
     public AwsS3apiDeleteBucketWebsiteOptions(
         string Bucket
     )
@@ -56,13 +57,13 @@ public record AwsS3apiDeleteBucketWebsiteOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The bucket name for which you want to remove the website configura- tion.
+    /// The bucket name for which you want to remove the website configuration.
     /// </summary>
     [CliOption("--bucket")]
     public string? Bucket { get; private init; }
 
     /// <summary>
-    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the re- quest fails with the HTTP status code 403 Forbidden (access denied).
+    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
     /// </summary>
     [CliOption("--expected-bucket-owner")]
     public string? ExpectedBucketOwner { get; set; }
@@ -88,6 +89,15 @@ public record AwsS3apiDeleteBucketWebsiteOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

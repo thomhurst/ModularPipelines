@@ -29,7 +29,7 @@ public record AwsOdbInitializeServiceOptions : AwsOptions
     public bool? OciIdentityDomain { get; set; }
 
     /// <summary>
-    /// Specifies whether to enable or disable the OCI service-account role for Amazon Web Services Secrets Manager integration with Autonomous Database. Possible values: o ENABLED o DISABLED
+    /// Specifies whether to enable or disable the OCI service-account role for Amazon Web Services Secrets Manager integration with Autonomous Database. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--autonomous-database-oci-aws-secrets-manager-integration")]
     public AwsOdbInitializeServiceAutonomousDatabaseOciAwsSecretsManagerIntegration? AutonomousDatabaseOciAwsSecretsManagerIntegration { get; set; }
@@ -39,5 +39,14 @@ public record AwsOdbInitializeServiceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

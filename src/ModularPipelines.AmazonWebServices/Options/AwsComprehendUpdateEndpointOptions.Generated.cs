@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsComprehendUpdateEndpointOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Updates information about the specified endpoint. For information about endpoints, see Managing endpoints . See also: AWS API Documentation
     /// </summary>
-    /// <param name="EndpointArn">The Amazon Resource Number (ARN) of the endpoint being updated. Constraints: o max: 256 o pattern: arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:(doc- ument-classifier-endpoint|entity-recognizer-end- point)/[a-zA-Z0-9](-*[a-zA-Z0-9])*</param>
+    /// <param name="EndpointArn">The Amazon Resource Number (ARN) of the endpoint being updated. Constraints: • max: 256 • pattern: arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:(document-classifier-endpoint|entity-recognizer-endpoint)/[a-zA-Z0-9](-*[a-zA-Z0-9])*</param>
     public AwsComprehendUpdateEndpointOptions(
         string EndpointArn
     )
@@ -56,31 +57,31 @@ public record AwsComprehendUpdateEndpointOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Number (ARN) of the endpoint being updated. Constraints: o max: 256 o pattern: arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:(doc- ument-classifier-endpoint|entity-recognizer-end- point)/[a-zA-Z0-9](-*[a-zA-Z0-9])*
+    /// The Amazon Resource Number (ARN) of the endpoint being updated. Constraints: • max: 256 • pattern: arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:(document-classifier-endpoint|entity-recognizer-endpoint)/[a-zA-Z0-9](-*[a-zA-Z0-9])*
     /// </summary>
     [CliOption("--endpoint-arn")]
     public string? EndpointArn { get; private init; }
 
     /// <summary>
-    /// The ARN of the new model to use when updating an existing endpoint. Constraints: o max: 256 o pattern: arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:(doc- ument-classifier|entity-recog- nizer)/[a-zA-Z0-9](-*[a-zA-Z0-9])*(/ver- sion/[a-zA-Z0-9](-*[a-zA-Z0-9])*)?
+    /// The ARN of the new model to use when updating an existing endpoint. Constraints: • max: 256 • pattern: arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:(document-classifier|entity-recognizer)/[a-zA-Z0-9](-*[a-zA-Z0-9])*(/version/[a-zA-Z0-9](-*[a-zA-Z0-9])*)?
     /// </summary>
     [CliOption("--desired-model-arn")]
     public string? DesiredModelArn { get; set; }
 
     /// <summary>
-    /// The desired number of inference units to be used by the model using this endpoint. Each inference unit represents of a throughput of 100 characters per second. Constraints: o min: 1
+    /// The desired number of inference units to be used by the model using this endpoint. Each inference unit represents of a throughput of 100 characters per second. Constraints: • min: 1
     /// </summary>
     [CliOption("--desired-inference-units")]
     public int? DesiredInferenceUnits { get; set; }
 
     /// <summary>
-    /// Data access role ARN to use in case the new model is encrypted with a customer CMK. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+
+    /// Data access role ARN to use in case the new model is encrypted with a customer CMK. Constraints: • min: 20 • max: 2048 • pattern: arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+
     /// </summary>
     [CliOption("--desired-data-access-role-arn")]
     public string? DesiredDataAccessRoleArn { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Number (ARN) of the flywheel Constraints: o max: 256 o pattern: arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:fly- wheel/[a-zA-Z0-9](-*[a-zA-Z0-9])*
+    /// The Amazon Resource Number (ARN) of the flywheel Constraints: • max: 256 • pattern: arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:flywheel/[a-zA-Z0-9](-*[a-zA-Z0-9])*
     /// </summary>
     [CliOption("--flywheel-arn")]
     public string? FlywheelArn { get; set; }
@@ -106,6 +107,15 @@ public record AwsComprehendUpdateEndpointOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

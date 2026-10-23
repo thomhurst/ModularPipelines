@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Attaches a key-value pair to a resource, as identified by its Amazon Resource Name (ARN). Resources are users, servers, roles, and other en- tities. See also: AWS API Documentation
+/// Attaches a key-value pair to a resource, as identified by its Amazon Resource Name (ARN). Resources are users, servers, roles, and other entities. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsChatbotTagResourceOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Attaches a key-value pair to a resource, as identified by its Amazon Resource Name (ARN). Resources are users, servers, roles, and other en- tities. See also: AWS API Documentation
+    /// Attaches a key-value pair to a resource, as identified by its Amazon Resource Name (ARN). Resources are users, servers, roles, and other entities. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The ARN of the configuration. Constraints: o min: 1 o max: 1011 o pattern: arn:aws:(wheatley|chat- bot):[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}</param>
-    /// <param name="Tags">A list of tags to apply to the configuration. Constraints: o min: 0 o max: 200 (structure) A key-value pair. A tag consists of a tag key and a tag value. Tag keys and tag values are both required, but tag values can be empty (null) strings. WARNING: Do not include confidential or sensitive information in this field. For more information, see User-Defined Tag Restrictions in the AWS Billing and Cost Management User Guide . TagKey -&gt; (string) [required] The key of the tag. Constraints: o min: 1 o max: 128 TagValue -&gt; (string) [required] The value of the tag. Constraints: o min: 0 o max: 256 Shorthand Syntax: TagKey=string,TagValue=string ... JSON Syntax: [ { "TagKey": "string", "TagValue": "string" } ... ]</param>
+    /// <param name="ResourceArn">The ARN of the configuration. Constraints: • min: 1 • max: 1011 • pattern: arn:aws:(wheatley|chatbot):[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}</param>
+    /// <param name="Tags">A list of tags to apply to the configuration. Constraints: • min: 0 • max: 200 (structure) A key-value pair. A tag consists of a tag key and a tag value. Tag keys and tag values are both required, but tag values can be empty (null) strings. WARNING: Do not include confidential or sensitive information in this field. For more information, see User-Defined Tag Restrictions in the AWS Billing and Cost Management User Guide . TagKey -&gt; (string) [required] The key of the tag. Constraints: • min: 1 • max: 128 TagValue -&gt; (string) [required] The value of the tag. Constraints: • min: 0 • max: 256 Shorthand Syntax: TagKey=string,TagValue=string ... JSON Syntax: [ { "TagKey": "string", "TagValue": "string" } ... ]</param>
     public AwsChatbotTagResourceOptions(
         string ResourceArn,
         IEnumerable<string> Tags
@@ -71,13 +72,13 @@ public record AwsChatbotTagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the configuration. Constraints: o min: 1 o max: 1011 o pattern: arn:aws:(wheatley|chat- bot):[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}
+    /// The ARN of the configuration. Constraints: • min: 1 • max: 1011 • pattern: arn:aws:(wheatley|chatbot):[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// A list of tags to apply to the configuration. Constraints: o min: 0 o max: 200 (structure) A key-value pair. A tag consists of a tag key and a tag value. Tag keys and tag values are both required, but tag values can be empty (null) strings. WARNING: Do not include confidential or sensitive information in this field. For more information, see User-Defined Tag Restrictions in the AWS Billing and Cost Management User Guide . TagKey -&gt; (string) [required] The key of the tag. Constraints: o min: 1 o max: 128 TagValue -&gt; (string) [required] The value of the tag. Constraints: o min: 0 o max: 256 Shorthand Syntax: TagKey=string,TagValue=string ... JSON Syntax: [ { "TagKey": "string", "TagValue": "string" } ... ]
+    /// A list of tags to apply to the configuration. Constraints: • min: 0 • max: 200 (structure) A key-value pair. A tag consists of a tag key and a tag value. Tag keys and tag values are both required, but tag values can be empty (null) strings. WARNING: Do not include confidential or sensitive information in this field. For more information, see User-Defined Tag Restrictions in the AWS Billing and Cost Management User Guide . TagKey -&gt; (string) [required] The key of the tag. Constraints: • min: 1 • max: 128 TagValue -&gt; (string) [required] The value of the tag. Constraints: • min: 0 • max: 256 Shorthand Syntax: TagKey=string,TagValue=string ... JSON Syntax: [ { "TagKey": "string", "TagValue": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; private init; }
@@ -103,6 +104,15 @@ public record AwsChatbotTagResourceOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

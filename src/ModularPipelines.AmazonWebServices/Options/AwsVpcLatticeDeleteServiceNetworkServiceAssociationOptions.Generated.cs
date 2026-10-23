@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsVpcLatticeDeleteServiceNetworkServiceAssociationOptions : AwsOp
     /// <summary>
     /// Deletes the association between a service and a service network. This operation fails if an association is still in progress. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ServiceNetworkServiceAssociationIdentifier">The ID or ARN of the association. Constraints: o min: 17 o max: 2048 o pattern: ((snsa-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:servicenetworkserviceassocia- tion/snsa-[0-9a-z]{17}))</param>
+    /// <param name="ServiceNetworkServiceAssociationIdentifier">The ID or ARN of the association. Constraints: • min: 17 • max: 2048 • pattern: ((snsa-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lattice:[a-zA-Z0-9\-]+:\d{12}:servicenetworkserviceassociation/snsa-[0-9a-z]{17}))</param>
     public AwsVpcLatticeDeleteServiceNetworkServiceAssociationOptions(
         string ServiceNetworkServiceAssociationIdentifier
     )
@@ -56,7 +57,7 @@ public record AwsVpcLatticeDeleteServiceNetworkServiceAssociationOptions : AwsOp
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID or ARN of the association. Constraints: o min: 17 o max: 2048 o pattern: ((snsa-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:servicenetworkserviceassocia- tion/snsa-[0-9a-z]{17}))
+    /// The ID or ARN of the association. Constraints: • min: 17 • max: 2048 • pattern: ((snsa-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lattice:[a-zA-Z0-9\-]+:\d{12}:servicenetworkserviceassociation/snsa-[0-9a-z]{17}))
     /// </summary>
     [CliOption("--service-network-service-association-identifier")]
     public string? ServiceNetworkServiceAssociationIdentifier { get; private init; }
@@ -82,6 +83,15 @@ public record AwsVpcLatticeDeleteServiceNetworkServiceAssociationOptions : AwsOp
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsStoragegatewayUpdateVtlDeviceTypeOptions : AwsOptions, IValidat
     /// <summary>
     /// Updates the type of medium changer in a tape gateway. When you activate a tape gateway, you select a medium changer type for the tape gateway. This operation enables you to select a different type of medium changer after a tape gateway is activated. This operation is only supported in the tape gateway type. See also: AWS API Documentation
     /// </summary>
-    /// <param name="VtlDeviceArn">The Amazon Resource Name (ARN) of the medium changer you want to se- lect. Constraints: o min: 50 o max: 500</param>
-    /// <param name="DeviceType">The type of medium changer you want to select. Valid Values: STK-L700 | AWS-Gateway-VTL | IBM-03584L32-0402 Constraints: o min: 2 o max: 50</param>
+    /// <param name="VtlDeviceArn">The Amazon Resource Name (ARN) of the medium changer you want to select. Constraints: • min: 50 • max: 500</param>
+    /// <param name="DeviceType">The type of medium changer you want to select. Valid Values: STK-L700 | AWS-Gateway-VTL | IBM-03584L32-0402 Constraints: • min: 2 • max: 50</param>
     public AwsStoragegatewayUpdateVtlDeviceTypeOptions(
         string VtlDeviceArn,
         string DeviceType
@@ -60,13 +61,13 @@ public record AwsStoragegatewayUpdateVtlDeviceTypeOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the medium changer you want to se- lect. Constraints: o min: 50 o max: 500
+    /// The Amazon Resource Name (ARN) of the medium changer you want to select. Constraints: • min: 50 • max: 500
     /// </summary>
     [CliOption("--vtl-device-arn")]
     public string? VtlDeviceArn { get; private init; }
 
     /// <summary>
-    /// The type of medium changer you want to select. Valid Values: STK-L700 | AWS-Gateway-VTL | IBM-03584L32-0402 Constraints: o min: 2 o max: 50
+    /// The type of medium changer you want to select. Valid Values: STK-L700 | AWS-Gateway-VTL | IBM-03584L32-0402 Constraints: • min: 2 • max: 50
     /// </summary>
     [CliOption("--device-type")]
     public string? DeviceType { get; private init; }
@@ -92,6 +93,15 @@ public record AwsStoragegatewayUpdateVtlDeviceTypeOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

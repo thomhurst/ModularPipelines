@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsAuditManagerUntagResourceOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Removes a tag from a resource in Audit Manager. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the specified resource. Constraints: o min: 20 o max: 2048 o pattern: ^arn:.*:auditmanager:.*</param>
-    /// <param name="TagKeys">The name or key of the tag. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the specified resource. Constraints: • min: 20 • max: 2048 • pattern: ^arn:.*:auditmanager:.*</param>
+    /// <param name="TagKeys">The name or key of the tag. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ Syntax: "string" "string" ...</param>
     public AwsAuditManagerUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -71,13 +72,13 @@ public record AwsAuditManagerUntagResourceOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the specified resource. Constraints: o min: 20 o max: 2048 o pattern: ^arn:.*:auditmanager:.*
+    /// The Amazon Resource Name (ARN) of the specified resource. Constraints: • min: 20 • max: 2048 • pattern: ^arn:.*:auditmanager:.*
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The name or key of the tag. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ Syntax: "string" "string" ...
+    /// The name or key of the tag. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }
@@ -103,6 +104,15 @@ public record AwsAuditManagerUntagResourceOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsAppfabricGetAppBundleOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Returns information about an app bundle. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AppBundleIdentifier">The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle to use for the request. Constraints: o min: 1 o max: 1011 o pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="AppBundleIdentifier">The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle to use for the request. Constraints: • min: 1 • max: 1011 • pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
     public AwsAppfabricGetAppBundleOptions(
         string AppBundleIdentifier
     )
@@ -56,7 +57,7 @@ public record AwsAppfabricGetAppBundleOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle to use for the request. Constraints: o min: 1 o max: 1011 o pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle to use for the request. Constraints: • min: 1 • max: 1011 • pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--app-bundle-identifier")]
     public string? AppBundleIdentifier { get; private init; }
@@ -82,6 +83,15 @@ public record AwsAppfabricGetAppBundleOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

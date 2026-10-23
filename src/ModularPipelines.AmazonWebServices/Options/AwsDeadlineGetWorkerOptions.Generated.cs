@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsDeadlineGetWorkerOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Gets a worker. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FarmId">The farm ID for the worker. Constraints: o pattern: farm-[0-9a-f]{32}</param>
-    /// <param name="FleetId">The fleet ID of the worker. Constraints: o pattern: fleet-[0-9a-f]{32}</param>
-    /// <param name="WorkerId">The worker ID. Constraints: o pattern: worker-[0-9a-f]{32}</param>
+    /// <param name="FarmId">The farm ID for the worker. Constraints: • pattern: farm-[0-9a-f]{32}</param>
+    /// <param name="FleetId">The fleet ID of the worker. Constraints: • pattern: fleet-[0-9a-f]{32}</param>
+    /// <param name="WorkerId">The worker ID. Constraints: • pattern: worker-[0-9a-f]{32}</param>
     public AwsDeadlineGetWorkerOptions(
         string FarmId,
         string FleetId,
@@ -64,19 +65,19 @@ public record AwsDeadlineGetWorkerOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The farm ID for the worker. Constraints: o pattern: farm-[0-9a-f]{32}
+    /// The farm ID for the worker. Constraints: • pattern: farm-[0-9a-f]{32}
     /// </summary>
     [CliOption("--farm-id")]
     public string? FarmId { get; private init; }
 
     /// <summary>
-    /// The fleet ID of the worker. Constraints: o pattern: fleet-[0-9a-f]{32}
+    /// The fleet ID of the worker. Constraints: • pattern: fleet-[0-9a-f]{32}
     /// </summary>
     [CliOption("--fleet-id")]
     public string? FleetId { get; private init; }
 
     /// <summary>
-    /// The worker ID. Constraints: o pattern: worker-[0-9a-f]{32}
+    /// The worker ID. Constraints: • pattern: worker-[0-9a-f]{32}
     /// </summary>
     [CliOption("--worker-id")]
     public string? WorkerId { get; private init; }
@@ -102,6 +103,15 @@ public record AwsDeadlineGetWorkerOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

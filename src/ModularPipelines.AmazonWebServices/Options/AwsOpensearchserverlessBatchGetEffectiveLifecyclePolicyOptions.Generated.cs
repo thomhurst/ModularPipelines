@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsOpensearchserverlessBatchGetEffectiveLifecyclePolicyOptions : A
     /// <summary>
     /// Returns a list of successful and failed retrievals for the OpenSearch Serverless indexes. For more information, see Viewing data lifecycle policies . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceIdentifiers">The unique identifiers of policy types and resource names. Constraints: o min: 1 o max: 100 (structure) The unique identifiers of policy types and resource names. type -&gt; (string) [required] The type of lifecycle policy. Possible values: o retention resource -&gt; (string) [required] The name of the OpenSearch Serverless ilndex resource. Constraints: o pattern: in- dex/[a-z][a-z0-9-]{3,63}/([a-z;0-9&amp;$%][+.~=\-_a-z;0-9&amp;$%]*) Shorthand Syntax: type=string,resource=string ... JSON Syntax: [ { "type": "retention", "resource": "string" } ... ]</param>
+    /// <param name="ResourceIdentifiers">The unique identifiers of policy types and resource names. Constraints: • min: 1 • max: 100 (structure) The unique identifiers of policy types and resource names. type -&gt; (string) [required] The type of lifecycle policy. Possible values: • retention resource -&gt; (string) [required] The name of the OpenSearch Serverless ilndex resource. Constraints: • pattern: index/[a-z][a-z0-9-]{3,63}/([a-z;0-9&amp;$%][+.~=\-_a-z;0-9&amp;$%]*) Shorthand Syntax: type=string,resource=string ... JSON Syntax: [ { "type": "retention", "resource": "string" } ... ]</param>
     public AwsOpensearchserverlessBatchGetEffectiveLifecyclePolicyOptions(
         IEnumerable<string> ResourceIdentifiers
     )
@@ -67,7 +68,7 @@ public record AwsOpensearchserverlessBatchGetEffectiveLifecyclePolicyOptions : A
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifiers of policy types and resource names. Constraints: o min: 1 o max: 100 (structure) The unique identifiers of policy types and resource names. type -&gt; (string) [required] The type of lifecycle policy. Possible values: o retention resource -&gt; (string) [required] The name of the OpenSearch Serverless ilndex resource. Constraints: o pattern: in- dex/[a-z][a-z0-9-]{3,63}/([a-z;0-9&amp;$%][+.~=\-_a-z;0-9&amp;$%]*) Shorthand Syntax: type=string,resource=string ... JSON Syntax: [ { "type": "retention", "resource": "string" } ... ]
+    /// The unique identifiers of policy types and resource names. Constraints: • min: 1 • max: 100 (structure) The unique identifiers of policy types and resource names. type -&gt; (string) [required] The type of lifecycle policy. Possible values: • retention resource -&gt; (string) [required] The name of the OpenSearch Serverless ilndex resource. Constraints: • pattern: index/[a-z][a-z0-9-]{3,63}/([a-z;0-9&amp;$%][+.~=\-_a-z;0-9&amp;$%]*) Shorthand Syntax: type=string,resource=string ... JSON Syntax: [ { "type": "retention", "resource": "string" } ... ]
     /// </summary>
     [CliOption("--resource-identifiers", GroupValues = true)]
     public IEnumerable<string>? ResourceIdentifiers { get; private init; }
@@ -93,6 +94,15 @@ public record AwsOpensearchserverlessBatchGetEffectiveLifecyclePolicyOptions : A
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

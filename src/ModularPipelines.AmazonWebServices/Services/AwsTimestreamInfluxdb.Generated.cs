@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws timestreaminfluxdb commands.
+/// aws timestream-influxdb commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsTimestreamInfluxdb : IAwsTimestreamInfluxdb
@@ -197,7 +197,7 @@ public class AwsTimestreamInfluxdb : IAwsTimestreamInfluxdb
     }
 
     /// <summary>
-    /// Returns a list of Timestream for InfluxDB backups. See also: AWS API Documentation list-db-backups is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
+    /// Returns a list of Timestream for InfluxDB backups. See also: AWS API Documentation list-db-backups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +227,7 @@ public class AwsTimestreamInfluxdb : IAwsTimestreamInfluxdb
     }
 
     /// <summary>
-    /// Returns a list of Timestream for InfluxDB clusters. See also: AWS API Documentation list-db-instances-for-cluster is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
+    /// Returns a list of Timestream for InfluxDB clusters. See also: AWS API Documentation list-db-instances-for-cluster is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -257,7 +257,7 @@ public class AwsTimestreamInfluxdb : IAwsTimestreamInfluxdb
     }
 
     /// <summary>
-    /// Returns a list of Timestream for InfluxDB DB parameter groups. See also: AWS API Documentation list-db-parameter-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: items
+    /// Returns a list of Timestream for InfluxDB DB parameter groups. See also: AWS API Documentation list-db-parameter-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -317,7 +317,7 @@ public class AwsTimestreamInfluxdb : IAwsTimestreamInfluxdb
     }
 
     /// <summary>
-    /// Restores a Timestream for InfluxDB resource from a backup. By default, a new resource is created. You can optionally restore to the same re- source using the REPLACE_EXISTING restore mode. See also: AWS API Documentation
+    /// Restores a Timestream for InfluxDB resource from a backup. By default, a new resource is created. You can optionally restore to the same resource using the REPLACE_EXISTING restore mode. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

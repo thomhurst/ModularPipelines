@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists the hardware assets for the specified Outpost. Use filters to return specific results. If you specify multiple fil- ters, the results include only the resources that match all of the specified filters. For a filter where you can specify multiple values, the results include items that match any of the values that you specify for the filter. See also: AWS API Documentation list-assets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of resul...
+/// Lists the hardware assets for the specified Outpost. Use filters to return specific results. If you specify multiple filters, the results include only the resources that match all of the specified filters. For a filter where you can specify multiple values, the results include items that match any of the values that you specify for the filter. See also: AWS API Documentation list-assets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsOutpostsListAssetsOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists the hardware assets for the specified Outpost. Use filters to return specific results. If you specify multiple fil- ters, the results include only the resources that match all of the specified filters. For a filter where you can specify multiple values, the results include items that match any of the values that you specify for the filter. See also: AWS API Documentation list-assets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of resul...
+    /// Lists the hardware assets for the specified Outpost. Use filters to return specific results. If you specify multiple filters, the results include only the resources that match all of the specified filters. For a filter where you can specify multiple values, the results include items that match any of the values that you specify for the filter. See also: AWS API Documentation list-assets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results...
     /// </summary>
-    /// <param name="OutpostIdentifier">The ID or the Amazon Resource Name (ARN) of the Outpost. Constraints: o min: 1 o max: 180 o pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:out- post/)?op-[a-f0-9]{17}$</param>
+    /// <param name="OutpostIdentifier">The ID or the Amazon Resource Name (ARN) of the Outpost. Constraints: • min: 1 • max: 180 • pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:outpost/)?op-[a-f0-9]{17}$</param>
     public AwsOutpostsListAssetsOptions(
         string OutpostIdentifier
     )
@@ -57,34 +58,31 @@ public record AwsOutpostsListAssetsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID or the Amazon Resource Name (ARN) of the Outpost. Constraints: o min: 1 o max: 180 o pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:out- post/)?op-[a-f0-9]{17}$
+    /// The ID or the Amazon Resource Name (ARN) of the Outpost. Constraints: • min: 1 • max: 180 • pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:outpost/)?op-[a-f0-9]{17}$
     /// </summary>
     [CliOption("--outpost-identifier")]
     public string? OutpostIdentifier { get; private init; }
 
     /// <summary>
-    /// Filters the results by the host ID of a Dedicated Host. (string) Constraints: o min: 1 o max: 50 o pattern: ^[A-Za-z0-9-]*$ Syntax: "string" "string" ...
+    /// Filters the results by the host ID of a Dedicated Host. (string) Constraints: • min: 1 • max: 50 • pattern: ^[A-Za-z0-9-]*$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--host-id-filter", GroupValues = true)]
     public IEnumerable<string>? HostIdFilter { get; set; }
 
     /// <summary>
-    /// Filters the results by state. Constraints: o min: 1 o max: 5 (string) Possible values: o ACTIVE o RETIRING o ISOLATED o INSTALLING Syntax: "string" "string" ...
+    /// Filters the results by state. Constraints: • min: 1 • max: 5 (string) Possible values: • ACTIVE • RETIRING • ISOLATED • INSTALLING Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--status-filter", GroupValues = true)]
     public IEnumerable<string>? StatusFilter { get; set; }
 
     /// <summary>
-    /// Filters the results by asset type. o COMPUTE - Server asset used for customer compute o STORAGE - Server asset used by storage services o POWERSHELF - Powershelf assets o SWITCH - Switch assets o NETWORKING - Asset managed by Amazon Web Services for networking purposes Constraints: o min: 1 o max: 5 (string) Possible values: o COMPUTE o STORAGE o POWERSHELF o SWITCH o NETWORKING Syntax: "string" "string" ...
+    /// Filters the results by asset type. • COMPUTE - Server asset used for customer compute • STORAGE - Server asset used by storage services • POWERSHELF - Powershelf assets • SWITCH - Switch assets • NETWORKING - Asset managed by Amazon Web Services for networking purposes Constraints: • min: 1 • max: 5 (string) Possible values: • COMPUTE • STORAGE • POWERSHELF • SWITCH • NETWORKING Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--asset-type-filter", GroupValues = true)]
     public IEnumerable<string>? AssetTypeFilter { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -94,16 +92,19 @@ public record AwsOutpostsListAssetsOptions : AwsOptions, IValidatableObject
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 1000
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -120,6 +121,15 @@ public record AwsOutpostsListAssetsOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

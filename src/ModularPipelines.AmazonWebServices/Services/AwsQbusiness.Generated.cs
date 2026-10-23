@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -32,7 +32,7 @@ public class AwsQbusiness : IAwsQbusiness
     #region Commands
 
     /// <summary>
-    /// Adds or updates a permission policy for a Amazon Q Business applica- tion, allowing cross-account access for an ISV. This operation creates a new policy statement for the specified Amazon Q Business application. The policy statement defines the IAM actions that the ISV is allowed to perform on the Amazon Q Business application's resources. See also: AWS API Documentation
+    /// Adds or updates a permission policy for a Amazon Q Business application, allowing cross-account access for an ISV. This operation creates a new policy statement for the specified Amazon Q Business application. The policy statement defines the IAM actions that the ISV is allowed to perform on the Amazon Q Business application's resources. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsQbusiness : IAwsQbusiness
     }
 
     /// <summary>
-    /// Asynchronously deletes one or more documents added using the BatchPut- Document API from an Amazon Q Business index. You can see the progress of the deletion, and any error messages re- lated to the process, by using CloudWatch. See also: AWS API Documentation
+    /// Asynchronously deletes one or more documents added using the BatchPutDocument API from an Amazon Q Business index. You can see the progress of the deletion, and any error messages related to the process, by using CloudWatch. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsQbusiness : IAwsQbusiness
     }
 
     /// <summary>
-    /// Adds one or more documents to an Amazon Q Business index. You use this API to: o ingest your structured and unstructured documents and documents stored in an Amazon S3 bucket into an Amazon Q Business index. o add custom attributes to documents in an Amazon Q Business index. o attach an access control list to the documents added to an Amazon Q Business index. You can see the progress of the deletion, and any error messages re- lated to the process, by using CloudWatch. See also: AWS API Document...
+    /// Adds one or more documents to an Amazon Q Business index. You use this API to: • ingest your structured and unstructured documents and documents stored in an Amazon S3 bucket into an Amazon Q Business index. • add custom attributes to documents in an Amazon Q Business index. • attach an access control list to the documents added to an Amazon Q Business index. You can see the progress of the deletion, and any error messages related to the process, by using CloudWatch. See also: AWS API Documentat...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsQbusiness : IAwsQbusiness
     }
 
     /// <summary>
-    /// Creates an Amazon Q Business application. NOTE: There are new tiers for Amazon Q Business. Not all features in Ama- zon Q Business Pro are also available in Amazon Q Business Lite. For information on what's included in Amazon Q Business Lite and what's included in Amazon Q Business Pro, see Amazon Q Business tiers . You must use the Amazon Q Business console to assign subscription tiers to users. An Amazon Q Apps service linked role will be created if it's absent in the Amazon Web Services accou...
+    /// Creates an Amazon Q Business application. NOTE: There are new tiers for Amazon Q Business. Not all features in Amazon Q Business Pro are also available in Amazon Q Business Lite. For information on what's included in Amazon Q Business Lite and what's included in Amazon Q Business Pro, see Amazon Q Business tiers . You must use the Amazon Q Business console to assign subscription tiers to users. An Amazon Q Apps service linked role will be created if it's absent in the Amazon Web Services account...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsQbusiness : IAwsQbusiness
     }
 
     /// <summary>
-    /// Creates a new chat response configuration for an Amazon Q Business ap- plication. This operation establishes a set of parameters that define how the system generates and formats responses to user queries in chat interactions. See also: AWS API Documentation
+    /// Creates a new chat response configuration for an Amazon Q Business application. This operation establishes a set of parameters that define how the system generates and formats responses to user queries in chat interactions. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsQbusiness : IAwsQbusiness
     }
 
     /// <summary>
-    /// Creates a new data accessor for an ISV to access data from a Amazon Q Business application. The data accessor is an entity that represents the ISV's access to the Amazon Q Business application's data. It in- cludes the IAM role ARN for the ISV, a friendly name, and a set of ac- tion configurations that define the specific actions the ISV is allowed to perform and any associated data filters. When the data accessor is created, an IAM Identity Center application is also created to manage the ISV's...
+    /// Creates a new data accessor for an ISV to access data from a Amazon Q Business application. The data accessor is an entity that represents the ISV's access to the Amazon Q Business application's data. It includes the IAM role ARN for the ISV, a friendly name, and a set of action configurations that define the specific actions the ISV is allowed to perform and any associated data filters. When the data accessor is created, an IAM Identity Center application is also created to manage the ISV's ide...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsQbusiness : IAwsQbusiness
     }
 
     /// <summary>
-    /// Creates a data source connector for an Amazon Q Business application. CreateDataSource is a synchronous operation. The operation returns 200 if the data source was successfully created. Otherwise, an ex- ception is raised. See also: AWS API Documentation create-data-source uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the t...
+    /// Creates a data source connector for an Amazon Q Business application. CreateDataSource is a synchronous operation. The operation returns 200 if the data source was successfully created. Otherwise, an exception is raised. See also: AWS API Documentation create-data-source uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsQbusiness : IAwsQbusiness
     }
 
     /// <summary>
-    /// Creates an Amazon Q Business index. To determine if index creation has completed, check the Status field returned from a call to DescribeIndex . The Status field is set to AC- TIVE when the index is ready to use. Once the index is active, you can index your documents using the ` BatchPutDocument https://docs.aws.amazon.com/amazonq/latest/api-reference/API_BatchPutDocument.html`__ API or the ` CreateDataSource https://docs.aws.amazon.com/amazonq/latest/api-reference/API_CreateDataSource.html`__ A...
+    /// Creates an Amazon Q Business index. To determine if index creation has completed, check the Status field returned from a call to DescribeIndex . The Status field is set to ACTIVE when the index is ready to use. Once the index is active, you can index your documents using the ` BatchPutDocument https://docs.aws.amazon.com/amazonq/latest/api-reference/API_BatchPutDocument.html`__ API or the ` CreateDataSource https://docs.aws.amazon.com/amazonq/latest/api-reference/API_CreateDataSource.html`__ API...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -257,7 +257,7 @@ public class AwsQbusiness : IAwsQbusiness
     }
 
     /// <summary>
-    /// Creates a universally unique identifier (UUID) mapped to a list of lo- cal user ids within an application. See also: AWS API Documentation
+    /// Creates a universally unique identifier (UUID) mapped to a list of local user ids within an application. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -302,7 +302,7 @@ public class AwsQbusiness : IAwsQbusiness
     }
 
     /// <summary>
-    /// Deletes an attachment associated with a specific Amazon Q Business con- versation. See also: AWS API Documentation
+    /// Deletes an attachment associated with a specific Amazon Q Business conversation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -317,7 +317,7 @@ public class AwsQbusiness : IAwsQbusiness
     }
 
     /// <summary>
-    /// Deletes chat controls configured for an existing Amazon Q Business ap- plication. See also: AWS API Documentation
+    /// Deletes chat controls configured for an existing Amazon Q Business application. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -332,7 +332,7 @@ public class AwsQbusiness : IAwsQbusiness
     }
 
     /// <summary>
-    /// Deletes a specified chat response configuration from an Amazon Q Busi- ness application. See also: AWS API Documentation
+    /// Deletes a specified chat response configuration from an Amazon Q Business application. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public class AwsQbusiness : IAwsQbusiness
     }
 
     /// <summary>
-    /// Deletes a specified data accessor. This operation permanently removes the data accessor and its associated IAM Identity Center application. Any access granted to the ISV through this data accessor will be re- voked. See also: AWS API Documentation
+    /// Deletes a specified data accessor. This operation permanently removes the data accessor and its associated IAM Identity Center application. Any access granted to the ISV through this data accessor will be revoked. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -377,7 +377,7 @@ public class AwsQbusiness : IAwsQbusiness
     }
 
     /// <summary>
-    /// Deletes an Amazon Q Business data source connector. While the data source is being deleted, the Status field returned by a call to the De- scribeDataSource API is set to DELETING . See also: AWS API Documentation
+    /// Deletes an Amazon Q Business data source connector. While the data source is being deleted, the Status field returned by a call to the DescribeDataSource API is set to DELETING . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -392,7 +392,7 @@ public class AwsQbusiness : IAwsQbusiness
     }
 
     /// <summary>
-    /// Deletes a group so that all users and sub groups that belong to the group can no longer access documents only available to that group. For example, after deleting the group "Summer Interns", all interns who be- longed to that group no longer see intern-only documents in their chat results. If you want to delete, update, or replace users or sub groups of a group, you need to use the PutGroup operation. For example, if a user in the group "Engineering" leaves the engineering team and another user ...
+    /// Deletes a group so that all users and sub groups that belong to the group can no longer access documents only available to that group. For example, after deleting the group "Summer Interns", all interns who belonged to that group no longer see intern-only documents in their chat results. If you want to delete, update, or replace users or sub groups of a group, you need to use the PutGroup operation. For example, if a user in the group "Engineering" leaves the engineering team and another user ta...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -482,7 +482,7 @@ public class AwsQbusiness : IAwsQbusiness
     }
 
     /// <summary>
-    /// Removes a permission policy from a Amazon Q Business application, re- voking the cross-account access that was previously granted to an ISV. This operation deletes the specified policy statement from the applica- tion's permission policy. See also: AWS API Documentation
+    /// Removes a permission policy from a Amazon Q Business application, revoking the cross-account access that was previously granted to an ISV. This operation deletes the specified policy statement from the application's permission policy. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -512,7 +512,7 @@ public class AwsQbusiness : IAwsQbusiness
     }
 
     /// <summary>
-    /// Gets information about chat controls configured for an existing Amazon Q Business application. See also: AWS API Documentation get-chat-controls-configuration is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query exp...
+    /// Gets information about chat controls configured for an existing Amazon Q Business application. See also: AWS API Documentation get-chat-controls-configuration is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query express...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -527,7 +527,7 @@ public class AwsQbusiness : IAwsQbusiness
     }
 
     /// <summary>
-    /// Retrieves detailed information about a specific chat response configu- ration from an Amazon Q Business application. This operation returns the complete configuration settings and metadata. See also: AWS API Documentation
+    /// Retrieves detailed information about a specific chat response configuration from an Amazon Q Business application. This operation returns the complete configuration settings and metadata. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -557,7 +557,7 @@ public class AwsQbusiness : IAwsQbusiness
     }
 
     /// <summary>
-    /// Gets information about an existing Amazon Q Business data source con- nector. See also: AWS API Documentation get-data-source uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Gets information about an existing Amazon Q Business data source connector. See also: AWS API Documentation get-data-source uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -647,7 +647,7 @@ public class AwsQbusiness : IAwsQbusiness
     }
 
     /// <summary>
-    /// Retrieves the current permission policy for a Amazon Q Business appli- cation. The policy is returned as a JSON-formatted string and defines the IAM actions that are allowed or denied for the application's re- sources. See also: AWS API Documentation
+    /// Retrieves the current permission policy for a Amazon Q Business application. The policy is returned as a JSON-formatted string and defines the IAM actions that are allowed or denied for the application's resources. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -662,7 +662,7 @@ public class AwsQbusiness : IAwsQbusiness
     }
 
     /// <summary>
-    /// Gets information about an existing retriever used by an Amazon Q Busi- ness application. See also: AWS API Documentation
+    /// Gets information about an existing retriever used by an Amazon Q Business application. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -707,7 +707,7 @@ public class AwsQbusiness : IAwsQbusiness
     }
 
     /// <summary>
-    /// Lists Amazon Q Business applications. NOTE: Amazon Q Business applications may securely transmit data for pro- cessing across Amazon Web Services Regions within your geography. For more information, see Cross region inference in Amazon Q Busi- ness . See also: AWS API Documentation list-applications is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output...
+    /// Lists Amazon Q Business applications. NOTE: Amazon Q Business applications may securely transmit data for processing across Amazon Web Services Regions within your geography. For more information, see Cross region inference in Amazon Q Business . See also: AWS API Documentation list-applications is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output tex...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -722,7 +722,7 @@ public class AwsQbusiness : IAwsQbusiness
     }
 
     /// <summary>
-    /// Gets a list of attachments associated with an Amazon Q Business web ex- perience or a list of attachements associated with a specific Amazon Q Business conversation. See also: AWS API Documentation list-attachments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extr...
+    /// Gets a list of attachments associated with an Amazon Q Business web experience or a list of attachements associated with a specific Amazon Q Business conversation. See also: AWS API Documentation list-attachments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extrac...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -737,7 +737,7 @@ public class AwsQbusiness : IAwsQbusiness
     }
 
     /// <summary>
-    /// Retrieves a list of all chat response configurations available in a specified Amazon Q Business application. This operation returns summary information about each configuration to help administrators manage and select appropriate response settings. See also: AWS API Documentation list-chat-response-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. W...
+    /// Retrieves a list of all chat response configurations available in a specified Amazon Q Business application. This operation returns summary information about each configuration to help administrators manage and select appropriate response settings. See also: AWS API Documentation list-chat-response-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -767,7 +767,7 @@ public class AwsQbusiness : IAwsQbusiness
     }
 
     /// <summary>
-    /// Lists the data accessors for a Amazon Q Business application. This op- eration returns a paginated list of data accessor summaries, including the friendly name, unique identifier, ARN, associated IAM role, and creation/update timestamps for each data accessor. See also: AWS API Documentation list-data-accessors is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When us...
+    /// Lists the data accessors for a Amazon Q Business application. This operation returns a paginated list of data accessor summaries, including the friendly name, unique identifier, ARN, associated IAM role, and creation/update timestamps for each data accessor. See also: AWS API Documentation list-data-accessors is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When usin...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -782,22 +782,7 @@ public class AwsQbusiness : IAwsQbusiness
     }
 
     /// <summary>
-    /// Lists the Amazon Q Business data source connectors that you have cre- ated. See also: AWS API Documentation list-data-sources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: dataSources
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListDataSourcesAsync(
-        AwsQbusinessListDataSourcesOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Get information about an Amazon Q Business data source connector syn- chronization. See also: AWS API Documentation list-data-source-sync-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: history
+    /// Get information about an Amazon Q Business data source connector synchronization. See also: AWS API Documentation list-data-source-sync-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: history
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -812,7 +797,22 @@ public class AwsQbusiness : IAwsQbusiness
     }
 
     /// <summary>
-    /// A list of documents attached to an index. See also: AWS API Documentation list-documents is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: documentDetailList
+    /// Lists the Amazon Q Business data source connectors that you have created. See also: AWS API Documentation list-data-sources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: dataSources
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListDataSourcesAsync(
+        AwsQbusinessListDataSourcesOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// A list of documents attached to an index. See also: AWS API Documentation list-documents is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: documentDetailList
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -827,7 +827,7 @@ public class AwsQbusiness : IAwsQbusiness
     }
 
     /// <summary>
-    /// Provides a list of groups that are mapped to users. See also: AWS API Documentation list-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: items
+    /// Provides a list of groups that are mapped to users. See also: AWS API Documentation list-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -842,7 +842,7 @@ public class AwsQbusiness : IAwsQbusiness
     }
 
     /// <summary>
-    /// Lists the Amazon Q Business indices you have created. See also: AWS API Documentation list-indices is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: indices
+    /// Lists the Amazon Q Business indices you have created. See also: AWS API Documentation list-indices is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: indices
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -857,7 +857,7 @@ public class AwsQbusiness : IAwsQbusiness
     }
 
     /// <summary>
-    /// Gets a list of messages associated with an Amazon Q Business web expe- rience. See also: AWS API Documentation list-messages uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types. list-messages is a paginated operation. Multiple API calls may...
+    /// Gets a list of messages associated with an Amazon Q Business web experience. See also: AWS API Documentation list-messages uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types. list-messages is a paginated operation. Multiple API calls may b...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -887,22 +887,7 @@ public class AwsQbusiness : IAwsQbusiness
     }
 
     /// <summary>
-    /// Lists configured Amazon Q Business plugins. See also: AWS API Documentation list-plugins is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: plugins
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListPluginsAsync(
-        AwsQbusinessListPluginsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Lists configured Amazon Q Business actions for any plugin typeboth built-in and custom. See also: AWS API Documentation list-plugin-type-actions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: items
+    /// Lists configured Amazon Q Business actions for any plugin typeboth built-in and custom. See also: AWS API Documentation list-plugin-type-actions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -917,7 +902,7 @@ public class AwsQbusiness : IAwsQbusiness
     }
 
     /// <summary>
-    /// Lists metadata for all Amazon Q Business plugin types. See also: AWS API Documentation list-plugin-type-metadata is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: items
+    /// Lists metadata for all Amazon Q Business plugin types. See also: AWS API Documentation list-plugin-type-metadata is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -932,7 +917,22 @@ public class AwsQbusiness : IAwsQbusiness
     }
 
     /// <summary>
-    /// Lists the retriever used by an Amazon Q Business application. See also: AWS API Documentation list-retrievers is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: retrievers
+    /// Lists configured Amazon Q Business plugins. See also: AWS API Documentation list-plugins is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: plugins
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListPluginsAsync(
+        AwsQbusinessListPluginsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists the retriever used by an Amazon Q Business application. See also: AWS API Documentation list-retrievers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: retrievers
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1007,7 +1007,7 @@ public class AwsQbusiness : IAwsQbusiness
     }
 
     /// <summary>
-    /// Create, or updates, a mapping of userswho have access to a documentto groups. You can also map sub groups to groups. For example, the group "Company Intellectual Property Teams" includes sub groups "Research" and "Engi- neering". These sub groups include their own list of users or people who work in these teams. Only users who work in research and engineer- ing, and therefore belong in the intellectual property group, can see top-secret company documents in their Amazon Q Business chat results. ...
+    /// Create, or updates, a mapping of userswho have access to a documentto groups. You can also map sub groups to groups. For example, the group "Company Intellectual Property Teams" includes sub groups "Research" and "Engineering". These sub groups include their own list of users or people who work in these teams. Only users who work in research and engineering, and therefore belong in the intellectual property group, can see top-secret company documents in their Amazon Q Business chat results. Ther...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1037,7 +1037,7 @@ public class AwsQbusiness : IAwsQbusiness
     }
 
     /// <summary>
-    /// Starts a data source connector synchronization job. If a synchroniza- tion job is already in progress, Amazon Q Business returns a Con- flictException . See also: AWS API Documentation
+    /// Starts a data source connector synchronization job. If a synchronization job is already in progress, Amazon Q Business returns a ConflictException . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1097,7 +1097,7 @@ public class AwsQbusiness : IAwsQbusiness
     }
 
     /// <summary>
-    /// Updates an existing Amazon Q Business application. NOTE: Amazon Q Business applications may securely transmit data for pro- cessing across Amazon Web Services Regions within your geography. For more information, see Cross region inference in Amazon Q Busi- ness . NOTE: An Amazon Q Apps service-linked role will be created if it's absent in the Amazon Web Services account when QAppsConfiguration is en- abled in the request. For more information, see Using service-linked roles for Q Apps . See also...
+    /// Updates an existing Amazon Q Business application. NOTE: Amazon Q Business applications may securely transmit data for processing across Amazon Web Services Regions within your geography. For more information, see Cross region inference in Amazon Q Business . NOTE: An Amazon Q Apps service-linked role will be created if it's absent in the Amazon Web Services account when QAppsConfiguration is enabled in the request. For more information, see Using service-linked roles for Q Apps . See also: AWS ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1127,7 +1127,7 @@ public class AwsQbusiness : IAwsQbusiness
     }
 
     /// <summary>
-    /// Updates an existing chat response configuration in an Amazon Q Business application. This operation allows administrators to modify configura- tion settings, display name, and response parameters to refine how the system generates responses. See also: AWS API Documentation
+    /// Updates an existing chat response configuration in an Amazon Q Business application. This operation allows administrators to modify configuration settings, display name, and response parameters to refine how the system generates responses. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1157,7 +1157,7 @@ public class AwsQbusiness : IAwsQbusiness
     }
 
     /// <summary>
-    /// Updates an existing Amazon Q Business data source connector. See also: AWS API Documentation update-data-source uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Updates an existing Amazon Q Business data source connector. See also: AWS API Documentation update-data-source uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1217,7 +1217,7 @@ public class AwsQbusiness : IAwsQbusiness
     }
 
     /// <summary>
-    /// Updates the pricing tier for an Amazon Q Business subscription. Up- grades are instant. Downgrades apply at the start of the next month. Subscription tier determines feature access for the user. For more in- formation on subscriptions and pricing tiers, see Amazon Q Business pricing . See also: AWS API Documentation
+    /// Updates the pricing tier for an Amazon Q Business subscription. Upgrades are instant. Downgrades apply at the start of the next month. Subscription tier determines feature access for the user. For more information on subscriptions and pricing tiers, see Amazon Q Business pricing . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

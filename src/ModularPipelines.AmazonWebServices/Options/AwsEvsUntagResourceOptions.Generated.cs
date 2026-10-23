@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsEvsUntagResourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes specified tags from an Amazon EVS resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource to delete tags from. Constraints: o min: 1 o max: 1011 o pattern: arn:aws:evs:[a-z]{2}-[a-z]+-[0-9]:[0-9]{12}:environ- ment/[a-zA-Z0-9_-]+</param>
-    /// <param name="TagKeys">The keys of the tags to delete. Constraints: o min: 1 o max: 200 (string) Constraints: o min: 1 o max: 128 o pattern: [\w.:/=+-@]+ Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource to delete tags from. Constraints: • min: 1 • max: 1011 • pattern: arn:aws:evs:[a-z]{2}-[a-z]+-[0-9]:[0-9]{12}:environment/[a-zA-Z0-9_-]+</param>
+    /// <param name="TagKeys">The keys of the tags to delete. Constraints: • min: 1 • max: 200 (string) Constraints: • min: 1 • max: 128 • pattern: [\w.:/=+-@]+ Syntax: "string" "string" ...</param>
     public AwsEvsUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -71,13 +72,13 @@ public record AwsEvsUntagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource to delete tags from. Constraints: o min: 1 o max: 1011 o pattern: arn:aws:evs:[a-z]{2}-[a-z]+-[0-9]:[0-9]{12}:environ- ment/[a-zA-Z0-9_-]+
+    /// The Amazon Resource Name (ARN) of the resource to delete tags from. Constraints: • min: 1 • max: 1011 • pattern: arn:aws:evs:[a-z]{2}-[a-z]+-[0-9]:[0-9]{12}:environment/[a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The keys of the tags to delete. Constraints: o min: 1 o max: 200 (string) Constraints: o min: 1 o max: 128 o pattern: [\w.:/=+-@]+ Syntax: "string" "string" ...
+    /// The keys of the tags to delete. Constraints: • min: 1 • max: 200 (string) Constraints: • min: 1 • max: 128 • pattern: [\w.:/=+-@]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }
@@ -103,6 +104,15 @@ public record AwsEvsUntagResourceOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the description for the host key that's specified by the ServerId and HostKeyId parameters. See also: AWS API Documentation
+/// Updates the host key that's specified by the ServerId and HostKeyId parameters. You can update the description of the host key, change where the host key is stored by specifying the StorageType , and specify the KMS key used to encrypt the host key when it's stored in Secrets Manager. To change a host key's storage type from SERVICE_MANAGED to SECRETS_MANAGER , you must have the transfer:ExportHostKey permission. transfer:ExportHostKey is a permission-only action that has no corresponding API op...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,23 +27,19 @@ public record AwsTransferUpdateHostKeyOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the description for the host key that's specified by the ServerId and HostKeyId parameters. See also: AWS API Documentation
+    /// Updates the host key that's specified by the ServerId and HostKeyId parameters. You can update the description of the host key, change where the host key is stored by specifying the StorageType , and specify the KMS key used to encrypt the host key when it's stored in Secrets Manager. To change a host key's storage type from SERVICE_MANAGED to SECRETS_MANAGER , you must have the transfer:ExportHostKey permission. transfer:ExportHostKey is a permission-only action that has no corresponding API op...
     /// </summary>
-    /// <param name="ServerId">The identifier of the server that contains the host key that you are updating. Constraints: o min: 19 o max: 19 o pattern: s-([0-9a-f]{17})</param>
-    /// <param name="HostKeyId">The identifier of the host key that you are updating. Constraints: o min: 25 o max: 25 o pattern: hostkey-[0-9a-f]{17}</param>
-    /// <param name="Description">An updated description for the host key. Constraints: o min: 0 o max: 200 o pattern: [\p{Print}]*</param>
+    /// <param name="ServerId">The identifier of the server that contains the host key that you are updating. Constraints: • min: 19 • max: 19 • pattern: s-([0-9a-f]{17})</param>
+    /// <param name="HostKeyId">The identifier of the host key that you are updating. Constraints: • min: 25 • max: 25 • pattern: hostkey-[0-9a-f]{17}</param>
     public AwsTransferUpdateHostKeyOptions(
         string ServerId,
-        string HostKeyId,
-        string Description
+        string HostKeyId
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(ServerId);
         this.ServerId = ServerId;
         global::System.ArgumentNullException.ThrowIfNull(HostKeyId);
         this.HostKeyId = HostKeyId;
-        global::System.ArgumentNullException.ThrowIfNull(Description);
-        this.Description = Description;
     }
 
     private AwsTransferUpdateHostKeyOptions()
@@ -64,22 +62,34 @@ public record AwsTransferUpdateHostKeyOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the server that contains the host key that you are updating. Constraints: o min: 19 o max: 19 o pattern: s-([0-9a-f]{17})
+    /// The identifier of the server that contains the host key that you are updating. Constraints: • min: 19 • max: 19 • pattern: s-([0-9a-f]{17})
     /// </summary>
     [CliOption("--server-id")]
     public string? ServerId { get; private init; }
 
     /// <summary>
-    /// The identifier of the host key that you are updating. Constraints: o min: 25 o max: 25 o pattern: hostkey-[0-9a-f]{17}
+    /// The identifier of the host key that you are updating. Constraints: • min: 25 • max: 25 • pattern: hostkey-[0-9a-f]{17}
     /// </summary>
     [CliOption("--host-key-id")]
     public string? HostKeyId { get; private init; }
 
     /// <summary>
-    /// An updated description for the host key. Constraints: o min: 0 o max: 200 o pattern: [\p{Print}]*
+    /// An updated description for the host key. Constraints: • min: 0 • max: 200 • pattern: [\p{Print}]*
     /// </summary>
     [CliOption("--description")]
-    public string? Description { get; private init; }
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Specifies whether the host key is stored by Transfer Family (SERVICE_MANAGED ) or in Secrets Manager (SECRETS_MANAGER ). When you specify SECRETS_MANAGER , Transfer Family stores the private host key material in an Secrets Manager secret. Possible values: • SERVICE_MANAGED • SECRETS_MANAGER
+    /// </summary>
+    [CliOption("--storage-type")]
+    public AwsTransferUpdateHostKeyStorageType? StorageType { get; set; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the Secrets Manager secret that stores the host key. If you specify a customer managed key, its key policy must allow the AWSServiceRoleForTransfer service-linked role to decrypt the secret. If you don't specify a value, Transfer Family uses the Amazon Web Services managed key for Secrets Manager. Constraints: • min: 20 • max: 1600 • pattern: arn:\S+
+    /// </summary>
+    [CliOption("--kms-key")]
+    public string? KmsKey { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -102,6 +112,15 @@ public record AwsTransferUpdateHostKeyOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

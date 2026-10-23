@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a cluster. It also deletes all associated nodes and node end- points. NOTE: CreateSnapshot permission is required to create a final snapshot. Without this permission, the API call will fail with an Access De- nied exception. See also: AWS API Documentation
+/// Deletes a cluster. It also deletes all associated nodes and node endpoints. NOTE: CreateSnapshot permission is required to create a final snapshot. Without this permission, the API call will fail with an Access Denied exception. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsMemorydbDeleteClusterOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a cluster. It also deletes all associated nodes and node end- points. NOTE: CreateSnapshot permission is required to create a final snapshot. Without this permission, the API call will fail with an Access De- nied exception. See also: AWS API Documentation
+    /// Deletes a cluster. It also deletes all associated nodes and node endpoints. NOTE: CreateSnapshot permission is required to create a final snapshot. Without this permission, the API call will fail with an Access Denied exception. See also: AWS API Documentation
     /// </summary>
     /// <param name="ClusterName">The name of the cluster to be deleted</param>
     public AwsMemorydbDeleteClusterOptions(
@@ -68,7 +69,7 @@ public record AwsMemorydbDeleteClusterOptions : AwsOptions, IValidatableObject
     public string? MultiRegionClusterName { get; set; }
 
     /// <summary>
-    /// The user-supplied name of a final cluster snapshot. This is the unique name that identifies the snapshot. MemoryDB creates the snap- shot, and then deletes the cluster immediately afterward.
+    /// The user-supplied name of a final cluster snapshot. This is the unique name that identifies the snapshot. MemoryDB creates the snapshot, and then deletes the cluster immediately afterward.
     /// </summary>
     [CliOption("--final-snapshot-name")]
     public string? FinalSnapshotName { get; set; }
@@ -94,6 +95,15 @@ public record AwsMemorydbDeleteClusterOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

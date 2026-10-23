@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsStoragegatewayShutdownGatewayOptions : AwsOptions, IValidatable
     /// <summary>
     /// Shuts down a Tape Gateway or Volume Gateway. To specify which gateway to shut down, use the Amazon Resource Name (ARN) of the gateway in the body of your request. NOTE: This API action cannot be used to shut down S3 File Gateway or FSx File Gateway. The operation shuts down the gateway service component running in the gateway's virtual machine (VM) and not the host VM. NOTE: If you want to shut down the VM, it is recommended that you first shut down the gateway component in the VM to avoid unpre...
     /// </summary>
-    /// <param name="GatewayArn">The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region. Constraints: o min: 50 o max: 500</param>
+    /// <param name="GatewayArn">The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region. Constraints: • min: 50 • max: 500</param>
     public AwsStoragegatewayShutdownGatewayOptions(
         string GatewayArn
     )
@@ -56,7 +57,7 @@ public record AwsStoragegatewayShutdownGatewayOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region. Constraints: o min: 50 o max: 500
+    /// The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region. Constraints: • min: 50 • max: 500
     /// </summary>
     [CliOption("--gateway-arn")]
     public string? GatewayArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsStoragegatewayShutdownGatewayOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

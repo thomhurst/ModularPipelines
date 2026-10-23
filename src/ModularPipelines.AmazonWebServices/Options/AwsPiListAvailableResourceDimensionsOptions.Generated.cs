@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,9 +30,9 @@ public record AwsPiListAvailableResourceDimensionsOptions : AwsOptions, IValidat
     /// <summary>
     /// Retrieve the dimensions that can be queried for each specified metric type on a specified DB instance. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ServiceType">The Amazon Web Services service for which Performance Insights re- turns metrics. Possible values: o RDS o DOCDB</param>
-    /// <param name="Identifier">An immutable identifier for a data source that is unique within an Amazon Web Services Region. Performance Insights gathers metrics from this data source. To use an Amazon RDS DB instance as a data source, specify its DbiResourceId value. For example, specify db-ABCDEFGHIJKLMNOPQRSTU1VWZ . Constraints: o min: 0 o max: 256 o pattern: ^[a-zA-Z0-9-]+$</param>
-    /// <param name="Metrics">The types of metrics for which to retrieve dimensions. Valid values include db.load . Constraints: o min: 1 o max: 5 (string) A generic string type that forbids characters that could expose our service (or services downstream) to security risks around injections. Constraints: o min: 0 o max: 256 o pattern: ^[a-zA-Z0-9-_\.:/*)( ]+$ Syntax: "string" "string" ...</param>
+    /// <param name="ServiceType">The Amazon Web Services service for which Performance Insights returns metrics. Possible values: • RDS • DOCDB</param>
+    /// <param name="Identifier">An immutable identifier for a data source that is unique within an Amazon Web Services Region. Performance Insights gathers metrics from this data source. To use an Amazon RDS DB instance as a data source, specify its DbiResourceId value. For example, specify db-ABCDEFGHIJKLMNOPQRSTU1VWZ . Constraints: • min: 0 • max: 256 • pattern: ^[a-zA-Z0-9-]+$</param>
+    /// <param name="Metrics">The types of metrics for which to retrieve dimensions. Valid values include db.load . Constraints: • min: 1 • max: 5 (string) A generic string type that forbids characters that could expose our service (or services downstream) to security risks around injections. Constraints: • min: 0 • max: 256 • pattern: ^[a-zA-Z0-9-_\.:/*)( ]+$ Syntax: "string" "string" ...</param>
     public AwsPiListAvailableResourceDimensionsOptions(
         AwsPiListAvailableResourceDimensionsServiceType ServiceType,
         string Identifier,
@@ -76,38 +77,38 @@ public record AwsPiListAvailableResourceDimensionsOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services service for which Performance Insights re- turns metrics. Possible values: o RDS o DOCDB
+    /// The Amazon Web Services service for which Performance Insights returns metrics. Possible values: • RDS • DOCDB
     /// </summary>
     [CliOption("--service-type")]
     public AwsPiListAvailableResourceDimensionsServiceType? ServiceType { get; private init; }
 
     /// <summary>
-    /// An immutable identifier for a data source that is unique within an Amazon Web Services Region. Performance Insights gathers metrics from this data source. To use an Amazon RDS DB instance as a data source, specify its DbiResourceId value. For example, specify db-ABCDEFGHIJKLMNOPQRSTU1VWZ . Constraints: o min: 0 o max: 256 o pattern: ^[a-zA-Z0-9-]+$
+    /// An immutable identifier for a data source that is unique within an Amazon Web Services Region. Performance Insights gathers metrics from this data source. To use an Amazon RDS DB instance as a data source, specify its DbiResourceId value. For example, specify db-ABCDEFGHIJKLMNOPQRSTU1VWZ . Constraints: • min: 0 • max: 256 • pattern: ^[a-zA-Z0-9-]+$
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// The types of metrics for which to retrieve dimensions. Valid values include db.load . Constraints: o min: 1 o max: 5 (string) A generic string type that forbids characters that could expose our service (or services downstream) to security risks around injections. Constraints: o min: 0 o max: 256 o pattern: ^[a-zA-Z0-9-_\.:/*)( ]+$ Syntax: "string" "string" ...
+    /// The types of metrics for which to retrieve dimensions. Valid values include db.load . Constraints: • min: 1 • max: 5 (string) A generic string type that forbids characters that could expose our service (or services downstream) to security risks around injections. Constraints: • min: 0 • max: 256 • pattern: ^[a-zA-Z0-9-_\.:/*)( ]+$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--metrics", GroupValues = true)]
     public IEnumerable<string>? Metrics { get; private init; }
 
     /// <summary>
-    /// The maximum number of items to return in the response. If more items exist than the specified MaxRecords value, a pagination token is in- cluded in the response so that the remaining results can be re- trieved. Constraints: o min: 0 o max: 25
+    /// The maximum number of items to return in the response. If more items exist than the specified MaxRecords value, a pagination token is included in the response so that the remaining results can be retrieved. Constraints: • min: 0 • max: 25
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the token, up to the value specified by MaxRecords . Constraints: o min: 1 o max: 8192 o pattern: ^[a-zA-Z0-9_=-]+$
+    /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the token, up to the value specified by MaxRecords . Constraints: • min: 1 • max: 8192 • pattern: ^[a-zA-Z0-9_=-]+$
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The actions to discover the dimensions you are authorized to access. If you specify multiple actions, then the response will contain the dimensions common for all the actions. When you don't specify this request parameter or provide an empty list, the response contains all the available dimensions for the target database engine whether or not you are authorized to access them. Constraints: o min: 0 o max: 3 (string) Possible values: o DescribeDimensionKeys o GetDimensionKeyDetails o GetResourceMetrics Syntax: "string" "string" ...
+    /// The actions to discover the dimensions you are authorized to access. If you specify multiple actions, then the response will contain the dimensions common for all the actions. When you don't specify this request parameter or provide an empty list, the response contains all the available dimensions for the target database engine whether or not you are authorized to access them. Constraints: • min: 0 • max: 3 (string) Possible values: • DescribeDimensionKeys • GetDimensionKeyDetails • GetResourceMetrics Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--authorized-actions", GroupValues = true)]
     public IEnumerable<string>? AuthorizedActions { get; set; }
@@ -133,6 +134,15 @@ public record AwsPiListAvailableResourceDimensionsOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

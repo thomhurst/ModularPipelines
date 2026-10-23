@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves information about the account's OrganizationAccess status. This API can be called either by the management account or the dele- gated administrator by using the CallAs parameter. This API can also be called without the CallAs parameter by the management account. See also: AWS API Documentation
+/// Retrieves information about the account's OrganizationAccess status. This API can be called either by the management account or the delegated administrator by using the CallAs parameter. This API can also be called without the CallAs parameter by the management account. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsCloudformationDescribeOrganizationsAccessOptions : AwsOptions
 {
     /// <summary>
-    /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. o If you are signed in to the management account, specify SELF . o If you are signed in to a delegated administrator account, specify DELEGATED_ADMIN . Your Amazon Web Services account must be regis- tered as a delegated administrator in the management account. For more information, see Register a delegated administrator in the CloudFormation User Guide . Possible values: o SELF o DELEGATED_ADMIN
+    /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. • If you are signed in to the management account, specify SELF . • If you are signed in to a delegated administrator account, specify DELEGATED_ADMIN . Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see Register a delegated administrator in the CloudFormation User Guide . Possible values: • SELF • DELEGATED_ADMIN
     /// </summary>
     [CliOption("--call-as")]
     public AwsCloudformationDescribeOrganizationsAccessCallAs? CallAs { get; set; }
@@ -33,5 +33,14 @@ public record AwsCloudformationDescribeOrganizationsAccessOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

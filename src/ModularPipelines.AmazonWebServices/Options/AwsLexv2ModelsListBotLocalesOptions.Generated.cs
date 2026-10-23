@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +29,8 @@ public record AwsLexv2ModelsListBotLocalesOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Gets a list of locales for the specified bot. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BotId">The identifier of the bot to list locales for. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
-    /// <param name="BotVersion">The version of the bot to list locales for. Constraints: o min: 1 o max: 5 o pattern: ^(DRAFT|[0-9]+)$</param>
+    /// <param name="BotId">The identifier of the bot to list locales for. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="BotVersion">The version of the bot to list locales for. Constraints: • min: 1 • max: 5 • pattern: ^(DRAFT|[0-9]+)$</param>
     public AwsLexv2ModelsListBotLocalesOptions(
         string BotId,
         string BotVersion
@@ -61,37 +62,37 @@ public record AwsLexv2ModelsListBotLocalesOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the bot to list locales for. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The identifier of the bot to list locales for. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--bot-id")]
     public string? BotId { get; private init; }
 
     /// <summary>
-    /// The version of the bot to list locales for. Constraints: o min: 1 o max: 5 o pattern: ^(DRAFT|[0-9]+)$
+    /// The version of the bot to list locales for. Constraints: • min: 1 • max: 5 • pattern: ^(DRAFT|[0-9]+)$
     /// </summary>
     [CliOption("--bot-version")]
     public string? BotVersion { get; private init; }
 
     /// <summary>
-    /// Specifies sorting parameters for the list of locales. You can sort by locale name in ascending or descending order. attribute -&gt; (string) [required] The bot locale attribute to sort by. Possible values: o BotLocaleName order -&gt; (string) [required] Specifies whether to sort the bot locales in ascending or de- scending order. Possible values: o Ascending o Descending Shorthand Syntax: attribute=string,order=string JSON Syntax: { "attribute": "BotLocaleName", "order": "Ascending"|"Descending" }
+    /// Specifies sorting parameters for the list of locales. You can sort by locale name in ascending or descending order. attribute -&gt; (string) [required] The bot locale attribute to sort by. Possible values: • BotLocaleName order -&gt; (string) [required] Specifies whether to sort the bot locales in ascending or descending order. Possible values: • Ascending • Descending Shorthand Syntax: attribute=string,order=string JSON Syntax: { "attribute": "BotLocaleName", "order": "Ascending"|"Descending" }
     /// </summary>
     [CliOption("--sort-by")]
     public string? SortBy { get; set; }
 
     /// <summary>
-    /// Provides the specification for a filter used to limit the response to only those locales that match the filter specification. You can only specify one filter and one value to filter on. Constraints: o min: 1 o max: 1 (structure) Filters responses returned by the ListBotLocales operation. name -&gt; (string) [required] The name of the field to filter the list of bots. Possible values: o BotLocaleName values -&gt; (list) [required] The value to use for filtering the list of bots. Constraints: o min: 1 o max: 1 (string) Constraints: o min: 1 o max: 100 o pattern: ^[0-9a-zA-Z_()\s-]+$ operator -&gt; (string) [required] The operator to use for the filter. Specify EQ when the List- BotLocales operation should return only aliases that equal the specified value. Specify CO when the ListBotLocales oper- ation should return aliases that contain the specified value. Possible values: o CO o EQ Shorthand Syntax: name=string,values=string,string,operator=string ... JSON Syntax: [ { "name": "BotLocaleName", "values": ["string", ...], "operator": "CO"|"EQ" } ... ]
+    /// Provides the specification for a filter used to limit the response to only those locales that match the filter specification. You can only specify one filter and one value to filter on. Constraints: • min: 1 • max: 1 (structure) Filters responses returned by the ListBotLocales operation. name -&gt; (string) [required] The name of the field to filter the list of bots. Possible values: • BotLocaleName values -&gt; (list) [required] The value to use for filtering the list of bots. Constraints: • min: 1 • max: 1 (string) Constraints: • min: 1 • max: 100 • pattern: ^[0-9a-zA-Z_()\s-]+$ operator -&gt; (string) [required] The operator to use for the filter. Specify EQ when the ListBotLocales operation should return only aliases that equal the specified value. Specify CO when the ListBotLocales operation should return aliases that contain the specified value. Possible values: • CO • EQ Shorthand Syntax: name=string,values=string,string,operator=string ... JSON Syntax: [ { "name": "BotLocaleName", "values": ["string", ...], "operator": "CO"|"EQ" } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
-    /// The maximum number of aliases to return in each page of results. If there are fewer results than the max page size, only the actual num- ber of results are returned. Constraints: o min: 1 o max: 1000
+    /// The maximum number of aliases to return in each page of results. If there are fewer results than the max page size, only the actual number of results are returned. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// If the response from the ListBotLocales operation contains more re- sults than specified in the maxResults parameter, a token is re- turned in the response. Use that token as the nextToken parameter to return the next page of results.
+    /// If the response from the ListBotLocales operation contains more results than specified in the maxResults parameter, a token is returned in the response. Use that token as the nextToken parameter to return the next page of results.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -118,6 +119,15 @@ public record AwsLexv2ModelsListBotLocalesOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

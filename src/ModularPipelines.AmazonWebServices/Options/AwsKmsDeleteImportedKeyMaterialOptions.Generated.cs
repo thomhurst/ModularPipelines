@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes key material that was previously imported. This operation makes the specified KMS key temporarily unusable. To restore the usability of the KMS key, reimport the same key material. For more information about importing key material into KMS, see Importing Key Material in the Key Management Service Developer Guide . When the specified KMS key is in the PendingDeletion state, this opera- tion does not change the KMS key's state. Otherwise, it changes the KMS key's state to PendingImport . C...
+/// Deletes key material that was previously imported. This operation makes the specified KMS key temporarily unusable. To restore the usability of the KMS key, reimport the same key material. For more information about importing key material into KMS, see Importing Key Material in the Key Management Service Developer Guide . When the specified KMS key is in the PendingDeletion state, this operation does not change the KMS key's state. Otherwise, it changes the KMS key's state to PendingImport . Con...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsKmsDeleteImportedKeyMaterialOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes key material that was previously imported. This operation makes the specified KMS key temporarily unusable. To restore the usability of the KMS key, reimport the same key material. For more information about importing key material into KMS, see Importing Key Material in the Key Management Service Developer Guide . When the specified KMS key is in the PendingDeletion state, this opera- tion does not change the KMS key's state. Otherwise, it changes the KMS key's state to PendingImport . C...
+    /// Deletes key material that was previously imported. This operation makes the specified KMS key temporarily unusable. To restore the usability of the KMS key, reimport the same key material. For more information about importing key material into KMS, see Importing Key Material in the Key Management Service Developer Guide . When the specified KMS key is in the PendingDeletion state, this operation does not change the KMS key's state. Otherwise, it changes the KMS key's state to PendingImport . Con...
     /// </summary>
-    /// <param name="KeyId">Identifies the KMS key from which you are deleting imported key ma- terial. The Origin of the KMS key must be EXTERNAL . Specify the key ID or key ARN of the KMS key. For example: o Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab o Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab To get the key ID and key ARN for a KMS key, use ListKeys or De- scribeKey . Constraints: o min: 1 o max: 2048</param>
+    /// <param name="KeyId">Identifies the KMS key from which you are deleting imported key material. The Origin of the KMS key must be EXTERNAL . Specify the key ID or key ARN of the KMS key. For example: • Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab • Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey . Constraints: • min: 1 • max: 2048</param>
     public AwsKmsDeleteImportedKeyMaterialOptions(
         string KeyId
     )
@@ -56,13 +57,13 @@ public record AwsKmsDeleteImportedKeyMaterialOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Identifies the KMS key from which you are deleting imported key ma- terial. The Origin of the KMS key must be EXTERNAL . Specify the key ID or key ARN of the KMS key. For example: o Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab o Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab To get the key ID and key ARN for a KMS key, use ListKeys or De- scribeKey . Constraints: o min: 1 o max: 2048
+    /// Identifies the KMS key from which you are deleting imported key material. The Origin of the KMS key must be EXTERNAL . Specify the key ID or key ARN of the KMS key. For example: • Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab • Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey . Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--key-id")]
     public string? KeyId { get; private init; }
 
     /// <summary>
-    /// Identifies the imported key material you are deleting. WARNING: If no KeyMaterialId is specified, KMS deletes the current key material. To get the list of key material IDs associated with a KMS key, use ListKeyRotations . Constraints: o min: 64 o max: 64 o pattern: ^[a-f0-9]+$
+    /// Identifies the imported key material you are deleting. WARNING: If no KeyMaterialId is specified, KMS deletes the current key material. To get the list of key material IDs associated with a KMS key, use ListKeyRotations . Constraints: • min: 64 • max: 64 • pattern: ^[a-f0-9]+$
     /// </summary>
     [CliOption("--key-material-id")]
     public string? KeyMaterialId { get; set; }
@@ -88,6 +89,15 @@ public record AwsKmsDeleteImportedKeyMaterialOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

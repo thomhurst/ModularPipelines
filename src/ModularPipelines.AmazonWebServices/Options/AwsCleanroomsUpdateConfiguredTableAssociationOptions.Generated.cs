@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsCleanroomsUpdateConfiguredTableAssociationOptions : AwsOptions,
     /// <summary>
     /// Updates a configured table association. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConfiguredTableAssociationIdentifier">The unique identifier for the configured table association to up- date. Currently accepts the configured table association ID. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
-    /// <param name="MembershipIdentifier">The unique ID for the membership that the configured table associa- tion belongs to. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="ConfiguredTableAssociationIdentifier">The unique identifier for the configured table association to update. Currently accepts the configured table association ID. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="MembershipIdentifier">The unique ID for the membership that the configured table association belongs to. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
     public AwsCleanroomsUpdateConfiguredTableAssociationOptions(
         string ConfiguredTableAssociationIdentifier,
         string MembershipIdentifier
@@ -60,25 +61,25 @@ public record AwsCleanroomsUpdateConfiguredTableAssociationOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the configured table association to up- date. Currently accepts the configured table association ID. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The unique identifier for the configured table association to update. Currently accepts the configured table association ID. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--configured-table-association-identifier")]
     public string? ConfiguredTableAssociationIdentifier { get; private init; }
 
     /// <summary>
-    /// The unique ID for the membership that the configured table associa- tion belongs to. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The unique ID for the membership that the configured table association belongs to. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--membership-identifier")]
     public string? MembershipIdentifier { get; private init; }
 
     /// <summary>
-    /// A new description for the configured table association. Constraints: o min: 0 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t\r\n]*
+    /// A new description for the configured table association. Constraints: • min: 0 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t\r\n]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The service will assume this role to access catalog metadata and query the table. Constraints: o min: 32 o max: 512 o pattern: arn:aws:iam::[\w]+:role/[\w+=./@-]+
+    /// The service will assume this role to access catalog metadata and query the table. Constraints: • min: 32 • max: 512 • pattern: arn:aws:iam::[\w]+:role/[\w+=./@-]+
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
@@ -104,6 +105,15 @@ public record AwsCleanroomsUpdateConfiguredTableAssociationOptions : AwsOptions,
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsSocialmessagingPutWhatsappBusinessPublicKeyOptions : AwsOptions
     /// <summary>
     /// Sets the business public key used to encrypt the data exchanged with the endpoint of a data exchange Flow. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OriginationPhoneNumberId">The unique identifier of the phone number to associate with the business public key. Constraints: o min: 1 o max: 115 o pattern: .*(^phone-number-id-.*$)|(^arn:.*:phone-num- ber-id/[0-9a-zA-Z]+$).*</param>
+    /// <param name="OriginationPhoneNumberId">The unique identifier of the phone number to associate with the business public key. Constraints: • min: 1 • max: 115 • pattern: .*(^phone-number-id-.*$)|(^arn:.*:phone-number-id/[0-9a-zA-Z]+$).*</param>
     public AwsSocialmessagingPutWhatsappBusinessPublicKeyOptions(
         string OriginationPhoneNumberId
     )
@@ -56,19 +57,19 @@ public record AwsSocialmessagingPutWhatsappBusinessPublicKeyOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the phone number to associate with the business public key. Constraints: o min: 1 o max: 115 o pattern: .*(^phone-number-id-.*$)|(^arn:.*:phone-num- ber-id/[0-9a-zA-Z]+$).*
+    /// The unique identifier of the phone number to associate with the business public key. Constraints: • min: 1 • max: 115 • pattern: .*(^phone-number-id-.*$)|(^arn:.*:phone-number-id/[0-9a-zA-Z]+$).*
     /// </summary>
     [CliOption("--origination-phone-number-id")]
     public string? OriginationPhoneNumberId { get; private init; }
 
     /// <summary>
-    /// The PEM-encoded 2048-bit RSA public key to set. Mutually exclusive with kmsKeyArn . Constraints: o min: 1 o max: 8192
+    /// The PEM-encoded 2048-bit RSA public key to set. Mutually exclusive with kmsKeyArn . Constraints: • min: 1 • max: 8192
     /// </summary>
     [CliOption("--business-public-key")]
     public string? BusinessPublicKey { get; set; }
 
     /// <summary>
-    /// The ARN of a customer managed asymmetric RSA key in Amazon Web Ser- vices KMS. Mutually exclusive with businessPublicKey . Constraints: o min: 1 o max: 256 o pattern: arn:aws[a-z-]*:kms:[a-z0-9-]+:[0-9]{12}:(key/.+|alias/.+)
+    /// The ARN of a customer managed asymmetric RSA key in Amazon Web Services KMS. Mutually exclusive with businessPublicKey . Constraints: • min: 1 • max: 256 • pattern: arn:aws[a-z-]*:kms:[a-z0-9-]+:[0-9]{12}:(key/.+|alias/.+)
     /// </summary>
     [CliOption("--kms-key-arn")]
     public string? KmsKeyArn { get; set; }
@@ -94,6 +95,15 @@ public record AwsSocialmessagingPutWhatsappBusinessPublicKeyOptions : AwsOptions
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsRekognitionSearchUsersByImageOptions : AwsOptions, IValidatable
     /// <summary>
     /// Searches for UserIDs using a supplied image. It first detects the largest face in the image, and then searches a specified collection for matching UserIDs. The operation returns an array of UserIDs that match the face in the supplied image, ordered by similarity score with the highest similarity first. It also returns a bounding box for the face found in the input image. Information about faces detected in the supplied image, but not used for the search, is returned in an array of UnsearchedFace...
     /// </summary>
-    /// <param name="CollectionId">The ID of an existing collection containing the UserID. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.\-]+</param>
+    /// <param name="CollectionId">The ID of an existing collection containing the UserID. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9_.\-]+</param>
     public AwsRekognitionSearchUsersByImageOptions(
         string CollectionId
     )
@@ -57,31 +58,31 @@ public record AwsRekognitionSearchUsersByImageOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of an existing collection containing the UserID. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.\-]+
+    /// The ID of an existing collection containing the UserID. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9_.\-]+
     /// </summary>
     [CliOption("--collection-id")]
     public string? CollectionId { get; private init; }
 
     /// <summary>
-    /// Provides the input image either as bytes or an S3 object. You pass image bytes to an Amazon Rekognition API operation by using the Bytes property. For example, you would use the Bytes property to pass an image loaded from a local file system. Image bytes passed by using the Bytes property must be base64-encoded. Your code may not need to encode image bytes if you are using an AWS SDK to call Ama- zon Rekognition API operations. For more information, see Analyzing an Image Loaded from a Local File System in the Amazon Rekognition Developer Guide. You pass images stored in an S3 bucket to an Amazon Rekognition API operation by using the S3Object property. Images stored in an S3 bucket do not need to be base64-encoded. The region for the S3 bucket containing the S3 object must match the region you use for Amazon Rekognition operations. If you use the AWS CLI to call Amazon Rekognition operations, pass- ing image bytes using the Bytes property is not supported. You must first upload the image to an Amazon S3 bucket and then call the op- eration using the S3Object property. For Amazon Rekognition to process an S3 object, the user must have permission to access the S3 object. For more information, see How Amazon Rekognition works with IAM in the Amazon Rekognition Devel- oper Guide. To specify a local file use --image-bytes instead. Bytes -&gt; (blob) Blob of image bytes up to 5 MBs. Note that the maximum image size you can pass to DetectCustomLabels is 4MB. Constraints: o min: 1 o max: 5242880 S3Object -&gt; (structure) Identifies an S3 object as the image source. Bucket -&gt; (string) Name of the S3 bucket. Constraints: o min: 3 o max: 255 o pattern: [0-9A-Za-z\.\-_]* Name -&gt; (string) S3 object key name. Constraints: o min: 1 o max: 1024 Version -&gt; (string) If the bucket is versioning enabled, you can specify the ob- ject version. Constraints: o min: 1 o max: 1024 Shorthand Syntax: Bytes=blob,S3Object={Bucket=string,Name=string,Version=string} JSON Syntax: { "Bytes": blob, "S3Object": { "Bucket": "string", "Name": "string", "Version": "string" } }
+    /// Provides the input image either as bytes or an S3 object. You pass image bytes to an Amazon Rekognition API operation by using the Bytes property. For example, you would use the Bytes property to pass an image loaded from a local file system. Image bytes passed by using the Bytes property must be base64-encoded. Your code may not need to encode image bytes if you are using an AWS SDK to call Amazon Rekognition API operations. For more information, see Analyzing an Image Loaded from a Local File System in the Amazon Rekognition Developer Guide. You pass images stored in an S3 bucket to an Amazon Rekognition API operation by using the S3Object property. Images stored in an S3 bucket do not need to be base64-encoded. The region for the S3 bucket containing the S3 object must match the region you use for Amazon Rekognition operations. If you use the AWS CLI to call Amazon Rekognition operations, passing image bytes using the Bytes property is not supported. You must first upload the image to an Amazon S3 bucket and then call the operation using the S3Object property. For Amazon Rekognition to process an S3 object, the user must have permission to access the S3 object. For more information, see How Amazon Rekognition works with IAM in the Amazon Rekognition Developer Guide. To specify a local file use --image-bytes instead. Bytes -&gt; (blob) Blob of image bytes up to 5 MBs. Note that the maximum image size you can pass to DetectCustomLabels is 4MB. Constraints: • min: 1 • max: 5242880 S3Object -&gt; (structure) Identifies an S3 object as the image source. Bucket -&gt; (string) Name of the S3 bucket. Constraints: • min: 3 • max: 255 • pattern: [0-9A-Za-z\.\-_]* Name -&gt; (string) S3 object key name. Constraints: • min: 1 • max: 1024 Version -&gt; (string) If the bucket is versioning enabled, you can specify the object version. Constraints: • min: 1 • max: 1024 Shorthand Syntax: Bytes=blob,S3Object={Bucket=string,Name=string,Version=string} JSON Syntax: { "Bytes": blob, "S3Object": { "Bucket": "string", "Name": "string", "Version": "string" } }
     /// </summary>
     [CliOption("--image")]
     public string? Image { get; set; }
 
     /// <summary>
-    /// Specifies the minimum confidence in the UserID match to return. De- fault value is 80. Constraints: o min: 0 o max: 100
+    /// Specifies the minimum confidence in the UserID match to return. Default value is 80. Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--user-match-threshold")]
-    public int? UserMatchThreshold { get; set; }
+    public double? UserMatchThreshold { get; set; }
 
     /// <summary>
-    /// Maximum number of UserIDs to return. Constraints: o min: 1 o max: 500
+    /// Maximum number of UserIDs to return. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--max-users")]
     public int? MaxUsers { get; set; }
 
     /// <summary>
-    /// A filter that specifies a quality bar for how much filtering is done to identify faces. Filtered faces aren't searched for in the collec- tion. The default value is NONE. Possible values: o NONE o AUTO o LOW o MEDIUM o HIGH
+    /// A filter that specifies a quality bar for how much filtering is done to identify faces. Filtered faces aren't searched for in the collection. The default value is NONE. Possible values: • NONE • AUTO • LOW • MEDIUM • HIGH
     /// </summary>
     [CliOption("--quality-filter")]
     public AwsRekognitionSearchUsersByImageQualityFilter? QualityFilter { get; set; }
@@ -113,6 +114,15 @@ public record AwsRekognitionSearchUsersByImageOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

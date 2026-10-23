@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Adds a member to a channel. The InvitedBy field in ChannelMembership is derived from the request header. A channel member can: o List messages o Send messages o Receive messages o Edit their own messages o Leave the channel Privacy settings impact this action as follows: o Public Channels: You do not need to be a member to list messages, but you must be a member to send messages. o Private Channels: You must be a member to list or send messages. NOTE: The x-amz-chime-bearer request header is man...
+/// Adds a member to a channel. The InvitedBy field in ChannelMembership is derived from the request header. A channel member can: • List messages • Send messages • Receive messages • Edit their own messages • Leave the channel Privacy settings impact this action as follows: • Public Channels: You do not need to be a member to list messages, but you must be a member to send messages. • Private Channels: You must be a member to list or send messages. NOTE: The x-amz-chime-bearer request header is man...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,12 +27,12 @@ public record AwsChimeSdkMessagingCreateChannelMembershipOptions : AwsOptions, I
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Adds a member to a channel. The InvitedBy field in ChannelMembership is derived from the request header. A channel member can: o List messages o Send messages o Receive messages o Edit their own messages o Leave the channel Privacy settings impact this action as follows: o Public Channels: You do not need to be a member to list messages, but you must be a member to send messages. o Private Channels: You must be a member to list or send messages. NOTE: The x-amz-chime-bearer request header is man...
+    /// Adds a member to a channel. The InvitedBy field in ChannelMembership is derived from the request header. A channel member can: • List messages • Send messages • Receive messages • Edit their own messages • Leave the channel Privacy settings impact this action as follows: • Public Channels: You do not need to be a member to list messages, but you must be a member to send messages. • Private Channels: You must be a member to list or send messages. NOTE: The x-amz-chime-bearer request header is man...
     /// </summary>
-    /// <param name="ChannelArn">The ARN of the channel to which you're adding users. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
-    /// <param name="MemberArn">The AppInstanceUserArn of the member you want to add to the channel. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
-    /// <param name="Type">The membership type of a user, DEFAULT or HIDDEN . Default members are always returned as part of ListChannelMemberships . Hidden mem- bers are only returned if the type filter in ListChannelMemberships equals HIDDEN . Otherwise hidden members are not returned. This is only supported by moderators. Possible values: o DEFAULT o HIDDEN</param>
-    /// <param name="ChimeBearer">The ARN of the AppInstanceUser or AppInstanceBot that makes the API call. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
+    /// <param name="ChannelArn">The ARN of the channel to which you're adding users. Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
+    /// <param name="MemberArn">The AppInstanceUserArn of the member you want to add to the channel. Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
+    /// <param name="Type">The membership type of a user, DEFAULT or HIDDEN . Default members are always returned as part of ListChannelMemberships . Hidden members are only returned if the type filter in ListChannelMemberships equals HIDDEN . Otherwise hidden members are not returned. This is only supported by moderators. Possible values: • DEFAULT • HIDDEN</param>
+    /// <param name="ChimeBearer">The ARN of the AppInstanceUser or AppInstanceBot that makes the API call. Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
     public AwsChimeSdkMessagingCreateChannelMembershipOptions(
         string ChannelArn,
         string MemberArn,
@@ -68,31 +69,31 @@ public record AwsChimeSdkMessagingCreateChannelMembershipOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the channel to which you're adding users. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
+    /// The ARN of the channel to which you're adding users. Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
     /// </summary>
     [CliOption("--channel-arn")]
     public string? ChannelArn { get; private init; }
 
     /// <summary>
-    /// The AppInstanceUserArn of the member you want to add to the channel. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
+    /// The AppInstanceUserArn of the member you want to add to the channel. Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
     /// </summary>
     [CliOption("--member-arn")]
     public string? MemberArn { get; private init; }
 
     /// <summary>
-    /// The membership type of a user, DEFAULT or HIDDEN . Default members are always returned as part of ListChannelMemberships . Hidden mem- bers are only returned if the type filter in ListChannelMemberships equals HIDDEN . Otherwise hidden members are not returned. This is only supported by moderators. Possible values: o DEFAULT o HIDDEN
+    /// The membership type of a user, DEFAULT or HIDDEN . Default members are always returned as part of ListChannelMemberships . Hidden members are only returned if the type filter in ListChannelMemberships equals HIDDEN . Otherwise hidden members are not returned. This is only supported by moderators. Possible values: • DEFAULT • HIDDEN
     /// </summary>
     [CliOption("--type")]
     public AwsChimeSdkMessagingCreateChannelMembershipType? Type { get; private init; }
 
     /// <summary>
-    /// The ARN of the AppInstanceUser or AppInstanceBot that makes the API call. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
+    /// The ARN of the AppInstanceUser or AppInstanceBot that makes the API call. Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
     /// </summary>
     [CliOption("--chime-bearer")]
     public string? ChimeBearer { get; private init; }
 
     /// <summary>
-    /// The ID of the SubChannel in the request. NOTE: Only required when creating membership in a SubChannel for a moderator in an elastic channel. Constraints: o min: 1 o max: 128 o pattern: [-_a-zA-Z0-9]*
+    /// The ID of the SubChannel in the request. NOTE: Only required when creating membership in a SubChannel for a moderator in an elastic channel. Constraints: • min: 1 • max: 128 • pattern: [-_a-zA-Z0-9]*
     /// </summary>
     [CliOption("--sub-channel-id")]
     public string? SubChannelId { get; set; }
@@ -118,6 +119,15 @@ public record AwsChimeSdkMessagingCreateChannelMembershipOptions : AwsOptions, I
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

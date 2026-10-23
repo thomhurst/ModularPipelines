@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associates a group with a continuous job. The following criteria must be met: o The job must have been created with the targetSelection field set to "CONTINUOUS". o The job status must currently be "IN_PROGRESS". o The total number of targets associated with a job must not exceed 100. Requires permission to access the AssociateTargetsWithJob action. See also: AWS API Documentation
+/// Associates a group with a continuous job. The following criteria must be met: • The job must have been created with the targetSelection field set to "CONTINUOUS". • The job status must currently be "IN_PROGRESS". • The total number of targets associated with a job must not exceed 100. Requires permission to access the AssociateTargetsWithJob action. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsIotAssociateTargetsWithJobOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associates a group with a continuous job. The following criteria must be met: o The job must have been created with the targetSelection field set to "CONTINUOUS". o The job status must currently be "IN_PROGRESS". o The total number of targets associated with a job must not exceed 100. Requires permission to access the AssociateTargetsWithJob action. See also: AWS API Documentation
+    /// Associates a group with a continuous job. The following criteria must be met: • The job must have been created with the targetSelection field set to "CONTINUOUS". • The job status must currently be "IN_PROGRESS". • The total number of targets associated with a job must not exceed 100. Requires permission to access the AssociateTargetsWithJob action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Targets">A list of thing group ARNs that define the targets of the job. Constraints: o min: 1 (string) Constraints: o max: 2048 Syntax: "string" "string" ...</param>
-    /// <param name="JobId">The unique identifier you assigned to this job when it was created. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="Targets">A list of thing group ARNs that define the targets of the job. Constraints: • min: 1 (string) Constraints: • max: 2048 Syntax: "string" "string" ...</param>
+    /// <param name="JobId">The unique identifier you assigned to this job when it was created. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+</param>
     public AwsIotAssociateTargetsWithJobOptions(
         IEnumerable<string> Targets,
         string JobId
@@ -71,25 +72,25 @@ public record AwsIotAssociateTargetsWithJobOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A list of thing group ARNs that define the targets of the job. Constraints: o min: 1 (string) Constraints: o max: 2048 Syntax: "string" "string" ...
+    /// A list of thing group ARNs that define the targets of the job. Constraints: • min: 1 (string) Constraints: • max: 2048 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--targets", GroupValues = true)]
     public IEnumerable<string>? Targets { get; private init; }
 
     /// <summary>
-    /// The unique identifier you assigned to this job when it was created. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+
+    /// The unique identifier you assigned to this job when it was created. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }
 
     /// <summary>
-    /// An optional comment string describing why the job was associated with the targets. Constraints: o max: 2028 o pattern: [^\p{C}]+
+    /// An optional comment string describing why the job was associated with the targets. Constraints: • max: 2028 • pattern: [^\p{C}]+
     /// </summary>
     [CliOption("--comment")]
     public string? Comment { get; set; }
 
     /// <summary>
-    /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that contain the value in the following format. $aws/things/*THING_NAME* /jobs/*JOB_ID* /notify-namespace-*NAME- SPACE_ID* / NOTE: The namespaceId feature is only supported by IoT Greengrass at this time. For more information, see Setting up IoT Greengrass core devices. Constraints: o pattern: [a-zA-Z0-9_-]+
+    /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that contain the value in the following format. $aws/things/*THING_NAME* /jobs/*JOB_ID* /notify-namespace-*NAMESPACE_ID* / NOTE: The namespaceId feature is only supported by IoT Greengrass at this time. For more information, see Setting up IoT Greengrass core devices. Constraints: • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--namespace-id")]
     public string? NamespaceId { get; set; }
@@ -115,6 +116,15 @@ public record AwsIotAssociateTargetsWithJobOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

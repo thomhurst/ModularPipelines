@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,10 +28,10 @@ public record AwsQbusinessCheckDocumentAccessOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Verifies if a user has access permissions for a specified document and returns the actual ACL attached to the document. Resolves user access on the document via user aliases and groups when verifying user access. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The unique identifier of the application. This is required to iden- tify the specific Amazon Q Business application context for the doc- ument access check. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
-    /// <param name="IndexId">The unique identifier of the index. Used to locate the correct index within the application where the document is stored. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
-    /// <param name="UserId">The unique identifier of the user. Used to check the access permis- sions for this specific user against the document's ACL. Constraints: o min: 1 o max: 2048</param>
-    /// <param name="DocumentId">The unique identifier of the document. Specifies which document's access permissions are being checked. Constraints: o min: 1 o max: 1825 o pattern: \P{C}*</param>
+    /// <param name="ApplicationId">The unique identifier of the application. This is required to identify the specific Amazon Q Business application context for the document access check. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
+    /// <param name="IndexId">The unique identifier of the index. Used to locate the correct index within the application where the document is stored. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
+    /// <param name="UserId">The unique identifier of the user. Used to check the access permissions for this specific user against the document's ACL. Constraints: • min: 1 • max: 2048</param>
+    /// <param name="DocumentId">The unique identifier of the document. Specifies which document's access permissions are being checked. Constraints: • min: 1 • max: 1825 • pattern: \P{C}*</param>
     public AwsQbusinessCheckDocumentAccessOptions(
         string ApplicationId,
         string IndexId,
@@ -68,31 +69,31 @@ public record AwsQbusinessCheckDocumentAccessOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the application. This is required to iden- tify the specific Amazon Q Business application context for the doc- ument access check. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
+    /// The unique identifier of the application. This is required to identify the specific Amazon Q Business application context for the document access check. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the index. Used to locate the correct index within the application where the document is stored. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
+    /// The unique identifier of the index. Used to locate the correct index within the application where the document is stored. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
     /// </summary>
     [CliOption("--index-id")]
     public string? IndexId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the user. Used to check the access permis- sions for this specific user against the document's ACL. Constraints: o min: 1 o max: 2048
+    /// The unique identifier of the user. Used to check the access permissions for this specific user against the document's ACL. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--user-id")]
     public string? UserId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the document. Specifies which document's access permissions are being checked. Constraints: o min: 1 o max: 1825 o pattern: \P{C}*
+    /// The unique identifier of the document. Specifies which document's access permissions are being checked. Constraints: • min: 1 • max: 1825 • pattern: \P{C}*
     /// </summary>
     [CliOption("--document-id")]
     public string? DocumentId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the data source. Identifies the specific data source from which the document originates. Should not be used when a document is uploaded directly with BatchPutDocument, as no dataSourceId is available or necessary. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
+    /// The unique identifier of the data source. Identifies the specific data source from which the document originates. Should not be used when a document is uploaded directly with BatchPutDocument, as no dataSourceId is available or necessary. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
     /// </summary>
     [CliOption("--data-source-id")]
     public string? DataSourceId { get; set; }
@@ -118,6 +119,15 @@ public record AwsQbusinessCheckDocumentAccessOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

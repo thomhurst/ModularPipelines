@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of all valid regions for Amazon Lightsail. Use the in- clude availability zones parameter to also return the Availability Zones in a region. See also: AWS API Documentation
+/// Returns a list of all valid regions for Amazon Lightsail. Use the include availability zones parameter to also return the Availability Zones in a region. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -28,7 +28,7 @@ public record AwsLightsailGetRegionsOptions : AwsOptions
     public bool? IncludeAvailabilityZones { get; set; }
 
     /// <summary>
-    /// tional-database-availability-zones (boolean) A Boolean value indicating whether to also include Availability Zones for databases in your get regions request. Availability Zones are indicated with a letter (us-east-2a ).
+    /// A Boolean value indicating whether to also include Availability Zones for databases in your get regions request. Availability Zones are indicated with a letter (us-east-2a ).
     /// </summary>
     [CliFlag("--include-relational-database-availability-zones", NegatedName = "--no-include-relational-database-availability-zones")]
     public bool? IncludeRelationalDatabaseAvailabilityZones { get; set; }
@@ -38,5 +38,14 @@ public record AwsLightsailGetRegionsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

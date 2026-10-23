@@ -11,13 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Create a review template. NOTE: Disclaimer Do not include or gather personal identifiable information (PII) of end users or other identifiable individuals in or via your review templates. If your review template or those shared with you and used in your account do include or collect PII you are responsible for: ensuring that the included PII is processed in accordance with ap- plicable law, providing adequate privacy notices, and obtaining nec- essary consents for processing such data. See also:...
+/// Create a review template. NOTE: Disclaimer Do not include or gather personal identifiable information (PII) of end users or other identifiable individuals in or via your review templates. If your review template or those shared with you and used in your account do include or collect PII you are responsible for: ensuring that the included PII is processed in accordance with applicable law, providing adequate privacy notices, and obtaining necessary consents for processing such data. See also: AWS...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +27,11 @@ public record AwsWellarchitectedCreateReviewTemplateOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Create a review template. NOTE: Disclaimer Do not include or gather personal identifiable information (PII) of end users or other identifiable individuals in or via your review templates. If your review template or those shared with you and used in your account do include or collect PII you are responsible for: ensuring that the included PII is processed in accordance with ap- plicable law, providing adequate privacy notices, and obtaining nec- essary consents for processing such data. See also:...
+    /// Create a review template. NOTE: Disclaimer Do not include or gather personal identifiable information (PII) of end users or other identifiable individuals in or via your review templates. If your review template or those shared with you and used in your account do include or collect PII you are responsible for: ensuring that the included PII is processed in accordance with applicable law, providing adequate privacy notices, and obtaining necessary consents for processing such data. See also: AWS...
     /// </summary>
-    /// <param name="TemplateName">Name of the review template. Constraints: o min: 3 o max: 100 o pattern: [A-Za-z0-9-_.,:/()@!&amp;?#+'\s]+</param>
-    /// <param name="Description">The review template description. Constraints: o min: 3 o max: 250 o pattern: [A-Za-z0-9-_.,:/()@!&amp;?#+'\s]+</param>
-    /// <param name="Lenses">Lenses applied to the review template. (string) The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless , or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless . Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellar- chi- tected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef . Each lens is identified by its LensSummary$LensAlias . Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...</param>
+    /// <param name="TemplateName">Name of the review template. Constraints: • min: 3 • max: 100 • pattern: [A-Za-z0-9-_.,:/()@!&amp;?#+'\s]+</param>
+    /// <param name="Description">The review template description. Constraints: • min: 3 • max: 250 • pattern: [A-Za-z0-9-_.,:/()@!&amp;?#+'\s]+</param>
+    /// <param name="Lenses">Lenses applied to the review template. (string) The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless , or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless . Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef . Each lens is identified by its LensSummary$LensAlias . Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...</param>
     public AwsWellarchitectedCreateReviewTemplateOptions(
         string TemplateName,
         string Description,
@@ -77,37 +77,37 @@ public record AwsWellarchitectedCreateReviewTemplateOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Name of the review template. Constraints: o min: 3 o max: 100 o pattern: [A-Za-z0-9-_.,:/()@!&amp;?#+'\s]+
+    /// Name of the review template. Constraints: • min: 3 • max: 100 • pattern: [A-Za-z0-9-_.,:/()@!&amp;?#+'\s]+
     /// </summary>
     [CliOption("--template-name")]
     public string? TemplateName { get; private init; }
 
     /// <summary>
-    /// The review template description. Constraints: o min: 3 o max: 250 o pattern: [A-Za-z0-9-_.,:/()@!&amp;?#+'\s]+
+    /// The review template description. Constraints: • min: 3 • max: 250 • pattern: [A-Za-z0-9-_.,:/()@!&amp;?#+'\s]+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; private init; }
 
     /// <summary>
-    /// Lenses applied to the review template. (string) The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless , or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless . Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellar- chi- tected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef . Each lens is identified by its LensSummary$LensAlias . Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...
+    /// Lenses applied to the review template. (string) The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless , or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless . Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef . Each lens is identified by its LensSummary$LensAlias . Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--lenses", GroupValues = true)]
     public IEnumerable<string>? Lenses { get; private init; }
 
     /// <summary>
-    /// The notes associated with the workload. For a review template, these are the notes that will be associated with the workload when the template is applied. Constraints: o min: 0 o max: 2084
+    /// The notes associated with the workload. For a review template, these are the notes that will be associated with the workload when the template is applied. Constraints: • min: 0 • max: 2084
     /// </summary>
     [CliOption("--notes")]
     public string? Notes { get; set; }
 
     /// <summary>
-    /// The tags assigned to the review template. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{N}\p{Z}_.:/=+@-]+ value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags assigned to the review template. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: [\p{L}\p{N}\p{Z}_.:/=+@-]+ value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. WARNING: This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail. Constraints: o min: 1 o max: 2048 o pattern: [\x00-\x7F]*
+    /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. WARNING: This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail. Constraints: • min: 1 • max: 2048 • pattern: [\x00-\x7F]*
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
@@ -134,6 +134,15 @@ public record AwsWellarchitectedCreateReviewTemplateOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

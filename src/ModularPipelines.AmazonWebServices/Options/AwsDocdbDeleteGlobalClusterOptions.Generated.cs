@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a global cluster. The primary and secondary clusters must al- ready be detached or deleted before attempting to delete a global clus- ter. NOTE: This action only applies to Amazon DocumentDB clusters. See also: AWS API Documentation
+/// Deletes a global cluster. The primary and secondary clusters must already be detached or deleted before attempting to delete a global cluster. NOTE: This action only applies to Amazon DocumentDB clusters. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsDocdbDeleteGlobalClusterOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a global cluster. The primary and secondary clusters must al- ready be detached or deleted before attempting to delete a global clus- ter. NOTE: This action only applies to Amazon DocumentDB clusters. See also: AWS API Documentation
+    /// Deletes a global cluster. The primary and secondary clusters must already be detached or deleted before attempting to delete a global cluster. NOTE: This action only applies to Amazon DocumentDB clusters. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GlobalClusterIdentifier">The cluster identifier of the global cluster being deleted. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][0-9A-Za-z-:._]*</param>
+    /// <param name="GlobalClusterIdentifier">The cluster identifier of the global cluster being deleted. Constraints: • min: 1 • max: 255 • pattern: [A-Za-z][0-9A-Za-z-:._]*</param>
     public AwsDocdbDeleteGlobalClusterOptions(
         string GlobalClusterIdentifier
     )
@@ -56,7 +57,7 @@ public record AwsDocdbDeleteGlobalClusterOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The cluster identifier of the global cluster being deleted. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][0-9A-Za-z-:._]*
+    /// The cluster identifier of the global cluster being deleted. Constraints: • min: 1 • max: 255 • pattern: [A-Za-z][0-9A-Za-z-:._]*
     /// </summary>
     [CliOption("--global-cluster-identifier")]
     public string? GlobalClusterIdentifier { get; private init; }
@@ -82,6 +83,15 @@ public record AwsDocdbDeleteGlobalClusterOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

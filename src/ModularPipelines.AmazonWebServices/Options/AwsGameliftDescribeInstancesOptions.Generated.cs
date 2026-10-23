@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API works with the following fleet types: EC2, Container Retrieves information about the EC2 instances in an Amazon GameLift Servers managed fleet, including instance ID, connection data, and sta- tus. You can use this operation with a multi-location fleet to get lo- cation-specific instance information. As an alternative, use the opera- tions https://docs.aws.amazon.com/gamelift/latest/apireference/API_ListCompute and https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeCom...
+/// This API works with the following fleet types: EC2, Container Retrieves information about the EC2 instances in an Amazon GameLift Servers managed fleet, including instance ID, connection data, and status. You can use this operation with a multi-location fleet to get location-specific instance information. As an alternative, use the operations https://docs.aws.amazon.com/gamelift/latest/apireference/API_ListCompute and https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeCompute t...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsGameliftDescribeInstancesOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Container Retrieves information about the EC2 instances in an Amazon GameLift Servers managed fleet, including instance ID, connection data, and sta- tus. You can use this operation with a multi-location fleet to get lo- cation-specific instance information. As an alternative, use the opera- tions https://docs.aws.amazon.com/gamelift/latest/apireference/API_ListCompute and https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeCom...
+    /// This API works with the following fleet types: EC2, Container Retrieves information about the EC2 instances in an Amazon GameLift Servers managed fleet, including instance ID, connection data, and status. You can use this operation with a multi-location fleet to get location-specific instance information. As an alternative, use the operations https://docs.aws.amazon.com/gamelift/latest/apireference/API_ListCompute and https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeCompute t...
     /// </summary>
-    /// <param name="FleetId">A unique identifier for the fleet to retrieve instance information for. You can use either the fleet ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$</param>
+    /// <param name="FleetId">A unique identifier for the fleet to retrieve instance information for. You can use either the fleet ID or ARN value. Constraints: • min: 1 • max: 512 • pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$</param>
     public AwsGameliftDescribeInstancesOptions(
         string FleetId
     )
@@ -57,28 +58,25 @@ public record AwsGameliftDescribeInstancesOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the fleet to retrieve instance information for. You can use either the fleet ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$
+    /// A unique identifier for the fleet to retrieve instance information for. You can use either the fleet ID or ARN value. Constraints: • min: 1 • max: 512 • pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$
     /// </summary>
     [CliOption("--fleet-id")]
     public string? FleetId { get; private init; }
 
     /// <summary>
-    /// A unique identifier for an instance to retrieve. Specify an instance ID or leave blank to retrieve all instances in the fleet. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9\.-]+$
+    /// A unique identifier for an instance to retrieve. Specify an instance ID or leave blank to retrieve all instances in the fleet. Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z0-9\.-]+$
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; set; }
 
     /// <summary>
-    /// The name of a location to retrieve instance information for, in the form of an Amazon Web Services Region code such as us-west-2 . Constraints: o min: 1 o max: 64 o pattern: ^[A-Za-z0-9\-]+$
+    /// The name of a location to retrieve instance information for, in the form of an Amazon Web Services Region code such as us-west-2 . Constraints: • min: 1 • max: 64 • pattern: ^[A-Za-z0-9\-]+$
     /// </summary>
     [CliOption("--location")]
     public string? Location { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -88,16 +86,19 @@ public record AwsGameliftDescribeInstancesOptions : AwsOptions, IValidatableObje
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -114,6 +115,15 @@ public record AwsGameliftDescribeInstancesOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

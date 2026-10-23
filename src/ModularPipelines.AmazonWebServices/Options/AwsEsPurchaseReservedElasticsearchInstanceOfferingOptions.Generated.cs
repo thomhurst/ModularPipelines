@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsEsPurchaseReservedElasticsearchInstanceOfferingOptions : AwsOpt
     /// <summary>
     /// Allows you to purchase reserved Elasticsearch instances. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ReservedElasticsearchInstanceOfferingId">The ID of the reserved Elasticsearch instance offering to purchase. Constraints: o pattern: \p{XDigit}{8}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{12}</param>
-    /// <param name="ReservationName">A customer-specified identifier to track this reservation. Constraints: o min: 5 o max: 64</param>
+    /// <param name="ReservedElasticsearchInstanceOfferingId">The ID of the reserved Elasticsearch instance offering to purchase. Constraints: • pattern: \p{XDigit}{8}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{12}</param>
+    /// <param name="ReservationName">A customer-specified identifier to track this reservation. Constraints: • min: 5 • max: 64</param>
     public AwsEsPurchaseReservedElasticsearchInstanceOfferingOptions(
         string ReservedElasticsearchInstanceOfferingId,
         string ReservationName
@@ -60,19 +61,19 @@ public record AwsEsPurchaseReservedElasticsearchInstanceOfferingOptions : AwsOpt
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the reserved Elasticsearch instance offering to purchase. Constraints: o pattern: \p{XDigit}{8}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{12}
+    /// The ID of the reserved Elasticsearch instance offering to purchase. Constraints: • pattern: \p{XDigit}{8}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{12}
     /// </summary>
     [CliOption("--reserved-elasticsearch-instance-offering-id")]
     public string? ReservedElasticsearchInstanceOfferingId { get; private init; }
 
     /// <summary>
-    /// A customer-specified identifier to track this reservation. Constraints: o min: 5 o max: 64
+    /// A customer-specified identifier to track this reservation. Constraints: • min: 5 • max: 64
     /// </summary>
     [CliOption("--reservation-name")]
     public string? ReservationName { get; private init; }
 
     /// <summary>
-    /// The number of Elasticsearch instances to reserve. Constraints: o min: 1
+    /// The number of Elasticsearch instances to reserve. Constraints: • min: 1
     /// </summary>
     [CliOption("--instance-count")]
     public int? InstanceCount { get; set; }
@@ -98,6 +99,15 @@ public record AwsEsPurchaseReservedElasticsearchInstanceOfferingOptions : AwsOpt
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -33,7 +33,7 @@ public class AwsAcm : IAwsAcm
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws acm wait sub-commands.
     /// </summary>
     public AwsAcmWait Wait => _wait ??= new AwsAcmWait(_command);
 
@@ -42,7 +42,7 @@ public class AwsAcm : IAwsAcm
     #region Commands
 
     /// <summary>
-    /// Adds one or more tags to an ACM certificate. Tags are labels that you can use to identify and organize your Amazon Web Services resources. Each tag consists of a key and an optional value . You specify the cer- tificate on input by its Amazon Resource Name (ARN). You specify the tag by using a key-value pair. NOTE: This action applies only to the certificate resource type. For all other ACM resource types, use TagResource instead. You can apply a tag to just one certificate if you want to identi...
+    /// Adds one or more tags to an ACM certificate. Tags are labels that you can use to identify and organize your Amazon Web Services resources. Each tag consists of a key and an optional value . You specify the certificate on input by its Amazon Resource Name (ARN). You specify the tag by using a key-value pair. NOTE: This action applies only to the certificate resource type. For all other ACM resource types, use TagResource instead. You can apply a tag to just one certificate if you want to identify...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -87,7 +87,7 @@ public class AwsAcm : IAwsAcm
     }
 
     /// <summary>
-    /// Creates an external account binding (EAB) for an ACME endpoint. An EAB provides credentials that authorize an ACME client to register an ac- count with the endpoint. Each EAB is associated with an IAM role that controls what certificate operations the ACME client can perform. See also: AWS API Documentation
+    /// Creates an external account binding (EAB) for an ACME endpoint. An EAB provides credentials that authorize an ACME client to register an account with the endpoint. Each EAB is associated with an IAM role that controls what certificate operations the ACME client can perform. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -147,7 +147,7 @@ public class AwsAcm : IAwsAcm
     }
 
     /// <summary>
-    /// Deletes a certificate and its associated private key. If this action succeeds, the certificate is not available for use by Amazon Web Ser- vices services integrated with ACM. Deleting a certificate is eventu- ally consistent. The may be a short delay before the certificate no longer appears in the list that can be displayed by calling the ListCertificates action or be retrieved by calling the GetCertificate action. NOTE: You cannot delete an ACM certificate that is being used by another Amazon W...
+    /// Deletes a certificate and its associated private key. If this action succeeds, the certificate is not available for use by Amazon Web Services services integrated with ACM. Deleting a certificate is eventually consistent. The may be a short delay before the certificate no longer appears in the list that can be displayed by calling the ListCertificates action or be retrieved by calling the GetCertificate action. NOTE: You cannot delete an ACM certificate that is being used by another Amazon Web S...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -177,7 +177,7 @@ public class AwsAcm : IAwsAcm
     }
 
     /// <summary>
-    /// Returns detailed metadata about the specified domain validation, in- cluding its status, domain scope, and DNS resource records required for validation. See also: AWS API Documentation
+    /// Returns detailed metadata about the specified domain validation, including its status, domain scope, and DNS resource records required for validation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -192,7 +192,7 @@ public class AwsAcm : IAwsAcm
     }
 
     /// <summary>
-    /// Returns detailed metadata about the specified ACME endpoint, including its status, URL, authorization behavior, and certificate authority con- figuration. See also: AWS API Documentation
+    /// Returns detailed metadata about the specified ACME endpoint, including its status, URL, authorization behavior, and certificate authority configuration. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -222,7 +222,7 @@ public class AwsAcm : IAwsAcm
     }
 
     /// <summary>
-    /// Returns detailed metadata about the specified ACM certificate. If you have just created a certificate using the RequestCertificate ac- tion, there is a delay of several seconds before you can retrieve in- formation about it. See also: AWS API Documentation
+    /// Returns detailed metadata about the specified ACM certificate. If you have just created a certificate using the RequestCertificate action, there is a delay of several seconds before you can retrieve information about it. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -237,7 +237,7 @@ public class AwsAcm : IAwsAcm
     }
 
     /// <summary>
-    /// Exports a private certificate issued by a private certificate authority (CA) or a public certificate for use anywhere. The exported file con- tains the certificate, the certificate chain, and the encrypted private key associated with the public key that is embedded in the certificate. For security, you must assign a passphrase for the private key when ex- porting it. For information about exporting and formatting a certificate using the ACM console or CLI, see Export a private certificate and Ex...
+    /// Exports a private certificate issued by a private certificate authority (CA) or a public certificate for use anywhere. The exported file contains the certificate, the certificate chain, and the encrypted private key associated with the public key that is embedded in the certificate. For security, you must assign a passphrase for the private key when exporting it. For information about exporting and formatting a certificate using the ACM console or CLI, see Export a private certificate and Export...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -267,7 +267,7 @@ public class AwsAcm : IAwsAcm
     }
 
     /// <summary>
-    /// Retrieves the key ID and MAC key credentials for an external account binding. These credentials are used by ACME clients during account reg- istration to bind to the endpoint. See also: AWS API Documentation
+    /// Retrieves the key ID and MAC key credentials for an external account binding. These credentials are used by ACME clients during account registration to bind to the endpoint. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -282,7 +282,7 @@ public class AwsAcm : IAwsAcm
     }
 
     /// <summary>
-    /// Retrieves a certificate and its certificate chain. The certificate may be either a public or private certificate issued using the ACM Re- questCertificate action, or a certificate imported into ACM using the ImportCertificate action. The chain consists of the certificate of the issuing CA and the intermediate certificates of any other subordinate CAs. All of the certificates are base64 encoded. You can use OpenSSL to decode the certificates and inspect individual fields. See also: AWS API Docume...
+    /// Retrieves a certificate and its certificate chain. The certificate may be either a public or private certificate issued using the ACM RequestCertificate action, or a certificate imported into ACM using the ImportCertificate action. The chain consists of the certificate of the issuing CA and the intermediate certificates of any other subordinate CAs. All of the certificates are base64 encoded. You can use OpenSSL to decode the certificates and inspect individual fields. See also: AWS API Document...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -297,7 +297,7 @@ public class AwsAcm : IAwsAcm
     }
 
     /// <summary>
-    /// Imports a certificate into Certificate Manager (ACM) to use with ser- vices that are integrated with ACM. Note that integrated services allow only certificate types and keys they support to be associated with their resources. Further, their support differs depending on whether the certificate is imported into IAM or into ACM. For more information, see the documentation for each service. For more information about im- porting certificates into ACM, see Importing Certificates in the Cer- tificate ...
+    /// Imports a certificate into Certificate Manager (ACM) to use with services that are integrated with ACM. Note that integrated services allow only certificate types and keys they support to be associated with their resources. Further, their support differs depending on whether the certificate is imported into IAM or into ACM. For more information, see the documentation for each service. For more information about importing certificates into ACM, see Importing Certificates in the Certificate Manage...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -327,7 +327,7 @@ public class AwsAcm : IAwsAcm
     }
 
     /// <summary>
-    /// Retrieves a list of domain validations for the specified ACME endpoint. See also: AWS API Documentation list-acme-domain-validations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: AcmeDomainValida...
+    /// Retrieves a list of domain validations for the specified ACME endpoint. See also: AWS API Documentation list-acme-domain-validations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: AcmeDomainValidation...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -357,7 +357,7 @@ public class AwsAcm : IAwsAcm
     }
 
     /// <summary>
-    /// Retrieves a list of external account bindings for the specified ACME endpoint. See also: AWS API Documentation list-acme-external-account-bindings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Ex...
+    /// Retrieves a list of external account bindings for the specified ACME endpoint. See also: AWS API Documentation list-acme-external-account-bindings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Extern...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -372,7 +372,7 @@ public class AwsAcm : IAwsAcm
     }
 
     /// <summary>
-    /// Returns per-domain validation summaries for an ACM certificate. Each summary includes the domain name, the active validation configuration, and the requested validation configuration when a validation method mi- gration is in progress. You can use the results to monitor the progress of an email-to-DNS validation migration and to retrieve the CNAME records required for DNS validation. See also: AWS API Documentation list-certificate-domain-validations is a paginated operation. Multiple API calls ...
+    /// Returns per-domain validation summaries for an ACM certificate. Each summary includes the domain name, the active validation configuration, and the requested validation configuration when a validation method migration is in progress. You can use the results to monitor the progress of an email-to-DNS validation migration and to retrieve the CNAME records required for DNS validation. See also: AWS API Documentation list-certificate-domain-validations is a paginated operation. Multiple API calls ma...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -387,7 +387,7 @@ public class AwsAcm : IAwsAcm
     }
 
     /// <summary>
-    /// Retrieves a list of certificate ARNs and domain names. You can request that only certificates that match a specific status be listed. You can also filter by specific attributes of the certificate. Default filter- ing returns only RSA_2048 certificates. For more information, see Fil- ters . NOTE: By default, this action does not return certificates with a Certifi- cateKeyPairOrigin of ACME . To include ACME certificates, specify ACME in the CertificateKeyPairOrigins filter. See also: AWS API Docu...
+    /// Retrieves a list of certificate ARNs and domain names. You can request that only certificates that match a specific status be listed. You can also filter by specific attributes of the certificate. Default filtering returns only RSA_2048 certificates. For more information, see Filters . NOTE: By default, this action does not return certificates with a CertificateKeyPairOrigin of ACME . To include ACME certificates, specify ACME in the CertificateKeyPairOrigins filter. See also: AWS API Documentat...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -417,7 +417,7 @@ public class AwsAcm : IAwsAcm
     }
 
     /// <summary>
-    /// Lists the tags associated with an ACM resource. NOTE: Use this action for all ACM resource types except the certificate resource type. For certificate resources, use ListTagsForCertifi- cate instead. To add one or more tags, use the TagResource action. To remove one or more tags, use the UntagResource action. See also: AWS API Documentation
+    /// Lists the tags associated with an ACM resource. NOTE: Use this action for all ACM resource types except the certificate resource type. For certificate resources, use ListTagsForCertificate instead. To add one or more tags, use the TagResource action. To remove one or more tags, use the UntagResource action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -477,7 +477,7 @@ public class AwsAcm : IAwsAcm
     }
 
     /// <summary>
-    /// Requests an ACM certificate for use with other Amazon Web Services ser- vices. To request an ACM certificate, you must specify a fully quali- fied domain name (FQDN) in the DomainName parameter. You can also spec- ify additional FQDNs in the SubjectAlternativeNames parameter. If you are requesting a private certificate, domain validation is not required. If you are requesting a public certificate, each domain name that you specify must be validated to verify that you own or control the domain. Y...
+    /// Requests an ACM certificate for use with other Amazon Web Services services. To request an ACM certificate, you must specify a fully qualified domain name (FQDN) in the DomainName parameter. You can also specify additional FQDNs in the SubjectAlternativeNames parameter. If you are requesting a private certificate, domain validation is not required. If you are requesting a public certificate, each domain name that you specify must be validated to verify that you own or control the domain. You can...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -492,7 +492,7 @@ public class AwsAcm : IAwsAcm
     }
 
     /// <summary>
-    /// Resends the email that requests domain ownership validation. The domain owner or an authorized representative must approve the ACM certificate before it can be issued. The certificate can be approved by clicking a link in the mail to navigate to the Amazon certificate approval website and then clicking I Approve . However, the validation email can be blocked by spam filters. Therefore, if you do not receive the original mail, you can request that the mail be resent within 72 hours of re- questin...
+    /// Resends the email that requests domain ownership validation. The domain owner or an authorized representative must approve the ACM certificate before it can be issued. The certificate can be approved by clicking a link in the mail to navigate to the Amazon certificate approval website and then clicking I Approve . However, the validation email can be blocked by spam filters. Therefore, if you do not receive the original mail, you can request that the mail be resent within 72 hours of requesting ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -507,7 +507,7 @@ public class AwsAcm : IAwsAcm
     }
 
     /// <summary>
-    /// Revokes an ACME account, preventing it from requesting or revoking cer- tificates. This operation is irreversible. See also: AWS API Documentation
+    /// Revokes an ACME account, preventing it from requesting or revoking certificates. This operation is irreversible. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -537,7 +537,7 @@ public class AwsAcm : IAwsAcm
     }
 
     /// <summary>
-    /// Revokes a public ACM certificate. You can only revoke certificates that have been previously exported. WARNING: Once a certificate is revoked, you cannot reuse the certificate. Re- voking a certificate is permanent. See also: AWS API Documentation
+    /// Revokes a public ACM certificate. You can only revoke certificates that have been previously exported. WARNING: Once a certificate is revoked, you cannot reuse the certificate. Revoking a certificate is permanent. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -552,7 +552,7 @@ public class AwsAcm : IAwsAcm
     }
 
     /// <summary>
-    /// Retrieves a list of certificates matching search criteria. You can fil- ter certificates by X.509 attributes and ACM specific properties like certificate status, type and renewal eligibility. This operation pro- vides more flexible filtering than ListCertificates by supporting com- plex filter statements. See also: AWS API Documentation search-certificates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by...
+    /// Retrieves a list of certificates matching search criteria. You can filter certificates by X.509 attributes and ACM specific properties like certificate status, type and renewal eligibility. This operation provides more flexible filtering than ListCertificates by supporting complex filter statements. See also: AWS API Documentation search-certificates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by provi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -567,7 +567,7 @@ public class AwsAcm : IAwsAcm
     }
 
     /// <summary>
-    /// Adds one or more tags to an ACM resource. Tags are labels that you can use to identify and organize your Amazon Web Services resources. Each tag consists of a key and an optional value . NOTE: Use this action for all ACM resource types except the certificate resource type. For certificate resources, use AddTagsToCertificate instead. To remove one or more tags, use the UntagResource action. To view all of the tags that have been applied to a resource, use the ListTagsFor- Resource action. See als...
+    /// Adds one or more tags to an ACM resource. Tags are labels that you can use to identify and organize your Amazon Web Services resources. Each tag consists of a key and an optional value . NOTE: Use this action for all ACM resource types except the certificate resource type. For certificate resources, use AddTagsToCertificate instead. To remove one or more tags, use the UntagResource action. To view all of the tags that have been applied to a resource, use the ListTagsForResource action. See also:...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -582,7 +582,7 @@ public class AwsAcm : IAwsAcm
     }
 
     /// <summary>
-    /// Removes one or more tags from an ACM resource. NOTE: Use this action for all ACM resource types except the certificate resource type. For certificate resources, use RemoveTagsFromCer- tificate instead. To add one or more tags, use the TagResource action. To view all of the tags that have been applied to a resource, use the ListTagsForRe- source action. See also: AWS API Documentation
+    /// Removes one or more tags from an ACM resource. NOTE: Use this action for all ACM resource types except the certificate resource type. For certificate resources, use RemoveTagsFromCertificate instead. To add one or more tags, use the TagResource action. To view all of the tags that have been applied to a resource, use the ListTagsForResource action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -597,7 +597,7 @@ public class AwsAcm : IAwsAcm
     }
 
     /// <summary>
-    /// Updates the prevalidation configuration of an existing domain valida- tion. See also: AWS API Documentation
+    /// Updates the prevalidation configuration of an existing domain validation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -612,7 +612,7 @@ public class AwsAcm : IAwsAcm
     }
 
     /// <summary>
-    /// Updates the configuration of an existing ACME endpoint. You can change the authorization behavior, contact requirement, or certificate author- ity settings. See also: AWS API Documentation
+    /// Updates the configuration of an existing ACME endpoint. You can change the authorization behavior, contact requirement, or certificate authority settings. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

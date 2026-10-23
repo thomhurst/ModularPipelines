@@ -11,13 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Decrypts ciphertext that was encrypted by a KMS key using any of the following operations: o Encrypt o GenerateDataKey o GenerateDataKeyPair o GenerateDataKeyWithoutPlaintext o GenerateDataKeyPairWithoutPlaintext You can use this operation to decrypt ciphertext that was encrypted un- der a symmetric encryption KMS key or an asymmetric encryption KMS key. When the KMS key is asymmetric, you must specify the KMS key and the encryption algorithm that was used to encrypt the ciphertext. For in- form...
+/// Decrypts ciphertext that was encrypted by a KMS key using any of the following operations: • Encrypt • GenerateDataKey • GenerateDataKeyPair • GenerateDataKeyWithoutPlaintext • GenerateDataKeyPairWithoutPlaintext You can use this operation to decrypt ciphertext that was encrypted under a symmetric encryption KMS key or an asymmetric encryption KMS key. When the KMS key is asymmetric, you must specify the KMS key and the encryption algorithm that was used to encrypt the ciphertext. For informatio...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,50 +25,50 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsKmsDecryptOptions : AwsOptions
 {
     /// <summary>
-    /// Ciphertext to be decrypted. The blob includes metadata. This parameter is required in all cases except when DryRun is true and DryRunModifiers is set to IGNORE_CIPHERTEXT . Constraints: o min: 1 o max: 6144
+    /// Ciphertext to be decrypted. The blob includes metadata. This parameter is required in all cases except when DryRun is true and DryRunModifiers is set to IGNORE_CIPHERTEXT . Constraints: • min: 1 • max: 6144
     /// </summary>
     [CliOption("--ciphertext-blob")]
     public string? CiphertextBlob { get; set; }
 
     /// <summary>
-    /// Specifies the encryption context to use when decrypting the data. An encryption context is valid only for cryptographic operations with a symmetric encryption KMS key. The standard asymmetric encryption al- gorithms and HMAC algorithms that KMS uses do not support an encryp- tion context. An encryption context is a collection of non-secret key-value pairs that represent additional authenticated data. When you use an en- cryption context to encrypt data, you must specify the same (an ex- act case-sensitive match) encryption context to decrypt the data. An encryption context is supported only on operations with symmetric encryption KMS keys. On operations with symmetric encryption KMS keys, an encryption context is optional, but it is strongly recom- mended. For more information, see Encryption context in the Key Management Service Developer Guide . key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Specifies the encryption context to use when decrypting the data. An encryption context is valid only for cryptographic operations with a symmetric encryption KMS key. The standard asymmetric encryption algorithms and HMAC algorithms that KMS uses do not support an encryption context. An encryption context is a collection of non-secret key-value pairs that represent additional authenticated data. When you use an encryption context to encrypt data, you must specify the same (an exact case-sensitive match) encryption context to decrypt the data. An encryption context is supported only on operations with symmetric encryption KMS keys. On operations with symmetric encryption KMS keys, an encryption context is optional, but it is strongly recommended. For more information, see Encryption context in the Key Management Service Developer Guide . key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--encryption-context", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? EncryptionContext { get; set; }
 
     /// <summary>
-    /// A list of grant tokens. Use a grant token when your permission to call this operation comes from a new grant that has not yet achieved eventual consistency . For more information, see Grant token and Using a grant token in the Key Management Service Developer Guide . Constraints: o min: 0 o max: 10 (string) Constraints: o min: 1 o max: 8192 Syntax: "string" "string" ...
+    /// A list of grant tokens. Use a grant token when your permission to call this operation comes from a new grant that has not yet achieved eventual consistency . For more information, see Grant token and Using a grant token in the Key Management Service Developer Guide . Constraints: • min: 0 • max: 10 (string) Constraints: • min: 1 • max: 8192 Syntax: "string" "string" ...
     /// </summary>
     [SecretValue]
     [CliOption("--grant-tokens", GroupValues = true)]
     public IEnumerable<string>? GrantTokens { get; set; }
 
     /// <summary>
-    /// Specifies the KMS key that KMS uses to decrypt the ciphertext. Enter a key ID of the KMS key that was used to encrypt the cipher- text. If you identify a different KMS key, the Decrypt operation throws an IncorrectKeyException . This parameter is required only when the ciphertext was encrypted under an asymmetric KMS key or when DryRun is true and DryRunModi- fiers is set to IGNORE_CIPHERTEXT . If you used a symmetric encryp- tion KMS key, KMS can get the KMS key from metadata that it adds to the symmetric ciphertext blob. However, it is always recommended as a best practice. This practice ensures that you use the KMS key that you intend. To specify a KMS key, use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with "alias/" . To specify a KMS key in a different Amazon Web Services account, you should use the key ARN or alias ARN. For example: o Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab o Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab o Alias name: alias/ExampleAlias o Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias To get the key ID and key ARN for a KMS key, use ListKeys or De- scribeKey . To get the alias name and alias ARN, use ListAliases . Constraints: o min: 1 o max: 2048
+    /// Specifies the KMS key that KMS uses to decrypt the ciphertext. Enter a key ID of the KMS key that was used to encrypt the ciphertext. If you identify a different KMS key, the Decrypt operation throws an IncorrectKeyException . This parameter is required only when the ciphertext was encrypted under an asymmetric KMS key or when DryRun is true and DryRunModifiers is set to IGNORE_CIPHERTEXT . If you used a symmetric encryption KMS key, KMS can get the KMS key from metadata that it adds to the symmetric ciphertext blob. However, it is always recommended as a best practice. This practice ensures that you use the KMS key that you intend. To specify a KMS key, use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with "alias/" . To specify a KMS key in a different Amazon Web Services account, you should use the key ARN or alias ARN. For example: • Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab • Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab • Alias name: alias/ExampleAlias • Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey . To get the alias name and alias ARN, use ListAliases . Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--key-id")]
     public string? KeyId { get; set; }
 
     /// <summary>
-    /// Specifies the encryption algorithm that will be used to decrypt the ciphertext. Specify the same algorithm that was used to encrypt the data. If you specify a different algorithm, the Decrypt operation fails. This parameter is required only when the ciphertext was encrypted under an asymmetric KMS key. The default value, SYMMETRIC_DEFAULT , represents the only supported algorithm that is valid for symmetric encryption KMS keys. Possible values: o SYMMETRIC_DEFAULT o RSAES_OAEP_SHA_1 o RSAES_OAEP_SHA_256 o SM2PKE
+    /// Specifies the encryption algorithm that will be used to decrypt the ciphertext. Specify the same algorithm that was used to encrypt the data. If you specify a different algorithm, the Decrypt operation fails. This parameter is required only when the ciphertext was encrypted under an asymmetric KMS key. The default value, SYMMETRIC_DEFAULT , represents the only supported algorithm that is valid for symmetric encryption KMS keys. Possible values: • SYMMETRIC_DEFAULT • RSAES_OAEP_SHA_1 • RSAES_OAEP_SHA_256 • SM2PKE
     /// </summary>
     [CliOption("--encryption-algorithm")]
     public AwsKmsDecryptEncryptionAlgorithm? EncryptionAlgorithm { get; set; }
 
     /// <summary>
-    /// A signed attestation document from an Amazon Web Services Nitro en- clave or NitroTPM, and the encryption algorithm to use with the pub- lic key in the attestation document. The only valid encryption algo- rithm is RSAES_OAEP_SHA_256 . This parameter supports the Amazon Web Services Nitro Enclaves SDK or any Amazon Web Services SDK for Amazon Web Services Nitro En- claves. It supports any Amazon Web Services SDK for Amazon Web Ser- vices NitroTPM. When you use this parameter, instead of returning the plaintext data, KMS encrypts the plaintext data with the public key in the at- testation document, and returns the resulting ciphertext in the Ci- phertextForRecipient field in the response. This ciphertext can be decrypted only with the private key in the attested environment. The Plaintext field in the response is null or empty. For information about the interaction between KMS and Amazon Web Services Nitro Enclaves or Amazon Web Services NitroTPM, see Cryptographic attestation support in KMS in the Key Management Ser- vice Developer Guide . KeyEncryptionAlgorithm -&gt; (string) The encryption algorithm that KMS should use with the public key for an Amazon Web Services Nitro Enclave or NitroTPM to encrypt plaintext values for the response. The only valid value is RSAES_OAEP_SHA_256 . Possible values: o RSAES_OAEP_SHA_256 AttestationDocument -&gt; (blob) The attestation document for an Amazon Web Services Nitro En- clave or a NitroTPM. This document includes the enclave's public key. Constraints: o min: 1 o max: 262144 Shorthand Syntax: KeyEncryptionAlgorithm=string,AttestationDocument=blob JSON Syntax: { "KeyEncryptionAlgorithm": "RSAES_OAEP_SHA_256", "AttestationDocument": blob }
+    /// A signed attestation document from an Amazon Web Services Nitro enclave or NitroTPM, and the encryption algorithm to use with the public key in the attestation document. The only valid encryption algorithm is RSAES_OAEP_SHA_256 . This parameter supports the Amazon Web Services Nitro Enclaves SDK or any Amazon Web Services SDK for Amazon Web Services Nitro Enclaves. It supports any Amazon Web Services SDK for Amazon Web Services NitroTPM. When you use this parameter, instead of returning the plaintext data, KMS encrypts the plaintext data with the public key in the attestation document, and returns the resulting ciphertext in the CiphertextForRecipient field in the response. This ciphertext can be decrypted only with the private key in the attested environment. The Plaintext field in the response is null or empty. For information about the interaction between KMS and Amazon Web Services Nitro Enclaves or Amazon Web Services NitroTPM, see Cryptographic attestation support in KMS in the Key Management Service Developer Guide . KeyEncryptionAlgorithm -&gt; (string) The encryption algorithm that KMS should use with the public key for an Amazon Web Services Nitro Enclave or NitroTPM to encrypt plaintext values for the response. The only valid value is RSAES_OAEP_SHA_256 . Possible values: • RSAES_OAEP_SHA_256 AttestationDocument -&gt; (blob) The attestation document for an Amazon Web Services Nitro Enclave or a NitroTPM. This document includes the enclave's public key. Constraints: • min: 1 • max: 262144 Shorthand Syntax: KeyEncryptionAlgorithm=string,AttestationDocument=blob JSON Syntax: { "KeyEncryptionAlgorithm": "RSAES_OAEP_SHA_256", "AttestationDocument": blob }
     /// </summary>
     [CliOption("--recipient")]
     public string? Recipient { get; set; }
 
     /// <summary>
-    /// Checks if your request will succeed. DryRun is an optional parame- ter. To learn more about how to use this parameter, see Testing your per- missions in the Key Management Service Developer Guide .
+    /// Checks if your request will succeed. DryRun is an optional parameter. To learn more about how to use this parameter, see Testing your permissions in the Key Management Service Developer Guide .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// Specifies the modifiers to apply to the dry run operation. DryRun- Modifiers is an optional parameter that only applies when DryRun is set to true . When set to IGNORE_CIPHERTEXT , KMS performs only authorization val- idation without ciphertext validation. This allows you to test per- missions without requiring a valid ciphertext blob. To learn more about how to use this parameter, see Testing your per- missions in the Key Management Service Developer Guide . (string) Possible values: o IGNORE_CIPHERTEXT Syntax: "string" "string" ...
+    /// Specifies the modifiers to apply to the dry run operation. DryRunModifiers is an optional parameter that only applies when DryRun is set to true . When set to IGNORE_CIPHERTEXT , KMS performs only authorization validation without ciphertext validation. This allows you to test permissions without requiring a valid ciphertext blob. To learn more about how to use this parameter, see Testing your permissions in the Key Management Service Developer Guide . (string) Possible values: • IGNORE_CIPHERTEXT Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--dry-run-modifiers", GroupValues = true)]
     public IEnumerable<string>? DryRunModifiers { get; set; }
@@ -78,5 +78,14 @@ public record AwsKmsDecryptOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

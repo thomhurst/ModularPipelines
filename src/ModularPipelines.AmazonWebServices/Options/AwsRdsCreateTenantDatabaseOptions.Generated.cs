@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -29,8 +30,8 @@ public record AwsRdsCreateTenantDatabaseOptions : AwsOptions, IValidatableObject
     /// Creates a tenant database in a DB instance that uses the multi-tenant configuration. Only RDS for Oracle container database (CDB) instances are supported. See also: AWS API Documentation
     /// </summary>
     /// <param name="DbInstanceIdentifier">The user-supplied DB instance identifier. RDS creates your tenant database in this DB instance. This parameter isn't case-sensitive.</param>
-    /// <param name="TenantDbName">The user-supplied name of the tenant database that you want to cre- ate in your DB instance. This parameter has the same constraints as DBName in CreateDBInstance .</param>
-    /// <param name="MasterUsername">The name for the master user account in your tenant database. RDS creates this user account in the tenant database and grants privi- leges to the master user. This parameter is case-sensitive. Constraints: o Must be 1 to 16 letters, numbers, or underscores. o First character must be a letter. o Can't be a reserved word for the chosen database engine.</param>
+    /// <param name="TenantDbName">The user-supplied name of the tenant database that you want to create in your DB instance. This parameter has the same constraints as DBName in CreateDBInstance .</param>
+    /// <param name="MasterUsername">The name for the master user account in your tenant database. RDS creates this user account in the tenant database and grants privileges to the master user. This parameter is case-sensitive. Constraints: • Must be 1 to 16 letters, numbers, or underscores. • First character must be a letter. • Can't be a reserved word for the chosen database engine.</param>
     public AwsRdsCreateTenantDatabaseOptions(
         string DbInstanceIdentifier,
         string TenantDbName,
@@ -71,19 +72,19 @@ public record AwsRdsCreateTenantDatabaseOptions : AwsOptions, IValidatableObject
     public string? DbInstanceIdentifier { get; private init; }
 
     /// <summary>
-    /// The user-supplied name of the tenant database that you want to cre- ate in your DB instance. This parameter has the same constraints as DBName in CreateDBInstance .
+    /// The user-supplied name of the tenant database that you want to create in your DB instance. This parameter has the same constraints as DBName in CreateDBInstance .
     /// </summary>
     [CliOption("--tenant-db-name")]
     public string? TenantDbName { get; private init; }
 
     /// <summary>
-    /// The name for the master user account in your tenant database. RDS creates this user account in the tenant database and grants privi- leges to the master user. This parameter is case-sensitive. Constraints: o Must be 1 to 16 letters, numbers, or underscores. o First character must be a letter. o Can't be a reserved word for the chosen database engine.
+    /// The name for the master user account in your tenant database. RDS creates this user account in the tenant database and grants privileges to the master user. This parameter is case-sensitive. Constraints: • Must be 1 to 16 letters, numbers, or underscores. • First character must be a letter. • Can't be a reserved word for the chosen database engine.
     /// </summary>
     [CliOption("--master-username")]
     public string? MasterUsername { get; private init; }
 
     /// <summary>
-    /// The password for the master user in your tenant database. Constraints: o Must be 8 to 30 characters. o Can include any printable ASCII character except forward slash (/ ), double quote (" ), at symbol (@ ), ampersand (&amp; ), or single quote (' ). o Can't be specified when ManageMasterUserPassword is enabled.
+    /// The password for the master user in your tenant database. Constraints: • Must be 8 to 30 characters. • Can include any printable ASCII character except forward slash (/ ), double quote (" ), at symbol (@ ), ampersand (&amp; ), or single quote (' ). • Can't be specified when ManageMasterUserPassword is enabled.
     /// </summary>
     [SecretValue]
     [CliOption("--master-user-password")]
@@ -102,13 +103,13 @@ public record AwsRdsCreateTenantDatabaseOptions : AwsOptions, IValidatableObject
     public string? NcharCharacterSetName { get; set; }
 
     /// <summary>
-    /// Specifies whether to manage the master user password with Amazon Web Services Secrets Manager. For more information, see Password management with Amazon Web Ser- vices Secrets Manager in the Amazon RDS User Guide. Constraints: o Can't manage the master user password with Amazon Web Services Se- crets Manager if MasterUserPassword is specified.
+    /// Specifies whether to manage the master user password with Amazon Web Services Secrets Manager. For more information, see Password management with Amazon Web Services Secrets Manager in the Amazon RDS User Guide. Constraints: • Can't manage the master user password with Amazon Web Services Secrets Manager if MasterUserPassword is specified.
     /// </summary>
     [CliFlag("--manage-master-user-password", NegatedName = "--no-manage-master-user-password")]
     public bool? ManageMasterUserPassword { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services KMS key identifier to encrypt a secret that is automatically generated and managed in Amazon Web Services Se- crets Manager. This setting is valid only if the master user password is managed by RDS in Amazon Web Services Secrets Manager for the DB instance. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a dif- ferent Amazon Web Services account, specify the key ARN or alias ARN. If you don't specify MasterUserSecretKmsKeyId , then the aws/se- cretsmanager KMS key is used to encrypt the secret. If the secret is in a different Amazon Web Services account, then you can't use the aws/secretsmanager KMS key to encrypt the secret, and you must use a customer managed KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
+    /// The Amazon Web Services KMS key identifier to encrypt a secret that is automatically generated and managed in Amazon Web Services Secrets Manager. This setting is valid only if the master user password is managed by RDS in Amazon Web Services Secrets Manager for the DB instance. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. If you don't specify MasterUserSecretKmsKeyId , then the aws/secretsmanager KMS key is used to encrypt the secret. If the secret is in a different Amazon Web Services account, then you can't use the aws/secretsmanager KMS key to encrypt the secret, and you must use a customer managed KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
     /// </summary>
     [CliOption("--master-user-secret-kms-key-id")]
     public string? MasterUserSecretKmsKeyId { get; set; }
@@ -140,6 +141,15 @@ public record AwsRdsCreateTenantDatabaseOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

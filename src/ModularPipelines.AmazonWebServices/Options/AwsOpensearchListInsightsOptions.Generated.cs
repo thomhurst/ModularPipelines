@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,7 +30,7 @@ public record AwsOpensearchListInsightsOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Lists insights for an Amazon OpenSearch Service domain or Amazon Web Services account. Returns a paginated list of insights based on the specified entity, filters, time range, and sort order. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Entity">The entity for which to list insights. Specifies the type and value of the entity, such as a domain name or Amazon Web Services account ID. Type -&gt; (string) [required] The type of the entity. Possible values are Account and Domain- Name . Possible values: o Account o DomainName Value -&gt; (string) The value of the entity. For DomainName , this is the domain name. For Account , this is the Amazon Web Services account ID. Constraints: o min: 3 o max: 28 o pattern: ([a-z][a-z0-9\-]+|\d{12}) Shorthand Syntax: Type=string,Value=string JSON Syntax: { "Type": "Account"|"DomainName", "Value": "string" }</param>
+    /// <param name="Entity">The entity for which to list insights. Specifies the type and value of the entity, such as a domain name or Amazon Web Services account ID. Type -&gt; (string) [required] The type of the entity. Possible values are Account and DomainName . Possible values: • Account • DomainName Value -&gt; (string) The value of the entity. For DomainName , this is the domain name. For Account , this is the Amazon Web Services account ID. Constraints: • min: 3 • max: 28 • pattern: ([a-z][a-z0-9\-]+|\d{12}) Shorthand Syntax: Type=string,Value=string JSON Syntax: { "Type": "Account"|"DomainName", "Value": "string" }</param>
     public AwsOpensearchListInsightsOptions(
         string Entity
     )
@@ -58,31 +59,31 @@ public record AwsOpensearchListInsightsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The entity for which to list insights. Specifies the type and value of the entity, such as a domain name or Amazon Web Services account ID. Type -&gt; (string) [required] The type of the entity. Possible values are Account and Domain- Name . Possible values: o Account o DomainName Value -&gt; (string) The value of the entity. For DomainName , this is the domain name. For Account , this is the Amazon Web Services account ID. Constraints: o min: 3 o max: 28 o pattern: ([a-z][a-z0-9\-]+|\d{12}) Shorthand Syntax: Type=string,Value=string JSON Syntax: { "Type": "Account"|"DomainName", "Value": "string" }
+    /// The entity for which to list insights. Specifies the type and value of the entity, such as a domain name or Amazon Web Services account ID. Type -&gt; (string) [required] The type of the entity. Possible values are Account and DomainName . Possible values: • Account • DomainName Value -&gt; (string) The value of the entity. For DomainName , this is the domain name. For Account , this is the Amazon Web Services account ID. Constraints: • min: 3 • max: 28 • pattern: ([a-z][a-z0-9\-]+|\d{12}) Shorthand Syntax: Type=string,Value=string JSON Syntax: { "Type": "Account"|"DomainName", "Value": "string" }
     /// </summary>
     [CliOption("--entity")]
     public string? Entity { get; private init; }
 
     /// <summary>
-    /// The time range for filtering insights, specified as epoch millisec- ond timestamps. From -&gt; (long) [required] The start of the time range, in epoch milliseconds. To -&gt; (long) [required] The end of the time range, in epoch milliseconds. Shorthand Syntax: From=long,To=long JSON Syntax: { "From": long, "To": long }
+    /// The time range for filtering insights, specified as epoch millisecond timestamps. From -&gt; (long) [required] The start of the time range, in epoch milliseconds. To -&gt; (long) [required] The end of the time range, in epoch milliseconds. Shorthand Syntax: From=long,To=long JSON Syntax: { "From": long, "To": long }
     /// </summary>
     [CliOption("--time-range")]
     public string? TimeRange { get; set; }
 
     /// <summary>
-    /// The sort order for the results. Possible values are ASC (ascending) and DESC (descending). Possible values: o ASC o DESC
+    /// The sort order for the results. Possible values are ASC (ascending) and DESC (descending). Possible values: • ASC • DESC
     /// </summary>
     [CliOption("--sort-order")]
     public AwsOpensearchListInsightsSortOrder? SortOrder { get; set; }
 
     /// <summary>
-    /// An optional parameter that specifies the maximum number of results to return. You can use NextToken to get the next page of results. Valid values are 1 to 500. Constraints: o min: 1 o max: 500
+    /// An optional parameter that specifies the maximum number of results to return. You can use NextToken to get the next page of results. Valid values are 1 to 500. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// If your initial ListInsights operation returns a NextToken , include the returned NextToken in subsequent ListInsights operations to re- trieve the next page of results.
+    /// If your initial ListInsights operation returns a NextToken , include the returned NextToken in subsequent ListInsights operations to retrieve the next page of results.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -109,6 +110,15 @@ public record AwsOpensearchListInsightsOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

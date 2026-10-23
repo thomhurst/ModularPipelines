@@ -36,7 +36,7 @@ public record AwsChimeSdkVoiceSearchAvailablePhoneNumbersOptions : AwsOptions
     public string? City { get; set; }
 
     /// <summary>
-    /// Confines a search to just the phone numbers associated with the specified country. Constraints: o pattern: [A-Z]{2}
+    /// Confines a search to just the phone numbers associated with the specified country. Constraints: • pattern: [A-Z]{2}
     /// </summary>
     [CliOption("--country")]
     public string? Country { get; set; }
@@ -48,19 +48,19 @@ public record AwsChimeSdkVoiceSearchAvailablePhoneNumbersOptions : AwsOptions
     public string? State { get; set; }
 
     /// <summary>
-    /// Confines a search to just the phone numbers associated with the specified toll-free prefix. Constraints: o min: 3 o max: 3 o pattern: ^8(00|33|44|55|66|77|88)$
+    /// Confines a search to just the phone numbers associated with the specified toll-free prefix. Constraints: • min: 3 • max: 3 • pattern: ^8(00|33|44|55|66|77|88)$
     /// </summary>
     [CliOption("--toll-free-prefix")]
     public string? TollFreePrefix { get; set; }
 
     /// <summary>
-    /// Confines a search to just the phone numbers associated with the specified phone number type, either local or toll-free . Possible values: o Local o TollFree
+    /// Confines a search to just the phone numbers associated with the specified phone number type, either local or toll-free . Possible values: • Local • TollFree
     /// </summary>
     [CliOption("--phone-number-type")]
     public AwsChimeSdkVoiceSearchAvailablePhoneNumbersPhoneNumberType? PhoneNumberType { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return. Constraints: o min: 1 o max: 500
+    /// The maximum number of results to return. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -77,5 +77,14 @@ public record AwsChimeSdkVoiceSearchAvailablePhoneNumbersOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

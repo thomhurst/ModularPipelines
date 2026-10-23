@@ -23,31 +23,31 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsRedshiftWaitSnapshotAvailableOptions : AwsOptions
 {
     /// <summary>
-    /// The identifier of the cluster which generated the requested snap- shots. Constraints: o max: 2147483647
+    /// The identifier of the cluster which generated the requested snapshots. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--cluster-identifier")]
     public string? ClusterIdentifier { get; set; }
 
     /// <summary>
-    /// The snapshot identifier of the snapshot about which to return infor- mation. Constraints: o max: 2147483647
+    /// The snapshot identifier of the snapshot about which to return information. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--snapshot-identifier")]
     public string? SnapshotIdentifier { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the snapshot associated with the message to describe cluster snapshots. Constraints: o max: 2147483647
+    /// The Amazon Resource Name (ARN) of the snapshot associated with the message to describe cluster snapshots. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--snapshot-arn")]
     public string? SnapshotArn { get; set; }
 
     /// <summary>
-    /// The type of snapshots for which you are requesting information. By default, snapshots of all types are returned. Valid Values: automated | manual Constraints: o max: 2147483647
+    /// The type of snapshots for which you are requesting information. By default, snapshots of all types are returned. Valid Values: automated | manual Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--snapshot-type")]
     public string? SnapshotType { get; set; }
 
     /// <summary>
-    /// A value that requests only snapshots created at or after the speci- fied time. The time value is specified in ISO 8601 format. For more information about ISO 8601, go to the ISO8601 Wikipedia page. Example: 2012-07-16T18:00:00Z
+    /// A value that requests only snapshots created at or after the specified time. The time value is specified in ISO 8601 format. For more information about ISO 8601, go to the ISO8601 Wikipedia page. Example: 2012-07-16T18:00:00Z
     /// </summary>
     [CliOption("--start-time")]
     public string? StartTime { get; set; }
@@ -59,40 +59,37 @@ public record AwsRedshiftWaitSnapshotAvailableOptions : AwsOptions
     public string? EndTime { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services account used to create or copy the snapshot. Use this field to filter the results to snapshots owned by a partic- ular account. To describe snapshots you own, either specify your Amazon Web Services account, or do not specify the parameter. Constraints: o max: 2147483647
+    /// The Amazon Web Services account used to create or copy the snapshot. Use this field to filter the results to snapshots owned by a particular account. To describe snapshots you own, either specify your Amazon Web Services account, or do not specify the parameter. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--owner-account")]
     public string? OwnerAccount { get; set; }
 
     /// <summary>
-    /// A tag key or keys for which you want to return all matching cluster snapshots that are associated with the specified key or keys. For example, suppose that you have snapshots that are tagged with keys called owner and environment . If you specify both of these tag keys in the request, Amazon Redshift returns a response with the snap- shots that have either or both of these tag keys associated with them. (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...
+    /// A tag key or keys for which you want to return all matching cluster snapshots that are associated with the specified key or keys. For example, suppose that you have snapshots that are tagged with keys called owner and environment . If you specify both of these tag keys in the request, Amazon Redshift returns a response with the snapshots that have either or both of these tag keys associated with them. (string) Constraints: • max: 2147483647 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; set; }
 
     /// <summary>
-    /// A tag value or values for which you want to return all matching cluster snapshots that are associated with the specified tag value or values. For example, suppose that you have snapshots that are tagged with values called admin and test . If you specify both of these tag values in the request, Amazon Redshift returns a response with the snapshots that have either or both of these tag values as- sociated with them. (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...
+    /// A tag value or values for which you want to return all matching cluster snapshots that are associated with the specified tag value or values. For example, suppose that you have snapshots that are tagged with values called admin and test . If you specify both of these tag values in the request, Amazon Redshift returns a response with the snapshots that have either or both of these tag values associated with them. (string) Constraints: • max: 2147483647 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-values", GroupValues = true)]
     public IEnumerable<string>? TagValues { get; set; }
 
     /// <summary>
-    /// A value that indicates whether to return snapshots only for an ex- isting cluster. You can perform table-level restore only by using a snapshot of an existing cluster, that is, a cluster that has not been deleted. Values for this parameter work as follows: o If ClusterExists is set to true , ClusterIdentifier is required. o If ClusterExists is set to false and ClusterIdentifier isn't spec- ified, all snapshots associated with deleted clusters (orphaned snapshots) are returned. o If ClusterExists is set to false and ClusterIdentifier is speci- fied for a deleted cluster, snapshots associated with that cluster are returned. o If ClusterExists is set to false and ClusterIdentifier is speci- fied for an existing cluster, no snapshots are returned.
+    /// A value that indicates whether to return snapshots only for an existing cluster. You can perform table-level restore only by using a snapshot of an existing cluster, that is, a cluster that has not been deleted. Values for this parameter work as follows: • If ClusterExists is set to true , ClusterIdentifier is required. • If ClusterExists is set to false and ClusterIdentifier isn't specified, all snapshots associated with deleted clusters (orphaned snapshots) are returned. • If ClusterExists is set to false and ClusterIdentifier is specified for a deleted cluster, snapshots associated with that cluster are returned. • If ClusterExists is set to false and ClusterIdentifier is specified for an existing cluster, no snapshots are returned.
     /// </summary>
     [CliFlag("--cluster-exists", NegatedName = "--no-cluster-exists")]
     public bool? ClusterExists { get; set; }
 
     /// <summary>
-    /// (structure) Describes a sorting entity Attribute -&gt; (string) [required] The category for sorting the snapshots. Possible values: o SOURCE_TYPE o TOTAL_SIZE o CREATE_TIME SortOrder -&gt; (string) The order for listing the attributes. Possible values: o ASC o DESC Shorthand Syntax: Attribute=string,SortOrder=string ... JSON Syntax: [ { "Attribute": "SOURCE_TYPE"|"TOTAL_SIZE"|"CREATE_TIME", "SortOrder": "ASC"|"DESC" } ... ]
+    /// (structure) Describes a sorting entity Attribute -&gt; (string) [required] The category for sorting the snapshots. Possible values: • SOURCE_TYPE • TOTAL_SIZE • CREATE_TIME SortOrder -&gt; (string) The order for listing the attributes. Possible values: • ASC • DESC Shorthand Syntax: Attribute=string,SortOrder=string ... JSON Syntax: [ { "Attribute": "SOURCE_TYPE"|"TOTAL_SIZE"|"CREATE_TIME", "SortOrder": "ASC"|"DESC" } ... ]
     /// </summary>
     [CliOption("--sorting-entities", GroupValues = true)]
     public IEnumerable<string>? SortingEntities { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -102,15 +99,27 @@ public record AwsRedshiftWaitSnapshotAvailableOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

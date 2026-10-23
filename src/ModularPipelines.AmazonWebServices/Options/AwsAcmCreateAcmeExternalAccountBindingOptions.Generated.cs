@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an external account binding (EAB) for an ACME endpoint. An EAB provides credentials that authorize an ACME client to register an ac- count with the endpoint. Each EAB is associated with an IAM role that controls what certificate operations the ACME client can perform. See also: AWS API Documentation
+/// Creates an external account binding (EAB) for an ACME endpoint. An EAB provides credentials that authorize an ACME client to register an account with the endpoint. Each EAB is associated with an IAM role that controls what certificate operations the ACME client can perform. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsAcmCreateAcmeExternalAccountBindingOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an external account binding (EAB) for an ACME endpoint. An EAB provides credentials that authorize an ACME client to register an ac- count with the endpoint. Each EAB is associated with an IAM role that controls what certificate operations the ACME client can perform. See also: AWS API Documentation
+    /// Creates an external account binding (EAB) for an ACME endpoint. An EAB provides credentials that authorize an ACME client to register an account with the endpoint. Each EAB is associated with an IAM role that controls what certificate operations the ACME client can perform. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AcmeEndpointArn">The Amazon Resource Name (ARN) of the ACME endpoint. Constraints: o min: 1 o max: 200 o pattern: arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-end- point/[a-zA-Z0-9-]+</param>
-    /// <param name="RoleArn">The Amazon Resource Name (ARN) of the IAM role to associate with the external account binding. Constraints: o min: 1 o max: 2048 o pattern: arn:aws[a-z-]*:iam::[0-9]{12}:role/.+</param>
+    /// <param name="AcmeEndpointArn">The Amazon Resource Name (ARN) of the ACME endpoint. Constraints: • min: 1 • max: 200 • pattern: arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-endpoint/[a-zA-Z0-9-]+</param>
+    /// <param name="RoleArn">The Amazon Resource Name (ARN) of the IAM role to associate with the external account binding. Constraints: • min: 1 • max: 2048 • pattern: arn:aws[a-z-]*:iam::[0-9]{12}:role/.+</param>
     public AwsAcmCreateAcmeExternalAccountBindingOptions(
         string AcmeEndpointArn,
         string RoleArn
@@ -61,32 +62,32 @@ public record AwsAcmCreateAcmeExternalAccountBindingOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the ACME endpoint. Constraints: o min: 1 o max: 200 o pattern: arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-end- point/[a-zA-Z0-9-]+
+    /// The Amazon Resource Name (ARN) of the ACME endpoint. Constraints: • min: 1 • max: 200 • pattern: arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-endpoint/[a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--acme-endpoint-arn")]
     public string? AcmeEndpointArn { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the IAM role to associate with the external account binding. Constraints: o min: 1 o max: 2048 o pattern: arn:aws[a-z-]*:iam::[0-9]{12}:role/.+
+    /// The Amazon Resource Name (ARN) of the IAM role to associate with the external account binding. Constraints: • min: 1 • max: 2048 • pattern: arn:aws[a-z-]*:iam::[0-9]{12}:role/.+
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure idempotency of the re- quest.
+    /// A unique, case-sensitive identifier to ensure idempotency of the request.
     /// </summary>
     [SecretValue]
     [CliOption("--idempotency-token")]
     public string? IdempotencyToken { get; set; }
 
     /// <summary>
-    /// The expiration configuration for the external account binding. Value -&gt; (long) [required] The numeric value of the expiration. Constraints: o min: 1 Type -&gt; (string) [required] The time unit for the expiration value. Possible values: o MINUTES o HOURS o DAYS Shorthand Syntax: Value=long,Type=string JSON Syntax: { "Value": long, "Type": "MINUTES"|"HOURS"|"DAYS" }
+    /// The expiration configuration for the external account binding. Value -&gt; (long) [required] The numeric value of the expiration. Constraints: • min: 1 Type -&gt; (string) [required] The time unit for the expiration value. Possible values: • MINUTES • HOURS • DAYS Shorthand Syntax: Value=long,Type=string JSON Syntax: { "Value": long, "Type": "MINUTES"|"HOURS"|"DAYS" }
     /// </summary>
     [CliOption("--expiration")]
     public string? Expiration { get; set; }
 
     /// <summary>
-    /// One or more tags to associate with the external account binding. Constraints: o min: 1 o max: 50 (structure) A key-value pair that identifies or specifies metadata about an ACM resource. Key -&gt; (string) [required] The key of the tag. Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) The value of the tag. Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// One or more tags to associate with the external account binding. Constraints: • min: 1 • max: 50 (structure) A key-value pair that identifies or specifies metadata about an ACM resource. Key -&gt; (string) [required] The key of the tag. Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) The value of the tag. Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -112,6 +113,15 @@ public record AwsAcmCreateAcmeExternalAccountBindingOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

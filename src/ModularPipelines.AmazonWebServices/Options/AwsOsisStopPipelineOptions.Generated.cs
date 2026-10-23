@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsOsisStopPipelineOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Stops an OpenSearch Ingestion pipeline. For more information, see Stopping an OpenSearch Ingestion pipeline . See also: AWS API Documentation
     /// </summary>
-    /// <param name="PipelineName">The name of the pipeline to stop. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+</param>
+    /// <param name="PipelineName">The name of the pipeline to stop. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+</param>
     public AwsOsisStopPipelineOptions(
         string PipelineName
     )
@@ -56,7 +57,7 @@ public record AwsOsisStopPipelineOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the pipeline to stop. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+
+    /// The name of the pipeline to stop. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+
     /// </summary>
     [CliOption("--pipeline-name")]
     public string? PipelineName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsOsisStopPipelineOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

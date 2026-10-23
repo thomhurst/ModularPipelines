@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsElasticacheModifyCacheSubnetGroupOptions : AwsOptions, IValidat
     /// <summary>
     /// Modifies an existing cache subnet group. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CacheSubnetGroupName">The name for the cache subnet group. This value is stored as a low- ercase string. Constraints: Must contain no more than 255 alphanumeric characters or hyphens. Example: mysubnetgroup</param>
+    /// <param name="CacheSubnetGroupName">The name for the cache subnet group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 alphanumeric characters or hyphens. Example: mysubnetgroup</param>
     public AwsElasticacheModifyCacheSubnetGroupOptions(
         string CacheSubnetGroupName
     )
@@ -56,7 +57,7 @@ public record AwsElasticacheModifyCacheSubnetGroupOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name for the cache subnet group. This value is stored as a low- ercase string. Constraints: Must contain no more than 255 alphanumeric characters or hyphens. Example: mysubnetgroup
+    /// The name for the cache subnet group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 alphanumeric characters or hyphens. Example: mysubnetgroup
     /// </summary>
     [CliOption("--cache-subnet-group-name")]
     public string? CacheSubnetGroupName { get; private init; }
@@ -94,6 +95,15 @@ public record AwsElasticacheModifyCacheSubnetGroupOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

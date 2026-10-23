@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsLookoutequipmentImportDataSetOptions : AwsOptions, IValidatable
     /// <summary>
     /// Imports a dataset. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SourceDataSetArn">The Amazon Resource Name (ARN) of the dataset to import. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:lookoutequip- ment:[a-zA-Z0-9\-]*:[0-9]{12}:dataset\/[0-9a-zA-Z_-]{1,200}\/.+</param>
+    /// <param name="SourceDataSetArn">The Amazon Resource Name (ARN) of the dataset to import. Constraints: • min: 20 • max: 2048 • pattern: arn:aws(-[^:]+)?:lookoutequipment:[a-zA-Z0-9\-]*:[0-9]{12}:dataset\/[0-9a-zA-Z_-]{1,200}\/.+</param>
     public AwsLookoutequipmentImportDataSetOptions(
         string SourceDataSetArn
     )
@@ -57,32 +58,32 @@ public record AwsLookoutequipmentImportDataSetOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the dataset to import. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:lookoutequip- ment:[a-zA-Z0-9\-]*:[0-9]{12}:dataset\/[0-9a-zA-Z_-]{1,200}\/.+
+    /// The Amazon Resource Name (ARN) of the dataset to import. Constraints: • min: 20 • max: 2048 • pattern: arn:aws(-[^:]+)?:lookoutequipment:[a-zA-Z0-9\-]*:[0-9]{12}:dataset\/[0-9a-zA-Z_-]{1,200}\/.+
     /// </summary>
     [CliOption("--source-dataset-arn")]
     public string? SourceDataSetArn { get; private init; }
 
     /// <summary>
-    /// The name of the machine learning dataset to be created. If the dataset already exists, Amazon Lookout for Equipment overwrites the existing dataset. If you don't specify this field, it is filled with the name of the source dataset. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$
+    /// The name of the machine learning dataset to be created. If the dataset already exists, Amazon Lookout for Equipment overwrites the existing dataset. If you don't specify this field, it is filled with the name of the source dataset. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z_-]{1,200}$
     /// </summary>
     [CliOption("--dataset-name")]
     public string? DataSetName { get; set; }
 
     /// <summary>
-    /// A unique identifier for the request. If you do not set the client request token, Amazon Lookout for Equipment generates one. Constraints: o min: 1 o max: 256 o pattern: \p{ASCII}{1,256}
+    /// A unique identifier for the request. If you do not set the client request token, Amazon Lookout for Equipment generates one. Constraints: • min: 1 • max: 256 • pattern: \p{ASCII}{1,256}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// Provides the identifier of the KMS key key used to encrypt model data by Amazon Lookout for Equipment. Constraints: o min: 1 o max: 2048 o pattern: ^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$
+    /// Provides the identifier of the KMS key key used to encrypt model data by Amazon Lookout for Equipment. Constraints: • min: 1 • max: 2048 • pattern: ^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$
     /// </summary>
     [CliOption("--server-side-kms-key-id")]
     public string? ServerSideKmsKeyId { get; set; }
 
     /// <summary>
-    /// Any tags associated with the dataset to be created. Constraints: o min: 0 o max: 200 (structure) A tag is a key-value pair that can be added to a resource as metadata. Key -&gt; (string) [required] The key for the specified tag. Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ Value -&gt; (string) [required] The value for the specified tag. Constraints: o min: 0 o max: 256 o pattern: [\s\w+-=\.:/@]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Any tags associated with the dataset to be created. Constraints: • min: 0 • max: 200 (structure) A tag is a key-value pair that can be added to a resource as metadata. Key -&gt; (string) [required] The key for the specified tag. Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ Value -&gt; (string) [required] The value for the specified tag. Constraints: • min: 0 • max: 256 • pattern: [\s\w+-=\.:/@]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -108,6 +109,15 @@ public record AwsLookoutequipmentImportDataSetOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

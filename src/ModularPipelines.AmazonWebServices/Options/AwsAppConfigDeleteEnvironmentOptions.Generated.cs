@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes an environment. To prevent users from unintentionally deleting actively-used environ- ments, enable deletion protection . See also: AWS API Documentation
+/// Deletes an environment. To prevent users from unintentionally deleting actively-used environments, enable deletion protection . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsAppConfigDeleteEnvironmentOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes an environment. To prevent users from unintentionally deleting actively-used environ- ments, enable deletion protection . See also: AWS API Documentation
+    /// Deletes an environment. To prevent users from unintentionally deleting actively-used environments, enable deletion protection . See also: AWS API Documentation
     /// </summary>
-    /// <param name="EnvironmentId">The ID of the environment that you want to delete. Constraints: o min: 1 o max: 64</param>
-    /// <param name="ApplicationId">The application ID that includes the environment that you want to delete. Constraints: o min: 1 o max: 64</param>
+    /// <param name="EnvironmentId">The ID of the environment that you want to delete. Constraints: • min: 1 • max: 64</param>
+    /// <param name="ApplicationId">The application ID that includes the environment that you want to delete. Constraints: • min: 1 • max: 64</param>
     public AwsAppConfigDeleteEnvironmentOptions(
         string EnvironmentId,
         string ApplicationId
@@ -61,19 +62,19 @@ public record AwsAppConfigDeleteEnvironmentOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the environment that you want to delete. Constraints: o min: 1 o max: 64
+    /// The ID of the environment that you want to delete. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--environment-id")]
     public string? EnvironmentId { get; private init; }
 
     /// <summary>
-    /// The application ID that includes the environment that you want to delete. Constraints: o min: 1 o max: 64
+    /// The application ID that includes the environment that you want to delete. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// A parameter to configure deletion protection. Deletion protection prevents a user from deleting an environment if your application called either GetLatestConfiguration or in the environment during the specified interval. This parameter supports the following values: o BYPASS : Instructs AppConfig to bypass the deletion protection check and delete a configuration profile even if deletion protec- tion would have otherwise prevented it. o APPLY : Instructs the deletion protection check to run, even if deletion protection is disabled at the account level. APPLY also forces the deletion protection check to run against resources cre- ated in the past hour, which are normally excluded from deletion protection checks. o ACCOUNT_DEFAULT : The default setting, which instructs AppConfig to implement the deletion protection value specified in the Up- dateAccountSettings API. Possible values: o ACCOUNT_DEFAULT o APPLY o BYPASS
+    /// A parameter to configure deletion protection. Deletion protection prevents a user from deleting an environment if your application called either GetLatestConfiguration or in the environment during the specified interval. This parameter supports the following values: • BYPASS : Instructs AppConfig to bypass the deletion protection check and delete a configuration profile even if deletion protection would have otherwise prevented it. • APPLY : Instructs the deletion protection check to run, even if deletion protection is disabled at the account level. APPLY also forces the deletion protection check to run against resources created in the past hour, which are normally excluded from deletion protection checks. • ACCOUNT_DEFAULT : The default setting, which instructs AppConfig to implement the deletion protection value specified in the UpdateAccountSettings API. Possible values: • ACCOUNT_DEFAULT • APPLY • BYPASS
     /// </summary>
     [CliOption("--deletion-protection-check")]
     public AwsAppConfigDeleteEnvironmentDeletionProtectionCheck? DeletionProtectionCheck { get; set; }
@@ -99,6 +100,15 @@ public record AwsAppConfigDeleteEnvironmentOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -73,13 +74,13 @@ public record AwsCloudfrontUpdateAnycastIpListOptions : AwsOptions, IValidatable
     public string? IfMatch { get; private init; }
 
     /// <summary>
-    /// The IP address type for the Anycast static IP list. You can specify one of the following options: o ipv4 only o ipv6 only o dualstack - Allocate a list of both IPv4 and IPv6 addresses Possible values: o ipv4 o ipv6 o dualstack
+    /// The IP address type for the Anycast static IP list. You can specify one of the following options: • ipv4 only • ipv6 only • dualstack - Allocate a list of both IPv4 and IPv6 addresses Possible values: • ipv4 • ipv6 • dualstack
     /// </summary>
     [CliOption("--ip-address-type")]
     public AwsCloudfrontUpdateAnycastIpListIpAddressType? IpAddressType { get; set; }
 
     /// <summary>
-    /// A list of IPAM CIDR configurations that specify the IP address ranges and IPAM pool settings for updating the Anycast static IP list. (structure) Configuration for an IPAM CIDR that defines a specific IP ad- dress range, IPAM pool, and associated Anycast IP address. Cidr -&gt; (string) [required] The CIDR that specifies the IP address range for this IPAM configuration. IpamPoolArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the IPAM pool that the CIDR block is assigned to. AnycastIp -&gt; (string) The specified Anycast IP address allocated from the IPAM pool for this CIDR configuration. Status -&gt; (string) The current status of the IPAM CIDR configuration. Possible values: o provisioned o failed-provision o provisioning o deprovisioned o failed-deprovision o deprovisioning o advertised o failed-advertise o advertising o withdrawn o failed-withdraw o withdrawing Shorthand Syntax: Cidr=string,IpamPoolArn=string,AnycastIp=string,Status=string ... JSON Syntax: [ { "Cidr": "string", "IpamPoolArn": "string", "AnycastIp": "string", "Status": "provisioned"|"failed-provision"|"provisioning"|"deprovisioned"|"failed-deprovision"|"deprovisioning"|"advertised"|"failed-advertise"|"advertising"|"withdrawn"|"failed-withdraw"|"withdrawing" } ... ]
+    /// A list of IPAM CIDR configurations that specify the IP address ranges and IPAM pool settings for updating the Anycast static IP list. (structure) Configuration for an IPAM CIDR that defines a specific IP address range, IPAM pool, and associated Anycast IP address. Cidr -&gt; (string) [required] The CIDR that specifies the IP address range for this IPAM configuration. IpamPoolArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the IPAM pool that the CIDR block is assigned to. AnycastIp -&gt; (string) The specified Anycast IP address allocated from the IPAM pool for this CIDR configuration. Status -&gt; (string) The current status of the IPAM CIDR configuration. Possible values: • provisioned • failed-provision • provisioning • deprovisioned • failed-deprovision • deprovisioning • advertised • failed-advertise • advertising • withdrawn • failed-withdraw • withdrawing Shorthand Syntax: Cidr=string,IpamPoolArn=string,AnycastIp=string,Status=string ... JSON Syntax: [ { "Cidr": "string", "IpamPoolArn": "string", "AnycastIp": "string", "Status": "provisioned"|"failed-provision"|"provisioning"|"deprovisioned"|"failed-deprovision"|"deprovisioning"|"advertised"|"failed-advertise"|"advertising"|"withdrawn"|"failed-withdraw"|"withdrawing" } ... ]
     /// </summary>
     [CliOption("--ipam-cidr-configs", GroupValues = true)]
     public IEnumerable<string>? IpamCidrConfigs { get; set; }
@@ -105,6 +106,15 @@ public record AwsCloudfrontUpdateAnycastIpListOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

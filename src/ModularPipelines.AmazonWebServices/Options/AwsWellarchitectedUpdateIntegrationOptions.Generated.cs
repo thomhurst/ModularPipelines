@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +29,8 @@ public record AwsWellarchitectedUpdateIntegrationOptions : AwsOptions, IValidata
     /// <summary>
     /// Update integration features. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkloadId">The ID assigned to the workload. This ID is unique within an Amazon Web Services Region. Constraints: o min: 32 o max: 32 o pattern: [0-9a-f]{32}</param>
-    /// <param name="IntegratingService">Which integrated service to update. Possible values: o JIRA</param>
+    /// <param name="WorkloadId">The ID assigned to the workload. This ID is unique within an Amazon Web Services Region. Constraints: • min: 32 • max: 32 • pattern: [0-9a-f]{32}</param>
+    /// <param name="IntegratingService">Which integrated service to update. Possible values: • JIRA</param>
     public AwsWellarchitectedUpdateIntegrationOptions(
         string WorkloadId,
         string IntegratingService
@@ -61,19 +62,19 @@ public record AwsWellarchitectedUpdateIntegrationOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region. Constraints: o min: 32 o max: 32 o pattern: [0-9a-f]{32}
+    /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region. Constraints: • min: 32 • max: 32 • pattern: [0-9a-f]{32}
     /// </summary>
     [CliOption("--workload-id")]
     public string? WorkloadId { get; private init; }
 
     /// <summary>
-    /// Which integrated service to update. Possible values: o JIRA
+    /// Which integrated service to update. Possible values: • JIRA
     /// </summary>
     [CliOption("--integrating-service")]
     public string? IntegratingService { get; private init; }
 
     /// <summary>
-    /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. WARNING: This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail. Constraints: o min: 1 o max: 2048 o pattern: [\x00-\x7F]*
+    /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. WARNING: This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail. Constraints: • min: 1 • max: 2048 • pattern: [\x00-\x7F]*
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
@@ -100,6 +101,15 @@ public record AwsWellarchitectedUpdateIntegrationOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

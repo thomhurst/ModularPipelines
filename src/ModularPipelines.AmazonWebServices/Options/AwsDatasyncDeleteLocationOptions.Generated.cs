@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsDatasyncDeleteLocationOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes a transfer location resource from DataSync. See also: AWS API Documentation
     /// </summary>
-    /// <param name="LocationArn">The Amazon Resource Name (ARN) of the location to delete. Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):data- sync:[a-z\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$</param>
+    /// <param name="LocationArn">The Amazon Resource Name (ARN) of the location to delete. Constraints: • max: 128 • pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):datasync:[a-z\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$</param>
     public AwsDatasyncDeleteLocationOptions(
         string LocationArn
     )
@@ -56,7 +57,7 @@ public record AwsDatasyncDeleteLocationOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the location to delete. Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):data- sync:[a-z\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$
+    /// The Amazon Resource Name (ARN) of the location to delete. Constraints: • max: 128 • pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):datasync:[a-z\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$
     /// </summary>
     [CliOption("--location-arn")]
     public string? LocationArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsDatasyncDeleteLocationOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

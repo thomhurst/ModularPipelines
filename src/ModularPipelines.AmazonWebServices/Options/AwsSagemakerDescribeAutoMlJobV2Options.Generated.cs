@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsSagemakerDescribeAutoMlJobV2Options : AwsOptions, IValidatableO
     /// <summary>
     /// Returns information about an AutoML job created by calling CreateAutoMLJobV2 or CreateAutoMLJob . See also: AWS API Documentation
     /// </summary>
-    /// <param name="AutoMlJobName">Requests information about an AutoML job V2 using its unique name. Constraints: o min: 1 o max: 32 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,31}</param>
+    /// <param name="AutoMlJobName">Requests information about an AutoML job V2 using its unique name. Constraints: • min: 1 • max: 32 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,31}</param>
     public AwsSagemakerDescribeAutoMlJobV2Options(
         string AutoMlJobName
     )
@@ -56,7 +57,7 @@ public record AwsSagemakerDescribeAutoMlJobV2Options : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Requests information about an AutoML job V2 using its unique name. Constraints: o min: 1 o max: 32 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,31}
+    /// Requests information about an AutoML job V2 using its unique name. Constraints: • min: 1 • max: 32 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,31}
     /// </summary>
     [CliOption("--auto-ml-job-name")]
     public string? AutoMlJobName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSagemakerDescribeAutoMlJobV2Options : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

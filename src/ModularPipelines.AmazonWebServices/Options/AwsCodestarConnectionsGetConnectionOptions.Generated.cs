@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsCodestarConnectionsGetConnectionOptions : AwsOptions, IValidata
     /// <summary>
     /// Returns the connection ARN and details such as status, owner, and provider type. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConnectionArn">The Amazon Resource Name (ARN) of a connection. Constraints: o min: 0 o max: 256 o pattern: arn:aws(-[\w]+)*:.+:.+:[0-9]{12}:.+</param>
+    /// <param name="ConnectionArn">The Amazon Resource Name (ARN) of a connection. Constraints: • min: 0 • max: 256 • pattern: arn:aws(-[\w]+)*:.+:.+:[0-9]{12}:.+</param>
     public AwsCodestarConnectionsGetConnectionOptions(
         string ConnectionArn
     )
@@ -56,7 +57,7 @@ public record AwsCodestarConnectionsGetConnectionOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of a connection. Constraints: o min: 0 o max: 256 o pattern: arn:aws(-[\w]+)*:.+:.+:[0-9]{12}:.+
+    /// The Amazon Resource Name (ARN) of a connection. Constraints: • min: 0 • max: 256 • pattern: arn:aws(-[\w]+)*:.+:.+:[0-9]{12}:.+
     /// </summary>
     [CliOption("--connection-arn")]
     public string? ConnectionArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsCodestarConnectionsGetConnectionOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

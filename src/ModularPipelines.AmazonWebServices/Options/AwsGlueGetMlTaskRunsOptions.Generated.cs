@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets a list of runs for a machine learning transform. Machine learning task runs are asynchronous tasks that Glue runs on your behalf as part of various machine learning workflows. You can get a sortable, filter- able list of machine learning task runs by calling GetMLTaskRuns with their parent transform's TransformID and other optional parameters as documented in this section. This operation returns a list of historic runs and must be paginated. See also: AWS API Documentation
+/// Gets a list of runs for a machine learning transform. Machine learning task runs are asynchronous tasks that Glue runs on your behalf as part of various machine learning workflows. You can get a sortable, filterable list of machine learning task runs by calling GetMLTaskRuns with their parent transform's TransformID and other optional parameters as documented in this section. This operation returns a list of historic runs and must be paginated. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsGlueGetMlTaskRunsOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets a list of runs for a machine learning transform. Machine learning task runs are asynchronous tasks that Glue runs on your behalf as part of various machine learning workflows. You can get a sortable, filter- able list of machine learning task runs by calling GetMLTaskRuns with their parent transform's TransformID and other optional parameters as documented in this section. This operation returns a list of historic runs and must be paginated. See also: AWS API Documentation
+    /// Gets a list of runs for a machine learning transform. Machine learning task runs are asynchronous tasks that Glue runs on your behalf as part of various machine learning workflows. You can get a sortable, filterable list of machine learning task runs by calling GetMLTaskRuns with their parent transform's TransformID and other optional parameters as documented in this section. This operation returns a list of historic runs and must be paginated. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TransformId">The unique identifier of the machine learning transform. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="TransformId">The unique identifier of the machine learning transform. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
     public AwsGlueGetMlTaskRunsOptions(
         string TransformId
     )
@@ -57,7 +58,7 @@ public record AwsGlueGetMlTaskRunsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the machine learning transform. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The unique identifier of the machine learning transform. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--transform-id")]
     public string? TransformId { get; private init; }
@@ -70,19 +71,19 @@ public record AwsGlueGetMlTaskRunsOptions : AwsOptions, IValidatableObject
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return. Constraints: o min: 1 o max: 1000
+    /// The maximum number of results to return. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The filter criteria, in the TaskRunFilterCriteria structure, for the task run. TaskRunType -&gt; (string) The type of task run. Possible values: o EVALUATION o LABELING_SET_GENERATION o IMPORT_LABELS o EXPORT_LABELS o FIND_MATCHES Status -&gt; (string) The current status of the task run. Possible values: o STARTING o RUNNING o STOPPING o STOPPED o SUCCEEDED o FAILED o TIMEOUT StartedBefore -&gt; (timestamp) Filter on task runs started before this date. StartedAfter -&gt; (timestamp) Filter on task runs started after this date. Shorthand Syntax: TaskRunType=string,Status=string,StartedBefore=timestamp,StartedAfter=timestamp JSON Syntax: { "TaskRunType": "EVALUATION"|"LABELING_SET_GENERATION"|"IMPORT_LABELS"|"EXPORT_LABELS"|"FIND_MATCHES", "Status": "STARTING"|"RUNNING"|"STOPPING"|"STOPPED"|"SUCCEEDED"|"FAILED"|"TIMEOUT", "StartedBefore": timestamp, "StartedAfter": timestamp }
+    /// The filter criteria, in the TaskRunFilterCriteria structure, for the task run. TaskRunType -&gt; (string) The type of task run. Possible values: • EVALUATION • LABELING_SET_GENERATION • IMPORT_LABELS • EXPORT_LABELS • FIND_MATCHES Status -&gt; (string) The current status of the task run. Possible values: • STARTING • RUNNING • STOPPING • STOPPED • SUCCEEDED • FAILED • TIMEOUT StartedBefore -&gt; (timestamp) Filter on task runs started before this date. StartedAfter -&gt; (timestamp) Filter on task runs started after this date. Shorthand Syntax: TaskRunType=string,Status=string,StartedBefore=timestamp,StartedAfter=timestamp JSON Syntax: { "TaskRunType": "EVALUATION"|"LABELING_SET_GENERATION"|"IMPORT_LABELS"|"EXPORT_LABELS"|"FIND_MATCHES", "Status": "STARTING"|"RUNNING"|"STOPPING"|"STOPPED"|"SUCCEEDED"|"FAILED"|"TIMEOUT", "StartedBefore": timestamp, "StartedAfter": timestamp }
     /// </summary>
     [CliOption("--filter")]
     public string? Filter { get; set; }
 
     /// <summary>
-    /// The sorting criteria, in the TaskRunSortCriteria structure, for the task run. Column -&gt; (string) [required] The column to be used to sort the list of task runs for the ma- chine learning transform. Possible values: o TASK_RUN_TYPE o STATUS o STARTED SortDirection -&gt; (string) [required] The sort direction to be used to sort the list of task runs for the machine learning transform. Possible values: o DESCENDING o ASCENDING Shorthand Syntax: Column=string,SortDirection=string JSON Syntax: { "Column": "TASK_RUN_TYPE"|"STATUS"|"STARTED", "SortDirection": "DESCENDING"|"ASCENDING" }
+    /// The sorting criteria, in the TaskRunSortCriteria structure, for the task run. Column -&gt; (string) [required] The column to be used to sort the list of task runs for the machine learning transform. Possible values: • TASK_RUN_TYPE • STATUS • STARTED SortDirection -&gt; (string) [required] The sort direction to be used to sort the list of task runs for the machine learning transform. Possible values: • DESCENDING • ASCENDING Shorthand Syntax: Column=string,SortDirection=string JSON Syntax: { "Column": "TASK_RUN_TYPE"|"STATUS"|"STARTED", "SortDirection": "DESCENDING"|"ASCENDING" }
     /// </summary>
     [CliOption("--sort")]
     public string? Sort { get; set; }
@@ -108,6 +109,15 @@ public record AwsGlueGetMlTaskRunsOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of conformance pack compliance scores. A compliance score is the percentage of the number of compliant rule-resource combi- nations in a conformance pack compared to the number of total possible rule-resource combinations in the conformance pack. This metric pro- vides you with a high-level view of the compliance state of your con- formance packs. You can use it to identify, investigate, and understand the level of compliance in your conformance packs. NOTE: Conformance packs with...
+/// Returns a list of conformance pack compliance scores. A compliance score is the percentage of the number of compliant rule-resource combinations in a conformance pack compared to the number of total possible rule-resource combinations in the conformance pack. This metric provides you with a high-level view of the compliance state of your conformance packs. You can use it to identify, investigate, and understand the level of compliance in your conformance packs. NOTE: Conformance packs with no ev...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -24,25 +24,25 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsConfigserviceListConformancePackComplianceScoresOptions : AwsOptions
 {
     /// <summary>
-    /// Filters the results based on the ConformancePackComplianceScoresFil- ters . ConformancePackNames -&gt; (list) [required] The names of the conformance packs whose compliance scores you want to include in the conformance pack compliance score result set. You can include up to 25 conformance packs in the Confor- mancePackNames array of strings, each with a character limit of 256 characters for the conformance pack name. Constraints: o min: 1 o max: 25 (string) Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z][-a-zA-Z0-9]* Shorthand Syntax: ConformancePackNames=string,string JSON Syntax: { "ConformancePackNames": ["string", ...] }
+    /// Filters the results based on the ConformancePackComplianceScoresFilters . ConformancePackNames -&gt; (list) [required] The names of the conformance packs whose compliance scores you want to include in the conformance pack compliance score result set. You can include up to 25 conformance packs in the ConformancePackNames array of strings, each with a character limit of 256 characters for the conformance pack name. Constraints: • min: 1 • max: 25 (string) Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z][-a-zA-Z0-9]* Shorthand Syntax: ConformancePackNames=string,string JSON Syntax: { "ConformancePackNames": ["string", ...] }
     /// </summary>
     [CliOption("--filters")]
     public string? Filters { get; set; }
 
     /// <summary>
-    /// Determines the order in which conformance pack compliance scores are sorted. Either in ascending or descending order. By default, conformance pack compliance scores are sorted in alpha- betical order by name of the conformance pack. Conformance pack com- pliance scores are sorted in reverse alphabetical order if you enter DESCENDING . You can sort conformance pack compliance scores by the numerical value of the compliance score by entering SCORE in the SortBy ac- tion. When compliance scores are sorted by SCORE , conformance packs with a compliance score of INSUFFICIENT_DATA will be last when sort- ing by ascending order and first when sorting by descending order. Possible values: o ASCENDING o DESCENDING
+    /// Determines the order in which conformance pack compliance scores are sorted. Either in ascending or descending order. By default, conformance pack compliance scores are sorted in alphabetical order by name of the conformance pack. Conformance pack compliance scores are sorted in reverse alphabetical order if you enter DESCENDING . You can sort conformance pack compliance scores by the numerical value of the compliance score by entering SCORE in the SortBy action. When compliance scores are sorted by SCORE , conformance packs with a compliance score of INSUFFICIENT_DATA will be last when sorting by ascending order and first when sorting by descending order. Possible values: • ASCENDING • DESCENDING
     /// </summary>
     [CliOption("--sort-order")]
     public AwsConfigserviceListConformancePackComplianceScoresSortOrder? SortOrder { get; set; }
 
     /// <summary>
-    /// Sorts your conformance pack compliance scores in either ascending or descending order, depending on SortOrder . By default, conformance pack compliance scores are sorted in alpha- betical order by name of the conformance pack. Enter SCORE , to sort conformance pack compliance scores by the numerical value of the compliance score. Possible values: o SCORE
+    /// Sorts your conformance pack compliance scores in either ascending or descending order, depending on SortOrder . By default, conformance pack compliance scores are sorted in alphabetical order by name of the conformance pack. Enter SCORE , to sort conformance pack compliance scores by the numerical value of the compliance score. Possible values: • SCORE
     /// </summary>
     [CliOption("--sort-by")]
     public string? SortBy { get; set; }
 
     /// <summary>
-    /// The maximum number of conformance pack compliance scores returned on each page. Constraints: o min: 0 o max: 20
+    /// The maximum number of conformance pack compliance scores returned on each page. Constraints: • min: 0 • max: 20
     /// </summary>
     [CliOption("--limit")]
     public int? Limit { get; set; }
@@ -59,5 +59,14 @@ public record AwsConfigserviceListConformancePackComplianceScoresOptions : AwsOp
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

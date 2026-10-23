@@ -23,37 +23,37 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsServicecatalogGetProvisionedProductOutputsOptions : AwsOptions
 {
     /// <summary>
-    /// The language code. o jp - Japanese o zh - Chinese Constraints: o max: 100
+    /// The language code. • jp - Japanese • zh - Chinese Constraints: • max: 100
     /// </summary>
     [CliOption("--accept-language")]
     public string? AcceptLanguage { get; set; }
 
     /// <summary>
-    /// The identifier of the provisioned product that you want the outputs from. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// The identifier of the provisioned product that you want the outputs from. Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*
     /// </summary>
     [CliOption("--provisioned-product-id")]
     public string? ProvisionedProductId { get; set; }
 
     /// <summary>
-    /// The name of the provisioned product that you want the outputs from. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9][a-zA-Z0-9._-]*
+    /// The name of the provisioned product that you want the outputs from. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9][a-zA-Z0-9._-]*
     /// </summary>
     [CliOption("--provisioned-product-name")]
     public string? ProvisionedProductName { get; set; }
 
     /// <summary>
-    /// The list of keys that the API should return with their values. If none are provided, the API will return all outputs of the provi- sioned product. Constraints: o max: 60 (string) Syntax: "string" "string" ...
+    /// The list of keys that the API should return with their values. If none are provided, the API will return all outputs of the provisioned product. Constraints: • max: 60 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--output-keys", GroupValues = true)]
     public IEnumerable<string>? OutputKeys { get; set; }
 
     /// <summary>
-    /// The maximum number of items to return with this call. Constraints: o min: 0 o max: 20
+    /// The maximum number of items to return with this call. Constraints: • min: 0 • max: 20
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The page token for the next set of results. To retrieve the first set of results, use null. Constraints: o max: 2024 o pattern: [\u0009\u000a\u000d\u0020-\uD7FF\uE000-\uFFFD]*
+    /// The page token for the next set of results. To retrieve the first set of results, use null. Constraints: • max: 2024 • pattern: [\u0009\u000a\u000d\u0020-\uD7FF\uE000-\uFFFD]*
     /// </summary>
     [SecretValue]
     [CliOption("--page-token")]
@@ -64,5 +64,14 @@ public record AwsServicecatalogGetProvisionedProductOutputsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsSesv2DeleteContactOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Removes a contact from a contact list. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ContactListName">The name of the contact list from which the contact should be re- moved.</param>
+    /// <param name="ContactListName">The name of the contact list from which the contact should be removed.</param>
     /// <param name="EmailAddress">The contact's email address.</param>
     public AwsSesv2DeleteContactOptions(
         string ContactListName,
@@ -60,7 +61,7 @@ public record AwsSesv2DeleteContactOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the contact list from which the contact should be re- moved.
+    /// The name of the contact list from which the contact should be removed.
     /// </summary>
     [CliOption("--contact-list-name")]
     public string? ContactListName { get; private init; }
@@ -92,6 +93,15 @@ public record AwsSesv2DeleteContactOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

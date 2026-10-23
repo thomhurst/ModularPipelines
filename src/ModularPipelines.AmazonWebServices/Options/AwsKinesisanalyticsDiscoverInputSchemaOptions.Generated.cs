@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: This documentation is for version 1 of the Amazon Kinesis Data Ana- lytics API, which only supports SQL applications. Version 2 of the API supports SQL and Java applications. For more information about version 2, see Amazon Kinesis Data Analytics API V2 Documentation . Infers a schema by evaluating sample records on the specified streaming source (Amazon Kinesis stream or Amazon Kinesis Firehose delivery stream) or S3 object. In the response, the operation returns the in- ferred schema and...
+/// NOTE: This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only supports SQL applications. Version 2 of the API supports SQL and Java applications. For more information about version 2, see Amazon Kinesis Data Analytics API V2 Documentation . Infers a schema by evaluating sample records on the specified streaming source (Amazon Kinesis stream or Amazon Kinesis Firehose delivery stream) or S3 object. In the response, the operation returns the inferred schema and als...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,31 +22,31 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsKinesisanalyticsDiscoverInputSchemaOptions : AwsOptions
 {
     /// <summary>
-    /// Amazon Resource Name (ARN) of the streaming source. Constraints: o min: 1 o max: 2048 o pattern: arn:.*
+    /// Amazon Resource Name (ARN) of the streaming source. Constraints: • min: 1 • max: 2048 • pattern: arn:.*
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; set; }
 
     /// <summary>
-    /// ARN of the IAM role that Amazon Kinesis Analytics can assume to ac- cess the stream on your behalf. Constraints: o min: 1 o max: 2048 o pattern: arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+
+    /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream on your behalf. Constraints: • min: 1 • max: 2048 • pattern: arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
     /// <summary>
-    /// Point at which you want Amazon Kinesis Analytics to start reading records from the specified streaming source discovery purposes. InputStartingPosition -&gt; (string) The starting position on the stream. o NOW - Start reading just after the most recent record in the stream, start at the request time stamp that the customer is- sued. o TRIM_HORIZON - Start reading at the last untrimmed record in the stream, which is the oldest record available in the stream. This option is not available for an Amazon Kinesis Firehose delivery stream. o LAST_STOPPED_POINT - Resume reading from where the application last stopped reading. Possible values: o NOW o TRIM_HORIZON o LAST_STOPPED_POINT Shorthand Syntax: InputStartingPosition=string JSON Syntax: { "InputStartingPosition": "NOW"|"TRIM_HORIZON"|"LAST_STOPPED_POINT" }
+    /// Point at which you want Amazon Kinesis Analytics to start reading records from the specified streaming source discovery purposes. InputStartingPosition -&gt; (string) The starting position on the stream. • NOW - Start reading just after the most recent record in the stream, start at the request time stamp that the customer issued. • TRIM_HORIZON - Start reading at the last untrimmed record in the stream, which is the oldest record available in the stream. This option is not available for an Amazon Kinesis Firehose delivery stream. • LAST_STOPPED_POINT - Resume reading from where the application last stopped reading. Possible values: • NOW • TRIM_HORIZON • LAST_STOPPED_POINT Shorthand Syntax: InputStartingPosition=string JSON Syntax: { "InputStartingPosition": "NOW"|"TRIM_HORIZON"|"LAST_STOPPED_POINT" }
     /// </summary>
     [CliOption("--input-starting-position-configuration")]
     public string? InputStartingPositionConfiguration { get; set; }
 
     /// <summary>
-    /// Specify this parameter to discover a schema from data in an Amazon S3 object. RoleARN -&gt; (string) [required] IAM ARN of the role used to access the data. Constraints: o min: 1 o max: 2048 o pattern: arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+ BucketARN -&gt; (string) [required] ARN of the S3 bucket that contains the data. Constraints: o min: 1 o max: 2048 o pattern: arn:.* FileKey -&gt; (string) [required] The name of the object that contains the data. Constraints: o min: 1 o max: 1024 Shorthand Syntax: RoleARN=string,BucketARN=string,FileKey=string JSON Syntax: { "RoleARN": "string", "BucketARN": "string", "FileKey": "string" }
+    /// Specify this parameter to discover a schema from data in an Amazon S3 object. RoleARN -&gt; (string) [required] IAM ARN of the role used to access the data. Constraints: • min: 1 • max: 2048 • pattern: arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+ BucketARN -&gt; (string) [required] ARN of the S3 bucket that contains the data. Constraints: • min: 1 • max: 2048 • pattern: arn:.* FileKey -&gt; (string) [required] The name of the object that contains the data. Constraints: • min: 1 • max: 1024 Shorthand Syntax: RoleARN=string,BucketARN=string,FileKey=string JSON Syntax: { "RoleARN": "string", "BucketARN": "string", "FileKey": "string" }
     /// </summary>
     [CliOption("--s3-configuration")]
     public string? S3Configuration { get; set; }
 
     /// <summary>
-    /// The InputProcessingConfiguration to use to preprocess the records before discovering the schema of the records. InputLambdaProcessor -&gt; (structure) [required] The InputLambdaProcessor that is used to preprocess the records in the stream before being processed by your application code. ResourceARN -&gt; (string) [required] The ARN of the AWS Lambda function that operates on records in the stream. NOTE: To specify an earlier version of the Lambda function than the latest, include the Lambda function version in the Lambda function ARN. For more information about Lambda ARNs, see Example ARNs: AWS Lambda Constraints: o min: 1 o max: 2048 o pattern: arn:.* RoleARN -&gt; (string) [required] The ARN of the IAM role that is used to access the AWS Lambda function. Constraints: o min: 1 o max: 2048 o pattern: arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+ Shorthand Syntax: InputLambdaProcessor={ResourceARN=string,RoleARN=string} JSON Syntax: { "InputLambdaProcessor": { "ResourceARN": "string", "RoleARN": "string" } }
+    /// The InputProcessingConfiguration to use to preprocess the records before discovering the schema of the records. InputLambdaProcessor -&gt; (structure) [required] The InputLambdaProcessor that is used to preprocess the records in the stream before being processed by your application code. ResourceARN -&gt; (string) [required] The ARN of the AWS Lambda function that operates on records in the stream. NOTE: To specify an earlier version of the Lambda function than the latest, include the Lambda function version in the Lambda function ARN. For more information about Lambda ARNs, see Example ARNs: AWS Lambda Constraints: • min: 1 • max: 2048 • pattern: arn:.* RoleARN -&gt; (string) [required] The ARN of the IAM role that is used to access the AWS Lambda function. Constraints: • min: 1 • max: 2048 • pattern: arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+ Shorthand Syntax: InputLambdaProcessor={ResourceARN=string,RoleARN=string} JSON Syntax: { "InputLambdaProcessor": { "ResourceARN": "string", "RoleARN": "string" } }
     /// </summary>
     [CliOption("--input-processing-configuration")]
     public string? InputProcessingConfiguration { get; set; }
@@ -56,5 +56,14 @@ public record AwsKinesisanalyticsDiscoverInputSchemaOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

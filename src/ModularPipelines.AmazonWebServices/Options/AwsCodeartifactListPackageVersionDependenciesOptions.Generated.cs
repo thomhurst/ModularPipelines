@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the direct dependencies for a package version. The dependencies are returned as PackageDependency objects. CodeArtifact extracts the dependencies for a package version from the metadata file for the pack- age format (for example, the package.json file for npm packages and the pom.xml file for Maven). Any package version dependencies that are not listed in the configuration file are not returned. See also: AWS API Documentation
+/// Returns the direct dependencies for a package version. The dependencies are returned as PackageDependency objects. CodeArtifact extracts the dependencies for a package version from the metadata file for the package format (for example, the package.json file for npm packages and the pom.xml file for Maven). Any package version dependencies that are not listed in the configuration file are not returned. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,13 +28,13 @@ public record AwsCodeartifactListPackageVersionDependenciesOptions : AwsOptions,
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the direct dependencies for a package version. The dependencies are returned as PackageDependency objects. CodeArtifact extracts the dependencies for a package version from the metadata file for the pack- age format (for example, the package.json file for npm packages and the pom.xml file for Maven). Any package version dependencies that are not listed in the configuration file are not returned. See also: AWS API Documentation
+    /// Returns the direct dependencies for a package version. The dependencies are returned as PackageDependency objects. CodeArtifact extracts the dependencies for a package version from the metadata file for the package format (for example, the package.json file for npm packages and the pom.xml file for Maven). Any package version dependencies that are not listed in the configuration file are not returned. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Domain">The name of the domain that contains the repository that contains the requested package version dependencies. Constraints: o min: 2 o max: 50 o pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]</param>
-    /// <param name="Repository">The name of the repository that contains the requested package ver- sion. Constraints: o min: 2 o max: 100 o pattern: [A-Za-z0-9][A-Za-z0-9._\-]{1,99}</param>
-    /// <param name="Format">The format of the package with the requested dependencies. Possible values: o npm o pypi o maven o nuget o generic o ruby o swift o cargo</param>
-    /// <param name="Package">The name of the package versions' package. Constraints: o min: 1 o max: 255 o pattern: [^#/\s]+</param>
-    /// <param name="PackageVersion">A string that contains the package version (for example, 3.5.2 ). Constraints: o min: 1 o max: 255 o pattern: [^#/\s]+</param>
+    /// <param name="Domain">The name of the domain that contains the repository that contains the requested package version dependencies. Constraints: • min: 2 • max: 50 • pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]</param>
+    /// <param name="Repository">The name of the repository that contains the requested package version. Constraints: • min: 2 • max: 100 • pattern: [A-Za-z0-9][A-Za-z0-9._\-]{1,99}</param>
+    /// <param name="Format">The format of the package with the requested dependencies. Possible values: • npm • pypi • maven • nuget • generic • ruby • swift • cargo</param>
+    /// <param name="Package">The name of the package versions' package. Constraints: • min: 1 • max: 255 • pattern: [^#/\s]+</param>
+    /// <param name="PackageVersion">A string that contains the package version (for example, 3.5.2 ). Constraints: • min: 1 • max: 255 • pattern: [^#/\s]+</param>
     public AwsCodeartifactListPackageVersionDependenciesOptions(
         string Domain,
         string Repository,
@@ -73,49 +74,49 @@ public record AwsCodeartifactListPackageVersionDependenciesOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the domain that contains the repository that contains the requested package version dependencies. Constraints: o min: 2 o max: 50 o pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]
+    /// The name of the domain that contains the repository that contains the requested package version dependencies. Constraints: • min: 2 • max: 50 • pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]
     /// </summary>
     [CliOption("--domain")]
     public string? Domain { get; private init; }
 
     /// <summary>
-    /// The name of the repository that contains the requested package ver- sion. Constraints: o min: 2 o max: 100 o pattern: [A-Za-z0-9][A-Za-z0-9._\-]{1,99}
+    /// The name of the repository that contains the requested package version. Constraints: • min: 2 • max: 100 • pattern: [A-Za-z0-9][A-Za-z0-9._\-]{1,99}
     /// </summary>
     [CliOption("--repository")]
     public string? Repository { get; private init; }
 
     /// <summary>
-    /// The format of the package with the requested dependencies. Possible values: o npm o pypi o maven o nuget o generic o ruby o swift o cargo
+    /// The format of the package with the requested dependencies. Possible values: • npm • pypi • maven • nuget • generic • ruby • swift • cargo
     /// </summary>
     [CliOption("--format")]
     public AwsCodeartifactListPackageVersionDependenciesFormat? Format { get; private init; }
 
     /// <summary>
-    /// The name of the package versions' package. Constraints: o min: 1 o max: 255 o pattern: [^#/\s]+
+    /// The name of the package versions' package. Constraints: • min: 1 • max: 255 • pattern: [^#/\s]+
     /// </summary>
     [CliOption("--package")]
     public string? Package { get; private init; }
 
     /// <summary>
-    /// A string that contains the package version (for example, 3.5.2 ). Constraints: o min: 1 o max: 255 o pattern: [^#/\s]+
+    /// A string that contains the package version (for example, 3.5.2 ). Constraints: • min: 1 • max: 255 • pattern: [^#/\s]+
     /// </summary>
     [CliOption("--package-version")]
     public string? PackageVersion { get; private init; }
 
     /// <summary>
-    /// The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include dashes or spaces. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12}
+    /// The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include dashes or spaces. Constraints: • min: 12 • max: 12 • pattern: [0-9]{12}
     /// </summary>
     [CliOption("--domain-owner")]
     public string? DomainOwner { get; set; }
 
     /// <summary>
-    /// The namespace of the package version with the requested dependen- cies. The package component that specifies its namespace depends on its type. For example: NOTE: The namespace is required when listing dependencies from package versions of the following formats: o Maven o The namespace of a Maven package version is its groupId . o The namespace of an npm package version is its scope . o Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a name- space. Constraints: o min: 1 o max: 255 o pattern: [^#/\s]+
+    /// The namespace of the package version with the requested dependencies. The package component that specifies its namespace depends on its type. For example: NOTE: The namespace is required when listing dependencies from package versions of the following formats: • Maven • The namespace of a Maven package version is its groupId . • The namespace of an npm package version is its scope . • Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace. Constraints: • min: 1 • max: 255 • pattern: [^#/\s]+
     /// </summary>
     [CliOption("--namespace")]
     public string? Namespace { get; set; }
 
     /// <summary>
-    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. Constraints: o min: 1 o max: 2000 o pattern: \S+
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. Constraints: • min: 1 • max: 2000 • pattern: \S+
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -142,6 +143,15 @@ public record AwsCodeartifactListPackageVersionDependenciesOptions : AwsOptions,
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

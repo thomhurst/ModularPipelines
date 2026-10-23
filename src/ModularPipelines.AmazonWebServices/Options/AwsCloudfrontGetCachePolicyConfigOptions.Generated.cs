@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets a cache policy configuration. To get a cache policy configuration, you must provide the policy's identifier. If the cache policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution . If the cache policy is not attached to a cache be- havior, you can get the identifier using ListCachePolicies . See also: AWS API Documentation
+/// Gets a cache policy configuration. To get a cache policy configuration, you must provide the policy's identifier. If the cache policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution . If the cache policy is not attached to a cache behavior, you can get the identifier using ListCachePolicies . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsCloudfrontGetCachePolicyConfigOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets a cache policy configuration. To get a cache policy configuration, you must provide the policy's identifier. If the cache policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution . If the cache policy is not attached to a cache be- havior, you can get the identifier using ListCachePolicies . See also: AWS API Documentation
+    /// Gets a cache policy configuration. To get a cache policy configuration, you must provide the policy's identifier. If the cache policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution . If the cache policy is not attached to a cache behavior, you can get the identifier using ListCachePolicies . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The unique identifier for the cache policy. If the cache policy is attached to a distribution's cache behavior, you can get the pol- icy's identifier using ListDistributions or GetDistribution . If the cache policy is not attached to a cache behavior, you can get the identifier using ListCachePolicies .</param>
+    /// <param name="Id">The unique identifier for the cache policy. If the cache policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution . If the cache policy is not attached to a cache behavior, you can get the identifier using ListCachePolicies .</param>
     public AwsCloudfrontGetCachePolicyConfigOptions(
         string Id
     )
@@ -56,7 +57,7 @@ public record AwsCloudfrontGetCachePolicyConfigOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the cache policy. If the cache policy is attached to a distribution's cache behavior, you can get the pol- icy's identifier using ListDistributions or GetDistribution . If the cache policy is not attached to a cache behavior, you can get the identifier using ListCachePolicies .
+    /// The unique identifier for the cache policy. If the cache policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution . If the cache policy is not attached to a cache behavior, you can get the identifier using ListCachePolicies .
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
@@ -82,6 +83,15 @@ public record AwsCloudfrontGetCachePolicyConfigOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

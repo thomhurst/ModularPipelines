@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsChimeSdkMessagingSearchChannelsOptions : AwsOptions, IValidatab
     /// <summary>
     /// Allows the ChimeBearer to search channels by channel members. Users or bots can search across the channels that they belong to. Users in the AppInstanceAdmin role can search across all channels. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header. NOTE: This operation isn't supported for AppInstanceUsers with a large number of memberships. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Fields">A list of the Field objects in the channel being searched. Constraints: o min: 1 o max: 20 (structure) A Field of the channel that you want to search. NOTE: This operation isn't supported for AppInstanceUsers with a large number of memberships. Key -&gt; (string) [required] An enum value that indicates the key to search the channel on. MEMBERS allows you to search channels based on member- ships. You can use it with the EQUALS operator to get chan- nels whose memberships are equal to the specified values, and with the INCLUDES operator to get channels whose memberships include the specified values. Possible values: o MEMBERS Values -&gt; (list) [required] The values that you want to search for, a list of strings. The values must be AppInstanceUserArns specified as a list of strings. NOTE: This operation isn't supported for AppInstanceUsers with a large number of memberships. Constraints: o min: 1 o max: 20 (string) Constraints: o min: 1 o max: 512 o pattern: [\s\S]* Operator -&gt; (string) [required] The operator used to compare field values, currently EQUALS or INCLUDES . Use the EQUALS operator to find channels whose memberships equal the specified values. Use the INCLUDES op- erator to find channels whose memberships include the speci- fied values. Possible values: o EQUALS o INCLUDES Shorthand Syntax: Key=string,Values=string,string,Operator=string ... JSON Syntax: [ { "Key": "MEMBERS", "Values": ["string", ...], "Operator": "EQUALS"|"INCLUDES" } ... ]</param>
+    /// <param name="Fields">A list of the Field objects in the channel being searched. Constraints: • min: 1 • max: 20 (structure) A Field of the channel that you want to search. NOTE: This operation isn't supported for AppInstanceUsers with a large number of memberships. Key -&gt; (string) [required] An enum value that indicates the key to search the channel on. MEMBERS allows you to search channels based on memberships. You can use it with the EQUALS operator to get channels whose memberships are equal to the specified values, and with the INCLUDES operator to get channels whose memberships include the specified values. Possible values: • MEMBERS Values -&gt; (list) [required] The values that you want to search for, a list of strings. The values must be AppInstanceUserArns specified as a list of strings. NOTE: This operation isn't supported for AppInstanceUsers with a large number of memberships. Constraints: • min: 1 • max: 20 (string) Constraints: • min: 1 • max: 512 • pattern: [\s\S]* Operator -&gt; (string) [required] The operator used to compare field values, currently EQUALS or INCLUDES . Use the EQUALS operator to find channels whose memberships equal the specified values. Use the INCLUDES operator to find channels whose memberships include the specified values. Possible values: • EQUALS • INCLUDES Shorthand Syntax: Key=string,Values=string,string,Operator=string ... JSON Syntax: [ { "Key": "MEMBERS", "Values": ["string", ...], "Operator": "EQUALS"|"INCLUDES" } ... ]</param>
     public AwsChimeSdkMessagingSearchChannelsOptions(
         IEnumerable<string> Fields
     )
@@ -68,25 +69,25 @@ public record AwsChimeSdkMessagingSearchChannelsOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A list of the Field objects in the channel being searched. Constraints: o min: 1 o max: 20 (structure) A Field of the channel that you want to search. NOTE: This operation isn't supported for AppInstanceUsers with a large number of memberships. Key -&gt; (string) [required] An enum value that indicates the key to search the channel on. MEMBERS allows you to search channels based on member- ships. You can use it with the EQUALS operator to get chan- nels whose memberships are equal to the specified values, and with the INCLUDES operator to get channels whose memberships include the specified values. Possible values: o MEMBERS Values -&gt; (list) [required] The values that you want to search for, a list of strings. The values must be AppInstanceUserArns specified as a list of strings. NOTE: This operation isn't supported for AppInstanceUsers with a large number of memberships. Constraints: o min: 1 o max: 20 (string) Constraints: o min: 1 o max: 512 o pattern: [\s\S]* Operator -&gt; (string) [required] The operator used to compare field values, currently EQUALS or INCLUDES . Use the EQUALS operator to find channels whose memberships equal the specified values. Use the INCLUDES op- erator to find channels whose memberships include the speci- fied values. Possible values: o EQUALS o INCLUDES Shorthand Syntax: Key=string,Values=string,string,Operator=string ... JSON Syntax: [ { "Key": "MEMBERS", "Values": ["string", ...], "Operator": "EQUALS"|"INCLUDES" } ... ]
+    /// A list of the Field objects in the channel being searched. Constraints: • min: 1 • max: 20 (structure) A Field of the channel that you want to search. NOTE: This operation isn't supported for AppInstanceUsers with a large number of memberships. Key -&gt; (string) [required] An enum value that indicates the key to search the channel on. MEMBERS allows you to search channels based on memberships. You can use it with the EQUALS operator to get channels whose memberships are equal to the specified values, and with the INCLUDES operator to get channels whose memberships include the specified values. Possible values: • MEMBERS Values -&gt; (list) [required] The values that you want to search for, a list of strings. The values must be AppInstanceUserArns specified as a list of strings. NOTE: This operation isn't supported for AppInstanceUsers with a large number of memberships. Constraints: • min: 1 • max: 20 (string) Constraints: • min: 1 • max: 512 • pattern: [\s\S]* Operator -&gt; (string) [required] The operator used to compare field values, currently EQUALS or INCLUDES . Use the EQUALS operator to find channels whose memberships equal the specified values. Use the INCLUDES operator to find channels whose memberships include the specified values. Possible values: • EQUALS • INCLUDES Shorthand Syntax: Key=string,Values=string,string,Operator=string ... JSON Syntax: [ { "Key": "MEMBERS", "Values": ["string", ...], "Operator": "EQUALS"|"INCLUDES" } ... ]
     /// </summary>
     [CliOption("--fields", GroupValues = true)]
     public IEnumerable<string>? Fields { get; private init; }
 
     /// <summary>
-    /// The AppInstanceUserArn of the user making the API call. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
+    /// The AppInstanceUserArn of the user making the API call. Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
     /// </summary>
     [CliOption("--chime-bearer")]
     public string? ChimeBearer { get; set; }
 
     /// <summary>
-    /// The maximum number of channels that you want returned. Constraints: o min: 1 o max: 50
+    /// The maximum number of channels that you want returned. Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The token returned from previous API requests until the number of channels is reached. Constraints: o min: 0 o max: 2048 o pattern: .*
+    /// The token returned from previous API requests until the number of channels is reached. Constraints: • min: 0 • max: 2048 • pattern: .*
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -113,6 +114,15 @@ public record AwsChimeSdkMessagingSearchChannelsOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

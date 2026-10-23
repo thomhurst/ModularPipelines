@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsConnectUpdateContactScheduleOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Updates the scheduled time of a task contact that is already scheduled. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="ContactId">The identifier of the contact. Constraints: o min: 1 o max: 256</param>
-    /// <param name="ScheduledTime">The timestamp, in Unix Epoch seconds format, at which to start run- ning the inbound flow. The scheduled time cannot be in the past. It must be within up to 6 days in future.</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="ContactId">The identifier of the contact. Constraints: • min: 1 • max: 256</param>
+    /// <param name="ScheduledTime">The timestamp, in Unix Epoch seconds format, at which to start running the inbound flow. The scheduled time cannot be in the past. It must be within up to 6 days in future.</param>
     public AwsConnectUpdateContactScheduleOptions(
         string InstanceId,
         string ContactId,
@@ -64,19 +65,19 @@ public record AwsConnectUpdateContactScheduleOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The identifier of the contact. Constraints: o min: 1 o max: 256
+    /// The identifier of the contact. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--contact-id")]
     public string? ContactId { get; private init; }
 
     /// <summary>
-    /// The timestamp, in Unix Epoch seconds format, at which to start run- ning the inbound flow. The scheduled time cannot be in the past. It must be within up to 6 days in future.
+    /// The timestamp, in Unix Epoch seconds format, at which to start running the inbound flow. The scheduled time cannot be in the past. It must be within up to 6 days in future.
     /// </summary>
     [CliOption("--scheduled-time")]
     public string? ScheduledTime { get; private init; }
@@ -102,6 +103,15 @@ public record AwsConnectUpdateContactScheduleOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

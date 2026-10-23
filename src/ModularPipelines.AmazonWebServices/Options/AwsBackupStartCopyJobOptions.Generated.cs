@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Starts a job to create a one-time copy of the specified resource. Does not support continuous backups. See Copy job retry for information on how Backup retries copy job oper- ations. See also: AWS API Documentation
+/// Starts a job to create a one-time copy of the specified resource. Does not support continuous backups. See Copy job retry for information on how Backup retries copy job operations. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsBackupStartCopyJobOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Starts a job to create a one-time copy of the specified resource. Does not support continuous backups. See Copy job retry for information on how Backup retries copy job oper- ations. See also: AWS API Documentation
+    /// Starts a job to create a one-time copy of the specified resource. Does not support continuous backups. See Copy job retry for information on how Backup retries copy job operations. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RecoveryPointArn">An ARN that uniquely identifies a recovery point to use for the copy job; for example, arn:aws:backup:us-east-1:123456789012:recov- ery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.</param>
-    /// <param name="SourceBackupVaultName">The name of a logical source container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. Constraints: o pattern: ^[a-zA-Z0-9\-\_]{2,50}$</param>
+    /// <param name="RecoveryPointArn">An ARN that uniquely identifies a recovery point to use for the copy job; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.</param>
+    /// <param name="SourceBackupVaultName">The name of a logical source container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. Constraints: • pattern: ^[a-zA-Z0-9\-\_]{2,50}$</param>
     /// <param name="DestinationBackupVaultArn">An Amazon Resource Name (ARN) that uniquely identifies a destination backup vault to copy to; for example, arn:aws:backup:us-east-1:123456789012:backup-vault:aBackupVault .</param>
     /// <param name="IamRoleArn">Specifies the IAM role ARN used to copy the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access .</param>
     public AwsBackupStartCopyJobOptions(
@@ -69,13 +70,13 @@ public record AwsBackupStartCopyJobOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// An ARN that uniquely identifies a recovery point to use for the copy job; for example, arn:aws:backup:us-east-1:123456789012:recov- ery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
+    /// An ARN that uniquely identifies a recovery point to use for the copy job; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
     /// </summary>
     [CliOption("--recovery-point-arn")]
     public string? RecoveryPointArn { get; private init; }
 
     /// <summary>
-    /// The name of a logical source container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. Constraints: o pattern: ^[a-zA-Z0-9\-\_]{2,50}$
+    /// The name of a logical source container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. Constraints: • pattern: ^[a-zA-Z0-9\-\_]{2,50}$
     /// </summary>
     [CliOption("--source-backup-vault-name")]
     public string? SourceBackupVaultName { get; private init; }
@@ -100,7 +101,7 @@ public record AwsBackupStartCopyJobOptions : AwsOptions, IValidatableObject
     public string? IdempotencyToken { get; set; }
 
     /// <summary>
-    /// Specifies the time period, in days, before a recovery point transi- tions to cold storage or is deleted. Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, on the console, the retention setting must be 90 days greater than the transition to cold after days setting. The transition to cold after days setting can't be changed after a backup has been transitioned to cold. Resource types that can transition to cold storage are listed in the Feature availability by resource table. Backup ignores this expres- sion for other resource types. To remove the existing lifecycle and retention periods and keep your recovery points indefinitely, specify -1 for MoveToColdStorageAfter- Days and DeleteAfterDays . MoveToColdStorageAfterDays -&gt; (long) The number of days after creation that a recovery point is moved to cold storage. DeleteAfterDays -&gt; (long) The number of days after creation that a recovery point is deleted. This value must be at least 90 days after the number of days specified in MoveToColdStorageAfterDays . OptInToArchiveForSupportedResources -&gt; (boolean) If the value is true, your backup plan transitions supported re- sources to archive (cold) storage tier in accordance with your lifecycle settings. DeleteAfterEvent -&gt; (string) The event after which a recovery point is deleted. A recovery point with both DeleteAfterDays and DeleteAfterEvent will delete after whichever condition is satisfied first. Not valid as an input. Possible values: o DELETE_AFTER_COPY Shorthand Syntax: MoveToColdStorageAfterDays=long,DeleteAfterDays=long,OptInToArchiveForSupportedResources=boolean,DeleteAfterEvent=string JSON Syntax: { "MoveToColdStorageAfterDays": long, "DeleteAfterDays": long, "OptInToArchiveForSupportedResources": true|false, "DeleteAfterEvent": "DELETE_AFTER_COPY" }
+    /// Specifies the time period, in days, before a recovery point transitions to cold storage or is deleted. Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, on the console, the retention setting must be 90 days greater than the transition to cold after days setting. The transition to cold after days setting can't be changed after a backup has been transitioned to cold. Resource types that can transition to cold storage are listed in the Feature availability by resource table. Backup ignores this expression for other resource types. To remove the existing lifecycle and retention periods and keep your recovery points indefinitely, specify -1 for MoveToColdStorageAfterDays and DeleteAfterDays . MoveToColdStorageAfterDays -&gt; (long) The number of days after creation that a recovery point is moved to cold storage. DeleteAfterDays -&gt; (long) The number of days after creation that a recovery point is deleted. This value must be at least 90 days after the number of days specified in MoveToColdStorageAfterDays . OptInToArchiveForSupportedResources -&gt; (boolean) If the value is true, your backup plan transitions supported resources to archive (cold) storage tier in accordance with your lifecycle settings. DeleteAfterEvent -&gt; (string) The event after which a recovery point is deleted. A recovery point with both DeleteAfterDays and DeleteAfterEvent will delete after whichever condition is satisfied first. Not valid as an input. Possible values: • DELETE_AFTER_COPY Shorthand Syntax: MoveToColdStorageAfterDays=long,DeleteAfterDays=long,OptInToArchiveForSupportedResources=boolean,DeleteAfterEvent=string JSON Syntax: { "MoveToColdStorageAfterDays": long, "DeleteAfterDays": long, "OptInToArchiveForSupportedResources": true|false, "DeleteAfterEvent": "DELETE_AFTER_COPY" }
     /// </summary>
     [CliOption("--lifecycle")]
     public string? Lifecycle { get; set; }
@@ -126,6 +127,15 @@ public record AwsBackupStartCopyJobOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

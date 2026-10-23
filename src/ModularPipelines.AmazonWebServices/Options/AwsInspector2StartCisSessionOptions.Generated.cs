@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Starts a CIS session. This API is used by the Amazon Inspector SSM plu- gin to communicate with the Amazon Inspector service. The Amazon In- spector SSM plugin calls this API to start a CIS scan session for the scan ID supplied by the service. See also: AWS API Documentation
+/// Starts a CIS session. This API is used by the Amazon Inspector SSM plugin to communicate with the Amazon Inspector service. The Amazon Inspector SSM plugin calls this API to start a CIS scan session for the scan ID supplied by the service. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsInspector2StartCisSessionOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Starts a CIS session. This API is used by the Amazon Inspector SSM plu- gin to communicate with the Amazon Inspector service. The Amazon In- spector SSM plugin calls this API to start a CIS scan session for the scan ID supplied by the service. See also: AWS API Documentation
+    /// Starts a CIS session. This API is used by the Amazon Inspector SSM plugin to communicate with the Amazon Inspector service. The Amazon Inspector SSM plugin calls this API to start a CIS scan session for the scan ID supplied by the service. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ScanJobId">A unique identifier for the scan job. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
-    /// <param name="Message">The start CIS session message. sessionToken -&gt; (string) [required] The unique token that identifies the CIS session. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} Shorthand Syntax: sessionToken=string JSON Syntax: { "sessionToken": "string" }</param>
+    /// <param name="ScanJobId">A unique identifier for the scan job. Constraints: • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="Message">The start CIS session message. sessionToken -&gt; (string) [required] The unique token that identifies the CIS session. Constraints: • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} Shorthand Syntax: sessionToken=string JSON Syntax: { "sessionToken": "string" }</param>
     public AwsInspector2StartCisSessionOptions(
         string ScanJobId,
         string Message
@@ -60,13 +61,13 @@ public record AwsInspector2StartCisSessionOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the scan job. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// A unique identifier for the scan job. Constraints: • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--scan-job-id")]
     public string? ScanJobId { get; private init; }
 
     /// <summary>
-    /// The start CIS session message. sessionToken -&gt; (string) [required] The unique token that identifies the CIS session. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} Shorthand Syntax: sessionToken=string JSON Syntax: { "sessionToken": "string" }
+    /// The start CIS session message. sessionToken -&gt; (string) [required] The unique token that identifies the CIS session. Constraints: • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} Shorthand Syntax: sessionToken=string JSON Syntax: { "sessionToken": "string" }
     /// </summary>
     [CliOption("--message")]
     public string? Message { get; private init; }
@@ -92,6 +93,15 @@ public record AwsInspector2StartCisSessionOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

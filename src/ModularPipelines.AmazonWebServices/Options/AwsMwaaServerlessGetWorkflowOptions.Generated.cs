@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves detailed information about a workflow, including its configu- ration, status, and metadata. See also: AWS API Documentation
+/// Retrieves detailed information about a workflow, including its configuration, status, and metadata. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsMwaaServerlessGetWorkflowOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves detailed information about a workflow, including its configu- ration, status, and metadata. See also: AWS API Documentation
+    /// Retrieves detailed information about a workflow, including its configuration, status, and metadata. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkflowArn">The Amazon Resource Name (ARN) of the workflow you want to retrieve. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(?:-(?:cn|us-gov|iso|iso-b|iso-e|iso-f))?:air- flow-serverless:([a-z]{2}-[a-z]+-[0-9]{1}):([0-9]{12}):work- flow/([a-zA-Z0-9][a-zA-Z0-9\.\-_]{0,254}-[a-zA-Z0-9]{10})</param>
+    /// <param name="WorkflowArn">The Amazon Resource Name (ARN) of the workflow you want to retrieve. Constraints: • min: 1 • max: 2048 • pattern: arn:aws(?:-(?:cn|us-gov|iso|iso-b|iso-e|iso-f))?:airflow-serverless:([a-z]{2}-[a-z]+-[0-9]{1}):([0-9]{12}):workflow/([a-zA-Z0-9][a-zA-Z0-9\.\-_]{0,254}-[a-zA-Z0-9]{10})</param>
     public AwsMwaaServerlessGetWorkflowOptions(
         string WorkflowArn
     )
@@ -56,13 +57,13 @@ public record AwsMwaaServerlessGetWorkflowOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the workflow you want to retrieve. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(?:-(?:cn|us-gov|iso|iso-b|iso-e|iso-f))?:air- flow-serverless:([a-z]{2}-[a-z]+-[0-9]{1}):([0-9]{12}):work- flow/([a-zA-Z0-9][a-zA-Z0-9\.\-_]{0,254}-[a-zA-Z0-9]{10})
+    /// The Amazon Resource Name (ARN) of the workflow you want to retrieve. Constraints: • min: 1 • max: 2048 • pattern: arn:aws(?:-(?:cn|us-gov|iso|iso-b|iso-e|iso-f))?:airflow-serverless:([a-z]{2}-[a-z]+-[0-9]{1}):([0-9]{12}):workflow/([a-zA-Z0-9][a-zA-Z0-9\.\-_]{0,254}-[a-zA-Z0-9]{10})
     /// </summary>
     [CliOption("--workflow-arn")]
     public string? WorkflowArn { get; private init; }
 
     /// <summary>
-    /// Optional. The specific version of the workflow to retrieve. If not specified, the latest version is returned. Constraints: o min: 32 o max: 32 o pattern: [a-z0-9]{32}
+    /// Optional. The specific version of the workflow to retrieve. If not specified, the latest version is returned. Constraints: • min: 32 • max: 32 • pattern: [a-z0-9]{32}
     /// </summary>
     [CliOption("--workflow-version")]
     public string? WorkflowVersion { get; set; }
@@ -88,6 +89,15 @@ public record AwsMwaaServerlessGetWorkflowOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

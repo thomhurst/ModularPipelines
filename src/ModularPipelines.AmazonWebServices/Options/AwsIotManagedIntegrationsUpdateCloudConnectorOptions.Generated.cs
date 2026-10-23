@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsIotManagedIntegrationsUpdateCloudConnectorOptions : AwsOptions,
     /// <summary>
     /// Update an existing cloud connector. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identifier">The unique identifier of the cloud connector to update. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9-_]+</param>
+    /// <param name="Identifier">The unique identifier of the cloud connector to update. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9-_]+</param>
     public AwsIotManagedIntegrationsUpdateCloudConnectorOptions(
         string Identifier
     )
@@ -56,19 +57,19 @@ public record AwsIotManagedIntegrationsUpdateCloudConnectorOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the cloud connector to update. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9-_]+
+    /// The unique identifier of the cloud connector to update. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9-_]+
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// The new display name to assign to the cloud connector. Constraints: o min: 1 o max: 128 o pattern: [A-Za-z0-9-_ ]+
+    /// The new display name to assign to the cloud connector. Constraints: • min: 1 • max: 128 • pattern: [A-Za-z0-9-_ ]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The new description to assign to the cloud connector. Constraints: o min: 1 o max: 256 o pattern: [0-9A-Za-z_\- ]+
+    /// The new description to assign to the cloud connector. Constraints: • min: 1 • max: 256 • pattern: [0-9A-Za-z_\- ]+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
@@ -94,6 +95,15 @@ public record AwsIotManagedIntegrationsUpdateCloudConnectorOptions : AwsOptions,
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

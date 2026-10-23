@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsS3controlPutAccessGrantsInstanceResourcePolicyOptions : AwsOpti
     /// <summary>
     /// Updates the resource policy of the S3 Access Grants instance. Permissions You must have the s3:PutAccessGrantsInstanceResourcePolicy permission to use this operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountId">The Amazon Web Services account ID of the S3 Access Grants instance. Constraints: o max: 64 o pattern: ^\d{12}$</param>
-    /// <param name="Policy">The resource policy of the S3 Access Grants instance that you are updating. Constraints: o min: 1 o max: 350000</param>
+    /// <param name="AccountId">The Amazon Web Services account ID of the S3 Access Grants instance. Constraints: • max: 64 • pattern: ^\d{12}$</param>
+    /// <param name="Policy">The resource policy of the S3 Access Grants instance that you are updating. Constraints: • min: 1 • max: 350000</param>
     public AwsS3controlPutAccessGrantsInstanceResourcePolicyOptions(
         string AccountId,
         string Policy
@@ -60,19 +61,19 @@ public record AwsS3controlPutAccessGrantsInstanceResourcePolicyOptions : AwsOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services account ID of the S3 Access Grants instance. Constraints: o max: 64 o pattern: ^\d{12}$
+    /// The Amazon Web Services account ID of the S3 Access Grants instance. Constraints: • max: 64 • pattern: ^\d{12}$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// The resource policy of the S3 Access Grants instance that you are updating. Constraints: o min: 1 o max: 350000
+    /// The resource policy of the S3 Access Grants instance that you are updating. Constraints: • min: 1 • max: 350000
     /// </summary>
     [CliOption("--policy")]
     public string? Policy { get; private init; }
 
     /// <summary>
-    /// The Organization of the resource policy of the S3 Access Grants in- stance. Constraints: o min: 12 o max: 34 o pattern: ^o-[a-z0-9]{10,32}$
+    /// The Organization of the resource policy of the S3 Access Grants instance. Constraints: • min: 12 • max: 34 • pattern: ^o-[a-z0-9]{10,32}$
     /// </summary>
     [CliOption("--organization")]
     public string? Organization { get; set; }
@@ -98,6 +99,15 @@ public record AwsS3controlPutAccessGrantsInstanceResourcePolicyOptions : AwsOpti
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

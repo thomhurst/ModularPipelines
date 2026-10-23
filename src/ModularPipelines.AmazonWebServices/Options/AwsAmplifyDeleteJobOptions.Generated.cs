@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsAmplifyDeleteJobOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes a job for a branch of an Amplify app. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AppId">The unique ID for an Amplify app. Constraints: o min: 1 o max: 20 o pattern: d[a-z0-9]+</param>
-    /// <param name="BranchName">The name of the branch to use for the job. Constraints: o min: 1 o max: 255 o pattern: (?s).+</param>
-    /// <param name="JobId">The unique ID for the job. Constraints: o max: 255 o pattern: [0-9]+</param>
+    /// <param name="AppId">The unique ID for an Amplify app. Constraints: • min: 1 • max: 20 • pattern: d[a-z0-9]+</param>
+    /// <param name="BranchName">The name of the branch to use for the job. Constraints: • min: 1 • max: 255 • pattern: (?s).+</param>
+    /// <param name="JobId">The unique ID for the job. Constraints: • max: 255 • pattern: [0-9]+</param>
     public AwsAmplifyDeleteJobOptions(
         string AppId,
         string BranchName,
@@ -64,19 +65,19 @@ public record AwsAmplifyDeleteJobOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique ID for an Amplify app. Constraints: o min: 1 o max: 20 o pattern: d[a-z0-9]+
+    /// The unique ID for an Amplify app. Constraints: • min: 1 • max: 20 • pattern: d[a-z0-9]+
     /// </summary>
     [CliOption("--app-id")]
     public string? AppId { get; private init; }
 
     /// <summary>
-    /// The name of the branch to use for the job. Constraints: o min: 1 o max: 255 o pattern: (?s).+
+    /// The name of the branch to use for the job. Constraints: • min: 1 • max: 255 • pattern: (?s).+
     /// </summary>
     [CliOption("--branch-name")]
     public string? BranchName { get; private init; }
 
     /// <summary>
-    /// The unique ID for the job. Constraints: o max: 255 o pattern: [0-9]+
+    /// The unique ID for the job. Constraints: • max: 255 • pattern: [0-9]+
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }
@@ -102,6 +103,15 @@ public record AwsAmplifyDeleteJobOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

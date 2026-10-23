@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsApigatewayImportApiKeysOptions : AwsOptions, IValidatableObject
     /// Import API keys from an external source, such as a CSV-formatted file. See also: AWS API Documentation
     /// </summary>
     /// <param name="Body">The payload of the POST request to import API keys. For the payload format, see API Key File Format.</param>
-    /// <param name="Format">A query parameter to specify the input format to imported API keys. Currently, only the csv format is supported. Possible values: o csv</param>
+    /// <param name="Format">A query parameter to specify the input format to imported API keys. Currently, only the csv format is supported. Possible values: • csv</param>
     public AwsApigatewayImportApiKeysOptions(
         string Body,
         string Format
@@ -66,7 +67,7 @@ public record AwsApigatewayImportApiKeysOptions : AwsOptions, IValidatableObject
     public string? Body { get; private init; }
 
     /// <summary>
-    /// A query parameter to specify the input format to imported API keys. Currently, only the csv format is supported. Possible values: o csv
+    /// A query parameter to specify the input format to imported API keys. Currently, only the csv format is supported. Possible values: • csv
     /// </summary>
     [CliOption("--format")]
     public string? Format { get; private init; }
@@ -98,6 +99,15 @@ public record AwsApigatewayImportApiKeysOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

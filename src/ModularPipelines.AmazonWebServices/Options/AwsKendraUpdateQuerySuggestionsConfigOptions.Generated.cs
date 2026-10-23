@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the settings of query suggestions for an index. Amazon Kendra supports partial updates, so you only need to provide the fields you want to update. If an update is currently processing, you need to wait for the update to finish before making another update. Updates to query suggestions settings might not take effect right away. The time for your updated settings to take effect depends on the up- dates made and the number of search queries in your index. You can still enable/disable query ...
+/// Updates the settings of query suggestions for an index. Amazon Kendra supports partial updates, so you only need to provide the fields you want to update. If an update is currently processing, you need to wait for the update to finish before making another update. Updates to query suggestions settings might not take effect right away. The time for your updated settings to take effect depends on the updates made and the number of search queries in your index. You can still enable/disable query su...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsKendraUpdateQuerySuggestionsConfigOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the settings of query suggestions for an index. Amazon Kendra supports partial updates, so you only need to provide the fields you want to update. If an update is currently processing, you need to wait for the update to finish before making another update. Updates to query suggestions settings might not take effect right away. The time for your updated settings to take effect depends on the up- dates made and the number of search queries in your index. You can still enable/disable query ...
+    /// Updates the settings of query suggestions for an index. Amazon Kendra supports partial updates, so you only need to provide the fields you want to update. If an update is currently processing, you need to wait for the update to finish before making another update. Updates to query suggestions settings might not take effect right away. The time for your updated settings to take effect depends on the updates made and the number of search queries in your index. You can still enable/disable query su...
     /// </summary>
-    /// <param name="IndexId">The identifier of the index with query suggestions you want to up- date. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*</param>
+    /// <param name="IndexId">The identifier of the index with query suggestions you want to update. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]*</param>
     public AwsKendraUpdateQuerySuggestionsConfigOptions(
         string IndexId
     )
@@ -57,13 +58,13 @@ public record AwsKendraUpdateQuerySuggestionsConfigOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the index with query suggestions you want to up- date. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*
+    /// The identifier of the index with query suggestions you want to update. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]*
     /// </summary>
     [CliOption("--index-id")]
     public string? IndexId { get; private init; }
 
     /// <summary>
-    /// Set the mode to ENABLED or LEARN_ONLY . By default, Amazon Kendra enables query suggestions. LEARN_ONLY mode allows you to turn off query suggestions. You can to update this at any time. In LEARN_ONLY mode, Amazon Kendra continues to learn from new queries to keep suggestions up to date for when you are ready to switch to ENABLED mode again. Possible values: o ENABLED o LEARN_ONLY
+    /// Set the mode to ENABLED or LEARN_ONLY . By default, Amazon Kendra enables query suggestions. LEARN_ONLY mode allows you to turn off query suggestions. You can to update this at any time. In LEARN_ONLY mode, Amazon Kendra continues to learn from new queries to keep suggestions up to date for when you are ready to switch to ENABLED mode again. Possible values: • ENABLED • LEARN_ONLY
     /// </summary>
     [CliOption("--mode")]
     public AwsKendraUpdateQuerySuggestionsConfigMode? Mode { get; set; }
@@ -75,25 +76,25 @@ public record AwsKendraUpdateQuerySuggestionsConfigOptions : AwsOptions, IValida
     public int? QueryLogLookBackWindowInDays { get; set; }
 
     /// <summary>
-    /// out-user-information (boolean) TRUE to include queries without user information (i.e. all queries, irrespective of the user), otherwise FALSE to only in- clude queries with user information. If you pass user information to Amazon Kendra along with the queries, you can set this flag to FALSE and instruct Amazon Kendra to only consider queries with user information. If you set to FALSE , Amazon Kendra only considers queries searched at least MinimumQueryCount times across MinimumNumberOfQueryingUsers unique users for suggestions. If you set to TRUE , Amazon Kendra ignores all user information and learns from all queries.
+    /// TRUE to include queries without user information (i.e. all queries, irrespective of the user), otherwise FALSE to only include queries with user information. If you pass user information to Amazon Kendra along with the queries, you can set this flag to FALSE and instruct Amazon Kendra to only consider queries with user information. If you set to FALSE , Amazon Kendra only considers queries searched at least MinimumQueryCount times across MinimumNumberOfQueryingUsers unique users for suggestions. If you set to TRUE , Amazon Kendra ignores all user information and learns from all queries.
     /// </summary>
     [CliFlag("--include-queries-without-user-information", NegatedName = "--no-include-queries-without-user-information")]
     public bool? IncludeQueriesWithoutUserInformation { get; set; }
 
     /// <summary>
-    /// The minimum number of unique users who must search a query in order for the query to be eligible to suggest to your users. Increasing this number might decrease the number of suggestions. However, this ensures a query is searched by many users and is truly popular to suggest to users. How you tune this setting depends on your specific needs. Constraints: o min: 1 o max: 10000
+    /// The minimum number of unique users who must search a query in order for the query to be eligible to suggest to your users. Increasing this number might decrease the number of suggestions. However, this ensures a query is searched by many users and is truly popular to suggest to users. How you tune this setting depends on your specific needs. Constraints: • min: 1 • max: 10000
     /// </summary>
     [CliOption("--minimum-number-of-querying-users")]
     public int? MinimumNumberOfQueryingUsers { get; set; }
 
     /// <summary>
-    /// The the minimum number of times a query must be searched in order to be eligible to suggest to your users. Decreasing this number increases the number of suggestions. However, this affects the quality of suggestions as it sets a low bar for a query to be considered popular to suggest to users. How you tune this setting depends on your specific needs. Constraints: o min: 1 o max: 10000
+    /// The the minimum number of times a query must be searched in order to be eligible to suggest to your users. Decreasing this number increases the number of suggestions. However, this affects the quality of suggestions as it sets a low bar for a query to be considered popular to suggest to users. How you tune this setting depends on your specific needs. Constraints: • min: 1 • max: 10000
     /// </summary>
     [CliOption("--minimum-query-count")]
     public int? MinimumQueryCount { get; set; }
 
     /// <summary>
-    /// Configuration information for the document fields/attributes that you want to base query suggestions on. SuggestableConfigList -&gt; (list) The list of fields/attributes that you want to set as sug- gestible for query suggestions. (structure) Provides the configuration information for a document field/attribute that you want to base query suggestions on. AttributeName -&gt; (string) The name of the document field/attribute. Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9_][a-zA-Z0-9_-]* Suggestable -&gt; (boolean) TRUE means the document field/attribute is suggestible, so the contents within the field can be used for query suggestions. AttributeSuggestionsMode -&gt; (string) You can set the mode to ACTIVE or INACTIVE . You must also set SuggestionTypes as either QUERY or DOCUMENT_ATTRIBUTES and then call GetQuerySuggestions . If Mode to use query history is set to ENABLED when calling UpdateQuerySuggestionsConfig and Attrib- uteSuggestionsMode to use fields/attributes is set to ACTIVE , and you haven't set your SuggestionTypes preference to DOCU- MENT_ATTRIBUTES , then Amazon Kendra uses the query history. Possible values: o ACTIVE o INACTIVE Shorthand Syntax: SuggestableConfigList=[{AttributeName=string,Suggestable=boolean},{AttributeName=string,Suggestable=boolean}],AttributeSuggestionsMode=string JSON Syntax: { "SuggestableConfigList": [ { "AttributeName": "string", "Suggestable": true|false } ... ], "AttributeSuggestionsMode": "ACTIVE"|"INACTIVE" }
+    /// Configuration information for the document fields/attributes that you want to base query suggestions on. SuggestableConfigList -&gt; (list) The list of fields/attributes that you want to set as suggestible for query suggestions. (structure) Provides the configuration information for a document field/attribute that you want to base query suggestions on. AttributeName -&gt; (string) The name of the document field/attribute. Constraints: • min: 1 • max: 200 • pattern: [a-zA-Z0-9_][a-zA-Z0-9_-]* Suggestable -&gt; (boolean) TRUE means the document field/attribute is suggestible, so the contents within the field can be used for query suggestions. AttributeSuggestionsMode -&gt; (string) You can set the mode to ACTIVE or INACTIVE . You must also set SuggestionTypes as either QUERY or DOCUMENT_ATTRIBUTES and then call GetQuerySuggestions . If Mode to use query history is set to ENABLED when calling UpdateQuerySuggestionsConfig and AttributeSuggestionsMode to use fields/attributes is set to ACTIVE , and you haven't set your SuggestionTypes preference to DOCUMENT_ATTRIBUTES , then Amazon Kendra uses the query history. Possible values: • ACTIVE • INACTIVE Shorthand Syntax: SuggestableConfigList=[{AttributeName=string,Suggestable=boolean},{AttributeName=string,Suggestable=boolean}],AttributeSuggestionsMode=string JSON Syntax: { "SuggestableConfigList": [ { "AttributeName": "string", "Suggestable": true|false } ... ], "AttributeSuggestionsMode": "ACTIVE"|"INACTIVE" }
     /// </summary>
     [CliOption("--attribute-suggestions-config")]
     public string? AttributeSuggestionsConfig { get; set; }
@@ -119,6 +120,15 @@ public record AwsKendraUpdateQuerySuggestionsConfigOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsSnsUntagResourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Remove tags from the specified Amazon SNS topic. For an overview, see Amazon SNS Tags in the Amazon SNS Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The ARN of the topic from which to remove tags. Constraints: o min: 1 o max: 1011</param>
-    /// <param name="TagKeys">The list of tag keys to remove from the specified topic. (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArn">The ARN of the topic from which to remove tags. Constraints: • min: 1 • max: 1011</param>
+    /// <param name="TagKeys">The list of tag keys to remove from the specified topic. (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...</param>
     public AwsSnsUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -71,13 +72,13 @@ public record AwsSnsUntagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the topic from which to remove tags. Constraints: o min: 1 o max: 1011
+    /// The ARN of the topic from which to remove tags. Constraints: • min: 1 • max: 1011
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The list of tag keys to remove from the specified topic. (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...
+    /// The list of tag keys to remove from the specified topic. (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }
@@ -103,6 +104,15 @@ public record AwsSnsUntagResourceOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

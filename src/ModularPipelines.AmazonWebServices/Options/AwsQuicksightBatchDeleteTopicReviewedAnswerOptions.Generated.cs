@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsQuicksightBatchDeleteTopicReviewedAnswerOptions : AwsOptions, I
     /// <summary>
     /// Deletes reviewed answers for Q Topic. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that you want to delete a reviewed answers in. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="TopicId">The ID for the topic reviewed answer that you want to delete. This ID is unique per Amazon Web Services Region for each Amazon Web Ser- vices account. Constraints: o max: 256 o pattern: ^[A-Za-z0-9-_.\\+]*$</param>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that you want to delete a reviewed answers in. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="TopicId">The ID for the topic reviewed answer that you want to delete. This ID is unique per Amazon Web Services Region for each Amazon Web Services account. Constraints: • max: 256 • pattern: ^[A-Za-z0-9-_.\\+]*$</param>
     public AwsQuicksightBatchDeleteTopicReviewedAnswerOptions(
         string AwsAccountId,
         string TopicId
@@ -60,19 +61,19 @@ public record AwsQuicksightBatchDeleteTopicReviewedAnswerOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon Web Services account that you want to delete a reviewed answers in. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID of the Amazon Web Services account that you want to delete a reviewed answers in. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The ID for the topic reviewed answer that you want to delete. This ID is unique per Amazon Web Services Region for each Amazon Web Ser- vices account. Constraints: o max: 256 o pattern: ^[A-Za-z0-9-_.\\+]*$
+    /// The ID for the topic reviewed answer that you want to delete. This ID is unique per Amazon Web Services Region for each Amazon Web Services account. Constraints: • max: 256 • pattern: ^[A-Za-z0-9-_.\\+]*$
     /// </summary>
     [CliOption("--topic-id")]
     public string? TopicId { get; private init; }
 
     /// <summary>
-    /// The Answer IDs of the Answers to be deleted. (string) Constraints: o max: 256 o pattern: ^[A-Za-z0-9-_.\\+]*$ Syntax: "string" "string" ...
+    /// The Answer IDs of the Answers to be deleted. (string) Constraints: • max: 256 • pattern: ^[A-Za-z0-9-_.\\+]*$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--answer-ids", GroupValues = true)]
     public IEnumerable<string>? AnswerIds { get; set; }
@@ -98,6 +99,15 @@ public record AwsQuicksightBatchDeleteTopicReviewedAnswerOptions : AwsOptions, I
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

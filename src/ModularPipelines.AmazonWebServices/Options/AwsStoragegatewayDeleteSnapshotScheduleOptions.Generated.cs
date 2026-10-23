@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsStoragegatewayDeleteSnapshotScheduleOptions : AwsOptions, IVali
     /// <summary>
     /// Deletes a snapshot of a volume. You can take snapshots of your gateway volumes on a scheduled or ad hoc basis. This API action enables you to delete a snapshot schedule for a volume. For more information, see Backing up your volumes . In the DeleteSnapshotSchedule request, you identify the volume by providing its Amazon Resource Name (ARN). This operation is only supported for cached volume gateway types. NOTE: To list or delete a snapshot, you must use the Amazon EC2 API. For more information, ...
     /// </summary>
-    /// <param name="VolumeArn">The volume which snapshot schedule to delete. Constraints: o min: 50 o max: 500 o pattern: arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):storage- gateway:[a-z\-0-9]+:[0-9]+:gateway\/(.+)\/volume\/vol-(\S+)</param>
+    /// <param name="VolumeArn">The volume which snapshot schedule to delete. Constraints: • min: 50 • max: 500 • pattern: arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):storagegateway:[a-z\-0-9]+:[0-9]+:gateway\/(.+)\/volume\/vol-(\S+)</param>
     public AwsStoragegatewayDeleteSnapshotScheduleOptions(
         string VolumeArn
     )
@@ -56,7 +57,7 @@ public record AwsStoragegatewayDeleteSnapshotScheduleOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The volume which snapshot schedule to delete. Constraints: o min: 50 o max: 500 o pattern: arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):storage- gateway:[a-z\-0-9]+:[0-9]+:gateway\/(.+)\/volume\/vol-(\S+)
+    /// The volume which snapshot schedule to delete. Constraints: • min: 50 • max: 500 • pattern: arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):storagegateway:[a-z\-0-9]+:[0-9]+:gateway\/(.+)\/volume\/vol-(\S+)
     /// </summary>
     [CliOption("--volume-arn")]
     public string? VolumeArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsStoragegatewayDeleteSnapshotScheduleOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

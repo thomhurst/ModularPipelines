@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes all dashboards that you specify. You can specify up to 100 dashboards to delete. If there is an error during this call, the opera- tion attempts to delete as many dashboards as possible. See also: AWS API Documentation
+/// Deletes all dashboards that you specify. You can specify up to 100 dashboards to delete. If there is an error during this call, the operation attempts to delete as many dashboards as possible. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsCloudwatchDeleteDashboardsOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes all dashboards that you specify. You can specify up to 100 dashboards to delete. If there is an error during this call, the opera- tion attempts to delete as many dashboards as possible. See also: AWS API Documentation
+    /// Deletes all dashboards that you specify. You can specify up to 100 dashboards to delete. If there is an error during this call, the operation attempts to delete as many dashboards as possible. See also: AWS API Documentation
     /// </summary>
     /// <param name="DashboardNames">The dashboards to be deleted. This parameter is required. (string) Syntax: "string" "string" ...</param>
     public AwsCloudwatchDeleteDashboardsOptions(
@@ -93,6 +94,15 @@ public record AwsCloudwatchDeleteDashboardsOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

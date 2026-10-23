@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsSsmWaitCommandExecutedOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Wait until JMESPath query Status returns Success when polling with get-command-invocation. It will poll every 5 seconds until a successful state has been reached. This will exit with a return code of 255 after 20 failed checks. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CommandId">(Required) The parent command ID of the invocation plugin. Constraints: o min: 36 o max: 36</param>
-    /// <param name="InstanceId">(Required) The ID of the managed node targeted by the command. A managed node can be an Amazon Elastic Compute Cloud (Amazon EC2) in- stance, edge device, and on-premises server or VM in your hybrid en- vironment that is configured for Amazon Web Services Systems Man- ager. Constraints: o pattern: (^i-(\w{8}|\w{17})$)|(^mi-\w{17}$)</param>
+    /// <param name="CommandId">(Required) The parent command ID of the invocation plugin. Constraints: • min: 36 • max: 36</param>
+    /// <param name="InstanceId">(Required) The ID of the managed node targeted by the command. A managed node can be an Amazon Elastic Compute Cloud (Amazon EC2) instance, edge device, and on-premises server or VM in your hybrid environment that is configured for Amazon Web Services Systems Manager. Constraints: • pattern: (^i-(\w{8}|\w{17})$)|(^mi-\w{17}$)</param>
     public AwsSsmWaitCommandExecutedOptions(
         string CommandId,
         string InstanceId
@@ -60,19 +61,19 @@ public record AwsSsmWaitCommandExecutedOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// (Required) The parent command ID of the invocation plugin. Constraints: o min: 36 o max: 36
+    /// (Required) The parent command ID of the invocation plugin. Constraints: • min: 36 • max: 36
     /// </summary>
     [CliOption("--command-id")]
     public string? CommandId { get; private init; }
 
     /// <summary>
-    /// (Required) The ID of the managed node targeted by the command. A managed node can be an Amazon Elastic Compute Cloud (Amazon EC2) in- stance, edge device, and on-premises server or VM in your hybrid en- vironment that is configured for Amazon Web Services Systems Man- ager. Constraints: o pattern: (^i-(\w{8}|\w{17})$)|(^mi-\w{17}$)
+    /// (Required) The ID of the managed node targeted by the command. A managed node can be an Amazon Elastic Compute Cloud (Amazon EC2) instance, edge device, and on-premises server or VM in your hybrid environment that is configured for Amazon Web Services Systems Manager. Constraints: • pattern: (^i-(\w{8}|\w{17})$)|(^mi-\w{17}$)
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The name of the step for which you want detailed results. If the document contains only one step, you can omit the name and details for that step. If the document contains more than one step, you must specify the name of the step for which you want to view details. Be sure to specify the name of the step, not the name of a plugin like aws:RunShellScript . To find the PluginName , check the document content and find the name of the step you want details for. Alternatively, use ListCom- mandInvocations with the CommandId and Details parameters. The Plug- inName is the Name attribute of the CommandPlugin object in the Com- mandPlugins list. Constraints: o min: 4
+    /// The name of the step for which you want detailed results. If the document contains only one step, you can omit the name and details for that step. If the document contains more than one step, you must specify the name of the step for which you want to view details. Be sure to specify the name of the step, not the name of a plugin like aws:RunShellScript . To find the PluginName , check the document content and find the name of the step you want details for. Alternatively, use ListCommandInvocations with the CommandId and Details parameters. The PluginName is the Name attribute of the CommandPlugin object in the CommandPlugins list. Constraints: • min: 4
     /// </summary>
     [CliOption("--plugin-name")]
     public string? PluginName { get; set; }
@@ -98,6 +99,15 @@ public record AwsSsmWaitCommandExecutedOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

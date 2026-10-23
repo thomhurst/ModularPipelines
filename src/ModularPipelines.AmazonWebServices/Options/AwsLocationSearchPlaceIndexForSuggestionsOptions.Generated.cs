@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend you upgrade to ` Suggest /location/latest/APIRef- erence/API_geoplaces_Suggest.html`__ or ` Autocomplete /loca- tion/latest/APIReference/API_geoplaces_Autocomplete.html`__ unless you require Grab data. o SearchPlaceIndexForSuggestions is part of a previous Amazon Loca- tion Service Places API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). o The vers...
+/// WARNING: This operation is no longer current and may be deprecated in the future. We recommend you upgrade to ` Suggest /location/latest/APIReference/API_geoplaces_Suggest.html`__ or ` Autocomplete /location/latest/APIReference/API_geoplaces_Autocomplete.html`__ unless you require Grab data. • SearchPlaceIndexForSuggestions is part of a previous Amazon Location Service Places API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). • The version 2 Su...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsLocationSearchPlaceIndexForSuggestionsOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend you upgrade to ` Suggest /location/latest/APIRef- erence/API_geoplaces_Suggest.html`__ or ` Autocomplete /loca- tion/latest/APIReference/API_geoplaces_Autocomplete.html`__ unless you require Grab data. o SearchPlaceIndexForSuggestions is part of a previous Amazon Loca- tion Service Places API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). o The vers...
+    /// WARNING: This operation is no longer current and may be deprecated in the future. We recommend you upgrade to ` Suggest /location/latest/APIReference/API_geoplaces_Suggest.html`__ or ` Autocomplete /location/latest/APIReference/API_geoplaces_Autocomplete.html`__ unless you require Grab data. • SearchPlaceIndexForSuggestions is part of a previous Amazon Location Service Places API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). • The version 2 Su...
     /// </summary>
-    /// <param name="IndexName">The name of the place index resource you want to use for the search. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+</param>
-    /// <param name="Text">The free-form partial text to use to generate place suggestions. For example, eiffel tow . Constraints: o min: 1 o max: 200</param>
+    /// <param name="IndexName">The name of the place index resource you want to use for the search. Constraints: • min: 1 • max: 100 • pattern: [-._\w]+</param>
+    /// <param name="Text">The free-form partial text to use to generate place suggestions. For example, eiffel tow . Constraints: • min: 1 • max: 200</param>
     public AwsLocationSearchPlaceIndexForSuggestionsOptions(
         string IndexName,
         string Text
@@ -60,55 +61,55 @@ public record AwsLocationSearchPlaceIndexForSuggestionsOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the place index resource you want to use for the search. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+
+    /// The name of the place index resource you want to use for the search. Constraints: • min: 1 • max: 100 • pattern: [-._\w]+
     /// </summary>
     [CliOption("--index-name")]
     public string? IndexName { get; private init; }
 
     /// <summary>
-    /// The free-form partial text to use to generate place suggestions. For example, eiffel tow . Constraints: o min: 1 o max: 200
+    /// The free-form partial text to use to generate place suggestions. For example, eiffel tow . Constraints: • min: 1 • max: 200
     /// </summary>
     [CliOption("--text")]
     public string? Text { get; private init; }
 
     /// <summary>
-    /// An optional parameter that indicates a preference for place sugges- tions that are closer to a specified position. If provided, this parameter must contain a pair of numbers. The first number represents the X coordinate, or longitude; the second number represents the Y coordinate, or latitude. For example, [-123.1174, 49.2847] represents the position with lon- gitude -123.1174 and latitude 49.2847 . NOTE: BiasPosition and FilterBBox are mutually exclusive. Specifying both options results in an error. Constraints: o min: 2 o max: 2 (double) Syntax: double double ...
+    /// An optional parameter that indicates a preference for place suggestions that are closer to a specified position. If provided, this parameter must contain a pair of numbers. The first number represents the X coordinate, or longitude; the second number represents the Y coordinate, or latitude. For example, [-123.1174, 49.2847] represents the position with longitude -123.1174 and latitude 49.2847 . NOTE: BiasPosition and FilterBBox are mutually exclusive. Specifying both options results in an error. Constraints: • min: 2 • max: 2 (double) Syntax: double double ...
     /// </summary>
     [CliOption("--bias-position", GroupValues = true)]
     public IEnumerable<string>? BiasPosition { get; set; }
 
     /// <summary>
-    /// An optional parameter that limits the search results by returning only suggestions within a specified bounding box. If provided, this parameter must contain a total of four consecutive numbers in two pairs. The first pair of numbers represents the X and Y coordinates (longitude and latitude, respectively) of the south- west corner of the bounding box; the second pair of numbers repre- sents the X and Y coordinates (longitude and latitude, respectively) of the northeast corner of the bounding box. For example, [-12.7935, -37.4835, -12.0684, -36.9542] represents a bounding box where the southwest corner has longitude -12.7935 and latitude -37.4835 , and the northeast corner has longitude -12.0684 and latitude -36.9542 . NOTE: FilterBBox and BiasPosition are mutually exclusive. Specifying both options results in an error. Constraints: o min: 4 o max: 4 (double) Syntax: double double ...
+    /// An optional parameter that limits the search results by returning only suggestions within a specified bounding box. If provided, this parameter must contain a total of four consecutive numbers in two pairs. The first pair of numbers represents the X and Y coordinates (longitude and latitude, respectively) of the southwest corner of the bounding box; the second pair of numbers represents the X and Y coordinates (longitude and latitude, respectively) of the northeast corner of the bounding box. For example, [-12.7935, -37.4835, -12.0684, -36.9542] represents a bounding box where the southwest corner has longitude -12.7935 and latitude -37.4835 , and the northeast corner has longitude -12.0684 and latitude -36.9542 . NOTE: FilterBBox and BiasPosition are mutually exclusive. Specifying both options results in an error. Constraints: • min: 4 • max: 4 (double) Syntax: double double ...
     /// </summary>
     [CliOption("--filter-b-box", GroupValues = true)]
     public IEnumerable<string>? FilterBBox { get; set; }
 
     /// <summary>
-    /// An optional parameter that limits the search results by returning only suggestions within the provided list of countries. o Use the ISO 3166 3-digit country code. For example, Australia uses three upper-case characters: AUS . Constraints: o min: 1 o max: 100 (string) Constraints: o min: 3 o max: 3 o pattern: [A-Z]{3} Syntax: "string" "string" ...
+    /// An optional parameter that limits the search results by returning only suggestions within the provided list of countries. • Use the ISO 3166 3-digit country code. For example, Australia uses three upper-case characters: AUS . Constraints: • min: 1 • max: 100 (string) Constraints: • min: 3 • max: 3 • pattern: [A-Z]{3} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--filter-countries", GroupValues = true)]
     public IEnumerable<string>? FilterCountries { get; set; }
 
     /// <summary>
-    /// An optional parameter. The maximum number of results returned per request. The default: 5 Constraints: o min: 1 o max: 15
+    /// An optional parameter. The maximum number of results returned per request. The default: 5 Constraints: • min: 1 • max: 15
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The preferred language used to return results. The value must be a valid BCP 47 language tag, for example, en for English. This setting affects the languages used in the results. If no lan- guage is specified, or not supported for a particular result, the partner automatically chooses a language for the result. For an example, we'll use the Greek language. You search for Athens, Gr to get suggestions with the language parameter set to en . The results found will most likely be returned as Athens, Greece . If you set the language parameter to el , for Greek, then the result found will more likely be returned as , . If the data provider does not have a value for Greek, the result will be in a language that the provider does support. Constraints: o min: 2 o max: 35
+    /// The preferred language used to return results. The value must be a valid BCP 47 language tag, for example, en for English. This setting affects the languages used in the results. If no language is specified, or not supported for a particular result, the partner automatically chooses a language for the result. For an example, we'll use the Greek language. You search for Athens, Gr to get suggestions with the language parameter set to en . The results found will most likely be returned as Athens, Greece . If you set the language parameter to el , for Greek, then the result found will more likely be returned as , . If the data provider does not have a value for Greek, the result will be in a language that the provider does support. Constraints: • min: 2 • max: 35
     /// </summary>
     [CliOption("--language")]
     public string? Language { get; set; }
 
     /// <summary>
-    /// A list of one or more Amazon Location categories to filter the re- turned places. If you include more than one category, the results will include results that match any of the categories listed. For more information about using categories, including a list of Amazon Location categories, see Categories and filtering , in the Amazon Location Service developer guide . Constraints: o min: 1 o max: 5 (string) Constraints: o min: 0 o max: 35 Syntax: "string" "string" ...
+    /// A list of one or more Amazon Location categories to filter the returned places. If you include more than one category, the results will include results that match any of the categories listed. For more information about using categories, including a list of Amazon Location categories, see Categories and filtering , in the Amazon Location Service developer guide . Constraints: • min: 1 • max: 5 (string) Constraints: • min: 0 • max: 35 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--filter-categories", GroupValues = true)]
     public IEnumerable<string>? FilterCategories { get; set; }
 
     /// <summary>
-    /// The optional API key to authorize the request. Constraints: o min: 0 o max: 1000
+    /// The optional API key to authorize the request. Constraints: • min: 0 • max: 1000
     /// </summary>
     [CliOption("--key")]
     public string? Key { get; set; }
@@ -134,6 +135,15 @@ public record AwsLocationSearchPlaceIndexForSuggestionsOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

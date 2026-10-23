@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws pinpointemail commands.
+/// aws pinpoint-email commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsPinpointEmail : IAwsPinpointEmail
@@ -32,7 +32,7 @@ public class AwsPinpointEmail : IAwsPinpointEmail
     #region Commands
 
     /// <summary>
-    /// Create an event destination. In Amazon Pinpoint, events include message sends, deliveries, opens, clicks, bounces, and complaints. Event desti- nations are places that you can send information about these events to. For example, you can send event data to Amazon SNS to receive notifica- tions when you receive bounces or complaints, or you can use Amazon Ki- nesis Data Firehose to stream data to Amazon S3 for long-term storage. A single configuration set can include more than one event destinatio...
+    /// Create an event destination. In Amazon Pinpoint, events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon SNS to receive notifications when you receive bounces or complaints, or you can use Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage. A single configuration set can include more than one event destination. See...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsPinpointEmail : IAwsPinpointEmail
     }
 
     /// <summary>
-    /// Create a configuration set. Configuration sets are groups of rules that you can apply to the emails you send using Amazon Pinpoint. You apply a configuration set to an email by including a reference to the configu- ration set in the headers of the email. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email. See also: AWS API Documentation
+    /// Create a configuration set. Configuration sets are groups of rules that you can apply to the emails you send using Amazon Pinpoint. You apply a configuration set to an email by including a reference to the configuration set in the headers of the email. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsPinpointEmail : IAwsPinpointEmail
     }
 
     /// <summary>
-    /// Create a new pool of dedicated IP addresses. A pool can include one or more dedicated IP addresses that are associated with your Amazon Pin- point account. You can associate a pool with a configuration set. When you send an email that uses that configuration set, Amazon Pinpoint sends it using only the IP addresses in the associated pool. See also: AWS API Documentation
+    /// Create a new pool of dedicated IP addresses. A pool can include one or more dedicated IP addresses that are associated with your Amazon Pinpoint account. You can associate a pool with a configuration set. When you send an email that uses that configuration set, Amazon Pinpoint sends it using only the IP addresses in the associated pool. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsPinpointEmail : IAwsPinpointEmail
     }
 
     /// <summary>
-    /// Create a new predictive inbox placement test. Predictive inbox place- ment tests can help you predict how your messages will be handled by various email providers around the world. When you perform a predictive inbox placement test, you provide a sample message that contains the content that you plan to send to your customers. Amazon Pinpoint then sends that message to special email addresses spread across several ma- jor email providers. After about 24 hours, the test is complete, and you can u...
+    /// Create a new predictive inbox placement test. Predictive inbox placement tests can help you predict how your messages will be handled by various email providers around the world. When you perform a predictive inbox placement test, you provide a sample message that contains the content that you plan to send to your customers. Amazon Pinpoint then sends that message to special email addresses spread across several major email providers. After about 24 hours, the test is complete, and you can use t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsPinpointEmail : IAwsPinpointEmail
     }
 
     /// <summary>
-    /// Verifies an email identity for use with Amazon Pinpoint. In Amazon Pin- point, an identity is an email address or domain that you use when you send email. Before you can use an identity to send email with Amazon Pinpoint, you first have to verify it. By verifying an address, you demonstrate that you're the owner of the address, and that you've given Amazon Pinpoint permission to send email from the address. When you verify an email address, Amazon Pinpoint sends an email to the address. Your ema...
+    /// Verifies an email identity for use with Amazon Pinpoint. In Amazon Pinpoint, an identity is an email address or domain that you use when you send email. Before you can use an identity to send email with Amazon Pinpoint, you first have to verify it. By verifying an address, you demonstrate that you're the owner of the address, and that you've given Amazon Pinpoint permission to send email from the address. When you verify an email address, Amazon Pinpoint sends an email to the address. Your email...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsPinpointEmail : IAwsPinpointEmail
     }
 
     /// <summary>
-    /// Retrieve a list of the blacklists that your dedicated IP addresses ap- pear on. See also: AWS API Documentation
+    /// Retrieve a list of the blacklists that your dedicated IP addresses appear on. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsPinpointEmail : IAwsPinpointEmail
     }
 
     /// <summary>
-    /// Retrieve a list of event destinations that are associated with a con- figuration set. In Amazon Pinpoint, events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon SNS to receive notifications when you receive bounces or complaints, or you can use Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage. See also: AWS API ...
+    /// Retrieve a list of event destinations that are associated with a configuration set. In Amazon Pinpoint, events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon SNS to receive notifications when you receive bounces or complaints, or you can use Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage. See also: AWS API Do...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsPinpointEmail : IAwsPinpointEmail
     }
 
     /// <summary>
-    /// Get information about an existing configuration set, including the ded- icated IP pool that it's associated with, whether or not it's enabled for sending email, and more. In Amazon Pinpoint, configuration sets are groups of rules that you can apply to the emails you send. You apply a configuration set to an email by including a reference to the configuration set in the headers of the email. When you apply a configuration set to an email, all of the rules in that configuration set are applied to ...
+    /// Get information about an existing configuration set, including the dedicated IP pool that it's associated with, whether or not it's enabled for sending email, and more. In Amazon Pinpoint, configuration sets are groups of rules that you can apply to the emails you send. You apply a configuration set to an email by including a reference to the configuration set in the headers of the email. When you apply a configuration set to an email, all of the rules in that configuration set are applied to th...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -257,7 +257,7 @@ public class AwsPinpointEmail : IAwsPinpointEmail
     }
 
     /// <summary>
-    /// Retrieve information about the status of the Deliverability dashboard for your Amazon Pinpoint account. When the Deliverability dashboard is enabled, you gain access to reputation, deliverability, and other met- rics for the domains that you use to send email using Amazon Pinpoint. You also gain the ability to perform predictive inbox placement tests. When you use the Deliverability dashboard, you pay a monthly subscrip- tion charge, in addition to any other fees that you accrue by using Amazon ...
+    /// Retrieve information about the status of the Deliverability dashboard for your Amazon Pinpoint account. When the Deliverability dashboard is enabled, you gain access to reputation, deliverability, and other metrics for the domains that you use to send email using Amazon Pinpoint. You also gain the ability to perform predictive inbox placement tests. When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition to any other fees that you accrue by using Amazon Pinp...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -287,7 +287,7 @@ public class AwsPinpointEmail : IAwsPinpointEmail
     }
 
     /// <summary>
-    /// Retrieve all the deliverability data for a specific campaign. This data is available for a campaign only if the campaign sent email by using a domain that the Deliverability dashboard is enabled for (PutDeliver- abilityDashboardOption operation). See also: AWS API Documentation
+    /// Retrieve all the deliverability data for a specific campaign. This data is available for a campaign only if the campaign sent email by using a domain that the Deliverability dashboard is enabled for (PutDeliverabilityDashboardOption operation). See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -347,7 +347,7 @@ public class AwsPinpointEmail : IAwsPinpointEmail
     }
 
     /// <summary>
-    /// List all of the dedicated IP pools that exist in your Amazon Pinpoint account in the current AWS Region. See also: AWS API Documentation list-dedicated-ip-pools is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query exp...
+    /// List all of the dedicated IP pools that exist in your Amazon Pinpoint account in the current AWS Region. See also: AWS API Documentation list-dedicated-ip-pools is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expre...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public class AwsPinpointEmail : IAwsPinpointEmail
     }
 
     /// <summary>
-    /// Show a list of the predictive inbox placement tests that you've per- formed, regardless of their statuses. For predictive inbox placement tests that are complete, you can use the GetDeliverabilityTestReport operation to view the results. See also: AWS API Documentation list-deliverability-test-reports is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --...
+    /// Show a list of the predictive inbox placement tests that you've performed, regardless of their statuses. For predictive inbox placement tests that are complete, you can use the GetDeliverabilityTestReport operation to view the results. See also: AWS API Documentation list-deliverability-test-reports is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -377,7 +377,7 @@ public class AwsPinpointEmail : IAwsPinpointEmail
     }
 
     /// <summary>
-    /// Retrieve deliverability data for all the campaigns that used a specific domain to send email during a specified time range. This data is avail- able for a domain only if you enabled the Deliverability dashboard (PutDeliverabilityDashboardOption operation) for the domain. See also: AWS API Documentation
+    /// Retrieve deliverability data for all the campaigns that used a specific domain to send email during a specified time range. This data is available for a domain only if you enabled the Deliverability dashboard (PutDeliverabilityDashboardOption operation) for the domain. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -392,7 +392,7 @@ public class AwsPinpointEmail : IAwsPinpointEmail
     }
 
     /// <summary>
-    /// Returns a list of all of the email identities that are associated with your Amazon Pinpoint account. An identity can be either an email ad- dress or a domain. This operation returns identities that are verified as well as those that aren't. See also: AWS API Documentation list-email-identities is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text ...
+    /// Returns a list of all of the email identities that are associated with your Amazon Pinpoint account. An identity can be either an email address or a domain. This operation returns identities that are verified as well as those that aren't. See also: AWS API Documentation list-email-identities is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text an...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -422,7 +422,7 @@ public class AwsPinpointEmail : IAwsPinpointEmail
     }
 
     /// <summary>
-    /// Enable or disable the automatic warm-up feature for dedicated IP ad- dresses. See also: AWS API Documentation
+    /// Enable or disable the automatic warm-up feature for dedicated IP addresses. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -452,7 +452,7 @@ public class AwsPinpointEmail : IAwsPinpointEmail
     }
 
     /// <summary>
-    /// Associate a configuration set with a dedicated IP pool. You can use dedicated IP pools to create groups of dedicated IP addresses for send- ing specific types of email. See also: AWS API Documentation
+    /// Associate a configuration set with a dedicated IP pool. You can use dedicated IP pools to create groups of dedicated IP addresses for sending specific types of email. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -482,7 +482,7 @@ public class AwsPinpointEmail : IAwsPinpointEmail
     }
 
     /// <summary>
-    /// Enable or disable email sending for messages that use a particular con- figuration set in a specific AWS Region. See also: AWS API Documentation
+    /// Enable or disable email sending for messages that use a particular configuration set in a specific AWS Region. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -542,7 +542,7 @@ public class AwsPinpointEmail : IAwsPinpointEmail
     }
 
     /// <summary>
-    /// Enable or disable the Deliverability dashboard for your Amazon Pinpoint account. When you enable the Deliverability dashboard, you gain access to reputation, deliverability, and other metrics for the domains that you use to send email using Amazon Pinpoint. You also gain the ability to perform predictive inbox placement tests. When you use the Deliverability dashboard, you pay a monthly subscrip- tion charge, in addition to any other fees that you accrue by using Amazon Pinpoint. For more inform...
+    /// Enable or disable the Deliverability dashboard for your Amazon Pinpoint account. When you enable the Deliverability dashboard, you gain access to reputation, deliverability, and other metrics for the domains that you use to send email using Amazon Pinpoint. You also gain the ability to perform predictive inbox placement tests. When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition to any other fees that you accrue by using Amazon Pinpoint. For more informat...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -572,7 +572,7 @@ public class AwsPinpointEmail : IAwsPinpointEmail
     }
 
     /// <summary>
-    /// Used to enable or disable feedback forwarding for an identity. This setting determines what happens when an identity is used to send an email that results in a bounce or complaint event. When you enable feedback forwarding, Amazon Pinpoint sends you email notifications when bounce or complaint events occur. Amazon Pinpoint sends this notification to the address that you specified in the Re- turn-Path header of the original email. When you disable feedback forwarding, Amazon Pinpoint sends notifi...
+    /// Used to enable or disable feedback forwarding for an identity. This setting determines what happens when an identity is used to send an email that results in a bounce or complaint event. When you enable feedback forwarding, Amazon Pinpoint sends you email notifications when bounce or complaint events occur. Amazon Pinpoint sends this notification to the address that you specified in the Return-Path header of the original email. When you disable feedback forwarding, Amazon Pinpoint sends notifica...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -602,7 +602,7 @@ public class AwsPinpointEmail : IAwsPinpointEmail
     }
 
     /// <summary>
-    /// Sends an email message. You can use the Amazon Pinpoint Email API to send two types of messages: o Simple A standard email message. When you create this type of mes- sage, you specify the sender, the recipient, and the message body, and Amazon Pinpoint assembles the message for you. o Raw A raw, MIME-formatted email message. When you send this type of email, you have to specify all of the message headers, as well as the message body. You can use this message type to send messages that contain at...
+    /// Sends an email message. You can use the Amazon Pinpoint Email API to send two types of messages: • Simple A standard email message. When you create this type of message, you specify the sender, the recipient, and the message body, and Amazon Pinpoint assembles the message for you. • Raw A raw, MIME-formatted email message. When you send this type of email, you have to specify all of the message headers, as well as the message body. You can use this message type to send messages that contain atta...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -617,7 +617,7 @@ public class AwsPinpointEmail : IAwsPinpointEmail
     }
 
     /// <summary>
-    /// Add one or more tags (keys and values) to a specified resource. A tag is a label that you optionally define and associate with a resource in Amazon Pinpoint. Tags can help you categorize and manage resources in different ways, such as by purpose, owner, environment, or other crite- ria. A resource can have as many as 50 tags. Each tag consists of a required tag key and an associated tag value , both of which you define. A tag key is a general label that acts as a category for more specific tag v...
+    /// Add one or more tags (keys and values) to a specified resource. A tag is a label that you optionally define and associate with a resource in Amazon Pinpoint. Tags can help you categorize and manage resources in different ways, such as by purpose, owner, environment, or other criteria. A resource can have as many as 50 tags. Each tag consists of a required tag key and an associated tag value , both of which you define. A tag key is a general label that acts as a category for more specific tag val...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

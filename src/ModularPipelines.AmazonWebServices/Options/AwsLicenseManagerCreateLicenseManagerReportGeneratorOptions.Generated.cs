@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,11 +29,11 @@ public record AwsLicenseManagerCreateLicenseManagerReportGeneratorOptions : AwsO
     /// <summary>
     /// Creates a report generator. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ReportGeneratorName">Name of the report generator. Constraints: o min: 1 o max: 100</param>
-    /// <param name="Type">Type of reports to generate. The following report types an be gener- ated: o License configuration report - Reports the number and details of consumed licenses for a license configuration. o Resource report - Reports the tracked licenses and resource con- sumption for a license configuration. (string) Possible values: o LicenseConfigurationSummaryReport o LicenseConfigurationUsageReport o LicenseAssetGroupUsageReport Syntax: "string" "string" ...</param>
-    /// <param name="ReportContext">Defines the type of license configuration the report generator tracks. licenseConfigurationArns -&gt; (list) Amazon Resource Name (ARN) of the license configuration that this generator reports on. (string) Constraints: o max: 2048 o pattern: ^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$ licenseAssetGroupArns -&gt; (list) Amazon Resource Names (ARNs) of the license asset groups to in- clude in the report. (string) Constraints: o max: 2048 o pattern: ^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$ reportStartDate -&gt; (timestamp) Start date for the report data collection period. reportEndDate -&gt; (timestamp) End date for the report data collection period. Shorthand Syntax: licenseConfigurationArns=string,string,licenseAssetGroupArns=string,string,reportStartDate=timestamp,reportEndDate=timestamp JSON Syntax: { "licenseConfigurationArns": ["string", ...], "licenseAssetGroupArns": ["string", ...], "reportStartDate": timestamp, "reportEndDate": timestamp }</param>
-    /// <param name="ReportFrequency">Frequency by which reports are generated. Reports can be generated daily, monthly, or weekly. value -&gt; (integer) Number of times within the frequency period that a report is generated. The only supported value is 1 . period -&gt; (string) Time period between each report. The period can be daily, weekly, or monthly. Possible values: o DAY o WEEK o MONTH o ONE_TIME Shorthand Syntax: value=integer,period=string JSON Syntax: { "value": integer, "period": "DAY"|"WEEK"|"MONTH"|"ONE_TIME" }</param>
-    /// <param name="ClientToken">Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 1 o max: 36</param>
+    /// <param name="ReportGeneratorName">Name of the report generator. Constraints: • min: 1 • max: 100</param>
+    /// <param name="Type">Type of reports to generate. The following report types an be generated: • License configuration report - Reports the number and details of consumed licenses for a license configuration. • Resource report - Reports the tracked licenses and resource consumption for a license configuration. (string) Possible values: • LicenseConfigurationSummaryReport • LicenseConfigurationUsageReport • LicenseAssetGroupUsageReport Syntax: "string" "string" ...</param>
+    /// <param name="ReportContext">Defines the type of license configuration the report generator tracks. licenseConfigurationArns -&gt; (list) Amazon Resource Name (ARN) of the license configuration that this generator reports on. (string) Constraints: • max: 2048 • pattern: ^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$ licenseAssetGroupArns -&gt; (list) Amazon Resource Names (ARNs) of the license asset groups to include in the report. (string) Constraints: • max: 2048 • pattern: ^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$ reportStartDate -&gt; (timestamp) Start date for the report data collection period. reportEndDate -&gt; (timestamp) End date for the report data collection period. Shorthand Syntax: licenseConfigurationArns=string,string,licenseAssetGroupArns=string,string,reportStartDate=timestamp,reportEndDate=timestamp JSON Syntax: { "licenseConfigurationArns": ["string", ...], "licenseAssetGroupArns": ["string", ...], "reportStartDate": timestamp, "reportEndDate": timestamp }</param>
+    /// <param name="ReportFrequency">Frequency by which reports are generated. Reports can be generated daily, monthly, or weekly. value -&gt; (integer) Number of times within the frequency period that a report is generated. The only supported value is 1 . period -&gt; (string) Time period between each report. The period can be daily, weekly, or monthly. Possible values: • DAY • WEEK • MONTH • ONE_TIME Shorthand Syntax: value=integer,period=string JSON Syntax: { "value": integer, "period": "DAY"|"WEEK"|"MONTH"|"ONE_TIME" }</param>
+    /// <param name="ClientToken">Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: • min: 1 • max: 36</param>
     public AwsLicenseManagerCreateLicenseManagerReportGeneratorOptions(
         string ReportGeneratorName,
         IEnumerable<string> Type,
@@ -84,31 +85,31 @@ public record AwsLicenseManagerCreateLicenseManagerReportGeneratorOptions : AwsO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Name of the report generator. Constraints: o min: 1 o max: 100
+    /// Name of the report generator. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--report-generator-name")]
     public string? ReportGeneratorName { get; private init; }
 
     /// <summary>
-    /// Type of reports to generate. The following report types an be gener- ated: o License configuration report - Reports the number and details of consumed licenses for a license configuration. o Resource report - Reports the tracked licenses and resource con- sumption for a license configuration. (string) Possible values: o LicenseConfigurationSummaryReport o LicenseConfigurationUsageReport o LicenseAssetGroupUsageReport Syntax: "string" "string" ...
+    /// Type of reports to generate. The following report types an be generated: • License configuration report - Reports the number and details of consumed licenses for a license configuration. • Resource report - Reports the tracked licenses and resource consumption for a license configuration. (string) Possible values: • LicenseConfigurationSummaryReport • LicenseConfigurationUsageReport • LicenseAssetGroupUsageReport Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--type", GroupValues = true)]
     public IEnumerable<string>? Type { get; private init; }
 
     /// <summary>
-    /// Defines the type of license configuration the report generator tracks. licenseConfigurationArns -&gt; (list) Amazon Resource Name (ARN) of the license configuration that this generator reports on. (string) Constraints: o max: 2048 o pattern: ^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$ licenseAssetGroupArns -&gt; (list) Amazon Resource Names (ARNs) of the license asset groups to in- clude in the report. (string) Constraints: o max: 2048 o pattern: ^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$ reportStartDate -&gt; (timestamp) Start date for the report data collection period. reportEndDate -&gt; (timestamp) End date for the report data collection period. Shorthand Syntax: licenseConfigurationArns=string,string,licenseAssetGroupArns=string,string,reportStartDate=timestamp,reportEndDate=timestamp JSON Syntax: { "licenseConfigurationArns": ["string", ...], "licenseAssetGroupArns": ["string", ...], "reportStartDate": timestamp, "reportEndDate": timestamp }
+    /// Defines the type of license configuration the report generator tracks. licenseConfigurationArns -&gt; (list) Amazon Resource Name (ARN) of the license configuration that this generator reports on. (string) Constraints: • max: 2048 • pattern: ^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$ licenseAssetGroupArns -&gt; (list) Amazon Resource Names (ARNs) of the license asset groups to include in the report. (string) Constraints: • max: 2048 • pattern: ^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$ reportStartDate -&gt; (timestamp) Start date for the report data collection period. reportEndDate -&gt; (timestamp) End date for the report data collection period. Shorthand Syntax: licenseConfigurationArns=string,string,licenseAssetGroupArns=string,string,reportStartDate=timestamp,reportEndDate=timestamp JSON Syntax: { "licenseConfigurationArns": ["string", ...], "licenseAssetGroupArns": ["string", ...], "reportStartDate": timestamp, "reportEndDate": timestamp }
     /// </summary>
     [CliOption("--report-context")]
     public string? ReportContext { get; private init; }
 
     /// <summary>
-    /// Frequency by which reports are generated. Reports can be generated daily, monthly, or weekly. value -&gt; (integer) Number of times within the frequency period that a report is generated. The only supported value is 1 . period -&gt; (string) Time period between each report. The period can be daily, weekly, or monthly. Possible values: o DAY o WEEK o MONTH o ONE_TIME Shorthand Syntax: value=integer,period=string JSON Syntax: { "value": integer, "period": "DAY"|"WEEK"|"MONTH"|"ONE_TIME" }
+    /// Frequency by which reports are generated. Reports can be generated daily, monthly, or weekly. value -&gt; (integer) Number of times within the frequency period that a report is generated. The only supported value is 1 . period -&gt; (string) Time period between each report. The period can be daily, weekly, or monthly. Possible values: • DAY • WEEK • MONTH • ONE_TIME Shorthand Syntax: value=integer,period=string JSON Syntax: { "value": integer, "period": "DAY"|"WEEK"|"MONTH"|"ONE_TIME" }
     /// </summary>
     [CliOption("--report-frequency")]
     public string? ReportFrequency { get; private init; }
 
     /// <summary>
-    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 1 o max: 36
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: • min: 1 • max: 36
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -147,6 +148,15 @@ public record AwsLicenseManagerCreateLicenseManagerReportGeneratorOptions : AwsO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Verifies the subscription and performs resource dependency checks on the requested Amazon Web Services Marketplace resource. The caller must be entitled to the resource. For Amazon Web Services Marketplace compo- nents, the response contains fields to download the components and their artifacts. See also: AWS API Documentation
+/// Verifies the subscription and performs resource dependency checks on the requested Amazon Web Services Marketplace resource. The caller must be entitled to the resource. For Amazon Web Services Marketplace components, the response contains fields to download the components and their artifacts. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsImagebuilderGetMarketplaceResourceOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Verifies the subscription and performs resource dependency checks on the requested Amazon Web Services Marketplace resource. The caller must be entitled to the resource. For Amazon Web Services Marketplace compo- nents, the response contains fields to download the components and their artifacts. See also: AWS API Documentation
+    /// Verifies the subscription and performs resource dependency checks on the requested Amazon Web Services Marketplace resource. The caller must be entitled to the resource. For Amazon Web Services Marketplace components, the response contains fields to download the components and their artifacts. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceType">Specifies which type of Amazon Web Services Marketplace resource Im- age Builder retrieves. Possible values: o COMPONENT_DATA o COMPONENT_ARTIFACT</param>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) that uniquely identifies an Amazon Web Services Marketplace resource. Constraints: o pattern: ^arn:aws[^:]*:image- builder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?|third-party):(?:im- age-recipe|container-recipe|infrastructure-configuration|distribu- tion-configuration|component|image|image-pipeline|lifecycle-pol- icy|workflow\/(?:build|test|distribu- tion))/[a-z0-9-_]+(?:/(?:(?:x|[0-9]+)\.(?:x|[0-9]+)\.(?:x|[0-9]+))(?:/[0-9]+)?)?$</param>
+    /// <param name="ResourceType">Specifies which type of Amazon Web Services Marketplace resource Image Builder retrieves. Possible values: • COMPONENT_DATA • COMPONENT_ARTIFACT</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) that uniquely identifies an Amazon Web Services Marketplace resource. Constraints: • pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?|third-party):(?:image-recipe|container-recipe|infrastructure-configuration|distribution-configuration|component|image|image-pipeline|lifecycle-policy|workflow\/(?:build|test|distribution))/[a-z0-9-_]+(?:/(?:(?:x|[0-9]+)\.(?:x|[0-9]+)\.(?:x|[0-9]+))(?:/[0-9]+)?)?$</param>
     public AwsImagebuilderGetMarketplaceResourceOptions(
         AwsImagebuilderGetMarketplaceResourceResourceType ResourceType,
         string ResourceArn
@@ -60,19 +61,19 @@ public record AwsImagebuilderGetMarketplaceResourceOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies which type of Amazon Web Services Marketplace resource Im- age Builder retrieves. Possible values: o COMPONENT_DATA o COMPONENT_ARTIFACT
+    /// Specifies which type of Amazon Web Services Marketplace resource Image Builder retrieves. Possible values: • COMPONENT_DATA • COMPONENT_ARTIFACT
     /// </summary>
     [CliOption("--resource-type")]
     public AwsImagebuilderGetMarketplaceResourceResourceType? ResourceType { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) that uniquely identifies an Amazon Web Services Marketplace resource. Constraints: o pattern: ^arn:aws[^:]*:image- builder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?|third-party):(?:im- age-recipe|container-recipe|infrastructure-configuration|distribu- tion-configuration|component|image|image-pipeline|lifecycle-pol- icy|workflow\/(?:build|test|distribu- tion))/[a-z0-9-_]+(?:/(?:(?:x|[0-9]+)\.(?:x|[0-9]+)\.(?:x|[0-9]+))(?:/[0-9]+)?)?$
+    /// The Amazon Resource Name (ARN) that uniquely identifies an Amazon Web Services Marketplace resource. Constraints: • pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?|third-party):(?:image-recipe|container-recipe|infrastructure-configuration|distribution-configuration|component|image|image-pipeline|lifecycle-policy|workflow\/(?:build|test|distribution))/[a-z0-9-_]+(?:/(?:(?:x|[0-9]+)\.(?:x|[0-9]+)\.(?:x|[0-9]+))(?:/[0-9]+)?)?$
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The Amazon S3 location of the component artifact to retrieve, in s3://bucket/key form. Constraints: o max: 1024 o pattern: ^s3://[^/]+/.+[^/]$
+    /// The Amazon S3 location of the component artifact to retrieve, in s3://bucket/key form. Constraints: • max: 1024 • pattern: ^s3://[^/]+/.+[^/]$
     /// </summary>
     [CliOption("--resource-location")]
     public string? ResourceLocation { get; set; }
@@ -98,6 +99,15 @@ public record AwsImagebuilderGetMarketplaceResourceOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

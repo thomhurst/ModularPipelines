@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -377,21 +377,6 @@ public class AwsIottwinmaker : IAwsIottwinmaker
     }
 
     /// <summary>
-    /// This API lists the components of an entity. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListComponentsAsync(
-        AwsIottwinmakerListComponentsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Lists all component types in a workspace. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -400,6 +385,21 @@ public class AwsIottwinmaker : IAwsIottwinmaker
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListComponentTypesAsync(
         AwsIottwinmakerListComponentTypesOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// This API lists the components of an entity. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListComponentsAsync(
+        AwsIottwinmakerListComponentsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

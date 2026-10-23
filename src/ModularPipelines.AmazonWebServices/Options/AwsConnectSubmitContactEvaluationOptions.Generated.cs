@@ -10,13 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Submits a contact evaluation in the specified Connect Customer in- stance. Answers included in the request are merged with existing an- swers for the given evaluation. If no answers or notes are passed, the evaluation is submitted with the existing answers and notes. You can delete an answer or note by passing an empty object ({} ) to the ques- tion identifier. If a contact evaluation is already in submitted state, this operation will trigger a resubmission. See also: AWS API Documentation
+/// Submits a contact evaluation in the specified Connect Customer instance. Answers included in the request are merged with existing answers for the given evaluation. If no answers or notes are passed, the evaluation is submitted with the existing answers and notes. You can delete an answer or note by passing an empty object ({} ) to the question identifier. If a contact evaluation is already in submitted state, this operation will trigger a resubmission. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +26,10 @@ public record AwsConnectSubmitContactEvaluationOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Submits a contact evaluation in the specified Connect Customer in- stance. Answers included in the request are merged with existing an- swers for the given evaluation. If no answers or notes are passed, the evaluation is submitted with the existing answers and notes. You can delete an answer or note by passing an empty object ({} ) to the ques- tion identifier. If a contact evaluation is already in submitted state, this operation will trigger a resubmission. See also: AWS API Documentation
+    /// Submits a contact evaluation in the specified Connect Customer instance. Answers included in the request are merged with existing answers for the given evaluation. If no answers or notes are passed, the evaluation is submitted with the existing answers and notes. You can delete an answer or note by passing an empty object ({} ) to the question identifier. If a contact evaluation is already in submitted state, this operation will trigger a resubmission. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="EvaluationId">A unique identifier for the contact evaluation. Constraints: o min: 1 o max: 500</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="EvaluationId">A unique identifier for the contact evaluation. Constraints: • min: 1 • max: 500</param>
     public AwsConnectSubmitContactEvaluationOptions(
         string InstanceId,
         string EvaluationId
@@ -61,25 +61,25 @@ public record AwsConnectSubmitContactEvaluationOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// A unique identifier for the contact evaluation. Constraints: o min: 1 o max: 500
+    /// A unique identifier for the contact evaluation. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--evaluation-id")]
     public string? EvaluationId { get; private init; }
 
     /// <summary>
-    /// A map of question identifiers to answer value. Constraints: o max: 100 key -&gt; (string) Constraints: o min: 1 o max: 500 value -&gt; (structure) Information about input answers for a contact evaluation. Value -&gt; (tagged union structure) The value for an answer in a contact evaluation. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: StringValue, NumericValue, StringValues, DateTimeValue, NotApplicable. StringValue -&gt; (string) The string value for an answer in a contact evaluation. Constraints: o min: 0 o max: 300 NumericValue -&gt; (double) The numeric value for an answer in a contact evaluation. StringValues -&gt; (list) String values provided as answers to evaluation ques- tions. (string) Constraints: o min: 0 o max: 300 DateTimeValue -&gt; (string) Date and time value provided as an answer to an evalua- tion question. NotApplicable -&gt; (boolean) The flag to mark the question as not applicable. JSON Syntax: {"string": { "Value": { "StringValue": "string", "NumericValue": double, "StringValues": ["string", ...], "DateTimeValue": "string", "NotApplicable": true|false } } ...}
+    /// A map of question identifiers to answer value. Constraints: • max: 100 key -&gt; (string) Constraints: • min: 1 • max: 500 value -&gt; (structure) Information about input answers for a contact evaluation. Value -&gt; (tagged union structure) The value for an answer in a contact evaluation. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: StringValue, NumericValue, StringValues, DateTimeValue, NotApplicable. StringValue -&gt; (string) The string value for an answer in a contact evaluation. Constraints: • min: 0 • max: 300 NumericValue -&gt; (double) The numeric value for an answer in a contact evaluation. StringValues -&gt; (list) String values provided as answers to evaluation questions. (string) Constraints: • min: 0 • max: 300 DateTimeValue -&gt; (string) Date and time value provided as an answer to an evaluation question. NotApplicable -&gt; (boolean) The flag to mark the question as not applicable. JSON Syntax: {"string": { "Value": { "StringValue": "string", "NumericValue": double, "StringValues": ["string", ...], "DateTimeValue": "string", "NotApplicable": true|false } } ...}
     /// </summary>
     [CliOption("--answers", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Answers { get; set; }
 
     /// <summary>
-    /// A map of question identifiers to note value. Constraints: o max: 100 key -&gt; (string) Constraints: o min: 1 o max: 500 value -&gt; (structure) Information about notes for a contact evaluation. Value -&gt; (string) The note for an item (section or question) in a contact eval- uation. NOTE: Even though a note in an evaluation can have up to 3072 chars, there is also a limit on the total number of chars for all the notes in the evaluation combined. Assuming there are N questions in the evaluation being submitted, then the max char limit for all notes combined is N x 1024. Constraints: o min: 0 o max: 3072 Shorthand Syntax: KeyName1={Value=string},KeyName2={Value=string} JSON Syntax: {"string": { "Value": "string" } ...}
+    /// A map of question identifiers to note value. Constraints: • max: 100 key -&gt; (string) Constraints: • min: 1 • max: 500 value -&gt; (structure) Information about notes for a contact evaluation. Value -&gt; (string) The note for an item (section or question) in a contact evaluation. NOTE: Even though a note in an evaluation can have up to 3072 chars, there is also a limit on the total number of chars for all the notes in the evaluation combined. Assuming there are N questions in the evaluation being submitted, then the max char limit for all notes combined is N x 1024. Constraints: • min: 0 • max: 3072 Shorthand Syntax: KeyName1={Value=string},KeyName2={Value=string} JSON Syntax: {"string": { "Value": "string" } ...}
     /// </summary>
     [CliOption("--notes", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Notes { get; set; }
@@ -111,6 +111,15 @@ public record AwsConnectSubmitContactEvaluationOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

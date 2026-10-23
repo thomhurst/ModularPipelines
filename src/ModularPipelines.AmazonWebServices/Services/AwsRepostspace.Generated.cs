@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -33,7 +33,7 @@ public class AwsRepostspace : IAwsRepostspace
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws repostspace wait sub-commands.
     /// </summary>
     public AwsRepostspaceWait Wait => _wait ??= new AwsRepostspaceWait(_command);
 
@@ -72,7 +72,7 @@ public class AwsRepostspace : IAwsRepostspace
     }
 
     /// <summary>
-    /// Remove a role from multiple users or groups in a private re:Post chan- nel. See also: AWS API Documentation
+    /// Remove a role from multiple users or groups in a private re:Post channel. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -147,7 +147,7 @@ public class AwsRepostspace : IAwsRepostspace
     }
 
     /// <summary>
-    /// Removes the user or group from the list of administrators of the pri- vate re:Post. See also: AWS API Documentation
+    /// Removes the user or group from the list of administrators of the private re:Post. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -192,7 +192,7 @@ public class AwsRepostspace : IAwsRepostspace
     }
 
     /// <summary>
-    /// Returns the list of channel within a private re:Post with some informa- tion about each channel. See also: AWS API Documentation list-channels is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: channe...
+    /// Returns the list of channel within a private re:Post with some information about each channel. See also: AWS API Documentation list-channels is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: channels
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -207,7 +207,7 @@ public class AwsRepostspace : IAwsRepostspace
     }
 
     /// <summary>
-    /// Returns a list of AWS re:Post Private private re:Posts in the account with some information about each private re:Post. See also: AWS API Documentation list-spaces is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ...
+    /// Returns a list of AWS re:Post Private private re:Posts in the account with some information about each private re:Post. See also: AWS API Documentation list-spaces is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -222,7 +222,7 @@ public class AwsRepostspace : IAwsRepostspace
     }
 
     /// <summary>
-    /// Returns the tags that are associated with the AWS re:Post Private re- source specified by the resourceArn. The only resource that can be tagged is a private re:Post. See also: AWS API Documentation
+    /// Returns the tags that are associated with the AWS re:Post Private resource specified by the resourceArn. The only resource that can be tagged is a private re:Post. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -267,7 +267,7 @@ public class AwsRepostspace : IAwsRepostspace
     }
 
     /// <summary>
-    /// Associates tags with an AWS re:Post Private resource. Currently, the only resource that can be tagged is the private re:Post. If you specify a new tag key for the resource, the tag is appended to the list of tags that are associated with the resource. If you specify a tag key thats already associated with the resource, the new tag value that you spec- ify replaces the previous value for that tag. See also: AWS API Documentation
+    /// Associates tags with an AWS re:Post Private resource. Currently, the only resource that can be tagged is the private re:Post. If you specify a new tag key for the resource, the tag is appended to the list of tags that are associated with the resource. If you specify a tag key thats already associated with the resource, the new tag value that you specify replaces the previous value for that tag. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -282,7 +282,7 @@ public class AwsRepostspace : IAwsRepostspace
     }
 
     /// <summary>
-    /// Removes the association of the tag with the AWS re:Post Private re- source. See also: AWS API Documentation
+    /// Removes the association of the tag with the AWS re:Post Private resource. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsDsDisableLdapsOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deactivates LDAP secure calls for the specified directory. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DirectoryId">The identifier of the directory. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
-    /// <param name="Type">The type of LDAP security to enable. Currently only the value Client is supported. Possible values: o Client</param>
+    /// <param name="DirectoryId">The identifier of the directory. Constraints: • pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="Type">The type of LDAP security to enable. Currently only the value Client is supported. Possible values: • Client</param>
     public AwsDsDisableLdapsOptions(
         string DirectoryId,
         string Type
@@ -60,13 +61,13 @@ public record AwsDsDisableLdapsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the directory. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// The identifier of the directory. Constraints: • pattern: ^d-[0-9a-f]{10}$
     /// </summary>
     [CliOption("--directory-id")]
     public string? DirectoryId { get; private init; }
 
     /// <summary>
-    /// The type of LDAP security to enable. Currently only the value Client is supported. Possible values: o Client
+    /// The type of LDAP security to enable. Currently only the value Client is supported. Possible values: • Client
     /// </summary>
     [CliOption("--type")]
     public string? Type { get; private init; }
@@ -92,6 +93,15 @@ public record AwsDsDisableLdapsOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

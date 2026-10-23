@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsCodebuildDeleteFleetOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes a compute fleet. When you delete a compute fleet, its builds are not deleted. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The ARN of the compute fleet. Constraints: o min: 1</param>
+    /// <param name="Arn">The ARN of the compute fleet. Constraints: • min: 1</param>
     public AwsCodebuildDeleteFleetOptions(
         string Arn
     )
@@ -56,7 +57,7 @@ public record AwsCodebuildDeleteFleetOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the compute fleet. Constraints: o min: 1
+    /// The ARN of the compute fleet. Constraints: • min: 1
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsCodebuildDeleteFleetOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

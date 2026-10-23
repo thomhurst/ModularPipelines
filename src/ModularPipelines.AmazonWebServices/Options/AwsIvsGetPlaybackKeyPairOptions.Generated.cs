@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets a specified playback authorization key pair and returns the arn and fingerprint . The privateKey held by the caller can be used to gen- erate viewer authorization tokens, to grant viewers access to private channels. For more information, see Setting Up Private Channels in the Amazon IVS User Guide . See also: AWS API Documentation
+/// Gets a specified playback authorization key pair and returns the arn and fingerprint . The privateKey held by the caller can be used to generate viewer authorization tokens, to grant viewers access to private channels. For more information, see Setting Up Private Channels in the Amazon IVS User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsIvsGetPlaybackKeyPairOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets a specified playback authorization key pair and returns the arn and fingerprint . The privateKey held by the caller can be used to gen- erate viewer authorization tokens, to grant viewers access to private channels. For more information, see Setting Up Private Channels in the Amazon IVS User Guide . See also: AWS API Documentation
+    /// Gets a specified playback authorization key pair and returns the arn and fingerprint . The privateKey held by the caller can be used to generate viewer authorization tokens, to grant viewers access to private channels. For more information, see Setting Up Private Channels in the Amazon IVS User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">ARN of the key pair to be returned. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:playback-key/[a-zA-Z0-9-]+</param>
+    /// <param name="Arn">ARN of the key pair to be returned. Constraints: • min: 1 • max: 128 • pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:playback-key/[a-zA-Z0-9-]+</param>
     public AwsIvsGetPlaybackKeyPairOptions(
         string Arn
     )
@@ -56,7 +57,7 @@ public record AwsIvsGetPlaybackKeyPairOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ARN of the key pair to be returned. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:playback-key/[a-zA-Z0-9-]+
+    /// ARN of the key pair to be returned. Constraints: • min: 1 • max: 128 • pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:playback-key/[a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsIvsGetPlaybackKeyPairOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

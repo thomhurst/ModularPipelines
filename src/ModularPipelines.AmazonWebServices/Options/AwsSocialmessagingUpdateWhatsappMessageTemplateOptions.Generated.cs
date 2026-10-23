@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsSocialmessagingUpdateWhatsappMessageTemplateOptions : AwsOption
     /// <summary>
     /// Updates an existing WhatsApp message template. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the WhatsApp Business Account associated with this tem- plate. Constraints: o min: 1 o max: 115 o pattern: .*(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$).*</param>
+    /// <param name="Id">The ID of the WhatsApp Business Account associated with this template. Constraints: • min: 1 • max: 115 • pattern: .*(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$).*</param>
     public AwsSocialmessagingUpdateWhatsappMessageTemplateOptions(
         string Id
     )
@@ -56,49 +57,49 @@ public record AwsSocialmessagingUpdateWhatsappMessageTemplateOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the WhatsApp Business Account associated with this tem- plate. Constraints: o min: 1 o max: 115 o pattern: .*(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$).*
+    /// The ID of the WhatsApp Business Account associated with this template. Constraints: • min: 1 • max: 115 • pattern: .*(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$).*
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The numeric ID of the template assigned by Meta. Constraints: o min: 1 o max: 100 o pattern: [0-9]+
+    /// The numeric ID of the template assigned by Meta. Constraints: • min: 1 • max: 100 • pattern: [0-9]+
     /// </summary>
     [CliOption("--meta-template-id")]
     public string? MetaTemplateId { get; set; }
 
     /// <summary>
-    /// The name of the message template. Use together with templateLan- guageCode as an alternative to metaTemplateId to identify a tem- plate. Constraints: o min: 1 o max: 512
+    /// The name of the message template. Use together with templateLanguageCode as an alternative to metaTemplateId to identify a template. Constraints: • min: 1 • max: 512
     /// </summary>
     [CliOption("--template-name")]
     public string? TemplateName { get; set; }
 
     /// <summary>
-    /// The language code of the message template (for example, en or en_US ). Use together with templateName as an alternative to metaTem- plateId to identify a template. Constraints: o min: 1 o max: 6
+    /// The language code of the message template (for example, en or en_US ). Use together with templateName as an alternative to metaTemplateId to identify a template. Constraints: • min: 1 • max: 6
     /// </summary>
     [CliOption("--template-language-code")]
     public string? TemplateLanguageCode { get; set; }
 
     /// <summary>
-    /// The format specification for parameters in the template, this can be either 'named' or 'positional'. Constraints: o min: 1 o max: 15
+    /// The format specification for parameters in the template, this can be either 'named' or 'positional'. Constraints: • min: 1 • max: 15
     /// </summary>
     [CliOption("--parameter-format")]
     public string? ParameterFormat { get; set; }
 
     /// <summary>
-    /// The new category for the template (for example, UTILITY or MARKET- ING). Constraints: o min: 1 o max: 100
+    /// The new category for the template (for example, UTILITY or MARKETING). Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--template-category")]
     public string? TemplateCategory { get; set; }
 
     /// <summary>
-    /// The updated components of the template as a JSON blob (maximum 3000 characters). Constraints: o min: 1 o max: 3000
+    /// The updated components of the template as a JSON blob (maximum 3000 characters). Constraints: • min: 1 • max: 3000
     /// </summary>
     [CliOption("--template-components")]
     public string? TemplateComponents { get; set; }
 
     /// <summary>
-    /// ing-opted-out (boolean) When true, disables click tracking for call-to-action URL buttons in the template.
+    /// When true, disables click tracking for call-to-action URL buttons in the template.
     /// </summary>
     [CliFlag("--cta-url-link-tracking-opted-out", NegatedName = "--no-cta-url-link-tracking-opted-out")]
     public bool? CtaUrlLinkTrackingOptedOut { get; set; }
@@ -124,6 +125,15 @@ public record AwsSocialmessagingUpdateWhatsappMessageTemplateOptions : AwsOption
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

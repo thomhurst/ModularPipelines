@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,9 +28,9 @@ public record AwsAppstreamCreateExportImageTaskOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Creates a task to export a WorkSpaces Applications image to an EC2 AMI. This allows you to use your customized WorkSpaces Applications images with other AWS services or for backup purposes. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ImageName">The name of the WorkSpaces Applications image to export. The image must be in an available state and owned by your account. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$</param>
-    /// <param name="AmiName">The name for the exported EC2 AMI. This is a required field that must be unique within your account and region. Constraints: o pattern: ^[a-zA-Z0-9().\-/_]{3,128}$</param>
-    /// <param name="IamRoleArn">The ARN of the IAM role that allows WorkSpaces Applications to cre- ate the AMI. The role must have permissions to copy images, describe images, and create tags, with a trust relationship allowing app- stream.amazonaws.com to assume the role. Constraints: o pattern: ^arn:aws(?:\-cn|\-iso\-b|\-iso|\-us\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\-]{0,1023}$</param>
+    /// <param name="ImageName">The name of the WorkSpaces Applications image to export. The image must be in an available state and owned by your account. Constraints: • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$</param>
+    /// <param name="AmiName">The name for the exported EC2 AMI. This is a required field that must be unique within your account and region. Constraints: • pattern: ^[a-zA-Z0-9().\-/_]{3,128}$</param>
+    /// <param name="IamRoleArn">The ARN of the IAM role that allows WorkSpaces Applications to create the AMI. The role must have permissions to copy images, describe images, and create tags, with a trust relationship allowing appstream.amazonaws.com to assume the role. Constraints: • pattern: ^arn:aws(?:\-cn|\-iso\-b|\-iso|\-us\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\-]{0,1023}$</param>
     public AwsAppstreamCreateExportImageTaskOptions(
         string ImageName,
         string AmiName,
@@ -65,31 +65,31 @@ public record AwsAppstreamCreateExportImageTaskOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the WorkSpaces Applications image to export. The image must be in an available state and owned by your account. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
+    /// The name of the WorkSpaces Applications image to export. The image must be in an available state and owned by your account. Constraints: • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
     /// </summary>
     [CliOption("--image-name")]
     public string? ImageName { get; private init; }
 
     /// <summary>
-    /// The name for the exported EC2 AMI. This is a required field that must be unique within your account and region. Constraints: o pattern: ^[a-zA-Z0-9().\-/_]{3,128}$
+    /// The name for the exported EC2 AMI. This is a required field that must be unique within your account and region. Constraints: • pattern: ^[a-zA-Z0-9().\-/_]{3,128}$
     /// </summary>
     [CliOption("--ami-name")]
     public string? AmiName { get; private init; }
 
     /// <summary>
-    /// The ARN of the IAM role that allows WorkSpaces Applications to cre- ate the AMI. The role must have permissions to copy images, describe images, and create tags, with a trust relationship allowing app- stream.amazonaws.com to assume the role. Constraints: o pattern: ^arn:aws(?:\-cn|\-iso\-b|\-iso|\-us\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\-]{0,1023}$
+    /// The ARN of the IAM role that allows WorkSpaces Applications to create the AMI. The role must have permissions to copy images, describe images, and create tags, with a trust relationship allowing appstream.amazonaws.com to assume the role. Constraints: • pattern: ^arn:aws(?:\-cn|\-iso\-b|\-iso|\-us\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\-]{0,1023}$
     /// </summary>
     [CliOption("--iam-role-arn")]
     public string? IamRoleArn { get; private init; }
 
     /// <summary>
-    /// The tags to apply to the exported AMI. These tags help you organize and manage your EC2 AMIs. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(^(?!aws:).[\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags to apply to the exported AMI. These tags help you organize and manage your EC2 AMIs. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(^(?!aws:).[\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tag-specifications", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? TagSpecifications { get; set; }
 
     /// <summary>
-    /// An optional description for the exported AMI. This description will be applied to the resulting EC2 AMI. Constraints: o max: 256
+    /// An optional description for the exported AMI. This description will be applied to the resulting EC2 AMI. Constraints: • max: 256
     /// </summary>
     [CliOption("--ami-description")]
     public string? AmiDescription { get; set; }
@@ -115,6 +115,15 @@ public record AwsAppstreamCreateExportImageTaskOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

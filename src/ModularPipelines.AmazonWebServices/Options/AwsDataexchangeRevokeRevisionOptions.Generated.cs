@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsDataexchangeRevokeRevisionOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// This operation revokes subscribers' access to a revision. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DataSetId">The unique identifier for a data set. Constraints: o pattern: [a-zA-Z0-9]{30,40}</param>
-    /// <param name="RevisionId">The unique identifier for a revision. Constraints: o pattern: [a-zA-Z0-9]{30,40}</param>
-    /// <param name="RevocationComment">A required comment to inform subscribers of the reason their access to the revision was revoked. Constraints: o min: 10 o max: 512</param>
+    /// <param name="DataSetId">The unique identifier for a data set. Constraints: • pattern: [a-zA-Z0-9]{30,40}</param>
+    /// <param name="RevisionId">The unique identifier for a revision. Constraints: • pattern: [a-zA-Z0-9]{30,40}</param>
+    /// <param name="RevocationComment">A required comment to inform subscribers of the reason their access to the revision was revoked. Constraints: • min: 10 • max: 512</param>
     public AwsDataexchangeRevokeRevisionOptions(
         string DataSetId,
         string RevisionId,
@@ -64,19 +65,19 @@ public record AwsDataexchangeRevokeRevisionOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for a data set. Constraints: o pattern: [a-zA-Z0-9]{30,40}
+    /// The unique identifier for a data set. Constraints: • pattern: [a-zA-Z0-9]{30,40}
     /// </summary>
     [CliOption("--data-set-id")]
     public string? DataSetId { get; private init; }
 
     /// <summary>
-    /// The unique identifier for a revision. Constraints: o pattern: [a-zA-Z0-9]{30,40}
+    /// The unique identifier for a revision. Constraints: • pattern: [a-zA-Z0-9]{30,40}
     /// </summary>
     [CliOption("--revision-id")]
     public string? RevisionId { get; private init; }
 
     /// <summary>
-    /// A required comment to inform subscribers of the reason their access to the revision was revoked. Constraints: o min: 10 o max: 512
+    /// A required comment to inform subscribers of the reason their access to the revision was revoked. Constraints: • min: 10 • max: 512
     /// </summary>
     [CliOption("--revocation-comment")]
     public string? RevocationComment { get; private init; }
@@ -102,6 +103,15 @@ public record AwsDataexchangeRevokeRevisionOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

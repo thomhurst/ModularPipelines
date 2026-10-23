@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// You start a zonal shift to temporarily move load balancer traffic away from an Availability Zone in an Amazon Web Services Region, to help your application recover immediately, for example, from a developer's bad code deployment or from an Amazon Web Services infrastructure fail- ure in a single Availability Zone. You can start a zonal shift in ARC only for managed resources in your Amazon Web Services account in an Amazon Web Services Region. Resources are automatically registered with ARC by A...
+/// You start a zonal shift to temporarily move load balancer traffic away from an Availability Zone in an Amazon Web Services Region, to help your application recover immediately, for example, from a developer's bad code deployment or from an Amazon Web Services infrastructure failure in a single Availability Zone. You can start a zonal shift in ARC only for managed resources in your Amazon Web Services account in an Amazon Web Services Region. Resources are automatically registered with ARC by Ama...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,12 +26,12 @@ public record AwsArcZonalShiftStartZonalShiftOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// You start a zonal shift to temporarily move load balancer traffic away from an Availability Zone in an Amazon Web Services Region, to help your application recover immediately, for example, from a developer's bad code deployment or from an Amazon Web Services infrastructure fail- ure in a single Availability Zone. You can start a zonal shift in ARC only for managed resources in your Amazon Web Services account in an Amazon Web Services Region. Resources are automatically registered with ARC by A...
+    /// You start a zonal shift to temporarily move load balancer traffic away from an Availability Zone in an Amazon Web Services Region, to help your application recover immediately, for example, from a developer's bad code deployment or from an Amazon Web Services infrastructure failure in a single Availability Zone. You can start a zonal shift in ARC only for managed resources in your Amazon Web Services account in an Amazon Web Services Region. Resources are automatically registered with ARC by Ama...
     /// </summary>
-    /// <param name="ResourceIdentifier">The identifier for the resource that Amazon Web Services shifts traffic for. The identifier is the Amazon Resource Name (ARN) for the resource. Amazon Application Recovery Controller currently supports enabling the following resources for zonal shift and zonal autoshift: o Amazon EC2 Auto Scaling groups o Amazon Elastic Kubernetes Service o Application Load Balancer o Network Load Balancer Constraints: o min: 8 o max: 1024</param>
-    /// <param name="AwayFrom">The Availability Zone (for example, use1-az1 ) that traffic is moved away from for a resource when you start a zonal shift. Until the zonal shift expires or you cancel it, traffic for the resource is instead moved to other Availability Zones in the Amazon Web Services Region. Constraints: o min: 0 o max: 20</param>
-    /// <param name="ExpiresIn">The length of time that you want a zonal shift to be active, which ARC converts to an expiry time (expiration time). Zonal shifts are temporary. You can set a zonal shift to be active initially for up to three days (72 hours). If you want to still keep traffic away from an Availability Zone, you can update the zonal shift and set a new expiration. You can also cancel a zonal shift, before it expires, for example, if you're ready to restore traffic to the Availability Zone. To set a length of time for a zonal shift to be active, specify a whole number, and then one of the following, with no space: o A lowercase letter m: To specify that the value is in minutes. o A lowercase letter h: To specify that the value is in hours. For example: 20h means the zonal shift expires in 20 hours. 120m means the zonal shift expires in 120 minutes (2 hours). Constraints: o min: 2 o max: 5 o pattern: ([1-9][0-9]*)(m|h)</param>
-    /// <param name="Comment">A comment that you enter about the zonal shift. Only the latest com- ment is retained; no comment history is maintained. A new comment overwrites any existing comment string. Constraints: o min: 0 o max: 128</param>
+    /// <param name="ResourceIdentifier">The identifier for the resource that Amazon Web Services shifts traffic for. The identifier is the Amazon Resource Name (ARN) for the resource. Amazon Application Recovery Controller currently supports enabling the following resources for zonal shift and zonal autoshift: • Amazon EC2 Auto Scaling groups • Amazon Elastic Kubernetes Service • Application Load Balancer • Network Load Balancer Constraints: • min: 8 • max: 1024</param>
+    /// <param name="AwayFrom">The Availability Zone (for example, use1-az1 ) that traffic is moved away from for a resource when you start a zonal shift. Until the zonal shift expires or you cancel it, traffic for the resource is instead moved to other Availability Zones in the Amazon Web Services Region. Constraints: • min: 0 • max: 20</param>
+    /// <param name="ExpiresIn">The length of time that you want a zonal shift to be active, which ARC converts to an expiry time (expiration time). Zonal shifts are temporary. You can set a zonal shift to be active initially for up to three days (72 hours). If you want to still keep traffic away from an Availability Zone, you can update the zonal shift and set a new expiration. You can also cancel a zonal shift, before it expires, for example, if you're ready to restore traffic to the Availability Zone. To set a length of time for a zonal shift to be active, specify a whole number, and then one of the following, with no space: • A lowercase letter m: To specify that the value is in minutes. • A lowercase letter h: To specify that the value is in hours. For example: 20h means the zonal shift expires in 20 hours. 120m means the zonal shift expires in 120 minutes (2 hours). Constraints: • min: 2 • max: 5 • pattern: ([1-9][0-9]*)(m|h)</param>
+    /// <param name="Comment">A comment that you enter about the zonal shift. Only the latest comment is retained; no comment history is maintained. A new comment overwrites any existing comment string. Constraints: • min: 0 • max: 128</param>
     public AwsArcZonalShiftStartZonalShiftOptions(
         string ResourceIdentifier,
         string AwayFrom,
@@ -68,25 +69,25 @@ public record AwsArcZonalShiftStartZonalShiftOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier for the resource that Amazon Web Services shifts traffic for. The identifier is the Amazon Resource Name (ARN) for the resource. Amazon Application Recovery Controller currently supports enabling the following resources for zonal shift and zonal autoshift: o Amazon EC2 Auto Scaling groups o Amazon Elastic Kubernetes Service o Application Load Balancer o Network Load Balancer Constraints: o min: 8 o max: 1024
+    /// The identifier for the resource that Amazon Web Services shifts traffic for. The identifier is the Amazon Resource Name (ARN) for the resource. Amazon Application Recovery Controller currently supports enabling the following resources for zonal shift and zonal autoshift: • Amazon EC2 Auto Scaling groups • Amazon Elastic Kubernetes Service • Application Load Balancer • Network Load Balancer Constraints: • min: 8 • max: 1024
     /// </summary>
     [CliOption("--resource-identifier")]
     public string? ResourceIdentifier { get; private init; }
 
     /// <summary>
-    /// The Availability Zone (for example, use1-az1 ) that traffic is moved away from for a resource when you start a zonal shift. Until the zonal shift expires or you cancel it, traffic for the resource is instead moved to other Availability Zones in the Amazon Web Services Region. Constraints: o min: 0 o max: 20
+    /// The Availability Zone (for example, use1-az1 ) that traffic is moved away from for a resource when you start a zonal shift. Until the zonal shift expires or you cancel it, traffic for the resource is instead moved to other Availability Zones in the Amazon Web Services Region. Constraints: • min: 0 • max: 20
     /// </summary>
     [CliOption("--away-from")]
     public string? AwayFrom { get; private init; }
 
     /// <summary>
-    /// The length of time that you want a zonal shift to be active, which ARC converts to an expiry time (expiration time). Zonal shifts are temporary. You can set a zonal shift to be active initially for up to three days (72 hours). If you want to still keep traffic away from an Availability Zone, you can update the zonal shift and set a new expiration. You can also cancel a zonal shift, before it expires, for example, if you're ready to restore traffic to the Availability Zone. To set a length of time for a zonal shift to be active, specify a whole number, and then one of the following, with no space: o A lowercase letter m: To specify that the value is in minutes. o A lowercase letter h: To specify that the value is in hours. For example: 20h means the zonal shift expires in 20 hours. 120m means the zonal shift expires in 120 minutes (2 hours). Constraints: o min: 2 o max: 5 o pattern: ([1-9][0-9]*)(m|h)
+    /// The length of time that you want a zonal shift to be active, which ARC converts to an expiry time (expiration time). Zonal shifts are temporary. You can set a zonal shift to be active initially for up to three days (72 hours). If you want to still keep traffic away from an Availability Zone, you can update the zonal shift and set a new expiration. You can also cancel a zonal shift, before it expires, for example, if you're ready to restore traffic to the Availability Zone. To set a length of time for a zonal shift to be active, specify a whole number, and then one of the following, with no space: • A lowercase letter m: To specify that the value is in minutes. • A lowercase letter h: To specify that the value is in hours. For example: 20h means the zonal shift expires in 20 hours. 120m means the zonal shift expires in 120 minutes (2 hours). Constraints: • min: 2 • max: 5 • pattern: ([1-9][0-9]*)(m|h)
     /// </summary>
     [CliOption("--expires-in")]
     public string? ExpiresIn { get; private init; }
 
     /// <summary>
-    /// A comment that you enter about the zonal shift. Only the latest com- ment is retained; no comment history is maintained. A new comment overwrites any existing comment string. Constraints: o min: 0 o max: 128
+    /// A comment that you enter about the zonal shift. Only the latest comment is retained; no comment history is maintained. A new comment overwrites any existing comment string. Constraints: • min: 0 • max: 128
     /// </summary>
     [CliOption("--comment")]
     public string? Comment { get; private init; }
@@ -112,6 +113,15 @@ public record AwsArcZonalShiftStartZonalShiftOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

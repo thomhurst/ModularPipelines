@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsTimestreamWriteCreateDatabaseOptions : AwsOptions, IValidatable
     /// <summary>
     /// Creates a new Timestream database. If the KMS key is not specified, the database will be encrypted with a Timestream managed KMS key located in your account. For more information, see Amazon Web Services managed keys . Service quotas apply . For details, see code sample . See also: AWS API Documentation
     /// </summary>
-    /// <param name="DatabaseName">The name of the Timestream database. Constraints: o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="DatabaseName">The name of the Timestream database. Constraints: • pattern: [a-zA-Z0-9_.-]+</param>
     public AwsTimestreamWriteCreateDatabaseOptions(
         string DatabaseName
     )
@@ -56,19 +57,19 @@ public record AwsTimestreamWriteCreateDatabaseOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the Timestream database. Constraints: o pattern: [a-zA-Z0-9_.-]+
+    /// The name of the Timestream database. Constraints: • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--database-name")]
     public string? DatabaseName { get; private init; }
 
     /// <summary>
-    /// The KMS key for the database. If the KMS key is not specified, the database will be encrypted with a Timestream managed KMS key located in your account. For more information, see Amazon Web Services man- aged keys . Constraints: o min: 1 o max: 2048
+    /// The KMS key for the database. If the KMS key is not specified, the database will be encrypted with a Timestream managed KMS key located in your account. For more information, see Amazon Web Services managed keys . Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
     /// <summary>
-    /// A list of key-value pairs to label the table. Constraints: o min: 0 o max: 200 (structure) A tag is a label that you assign to a Timestream database and/or table. Each tag consists of a key and an optional value, both of which you define. With tags, you can categorize databases and/or tables, for example, by purpose, owner, or environment. Key -&gt; (string) [required] The key of the tag. Tag keys are case sensitive. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value of the tag. Tag values are case-sensitive and can be null. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of key-value pairs to label the table. Constraints: • min: 0 • max: 200 (structure) A tag is a label that you assign to a Timestream database and/or table. Each tag consists of a key and an optional value, both of which you define. With tags, you can categorize databases and/or tables, for example, by purpose, owner, or environment. Key -&gt; (string) [required] The key of the tag. Tag keys are case sensitive. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] The value of the tag. Tag values are case-sensitive and can be null. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -94,6 +95,15 @@ public record AwsTimestreamWriteCreateDatabaseOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

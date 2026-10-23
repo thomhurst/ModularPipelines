@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsDevicefarmDeleteTestGridProjectOptions : AwsOptions, IValidatab
     /// <summary>
     /// Deletes a Selenium testing project and all content generated under it. You cannot delete a project if it has active sessions. WARNING: You cannot undo this operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProjectArn">The ARN of the project to delete, from CreateTestGridProject or ListTestGridProjects . Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+</param>
+    /// <param name="ProjectArn">The ARN of the project to delete, from CreateTestGridProject or ListTestGridProjects . Constraints: • min: 32 • max: 1011 • pattern: ^arn:aws:devicefarm:.+</param>
     public AwsDevicefarmDeleteTestGridProjectOptions(
         string ProjectArn
     )
@@ -56,7 +57,7 @@ public record AwsDevicefarmDeleteTestGridProjectOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the project to delete, from CreateTestGridProject or ListTestGridProjects . Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+
+    /// The ARN of the project to delete, from CreateTestGridProject or ListTestGridProjects . Constraints: • min: 32 • max: 1011 • pattern: ^arn:aws:devicefarm:.+
     /// </summary>
     [CliOption("--project-arn")]
     public string? ProjectArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsDevicefarmDeleteTestGridProjectOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

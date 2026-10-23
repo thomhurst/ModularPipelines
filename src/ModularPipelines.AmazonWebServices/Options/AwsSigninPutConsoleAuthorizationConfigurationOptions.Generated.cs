@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Enable console authorization configuration with automatic scope detec- tion See also: AWS API Documentation
+/// Enable console authorization configuration with automatic scope detection See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSigninPutConsoleAuthorizationConfigurationOptions : AwsOptions
 {
     /// <summary>
-    /// Target account identifier Constraints: o min: 12 o max: 32 o pattern: (\d{12}|o-[a-z0-9]{10}|r-[0-9a-z]{4,32})
+    /// Target account identifier Constraints: • min: 12 • max: 32 • pattern: (\d{12}|o-[a-z0-9]{10}|r-[0-9a-z]{4,32})
     /// </summary>
     [CliOption("--target-id")]
     public string? TargetId { get; set; }
@@ -32,5 +32,14 @@ public record AwsSigninPutConsoleAuthorizationConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

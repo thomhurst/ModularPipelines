@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsWellarchitectedUpdateAgentProfileOptions : AwsOptions, IValidat
     /// <summary>
     /// Updates an existing optimization profile's configuration, including its pillars, execution role, and aggregation settings. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProfileArn">The Amazon Resource Name (ARN) of the profile to update. Constraints: o min: 0 o max: 2048 o pattern: arn:aws([a-z0-9-]+)?:wellarchi- tected:[a-z0-9-]{6,64}:\d{12}:agent-profile/([a-zA-Z0-9_-]+)</param>
+    /// <param name="ProfileArn">The Amazon Resource Name (ARN) of the profile to update. Constraints: • min: 0 • max: 2048 • pattern: arn:aws([a-z0-9-]+)?:wellarchitected:[a-z0-9-]{6,64}:\d{12}:agent-profile/([a-zA-Z0-9_-]+)</param>
     public AwsWellarchitectedUpdateAgentProfileOptions(
         string ProfileArn
     )
@@ -57,50 +58,50 @@ public record AwsWellarchitectedUpdateAgentProfileOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the profile to update. Constraints: o min: 0 o max: 2048 o pattern: arn:aws([a-z0-9-]+)?:wellarchi- tected:[a-z0-9-]{6,64}:\d{12}:agent-profile/([a-zA-Z0-9_-]+)
+    /// The Amazon Resource Name (ARN) of the profile to update. Constraints: • min: 0 • max: 2048 • pattern: arn:aws([a-z0-9-]+)?:wellarchitected:[a-z0-9-]{6,64}:\d{12}:agent-profile/([a-zA-Z0-9_-]+)
     /// </summary>
     [CliOption("--profile-arn")]
     public string? ProfileArn { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 1 o max: 128 o pattern: [\x21-\x7E]+
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: • min: 1 • max: 128 • pattern: [\x21-\x7E]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The updated display name of the profile. Constraints: o min: 3 o max: 128 o pattern: (?:(?!\$\{[a-zA-Z]+:)[\P{C}])+
+    /// The updated display name of the profile. Constraints: • min: 3 • max: 128 • pattern: (?:(?!\$\{[a-zA-Z]+:)[\P{C}])+
     /// </summary>
     [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// The updated description of the profile. Constraints: o min: 0 o max: 512 o pattern: (?:(?!\$\{[a-zA-Z]+:)[\P{C}])*
+    /// The updated description of the profile. Constraints: • min: 0 • max: 512 • pattern: (?:(?!\$\{[a-zA-Z]+:)[\P{C}])*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The updated ARN of the IAM execution role. Constraints: o min: 0 o max: 2048 o pattern: arn:([a-z\-]+):iam::\d{12}:role/(ser- vice-role/)?[a-zA-Z0-9+=,.@\-_]+
+    /// The updated ARN of the IAM execution role. Constraints: • min: 0 • max: 2048 • pattern: arn:([a-z\-]+):iam::\d{12}:role/(service-role/)?[a-zA-Z0-9+=,.@\-_]+
     /// </summary>
     [CliOption("--execution-role-arn")]
     public string? ExecutionRoleArn { get; set; }
 
     /// <summary>
-    /// The updated aggregation configuration. Constraints: o min: 0 o max: 100 (structure) Configuration settings that define the scope of Amazon Web Ser- vices resources to analyze for optimization recommendations. accountId -&gt; (string) [required] The Amazon Web Services account ID to analyze. Constraints: o pattern: \d{12} regions -&gt; (list) [required] A list of Amazon Web Services Regions to include in the analysis. Constraints: o min: 0 o max: 25 (string) Constraints: o min: 0 o max: 64 o pattern: [a-z]{2}-[a-z]+-\d{1} accessRoleArn -&gt; (string) [required] The ARN of an IAM role to assume for resource analysis in this account. Constraints: o min: 0 o max: 2048 o pattern: arn:([a-z\-]+):iam::\d{12}:role/(ser- vice-role/)?[a-zA-Z0-9+=,.@\-_]+ Shorthand Syntax: accountId=string,regions=string,string,accessRoleArn=string ... JSON Syntax: [ { "accountId": "string", "regions": ["string", ...], "accessRoleArn": "string" } ... ]
+    /// The updated aggregation configuration. Constraints: • min: 0 • max: 100 (structure) Configuration settings that define the scope of Amazon Web Services resources to analyze for optimization recommendations. accountId -&gt; (string) [required] The Amazon Web Services account ID to analyze. Constraints: • pattern: \d{12} regions -&gt; (list) [required] A list of Amazon Web Services Regions to include in the analysis. Constraints: • min: 0 • max: 25 (string) Constraints: • min: 0 • max: 64 • pattern: [a-z]{2}-[a-z]+-\d{1} accessRoleArn -&gt; (string) [required] The ARN of an IAM role to assume for resource analysis in this account. Constraints: • min: 0 • max: 2048 • pattern: arn:([a-z\-]+):iam::\d{12}:role/(service-role/)?[a-zA-Z0-9+=,.@\-_]+ Shorthand Syntax: accountId=string,regions=string,string,accessRoleArn=string ... JSON Syntax: [ { "accountId": "string", "regions": ["string", ...], "accessRoleArn": "string" } ... ]
     /// </summary>
     [CliOption("--aggregation-configuration", GroupValues = true)]
     public IEnumerable<string>? AggregationConfiguration { get; set; }
 
     /// <summary>
-    /// The updated business overview for the profile. Constraints: o min: 0 o max: 512 o pattern: (?:(?!\$\{[a-zA-Z]+:)[\P{C}])*
+    /// The updated business overview for the profile. Constraints: • min: 0 • max: 512 • pattern: (?:(?!\$\{[a-zA-Z]+:)[\P{C}])*
     /// </summary>
     [CliOption("--business-overview")]
     public string? BusinessOverview { get; set; }
 
     /// <summary>
-    /// The updated Well-Architected Tool Framework pillars for the profile. Constraints: o min: 1 o max: 5 (string) Possible values: o COST_OPTIMIZATION o SECURITY o RESILIENCE o PERFORMANCE o OPERATIONAL_EXCELLENCE Syntax: "string" "string" ...
+    /// The updated Well-Architected Tool Framework pillars for the profile. Constraints: • min: 1 • max: 5 (string) Possible values: • COST_OPTIMIZATION • SECURITY • RESILIENCE • PERFORMANCE • OPERATIONAL_EXCELLENCE Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--pillars", GroupValues = true)]
     public IEnumerable<string>? Pillars { get; set; }
@@ -132,6 +133,15 @@ public record AwsWellarchitectedUpdateAgentProfileOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

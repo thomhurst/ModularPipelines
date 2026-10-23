@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes an Amazon Forecast dataset created using the CreateDataset operation. In addition to listing the parameters specified in the CreateDataset request, this operation includes the following dataset properties: o CreationTime o LastModificationTime o Status See also: AWS API Documentation
+/// Describes an Amazon Forecast dataset created using the CreateDataset operation. In addition to listing the parameters specified in the CreateDataset request, this operation includes the following dataset properties: • CreationTime • LastModificationTime • Status See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsForecastDescribeDataSetOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Describes an Amazon Forecast dataset created using the CreateDataset operation. In addition to listing the parameters specified in the CreateDataset request, this operation includes the following dataset properties: o CreationTime o LastModificationTime o Status See also: AWS API Documentation
+    /// Describes an Amazon Forecast dataset created using the CreateDataset operation. In addition to listing the parameters specified in the CreateDataset request, this operation includes the following dataset properties: • CreationTime • LastModificationTime • Status See also: AWS API Documentation
     /// </summary>
-    /// <param name="DataSetArn">The Amazon Resource Name (ARN) of the dataset. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+</param>
+    /// <param name="DataSetArn">The Amazon Resource Name (ARN) of the dataset. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):forecast:.*:.*:.+</param>
     public AwsForecastDescribeDataSetOptions(
         string DataSetArn
     )
@@ -56,7 +57,7 @@ public record AwsForecastDescribeDataSetOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the dataset. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+
+    /// The Amazon Resource Name (ARN) of the dataset. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):forecast:.*:.*:.+
     /// </summary>
     [CliOption("--dataset-arn")]
     public string? DataSetArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsForecastDescribeDataSetOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

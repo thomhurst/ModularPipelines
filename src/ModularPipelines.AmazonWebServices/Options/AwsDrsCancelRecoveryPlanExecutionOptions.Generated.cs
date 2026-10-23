@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsDrsCancelRecoveryPlanExecutionOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Cancels an in-progress Recovery Plan execution. Remaining steps are skipped. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RecoveryPlanExecutionArn">The ARN of the Recovery Plan execution to cancel. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[a-z0-9]+)*:drs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_/.-]+</param>
+    /// <param name="RecoveryPlanExecutionArn">The ARN of the Recovery Plan execution to cancel. Constraints: • min: 20 • max: 2048 • pattern: arn:aws(-[a-z0-9]+)*:drs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_/.-]+</param>
     public AwsDrsCancelRecoveryPlanExecutionOptions(
         string RecoveryPlanExecutionArn
     )
@@ -56,7 +57,7 @@ public record AwsDrsCancelRecoveryPlanExecutionOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the Recovery Plan execution to cancel. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[a-z0-9]+)*:drs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_/.-]+
+    /// The ARN of the Recovery Plan execution to cancel. Constraints: • min: 20 • max: 2048 • pattern: arn:aws(-[a-z0-9]+)*:drs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_/.-]+
     /// </summary>
     [CliOption("--recovery-plan-execution-arn")]
     public string? RecoveryPlanExecutionArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsDrsCancelRecoveryPlanExecutionOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

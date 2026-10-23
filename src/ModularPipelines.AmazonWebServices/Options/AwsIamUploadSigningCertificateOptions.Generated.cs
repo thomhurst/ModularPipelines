@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Uploads an X.509 signing certificate and associates it with the speci- fied IAM user. Some Amazon Web Services services require you to use certificates to validate requests that are signed with a corresponding private key. When you upload the certificate, its default status is Ac- tive . For information about when you would use an X.509 signing certificate, see Managing server certificates in IAM in the IAM User Guide . If the UserName is not specified, the IAM user name is determined im- plicit...
+/// Uploads an X.509 signing certificate and associates it with the specified IAM user. Some Amazon Web Services services require you to use certificates to validate requests that are signed with a corresponding private key. When you upload the certificate, its default status is Active . For information about when you would use an X.509 signing certificate, see Managing server certificates in IAM in the IAM User Guide . If the UserName is not specified, the IAM user name is determined implicitly bas...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsIamUploadSigningCertificateOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Uploads an X.509 signing certificate and associates it with the speci- fied IAM user. Some Amazon Web Services services require you to use certificates to validate requests that are signed with a corresponding private key. When you upload the certificate, its default status is Ac- tive . For information about when you would use an X.509 signing certificate, see Managing server certificates in IAM in the IAM User Guide . If the UserName is not specified, the IAM user name is determined im- plicit...
+    /// Uploads an X.509 signing certificate and associates it with the specified IAM user. Some Amazon Web Services services require you to use certificates to validate requests that are signed with a corresponding private key. When you upload the certificate, its default status is Active . For information about when you would use an X.509 signing certificate, see Managing server certificates in IAM in the IAM User Guide . If the UserName is not specified, the IAM user name is determined implicitly bas...
     /// </summary>
-    /// <param name="CertificateBody">The contents of the signing certificate. The regex pattern used to validate this parameter is a string of characters consisting of the following: o Any printable ASCII character ranging from the space character (\u0020 ) through the end of the ASCII character range o The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF ) o The special characters tab (\u0009 ), line feed (\u000A ), and carriage return (\u000D ) Constraints: o min: 1 o max: 16384 o pattern: [\u0009\u000A\u000D\u0020-\u00FF]+</param>
+    /// <param name="CertificateBody">The contents of the signing certificate. The regex pattern used to validate this parameter is a string of characters consisting of the following: • Any printable ASCII character ranging from the space character (\u0020 ) through the end of the ASCII character range • The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF ) • The special characters tab (\u0009 ), line feed (\u000A ), and carriage return (\u000D ) Constraints: • min: 1 • max: 16384 • pattern: [\u0009\u000A\u000D\u0020-\u00FF]+</param>
     public AwsIamUploadSigningCertificateOptions(
         string CertificateBody
     )
@@ -56,13 +57,13 @@ public record AwsIamUploadSigningCertificateOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The contents of the signing certificate. The regex pattern used to validate this parameter is a string of characters consisting of the following: o Any printable ASCII character ranging from the space character (\u0020 ) through the end of the ASCII character range o The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF ) o The special characters tab (\u0009 ), line feed (\u000A ), and carriage return (\u000D ) Constraints: o min: 1 o max: 16384 o pattern: [\u0009\u000A\u000D\u0020-\u00FF]+
+    /// The contents of the signing certificate. The regex pattern used to validate this parameter is a string of characters consisting of the following: • Any printable ASCII character ranging from the space character (\u0020 ) through the end of the ASCII character range • The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF ) • The special characters tab (\u0009 ), line feed (\u000A ), and carriage return (\u000D ) Constraints: • min: 1 • max: 16384 • pattern: [\u0009\u000A\u000D\u0020-\u00FF]+
     /// </summary>
     [CliOption("--certificate-body")]
     public string? CertificateBody { get; private init; }
 
     /// <summary>
-    /// The name of the user the signing certificate is for. This parameter allows (through its regex pattern ) a string of char- acters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following charac- ters: _+=,.@- Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+
+    /// The name of the user the signing certificate is for. This parameter allows (through its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@- Constraints: • min: 1 • max: 128 • pattern: [\w+=,.@-]+
     /// </summary>
     [CliOption("--user-name")]
     public string? UserName { get; set; }
@@ -88,6 +89,15 @@ public record AwsIamUploadSigningCertificateOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

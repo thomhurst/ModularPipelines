@@ -23,13 +23,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsResiliencehubStartMetricsExportOptions : AwsOptions
 {
     /// <summary>
-    /// (Optional) Specifies the name of the Amazon Simple Storage Service bucket where the exported metrics will be stored. Constraints: o pattern: ^[A-Za-z0-9][A-Za-z0-9_\-]{1,59}$
+    /// (Optional) Specifies the name of the Amazon Simple Storage Service bucket where the exported metrics will be stored. Constraints: • pattern: ^[A-Za-z0-9][A-Za-z0-9_\-]{1,59}$
     /// </summary>
     [CliOption("--bucket-name")]
     public string? BucketName { get; set; }
 
     /// <summary>
-    /// Used for an idempotency token. A client token is a unique, case-sen- sitive string of up to 64 ASCII characters. You should not reuse the same client token for other API requests. Constraints: o min: 1 o max: 63 o pattern: ^[A-Za-z0-9_.-]{0,63}$
+    /// Used for an idempotency token. A client token is a unique, case-sensitive string of up to 64 ASCII characters. You should not reuse the same client token for other API requests. Constraints: • min: 1 • max: 63 • pattern: ^[A-Za-z0-9_.-]{0,63}$
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -40,5 +40,14 @@ public record AwsResiliencehubStartMetricsExportOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

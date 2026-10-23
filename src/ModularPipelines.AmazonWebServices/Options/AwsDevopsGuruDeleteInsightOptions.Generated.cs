@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsDevopsGuruDeleteInsightOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes the insight along with the associated anomalies, events and recommendations. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the insight. Constraints: o min: 1 o max: 100 o pattern: ^[\w-]*$</param>
+    /// <param name="Id">The ID of the insight. Constraints: • min: 1 • max: 100 • pattern: ^[\w-]*$</param>
     public AwsDevopsGuruDeleteInsightOptions(
         string Id
     )
@@ -56,7 +57,7 @@ public record AwsDevopsGuruDeleteInsightOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the insight. Constraints: o min: 1 o max: 100 o pattern: ^[\w-]*$
+    /// The ID of the insight. Constraints: • min: 1 • max: 100 • pattern: ^[\w-]*$
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
@@ -82,6 +83,15 @@ public record AwsDevopsGuruDeleteInsightOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

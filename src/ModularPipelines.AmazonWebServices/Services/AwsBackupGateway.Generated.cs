@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws backupgateway commands.
+/// aws backup-gateway commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsBackupGateway : IAwsBackupGateway
@@ -107,7 +107,7 @@ public class AwsBackupGateway : IAwsBackupGateway
     }
 
     /// <summary>
-    /// Retrieves the bandwidth rate limit schedule for a specified gateway. By default, gateways do not have bandwidth rate limit schedules, which means no bandwidth rate limiting is in effect. Use this to get a gate- way's bandwidth rate limit schedule. See also: AWS API Documentation
+    /// Retrieves the bandwidth rate limit schedule for a specified gateway. By default, gateways do not have bandwidth rate limit schedules, which means no bandwidth rate limiting is in effect. Use this to get a gateway's bandwidth rate limit schedule. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsBackupGateway : IAwsBackupGateway
     }
 
     /// <summary>
-    /// By providing the ARN (Amazon Resource Name), this API returns the gate- way. See also: AWS API Documentation
+    /// By providing the ARN (Amazon Resource Name), this API returns the gateway. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsBackupGateway : IAwsBackupGateway
     }
 
     /// <summary>
-    /// This action requests information about the specified hypervisor to which the gateway will connect. A hypervisor is hardware, software, or firmware that creates and manages virtual machines, and allocates re- sources to them. See also: AWS API Documentation
+    /// This action requests information about the specified hypervisor to which the gateway will connect. A hypervisor is hardware, software, or firmware that creates and manages virtual machines, and allocates resources to them. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsBackupGateway : IAwsBackupGateway
     }
 
     /// <summary>
-    /// This action retrieves the property mappings for the specified hypervi- sor. A hypervisor property mapping displays the relationship of entity properties available from the hypervisor to the properties available in Amazon Web Services. See also: AWS API Documentation
+    /// This action retrieves the property mappings for the specified hypervisor. A hypervisor property mapping displays the relationship of entity properties available from the hypervisor to the properties available in Amazon Web Services. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsBackupGateway : IAwsBackupGateway
     }
 
     /// <summary>
-    /// By providing the ARN (Amazon Resource Name), this API returns the vir- tual machine. See also: AWS API Documentation
+    /// By providing the ARN (Amazon Resource Name), this API returns the virtual machine. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsBackupGateway : IAwsBackupGateway
     }
 
     /// <summary>
-    /// Lists backup gateways owned by an Amazon Web Services account in an Amazon Web Services Region. The returned list is ordered by gateway Amazon Resource Name (ARN). See also: AWS API Documentation list-gateways is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extra...
+    /// Lists backup gateways owned by an Amazon Web Services account in an Amazon Web Services Region. The returned list is ordered by gateway Amazon Resource Name (ARN). See also: AWS API Documentation list-gateways is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract d...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +227,7 @@ public class AwsBackupGateway : IAwsBackupGateway
     }
 
     /// <summary>
-    /// Lists the tags applied to the resource identified by its Amazon Re- source Name (ARN). See also: AWS API Documentation
+    /// Lists the tags applied to the resource identified by its Amazon Resource Name (ARN). See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -257,7 +257,7 @@ public class AwsBackupGateway : IAwsBackupGateway
     }
 
     /// <summary>
-    /// This action sets the bandwidth rate limit schedule for a specified gateway. By default, gateways do not have a bandwidth rate limit sched- ule, which means no bandwidth rate limiting is in effect. Use this to initiate a gateway's bandwidth rate limit schedule. See also: AWS API Documentation
+    /// This action sets the bandwidth rate limit schedule for a specified gateway. By default, gateways do not have a bandwidth rate limit schedule, which means no bandwidth rate limiting is in effect. Use this to initiate a gateway's bandwidth rate limit schedule. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +272,7 @@ public class AwsBackupGateway : IAwsBackupGateway
     }
 
     /// <summary>
-    /// This action sets the property mappings for the specified hypervisor. A hypervisor property mapping displays the relationship of entity proper- ties available from the hypervisor to the properties available in Ama- zon Web Services. See also: AWS API Documentation
+    /// This action sets the property mappings for the specified hypervisor. A hypervisor property mapping displays the relationship of entity properties available from the hypervisor to the properties available in Amazon Web Services. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -302,7 +302,7 @@ public class AwsBackupGateway : IAwsBackupGateway
     }
 
     /// <summary>
-    /// This action sends a request to sync metadata across the specified vir- tual machines. See also: AWS API Documentation
+    /// This action sends a request to sync metadata across the specified virtual machines. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -377,7 +377,7 @@ public class AwsBackupGateway : IAwsBackupGateway
     }
 
     /// <summary>
-    /// Updates the gateway virtual machine (VM) software. The request immedi- ately triggers the software update. NOTE: When you make this request, you get a 200 OK success response imme- diately. However, it might take some time for the update to com- plete. See also: AWS API Documentation
+    /// Updates the gateway virtual machine (VM) software. The request immediately triggers the software update. NOTE: When you make this request, you get a 200 OK success response immediately. However, it might take some time for the update to complete. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -392,7 +392,7 @@ public class AwsBackupGateway : IAwsBackupGateway
     }
 
     /// <summary>
-    /// Updates a hypervisor metadata, including its host, username, and pass- word. Specify which hypervisor to update using the Amazon Resource Name (ARN) of the hypervisor in your request. See also: AWS API Documentation
+    /// Updates a hypervisor metadata, including its host, username, and password. Specify which hypervisor to update using the Amazon Resource Name (ARN) of the hypervisor in your request. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

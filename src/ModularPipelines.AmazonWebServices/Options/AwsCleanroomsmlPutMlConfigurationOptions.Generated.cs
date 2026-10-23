@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsCleanroomsmlPutMlConfigurationOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Assigns information about an ML configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MembershipIdentifier">The membership ID of the member that is being configured. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
-    /// <param name="DefaultOutputLocation">The default Amazon S3 location where ML output is stored for the specified member. destination -&gt; (structure) The Amazon S3 location where exported model artifacts are stored. s3Destination -&gt; (structure) [required] Provides information about an Amazon S3 bucket and path. s3Uri -&gt; (string) [required] The Amazon S3 location URI. Constraints: o min: 1 o max: 1285 o pattern: s3://.+ roleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the service access role that is used to store the model artifacts. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:iam::[0-9]{12}:role/.+ Shorthand Syntax: destination={s3Destination={s3Uri=string}},roleArn=string JSON Syntax: { "destination": { "s3Destination": { "s3Uri": "string" } }, "roleArn": "string" }</param>
+    /// <param name="MembershipIdentifier">The membership ID of the member that is being configured. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="DefaultOutputLocation">The default Amazon S3 location where ML output is stored for the specified member. destination -&gt; (structure) The Amazon S3 location where exported model artifacts are stored. s3Destination -&gt; (structure) [required] Provides information about an Amazon S3 bucket and path. s3Uri -&gt; (string) [required] The Amazon S3 location URI. Constraints: • min: 1 • max: 1285 • pattern: s3://.+ roleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the service access role that is used to store the model artifacts. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z]*:iam::[0-9]{12}:role/.+ Shorthand Syntax: destination={s3Destination={s3Uri=string}},roleArn=string JSON Syntax: { "destination": { "s3Destination": { "s3Uri": "string" } }, "roleArn": "string" }</param>
     public AwsCleanroomsmlPutMlConfigurationOptions(
         string MembershipIdentifier,
         string DefaultOutputLocation
@@ -60,13 +61,13 @@ public record AwsCleanroomsmlPutMlConfigurationOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The membership ID of the member that is being configured. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The membership ID of the member that is being configured. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--membership-identifier")]
     public string? MembershipIdentifier { get; private init; }
 
     /// <summary>
-    /// The default Amazon S3 location where ML output is stored for the specified member. destination -&gt; (structure) The Amazon S3 location where exported model artifacts are stored. s3Destination -&gt; (structure) [required] Provides information about an Amazon S3 bucket and path. s3Uri -&gt; (string) [required] The Amazon S3 location URI. Constraints: o min: 1 o max: 1285 o pattern: s3://.+ roleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the service access role that is used to store the model artifacts. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:iam::[0-9]{12}:role/.+ Shorthand Syntax: destination={s3Destination={s3Uri=string}},roleArn=string JSON Syntax: { "destination": { "s3Destination": { "s3Uri": "string" } }, "roleArn": "string" }
+    /// The default Amazon S3 location where ML output is stored for the specified member. destination -&gt; (structure) The Amazon S3 location where exported model artifacts are stored. s3Destination -&gt; (structure) [required] Provides information about an Amazon S3 bucket and path. s3Uri -&gt; (string) [required] The Amazon S3 location URI. Constraints: • min: 1 • max: 1285 • pattern: s3://.+ roleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the service access role that is used to store the model artifacts. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z]*:iam::[0-9]{12}:role/.+ Shorthand Syntax: destination={s3Destination={s3Uri=string}},roleArn=string JSON Syntax: { "destination": { "s3Destination": { "s3Uri": "string" } }, "roleArn": "string" }
     /// </summary>
     [CliOption("--default-output-location")]
     public string? DefaultOutputLocation { get; private init; }
@@ -92,6 +93,15 @@ public record AwsCleanroomsmlPutMlConfigurationOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

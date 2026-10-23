@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Starts an asynchronous validation process for an evaluation form ver- sion in the specified Connect Customer instance. The validation first performs structural checks on the form content (such as verifying re- quired fields, valid scoring configuration, and correct conditional logic), then asynchronously analyzes questions configured for genera- tive AI evaluation against a set of best practices. Use GetEvaluationFormValidation to retrieve the status and results once the validation completes. Se...
+/// Starts an asynchronous validation process for an evaluation form version in the specified Connect Customer instance. The validation first performs structural checks on the form content (such as verifying required fields, valid scoring configuration, and correct conditional logic), then asynchronously analyzes questions configured for generative AI evaluation against a set of best practices. Use GetEvaluationFormValidation to retrieve the status and results once the validation completes. See also...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsConnectStartEvaluationFormValidationOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Starts an asynchronous validation process for an evaluation form ver- sion in the specified Connect Customer instance. The validation first performs structural checks on the form content (such as verifying re- quired fields, valid scoring configuration, and correct conditional logic), then asynchronously analyzes questions configured for genera- tive AI evaluation against a set of best practices. Use GetEvaluationFormValidation to retrieve the status and results once the validation completes. Se...
+    /// Starts an asynchronous validation process for an evaluation form version in the specified Connect Customer instance. The validation first performs structural checks on the form content (such as verifying required fields, valid scoring configuration, and correct conditional logic), then asynchronously analyzes questions configured for generative AI evaluation against a set of best practices. Use GetEvaluationFormValidation to retrieve the status and results once the validation completes. See also...
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="EvaluationFormId">The unique identifier for the evaluation form. Constraints: o min: 1 o max: 500</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="EvaluationFormId">The unique identifier for the evaluation form. Constraints: • min: 1 • max: 500</param>
     /// <param name="EvaluationFormVersion">The version of the evaluation form to validate.</param>
     public AwsConnectStartEvaluationFormValidationOptions(
         string InstanceId,
@@ -63,13 +64,13 @@ public record AwsConnectStartEvaluationFormValidationOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The unique identifier for the evaluation form. Constraints: o min: 1 o max: 500
+    /// The unique identifier for the evaluation form. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--evaluation-form-id")]
     public string? EvaluationFormId { get; private init; }
@@ -101,6 +102,15 @@ public record AwsConnectStartEvaluationFormValidationOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsConnectGetEvaluationFormValidationOptions : AwsOptions, IValida
     /// <summary>
     /// Retrieves the status and results of a validation process started by StartEvaluationFormValidation . Returns the current execution status (IN_PROGRESS , COMPLETED , or FAILED ), the validated form version, and when completed, a list of findings that identify structural issues and quality improvements for the evaluation form, and may include suggested fixes. If the validation failed, a reason is provided indicating the cause of the failure. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="EvaluationFormId">The unique identifier for the evaluation form. Constraints: o min: 1 o max: 500</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="EvaluationFormId">The unique identifier for the evaluation form. Constraints: • min: 1 • max: 500</param>
     public AwsConnectGetEvaluationFormValidationOptions(
         string InstanceId,
         string EvaluationFormId
@@ -60,13 +61,13 @@ public record AwsConnectGetEvaluationFormValidationOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The unique identifier for the evaluation form. Constraints: o min: 1 o max: 500
+    /// The unique identifier for the evaluation form. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--evaluation-form-id")]
     public string? EvaluationFormId { get; private init; }
@@ -98,6 +99,15 @@ public record AwsConnectGetEvaluationFormValidationOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

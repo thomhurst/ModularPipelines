@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Disassociates a CIDR block from a subnet. Currently, you can disassoci- ate an IPv6 CIDR block only. You must detach or delete all gateways and resources that are associated with the CIDR block before you can disas- sociate it. See also: AWS API Documentation
+/// Disassociates a CIDR block from a subnet. Currently, you can disassociate an IPv6 CIDR block only. You must detach or delete all gateways and resources that are associated with the CIDR block before you can disassociate it. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsEc2DisassociateSubnetCidrBlockOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Disassociates a CIDR block from a subnet. Currently, you can disassoci- ate an IPv6 CIDR block only. You must detach or delete all gateways and resources that are associated with the CIDR block before you can disas- sociate it. See also: AWS API Documentation
+    /// Disassociates a CIDR block from a subnet. Currently, you can disassociate an IPv6 CIDR block only. You must detach or delete all gateways and resources that are associated with the CIDR block before you can disassociate it. See also: AWS API Documentation
     /// </summary>
     /// <param name="AssociationId">The association ID for the CIDR block.</param>
     public AwsEc2DisassociateSubnetCidrBlockOptions(
@@ -82,6 +83,15 @@ public record AwsEc2DisassociateSubnetCidrBlockOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

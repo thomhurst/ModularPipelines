@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsAppConfigGetConfigurationProfileOptions : AwsOptions, IValidata
     /// <summary>
     /// Retrieves information about a configuration profile. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The ID of the application that includes the configuration profile you want to get. Constraints: o min: 1 o max: 64</param>
-    /// <param name="ConfigurationProfileId">The ID of the configuration profile that you want to get. Constraints: o min: 1 o max: 128</param>
+    /// <param name="ApplicationId">The ID of the application that includes the configuration profile you want to get. Constraints: • min: 1 • max: 64</param>
+    /// <param name="ConfigurationProfileId">The ID of the configuration profile that you want to get. Constraints: • min: 1 • max: 128</param>
     public AwsAppConfigGetConfigurationProfileOptions(
         string ApplicationId,
         string ConfigurationProfileId
@@ -60,13 +61,13 @@ public record AwsAppConfigGetConfigurationProfileOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the application that includes the configuration profile you want to get. Constraints: o min: 1 o max: 64
+    /// The ID of the application that includes the configuration profile you want to get. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// The ID of the configuration profile that you want to get. Constraints: o min: 1 o max: 128
+    /// The ID of the configuration profile that you want to get. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--configuration-profile-id")]
     public string? ConfigurationProfileId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsAppConfigGetConfigurationProfileOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

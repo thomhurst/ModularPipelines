@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsGameliftDescribeScriptOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// This API works with the following fleet types: EC2 Retrieves properties for a Realtime script. To request a script record, specify the script ID. If successful, an object containing the script properties is returned. Learn more Amazon GameLift Servers Amazon GameLift Servers Realtime Related actions All APIs by task See also: AWS API Documentation
     /// </summary>
-    /// <param name="ScriptId">A unique identifier for the Realtime script to retrieve properties for. You can use either the script ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^(script-\S+|arn:.*:script\/script-\S+)$</param>
+    /// <param name="ScriptId">A unique identifier for the Realtime script to retrieve properties for. You can use either the script ID or ARN value. Constraints: • min: 1 • max: 512 • pattern: ^(script-\S+|arn:.*:script\/script-\S+)$</param>
     public AwsGameliftDescribeScriptOptions(
         string ScriptId
     )
@@ -56,7 +57,7 @@ public record AwsGameliftDescribeScriptOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the Realtime script to retrieve properties for. You can use either the script ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^(script-\S+|arn:.*:script\/script-\S+)$
+    /// A unique identifier for the Realtime script to retrieve properties for. You can use either the script ID or ARN value. Constraints: • min: 1 • max: 512 • pattern: ^(script-\S+|arn:.*:script\/script-\S+)$
     /// </summary>
     [CliOption("--script-id")]
     public string? ScriptId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsGameliftDescribeScriptOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -63,13 +64,13 @@ public record AwsPinpointEmailPutEmailIdentityMailFromAttributesOptions : AwsOpt
     public string? EmailIdentity { get; private init; }
 
     /// <summary>
-    /// The custom MAIL FROM domain that you want the verified identity to use. The MAIL FROM domain must meet the following criteria: o It has to be a subdomain of the verified identity. o It can't be used to receive email. o It can't be used in a "From" address if the MAIL FROM domain is a destination for feedback forwarding emails.
+    /// The custom MAIL FROM domain that you want the verified identity to use. The MAIL FROM domain must meet the following criteria: • It has to be a subdomain of the verified identity. • It can't be used to receive email. • It can't be used in a "From" address if the MAIL FROM domain is a destination for feedback forwarding emails.
     /// </summary>
     [CliOption("--mail-from-domain")]
     public string? MailFromDomain { get; set; }
 
     /// <summary>
-    /// The action that you want Amazon Pinpoint to take if it can't read the required MX record when you send an email. When you set this value to UseDefaultValue , Amazon Pinpoint uses amazonses.com as the MAIL FROM domain. When you set this value to RejectMessage , Amazon Pinpoint returns a MailFromDomainNotVerified error, and doesn't at- tempt to deliver the email. These behaviors are taken when the custom MAIL FROM domain configu- ration is in the Pending , Failed , and TemporaryFailure states. Possible values: o USE_DEFAULT_VALUE o REJECT_MESSAGE
+    /// The action that you want Amazon Pinpoint to take if it can't read the required MX record when you send an email. When you set this value to UseDefaultValue , Amazon Pinpoint uses amazonses.com as the MAIL FROM domain. When you set this value to RejectMessage , Amazon Pinpoint returns a MailFromDomainNotVerified error, and doesn't attempt to deliver the email. These behaviors are taken when the custom MAIL FROM domain configuration is in the Pending , Failed , and TemporaryFailure states. Possible values: • USE_DEFAULT_VALUE • REJECT_MESSAGE
     /// </summary>
     [CliOption("--behavior-on-mx-failure")]
     public AwsPinpointEmailPutEmailIdentityMailFromAttributesBehaviorOnMxFailure? BehaviorOnMxFailure { get; set; }
@@ -95,6 +96,15 @@ public record AwsPinpointEmailPutEmailIdentityMailFromAttributesOptions : AwsOpt
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

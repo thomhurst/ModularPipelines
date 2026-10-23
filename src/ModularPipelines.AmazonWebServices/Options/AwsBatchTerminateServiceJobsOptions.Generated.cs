@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Terminates up to 50 service jobs in a job queue. This is a bulk version of TerminateServiceJob . Batch reports the result for each service job individually in the re- sponse. Service jobs that were processed successfully are reported in the successful list. Service jobs that encountered errors are reported in the errors list. The response returns an HTTP status code of 200 even when some service jobs encountered errors, so check the errors list. Service jobs that can't be found are treated as su...
+/// Terminates up to 50 service jobs in a job queue. This is a bulk version of TerminateServiceJob . Batch reports the result for each service job individually in the response. Service jobs that were processed successfully are reported in the successful list. Service jobs that encountered errors are reported in the errors list. The response returns an HTTP status code of 200 even when some service jobs encountered errors, so check the errors list. Service jobs that can't be found are treated as succ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsBatchTerminateServiceJobsOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Terminates up to 50 service jobs in a job queue. This is a bulk version of TerminateServiceJob . Batch reports the result for each service job individually in the re- sponse. Service jobs that were processed successfully are reported in the successful list. Service jobs that encountered errors are reported in the errors list. The response returns an HTTP status code of 200 even when some service jobs encountered errors, so check the errors list. Service jobs that can't be found are treated as su...
+    /// Terminates up to 50 service jobs in a job queue. This is a bulk version of TerminateServiceJob . Batch reports the result for each service job individually in the response. Service jobs that were processed successfully are reported in the successful list. Service jobs that encountered errors are reported in the errors list. The response returns an HTTP status code of 200 even when some service jobs encountered errors, so check the errors list. Service jobs that can't be found are treated as succ...
     /// </summary>
-    /// <param name="Jobs">An array of up to 50 service job IDs of the service jobs to termi- nate. (string) Syntax: "string" "string" ...</param>
-    /// <param name="Reason">A message to attach to the service job that explains the reason for terminating it. This message is returned by DescribeServiceJob oper- ations on the service job.</param>
+    /// <param name="Jobs">An array of up to 50 service job IDs of the service jobs to terminate. (string) Syntax: "string" "string" ...</param>
+    /// <param name="Reason">A message to attach to the service job that explains the reason for terminating it. This message is returned by DescribeServiceJob operations on the service job.</param>
     public AwsBatchTerminateServiceJobsOptions(
         IEnumerable<string> Jobs,
         string Reason
@@ -71,13 +72,13 @@ public record AwsBatchTerminateServiceJobsOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// An array of up to 50 service job IDs of the service jobs to termi- nate. (string) Syntax: "string" "string" ...
+    /// An array of up to 50 service job IDs of the service jobs to terminate. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--jobs", GroupValues = true)]
     public IEnumerable<string>? Jobs { get; private init; }
 
     /// <summary>
-    /// A message to attach to the service job that explains the reason for terminating it. This message is returned by DescribeServiceJob oper- ations on the service job.
+    /// A message to attach to the service job that explains the reason for terminating it. This message is returned by DescribeServiceJob operations on the service job.
     /// </summary>
     [CliOption("--reason")]
     public string? Reason { get; private init; }
@@ -103,6 +104,15 @@ public record AwsBatchTerminateServiceJobsOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

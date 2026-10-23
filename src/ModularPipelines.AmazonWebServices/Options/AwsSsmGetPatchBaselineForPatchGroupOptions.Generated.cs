@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsSsmGetPatchBaselineForPatchGroupOptions : AwsOptions, IValidata
     /// <summary>
     /// Retrieves the patch baseline that should be used for the specified patch group. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PatchGroup">The name of the patch group whose patch baseline should be re- trieved. Constraints: o min: 1 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$</param>
+    /// <param name="PatchGroup">The name of the patch group whose patch baseline should be retrieved. Constraints: • min: 1 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$</param>
     public AwsSsmGetPatchBaselineForPatchGroupOptions(
         string PatchGroup
     )
@@ -57,13 +58,13 @@ public record AwsSsmGetPatchBaselineForPatchGroupOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the patch group whose patch baseline should be re- trieved. Constraints: o min: 1 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$
+    /// The name of the patch group whose patch baseline should be retrieved. Constraints: • min: 1 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$
     /// </summary>
     [CliOption("--patch-group")]
     public string? PatchGroup { get; private init; }
 
     /// <summary>
-    /// Returns the operating system rule specified for patch groups using the patch baseline. The default value is WINDOWS . Possible values: o WINDOWS o AMAZON_LINUX o AMAZON_LINUX_2 o AMAZON_LINUX_2022 o UBUNTU o REDHAT_ENTERPRISE_LINUX o SUSE o CENTOS o ORACLE_LINUX o DEBIAN o MACOS o RASPBIAN o ROCKY_LINUX o ALMA_LINUX o AMAZON_LINUX_2023
+    /// Returns the operating system rule specified for patch groups using the patch baseline. The default value is WINDOWS . Possible values: • WINDOWS • AMAZON_LINUX • AMAZON_LINUX_2 • AMAZON_LINUX_2022 • UBUNTU • REDHAT_ENTERPRISE_LINUX • SUSE • CENTOS • ORACLE_LINUX • DEBIAN • MACOS • RASPBIAN • ROCKY_LINUX • ALMA_LINUX • AMAZON_LINUX_2023
     /// </summary>
     [CliOption("--operating-system")]
     public AwsSsmGetPatchBaselineForPatchGroupOperatingSystem? OperatingSystem { get; set; }
@@ -89,6 +90,15 @@ public record AwsSsmGetPatchBaselineForPatchGroupOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

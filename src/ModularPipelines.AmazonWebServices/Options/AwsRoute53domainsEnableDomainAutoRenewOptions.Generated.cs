@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsRoute53domainsEnableDomainAutoRenewOptions : AwsOptions, IValid
     /// <summary>
     /// This operation configures Amazon Route 53 to automatically renew the specified domain before the domain registration expires. The cost of renewing your domain registration is billed to your Amazon Web Services account. The period during which you can renew a domain name varies by TLD. For a list of TLDs and their renewal policies, see Domains That You Can Register with Amazon Route 53 in the Amazon Route 53 Developer Guide . Route 53 requires that you renew before the end of the renewal period s...
     /// </summary>
-    /// <param name="DomainName">The name of the domain that you want to enable automatic renewal for. Constraints: o max: 255</param>
+    /// <param name="DomainName">The name of the domain that you want to enable automatic renewal for. Constraints: • max: 255</param>
     public AwsRoute53domainsEnableDomainAutoRenewOptions(
         string DomainName
     )
@@ -56,7 +57,7 @@ public record AwsRoute53domainsEnableDomainAutoRenewOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the domain that you want to enable automatic renewal for. Constraints: o max: 255
+    /// The name of the domain that you want to enable automatic renewal for. Constraints: • max: 255
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsRoute53domainsEnableDomainAutoRenewOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

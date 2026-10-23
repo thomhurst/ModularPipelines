@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the margin summary report, which includes the Amazon Web Ser- vices cost and charged amount (pro forma cost) by Amazon Web Services service for a specific billing group. See also: AWS API Documentation
+/// Retrieves the margin summary report, which includes the Amazon Web Services cost and charged amount (pro forma cost) by Amazon Web Services service for a specific billing group. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsBillingconductorGetBillingGroupCostReportOptions : AwsOptions, 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves the margin summary report, which includes the Amazon Web Ser- vices cost and charged amount (pro forma cost) by Amazon Web Services service for a specific billing group. See also: AWS API Documentation
+    /// Retrieves the margin summary report, which includes the Amazon Web Services cost and charged amount (pro forma cost) by Amazon Web Services service for a specific billing group. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The Amazon Resource Number (ARN) that uniquely identifies the billing group. Constraints: o pattern: (arn:aws(-cn)?:billingconductor::[0-9]{12}:billing- group/)?[a-zA-Z0-9]{10,12}</param>
+    /// <param name="Arn">The Amazon Resource Number (ARN) that uniquely identifies the billing group. Constraints: • pattern: (arn:aws(-cn)?:billingconductor::[0-9]{12}:billinggroup/)?[a-zA-Z0-9]{10,12}</param>
     public AwsBillingconductorGetBillingGroupCostReportOptions(
         string Arn
     )
@@ -57,25 +58,25 @@ public record AwsBillingconductorGetBillingGroupCostReportOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Number (ARN) that uniquely identifies the billing group. Constraints: o pattern: (arn:aws(-cn)?:billingconductor::[0-9]{12}:billing- group/)?[a-zA-Z0-9]{10,12}
+    /// The Amazon Resource Number (ARN) that uniquely identifies the billing group. Constraints: • pattern: (arn:aws(-cn)?:billingconductor::[0-9]{12}:billinggroup/)?[a-zA-Z0-9]{10,12}
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// A time range for which the margin summary is effective. You can specify up to 12 months. InclusiveStartBillingPeriod -&gt; (string) [required] The inclusive start billing period that defines a billing period range for the margin summary. Constraints: o pattern: \d{4}-(0?[1-9]|1[012]) ExclusiveEndBillingPeriod -&gt; (string) [required] The exclusive end billing period that defines a billing period range for the margin summary. For example, if you choose a billing period that starts in October 2023 and ends in December 2023, the margin summary will only include data from October 2023 and November 2023. Constraints: o pattern: \d{4}-(0?[1-9]|1[012]) Shorthand Syntax: InclusiveStartBillingPeriod=string,ExclusiveEndBillingPeriod=string JSON Syntax: { "InclusiveStartBillingPeriod": "string", "ExclusiveEndBillingPeriod": "string" }
+    /// A time range for which the margin summary is effective. You can specify up to 12 months. InclusiveStartBillingPeriod -&gt; (string) [required] The inclusive start billing period that defines a billing period range for the margin summary. Constraints: • pattern: \d{4}-(0?[1-9]|1[012]) ExclusiveEndBillingPeriod -&gt; (string) [required] The exclusive end billing period that defines a billing period range for the margin summary. For example, if you choose a billing period that starts in October 2023 and ends in December 2023, the margin summary will only include data from October 2023 and November 2023. Constraints: • pattern: \d{4}-(0?[1-9]|1[012]) Shorthand Syntax: InclusiveStartBillingPeriod=string,ExclusiveEndBillingPeriod=string JSON Syntax: { "InclusiveStartBillingPeriod": "string", "ExclusiveEndBillingPeriod": "string" }
     /// </summary>
     [CliOption("--billing-period-range")]
     public string? BillingPeriodRange { get; set; }
 
     /// <summary>
-    /// A list of strings that specify the attributes that are used to break down costs in the margin summary reports for the billing group. For example, you can view your costs by the Amazon Web Services service name or the billing period. (string) Possible values: o PRODUCT_NAME o BILLING_PERIOD Syntax: "string" "string" ...
+    /// A list of strings that specify the attributes that are used to break down costs in the margin summary reports for the billing group. For example, you can view your costs by the Amazon Web Services service name or the billing period. (string) Possible values: • PRODUCT_NAME • BILLING_PERIOD Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--group-by", GroupValues = true)]
     public IEnumerable<string>? GroupBy { get; set; }
 
     /// <summary>
-    /// The maximum number of margin summary reports to retrieve. Constraints: o min: 200 o max: 300
+    /// The maximum number of margin summary reports to retrieve. Constraints: • min: 200 • max: 300
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -108,6 +109,15 @@ public record AwsBillingconductorGetBillingGroupCostReportOptions : AwsOptions, 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

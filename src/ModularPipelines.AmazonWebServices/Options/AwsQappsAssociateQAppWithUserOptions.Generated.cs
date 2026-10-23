@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsQappsAssociateQAppWithUserOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// This operation creates a link between the user's identity calling the operation and a specific Q App. This is useful to mark the Q App as a favorite for the user if the user doesn't own the Amazon Q App so they can still run it and see it in their inventory of Q Apps. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The unique identifier of the Amazon Q Business application environ- ment instance.</param>
-    /// <param name="AppId">The ID of the Amazon Q App to associate with the user. Constraints: o pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12}</param>
+    /// <param name="InstanceId">The unique identifier of the Amazon Q Business application environment instance.</param>
+    /// <param name="AppId">The ID of the Amazon Q App to associate with the user. Constraints: • pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12}</param>
     public AwsQappsAssociateQAppWithUserOptions(
         string InstanceId,
         string AppId
@@ -60,13 +61,13 @@ public record AwsQappsAssociateQAppWithUserOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the Amazon Q Business application environ- ment instance.
+    /// The unique identifier of the Amazon Q Business application environment instance.
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The ID of the Amazon Q App to associate with the user. Constraints: o pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12}
+    /// The ID of the Amazon Q App to associate with the user. Constraints: • pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12}
     /// </summary>
     [CliOption("--app-id")]
     public string? AppId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsQappsAssociateQAppWithUserOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

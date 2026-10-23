@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsMemorydbCreateMultiRegionClusterOptions : AwsOptions, IValidata
     /// <summary>
     /// Creates a new multi-Region cluster. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MultiRegionClusterNameSuffix">A suffix to be added to the Multi-Region cluster name. Amazon Memo- ryDB automatically applies a prefix to the Multi-Region cluster Name when it is created. Each Amazon Region has its own prefix. For in- stance, a Multi-Region cluster Name created in the US-West-1 region will begin with "virxk", along with the suffix name you provide. The suffix guarantees uniqueness of the Multi-Region cluster name across multiple regions.</param>
+    /// <param name="MultiRegionClusterNameSuffix">A suffix to be added to the Multi-Region cluster name. Amazon MemoryDB automatically applies a prefix to the Multi-Region cluster Name when it is created. Each Amazon Region has its own prefix. For instance, a Multi-Region cluster Name created in the US-West-1 region will begin with "virxk", along with the suffix name you provide. The suffix guarantees uniqueness of the Multi-Region cluster name across multiple regions.</param>
     /// <param name="NodeType">The node type to be used for the multi-Region cluster.</param>
     public AwsMemorydbCreateMultiRegionClusterOptions(
         string MultiRegionClusterNameSuffix,
@@ -60,7 +61,7 @@ public record AwsMemorydbCreateMultiRegionClusterOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A suffix to be added to the Multi-Region cluster name. Amazon Memo- ryDB automatically applies a prefix to the Multi-Region cluster Name when it is created. Each Amazon Region has its own prefix. For in- stance, a Multi-Region cluster Name created in the US-West-1 region will begin with "virxk", along with the suffix name you provide. The suffix guarantees uniqueness of the Multi-Region cluster name across multiple regions.
+    /// A suffix to be added to the Multi-Region cluster name. Amazon MemoryDB automatically applies a prefix to the Multi-Region cluster Name when it is created. Each Amazon Region has its own prefix. For instance, a Multi-Region cluster Name created in the US-West-1 region will begin with "virxk", along with the suffix name you provide. The suffix guarantees uniqueness of the Multi-Region cluster name across multiple regions.
     /// </summary>
     [CliOption("--multi-region-cluster-name-suffix")]
     public string? MultiRegionClusterNameSuffix { get; private init; }
@@ -108,7 +109,7 @@ public record AwsMemorydbCreateMultiRegionClusterOptions : AwsOptions, IValidata
     public bool? TlsEnabled { get; set; }
 
     /// <summary>
-    /// A list of tags to be applied to the multi-Region cluster. Constraints: o max: 200 (structure) A tag that can be added to an MemoryDB resource. Tags are com- posed of a Key/Value pair. You can use tags to categorize and track all your MemoryDB resources. When you add or remove tags on clusters, those actions will be replicated to all nodes in the cluster. A tag with a null Value is permitted. For more in- formation, see Tagging your MemoryDB resources Key -&gt; (string) The key for the tag. May not be null. Value -&gt; (string) The tag's value. May be null. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of tags to be applied to the multi-Region cluster. Constraints: • max: 200 (structure) A tag that can be added to an MemoryDB resource. Tags are composed of a Key/Value pair. You can use tags to categorize and track all your MemoryDB resources. When you add or remove tags on clusters, those actions will be replicated to all nodes in the cluster. A tag with a null Value is permitted. For more information, see Tagging your MemoryDB resources Key -&gt; (string) The key for the tag. May not be null. Value -&gt; (string) The tag's value. May be null. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -134,6 +135,15 @@ public record AwsMemorydbCreateMultiRegionClusterOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

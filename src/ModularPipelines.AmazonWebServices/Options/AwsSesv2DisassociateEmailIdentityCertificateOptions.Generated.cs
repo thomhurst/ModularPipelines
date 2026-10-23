@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes the association between an S/MIME certificate and an email identity. After the association is removed, Amazon SES API v2 stops adding an S/MIME signature to messages sent from that address. If the email identity is a domain, specify the FromAddress whose cer- tificate association you want to remove. This operation is idempotent. If the specified email identity exists but there's no matching certificate association, the operation succeeds without making any changes. Amazon SES API v2 retu...
+/// Removes the association between an S/MIME certificate and an email identity. After the association is removed, Amazon SES API v2 stops adding an S/MIME signature to messages sent from that address. If the email identity is a domain, specify the FromAddress whose certificate association you want to remove. This operation is idempotent. If the specified email identity exists but there's no matching certificate association, the operation succeeds without making any changes. Amazon SES API v2 return...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsSesv2DisassociateEmailIdentityCertificateOptions : AwsOptions, 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes the association between an S/MIME certificate and an email identity. After the association is removed, Amazon SES API v2 stops adding an S/MIME signature to messages sent from that address. If the email identity is a domain, specify the FromAddress whose cer- tificate association you want to remove. This operation is idempotent. If the specified email identity exists but there's no matching certificate association, the operation succeeds without making any changes. Amazon SES API v2 retu...
+    /// Removes the association between an S/MIME certificate and an email identity. After the association is removed, Amazon SES API v2 stops adding an S/MIME signature to messages sent from that address. If the email identity is a domain, specify the FromAddress whose certificate association you want to remove. This operation is idempotent. If the specified email identity exists but there's no matching certificate association, the operation succeeds without making any changes. Amazon SES API v2 return...
     /// </summary>
-    /// <param name="EmailIdentity">The email identity whose certificate association you want to remove. Constraints: o min: 1</param>
+    /// <param name="EmailIdentity">The email identity whose certificate association you want to remove. Constraints: • min: 1</param>
     public AwsSesv2DisassociateEmailIdentityCertificateOptions(
         string EmailIdentity
     )
@@ -56,7 +57,7 @@ public record AwsSesv2DisassociateEmailIdentityCertificateOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The email identity whose certificate association you want to remove. Constraints: o min: 1
+    /// The email identity whose certificate association you want to remove. Constraints: • min: 1
     /// </summary>
     [CliOption("--email-identity")]
     public string? EmailIdentity { get; private init; }
@@ -88,6 +89,15 @@ public record AwsSesv2DisassociateEmailIdentityCertificateOptions : AwsOptions, 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

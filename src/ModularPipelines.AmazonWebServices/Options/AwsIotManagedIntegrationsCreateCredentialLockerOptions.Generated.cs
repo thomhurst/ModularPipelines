@@ -11,12 +11,12 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Create a credential locker. NOTE: This operation will not trigger the creation of all the manufactur- ing resources. See also: AWS API Documentation
+/// Create a credential locker. NOTE: This operation will not trigger the creation of all the manufacturing resources. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -24,20 +24,20 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsIotManagedIntegrationsCreateCredentialLockerOptions : AwsOptions
 {
     /// <summary>
-    /// The name of the credential locker. Constraints: o min: 1 o max: 128 o pattern: [A-Za-z0-9-_ ]+
+    /// The name of the credential locker. Constraints: • min: 1 • max: 128 • pattern: [A-Za-z0-9-_ ]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// An idempotency token. If you retry a request that completed success- fully initially using the same client token and parameters, then the retry attempt will succeed without performing any further actions. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9=_-]+
+    /// An idempotency token. If you retry a request that completed successfully initially using the same client token and parameters, then the retry attempt will succeed without performing any further actions. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9=_-]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// A set of key/value pairs that are used to manage the credential locker. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A set of key/value pairs that are used to manage the credential locker. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -47,5 +47,14 @@ public record AwsIotManagedIntegrationsCreateCredentialLockerOptions : AwsOption
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

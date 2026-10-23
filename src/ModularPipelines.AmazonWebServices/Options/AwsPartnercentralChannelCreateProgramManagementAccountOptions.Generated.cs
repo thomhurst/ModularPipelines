@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new program management account for managing partner relation- ships. See also: AWS API Documentation
+/// Creates a new program management account for managing partner relationships. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,12 +28,12 @@ public record AwsPartnercentralChannelCreateProgramManagementAccountOptions : Aw
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new program management account for managing partner relation- ships. See also: AWS API Documentation
+    /// Creates a new program management account for managing partner relationships. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Catalog">The catalog identifier for the program management account. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z]*</param>
-    /// <param name="Program">The program type for the management account. Possible values: o SOLUTION_PROVIDER o DISTRIBUTION o DISTRIBUTION_SELLER</param>
-    /// <param name="DisplayName">A human-readable name for the program management account. Constraints: o min: 1 o max: 30 o pattern: [^\x00-\x1F\x7F]*</param>
-    /// <param name="AccountId">The AWS account ID to associate with the program management account. Constraints: o min: 12 o max: 12 o pattern: [0-9]*</param>
+    /// <param name="Catalog">The catalog identifier for the program management account. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z]*</param>
+    /// <param name="Program">The program type for the management account. Possible values: • SOLUTION_PROVIDER • DISTRIBUTION • DISTRIBUTION_SELLER</param>
+    /// <param name="DisplayName">A human-readable name for the program management account. Constraints: • min: 1 • max: 30 • pattern: [^\x00-\x1F\x7F]*</param>
+    /// <param name="AccountId">The AWS account ID to associate with the program management account. Constraints: • min: 12 • max: 12 • pattern: [0-9]*</param>
     public AwsPartnercentralChannelCreateProgramManagementAccountOptions(
         string Catalog,
         AwsPartnercentralChannelCreateProgramManagementAccountProgram Program,
@@ -69,38 +70,38 @@ public record AwsPartnercentralChannelCreateProgramManagementAccountOptions : Aw
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The catalog identifier for the program management account. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z]*
+    /// The catalog identifier for the program management account. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z]*
     /// </summary>
     [CliOption("--catalog")]
     public string? Catalog { get; private init; }
 
     /// <summary>
-    /// The program type for the management account. Possible values: o SOLUTION_PROVIDER o DISTRIBUTION o DISTRIBUTION_SELLER
+    /// The program type for the management account. Possible values: • SOLUTION_PROVIDER • DISTRIBUTION • DISTRIBUTION_SELLER
     /// </summary>
     [CliOption("--program")]
     public AwsPartnercentralChannelCreateProgramManagementAccountProgram? Program { get; private init; }
 
     /// <summary>
-    /// A human-readable name for the program management account. Constraints: o min: 1 o max: 30 o pattern: [^\x00-\x1F\x7F]*
+    /// A human-readable name for the program management account. Constraints: • min: 1 • max: 30 • pattern: [^\x00-\x1F\x7F]*
     /// </summary>
     [CliOption("--display-name")]
     public string? DisplayName { get; private init; }
 
     /// <summary>
-    /// The AWS account ID to associate with the program management account. Constraints: o min: 12 o max: 12 o pattern: [0-9]*
+    /// The AWS account ID to associate with the program management account. Constraints: • min: 12 • max: 12 • pattern: [0-9]*
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure idempotency of the re- quest. Constraints: o min: 1 o max: 64 o pattern: [!-~]*
+    /// A unique, case-sensitive identifier to ensure idempotency of the request. Constraints: • min: 1 • max: 64 • pattern: [!-~]*
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// Key-value pairs to associate with the program management account. (structure) A key-value pair that can be associated with a resource. key -&gt; (string) [required] The key of the tag. Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) value -&gt; (string) [required] The value of the tag. Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// Key-value pairs to associate with the program management account. (structure) A key-value pair that can be associated with a resource. key -&gt; (string) [required] The key of the tag. Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) value -&gt; (string) [required] The value of the tag. Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -126,6 +127,15 @@ public record AwsPartnercentralChannelCreateProgramManagementAccountOptions : Aw
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

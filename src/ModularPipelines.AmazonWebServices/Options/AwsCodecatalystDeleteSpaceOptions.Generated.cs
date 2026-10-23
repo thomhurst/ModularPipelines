@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsCodecatalystDeleteSpaceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes a space. WARNING: Deleting a space cannot be undone. Additionally, since space names must be unique across Amazon CodeCatalyst, you cannot reuse names of deleted spaces. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the space. To retrieve a list of space names, use List- Spaces . Constraints: o min: 3 o max: 63 o pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*</param>
+    /// <param name="Name">The name of the space. To retrieve a list of space names, use ListSpaces . Constraints: • min: 3 • max: 63 • pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*</param>
     public AwsCodecatalystDeleteSpaceOptions(
         string Name
     )
@@ -56,7 +57,7 @@ public record AwsCodecatalystDeleteSpaceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the space. To retrieve a list of space names, use List- Spaces . Constraints: o min: 3 o max: 63 o pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*
+    /// The name of the space. To retrieve a list of space names, use ListSpaces . Constraints: • min: 3 • max: 63 • pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
@@ -82,6 +83,15 @@ public record AwsCodecatalystDeleteSpaceOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

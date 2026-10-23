@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a Dev Environment in Amazon CodeCatalyst, a cloud-based devel- opment environment that you can use to quickly work on the code stored in the source repositories of your project. NOTE: When created in the Amazon CodeCatalyst console, by default a Dev Environment is configured to have a 2 core processor, 4GB of RAM, and 16GB of persistent storage. None of these defaults apply to a Dev Environment created programmatically. See also: AWS API Documentation
+/// Creates a Dev Environment in Amazon CodeCatalyst, a cloud-based development environment that you can use to quickly work on the code stored in the source repositories of your project. NOTE: When created in the Amazon CodeCatalyst console, by default a Dev Environment is configured to have a 2 core processor, 4GB of RAM, and 16GB of persistent storage. None of these defaults apply to a Dev Environment created programmatically. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,12 +28,12 @@ public record AwsCodecatalystCreateDevEnvironmentOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a Dev Environment in Amazon CodeCatalyst, a cloud-based devel- opment environment that you can use to quickly work on the code stored in the source repositories of your project. NOTE: When created in the Amazon CodeCatalyst console, by default a Dev Environment is configured to have a 2 core processor, 4GB of RAM, and 16GB of persistent storage. None of these defaults apply to a Dev Environment created programmatically. See also: AWS API Documentation
+    /// Creates a Dev Environment in Amazon CodeCatalyst, a cloud-based development environment that you can use to quickly work on the code stored in the source repositories of your project. NOTE: When created in the Amazon CodeCatalyst console, by default a Dev Environment is configured to have a 2 core processor, 4GB of RAM, and 16GB of persistent storage. None of these defaults apply to a Dev Environment created programmatically. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SpaceName">The name of the space. Constraints: o min: 3 o max: 63 o pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*</param>
-    /// <param name="ProjectName">The name of the project in the space. Constraints: o min: 3 o max: 63 o pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*</param>
-    /// <param name="InstanceType">The Amazon EC2 instace type to use for the Dev Environment. Possible values: o dev.standard1.small o dev.standard1.medium o dev.standard1.large o dev.standard1.xlarge</param>
-    /// <param name="PersistentStorage">Information about the amount of storage allocated to the Dev Envi- ronment. NOTE: By default, a Dev Environment is configured to have 16GB of per- sistent storage when created from the Amazon CodeCatalyst con- sole, but there is no default when programmatically creating a Dev Environment. Valid values for persistent storage are based on memory sizes in 16GB increments. Valid values are 16, 32, and 64. sizeInGiB -&gt; (integer) [required] The size of the persistent storage in gigabytes (specifically GiB). NOTE: Valid values for storage are based on memory sizes in 16GB increments. Valid values are 16, 32, and 64. Constraints: o min: 0 o max: 64 Shorthand Syntax: sizeInGiB=integer JSON Syntax: { "sizeInGiB": integer }</param>
+    /// <param name="SpaceName">The name of the space. Constraints: • min: 3 • max: 63 • pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*</param>
+    /// <param name="ProjectName">The name of the project in the space. Constraints: • min: 3 • max: 63 • pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*</param>
+    /// <param name="InstanceType">The Amazon EC2 instace type to use for the Dev Environment. Possible values: • dev.standard1.small • dev.standard1.medium • dev.standard1.large • dev.standard1.xlarge</param>
+    /// <param name="PersistentStorage">Information about the amount of storage allocated to the Dev Environment. NOTE: By default, a Dev Environment is configured to have 16GB of persistent storage when created from the Amazon CodeCatalyst console, but there is no default when programmatically creating a Dev Environment. Valid values for persistent storage are based on memory sizes in 16GB increments. Valid values are 16, 32, and 64. sizeInGiB -&gt; (integer) [required] The size of the persistent storage in gigabytes (specifically GiB). NOTE: Valid values for storage are based on memory sizes in 16GB increments. Valid values are 16, 32, and 64. Constraints: • min: 0 • max: 64 Shorthand Syntax: sizeInGiB=integer JSON Syntax: { "sizeInGiB": integer }</param>
     public AwsCodecatalystCreateDevEnvironmentOptions(
         string SpaceName,
         string ProjectName,
@@ -69,62 +70,62 @@ public record AwsCodecatalystCreateDevEnvironmentOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the space. Constraints: o min: 3 o max: 63 o pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*
+    /// The name of the space. Constraints: • min: 3 • max: 63 • pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*
     /// </summary>
     [CliOption("--space-name")]
     public string? SpaceName { get; private init; }
 
     /// <summary>
-    /// The name of the project in the space. Constraints: o min: 3 o max: 63 o pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*
+    /// The name of the project in the space. Constraints: • min: 3 • max: 63 • pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*
     /// </summary>
     [CliOption("--project-name")]
     public string? ProjectName { get; private init; }
 
     /// <summary>
-    /// The Amazon EC2 instace type to use for the Dev Environment. Possible values: o dev.standard1.small o dev.standard1.medium o dev.standard1.large o dev.standard1.xlarge
+    /// The Amazon EC2 instace type to use for the Dev Environment. Possible values: • dev.standard1.small • dev.standard1.medium • dev.standard1.large • dev.standard1.xlarge
     /// </summary>
     [CliOption("--instance-type")]
     public AwsCodecatalystCreateDevEnvironmentInstanceType? InstanceType { get; private init; }
 
     /// <summary>
-    /// Information about the amount of storage allocated to the Dev Envi- ronment. NOTE: By default, a Dev Environment is configured to have 16GB of per- sistent storage when created from the Amazon CodeCatalyst con- sole, but there is no default when programmatically creating a Dev Environment. Valid values for persistent storage are based on memory sizes in 16GB increments. Valid values are 16, 32, and 64. sizeInGiB -&gt; (integer) [required] The size of the persistent storage in gigabytes (specifically GiB). NOTE: Valid values for storage are based on memory sizes in 16GB increments. Valid values are 16, 32, and 64. Constraints: o min: 0 o max: 64 Shorthand Syntax: sizeInGiB=integer JSON Syntax: { "sizeInGiB": integer }
+    /// Information about the amount of storage allocated to the Dev Environment. NOTE: By default, a Dev Environment is configured to have 16GB of persistent storage when created from the Amazon CodeCatalyst console, but there is no default when programmatically creating a Dev Environment. Valid values for persistent storage are based on memory sizes in 16GB increments. Valid values are 16, 32, and 64. sizeInGiB -&gt; (integer) [required] The size of the persistent storage in gigabytes (specifically GiB). NOTE: Valid values for storage are based on memory sizes in 16GB increments. Valid values are 16, 32, and 64. Constraints: • min: 0 • max: 64 Shorthand Syntax: sizeInGiB=integer JSON Syntax: { "sizeInGiB": integer }
     /// </summary>
     [CliOption("--persistent-storage")]
     public string? PersistentStorage { get; private init; }
 
     /// <summary>
-    /// The source repository that contains the branch to clone into the Dev Environment. (structure) Information about a repository that will be cloned to a Dev En- vironment. repositoryName -&gt; (string) [required] The name of the source repository. Constraints: o min: 1 o max: 100 o pattern: (?!.*[.]git$)[\w\-.]* branchName -&gt; (string) The name of the branch in a source repository. Constraints: o min: 1 o max: 100 Shorthand Syntax: repositoryName=string,branchName=string ... JSON Syntax: [ { "repositoryName": "string", "branchName": "string" } ... ]
+    /// The source repository that contains the branch to clone into the Dev Environment. (structure) Information about a repository that will be cloned to a Dev Environment. repositoryName -&gt; (string) [required] The name of the source repository. Constraints: • min: 1 • max: 100 • pattern: (?!.*[.]git$)[\w\-.]* branchName -&gt; (string) The name of the branch in a source repository. Constraints: • min: 1 • max: 100 Shorthand Syntax: repositoryName=string,branchName=string ... JSON Syntax: [ { "repositoryName": "string", "branchName": "string" } ... ]
     /// </summary>
     [CliOption("--repositories", GroupValues = true)]
     public IEnumerable<string>? Repositories { get; set; }
 
     /// <summary>
-    /// A user-specified idempotency token. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries re- turn the result from the original successful request and have no ad- ditional effect. Constraints: o min: 1 o max: 1024
+    /// A user-specified idempotency token. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries return the result from the original successful request and have no additional effect. Constraints: • min: 1 • max: 1024
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The user-defined alias for a Dev Environment. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*
+    /// The user-defined alias for a Dev Environment. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*
     /// </summary>
     [CliOption("--alias")]
     public string? Alias { get; set; }
 
     /// <summary>
-    /// Information about the integrated development environment (IDE) con- figured for a Dev Environment. NOTE: An IDE is required to create a Dev Environment. For Dev Environ- ment creation, this field contains configuration information and must be provided. Constraints: o min: 0 o max: 1 (structure) Information about the configuration of an integrated development environment (IDE) for a Dev Environment. runtime -&gt; (string) A link to the IDE runtime image. NOTE: This parameter is not required for VSCode . Constraints: o min: 1 o max: 400 name -&gt; (string) The name of the IDE. Valid values include Cloud9 , IntelliJ , PyCharm , GoLand , and VSCode . Constraints: o min: 1 o max: 128 Shorthand Syntax: runtime=string,name=string ... JSON Syntax: [ { "runtime": "string", "name": "string" } ... ]
+    /// Information about the integrated development environment (IDE) configured for a Dev Environment. NOTE: An IDE is required to create a Dev Environment. For Dev Environment creation, this field contains configuration information and must be provided. Constraints: • min: 0 • max: 1 (structure) Information about the configuration of an integrated development environment (IDE) for a Dev Environment. runtime -&gt; (string) A link to the IDE runtime image. NOTE: This parameter is not required for VSCode . Constraints: • min: 1 • max: 400 name -&gt; (string) The name of the IDE. Valid values include Cloud9 , IntelliJ , PyCharm , GoLand , and VSCode . Constraints: • min: 1 • max: 128 Shorthand Syntax: runtime=string,name=string ... JSON Syntax: [ { "runtime": "string", "name": "string" } ... ]
     /// </summary>
     [CliOption("--ides", GroupValues = true)]
     public IEnumerable<string>? Ides { get; set; }
 
     /// <summary>
-    /// The amount of time the Dev Environment will run without any activity detected before stopping, in minutes. Only whole integers are al- lowed. Dev Environments consume compute minutes when running. Constraints: o min: 0 o max: 1200
+    /// The amount of time the Dev Environment will run without any activity detected before stopping, in minutes. Only whole integers are allowed. Dev Environments consume compute minutes when running. Constraints: • min: 0 • max: 1200
     /// </summary>
     [CliOption("--inactivity-timeout-minutes")]
     public int? InactivityTimeoutMinutes { get; set; }
 
     /// <summary>
-    /// The name of the connection that will be used to connect to Amazon VPC, if any. Constraints: o min: 3 o max: 63 o pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*
+    /// The name of the connection that will be used to connect to Amazon VPC, if any. Constraints: • min: 3 • max: 63 • pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*
     /// </summary>
     [CliOption("--vpc-connection-name")]
     public string? VpcConnectionName { get; set; }
@@ -150,6 +151,15 @@ public record AwsCodecatalystCreateDevEnvironmentOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

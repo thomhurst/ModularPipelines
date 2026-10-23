@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a database user name and temporary password with temporary au- thorization to log in to an Amazon Redshift database. The database user is mapped 1:1 to the source Identity and Access Management (IAM) iden- tity. For more information about IAM identities, see IAM Identities (users, user groups, and roles) in the Amazon Web Services Identity and Access Management User Guide. The Identity and Access Management (IAM) identity that runs this opera- tion must have an IAM policy attached that a...
+/// Returns a database user name and temporary password with temporary authorization to log in to an Amazon Redshift database. The database user is mapped 1:1 to the source Identity and Access Management (IAM) identity. For more information about IAM identities, see IAM Identities (users, user groups, and roles) in the Amazon Web Services Identity and Access Management User Guide. The Identity and Access Management (IAM) identity that runs this operation must have an IAM policy attached that allows ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,13 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsRedshiftGetClusterCredentialsWithIamOptions : AwsOptions
 {
     /// <summary>
-    /// The name of the database for which you are requesting credentials. If the database name is specified, the IAM policy must allow access to the resource dbname for the specified database name. If the data- base name is not specified, access to all databases is allowed. Constraints: o max: 2147483647
+    /// The name of the database for which you are requesting credentials. If the database name is specified, the IAM policy must allow access to the resource dbname for the specified database name. If the database name is not specified, access to all databases is allowed. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--db-name")]
     public string? DbName { get; set; }
 
     /// <summary>
-    /// The unique identifier of the cluster that contains the database for which you are requesting credentials. Constraints: o max: 2147483647
+    /// The unique identifier of the cluster that contains the database for which you are requesting credentials. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--cluster-identifier")]
     public string? ClusterIdentifier { get; set; }
@@ -40,7 +40,7 @@ public record AwsRedshiftGetClusterCredentialsWithIamOptions : AwsOptions
     public int? DurationSeconds { get; set; }
 
     /// <summary>
-    /// The custom domain name for the IAM message cluster credentials. Constraints: o max: 2147483647
+    /// The custom domain name for the IAM message cluster credentials. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--custom-domain-name")]
     public string? CustomDomainName { get; set; }
@@ -50,5 +50,14 @@ public record AwsRedshiftGetClusterCredentialsWithIamOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

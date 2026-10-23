@@ -29,14 +29,14 @@ public record AwsEmrListReleaseLabelsOptions : AwsOptions
     public string? Filters { get; set; }
 
     /// <summary>
-    /// Specifies the next page of results. If NextToken is not specified, which is usually the case for the first request of ListReleaseLa- bels, the first page of results are determined by other filtering parameters or by the latest version. The ListReleaseLabels request fails if the identity (Amazon Web Services account ID) and all fil- tering parameters are different from the original request, or if the NextToken is expired or tampered with.
+    /// Specifies the next page of results. If NextToken is not specified, which is usually the case for the first request of ListReleaseLabels, the first page of results are determined by other filtering parameters or by the latest version. The ListReleaseLabels request fails if the identity (Amazon Web Services account ID) and all filtering parameters are different from the original request, or if the NextToken is expired or tampered with.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// Defines the maximum number of release labels to return in a single response. The default is 100 . Constraints: o min: 1 o max: 100
+    /// Defines the maximum number of release labels to return in a single response. The default is 100 . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -46,5 +46,14 @@ public record AwsEmrListReleaseLabelsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

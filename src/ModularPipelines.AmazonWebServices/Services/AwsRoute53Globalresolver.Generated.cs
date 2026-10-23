@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -32,7 +32,7 @@ public class AwsRoute53Globalresolver : IAwsRoute53Globalresolver
     #region Commands
 
     /// <summary>
-    /// Associates a Route 53 private hosted zone with a Route 53 Global Re- solver resource. This allows the resolver to resolve DNS queries for the private hosted zone from anywhere globally. WARNING: Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services...
+    /// Associates a Route 53 private hosted zone with a Route 53 Global Resolver resource. This allows the resolver to resolve DNS queries for the private hosted zone from anywhere globally. WARNING: Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services C...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsRoute53Globalresolver : IAwsRoute53Globalresolver
     }
 
     /// <summary>
-    /// Creates multiple DNS firewall rules in a single operation. This is more efficient than creating rules individually when you need to set up mul- tiple rules at once. WARNING: Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands. See al...
+    /// Creates multiple DNS firewall rules in a single operation. This is more efficient than creating rules individually when you need to set up multiple rules at once. WARNING: Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands. See also...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsRoute53Globalresolver : IAwsRoute53Globalresolver
     }
 
     /// <summary>
-    /// Creates an access source for a DNS view. Access sources define IP ad- dresses or CIDR ranges that are allowed to send DNS queries to the Route 53 Global Resolver, along with the permitted DNS protocols. WARNING: Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Am...
+    /// Creates an access source for a DNS view. Access sources define IP addresses or CIDR ranges that are allowed to send DNS queries to the Route 53 Global Resolver, along with the permitted DNS protocols. WARNING: Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amaz...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsRoute53Globalresolver : IAwsRoute53Globalresolver
     }
 
     /// <summary>
-    /// Creates an access token for a DNS view. Access tokens provide to- ken-based authentication for DNS-over-HTTPS (DoH) and DNS-over-TLS (DoT) connections to the Route 53 Global Resolver. WARNING: Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services C...
+    /// Creates an access token for a DNS view. Access tokens provide token-based authentication for DNS-over-HTTPS (DoH) and DNS-over-TLS (DoT) connections to the Route 53 Global Resolver. WARNING: Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsRoute53Globalresolver : IAwsRoute53Globalresolver
     }
 
     /// <summary>
-    /// Creates a firewall domain list. Domain lists are reusable sets of do- main specifications that you use in DNS firewall rules to allow, block, or alert on DNS queries to specific domains. WARNING: Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Service...
+    /// Creates a firewall domain list. Domain lists are reusable sets of domain specifications that you use in DNS firewall rules to allow, block, or alert on DNS queries to specific domains. WARNING: Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsRoute53Globalresolver : IAwsRoute53Globalresolver
     }
 
     /// <summary>
-    /// Creates a new Route 53 Global Resolver instance. A Route 53 Global Re- solver is a global, internet-accessible DNS resolver that provides se- cure DNS resolution for both public and private domains through global anycast IP addresses. WARNING: Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, ...
+    /// Creates a new Route 53 Global Resolver instance. A Route 53 Global Resolver is a global, internet-accessible DNS resolver that provides secure DNS resolution for both public and private domains through global anycast IP addresses. WARNING: Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, spec...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -287,7 +287,7 @@ public class AwsRoute53Globalresolver : IAwsRoute53Globalresolver
     }
 
     /// <summary>
-    /// Disassociates a Route 53 private hosted zone from a Route 53 Global Re- solver resource. WARNING: Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands. See also: AWS API Documentation
+    /// Disassociates a Route 53 private hosted zone from a Route 53 Global Resolver resource. WARNING: Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -422,7 +422,7 @@ public class AwsRoute53Globalresolver : IAwsRoute53Globalresolver
     }
 
     /// <summary>
-    /// Retrieves information about an Amazon Web Services-managed firewall do- main list. Managed domain lists contain domains associated with mali- cious activity, content categories, or specific threats. WARNING: Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon...
+    /// Retrieves information about an Amazon Web Services-managed firewall domain list. Managed domain lists contain domains associated with malicious activity, content categories, or specific threats. WARNING: Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -482,7 +482,7 @@ public class AwsRoute53Globalresolver : IAwsRoute53Globalresolver
     }
 
     /// <summary>
-    /// Lists all DNS views for a Route 53 Global Resolver with pagination sup- port. WARNING: Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands. See also: AWS API Documentation list-dns-views is a paginated operation. Multiple API calls m...
+    /// Lists all DNS views for a Route 53 Global Resolver with pagination support. WARNING: Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands. See also: AWS API Documentation list-dns-views is a paginated operation. Multiple API calls may...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -542,7 +542,7 @@ public class AwsRoute53Globalresolver : IAwsRoute53Globalresolver
     }
 
     /// <summary>
-    /// Lists all Route 53 Global Resolver instances in your account with pagi- nation support. WARNING: Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands. See also: AWS API Documentation list-global-resolvers is a paginated operation. Mul...
+    /// Lists all Route 53 Global Resolver instances in your account with pagination support. WARNING: Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands. See also: AWS API Documentation list-global-resolvers is a paginated operation. Multi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -557,7 +557,7 @@ public class AwsRoute53Globalresolver : IAwsRoute53Globalresolver
     }
 
     /// <summary>
-    /// Lists hosted zone associations with pagination support. Specify a DNS view through the resourceArn parameter to list the hosted zone associa- tions for that DNS view, or omit it to list all hosted zone associa- tions in your Amazon Web Services account. WARNING: Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. Tha...
+    /// Lists hosted zone associations with pagination support. Specify a DNS view through the resourceArn parameter to list the hosted zone associations for that DNS view, or omit it to list all hosted zone associations in your Amazon Web Services account. WARNING: Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

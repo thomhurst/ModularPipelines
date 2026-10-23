@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: End of support notice: On October 31, 2025, AWS will discontinue support for Amazon Rekognition People Pathing. After October 31, 2025, you will no longer be able to use the Rekognition People Pathing capability. For more information, visit this blog post . Gets the path tracking results of a Amazon Rekognition Video analysis started by StartPersonTracking . The person path tracking operation is started by a call to StartPerson- Tracking which returns a job identifier (JobId ). When the op...
+/// NOTE: End of support notice: On October 31, 2025, AWS will discontinue support for Amazon Rekognition People Pathing. After October 31, 2025, you will no longer be able to use the Rekognition People Pathing capability. For more information, visit this blog post . Gets the path tracking results of a Amazon Rekognition Video analysis started by StartPersonTracking . The person path tracking operation is started by a call to StartPersonTracking which returns a job identifier (JobId ). When the oper...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +28,9 @@ public record AwsRekognitionGetPersonTrackingOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: End of support notice: On October 31, 2025, AWS will discontinue support for Amazon Rekognition People Pathing. After October 31, 2025, you will no longer be able to use the Rekognition People Pathing capability. For more information, visit this blog post . Gets the path tracking results of a Amazon Rekognition Video analysis started by StartPersonTracking . The person path tracking operation is started by a call to StartPerson- Tracking which returns a job identifier (JobId ). When the op...
+    /// NOTE: End of support notice: On October 31, 2025, AWS will discontinue support for Amazon Rekognition People Pathing. After October 31, 2025, you will no longer be able to use the Rekognition People Pathing capability. For more information, visit this blog post . Gets the path tracking results of a Amazon Rekognition Video analysis started by StartPersonTracking . The person path tracking operation is started by a call to StartPersonTracking which returns a job identifier (JobId ). When the oper...
     /// </summary>
-    /// <param name="JobId">The identifier for a job that tracks persons in a video. You get the JobId from a call to StartPersonTracking . Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-_]+$</param>
+    /// <param name="JobId">The identifier for a job that tracks persons in a video. You get the JobId from a call to StartPersonTracking . Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9-_]+$</param>
     public AwsRekognitionGetPersonTrackingOptions(
         string JobId
     )
@@ -58,26 +59,26 @@ public record AwsRekognitionGetPersonTrackingOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier for a job that tracks persons in a video. You get the JobId from a call to StartPersonTracking . Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-_]+$
+    /// The identifier for a job that tracks persons in a video. You get the JobId from a call to StartPersonTracking . Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9-_]+$
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }
 
     /// <summary>
-    /// Maximum number of results to return per paginated call. The largest value you can specify is 1000. If you specify a value greater than 1000, a maximum of 1000 results is returned. The default value is 1000. Constraints: o min: 1
+    /// Maximum number of results to return per paginated call. The largest value you can specify is 1000. If you specify a value greater than 1000, a maximum of 1000 results is returned. The default value is 1000. Constraints: • min: 1
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// If the previous response was incomplete (because there are more per- sons to retrieve), Amazon Rekognition Video returns a pagination to- ken in the response. You can use this pagination token to retrieve the next set of persons. Constraints: o max: 255
+    /// If the previous response was incomplete (because there are more persons to retrieve), Amazon Rekognition Video returns a pagination token in the response. You can use this pagination token to retrieve the next set of persons. Constraints: • max: 255
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// Sort to use for elements in the Persons array. Use TIMESTAMP to sort array elements by the time persons are detected. Use INDEX to sort by the tracked persons. If you sort by INDEX , the array elements for each person are sorted by detection confidence. The default sort is by TIMESTAMP . Possible values: o INDEX o TIMESTAMP
+    /// Sort to use for elements in the Persons array. Use TIMESTAMP to sort array elements by the time persons are detected. Use INDEX to sort by the tracked persons. If you sort by INDEX , the array elements for each person are sorted by detection confidence. The default sort is by TIMESTAMP . Possible values: • INDEX • TIMESTAMP
     /// </summary>
     [CliOption("--sort-by")]
     public AwsRekognitionGetPersonTrackingSortBy? SortBy { get; set; }
@@ -103,6 +104,15 @@ public record AwsRekognitionGetPersonTrackingOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

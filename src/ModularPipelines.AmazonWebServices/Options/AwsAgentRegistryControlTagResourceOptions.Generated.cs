@@ -10,13 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Adds or overwrites one or more tags for the specified Amazon Web Ser- vices Agent Registry resource. Tags are key-value pairs that you can use to categorize and manage Amazon Web Services resources. If a tag with the same key already exists on the resource, the service replaces its value with the value you specify. See also: AWS API Documentation
+/// Adds or overwrites one or more tags for the specified Amazon Web Services Agent Registry resource. Tags are key-value pairs that you can use to categorize and manage Amazon Web Services resources. If a tag with the same key already exists on the resource, the service replaces its value with the value you specify. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +26,10 @@ public record AwsAgentRegistryControlTagResourceOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Adds or overwrites one or more tags for the specified Amazon Web Ser- vices Agent Registry resource. Tags are key-value pairs that you can use to categorize and manage Amazon Web Services resources. If a tag with the same key already exists on the resource, the service replaces its value with the value you specify. See also: AWS API Documentation
+    /// Adds or overwrites one or more tags for the specified Amazon Web Services Agent Registry resource. Tags are key-value pairs that you can use to categorize and manage Amazon Web Services resources. If a tag with the same key already exists on the resource, the service replaces its value with the value you specify. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource to tag. Supported re- sources include registries and registry records. Constraints: o min: 1 o max: 1011</param>
-    /// <param name="Tags">The tags to apply to the resource, as a map of tag keys to tag val- ues. Tag keys must be unique within the request. Constraints: o min: 1 o max: 50 key -&gt; (string) Key of a tag. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\s._:/=+@-]* value -&gt; (string) Value of a tag. Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9\s._:/=+@-]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource to tag. Supported resources include registries and registry records. Constraints: • min: 1 • max: 1011</param>
+    /// <param name="Tags">The tags to apply to the resource, as a map of tag keys to tag values. Tag keys must be unique within the request. Constraints: • min: 1 • max: 50 key -&gt; (string) Key of a tag. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9\s._:/=+@-]* value -&gt; (string) Value of a tag. Constraints: • min: 0 • max: 256 • pattern: [a-zA-Z0-9\s._:/=+@-]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
     public AwsAgentRegistryControlTagResourceOptions(
         string ResourceArn,
         IReadOnlyList<KeyValue> Tags
@@ -72,13 +72,13 @@ public record AwsAgentRegistryControlTagResourceOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource to tag. Supported re- sources include registries and registry records. Constraints: o min: 1 o max: 1011
+    /// The Amazon Resource Name (ARN) of the resource to tag. Supported resources include registries and registry records. Constraints: • min: 1 • max: 1011
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The tags to apply to the resource, as a map of tag keys to tag val- ues. Tag keys must be unique within the request. Constraints: o min: 1 o max: 50 key -&gt; (string) Key of a tag. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\s._:/=+@-]* value -&gt; (string) Value of a tag. Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9\s._:/=+@-]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags to apply to the resource, as a map of tag keys to tag values. Tag keys must be unique within the request. Constraints: • min: 1 • max: 50 key -&gt; (string) Key of a tag. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9\s._:/=+@-]* value -&gt; (string) Value of a tag. Constraints: • min: 0 • max: 256 • pattern: [a-zA-Z0-9\s._:/=+@-]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; private init; }
@@ -104,6 +104,15 @@ public record AwsAgentRegistryControlTagResourceOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

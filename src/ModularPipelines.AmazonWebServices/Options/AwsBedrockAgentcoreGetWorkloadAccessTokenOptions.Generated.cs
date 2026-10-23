@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Obtains a workload access token for agentic workloads not acting on be- half of a user. See also: AWS API Documentation
+/// Obtains a workload access token for agentic workloads not acting on behalf of a user. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsBedrockAgentcoreGetWorkloadAccessTokenOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Obtains a workload access token for agentic workloads not acting on be- half of a user. See also: AWS API Documentation
+    /// Obtains a workload access token for agentic workloads not acting on behalf of a user. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkloadName">The unique identifier for the registered workload. Constraints: o min: 3 o max: 255 o pattern: [A-Za-z0-9_.-]+</param>
+    /// <param name="WorkloadName">The unique identifier for the registered workload. Constraints: • min: 3 • max: 255 • pattern: [A-Za-z0-9_.-]+</param>
     public AwsBedrockAgentcoreGetWorkloadAccessTokenOptions(
         string WorkloadName
     )
@@ -56,7 +57,7 @@ public record AwsBedrockAgentcoreGetWorkloadAccessTokenOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the registered workload. Constraints: o min: 3 o max: 255 o pattern: [A-Za-z0-9_.-]+
+    /// The unique identifier for the registered workload. Constraints: • min: 3 • max: 255 • pattern: [A-Za-z0-9_.-]+
     /// </summary>
     [CliOption("--workload-name")]
     public string? WorkloadName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsBedrockAgentcoreGetWorkloadAccessTokenOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

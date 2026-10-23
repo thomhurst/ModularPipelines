@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Predicts existing visuals or generates new visuals to answer a given query. This API uses trusted identity propagation to ensure that an end user is authenticated and receives the embed URL that is specific to that user. The IAM Identity Center application that the user has logged into needs to have trusted Identity Propagation enabled for Quick with the scope value set to quicksight:read . Before you use this action, make sure that you have configured the relevant Quick resource and permis- sio...
+/// Predicts existing visuals or generates new visuals to answer a given query. This API uses trusted identity propagation to ensure that an end user is authenticated and receives the embed URL that is specific to that user. The IAM Identity Center application that the user has logged into needs to have trusted Identity Propagation enabled for Quick with the scope value set to quicksight:read . Before you use this action, make sure that you have configured the relevant Quick resource and permissions...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsQuicksightPredictQaResultsOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Predicts existing visuals or generates new visuals to answer a given query. This API uses trusted identity propagation to ensure that an end user is authenticated and receives the embed URL that is specific to that user. The IAM Identity Center application that the user has logged into needs to have trusted Identity Propagation enabled for Quick with the scope value set to quicksight:read . Before you use this action, make sure that you have configured the relevant Quick resource and permis- sio...
+    /// Predicts existing visuals or generates new visuals to answer a given query. This API uses trusted identity propagation to ensure that an end user is authenticated and receives the embed URL that is specific to that user. The IAM Identity Center application that the user has logged into needs to have trusted Identity Propagation enabled for Quick with the scope value set to quicksight:read . Before you use this action, make sure that you have configured the relevant Quick resource and permissions...
     /// </summary>
-    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that the user wants to ex- ecute Predict QA results in. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="QueryText">The query text to be used to predict QA results. Constraints: o min: 1 o max: 1024</param>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that the user wants to execute Predict QA results in. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="QueryText">The query text to be used to predict QA results. Constraints: • min: 1 • max: 1024</param>
     public AwsQuicksightPredictQaResultsOptions(
         string AwsAccountId,
         string QueryText
@@ -61,31 +62,31 @@ public record AwsQuicksightPredictQaResultsOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon Web Services account that the user wants to ex- ecute Predict QA results in. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID of the Amazon Web Services account that the user wants to execute Predict QA results in. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The query text to be used to predict QA results. Constraints: o min: 1 o max: 1024
+    /// The query text to be used to predict QA results. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--query-text")]
     public string? QueryText { get; private init; }
 
     /// <summary>
-    /// Indicates whether Q indicies are included or excluded. Possible values: o INCLUDE o EXCLUDE
+    /// Indicates whether Q indicies are included or excluded. Possible values: • INCLUDE • EXCLUDE
     /// </summary>
     [CliOption("--include-quick-sight-q-index")]
     public AwsQuicksightPredictQaResultsIncludeQuickSightQIndex? IncludeQuickSightQIndex { get; set; }
 
     /// <summary>
-    /// Indicates whether generated answers are included or excluded. Possible values: o INCLUDE o EXCLUDE
+    /// Indicates whether generated answers are included or excluded. Possible values: • INCLUDE • EXCLUDE
     /// </summary>
     [CliOption("--include-generated-answer")]
     public AwsQuicksightPredictQaResultsIncludeGeneratedAnswer? IncludeGeneratedAnswer { get; set; }
 
     /// <summary>
-    /// The number of maximum topics to be considered to predict QA results. Constraints: o min: 1 o max: 4
+    /// The number of maximum topics to be considered to predict QA results. Constraints: • min: 1 • max: 4
     /// </summary>
     [CliOption("--max-topics-to-consider")]
     public int? MaxTopicsToConsider { get; set; }
@@ -111,6 +112,15 @@ public record AwsQuicksightPredictQaResultsOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

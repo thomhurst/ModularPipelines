@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes an existing opted out destination phone number from the speci- fied opt-out list. Each destination phone number can only be deleted once every 30 days. If the specified destination phone number doesn't exist or if the opt-out list doesn't exist, an error is returned. See also: AWS API Documentation
+/// Deletes an existing opted out destination phone number from the specified opt-out list. Each destination phone number can only be deleted once every 30 days. If the specified destination phone number doesn't exist or if the opt-out list doesn't exist, an error is returned. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsPinpointSmsVoiceV2DeleteOptedOutNumberOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes an existing opted out destination phone number from the speci- fied opt-out list. Each destination phone number can only be deleted once every 30 days. If the specified destination phone number doesn't exist or if the opt-out list doesn't exist, an error is returned. See also: AWS API Documentation
+    /// Deletes an existing opted out destination phone number from the specified opt-out list. Each destination phone number can only be deleted once every 30 days. If the specified destination phone number doesn't exist or if the opt-out list doesn't exist, an error is returned. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OptOutListName">The OptOutListName or OptOutListArn to remove the phone number from. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+</param>
-    /// <param name="OptedOutNumber">The phone number, in E.164 format, to remove from the OptOutList. Constraints: o min: 1 o max: 20 o pattern: \+?[1-9][0-9]{1,18}</param>
+    /// <param name="OptOutListName">The OptOutListName or OptOutListArn to remove the phone number from. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+</param>
+    /// <param name="OptedOutNumber">The phone number, in E.164 format, to remove from the OptOutList. Constraints: • min: 1 • max: 20 • pattern: \+?[1-9][0-9]{1,18}</param>
     public AwsPinpointSmsVoiceV2DeleteOptedOutNumberOptions(
         string OptOutListName,
         string OptedOutNumber
@@ -60,13 +61,13 @@ public record AwsPinpointSmsVoiceV2DeleteOptedOutNumberOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The OptOutListName or OptOutListArn to remove the phone number from. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// The OptOutListName or OptOutListArn to remove the phone number from. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+
     /// </summary>
     [CliOption("--opt-out-list-name")]
     public string? OptOutListName { get; private init; }
 
     /// <summary>
-    /// The phone number, in E.164 format, to remove from the OptOutList. Constraints: o min: 1 o max: 20 o pattern: \+?[1-9][0-9]{1,18}
+    /// The phone number, in E.164 format, to remove from the OptOutList. Constraints: • min: 1 • max: 20 • pattern: \+?[1-9][0-9]{1,18}
     /// </summary>
     [CliOption("--opted-out-number")]
     public string? OptedOutNumber { get; private init; }
@@ -92,6 +93,15 @@ public record AwsPinpointSmsVoiceV2DeleteOptedOutNumberOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

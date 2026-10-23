@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +28,8 @@ public record AwsServicecatalogAppregistryTagResourceOptions : AwsOptions, IVali
     /// <summary>
     /// Assigns one or more tags (key-value pairs) to the specified resource. Each tag consists of a key and an optional value. If a tag with the same key is already associated with the resource, this action updates its value. This operation returns an empty response if the call was successful. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon resource name (ARN) that specifies the resource. Constraints: o min: 1 o max: 1600 o pattern: arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\-])+:([a-z]{2}(-gov)?-[a-z]+-\d{1})?:(\d{12})?:(.*)</param>
-    /// <param name="Tags">The new or modified tags for the resource. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:\/=+\-@]*)$ value -&gt; (string) Constraints: o max: 256 o pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    /// <param name="ResourceArn">The Amazon resource name (ARN) that specifies the resource. Constraints: • min: 1 • max: 1600 • pattern: arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\-])+:([a-z]{2}(-gov)?-[a-z]+-\d{1})?:(\d{12})?:(.*)</param>
+    /// <param name="Tags">The new or modified tags for the resource. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:\/=+\-@]*)$ value -&gt; (string) Constraints: • max: 256 • pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
     public AwsServicecatalogAppregistryTagResourceOptions(
         string ResourceArn,
         IReadOnlyList<KeyValue> Tags
@@ -72,13 +72,13 @@ public record AwsServicecatalogAppregistryTagResourceOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon resource name (ARN) that specifies the resource. Constraints: o min: 1 o max: 1600 o pattern: arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\-])+:([a-z]{2}(-gov)?-[a-z]+-\d{1})?:(\d{12})?:(.*)
+    /// The Amazon resource name (ARN) that specifies the resource. Constraints: • min: 1 • max: 1600 • pattern: arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\-])+:([a-z]{2}(-gov)?-[a-z]+-\d{1})?:(\d{12})?:(.*)
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The new or modified tags for the resource. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:\/=+\-@]*)$ value -&gt; (string) Constraints: o max: 256 o pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The new or modified tags for the resource. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:\/=+\-@]*)$ value -&gt; (string) Constraints: • max: 256 • pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; private init; }
@@ -104,6 +104,15 @@ public record AwsServicecatalogAppregistryTagResourceOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

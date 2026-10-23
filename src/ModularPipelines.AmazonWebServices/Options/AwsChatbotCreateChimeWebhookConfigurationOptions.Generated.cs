@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,11 +28,11 @@ public record AwsChatbotCreateChimeWebhookConfigurationOptions : AwsOptions, IVa
     /// <summary>
     /// Creates an AWS Chatbot configuration for Amazon Chime. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WebhookDescription">A description of the webhook. We recommend using the convention RoomName/WebhookName . For more information, see Tutorial: Get started with Amazon Chime in the AWS Chatbot Administrator Guide . Constraints: o min: 1 o max: 255</param>
-    /// <param name="WebhookUrl">The URL for the Amazon Chime webhook. Constraints: o min: 1 o max: 255 o pattern: https://hooks\.chime\.aws/incomingweb- hooks/[A-Za-z0-9\-]+?\?token=[A-Za-z0-9\-]+</param>
-    /// <param name="SnsTopicArns">The Amazon Resource Names (ARNs) of the SNS topics that deliver no- tifications to AWS Chatbot. (string) Constraints: o min: 12 o max: 1224 o pattern: arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023} Syntax: "string" "string" ...</param>
-    /// <param name="IamRoleArn">A user-defined role that AWS Chatbot assumes. This is not the ser- vice-linked role. For more information, see IAM policies for AWS Chatbot in the AWS Chatbot Administrator Guide . Constraints: o min: 12 o max: 1224 o pattern: arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}</param>
-    /// <param name="ConfigurationName">The name of the configuration. Constraints: o min: 1 o max: 128 o pattern: [A-Za-z0-9-_]+</param>
+    /// <param name="WebhookDescription">A description of the webhook. We recommend using the convention RoomName/WebhookName . For more information, see Tutorial: Get started with Amazon Chime in the AWS Chatbot Administrator Guide . Constraints: • min: 1 • max: 255</param>
+    /// <param name="WebhookUrl">The URL for the Amazon Chime webhook. Constraints: • min: 1 • max: 255 • pattern: https://hooks\.chime\.aws/incomingwebhooks/[A-Za-z0-9\-]+?\?token=[A-Za-z0-9\-]+</param>
+    /// <param name="SnsTopicArns">The Amazon Resource Names (ARNs) of the SNS topics that deliver notifications to AWS Chatbot. (string) Constraints: • min: 12 • max: 1224 • pattern: arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023} Syntax: "string" "string" ...</param>
+    /// <param name="IamRoleArn">A user-defined role that AWS Chatbot assumes. This is not the service-linked role. For more information, see IAM policies for AWS Chatbot in the AWS Chatbot Administrator Guide . Constraints: • min: 12 • max: 1224 • pattern: arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}</param>
+    /// <param name="ConfigurationName">The name of the configuration. Constraints: • min: 1 • max: 128 • pattern: [A-Za-z0-9-_]+</param>
     public AwsChatbotCreateChimeWebhookConfigurationOptions(
         string WebhookDescription,
         string WebhookUrl,
@@ -83,43 +84,43 @@ public record AwsChatbotCreateChimeWebhookConfigurationOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A description of the webhook. We recommend using the convention RoomName/WebhookName . For more information, see Tutorial: Get started with Amazon Chime in the AWS Chatbot Administrator Guide . Constraints: o min: 1 o max: 255
+    /// A description of the webhook. We recommend using the convention RoomName/WebhookName . For more information, see Tutorial: Get started with Amazon Chime in the AWS Chatbot Administrator Guide . Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--webhook-description")]
     public string? WebhookDescription { get; private init; }
 
     /// <summary>
-    /// The URL for the Amazon Chime webhook. Constraints: o min: 1 o max: 255 o pattern: https://hooks\.chime\.aws/incomingweb- hooks/[A-Za-z0-9\-]+?\?token=[A-Za-z0-9\-]+
+    /// The URL for the Amazon Chime webhook. Constraints: • min: 1 • max: 255 • pattern: https://hooks\.chime\.aws/incomingwebhooks/[A-Za-z0-9\-]+?\?token=[A-Za-z0-9\-]+
     /// </summary>
     [CliOption("--webhook-url")]
     public string? WebhookUrl { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Names (ARNs) of the SNS topics that deliver no- tifications to AWS Chatbot. (string) Constraints: o min: 12 o max: 1224 o pattern: arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023} Syntax: "string" "string" ...
+    /// The Amazon Resource Names (ARNs) of the SNS topics that deliver notifications to AWS Chatbot. (string) Constraints: • min: 12 • max: 1224 • pattern: arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--sns-topic-arns", GroupValues = true)]
     public IEnumerable<string>? SnsTopicArns { get; private init; }
 
     /// <summary>
-    /// A user-defined role that AWS Chatbot assumes. This is not the ser- vice-linked role. For more information, see IAM policies for AWS Chatbot in the AWS Chatbot Administrator Guide . Constraints: o min: 12 o max: 1224 o pattern: arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}
+    /// A user-defined role that AWS Chatbot assumes. This is not the service-linked role. For more information, see IAM policies for AWS Chatbot in the AWS Chatbot Administrator Guide . Constraints: • min: 12 • max: 1224 • pattern: arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}
     /// </summary>
     [CliOption("--iam-role-arn")]
     public string? IamRoleArn { get; private init; }
 
     /// <summary>
-    /// The name of the configuration. Constraints: o min: 1 o max: 128 o pattern: [A-Za-z0-9-_]+
+    /// The name of the configuration. Constraints: • min: 1 • max: 128 • pattern: [A-Za-z0-9-_]+
     /// </summary>
     [CliOption("--configuration-name")]
     public string? ConfigurationName { get; private init; }
 
     /// <summary>
-    /// Logging levels include ERROR , INFO , or NONE . Constraints: o min: 4 o max: 5 o pattern: (ERROR|INFO|NONE)
+    /// Logging levels include ERROR , INFO , or NONE . Constraints: • min: 4 • max: 5 • pattern: (ERROR|INFO|NONE)
     /// </summary>
     [CliOption("--logging-level")]
     public string? LoggingLevel { get; set; }
 
     /// <summary>
-    /// A map of tags assigned to a resource. A tag is a string-to-string map of key-value pairs. (structure) A key-value pair. A tag consists of a tag key and a tag value. Tag keys and tag values are both required, but tag values can be empty (null) strings. WARNING: Do not include confidential or sensitive information in this field. For more information, see User-Defined Tag Restrictions in the AWS Billing and Cost Management User Guide . TagKey -&gt; (string) [required] The key of the tag. Constraints: o min: 1 o max: 128 TagValue -&gt; (string) [required] The value of the tag. Constraints: o min: 0 o max: 256 Shorthand Syntax: TagKey=string,TagValue=string ... JSON Syntax: [ { "TagKey": "string", "TagValue": "string" } ... ]
+    /// A map of tags assigned to a resource. A tag is a string-to-string map of key-value pairs. (structure) A key-value pair. A tag consists of a tag key and a tag value. Tag keys and tag values are both required, but tag values can be empty (null) strings. WARNING: Do not include confidential or sensitive information in this field. For more information, see User-Defined Tag Restrictions in the AWS Billing and Cost Management User Guide . TagKey -&gt; (string) [required] The key of the tag. Constraints: • min: 1 • max: 128 TagValue -&gt; (string) [required] The value of the tag. Constraints: • min: 0 • max: 256 Shorthand Syntax: TagKey=string,TagValue=string ... JSON Syntax: [ { "TagKey": "string", "TagValue": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -145,6 +146,15 @@ public record AwsChatbotCreateChimeWebhookConfigurationOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

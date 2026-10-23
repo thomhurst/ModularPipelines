@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsChimeBatchDeletePhoneNumberOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Moves phone numbers into the Deletion queue . Phone numbers must be disassociated from any users or Amazon Chime Voice Connectors before they can be deleted. Phone numbers remain in the Deletion queue for 7 days before they are deleted permanently. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PhoneNumberIds">List of phone number IDs. Constraints: o min: 1 (string) Syntax: "string" "string" ...</param>
+    /// <param name="PhoneNumberIds">List of phone number IDs. Constraints: • min: 1 (string) Syntax: "string" "string" ...</param>
     public AwsChimeBatchDeletePhoneNumberOptions(
         IEnumerable<string> PhoneNumberIds
     )
@@ -67,7 +68,7 @@ public record AwsChimeBatchDeletePhoneNumberOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// List of phone number IDs. Constraints: o min: 1 (string) Syntax: "string" "string" ...
+    /// List of phone number IDs. Constraints: • min: 1 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--phone-number-ids", GroupValues = true)]
     public IEnumerable<string>? PhoneNumberIds { get; private init; }
@@ -93,6 +94,15 @@ public record AwsChimeBatchDeletePhoneNumberOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

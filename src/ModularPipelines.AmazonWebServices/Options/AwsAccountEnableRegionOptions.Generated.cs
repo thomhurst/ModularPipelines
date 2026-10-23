@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsAccountEnableRegionOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Enables (opts-in) a particular Region for an account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RegionName">Specifies the Region-code for a given Region name (for example, af-south-1 ). When you enable a Region, Amazon Web Services performs actions to prepare your account in that Region, such as distributing your IAM resources to the Region. This process takes a few minutes for most accounts, but it can take several hours. You cannot use the Region until this process is complete. Furthermore, you cannot dis- able the Region until the enabling process is fully completed. Constraints: o min: 1 o max: 50</param>
+    /// <param name="RegionName">Specifies the Region-code for a given Region name (for example, af-south-1 ). When you enable a Region, Amazon Web Services performs actions to prepare your account in that Region, such as distributing your IAM resources to the Region. This process takes a few minutes for most accounts, but it can take several hours. You cannot use the Region until this process is complete. Furthermore, you cannot disable the Region until the enabling process is fully completed. Constraints: • min: 1 • max: 50</param>
     public AwsAccountEnableRegionOptions(
         string RegionName
     )
@@ -56,13 +57,13 @@ public record AwsAccountEnableRegionOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the Region-code for a given Region name (for example, af-south-1 ). When you enable a Region, Amazon Web Services performs actions to prepare your account in that Region, such as distributing your IAM resources to the Region. This process takes a few minutes for most accounts, but it can take several hours. You cannot use the Region until this process is complete. Furthermore, you cannot dis- able the Region until the enabling process is fully completed. Constraints: o min: 1 o max: 50
+    /// Specifies the Region-code for a given Region name (for example, af-south-1 ). When you enable a Region, Amazon Web Services performs actions to prepare your account in that Region, such as distributing your IAM resources to the Region. This process takes a few minutes for most accounts, but it can take several hours. You cannot use the Region until this process is complete. Furthermore, you cannot disable the Region until the enabling process is fully completed. Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--region-name")]
     public string? RegionName { get; private init; }
 
     /// <summary>
-    /// Specifies the 12-digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you don't specify this parameter, it defaults to the Amazon Web Ser- vices account of the identity used to call the operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator account. The speci- fied account ID must be a member account in the same organization. The organization must have all features enabled , and the organiza- tion must have trusted access enabled for the Account Management service, and optionally a delegated admin account assigned. NOTE: The management account can't specify its own AccountId . It must call the operation in standalone context by not including the AccountId parameter. To call this operation on an account that is not a member of an or- ganization, don't specify this parameter. Instead, call the opera- tion using an identity belonging to the account whose contacts you wish to retrieve or modify. Constraints: o pattern: \d{12}
+    /// Specifies the 12-digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you don't specify this parameter, it defaults to the Amazon Web Services account of the identity used to call the operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator account. The specified account ID must be a member account in the same organization. The organization must have all features enabled , and the organization must have trusted access enabled for the Account Management service, and optionally a delegated admin account assigned. NOTE: The management account can't specify its own AccountId . It must call the operation in standalone context by not including the AccountId parameter. To call this operation on an account that is not a member of an organization, don't specify this parameter. Instead, call the operation using an identity belonging to the account whose contacts you wish to retrieve or modify. Constraints: • pattern: \d{12}
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; set; }
@@ -88,6 +89,15 @@ public record AwsAccountEnableRegionOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

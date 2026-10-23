@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsQuicksightDeleteTemplateOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Deletes a template. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the template that you're deleting. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="TemplateId">An ID for the template you want to delete. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+</param>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the template that you're deleting. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="TemplateId">An ID for the template you want to delete. Constraints: • min: 1 • max: 512 • pattern: [\w\-]+</param>
     public AwsQuicksightDeleteTemplateOptions(
         string AwsAccountId,
         string TemplateId
@@ -60,22 +61,22 @@ public record AwsQuicksightDeleteTemplateOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon Web Services account that contains the template that you're deleting. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID of the Amazon Web Services account that contains the template that you're deleting. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// An ID for the template you want to delete. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+
+    /// An ID for the template you want to delete. Constraints: • min: 1 • max: 512 • pattern: [\w\-]+
     /// </summary>
     [CliOption("--template-id")]
     public string? TemplateId { get; private init; }
 
     /// <summary>
-    /// Specifies the version of the template that you want to delete. If you don't provide a version number, DeleteTemplate deletes all ver- sions of the template. Constraints: o min: 1
+    /// Specifies the version of the template that you want to delete. If you don't provide a version number, DeleteTemplate deletes all versions of the template. Constraints: • min: 1
     /// </summary>
     [CliOption("--version-number")]
-    public int? VersionNumber { get; set; }
+    public long? VersionNumber { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -98,6 +99,15 @@ public record AwsQuicksightDeleteTemplateOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

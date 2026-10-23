@@ -24,28 +24,25 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsMacie2GetUsageStatisticsOptions : AwsOptions
 {
     /// <summary>
-    /// An array of objects, one for each condition to use to filter the query results. If you specify more than one condition, Amazon Macie uses an AND operator to join the conditions. (structure) Specifies a condition for filtering the results of a query for quota and usage data for one or more Amazon Macie accounts. comparator -&gt; (string) The operator to use in the condition. If the value for the key property is accountId, this value must be CONTAINS. If the value for the key property is any other supported field, this value can be EQ, GT, GTE, LT, LTE, or NE. Possible values: o GT o GTE o LT o LTE o EQ o NE o CONTAINS key -&gt; (string) The field to use in the condition. Possible values: o accountId o serviceLimit o freeTrialStartDate o total values -&gt; (list) An array that lists values to use in the condition, based on the value for the field specified by the key property. If the value for the key property is accountId, this array can spec- ify multiple values. Otherwise, this array can specify only one value. Valid values for each supported field are: o accountId - The unique identifier for an Amazon Web Ser- vices account. o freeTrialStartDate - The date and time, in UTC and extended ISO 8601 format, when the Amazon Macie free trial started for an account. o serviceLimit - A Boolean (true or false) value that indi- cates whether an account has reached its monthly quota. o total - A string that represents the current estimated cost for an account. (string) Shorthand Syntax: comparator=string,key=string,values=string,string ... JSON Syntax: [ { "comparator": "GT"|"GTE"|"LT"|"LTE"|"EQ"|"NE"|"CONTAINS", "key": "accountId"|"serviceLimit"|"freeTrialStartDate"|"total", "values": ["string", ...] } ... ]
+    /// An array of objects, one for each condition to use to filter the query results. If you specify more than one condition, Amazon Macie uses an AND operator to join the conditions. (structure) Specifies a condition for filtering the results of a query for quota and usage data for one or more Amazon Macie accounts. comparator -&gt; (string) The operator to use in the condition. If the value for the key property is accountId, this value must be CONTAINS. If the value for the key property is any other supported field, this value can be EQ, GT, GTE, LT, LTE, or NE. Possible values: • GT • GTE • LT • LTE • EQ • NE • CONTAINS key -&gt; (string) The field to use in the condition. Possible values: • accountId • serviceLimit • freeTrialStartDate • total values -&gt; (list) An array that lists values to use in the condition, based on the value for the field specified by the key property. If the value for the key property is accountId, this array can specify multiple values. Otherwise, this array can specify only one value. Valid values for each supported field are: • accountId - The unique identifier for an Amazon Web Services account. • freeTrialStartDate - The date and time, in UTC and extended ISO 8601 format, when the Amazon Macie free trial started for an account. • serviceLimit - A Boolean (true or false) value that indicates whether an account has reached its monthly quota. • total - A string that represents the current estimated cost for an account. (string) Shorthand Syntax: comparator=string,key=string,values=string,string ... JSON Syntax: [ { "comparator": "GT"|"GTE"|"LT"|"LTE"|"EQ"|"NE"|"CONTAINS", "key": "accountId"|"serviceLimit"|"freeTrialStartDate"|"total", "values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filter-by", GroupValues = true)]
     public IEnumerable<string>? FilterBy { get; set; }
 
     /// <summary>
-    /// The criteria to use to sort the query results. key -&gt; (string) The field to sort the results by. Possible values: o accountId o total o serviceLimitValue o freeTrialStartDate orderBy -&gt; (string) The sort order to apply to the results, based on the value for the field specified by the key property. Valid values are: ASC, sort the results in ascending order; and, DESC, sort the results in descending order. Possible values: o ASC o DESC Shorthand Syntax: key=string,orderBy=string JSON Syntax: { "key": "accountId"|"total"|"serviceLimitValue"|"freeTrialStartDate", "orderBy": "ASC"|"DESC" }
+    /// The criteria to use to sort the query results. key -&gt; (string) The field to sort the results by. Possible values: • accountId • total • serviceLimitValue • freeTrialStartDate orderBy -&gt; (string) The sort order to apply to the results, based on the value for the field specified by the key property. Valid values are: ASC, sort the results in ascending order; and, DESC, sort the results in descending order. Possible values: • ASC • DESC Shorthand Syntax: key=string,orderBy=string JSON Syntax: { "key": "accountId"|"total"|"serviceLimitValue"|"freeTrialStartDate", "orderBy": "ASC"|"DESC" }
     /// </summary>
     [CliOption("--sort-by")]
     public string? SortBy { get; set; }
 
     /// <summary>
-    /// The inclusive time period to query usage data for. Valid values are: MONTH_TO_DATE, for the current calendar month to date; and, PAST_30_DAYS, for the preceding 30 days. If you don't specify a value, Amazon Macie provides usage data for the preceding 30 days. Possible values: o MONTH_TO_DATE o PAST_30_DAYS
+    /// The inclusive time period to query usage data for. Valid values are: MONTH_TO_DATE, for the current calendar month to date; and, PAST_30_DAYS, for the preceding 30 days. If you don't specify a value, Amazon Macie provides usage data for the preceding 30 days. Possible values: • MONTH_TO_DATE • PAST_30_DAYS
     /// </summary>
     [CliOption("--time-range")]
     public AwsMacie2GetUsageStatisticsTimeRange? TimeRange { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -55,15 +52,27 @@ public record AwsMacie2GetUsageStatisticsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

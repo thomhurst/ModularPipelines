@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Devel- oper Guide. There is no change to IoT Device Defender audit avail- ability. Removes the specified dimension from your Amazon Web Services accounts. Requi...
+/// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability. Removes the specified dimension from your Amazon Web Services accounts. Requires ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsIotDeleteDimensionOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Devel- oper Guide. There is no change to IoT Device Defender audit avail- ability. Removes the specified dimension from your Amazon Web Services accounts. Requi...
+    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability. Removes the specified dimension from your Amazon Web Services accounts. Requires ...
     /// </summary>
-    /// <param name="Name">The unique identifier for the dimension that you want to delete. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+</param>
+    /// <param name="Name">The unique identifier for the dimension that you want to delete. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+</param>
     public AwsIotDeleteDimensionOptions(
         string Name
     )
@@ -56,7 +57,7 @@ public record AwsIotDeleteDimensionOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the dimension that you want to delete. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+
+    /// The unique identifier for the dimension that you want to delete. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
@@ -82,6 +83,15 @@ public record AwsIotDeleteDimensionOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

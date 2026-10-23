@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the storage configuration for an existing Kinesis video stream. This operation allows you to modify the storage tier settings for a stream, enabling you to optimize storage costs and performance based on your access patterns. UpdateStreamStorageConfiguration is an asynchronous operation. You must have permissions for the KinesisVideo:UpdateStreamStorageCon- figuration action. See also: AWS API Documentation
+/// Updates the storage configuration for an existing Kinesis video stream. This operation allows you to modify the storage tier settings for a stream, enabling you to optimize storage costs and performance based on your access patterns. UpdateStreamStorageConfiguration is an asynchronous operation. You must have permissions for the KinesisVideo:UpdateStreamStorageConfiguration action. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsKinesisvideoUpdateStreamStorageConfigurationOptions : AwsOption
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the storage configuration for an existing Kinesis video stream. This operation allows you to modify the storage tier settings for a stream, enabling you to optimize storage costs and performance based on your access patterns. UpdateStreamStorageConfiguration is an asynchronous operation. You must have permissions for the KinesisVideo:UpdateStreamStorageCon- figuration action. See also: AWS API Documentation
+    /// Updates the storage configuration for an existing Kinesis video stream. This operation allows you to modify the storage tier settings for a stream, enabling you to optimize storage costs and performance based on your access patterns. UpdateStreamStorageConfiguration is an asynchronous operation. You must have permissions for the KinesisVideo:UpdateStreamStorageConfiguration action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CurrentVersion">The version of the stream whose storage configuration you want to change. To get the version, call either the DescribeStream or the ListStreams API. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9]+</param>
-    /// <param name="StreamStorageConfiguration">The new storage configuration for the stream. This includes the de- fault storage tier that determines how stream data is stored and ac- cessed. Different storage tiers offer varying levels of performance and cost optimization to match your specific use case requirements. DefaultStorageTier -&gt; (string) [required] The default storage tier for the stream data. This setting de- termines the storage class used for stream data, affecting both performance characteristics and storage costs. Available storage tiers: o HOT - Optimized for frequent access with the lowest latency and highest performance. Ideal for real-time applications and frequently accessed data. o WARM - Balanced performance and cost for moderately accessed data. Suitable for data that is accessed regularly but not continuously. Possible values: o HOT o WARM Shorthand Syntax: DefaultStorageTier=string JSON Syntax: { "DefaultStorageTier": "HOT"|"WARM" }</param>
+    /// <param name="CurrentVersion">The version of the stream whose storage configuration you want to change. To get the version, call either the DescribeStream or the ListStreams API. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9]+</param>
+    /// <param name="StreamStorageConfiguration">The new storage configuration for the stream. This includes the default storage tier that determines how stream data is stored and accessed. Different storage tiers offer varying levels of performance and cost optimization to match your specific use case requirements. DefaultStorageTier -&gt; (string) [required] The default storage tier for the stream data. This setting determines the storage class used for stream data, affecting both performance characteristics and storage costs. Available storage tiers: • HOT - Optimized for frequent access with the lowest latency and highest performance. Ideal for real-time applications and frequently accessed data. • WARM - Balanced performance and cost for moderately accessed data. Suitable for data that is accessed regularly but not continuously. Possible values: • HOT • WARM Shorthand Syntax: DefaultStorageTier=string JSON Syntax: { "DefaultStorageTier": "HOT"|"WARM" }</param>
     public AwsKinesisvideoUpdateStreamStorageConfigurationOptions(
         string CurrentVersion,
         string StreamStorageConfiguration
@@ -60,25 +61,25 @@ public record AwsKinesisvideoUpdateStreamStorageConfigurationOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The version of the stream whose storage configuration you want to change. To get the version, call either the DescribeStream or the ListStreams API. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9]+
+    /// The version of the stream whose storage configuration you want to change. To get the version, call either the DescribeStream or the ListStreams API. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9]+
     /// </summary>
     [CliOption("--current-version")]
     public string? CurrentVersion { get; private init; }
 
     /// <summary>
-    /// The new storage configuration for the stream. This includes the de- fault storage tier that determines how stream data is stored and ac- cessed. Different storage tiers offer varying levels of performance and cost optimization to match your specific use case requirements. DefaultStorageTier -&gt; (string) [required] The default storage tier for the stream data. This setting de- termines the storage class used for stream data, affecting both performance characteristics and storage costs. Available storage tiers: o HOT - Optimized for frequent access with the lowest latency and highest performance. Ideal for real-time applications and frequently accessed data. o WARM - Balanced performance and cost for moderately accessed data. Suitable for data that is accessed regularly but not continuously. Possible values: o HOT o WARM Shorthand Syntax: DefaultStorageTier=string JSON Syntax: { "DefaultStorageTier": "HOT"|"WARM" }
+    /// The new storage configuration for the stream. This includes the default storage tier that determines how stream data is stored and accessed. Different storage tiers offer varying levels of performance and cost optimization to match your specific use case requirements. DefaultStorageTier -&gt; (string) [required] The default storage tier for the stream data. This setting determines the storage class used for stream data, affecting both performance characteristics and storage costs. Available storage tiers: • HOT - Optimized for frequent access with the lowest latency and highest performance. Ideal for real-time applications and frequently accessed data. • WARM - Balanced performance and cost for moderately accessed data. Suitable for data that is accessed regularly but not continuously. Possible values: • HOT • WARM Shorthand Syntax: DefaultStorageTier=string JSON Syntax: { "DefaultStorageTier": "HOT"|"WARM" }
     /// </summary>
     [CliOption("--stream-storage-configuration")]
     public string? StreamStorageConfiguration { get; private init; }
 
     /// <summary>
-    /// The name of the stream for which you want to update the storage con- figuration. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_.-]+
+    /// The name of the stream for which you want to update the storage configuration. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--stream-name")]
     public string? StreamName { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the stream for which you want to update the storage configuration. Constraints: o min: 1 o max: 1024 o pattern: arn:[a-z\d-]+:kine- sisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+
+    /// The Amazon Resource Name (ARN) of the stream for which you want to update the storage configuration. Constraints: • min: 1 • max: 1024 • pattern: arn:[a-z\d-]+:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+
     /// </summary>
     [CliOption("--stream-arn")]
     public string? StreamArn { get; set; }
@@ -104,6 +105,15 @@ public record AwsKinesisvideoUpdateStreamStorageConfigurationOptions : AwsOption
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

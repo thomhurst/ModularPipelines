@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Suspends up to 50 users from a Team or EnterpriseLWA Amazon Chime ac- count. For more information about different account types, see Managing Your Amazon Chime Accounts in the Amazon Chime Administration Guide . Users suspended from a Team account are disassociated from the ac- count,but they can continue to use Amazon Chime as free users. To re- move the suspension from suspended Team account users, invite them to the Team account again. You can use the InviteUsers action to do so. Users suspen...
+/// Suspends up to 50 users from a Team or EnterpriseLWA Amazon Chime account. For more information about different account types, see Managing Your Amazon Chime Accounts in the Amazon Chime Administration Guide . Users suspended from a Team account are disassociated from the account,but they can continue to use Amazon Chime as free users. To remove the suspension from suspended Team account users, invite them to the Team account again. You can use the InviteUsers action to do so. Users suspended fr...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsChimeBatchSuspendUserOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Suspends up to 50 users from a Team or EnterpriseLWA Amazon Chime ac- count. For more information about different account types, see Managing Your Amazon Chime Accounts in the Amazon Chime Administration Guide . Users suspended from a Team account are disassociated from the ac- count,but they can continue to use Amazon Chime as free users. To re- move the suspension from suspended Team account users, invite them to the Team account again. You can use the InviteUsers action to do so. Users suspen...
+    /// Suspends up to 50 users from a Team or EnterpriseLWA Amazon Chime account. For more information about different account types, see Managing Your Amazon Chime Accounts in the Amazon Chime Administration Guide . Users suspended from a Team account are disassociated from the account,but they can continue to use Amazon Chime as free users. To remove the suspension from suspended Team account users, invite them to the Team account again. You can use the InviteUsers action to do so. Users suspended fr...
     /// </summary>
-    /// <param name="AccountId">The Amazon Chime account ID. Constraints: o pattern: .*\S.*</param>
-    /// <param name="UserIdList">The request containing the user IDs to suspend. Constraints: o max: 50 (string) Constraints: o pattern: .*\S.* Syntax: "string" "string" ...</param>
+    /// <param name="AccountId">The Amazon Chime account ID. Constraints: • pattern: .*\S.*</param>
+    /// <param name="UserIdList">The request containing the user IDs to suspend. Constraints: • max: 50 (string) Constraints: • pattern: .*\S.* Syntax: "string" "string" ...</param>
     public AwsChimeBatchSuspendUserOptions(
         string AccountId,
         IEnumerable<string> UserIdList
@@ -71,13 +72,13 @@ public record AwsChimeBatchSuspendUserOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Chime account ID. Constraints: o pattern: .*\S.*
+    /// The Amazon Chime account ID. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// The request containing the user IDs to suspend. Constraints: o max: 50 (string) Constraints: o pattern: .*\S.* Syntax: "string" "string" ...
+    /// The request containing the user IDs to suspend. Constraints: • max: 50 (string) Constraints: • pattern: .*\S.* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--user-id-list", GroupValues = true)]
     public IEnumerable<string>? UserIdList { get; private init; }
@@ -103,6 +104,15 @@ public record AwsChimeBatchSuspendUserOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

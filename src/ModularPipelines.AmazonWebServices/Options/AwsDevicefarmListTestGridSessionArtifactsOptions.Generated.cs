@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,7 +30,7 @@ public record AwsDevicefarmListTestGridSessionArtifactsOptions : AwsOptions, IVa
     /// <summary>
     /// Retrieves a list of artifacts created during the session. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SessionArn">The ARN of a TestGridSession . Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+</param>
+    /// <param name="SessionArn">The ARN of a TestGridSession . Constraints: • min: 32 • max: 1011 • pattern: ^arn:aws:devicefarm:.+</param>
     public AwsDevicefarmListTestGridSessionArtifactsOptions(
         string SessionArn
     )
@@ -58,25 +59,25 @@ public record AwsDevicefarmListTestGridSessionArtifactsOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of a TestGridSession . Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+
+    /// The ARN of a TestGridSession . Constraints: • min: 32 • max: 1011 • pattern: ^arn:aws:devicefarm:.+
     /// </summary>
     [CliOption("--session-arn")]
     public string? SessionArn { get; private init; }
 
     /// <summary>
-    /// Limit results to a specified type of artifact. Possible values: o VIDEO o LOG
+    /// Limit results to a specified type of artifact. Possible values: • VIDEO • LOG
     /// </summary>
     [CliOption("--type")]
     public AwsDevicefarmListTestGridSessionArtifactsType? Type { get; set; }
 
     /// <summary>
-    /// The maximum number of results to be returned by a request. Constraints: o min: 1 o max: 1000
+    /// The maximum number of results to be returned by a request. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-result")]
     public int? MaxResult { get; set; }
 
     /// <summary>
-    /// Pagination token. Constraints: o min: 4 o max: 1024
+    /// Pagination token. Constraints: • min: 4 • max: 1024
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -103,6 +104,15 @@ public record AwsDevicefarmListTestGridSessionArtifactsOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

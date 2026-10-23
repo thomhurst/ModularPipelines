@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsIvsUpdatePlaybackRestrictionPolicyOptions : AwsOptions, IValida
     /// <summary>
     /// Updates a specified playback restriction policy. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">ARN of the playback-restriction-policy to be updated. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:playback-restriction-pol- icy/[a-zA-Z0-9-]+</param>
+    /// <param name="Arn">ARN of the playback-restriction-policy to be updated. Constraints: • min: 1 • max: 128 • pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:playback-restriction-policy/[a-zA-Z0-9-]+</param>
     public AwsIvsUpdatePlaybackRestrictionPolicyOptions(
         string Arn
     )
@@ -56,31 +57,31 @@ public record AwsIvsUpdatePlaybackRestrictionPolicyOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ARN of the playback-restriction-policy to be updated. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:playback-restriction-pol- icy/[a-zA-Z0-9-]+
+    /// ARN of the playback-restriction-policy to be updated. Constraints: • min: 1 • max: 128 • pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:playback-restriction-policy/[a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// A list of country codes that control geoblocking restriction. Al- lowed values are the officially assigned ISO 3166-1 alpha-2 codes. Default: All countries (an empty array). (string) Constraints: o min: 2 o max: 2 Syntax: "string" "string" ...
+    /// A list of country codes that control geoblocking restriction. Allowed values are the officially assigned ISO 3166-1 alpha-2 codes. Default: All countries (an empty array). (string) Constraints: • min: 2 • max: 2 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--allowed-countries", GroupValues = true)]
     public IEnumerable<string>? AllowedCountries { get; set; }
 
     /// <summary>
-    /// A list of origin sites that control CORS restriction. Allowed values are the same as valid values of the Origin header defined at https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Origin . Default: All origins (an empty array). (string) Constraints: o min: 0 o max: 128 Syntax: "string" "string" ...
+    /// A list of origin sites that control CORS restriction. Allowed values are the same as valid values of the Origin header defined at https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Origin . Default: All origins (an empty array). (string) Constraints: • min: 0 • max: 128 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--allowed-origins", GroupValues = true)]
     public IEnumerable<string>? AllowedOrigins { get; set; }
 
     /// <summary>
-    /// ment (boolean) Whether channel playback is constrained by origin site. Default: false .
+    /// Whether channel playback is constrained by origin site. Default: false .
     /// </summary>
     [CliFlag("--enable-strict-origin-enforcement", NegatedName = "--no-enable-strict-origin-enforcement")]
     public bool? EnableStrictOriginEnforcement { get; set; }
 
     /// <summary>
-    /// Playback-restriction-policy name. The value does not need to be unique. Constraints: o min: 0 o max: 128 o pattern: [a-zA-Z0-9-_]*
+    /// Playback-restriction-policy name. The value does not need to be unique. Constraints: • min: 0 • max: 128 • pattern: [a-zA-Z0-9-_]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
@@ -106,6 +107,15 @@ public record AwsIvsUpdatePlaybackRestrictionPolicyOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsRdsRemoveRoleFromDbClusterOptions : AwsOptions, IValidatableObj
     /// Removes the asssociation of an Amazon Web Services Identity and Access Management (IAM) role from a DB cluster. For more information on Amazon Aurora DB clusters, see What is Amazon Aurora? in the Amazon Aurora User Guide . For more information on Multi-AZ DB clusters, see Multi-AZ DB cluster deployments in the Amazon RDS User Guide. See also: AWS API Documentation
     /// </summary>
     /// <param name="DbClusterIdentifier">The name of the DB cluster to disassociate the IAM role from.</param>
-    /// <param name="RoleArn">The Amazon Resource Name (ARN) of the IAM role to disassociate from the Aurora DB cluster, for example arn:aws:iam::123456789012:role/AuroraAccessRole . Constraints: o min: 20 o max: 2048 o pattern: arn:aws[a-z-]*:iam::[0-9]*:role/.*</param>
+    /// <param name="RoleArn">The Amazon Resource Name (ARN) of the IAM role to disassociate from the Aurora DB cluster, for example arn:aws:iam::123456789012:role/AuroraAccessRole . Constraints: • min: 20 • max: 2048 • pattern: arn:aws[a-z-]*:iam::[0-9]*:role/.*</param>
     public AwsRdsRemoveRoleFromDbClusterOptions(
         string DbClusterIdentifier,
         string RoleArn
@@ -66,7 +67,7 @@ public record AwsRdsRemoveRoleFromDbClusterOptions : AwsOptions, IValidatableObj
     public string? DbClusterIdentifier { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the IAM role to disassociate from the Aurora DB cluster, for example arn:aws:iam::123456789012:role/AuroraAccessRole . Constraints: o min: 20 o max: 2048 o pattern: arn:aws[a-z-]*:iam::[0-9]*:role/.*
+    /// The Amazon Resource Name (ARN) of the IAM role to disassociate from the Aurora DB cluster, for example arn:aws:iam::123456789012:role/AuroraAccessRole . Constraints: • min: 20 • max: 2048 • pattern: arn:aws[a-z-]*:iam::[0-9]*:role/.*
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; private init; }
@@ -98,6 +99,15 @@ public record AwsRdsRemoveRoleFromDbClusterOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

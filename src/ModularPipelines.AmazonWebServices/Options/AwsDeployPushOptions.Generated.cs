@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Bundles and uploads to Amazon Simple Storage Service (Amazon S3) an ap- plication revision, which is a zip archive file that contains deploy- able content and an accompanying Application Specification file (App- Spec file). If the upload is successful, a message is returned that de- scribes how to call the create-deployment command to deploy the appli- cation revision from Amazon S3 to target Amazon Elastic Compute Cloud (Amazon EC2) instances.
+/// Bundles and uploads to Amazon Simple Storage Service (Amazon S3) an application revision, which is a zip archive file that contains deployable content and an accompanying Application Specification file (AppSpec file). If the upload is successful, a message is returned that describes how to call the create-deployment command to deploy the application revision from Amazon S3 to target Amazon Elastic Compute Cloud (Amazon EC2) instances.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsDeployPushOptions : AwsOptions
 {
     /// <summary>
-    /// Bundles and uploads to Amazon Simple Storage Service (Amazon S3) an ap- plication revision, which is a zip archive file that contains deploy- able content and an accompanying Application Specification file (App- Spec file). If the upload is successful, a message is returned that de- scribes how to call the create-deployment command to deploy the appli- cation revision from Amazon S3 to target Amazon Elastic Compute Cloud (Amazon EC2) instances.
+    /// Bundles and uploads to Amazon Simple Storage Service (Amazon S3) an application revision, which is a zip archive file that contains deployable content and an accompanying Application Specification file (AppSpec file). If the upload is successful, a message is returned that describes how to call the create-deployment command to deploy the application revision from Amazon S3 to target Amazon Elastic Compute Cloud (Amazon EC2) instances.
     /// </summary>
     /// <param name="ApplicationName"></param>
     /// <param name="S3Location"></param>
@@ -57,5 +57,14 @@ public record AwsDeployPushOptions : AwsOptions
 
     [CliOption("--description")]
     public string? Description { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

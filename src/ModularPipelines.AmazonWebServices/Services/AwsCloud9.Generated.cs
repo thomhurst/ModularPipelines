@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -32,7 +32,7 @@ public class AwsCloud9 : IAwsCloud9
     #region Commands
 
     /// <summary>
-    /// Creates an Cloud9 development environment, launches an Amazon Elastic Compute Cloud (Amazon EC2) instance, and then connects from the in- stance to the environment. WARNING: Cloud9 is no longer available to new customers. Existing customers of Cloud9 can continue to use the service as normal. Learn more" See also: AWS API Documentation
+    /// Creates an Cloud9 development environment, launches an Amazon Elastic Compute Cloud (Amazon EC2) instance, and then connects from the instance to the environment. WARNING: Cloud9 is no longer available to new customers. Existing customers of Cloud9 can continue to use the service as normal. Learn more" See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsCloud9 : IAwsCloud9
     }
 
     /// <summary>
-    /// Gets information about environment members for an Cloud9 development environment. WARNING: Cloud9 is no longer available to new customers. Existing customers of Cloud9 can continue to use the service as normal. Learn more" See also: AWS API Documentation describe-environment-memberships is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and...
+    /// Gets information about environment members for an Cloud9 development environment. WARNING: Cloud9 is no longer available to new customers. Existing customers of Cloud9 can continue to use the service as normal. Learn more" See also: AWS API Documentation describe-environment-memberships is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,21 +107,6 @@ public class AwsCloud9 : IAwsCloud9
     }
 
     /// <summary>
-    /// Gets information about Cloud9 development environments. WARNING: Cloud9 is no longer available to new customers. Existing customers of Cloud9 can continue to use the service as normal. Learn more" See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeEnvironmentsAsync(
-        AwsCloud9DescribeEnvironmentsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Gets status information for an Cloud9 development environment. WARNING: Cloud9 is no longer available to new customers. Existing customers of Cloud9 can continue to use the service as normal. Learn more" See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -130,6 +115,21 @@ public class AwsCloud9 : IAwsCloud9
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeEnvironmentStatusAsync(
         AwsCloud9DescribeEnvironmentStatusOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Gets information about Cloud9 development environments. WARNING: Cloud9 is no longer available to new customers. Existing customers of Cloud9 can continue to use the service as normal. Learn more" See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeEnvironmentsAsync(
+        AwsCloud9DescribeEnvironmentsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -152,7 +152,7 @@ public class AwsCloud9 : IAwsCloud9
     }
 
     /// <summary>
-    /// Gets a list of the tags associated with an Cloud9 development environ- ment. WARNING: Cloud9 is no longer available to new customers. Existing customers of Cloud9 can continue to use the service as normal. Learn more" See also: AWS API Documentation
+    /// Gets a list of the tags associated with an Cloud9 development environment. WARNING: Cloud9 is no longer available to new customers. Existing customers of Cloud9 can continue to use the service as normal. Learn more" See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates an existing flow. Supply only the fields you want to change. Updates both DRAFT and PUBLISHED versions. When FlowDefinition is pro- vided, all existing steps are replaced with the new definition. See also: AWS API Documentation update-flow uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provide...
+/// Updates an existing flow. Supply only the fields you want to change. Updates both DRAFT and PUBLISHED versions. When FlowDefinition is provided, all existing steps are replaced with the new definition. See also: AWS API Documentation update-flow uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsQuicksightUpdateFlowOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates an existing flow. Supply only the fields you want to change. Updates both DRAFT and PUBLISHED versions. When FlowDefinition is pro- vided, all existing steps are replaced with the new definition. See also: AWS API Documentation update-flow uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provide...
+    /// Updates an existing flow. Supply only the fields you want to change. Updates both DRAFT and PUBLISHED versions. When FlowDefinition is provided, all existing steps are replaced with the new definition. See also: AWS API Documentation update-flow uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided ...
     /// </summary>
-    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the flow that you are updating. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12}</param>
-    /// <param name="FlowId">The unique identifier of the flow to update. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the flow that you are updating. Constraints: • min: 12 • max: 12 • pattern: [0-9]{12}</param>
+    /// <param name="FlowId">The unique identifier of the flow to update. Constraints: • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
     public AwsQuicksightUpdateFlowOptions(
         string AwsAccountId,
         string FlowId
@@ -61,37 +62,37 @@ public record AwsQuicksightUpdateFlowOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon Web Services account that contains the flow that you are updating. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12}
+    /// The ID of the Amazon Web Services account that contains the flow that you are updating. Constraints: • min: 12 • max: 12 • pattern: [0-9]{12}
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the flow to update. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// The unique identifier of the flow to update. Constraints: • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--flow-id")]
     public string? FlowId { get; private init; }
 
     /// <summary>
-    /// Updated display name for the flow. Omit to preserve the existing name. Constraints: o min: 1 o max: 128 o pattern: (?!\s+$)[^{}"\\&lt;&gt;]*
+    /// Updated display name for the flow. Omit to preserve the existing name. Constraints: • min: 1 • max: 128 • pattern: (?!\s+$)[^{}"\\&lt;&gt;]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// Updated description for the flow. Omit to preserve the existing de- scription. Constraints: o min: 0 o max: 1024 o pattern: (?!\s+$)[^{}"\\&lt;&gt;]*
+    /// Updated description for the flow. Omit to preserve the existing description. Constraints: • min: 0 • max: 1024 • pattern: (?!\s+$)[^{}"\\&lt;&gt;]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The definition of the flow, specifying the steps and configurations. This is the flow definition in Quick Flow's internal format. The format is subject to change. When provided, all existing steps are replaced. Omit to preserve the existing definition. NOTE: Always derive or depend on the flow definition from the De- scribeFlow operation to ensure you are working with the latest format. JSON Syntax: {...}
+    /// The definition of the flow, specifying the steps and configurations. This is the flow definition in Quick Flow's internal format. The format is subject to change. When provided, all existing steps are replaced. Omit to preserve the existing definition. NOTE: Always derive or depend on the flow definition from the DescribeFlow operation to ensure you are working with the latest format. JSON Syntax: {...}
     /// </summary>
     [CliOption("--flow-definition")]
     public string? FlowDefinition { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 1 o max: 128
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: • min: 1 • max: 128
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -118,6 +119,15 @@ public record AwsQuicksightUpdateFlowOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

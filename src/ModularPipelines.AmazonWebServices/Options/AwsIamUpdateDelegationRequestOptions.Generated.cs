@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates an existing delegation request with additional information. When the delegation request is updated, it reaches the PENDING_APPROVAL state. Once a delegation request has an owner, that owner gets a default per- mission to update the delegation request. For more details, see Managing Permissions for Delegation Requests . See also: AWS API Documentation
+/// Updates an existing delegation request with additional information. When the delegation request is updated, it reaches the PENDING_APPROVAL state. Once a delegation request has an owner, that owner gets a default permission to update the delegation request. For more details, see Managing Permissions for Delegation Requests . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsIamUpdateDelegationRequestOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates an existing delegation request with additional information. When the delegation request is updated, it reaches the PENDING_APPROVAL state. Once a delegation request has an owner, that owner gets a default per- mission to update the delegation request. For more details, see Managing Permissions for Delegation Requests . See also: AWS API Documentation
+    /// Updates an existing delegation request with additional information. When the delegation request is updated, it reaches the PENDING_APPROVAL state. Once a delegation request has an owner, that owner gets a default permission to update the delegation request. For more details, see Managing Permissions for Delegation Requests . See also: AWS API Documentation
     /// </summary>
-    /// <param name="DelegationRequestId">The unique identifier of the delegation request to update. Constraints: o min: 16 o max: 128 o pattern: [\w-]+</param>
+    /// <param name="DelegationRequestId">The unique identifier of the delegation request to update. Constraints: • min: 16 • max: 128 • pattern: [\w-]+</param>
     public AwsIamUpdateDelegationRequestOptions(
         string DelegationRequestId
     )
@@ -56,13 +57,13 @@ public record AwsIamUpdateDelegationRequestOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the delegation request to update. Constraints: o min: 16 o max: 128 o pattern: [\w-]+
+    /// The unique identifier of the delegation request to update. Constraints: • min: 16 • max: 128 • pattern: [\w-]+
     /// </summary>
     [CliOption("--delegation-request-id")]
     public string? DelegationRequestId { get; private init; }
 
     /// <summary>
-    /// Additional notes or comments to add to the delegation request. Constraints: o max: 500 o pattern: [\u0009\u000A\u000D\u0020-\u007E\u00A1-\u00FF]*
+    /// Additional notes or comments to add to the delegation request. Constraints: • max: 500 • pattern: [\u0009\u000A\u000D\u0020-\u007E\u00A1-\u00FF]*
     /// </summary>
     [CliOption("--notes")]
     public string? Notes { get; set; }
@@ -88,6 +89,15 @@ public record AwsIamUpdateDelegationRequestOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

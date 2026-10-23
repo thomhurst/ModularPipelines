@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsCloudtrailDeregisterOrganizationDelegatedAdminOptions : AwsOpti
     /// <summary>
     /// Removes CloudTrail delegated administrator permissions from a member account in an organization. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DelegatedAdminAccountId">A delegated administrator account ID. This is a member account in an organization that is currently designated as a delegated administra- tor. Constraints: o min: 12 o max: 16 o pattern: \d+</param>
+    /// <param name="DelegatedAdminAccountId">A delegated administrator account ID. This is a member account in an organization that is currently designated as a delegated administrator. Constraints: • min: 12 • max: 16 • pattern: \d+</param>
     public AwsCloudtrailDeregisterOrganizationDelegatedAdminOptions(
         string DelegatedAdminAccountId
     )
@@ -56,7 +57,7 @@ public record AwsCloudtrailDeregisterOrganizationDelegatedAdminOptions : AwsOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A delegated administrator account ID. This is a member account in an organization that is currently designated as a delegated administra- tor. Constraints: o min: 12 o max: 16 o pattern: \d+
+    /// A delegated administrator account ID. This is a member account in an organization that is currently designated as a delegated administrator. Constraints: • min: 12 • max: 16 • pattern: \d+
     /// </summary>
     [CliOption("--delegated-admin-account-id")]
     public string? DelegatedAdminAccountId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsCloudtrailDeregisterOrganizationDelegatedAdminOptions : AwsOpti
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,10 +29,10 @@ public record AwsDatazoneUpdateSubscriptionGrantStatusOptions : AwsOptions, IVal
     /// <summary>
     /// Updates the status of the specified subscription grant status in Amazon DataZone. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainIdentifier">The identifier of the Amazon DataZone domain in which a subscription grant status is to be updated. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="Identifier">The identifier of the subscription grant the status of which is to be updated. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="AssetIdentifier">The identifier of the asset the subscription grant status of which is to be updated. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="Status">The status to be updated as part of the UpdateSubscriptionGrantSta- tus action. Possible values: o GRANT_PENDING o REVOKE_PENDING o GRANT_IN_PROGRESS o REVOKE_IN_PROGRESS o GRANTED o REVOKED o GRANT_FAILED o REVOKE_FAILED</param>
+    /// <param name="DomainIdentifier">The identifier of the Amazon DataZone domain in which a subscription grant status is to be updated. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="Identifier">The identifier of the subscription grant the status of which is to be updated. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="AssetIdentifier">The identifier of the asset the subscription grant status of which is to be updated. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="Status">The status to be updated as part of the UpdateSubscriptionGrantStatus action. Possible values: • GRANT_PENDING • REVOKE_PENDING • GRANT_IN_PROGRESS • REVOKE_IN_PROGRESS • GRANTED • REVOKED • GRANT_FAILED • REVOKE_FAILED</param>
     public AwsDatazoneUpdateSubscriptionGrantStatusOptions(
         string DomainIdentifier,
         string Identifier,
@@ -68,25 +69,25 @@ public record AwsDatazoneUpdateSubscriptionGrantStatusOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Amazon DataZone domain in which a subscription grant status is to be updated. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The identifier of the Amazon DataZone domain in which a subscription grant status is to be updated. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The identifier of the subscription grant the status of which is to be updated. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The identifier of the subscription grant the status of which is to be updated. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// The identifier of the asset the subscription grant status of which is to be updated. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The identifier of the asset the subscription grant status of which is to be updated. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--asset-identifier")]
     public string? AssetIdentifier { get; private init; }
 
     /// <summary>
-    /// The status to be updated as part of the UpdateSubscriptionGrantSta- tus action. Possible values: o GRANT_PENDING o REVOKE_PENDING o GRANT_IN_PROGRESS o REVOKE_IN_PROGRESS o GRANTED o REVOKED o GRANT_FAILED o REVOKE_FAILED
+    /// The status to be updated as part of the UpdateSubscriptionGrantStatus action. Possible values: • GRANT_PENDING • REVOKE_PENDING • GRANT_IN_PROGRESS • REVOKE_IN_PROGRESS • GRANTED • REVOKED • GRANT_FAILED • REVOKE_FAILED
     /// </summary>
     [CliOption("--status")]
     public AwsDatazoneUpdateSubscriptionGrantStatusStatus? Status { get; private init; }
@@ -98,7 +99,7 @@ public record AwsDatazoneUpdateSubscriptionGrantStatusOptions : AwsOptions, IVal
     public string? FailureCause { get; set; }
 
     /// <summary>
-    /// The target name to be updated as part of the UpdateSubscription- GrantStatus action.
+    /// The target name to be updated as part of the UpdateSubscriptionGrantStatus action.
     /// </summary>
     [CliOption("--target-name")]
     public string? TargetName { get; set; }
@@ -124,6 +125,15 @@ public record AwsDatazoneUpdateSubscriptionGrantStatusOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

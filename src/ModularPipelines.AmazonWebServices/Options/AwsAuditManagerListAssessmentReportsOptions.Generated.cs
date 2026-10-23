@@ -23,14 +23,14 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsAuditManagerListAssessmentReportsOptions : AwsOptions
 {
     /// <summary>
-    /// The pagination token that's used to fetch the next set of results. Constraints: o min: 1 o max: 1000 o pattern: ^[A-Za-z0-9+\/=]*$
+    /// The pagination token that's used to fetch the next set of results. Constraints: • min: 1 • max: 1000 • pattern: ^[A-Za-z0-9+\/=]*$
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// Represents the maximum number of results on a page or for an API re- quest call. Constraints: o min: 1 o max: 1000
+    /// Represents the maximum number of results on a page or for an API request call. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -40,5 +40,14 @@ public record AwsAuditManagerListAssessmentReportsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

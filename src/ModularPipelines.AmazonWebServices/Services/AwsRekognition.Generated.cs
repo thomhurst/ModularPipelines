@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -33,7 +33,7 @@ public class AwsRekognition : IAwsRekognition
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws rekognition wait sub-commands.
     /// </summary>
     public AwsRekognitionWait Wait => _wait ??= new AwsRekognitionWait(_command);
 
@@ -42,7 +42,7 @@ public class AwsRekognition : IAwsRekognition
     #region Commands
 
     /// <summary>
-    /// Associates one or more faces with an existing UserID. Takes an array of FaceIds . Each FaceId that are present in the FaceIds list is associ- ated with the provided UserID. The number of FaceIds that can be used as input in a single request is limited to 100. Note that the total number of faces that can be associated with a sin- gle UserID is also limited to 100. Once a UserID has 100 faces associ- ated with it, no additional faces can be added. If more API calls are made after the limit is reac...
+    /// Associates one or more faces with an existing UserID. Takes an array of FaceIds . Each FaceId that are present in the FaceIds list is associated with the provided UserID. The number of FaceIds that can be used as input in a single request is limited to 100. Note that the total number of faces that can be associated with a single UserID is also limited to 100. Once a UserID has 100 faces associated with it, no additional faces can be added. If more API calls are made after the limit is reached, a...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -57,7 +57,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// Compares a face in the source input image with each of the 100 largest faces detected in the target input image. If the source image contains multiple faces, the service detects the largest face and compares it with each face detected in the target im- age. NOTE: CompareFaces uses machine learning algorithms, which are probabilis- tic. A false negative is an incorrect prediction that a face in the target image has a low similarity confidence score when compared to the face in the source image. T...
+    /// Compares a face in the source input image with each of the 100 largest faces detected in the target input image. If the source image contains multiple faces, the service detects the largest face and compares it with each face detected in the target image. NOTE: CompareFaces uses machine learning algorithms, which are probabilistic. A false negative is an incorrect prediction that a face in the target image has a low similarity confidence score when compared to the face in the source image. To re...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -87,7 +87,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// Creates a collection in an AWS Region. You can add faces to the collec- tion using the IndexFaces operation. For example, you might create collections, one for each of your appli- cation users. A user can then index faces using the IndexFaces opera- tion and persist results in a specific collection. Then, a user can search the collection for faces in the user-specific container. When you create a collection, it is associated with the latest version of the face model version. NOTE: Collection nam...
+    /// Creates a collection in an AWS Region. You can add faces to the collection using the IndexFaces operation. For example, you might create collections, one for each of your application users. A user can then index faces using the IndexFaces operation and persist results in a specific collection. Then, a user can search the collection for faces in the user-specific container. When you create a collection, it is associated with the latest version of the face model version. NOTE: Collection names are...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -102,7 +102,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// NOTE: This operation applies only to Amazon Rekognition Custom Labels. Creates a new Amazon Rekognition Custom Labels dataset. You can create a dataset by using an Amazon Sagemaker format manifest file or by copy- ing an existing Amazon Rekognition Custom Labels dataset. To create a training dataset for a project, specify TRAIN for the value of DatasetType . To create the test dataset for a project, specify TEST for the value of DatasetType . The response from CreateDataset is the Amazon Resourc...
+    /// NOTE: This operation applies only to Amazon Rekognition Custom Labels. Creates a new Amazon Rekognition Custom Labels dataset. You can create a dataset by using an Amazon Sagemaker format manifest file or by copying an existing Amazon Rekognition Custom Labels dataset. To create a training dataset for a project, specify TRAIN for the value of DatasetType . To create the test dataset for a project, specify TEST for the value of DatasetType . The response from CreateDataset is the Amazon Resource ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -117,7 +117,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// This API operation initiates a Face Liveness session. It returns a Ses- sionId , which you can use to start streaming Face Liveness video and get the results for a Face Liveness session. You can use the OutputConfig option in the Settings parameter to pro- vide an Amazon S3 bucket location. The Amazon S3 bucket stores refer- ence images and audit images. If no Amazon S3 bucket is defined, raw bytes are sent instead. You can use AuditImagesLimit to limit the number of audit images re- turned when...
+    /// This API operation initiates a Face Liveness session. It returns a SessionId , which you can use to start streaming Face Liveness video and get the results for a Face Liveness session. You can use the OutputConfig option in the Settings parameter to provide an Amazon S3 bucket location. The Amazon S3 bucket stores reference images and audit images. If no Amazon S3 bucket is defined, raw bytes are sent instead. You can use AuditImagesLimit to limit the number of audit images returned when GetFace...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -132,7 +132,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// Creates a new Amazon Rekognition project. A project is a group of re- sources (datasets, model versions) that you use to create and manage a Amazon Rekognition Custom Labels Model or custom adapter. You can spec- ify a feature to create the project with, if no feature is specified then Custom Labels is used by default. For adapters, you can also choose whether or not to have the project auto update by using the AutoUpdate argument. This operation requires permissions to perform the rekognition:C...
+    /// Creates a new Amazon Rekognition project. A project is a group of resources (datasets, model versions) that you use to create and manage a Amazon Rekognition Custom Labels Model or custom adapter. You can specify a feature to create the project with, if no feature is specified then Custom Labels is used by default. For adapters, you can also choose whether or not to have the project auto update by using the AutoUpdate argument. This operation requires permissions to perform the rekognition:Creat...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -147,7 +147,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// Creates a new version of Amazon Rekognition project (like a Custom La- bels model or a custom adapter) and begins training. Models and adapters are managed as part of a Rekognition project. The response from CreateProjectVersion is an Amazon Resource Name (ARN) for the project version. The FeatureConfig operation argument allows you to configure specific model or adapter settings. You can provide a description to the project version by using the VersionDescription argment. Training can take a wh...
+    /// Creates a new version of Amazon Rekognition project (like a Custom Labels model or a custom adapter) and begins training. Models and adapters are managed as part of a Rekognition project. The response from CreateProjectVersion is an Amazon Resource Name (ARN) for the project version. The FeatureConfig operation argument allows you to configure specific model or adapter settings. You can provide a description to the project version by using the VersionDescription argment. Training can take a whil...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -162,7 +162,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// WARNING: Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see Rekognition feature availability changes . This change does not impact the availability of other Amazon Rekognition features. Creates an Amazon Rekognition stream processor that you can use to de- tect and recognize faces or to detect labels in a streaming video. Amazon Rekognition Video is a consumer of live video from Amazon Kine- sis Video Streams. T...
+    /// WARNING: Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see Rekognition feature availability changes . This change does not impact the availability of other Amazon Rekognition features. Creates an Amazon Rekognition stream processor that you can use to detect and recognize faces or to detect labels in a streaming video. Amazon Rekognition Video is a consumer of live video from Amazon Kinesis Video Streams. There...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -177,7 +177,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// Creates a new User within a collection specified by CollectionId . Takes UserId as a parameter, which is a user provided ID which should be unique within the collection. The provided UserId will alias the system generated UUID to make the UserId more user friendly. Uses a ClientToken , an idempotency token that ensures a call to Crea- teUser completes only once. If the value is not supplied, the AWS SDK generates an idempotency token for the requests. This prevents retries after a network error ...
+    /// Creates a new User within a collection specified by CollectionId . Takes UserId as a parameter, which is a user provided ID which should be unique within the collection. The provided UserId will alias the system generated UUID to make the UserId more user friendly. Uses a ClientToken , an idempotency token that ensures a call to CreateUser completes only once. If the value is not supplied, the AWS SDK generates an idempotency token for the requests. This prevents retries after a network error re...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -192,7 +192,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// Deletes the specified collection. Note that this operation removes all faces in the collection. For an example, see Deleting a collection . This operation requires permissions to perform the rekogni- tion:DeleteCollection action. See also: AWS API Documentation
+    /// Deletes the specified collection. Note that this operation removes all faces in the collection. For an example, see Deleting a collection . This operation requires permissions to perform the rekognition:DeleteCollection action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -207,7 +207,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// NOTE: This operation applies only to Amazon Rekognition Custom Labels. Deletes an existing Amazon Rekognition Custom Labels dataset. Deleting a dataset might take while. Use DescribeDataset to check the current status. The dataset is still deleting if the value of Status is DELETE_IN_PROGRESS . If you try to access the dataset after it is deleted, you get a ResourceNotFoundException exception. You can't delete a dataset while it is creating (Status = CRE- ATE_IN_PROGRESS ) or if the dataset is u...
+    /// NOTE: This operation applies only to Amazon Rekognition Custom Labels. Deletes an existing Amazon Rekognition Custom Labels dataset. Deleting a dataset might take while. Use DescribeDataset to check the current status. The dataset is still deleting if the value of Status is DELETE_IN_PROGRESS . If you try to access the dataset after it is deleted, you get a ResourceNotFoundException exception. You can't delete a dataset while it is creating (Status = CREATE_IN_PROGRESS ) or if the dataset is upd...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -222,7 +222,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// Deletes faces from a collection. You specify a collection ID and an ar- ray of face IDs to remove from the collection. This operation requires permissions to perform the rekognition:Delete- Faces action. See also: AWS API Documentation
+    /// Deletes faces from a collection. You specify a collection ID and an array of face IDs to remove from the collection. This operation requires permissions to perform the rekognition:DeleteFaces action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -252,7 +252,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// NOTE: This operation applies only to Amazon Rekognition Custom Labels. Deletes an existing project policy. To get a list of project policies attached to a project, call ListPro- jectPolicies . To attach a project policy to a project, call PutPro- jectPolicy . This operation requires permissions to perform the rekogni- tion:DeleteProjectPolicy action. See also: AWS API Documentation
+    /// NOTE: This operation applies only to Amazon Rekognition Custom Labels. Deletes an existing project policy. To get a list of project policies attached to a project, call ListProjectPolicies . To attach a project policy to a project, call PutProjectPolicy . This operation requires permissions to perform the rekognition:DeleteProjectPolicy action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -267,7 +267,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// Deletes a Rekognition project model or project version, like a Amazon Rekognition Custom Labels model or a custom adapter. You can't delete a project version if it is running or if it is train- ing. To check the status of a project version, use the Status field re- turned from DescribeProjectVersions . To stop a project version call StopProjectVersion . If the project version is training, wait until it finishes. This operation requires permissions to perform the rekogni- tion:DeleteProjectVersio...
+    /// Deletes a Rekognition project model or project version, like a Amazon Rekognition Custom Labels model or a custom adapter. You can't delete a project version if it is running or if it is training. To check the status of a project version, use the Status field returned from DescribeProjectVersions . To stop a project version call StopProjectVersion . If the project version is training, wait until it finishes. This operation requires permissions to perform the rekognition:DeleteProjectVersion acti...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -282,7 +282,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// WARNING: Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see Rekognition feature availability changes . This change does not impact the availability of other Amazon Rekognition features. Deletes the stream processor identified by Name . You assign the value for Name when you create the stream processor with CreateStreamProces- sor . You might not be able to use the same name for a stream processor for a few secon...
+    /// WARNING: Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see Rekognition feature availability changes . This change does not impact the availability of other Amazon Rekognition features. Deletes the stream processor identified by Name . You assign the value for Name when you create the stream processor with CreateStreamProcessor . You might not be able to use the same name for a stream processor for a few seconds...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -297,7 +297,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// Deletes the specified UserID within the collection. Faces that are as- sociated with the UserID are disassociated from the UserID before deleting the specified UserID. If the specified Collection or UserID is already deleted or not found, a ResourceNotFoundException will be thrown. If the action is successful with a 200 response, an empty HTTP body is returned. See also: AWS API Documentation
+    /// Deletes the specified UserID within the collection. Faces that are associated with the UserID are disassociated from the UserID before deleting the specified UserID. If the specified Collection or UserID is already deleted or not found, a ResourceNotFoundException will be thrown. If the action is successful with a 200 response, an empty HTTP body is returned. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -312,7 +312,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// Describes the specified collection. You can use DescribeCollection to get information, such as the number of faces indexed into a collection and the version of the model used by the collection for face detection. For more information, see Describing a Collection in the Amazon Rekog- nition Developer Guide. See also: AWS API Documentation
+    /// Describes the specified collection. You can use DescribeCollection to get information, such as the number of faces indexed into a collection and the version of the model used by the collection for face detection. For more information, see Describing a Collection in the Amazon Rekognition Developer Guide. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -327,7 +327,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// NOTE: This operation applies only to Amazon Rekognition Custom Labels. Describes an Amazon Rekognition Custom Labels dataset. You can get in- formation such as the current status of a dataset and statistics about the images and labels in a dataset. This operation requires permissions to perform the rekognition:De- scribeDataset action. See also: AWS API Documentation
+    /// NOTE: This operation applies only to Amazon Rekognition Custom Labels. Describes an Amazon Rekognition Custom Labels dataset. You can get information such as the current status of a dataset and statistics about the images and labels in a dataset. This operation requires permissions to perform the rekognition:DescribeDataset action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -342,22 +342,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// Gets information about your Rekognition projects. This operation requires permissions to perform the rekognition:De- scribeProjects action. See also: AWS API Documentation describe-projects is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeProjectsAsync(
-        AwsRekognitionDescribeProjectsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRekognitionDescribeProjectsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Lists and describes the versions of an Amazon Rekognition project. You can specify up to 10 model or adapter versions in ProjectVersionArns . If you don't specify a value, descriptions for all model/adapter ver- sions in the project are returned. This operation requires permissions to perform the rekognition:De- scribeProjectVersions action. See also: AWS API Documentation describe-project-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data se...
+    /// Lists and describes the versions of an Amazon Rekognition project. You can specify up to 10 model or adapter versions in ProjectVersionArns . If you don't specify a value, descriptions for all model/adapter versions in the project are returned. This operation requires permissions to perform the rekognition:DescribeProjectVersions action. See also: AWS API Documentation describe-project-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -372,7 +357,22 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// WARNING: Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see Rekognition feature availability changes . This change does not impact the availability of other Amazon Rekognition features. Provides information about a stream processor created by CreateStream- Processor . You can get information about the input and output streams, the input parameters for the face recognition being performed, and the current status ...
+    /// Gets information about your Rekognition projects. This operation requires permissions to perform the rekognition:DescribeProjects action. See also: AWS API Documentation describe-projects is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results o...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeProjectsAsync(
+        AwsRekognitionDescribeProjectsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRekognitionDescribeProjectsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// WARNING: Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see Rekognition feature availability changes . This change does not impact the availability of other Amazon Rekognition features. Provides information about a stream processor created by CreateStreamProcessor . You can get information about the input and output streams, the input parameters for the face recognition being performed, and the current status of...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -387,7 +387,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// NOTE: This operation applies only to Amazon Rekognition Custom Labels. Detects custom labels in a supplied image by using an Amazon Rekogni- tion Custom Labels model. You specify which version of a model version to use by using the Pro- jectVersionArn input parameter. You pass the input image as base64-encoded image bytes or as a refer- ence to an image in an Amazon S3 bucket. If you use the AWS CLI to call Amazon Rekognition operations, passing image bytes is not supported. The image must be ei...
+    /// NOTE: This operation applies only to Amazon Rekognition Custom Labels. Detects custom labels in a supplied image by using an Amazon Rekognition Custom Labels model. You specify which version of a model version to use by using the ProjectVersionArn input parameter. You pass the input image as base64-encoded image bytes or as a reference to an image in an Amazon S3 bucket. If you use the AWS CLI to call Amazon Rekognition operations, passing image bytes is not supported. The image must be either a...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -402,7 +402,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// Detects faces within an image that is provided as input. DetectFaces detects the 100 largest faces in the image. For each face detected, the operation returns face details. These details in- clude a bounding box of the face, a confidence value (that the bounding box contains a face), and a fixed set of attributes such as facial landmarks (for example, coordinates of eye and mouth), pose, presence of facial occlusion, and so on. The face-detection algorithm is most effective on frontal faces. For...
+    /// Detects faces within an image that is provided as input. DetectFaces detects the 100 largest faces in the image. For each face detected, the operation returns face details. These details include a bounding box of the face, a confidence value (that the bounding box contains a face), and a fixed set of attributes such as facial landmarks (for example, coordinates of eye and mouth), pose, presence of facial occlusion, and so on. The face-detection algorithm is most effective on frontal faces. For n...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -417,7 +417,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// Detects instances of real-world entities within an image (JPEG or PNG) provided as input. This includes objects like flower, tree, and table; events like wedding, graduation, and birthday party; and concepts like landscape, evening, and nature. For an example, see Analyzing images stored in an Amazon S3 bucket in the Amazon Rekognition Developer Guide. You pass the input image as base64-encoded image bytes or as a refer- ence to an image in an Amazon S3 bucket. If you use the AWS CLI to call Ama...
+    /// Detects instances of real-world entities within an image (JPEG or PNG) provided as input. This includes objects like flower, tree, and table; events like wedding, graduation, and birthday party; and concepts like landscape, evening, and nature. For an example, see Analyzing images stored in an Amazon S3 bucket in the Amazon Rekognition Developer Guide. You pass the input image as base64-encoded image bytes or as a reference to an image in an Amazon S3 bucket. If you use the AWS CLI to call Amazo...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -432,7 +432,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// Detects unsafe content in a specified JPEG or PNG format image. Use De- tectModerationLabels to moderate images depending on your requirements. For example, you might want to filter images that contain nudity, but not images containing suggestive content. To filter images, use the labels returned by DetectModerationLabels to determine which types of content are appropriate. For information about moderation labels, see Detecting Unsafe Content in the Amazon Rekognition Developer Guide. You pass t...
+    /// Detects unsafe content in a specified JPEG or PNG format image. Use DetectModerationLabels to moderate images depending on your requirements. For example, you might want to filter images that contain nudity, but not images containing suggestive content. To filter images, use the labels returned by DetectModerationLabels to determine which types of content are appropriate. For information about moderation labels, see Detecting Unsafe Content in the Amazon Rekognition Developer Guide. You pass the...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -447,7 +447,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// Detects Personal Protective Equipment (PPE) worn by people detected in an image. Amazon Rekognition can detect the following types of PPE. o Face cover o Hand cover o Head cover You pass the input image as base64-encoded image bytes or as a refer- ence to an image in an Amazon S3 bucket. The image must be either a PNG or JPG formatted file. DetectProtectiveEquipment detects PPE worn by up to 15 persons de- tected in an image. For each person detected in the image the API returns an array of body...
+    /// Detects Personal Protective Equipment (PPE) worn by people detected in an image. Amazon Rekognition can detect the following types of PPE. • Face cover • Hand cover • Head cover You pass the input image as base64-encoded image bytes or as a reference to an image in an Amazon S3 bucket. The image must be either a PNG or JPG formatted file. DetectProtectiveEquipment detects PPE worn by up to 15 persons detected in an image. For each person detected in the image the API returns an array of body par...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -462,7 +462,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// Detects text in the input image and converts it into machine-readable text. Pass the input image as base64-encoded image bytes or as a reference to an image in an Amazon S3 bucket. If you use the AWS CLI to call Amazon Rekognition operations, you must pass it as a reference to an image in an Amazon S3 bucket. For the AWS CLI, passing image bytes is not sup- ported. The image must be either a .png or .jpeg formatted file. The DetectText operation returns text in an array of TextDetection el- emen...
+    /// Detects text in the input image and converts it into machine-readable text. Pass the input image as base64-encoded image bytes or as a reference to an image in an Amazon S3 bucket. If you use the AWS CLI to call Amazon Rekognition operations, you must pass it as a reference to an image in an Amazon S3 bucket. For the AWS CLI, passing image bytes is not supported. The image must be either a .png or .jpeg formatted file. The DetectText operation returns text in an array of TextDetection elements, ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -477,7 +477,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// Removes the association between a Face supplied in an array of FaceIds and the User. If the User is not present already, then a ResourceNot- Found exception is thrown. If successful, an array of faces that are disassociated from the User is returned. If a given face is already disassociated from the given UserID, it will be ignored and not be re- turned in the response. If a given face is already associated with a different User or not found in the collection it will be returned as part of Unsuc...
+    /// Removes the association between a Face supplied in an array of FaceIds and the User. If the User is not present already, then a ResourceNotFound exception is thrown. If successful, an array of faces that are disassociated from the User is returned. If a given face is already disassociated from the given UserID, it will be ignored and not be returned in the response. If a given face is already associated with a different User or not found in the collection it will be returned as part of Unsuccess...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -492,7 +492,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// NOTE: This operation applies only to Amazon Rekognition Custom Labels. Distributes the entries (images) in a training dataset across the training dataset and the test dataset for a project. DistributeDatase- tEntries moves 20% of the training dataset images to the test dataset. An entry is a JSON Line that describes an image. You supply the Amazon Resource Names (ARN) of a project's training dataset and test dataset. The training dataset must contain the images that you want to split. The test d...
+    /// NOTE: This operation applies only to Amazon Rekognition Custom Labels. Distributes the entries (images) in a training dataset across the training dataset and the test dataset for a project. DistributeDatasetEntries moves 20% of the training dataset images to the test dataset. An entry is a JSON Line that describes an image. You supply the Amazon Resource Names (ARN) of a project's training dataset and test dataset. The training dataset must contain the images that you want to split. The test dat...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -507,7 +507,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// Gets the name and additional information about a celebrity based on their Amazon Rekognition ID. The additional information is returned as an array of URLs. If there is no additional information about the celebrity, this list is empty. For more information, see Getting information about a celebrity in the Amazon Rekognition Developer Guide. This operation requires permissions to perform the rekogni- tion:GetCelebrityInfo action. See also: AWS API Documentation
+    /// Gets the name and additional information about a celebrity based on their Amazon Rekognition ID. The additional information is returned as an array of URLs. If there is no additional information about the celebrity, this list is empty. For more information, see Getting information about a celebrity in the Amazon Rekognition Developer Guide. This operation requires permissions to perform the rekognition:GetCelebrityInfo action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -522,7 +522,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// Gets the celebrity recognition results for a Amazon Rekognition Video analysis started by StartCelebrityRecognition . Celebrity recognition in a video is an asynchronous operation. Analysis is started by a call to StartCelebrityRecognition which returns a job identifier (JobId ). When the celebrity recognition operation finishes, Amazon Rekognition Video publishes a completion status to the Amazon Simple Notification Service topic registered in the initial call to StartCelebrityRecogni- tion . T...
+    /// Gets the celebrity recognition results for a Amazon Rekognition Video analysis started by StartCelebrityRecognition . Celebrity recognition in a video is an asynchronous operation. Analysis is started by a call to StartCelebrityRecognition which returns a job identifier (JobId ). When the celebrity recognition operation finishes, Amazon Rekognition Video publishes a completion status to the Amazon Simple Notification Service topic registered in the initial call to StartCelebrityRecognition . To ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -537,7 +537,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// Gets the inappropriate, unwanted, or offensive content analysis results for a Amazon Rekognition Video analysis started by StartContentModera- tion . For a list of moderation labels in Amazon Rekognition, see Using the image and video moderation APIs . Amazon Rekognition Video inappropriate or offensive content detection in a stored video is an asynchronous operation. You start analysis by calling StartContentModeration which returns a job identifier (JobId ). When analysis finishes, Amazon Reko...
+    /// Gets the inappropriate, unwanted, or offensive content analysis results for a Amazon Rekognition Video analysis started by StartContentModeration . For a list of moderation labels in Amazon Rekognition, see Using the image and video moderation APIs . Amazon Rekognition Video inappropriate or offensive content detection in a stored video is an asynchronous operation. You start analysis by calling StartContentModeration which returns a job identifier (JobId ). When analysis finishes, Amazon Rekogn...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -552,7 +552,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// Gets face detection results for a Amazon Rekognition Video analysis started by StartFaceDetection . Face detection with Amazon Rekognition Video is an asynchronous opera- tion. You start face detection by calling StartFaceDetection which re- turns a job identifier (JobId ). When the face detection operation fin- ishes, Amazon Rekognition Video publishes a completion status to the Amazon Simple Notification Service topic registered in the initial call to StartFaceDetection . To get the results of...
+    /// Gets face detection results for a Amazon Rekognition Video analysis started by StartFaceDetection . Face detection with Amazon Rekognition Video is an asynchronous operation. You start face detection by calling StartFaceDetection which returns a job identifier (JobId ). When the face detection operation finishes, Amazon Rekognition Video publishes a completion status to the Amazon Simple Notification Service topic registered in the initial call to StartFaceDetection . To get the results of the f...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -567,7 +567,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// Retrieves the results of a specific Face Liveness session. It requires the sessionId as input, which was created using CreateFaceLivenessSes- sion . Returns the corresponding Face Liveness confidence score, a ref- erence image that includes a face bounding box, and audit images that also contain face bounding boxes. The Face Liveness confidence score ranges from 0 to 100. The number of audit images returned by GetFaceLivenessSessionResults is defined by the AuditImagesLimit paramater when callin...
+    /// Retrieves the results of a specific Face Liveness session. It requires the sessionId as input, which was created using CreateFaceLivenessSession . Returns the corresponding Face Liveness confidence score, a reference image that includes a face bounding box, and audit images that also contain face bounding boxes. The Face Liveness confidence score ranges from 0 to 100. The number of audit images returned by GetFaceLivenessSessionResults is defined by the AuditImagesLimit paramater when calling Cr...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -597,7 +597,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// Gets the label detection results of a Amazon Rekognition Video analysis started by StartLabelDetection . The label detection operation is started by a call to StartLabelDetec- tion which returns a job identifier (JobId ). When the label detection operation finishes, Amazon Rekognition publishes a completion status to the Amazon Simple Notification Service topic registered in the initial call to StartlabelDetection . To get the results of the label detection operation, first check that the status...
+    /// Gets the label detection results of a Amazon Rekognition Video analysis started by StartLabelDetection . The label detection operation is started by a call to StartLabelDetection which returns a job identifier (JobId ). When the label detection operation finishes, Amazon Rekognition publishes a completion status to the Amazon Simple Notification Service topic registered in the initial call to StartlabelDetection . To get the results of the label detection operation, first check that the status v...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -612,7 +612,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// WARNING: Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see Rekognition feature availability changes . This change does not impact the availability of other Amazon Rekognition features. Retrieves the results for a given media analysis job. Takes a JobId re- turned by StartMediaAnalysisJob. See also: AWS API Documentation
+    /// WARNING: Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see Rekognition feature availability changes . This change does not impact the availability of other Amazon Rekognition features. Retrieves the results for a given media analysis job. Takes a JobId returned by StartMediaAnalysisJob. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -627,7 +627,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// NOTE: End of support notice: On October 31, 2025, AWS will discontinue support for Amazon Rekognition People Pathing. After October 31, 2025, you will no longer be able to use the Rekognition People Pathing capability. For more information, visit this blog post . Gets the path tracking results of a Amazon Rekognition Video analysis started by StartPersonTracking . The person path tracking operation is started by a call to StartPerson- Tracking which returns a job identifier (JobId ). When the op...
+    /// NOTE: End of support notice: On October 31, 2025, AWS will discontinue support for Amazon Rekognition People Pathing. After October 31, 2025, you will no longer be able to use the Rekognition People Pathing capability. For more information, visit this blog post . Gets the path tracking results of a Amazon Rekognition Video analysis started by StartPersonTracking . The person path tracking operation is started by a call to StartPersonTracking which returns a job identifier (JobId ). When the oper...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -642,7 +642,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// Gets the segment detection results of a Amazon Rekognition Video analy- sis started by StartSegmentDetection . Segment detection with Amazon Rekognition Video is an asynchronous op- eration. You start segment detection by calling StartSegmentDetection which returns a job identifier (JobId ). When the segment detection op- eration finishes, Amazon Rekognition publishes a completion status to the Amazon Simple Notification Service topic registered in the initial call to StartSegmentDetection . To ...
+    /// Gets the segment detection results of a Amazon Rekognition Video analysis started by StartSegmentDetection . Segment detection with Amazon Rekognition Video is an asynchronous operation. You start segment detection by calling StartSegmentDetection which returns a job identifier (JobId ). When the segment detection operation finishes, Amazon Rekognition publishes a completion status to the Amazon Simple Notification Service topic registered in the initial call to StartSegmentDetection . To get th...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -657,7 +657,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// Gets the text detection results of a Amazon Rekognition Video analysis started by StartTextDetection . Text detection with Amazon Rekognition Video is an asynchronous opera- tion. You start text detection by calling StartTextDetection which re- turns a job identifier (JobId ) When the text detection operation fin- ishes, Amazon Rekognition publishes a completion status to the Amazon Simple Notification Service topic registered in the initial call to StartTextDetection . To get the results of the...
+    /// Gets the text detection results of a Amazon Rekognition Video analysis started by StartTextDetection . Text detection with Amazon Rekognition Video is an asynchronous operation. You start text detection by calling StartTextDetection which returns a job identifier (JobId ) When the text detection operation finishes, Amazon Rekognition publishes a completion status to the Amazon Simple Notification Service topic registered in the initial call to StartTextDetection . To get the results of the text ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -672,7 +672,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// Detects faces in the input image and adds them to the specified collec- tion. Amazon Rekognition doesn't save the actual faces that are detected. In- stead, the underlying detection algorithm first detects the faces in the input image. For each face, the algorithm extracts facial features into a feature vector, and stores it in the backend database. Amazon Rekognition uses feature vectors when it performs face match and search operations using the SearchFaces and SearchFacesByImage operations. F...
+    /// Detects faces in the input image and adds them to the specified collection. Amazon Rekognition doesn't save the actual faces that are detected. Instead, the underlying detection algorithm first detects the faces in the input image. For each face, the algorithm extracts facial features into a feature vector, and stores it in the backend database. Amazon Rekognition uses feature vectors when it performs face match and search operations using the SearchFaces and SearchFacesByImage operations. For m...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -687,7 +687,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// Returns list of collection IDs in your account. If the result is trun- cated, the response also provides a NextToken that you can use in the subsequent request to fetch the next set of collection IDs. For an example, see Listing collections in the Amazon Rekognition De- veloper Guide. This operation requires permissions to perform the rekognition:ListCol- lections action. See also: AWS API Documentation list-collections is a paginated operation. Multiple API calls may be issued in order to retri...
+    /// Returns list of collection IDs in your account. If the result is truncated, the response also provides a NextToken that you can use in the subsequent request to fetch the next set of collection IDs. For an example, see Listing collections in the Amazon Rekognition Developer Guide. This operation requires permissions to perform the rekognition:ListCollections action. See also: AWS API Documentation list-collections is a paginated operation. Multiple API calls may be issued in order to retrieve th...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -702,7 +702,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// NOTE: This operation applies only to Amazon Rekognition Custom Labels. Lists the entries (images) within a dataset. An entry is a JSON Line that contains the information for a single image, including the image location, assigned labels, and object location bounding boxes. For more information, see Creating a manifest file . JSON Lines in the response include information about non-terminal er- rors found in the dataset. Non terminal errors are reported in errors lists within each JSON Line. The s...
+    /// NOTE: This operation applies only to Amazon Rekognition Custom Labels. Lists the entries (images) within a dataset. An entry is a JSON Line that contains the information for a single image, including the image location, assigned labels, and object location bounding boxes. For more information, see Creating a manifest file . JSON Lines in the response include information about non-terminal errors found in the dataset. Non terminal errors are reported in errors lists within each JSON Line. The sam...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -732,7 +732,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// Returns metadata for faces in the specified collection. This metadata includes information such as the bounding box coordinates, the confi- dence (that the bounding box contains a face), and face ID. For an ex- ample, see Listing Faces in a Collection in the Amazon Rekognition De- veloper Guide. This operation requires permissions to perform the rekognition:List- Faces action. See also: AWS API Documentation list-faces is a paginated operation. Multiple API calls may be issued in order to retrie...
+    /// Returns metadata for faces in the specified collection. This metadata includes information such as the bounding box coordinates, the confidence (that the bounding box contains a face), and face ID. For an example, see Listing Faces in a Collection in the Amazon Rekognition Developer Guide. This operation requires permissions to perform the rekognition:ListFaces action. See also: AWS API Documentation list-faces is a paginated operation. Multiple API calls may be issued in order to retrieve the e...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -747,7 +747,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// WARNING: Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see Rekognition feature availability changes . This change does not impact the availability of other Amazon Rekognition features. Returns a list of media analysis jobs. Results are sorted by Creation- Timestamp in descending order. See also: AWS API Documentation
+    /// WARNING: Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see Rekognition feature availability changes . This change does not impact the availability of other Amazon Rekognition features. Returns a list of media analysis jobs. Results are sorted by CreationTimestamp in descending order. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -762,7 +762,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// NOTE: This operation applies only to Amazon Rekognition Custom Labels. Gets a list of the project policies attached to a project. To attach a project policy to a project, call PutProjectPolicy . To remove a project policy from a project, call DeleteProjectPolicy . This operation requires permissions to perform the rekognition:ListPro- jectPolicies action. See also: AWS API Documentation list-project-policies is a paginated operation. Multiple API calls may be issued in order to retrieve the enti...
+    /// NOTE: This operation applies only to Amazon Rekognition Custom Labels. Gets a list of the project policies attached to a project. To attach a project policy to a project, call PutProjectPolicy . To remove a project policy from a project, call DeleteProjectPolicy . This operation requires permissions to perform the rekognition:ListProjectPolicies action. See also: AWS API Documentation list-project-policies is a paginated operation. Multiple API calls may be issued in order to retrieve the entire...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -777,7 +777,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// WARNING: Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see Rekognition feature availability changes . This change does not impact the availability of other Amazon Rekognition features. Gets a list of stream processors that you have created with Creat- eStreamProcessor . See also: AWS API Documentation list-stream-processors is a paginated operation. Multiple API calls may be issued in order to retrieve the enti...
+    /// WARNING: Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see Rekognition feature availability changes . This change does not impact the availability of other Amazon Rekognition features. Gets a list of stream processors that you have created with CreateStreamProcessor . See also: AWS API Documentation list-stream-processors is a paginated operation. Multiple API calls may be issued in order to retrieve the entire...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -792,7 +792,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// Returns a list of tags in an Amazon Rekognition collection, stream processor, or Custom Labels model. This operation requires permissions to perform the rekognition:List- TagsForResource action. See also: AWS API Documentation
+    /// Returns a list of tags in an Amazon Rekognition collection, stream processor, or Custom Labels model. This operation requires permissions to perform the rekognition:ListTagsForResource action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -807,7 +807,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// Returns metadata of the User such as UserID in the specified collec- tion. Anonymous User (to reserve faces without any identity) is not re- turned as part of this request. The results are sorted by system gener- ated primary key ID. If the response is truncated, NextToken is re- turned in the response that can be used in the subsequent request to retrieve the next set of identities. See also: AWS API Documentation list-users is a paginated operation. Multiple API calls may be issued in order to...
+    /// Returns metadata of the User such as UserID in the specified collection. Anonymous User (to reserve faces without any identity) is not returned as part of this request. The results are sorted by system generated primary key ID. If the response is truncated, NextToken is returned in the response that can be used in the subsequent request to retrieve the next set of identities. See also: AWS API Documentation list-users is a paginated operation. Multiple API calls may be issued in order to retriev...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -837,7 +837,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// Returns an array of celebrities recognized in the input image. For more information, see Recognizing celebrities in the Amazon Rekognition De- veloper Guide. RecognizeCelebrities returns the 64 largest faces in the image. It lists the recognized celebrities in the CelebrityFaces array and any unrecognized faces in the UnrecognizedFaces array. RecognizeCelebri- ties doesn't return celebrities whose faces aren't among the largest 64 faces in the image. For each celebrity recognized, RecognizeCeleb...
+    /// Returns an array of celebrities recognized in the input image. For more information, see Recognizing celebrities in the Amazon Rekognition Developer Guide. RecognizeCelebrities returns the 64 largest faces in the image. It lists the recognized celebrities in the CelebrityFaces array and any unrecognized faces in the UnrecognizedFaces array. RecognizeCelebrities doesn't return celebrities whose faces aren't among the largest 64 faces in the image. For each celebrity recognized, RecognizeCelebriti...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -852,7 +852,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// For a given input image, first detects the largest face in the image, and then searches the specified collection for matching faces. The op- eration compares the features of the input face with faces in the spec- ified collection. NOTE: To search for all faces in an input image, you might first call the IndexFaces operation, and then use the face IDs returned in subse- quent calls to the SearchFaces operation. You can also call the DetectFaces operation and use the bounding boxes in the response...
+    /// For a given input image, first detects the largest face in the image, and then searches the specified collection for matching faces. The operation compares the features of the input face with faces in the specified collection. NOTE: To search for all faces in an input image, you might first call the IndexFaces operation, and then use the face IDs returned in subsequent calls to the SearchFaces operation. You can also call the DetectFaces operation and use the bounding boxes in the response to ma...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -867,7 +867,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// For a given input face ID, searches for matching faces in the collec- tion the face belongs to. You get a face ID when you add a face to the collection using the IndexFaces operation. The operation compares the features of the input face with faces in the specified collection. NOTE: You can also search faces without indexing faces by using the SearchFacesByImage operation. The operation response returns an array of faces that match, ordered by similarity score with the highest similarity first. ...
+    /// For a given input face ID, searches for matching faces in the collection the face belongs to. You get a face ID when you add a face to the collection using the IndexFaces operation. The operation compares the features of the input face with faces in the specified collection. NOTE: You can also search faces without indexing faces by using the SearchFacesByImage operation. The operation response returns an array of faces that match, ordered by similarity score with the highest similarity first. Mo...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -897,7 +897,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// Searches for UserIDs within a collection based on a FaceId or UserId . This API can be used to find the closest UserID (with a highest simi- larity) to associate a face. The request must be provided with either FaceId or UserId . The operation returns an array of UserID that match the FaceId or UserId , ordered by similarity score with the highest similarity first. See also: AWS API Documentation
+    /// Searches for UserIDs within a collection based on a FaceId or UserId . This API can be used to find the closest UserID (with a highest similarity) to associate a face. The request must be provided with either FaceId or UserId . The operation returns an array of UserID that match the FaceId or UserId , ordered by similarity score with the highest similarity first. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -927,7 +927,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// Starts asynchronous detection of inappropriate, unwanted, or offensive content in a stored video. For a list of moderation labels in Amazon Rekognition, see Using the image and video moderation APIs . Amazon Rekognition Video can moderate content in a video stored in an Amazon S3 bucket. Use Video to specify the bucket name and the file- name of the video. StartContentModeration returns a job identifier (Jo- bId ) which you use to get the results of the analysis. When content analysis is finishe...
+    /// Starts asynchronous detection of inappropriate, unwanted, or offensive content in a stored video. For a list of moderation labels in Amazon Rekognition, see Using the image and video moderation APIs . Amazon Rekognition Video can moderate content in a video stored in an Amazon S3 bucket. Use Video to specify the bucket name and the filename of the video. StartContentModeration returns a job identifier (JobId ) which you use to get the results of the analysis. When content analysis is finished, A...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -942,7 +942,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// Starts asynchronous detection of faces in a stored video. Amazon Rekognition Video can detect faces in a video stored in an Ama- zon S3 bucket. Use Video to specify the bucket name and the filename of the video. StartFaceDetection returns a job identifier (JobId ) that you use to get the results of the operation. When face detection is finished, Amazon Rekognition Video publishes a completion status to the Amazon Simple Notification Service topic that you specify in Notifica- tionChannel . To ge...
+    /// Starts asynchronous detection of faces in a stored video. Amazon Rekognition Video can detect faces in a video stored in an Amazon S3 bucket. Use Video to specify the bucket name and the filename of the video. StartFaceDetection returns a job identifier (JobId ) that you use to get the results of the operation. When face detection is finished, Amazon Rekognition Video publishes a completion status to the Amazon Simple Notification Service topic that you specify in NotificationChannel . To get th...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -957,7 +957,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// Starts the asynchronous search for faces in a collection that match the faces of persons detected in a stored video. The video must be stored in an Amazon S3 bucket. Use Video to specify the bucket name and the filename of the video. StartFaceSearch returns a job identifier (JobId ) which you use to get the search results once the search has completed. When searching is finished, Amazon Rekogni- tion Video publishes a completion status to the Amazon Simple Notifica- tion Service topic that you s...
+    /// Starts the asynchronous search for faces in a collection that match the faces of persons detected in a stored video. The video must be stored in an Amazon S3 bucket. Use Video to specify the bucket name and the filename of the video. StartFaceSearch returns a job identifier (JobId ) which you use to get the search results once the search has completed. When searching is finished, Amazon Rekognition Video publishes a completion status to the Amazon Simple Notification Service topic that you speci...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -972,7 +972,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// Starts asynchronous detection of labels in a stored video. Amazon Rekognition Video can detect labels in a video. Labels are in- stances of real-world entities. This includes objects like flower, tree, and table; events like wedding, graduation, and birthday party; concepts like landscape, evening, and nature; and activities like a person getting out of a car or a person skiing. The video must be stored in an Amazon S3 bucket. Use Video to specify the bucket name and the filename of the video. S...
+    /// Starts asynchronous detection of labels in a stored video. Amazon Rekognition Video can detect labels in a video. Labels are instances of real-world entities. This includes objects like flower, tree, and table; events like wedding, graduation, and birthday party; concepts like landscape, evening, and nature; and activities like a person getting out of a car or a person skiing. The video must be stored in an Amazon S3 bucket. Use Video to specify the bucket name and the filename of the video. Sta...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -987,7 +987,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// WARNING: Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see Rekognition feature availability changes . This change does not impact the availability of other Amazon Rekognition features. Initiates a new media analysis job. Accepts a manifest file in an Ama- zon S3 bucket. The output is a manifest file and a summary of the mani- fest stored in the Amazon S3 bucket. See also: AWS API Documentation
+    /// WARNING: Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see Rekognition feature availability changes . This change does not impact the availability of other Amazon Rekognition features. Initiates a new media analysis job. Accepts a manifest file in an Amazon S3 bucket. The output is a manifest file and a summary of the manifest stored in the Amazon S3 bucket. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1017,7 +1017,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// NOTE: This operation applies only to Amazon Rekognition Custom Labels. Starts the running of the version of a model. Starting a model takes a while to complete. To check the current state of the model, use De- scribeProjectVersions . Once the model is running, you can detect custom labels in new images by calling DetectCustomLabels . NOTE: You are charged for the amount of time that the model is running. To stop a running model, call StopProjectVersion . This operation requires permissions to pe...
+    /// NOTE: This operation applies only to Amazon Rekognition Custom Labels. Starts the running of the version of a model. Starting a model takes a while to complete. To check the current state of the model, use DescribeProjectVersions . Once the model is running, you can detect custom labels in new images by calling DetectCustomLabels . NOTE: You are charged for the amount of time that the model is running. To stop a running model, call StopProjectVersion . This operation requires permissions to perf...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1032,7 +1032,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// Starts asynchronous detection of segment detection in a stored video. Amazon Rekognition Video can detect segments in a video stored in an Amazon S3 bucket. Use Video to specify the bucket name and the file- name of the video. StartSegmentDetection returns a job identifier (Jo- bId ) which you use to get the results of the operation. When segment detection is finished, Amazon Rekognition Video publishes a completion status to the Amazon Simple Notification Service topic that you specify in Notif...
+    /// Starts asynchronous detection of segment detection in a stored video. Amazon Rekognition Video can detect segments in a video stored in an Amazon S3 bucket. Use Video to specify the bucket name and the filename of the video. StartSegmentDetection returns a job identifier (JobId ) which you use to get the results of the operation. When segment detection is finished, Amazon Rekognition Video publishes a completion status to the Amazon Simple Notification Service topic that you specify in Notificat...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1062,7 +1062,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// Starts asynchronous detection of text in a stored video. Amazon Rekognition Video can detect text in a video stored in an Amazon S3 bucket. Use Video to specify the bucket name and the filename of the video. StartTextDetection returns a job identifier (JobId ) which you use to get the results of the operation. When text detection is finished, Amazon Rekognition Video publishes a completion status to the Amazon Simple Notification Service topic that you specify in Notifica- tionChannel . To get t...
+    /// Starts asynchronous detection of text in a stored video. Amazon Rekognition Video can detect text in a video stored in an Amazon S3 bucket. Use Video to specify the bucket name and the filename of the video. StartTextDetection returns a job identifier (JobId ) which you use to get the results of the operation. When text detection is finished, Amazon Rekognition Video publishes a completion status to the Amazon Simple Notification Service topic that you specify in NotificationChannel . To get the...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1077,7 +1077,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// NOTE: This operation applies only to Amazon Rekognition Custom Labels. Stops a running model. The operation might take a while to complete. To check the current status, call DescribeProjectVersions . Only applies to Custom Labels projects. This operation requires permissions to perform the rekognition:StopPro- jectVersion action. See also: AWS API Documentation
+    /// NOTE: This operation applies only to Amazon Rekognition Custom Labels. Stops a running model. The operation might take a while to complete. To check the current status, call DescribeProjectVersions . Only applies to Custom Labels projects. This operation requires permissions to perform the rekognition:StopProjectVersion action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1092,7 +1092,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// WARNING: Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see Rekognition feature availability changes . This change does not impact the availability of other Amazon Rekognition features. Stops a running stream processor that was created by CreateStream- Processor . See also: AWS API Documentation
+    /// WARNING: Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see Rekognition feature availability changes . This change does not impact the availability of other Amazon Rekognition features. Stops a running stream processor that was created by CreateStreamProcessor . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1107,7 +1107,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// Adds one or more key-value tags to an Amazon Rekognition collection, stream processor, or Custom Labels model. For more information, see Tagging AWS Resources . This operation requires permissions to perform the rekognition:TagRe- source action. See also: AWS API Documentation
+    /// Adds one or more key-value tags to an Amazon Rekognition collection, stream processor, or Custom Labels model. For more information, see Tagging AWS Resources . This operation requires permissions to perform the rekognition:TagResource action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1122,7 +1122,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// Removes one or more tags from an Amazon Rekognition collection, stream processor, or Custom Labels model. This operation requires permissions to perform the rekognition:UntagRe- source action. See also: AWS API Documentation
+    /// Removes one or more tags from an Amazon Rekognition collection, stream processor, or Custom Labels model. This operation requires permissions to perform the rekognition:UntagResource action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1137,7 +1137,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// NOTE: This operation applies only to Amazon Rekognition Custom Labels. Adds or updates one or more entries (images) in a dataset. An entry is a JSON Line which contains the information for a single image, includ- ing the image location, assigned labels, and object location bounding boxes. For more information, see Image-Level labels in manifest files and Object localization in manifest files in the Amazon Rekognition Custom Labels Developer Guide . If the source-ref field in the JSON line refere...
+    /// NOTE: This operation applies only to Amazon Rekognition Custom Labels. Adds or updates one or more entries (images) in a dataset. An entry is a JSON Line which contains the information for a single image, including the image location, assigned labels, and object location bounding boxes. For more information, see Image-Level labels in manifest files and Object localization in manifest files in the Amazon Rekognition Custom Labels Developer Guide . If the source-ref field in the JSON line referenc...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

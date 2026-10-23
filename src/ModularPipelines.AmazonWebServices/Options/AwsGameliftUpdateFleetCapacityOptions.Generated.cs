@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API works with the following fleet types: EC2, Container Updates capacity settings for a managed EC2 fleet or managed container fleet. For these fleets, you adjust capacity by changing the number of instances in the fleet. Fleet capacity determines the number of game sessions and players that the fleet can host based on its configura- tion. For fleets with multiple locations, use this operation to manage capacity settings in each location individually. o Minimum/maximum size: Set hard limit...
+/// This API works with the following fleet types: EC2, Container Updates capacity settings for a managed EC2 fleet or managed container fleet. For these fleets, you adjust capacity by changing the number of instances in the fleet. Fleet capacity determines the number of game sessions and players that the fleet can host based on its configuration. For fleets with multiple locations, use this operation to manage capacity settings in each location individually. • Minimum/maximum size: Set hard limits ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsGameliftUpdateFleetCapacityOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Container Updates capacity settings for a managed EC2 fleet or managed container fleet. For these fleets, you adjust capacity by changing the number of instances in the fleet. Fleet capacity determines the number of game sessions and players that the fleet can host based on its configura- tion. For fleets with multiple locations, use this operation to manage capacity settings in each location individually. o Minimum/maximum size: Set hard limit...
+    /// This API works with the following fleet types: EC2, Container Updates capacity settings for a managed EC2 fleet or managed container fleet. For these fleets, you adjust capacity by changing the number of instances in the fleet. Fleet capacity determines the number of game sessions and players that the fleet can host based on its configuration. For fleets with multiple locations, use this operation to manage capacity settings in each location individually. • Minimum/maximum size: Set hard limits ...
     /// </summary>
-    /// <param name="FleetId">A unique identifier for the fleet to update capacity settings for. You can use either the fleet ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$</param>
+    /// <param name="FleetId">A unique identifier for the fleet to update capacity settings for. You can use either the fleet ID or ARN value. Constraints: • min: 1 • max: 512 • pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$</param>
     public AwsGameliftUpdateFleetCapacityOptions(
         string FleetId
     )
@@ -56,37 +57,37 @@ public record AwsGameliftUpdateFleetCapacityOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the fleet to update capacity settings for. You can use either the fleet ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$
+    /// A unique identifier for the fleet to update capacity settings for. You can use either the fleet ID or ARN value. Constraints: • min: 1 • max: 512 • pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$
     /// </summary>
     [CliOption("--fleet-id")]
     public string? FleetId { get; private init; }
 
     /// <summary>
-    /// The number of Amazon EC2 instances you want to maintain in the spec- ified fleet location. This value must fall between the minimum and maximum size limits. Changes in desired instance value can take up to 1 minute to be reflected when viewing the fleet's capacity set- tings. Constraints: o min: 0
+    /// The number of Amazon EC2 instances you want to maintain in the specified fleet location. This value must fall between the minimum and maximum size limits. Changes in desired instance value can take up to 1 minute to be reflected when viewing the fleet's capacity settings. Constraints: • min: 0
     /// </summary>
     [CliOption("--desired-instances")]
     public int? DesiredInstances { get; set; }
 
     /// <summary>
-    /// The minimum number of instances that are allowed in the specified fleet location. If this parameter is not set, the default is 0. This parameter cannot be set when using a ManagedCapacityConfiguration where ZeroCapacityStrategy has a value of SCALE_TO_AND_FROM_ZERO. Constraints: o min: 0
+    /// The minimum number of instances that are allowed in the specified fleet location. If this parameter is not set, the default is 0. This parameter cannot be set when using a ManagedCapacityConfiguration where ZeroCapacityStrategy has a value of SCALE_TO_AND_FROM_ZERO. Constraints: • min: 0
     /// </summary>
     [CliOption("--min-size")]
     public int? MinSize { get; set; }
 
     /// <summary>
-    /// The maximum number of instances that are allowed in the specified fleet location. If this parameter is not set, the default is 1. Constraints: o min: 0
+    /// The maximum number of instances that are allowed in the specified fleet location. If this parameter is not set, the default is 1. Constraints: • min: 0
     /// </summary>
     [CliOption("--max-size")]
     public int? MaxSize { get; set; }
 
     /// <summary>
-    /// The name of a remote location to update fleet capacity settings for, in the form of an Amazon Web Services Region code such as us-west-2 . Constraints: o min: 1 o max: 64 o pattern: ^[A-Za-z0-9\-]+$
+    /// The name of a remote location to update fleet capacity settings for, in the form of an Amazon Web Services Region code such as us-west-2 . Constraints: • min: 1 • max: 64 • pattern: ^[A-Za-z0-9\-]+$
     /// </summary>
     [CliOption("--location")]
     public string? Location { get; set; }
 
     /// <summary>
-    /// Configuration for Amazon GameLift Servers-managed capacity scaling options. ZeroCapacityStrategy -&gt; (string) The strategy Amazon GameLift Servers will use to automatically scale your capacity to and from zero instances in response to game session activity. Game session activity refers to any ac- tive running sessions or game session requests. Possible ZeroCapacityStrategy types include: o MANUAL -- (default value) Amazon GameLift Servers will not up- date capacity to and from zero on your behalf. o SCALE_TO_AND_FROM_ZERO -- Amazon GameLift Servers will auto- matically scale out MinSize and DesiredInstances from 0 to 1 in response to a game session request, and will scale in Min- Size and DesiredInstances to 0 after a period with no game session activity. The duration of this scale in period can be configured using ScaleInAfterInactivityMinutes. Possible values: o MANUAL o SCALE_TO_AND_FROM_ZERO ScaleInAfterInactivityMinutes -&gt; (integer) Length of time, in minutes, that Amazon GameLift Servers will wait before scaling in your MinSize and DesiredInstances to 0 after a period with no game session activity. Default: 30 min- utes. Constraints: o min: 5 o max: 1440 Shorthand Syntax: ZeroCapacityStrategy=string,ScaleInAfterInactivityMinutes=integer JSON Syntax: { "ZeroCapacityStrategy": "MANUAL"|"SCALE_TO_AND_FROM_ZERO", "ScaleInAfterInactivityMinutes": integer }
+    /// Configuration for Amazon GameLift Servers-managed capacity scaling options. ZeroCapacityStrategy -&gt; (string) The strategy Amazon GameLift Servers will use to automatically scale your capacity to and from zero instances in response to game session activity. Game session activity refers to any active running sessions or game session requests. Possible ZeroCapacityStrategy types include: • MANUAL -- (default value) Amazon GameLift Servers will not update capacity to and from zero on your behalf. • SCALE_TO_AND_FROM_ZERO -- Amazon GameLift Servers will automatically scale out MinSize and DesiredInstances from 0 to 1 in response to a game session request, and will scale in MinSize and DesiredInstances to 0 after a period with no game session activity. The duration of this scale in period can be configured using ScaleInAfterInactivityMinutes. Possible values: • MANUAL • SCALE_TO_AND_FROM_ZERO ScaleInAfterInactivityMinutes -&gt; (integer) Length of time, in minutes, that Amazon GameLift Servers will wait before scaling in your MinSize and DesiredInstances to 0 after a period with no game session activity. Default: 30 minutes. Constraints: • min: 5 • max: 1440 Shorthand Syntax: ZeroCapacityStrategy=string,ScaleInAfterInactivityMinutes=integer JSON Syntax: { "ZeroCapacityStrategy": "MANUAL"|"SCALE_TO_AND_FROM_ZERO", "ScaleInAfterInactivityMinutes": integer }
     /// </summary>
     [CliOption("--managed-capacity-configuration")]
     public string? ManagedCapacityConfiguration { get; set; }
@@ -112,6 +113,15 @@ public record AwsGameliftUpdateFleetCapacityOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

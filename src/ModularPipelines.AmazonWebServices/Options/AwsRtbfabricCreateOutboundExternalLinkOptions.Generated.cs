@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -29,9 +29,9 @@ public record AwsRtbfabricCreateOutboundExternalLinkOptions : AwsOptions, IValid
     /// <summary>
     /// Creates an outbound external link. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GatewayId">The unique identifier of the gateway. Constraints: o min: 8 o max: 32 o pattern: rtb-gw-[a-z0-9-]{1,25}</param>
-    /// <param name="PublicEndpoint">The public endpoint of the link. Constraints: o min: 0 o max: 255 o pattern: (https|http)://.+</param>
-    /// <param name="LogSettings">Settings for the application logs. applicationLogs -&gt; (structure) [required] Describes the configuration of a link application log. sampling -&gt; (structure) [required] Describes a link application log sample. errorLog -&gt; (double) [required] An error log entry. Constraints: o min: 0.0 o max: 100.0 filterLog -&gt; (double) [required] A filter log entry. Constraints: o min: 0.0 o max: 100.0 Shorthand Syntax: applicationLogs={sampling={errorLog=double,filterLog=double}} JSON Syntax: { "applicationLogs": { "sampling": { "errorLog": double, "filterLog": double } } }</param>
+    /// <param name="GatewayId">The unique identifier of the gateway. Constraints: • min: 8 • max: 32 • pattern: rtb-gw-[a-z0-9-]{1,25}</param>
+    /// <param name="PublicEndpoint">The public endpoint of the link. Constraints: • min: 0 • max: 255 • pattern: (https|http)://.+</param>
+    /// <param name="LogSettings">Settings for the application logs. applicationLogs -&gt; (structure) [required] Describes the configuration of a link application log. sampling -&gt; (structure) [required] Describes a link application log sample. errorLog -&gt; (double) [required] An error log entry. Constraints: • min: 0.0 • max: 100.0 filterLog -&gt; (double) [required] A filter log entry. Constraints: • min: 0.0 • max: 100.0 Shorthand Syntax: applicationLogs={sampling={errorLog=double,filterLog=double}} JSON Syntax: { "applicationLogs": { "sampling": { "errorLog": double, "filterLog": double } } }</param>
     public AwsRtbfabricCreateOutboundExternalLinkOptions(
         string GatewayId,
         string PublicEndpoint,
@@ -66,38 +66,38 @@ public record AwsRtbfabricCreateOutboundExternalLinkOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the gateway. Constraints: o min: 8 o max: 32 o pattern: rtb-gw-[a-z0-9-]{1,25}
+    /// The unique identifier of the gateway. Constraints: • min: 8 • max: 32 • pattern: rtb-gw-[a-z0-9-]{1,25}
     /// </summary>
     [CliOption("--gateway-id")]
     public string? GatewayId { get; private init; }
 
     /// <summary>
-    /// The public endpoint of the link. Constraints: o min: 0 o max: 255 o pattern: (https|http)://.+
+    /// The public endpoint of the link. Constraints: • min: 0 • max: 255 • pattern: (https|http)://.+
     /// </summary>
     [CliOption("--public-endpoint")]
     public string? PublicEndpoint { get; private init; }
 
     /// <summary>
-    /// Settings for the application logs. applicationLogs -&gt; (structure) [required] Describes the configuration of a link application log. sampling -&gt; (structure) [required] Describes a link application log sample. errorLog -&gt; (double) [required] An error log entry. Constraints: o min: 0.0 o max: 100.0 filterLog -&gt; (double) [required] A filter log entry. Constraints: o min: 0.0 o max: 100.0 Shorthand Syntax: applicationLogs={sampling={errorLog=double,filterLog=double}} JSON Syntax: { "applicationLogs": { "sampling": { "errorLog": double, "filterLog": double } } }
+    /// Settings for the application logs. applicationLogs -&gt; (structure) [required] Describes the configuration of a link application log. sampling -&gt; (structure) [required] Describes a link application log sample. errorLog -&gt; (double) [required] An error log entry. Constraints: • min: 0.0 • max: 100.0 filterLog -&gt; (double) [required] A filter log entry. Constraints: • min: 0.0 • max: 100.0 Shorthand Syntax: applicationLogs={sampling={errorLog=double,filterLog=double}} JSON Syntax: { "applicationLogs": { "sampling": { "errorLog": double, "filterLog": double } } }
     /// </summary>
     [CliOption("--log-settings")]
     public string? LogSettings { get; private init; }
 
     /// <summary>
-    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value . If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same clientToken , but with dif- ferent parameters, the retry fails with an IdempotentParameterMis- match error.
+    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value . If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same clientToken , but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// Attributes of the link. responderErrorMasking -&gt; (list) Describes the masking for HTTP error codes. Constraints: o min: 1 o max: 200 (structure) Describes the masking for HTTP error codes. httpCode -&gt; (string) [required] The HTTP error code. Constraints: o min: 3 o max: 7 o pattern: DEFAULT|4XX|5XX|\d{3} action -&gt; (string) [required] The action for the error.. Possible values: o NO_BID o PASSTHROUGH loggingTypes -&gt; (list) [required] The error log type. Constraints: o min: 1 o max: 2 (string) Possible values: o NONE o METRIC o RESPONSE responseLoggingPercentage -&gt; (float) The percentage of response logging. Constraints: o min: 0 o max: 100 customerProvidedId -&gt; (string) The customer-provided unique identifier of the link. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_-]+ JSON Syntax: { "responderErrorMasking": [ { "httpCode": "string", "action": "NO_BID"|"PASSTHROUGH", "loggingTypes": ["NONE"|"METRIC"|"RESPONSE", ...], "responseLoggingPercentage": float } ... ], "customerProvidedId": "string" }
+    /// Attributes of the link. responderErrorMasking -&gt; (list) Describes the masking for HTTP error codes. Constraints: • min: 1 • max: 200 (structure) Describes the masking for HTTP error codes. httpCode -&gt; (string) [required] The HTTP error code. Constraints: • min: 3 • max: 7 • pattern: DEFAULT|4XX|5XX|\d{3} action -&gt; (string) [required] The action for the error.. Possible values: • NO_BID • PASSTHROUGH loggingTypes -&gt; (list) [required] The error log type. Constraints: • min: 1 • max: 2 (string) Possible values: • NONE • METRIC • RESPONSE responseLoggingPercentage -&gt; (float) The percentage of response logging. Constraints: • min: 0 • max: 100 customerProvidedId -&gt; (string) The customer-provided unique identifier of the link. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9_-]+ JSON Syntax: { "responderErrorMasking": [ { "httpCode": "string", "action": "NO_BID"|"PASSTHROUGH", "loggingTypes": ["NONE"|"METRIC"|"RESPONSE", ...], "responseLoggingPercentage": float } ... ], "customerProvidedId": "string" }
     /// </summary>
     [CliOption("--attributes")]
     public string? Attributes { get; set; }
 
     /// <summary>
-    /// A map of the key-value pairs of the tag or tags to assign to the re- source. key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: (resourceArn|internalId|[a-zA-Z0-9+\-=._:/@]+) value -&gt; (string) Constraints: o min: 0 o max: 1600 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A map of the key-value pairs of the tag or tags to assign to the resource. key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: (resourceArn|internalId|[a-zA-Z0-9+\-=._:/@]+) value -&gt; (string) Constraints: • min: 0 • max: 1600 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -123,6 +123,15 @@ public record AwsRtbfabricCreateOutboundExternalLinkOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates a file in an asset See also: AWS API Documentation update-asset-file uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+/// Updates a file in an asset See also: AWS API Documentation update-asset-file uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsDevopsAgentUpdateAssetFileOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates a file in an asset See also: AWS API Documentation update-asset-file uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Updates a file in an asset See also: AWS API Documentation update-asset-file uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
-    /// <param name="AgentSpaceId">The unique identifier for the agent space containing the asset Constraints: o min: 1 o max: 2048</param>
-    /// <param name="AssetId">The unique identifier of the asset containing the file Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+</param>
-    /// <param name="Path">The path of the file within the asset to update Constraints: o min: 1 o max: 512 o pattern: [a-zA-Z0-9_./ ()-]+</param>
+    /// <param name="AgentSpaceId">The unique identifier for the agent space containing the asset Constraints: • min: 1 • max: 2048</param>
+    /// <param name="AssetId">The unique identifier of the asset containing the file Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="Path">The path of the file within the asset to update Constraints: • min: 1 • max: 512 • pattern: [a-zA-Z0-9_./ ()-]+</param>
     public AwsDevopsAgentUpdateAssetFileOptions(
         string AgentSpaceId,
         string AssetId,
@@ -65,25 +66,25 @@ public record AwsDevopsAgentUpdateAssetFileOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the agent space containing the asset Constraints: o min: 1 o max: 2048
+    /// The unique identifier for the agent space containing the asset Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--agent-space-id")]
     public string? AgentSpaceId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the asset containing the file Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
+    /// The unique identifier of the asset containing the file Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--asset-id")]
     public string? AssetId { get; private init; }
 
     /// <summary>
-    /// The path of the file within the asset to update Constraints: o min: 1 o max: 512 o pattern: [a-zA-Z0-9_./ ()-]+
+    /// The path of the file within the asset to update Constraints: • min: 1 • max: 512 • pattern: [a-zA-Z0-9_./ ()-]+
     /// </summary>
     [CliOption("--path")]
     public string? Path { get; private init; }
 
     /// <summary>
-    /// Updated file content. If omitted, the existing content is unchanged. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: bytes, text. bytes -&gt; (blob) Binary file content Constraints: o min: 0 o max: 6291456 text -&gt; (string) Text file content Constraints: o min: 0 o max: 6291456 Shorthand Syntax: bytes=blob,text=string JSON Syntax: { "bytes": blob, "text": "string" }
+    /// Updated file content. If omitted, the existing content is unchanged. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: bytes, text. bytes -&gt; (blob) Binary file content Constraints: • min: 0 • max: 6291456 text -&gt; (string) Text file content Constraints: • min: 0 • max: 6291456 Shorthand Syntax: bytes=blob,text=string JSON Syntax: { "bytes": blob, "text": "string" }
     /// </summary>
     [CliOption("--content")]
     public string? Content { get; set; }
@@ -95,7 +96,7 @@ public record AwsDevopsAgentUpdateAssetFileOptions : AwsOptions, IValidatableObj
     public string? Metadata { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier used for idempotent asset file update Constraints: o min: 1 o max: 128
+    /// A unique, case-sensitive identifier used for idempotent asset file update Constraints: • min: 1 • max: 128
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -122,6 +123,15 @@ public record AwsDevopsAgentUpdateAssetFileOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

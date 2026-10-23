@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: This operation is not supported for directory buckets. Returns the website configuration for a bucket. To host website on Ama- zon S3, you can configure a bucket as website by adding a website con- figuration. For more information about hosting websites, see Hosting Websites on Amazon S3 . This GET action requires the S3:GetBucketWebsite permission. By de- fault, only the bucket owner can read the bucket website configuration. However, bucket owners can allow other users to read the websit...
+/// NOTE: This operation is not supported for directory buckets. Returns the website configuration for a bucket. To host website on Amazon S3, you can configure a bucket as website by adding a website configuration. For more information about hosting websites, see Hosting Websites on Amazon S3 . This GET action requires the S3:GetBucketWebsite permission. By default, only the bucket owner can read the bucket website configuration. However, bucket owners can allow other users to read the website conf...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsS3apiGetBucketWebsiteOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: This operation is not supported for directory buckets. Returns the website configuration for a bucket. To host website on Ama- zon S3, you can configure a bucket as website by adding a website con- figuration. For more information about hosting websites, see Hosting Websites on Amazon S3 . This GET action requires the S3:GetBucketWebsite permission. By de- fault, only the bucket owner can read the bucket website configuration. However, bucket owners can allow other users to read the websit...
+    /// NOTE: This operation is not supported for directory buckets. Returns the website configuration for a bucket. To host website on Amazon S3, you can configure a bucket as website by adding a website configuration. For more information about hosting websites, see Hosting Websites on Amazon S3 . This GET action requires the S3:GetBucketWebsite permission. By default, only the bucket owner can read the bucket website configuration. However, bucket owners can allow other users to read the website conf...
     /// </summary>
     /// <param name="Bucket">The bucket name for which to get the website configuration.</param>
     public AwsS3apiGetBucketWebsiteOptions(
@@ -62,7 +63,7 @@ public record AwsS3apiGetBucketWebsiteOptions : AwsOptions, IValidatableObject
     public string? Bucket { get; private init; }
 
     /// <summary>
-    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the re- quest fails with the HTTP status code 403 Forbidden (access denied).
+    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
     /// </summary>
     [CliOption("--expected-bucket-owner")]
     public string? ExpectedBucketOwner { get; set; }
@@ -88,6 +89,15 @@ public record AwsS3apiGetBucketWebsiteOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

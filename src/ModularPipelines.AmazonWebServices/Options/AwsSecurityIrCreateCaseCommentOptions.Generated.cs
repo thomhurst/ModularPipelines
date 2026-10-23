@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +29,8 @@ public record AwsSecurityIrCreateCaseCommentOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Adds a comment to an existing case. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CaseId">Required element used in combination with CreateCaseComment to spec- ify a case ID. Constraints: o min: 10 o max: 32 o pattern: \d{10,32}.*</param>
-    /// <param name="Body">Required element used in combination with CreateCaseComment to add content for the new comment. Constraints: o min: 1 o max: 12000</param>
+    /// <param name="CaseId">Required element used in combination with CreateCaseComment to specify a case ID. Constraints: • min: 10 • max: 32 • pattern: \d{10,32}.*</param>
+    /// <param name="Body">Required element used in combination with CreateCaseComment to add content for the new comment. Constraints: • min: 1 • max: 12000</param>
     public AwsSecurityIrCreateCaseCommentOptions(
         string CaseId,
         string Body
@@ -61,19 +62,19 @@ public record AwsSecurityIrCreateCaseCommentOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Required element used in combination with CreateCaseComment to spec- ify a case ID. Constraints: o min: 10 o max: 32 o pattern: \d{10,32}.*
+    /// Required element used in combination with CreateCaseComment to specify a case ID. Constraints: • min: 10 • max: 32 • pattern: \d{10,32}.*
     /// </summary>
     [CliOption("--case-id")]
     public string? CaseId { get; private init; }
 
     /// <summary>
-    /// Required element used in combination with CreateCaseComment to add content for the new comment. Constraints: o min: 1 o max: 12000
+    /// Required element used in combination with CreateCaseComment to add content for the new comment. Constraints: • min: 1 • max: 12000
     /// </summary>
     [CliOption("--body")]
     public string? Body { get; private init; }
 
     /// <summary>
-    /// NOTE: The clientToken field is an idempotency key used to ensure that repeated attempts for a single action will be ignored by the server during retries. A caller supplied unique ID (typically a UUID) should be provided. Constraints: o min: 1 o max: 255
+    /// NOTE: The clientToken field is an idempotency key used to ensure that repeated attempts for a single action will be ignored by the server during retries. A caller supplied unique ID (typically a UUID) should be provided. Constraints: • min: 1 • max: 255
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -100,6 +101,15 @@ public record AwsSecurityIrCreateCaseCommentOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

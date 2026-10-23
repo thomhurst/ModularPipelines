@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the specified sending authorization policy for the given iden- tity (an email address or a domain). This operation returns success- fully even if a policy with the specified name does not exist. NOTE: This operation is for the identity owner only. If you have not veri- fied the identity, it returns an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the Amazon ...
+/// Deletes the specified sending authorization policy for the given identity (an email address or a domain). This operation returns successfully even if a policy with the specified name does not exist. NOTE: This operation is for the identity owner only. If you have not verified the identity, it returns an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the Amazon SES De...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsSesDeleteIdentityPolicyOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the specified sending authorization policy for the given iden- tity (an email address or a domain). This operation returns success- fully even if a policy with the specified name does not exist. NOTE: This operation is for the identity owner only. If you have not veri- fied the identity, it returns an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the Amazon ...
+    /// Deletes the specified sending authorization policy for the given identity (an email address or a domain). This operation returns successfully even if a policy with the specified name does not exist. NOTE: This operation is for the identity owner only. If you have not verified the identity, it returns an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the Amazon SES De...
     /// </summary>
-    /// <param name="Identity">The identity that is associated with the policy to delete. You can specify the identity by using its name or by using its Amazon Re- source Name (ARN). Examples: user@example.com , example.com , arn:aws:ses:us-east-1:123456789012:identity/example.com . To successfully call this operation, you must own the identity.</param>
-    /// <param name="PolicyName">The name of the policy to be deleted. Constraints: o min: 1 o max: 64</param>
+    /// <param name="Identity">The identity that is associated with the policy to delete. You can specify the identity by using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com , example.com , arn:aws:ses:us-east-1:123456789012:identity/example.com . To successfully call this operation, you must own the identity.</param>
+    /// <param name="PolicyName">The name of the policy to be deleted. Constraints: • min: 1 • max: 64</param>
     public AwsSesDeleteIdentityPolicyOptions(
         string Identity,
         string PolicyName
@@ -60,13 +61,13 @@ public record AwsSesDeleteIdentityPolicyOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identity that is associated with the policy to delete. You can specify the identity by using its name or by using its Amazon Re- source Name (ARN). Examples: user@example.com , example.com , arn:aws:ses:us-east-1:123456789012:identity/example.com . To successfully call this operation, you must own the identity.
+    /// The identity that is associated with the policy to delete. You can specify the identity by using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com , example.com , arn:aws:ses:us-east-1:123456789012:identity/example.com . To successfully call this operation, you must own the identity.
     /// </summary>
     [CliOption("--identity")]
     public string? Identity { get; private init; }
 
     /// <summary>
-    /// The name of the policy to be deleted. Constraints: o min: 1 o max: 64
+    /// The name of the policy to be deleted. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--policy-name")]
     public string? PolicyName { get; private init; }
@@ -92,6 +93,15 @@ public record AwsSesDeleteIdentityPolicyOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

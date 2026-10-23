@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsCloudfrontListTagsForResourceOptions : AwsOptions, IValidatable
     /// <summary>
     /// List tags for a CloudFront resource. For more information, see Tagging a distribution in the Amazon CloudFront Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Resource">An ARN of a CloudFront resource. Constraints: o pattern: arn:aws(-cn)?:cloudfront::[0-9]+:.*</param>
+    /// <param name="Resource">An ARN of a CloudFront resource. Constraints: • pattern: arn:aws(-cn)?:cloudfront::[0-9]+:.*</param>
     public AwsCloudfrontListTagsForResourceOptions(
         string Resource
     )
@@ -56,7 +57,7 @@ public record AwsCloudfrontListTagsForResourceOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// An ARN of a CloudFront resource. Constraints: o pattern: arn:aws(-cn)?:cloudfront::[0-9]+:.*
+    /// An ARN of a CloudFront resource. Constraints: • pattern: arn:aws(-cn)?:cloudfront::[0-9]+:.*
     /// </summary>
     [CliOption("--resource")]
     public string? Resource { get; private init; }
@@ -82,6 +83,15 @@ public record AwsCloudfrontListTagsForResourceOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

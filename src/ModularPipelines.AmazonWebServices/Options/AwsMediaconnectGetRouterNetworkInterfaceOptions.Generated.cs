@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsMediaconnectGetRouterNetworkInterfaceOptions : AwsOptions, IVal
     /// <summary>
     /// Retrieves information about a specific router network interface in AWS Elemental MediaConnect. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The Amazon Resource Name (ARN) of the router network interface that you want to retrieve information about. Constraints: o pattern: arn:(aws[a-zA-Z-]*):mediacon- nect:[a-z0-9-]+:[0-9]{12}:routerNetworkInterface:[a-z0-9]{12}</param>
+    /// <param name="Arn">The Amazon Resource Name (ARN) of the router network interface that you want to retrieve information about. Constraints: • pattern: arn:(aws[a-zA-Z-]*):mediaconnect:[a-z0-9-]+:[0-9]{12}:routerNetworkInterface:[a-z0-9]{12}</param>
     public AwsMediaconnectGetRouterNetworkInterfaceOptions(
         string Arn
     )
@@ -56,7 +57,7 @@ public record AwsMediaconnectGetRouterNetworkInterfaceOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the router network interface that you want to retrieve information about. Constraints: o pattern: arn:(aws[a-zA-Z-]*):mediacon- nect:[a-z0-9-]+:[0-9]{12}:routerNetworkInterface:[a-z0-9]{12}
+    /// The Amazon Resource Name (ARN) of the router network interface that you want to retrieve information about. Constraints: • pattern: arn:(aws[a-zA-Z-]*):mediaconnect:[a-z0-9-]+:[0-9]{12}:routerNetworkInterface:[a-z0-9]{12}
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsMediaconnectGetRouterNetworkInterfaceOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

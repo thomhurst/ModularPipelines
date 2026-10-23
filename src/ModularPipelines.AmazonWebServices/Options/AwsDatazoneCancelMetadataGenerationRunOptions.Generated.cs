@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Cancels the metadata generation run. Prerequisites: o The run must exist and be in a cancelable status (e.g., SUBMITTED, IN_PROGRESS). o Runs in SUCCEEDED status cannot be cancelled. o User must have access to the run and cancel permissions. See also: AWS API Documentation
+/// Cancels the metadata generation run. Prerequisites: • The run must exist and be in a cancelable status (e.g., SUBMITTED, IN_PROGRESS). • Runs in SUCCEEDED status cannot be cancelled. • User must have access to the run and cancel permissions. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsDatazoneCancelMetadataGenerationRunOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Cancels the metadata generation run. Prerequisites: o The run must exist and be in a cancelable status (e.g., SUBMITTED, IN_PROGRESS). o Runs in SUCCEEDED status cannot be cancelled. o User must have access to the run and cancel permissions. See also: AWS API Documentation
+    /// Cancels the metadata generation run. Prerequisites: • The run must exist and be in a cancelable status (e.g., SUBMITTED, IN_PROGRESS). • Runs in SUCCEEDED status cannot be cancelled. • User must have access to the run and cancel permissions. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain in which the metadata genera- tion run is to be cancelled. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="Identifier">The ID of the metadata generation run. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain in which the metadata generation run is to be cancelled. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="Identifier">The ID of the metadata generation run. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}</param>
     public AwsDatazoneCancelMetadataGenerationRunOptions(
         string DomainIdentifier,
         string Identifier
@@ -60,13 +61,13 @@ public record AwsDatazoneCancelMetadataGenerationRunOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon DataZone domain in which the metadata genera- tion run is to be cancelled. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The ID of the Amazon DataZone domain in which the metadata generation run is to be cancelled. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The ID of the metadata generation run. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The ID of the metadata generation run. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
@@ -92,6 +93,15 @@ public record AwsDatazoneCancelMetadataGenerationRunOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

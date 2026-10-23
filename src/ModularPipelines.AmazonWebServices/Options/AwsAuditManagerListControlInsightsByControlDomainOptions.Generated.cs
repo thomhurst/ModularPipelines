@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists the latest analytics data for controls within a specific control domain across all active assessments. NOTE: Control insights are listed only if the control belongs to the con- trol domain that was specified and the control collected evidence on the lastUpdated date of controlInsightsMetadata . If neither of these conditions are met, no data is listed for that control. See also: AWS API Documentation
+/// Lists the latest analytics data for controls within a specific control domain across all active assessments. NOTE: Control insights are listed only if the control belongs to the control domain that was specified and the control collected evidence on the lastUpdated date of controlInsightsMetadata . If neither of these conditions are met, no data is listed for that control. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsAuditManagerListControlInsightsByControlDomainOptions : AwsOpti
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists the latest analytics data for controls within a specific control domain across all active assessments. NOTE: Control insights are listed only if the control belongs to the con- trol domain that was specified and the control collected evidence on the lastUpdated date of controlInsightsMetadata . If neither of these conditions are met, no data is listed for that control. See also: AWS API Documentation
+    /// Lists the latest analytics data for controls within a specific control domain across all active assessments. NOTE: Control insights are listed only if the control belongs to the control domain that was specified and the control collected evidence on the lastUpdated date of controlInsightsMetadata . If neither of these conditions are met, no data is listed for that control. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ControlDomainId">The unique identifier for the control domain. Audit Manager supports the control domains that are provided by Ama- zon Web Services Control Catalog. For information about how to find a list of available control domains, see ` ListDomains https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListDomains.html`__ in the Amazon Web Services Control Catalog API Reference. Constraints: o min: 13 o max: 2048 o pattern: ^arn:.*:controlcatalog:.*:.*:domain/.*|UNCATEGO- RIZED|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
+    /// <param name="ControlDomainId">The unique identifier for the control domain. Audit Manager supports the control domains that are provided by Amazon Web Services Control Catalog. For information about how to find a list of available control domains, see ` ListDomains https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListDomains.html`__ in the Amazon Web Services Control Catalog API Reference. Constraints: • min: 13 • max: 2048 • pattern: ^arn:.*:controlcatalog:.*:.*:domain/.*|UNCATEGORIZED|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
     public AwsAuditManagerListControlInsightsByControlDomainOptions(
         string ControlDomainId
     )
@@ -57,20 +58,20 @@ public record AwsAuditManagerListControlInsightsByControlDomainOptions : AwsOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the control domain. Audit Manager supports the control domains that are provided by Ama- zon Web Services Control Catalog. For information about how to find a list of available control domains, see ` ListDomains https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListDomains.html`__ in the Amazon Web Services Control Catalog API Reference. Constraints: o min: 13 o max: 2048 o pattern: ^arn:.*:controlcatalog:.*:.*:domain/.*|UNCATEGO- RIZED|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
+    /// The unique identifier for the control domain. Audit Manager supports the control domains that are provided by Amazon Web Services Control Catalog. For information about how to find a list of available control domains, see ` ListDomains https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListDomains.html`__ in the Amazon Web Services Control Catalog API Reference. Constraints: • min: 13 • max: 2048 • pattern: ^arn:.*:controlcatalog:.*:.*:domain/.*|UNCATEGORIZED|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
     /// </summary>
     [CliOption("--control-domain-id")]
     public string? ControlDomainId { get; private init; }
 
     /// <summary>
-    /// The pagination token that's used to fetch the next set of results. Constraints: o min: 1 o max: 1000 o pattern: ^[A-Za-z0-9+\/=]*$
+    /// The pagination token that's used to fetch the next set of results. Constraints: • min: 1 • max: 1000 • pattern: ^[A-Za-z0-9+\/=]*$
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// Represents the maximum number of results on a page or for an API re- quest call. Constraints: o min: 1 o max: 1000
+    /// Represents the maximum number of results on a page or for an API request call. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -96,6 +97,15 @@ public record AwsAuditManagerListControlInsightsByControlDomainOptions : AwsOpti
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

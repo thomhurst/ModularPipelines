@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,9 +29,9 @@ public record AwsIotsitewiseGetCaptureDataOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Retrieves video data for a specific time range. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkspaceName">The name of the workspace that contains the capture source. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
-    /// <param name="StartTime">The start time for the video data range. timeInSeconds -&gt; (long) [required] The timestamp date, in seconds, in the Unix epoch format. Frac- tional nanosecond data is provided by offsetInNanos . Constraints: o min: 1 o max: 9223372036854774 offsetInNanos -&gt; (integer) The nanosecond offset from timeInSeconds . Constraints: o min: 0 o max: 999999999 Shorthand Syntax: timeInSeconds=long,offsetInNanos=integer JSON Syntax: { "timeInSeconds": long, "offsetInNanos": integer }</param>
-    /// <param name="EndTime">The end time for the video data range. Must be greater than start- Time. timeInSeconds -&gt; (long) [required] The timestamp date, in seconds, in the Unix epoch format. Frac- tional nanosecond data is provided by offsetInNanos . Constraints: o min: 1 o max: 9223372036854774 offsetInNanos -&gt; (integer) The nanosecond offset from timeInSeconds . Constraints: o min: 0 o max: 999999999 Shorthand Syntax: timeInSeconds=long,offsetInNanos=integer JSON Syntax: { "timeInSeconds": long, "offsetInNanos": integer }</param>
+    /// <param name="WorkspaceName">The name of the workspace that contains the capture source. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="StartTime">The start time for the video data range. timeInSeconds -&gt; (long) [required] The timestamp date, in seconds, in the Unix epoch format. Fractional nanosecond data is provided by offsetInNanos . Constraints: • min: 1 • max: 9223372036854774 offsetInNanos -&gt; (integer) The nanosecond offset from timeInSeconds . Constraints: • min: 0 • max: 999999999 Shorthand Syntax: timeInSeconds=long,offsetInNanos=integer JSON Syntax: { "timeInSeconds": long, "offsetInNanos": integer }</param>
+    /// <param name="EndTime">The end time for the video data range. Must be greater than startTime. timeInSeconds -&gt; (long) [required] The timestamp date, in seconds, in the Unix epoch format. Fractional nanosecond data is provided by offsetInNanos . Constraints: • min: 1 • max: 9223372036854774 offsetInNanos -&gt; (integer) The nanosecond offset from timeInSeconds . Constraints: • min: 0 • max: 999999999 Shorthand Syntax: timeInSeconds=long,offsetInNanos=integer JSON Syntax: { "timeInSeconds": long, "offsetInNanos": integer }</param>
     public AwsIotsitewiseGetCaptureDataOptions(
         string WorkspaceName,
         string StartTime,
@@ -65,43 +66,43 @@ public record AwsIotsitewiseGetCaptureDataOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the workspace that contains the capture source. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The name of the workspace that contains the capture source. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--workspace-name")]
     public string? WorkspaceName { get; private init; }
 
     /// <summary>
-    /// The start time for the video data range. timeInSeconds -&gt; (long) [required] The timestamp date, in seconds, in the Unix epoch format. Frac- tional nanosecond data is provided by offsetInNanos . Constraints: o min: 1 o max: 9223372036854774 offsetInNanos -&gt; (integer) The nanosecond offset from timeInSeconds . Constraints: o min: 0 o max: 999999999 Shorthand Syntax: timeInSeconds=long,offsetInNanos=integer JSON Syntax: { "timeInSeconds": long, "offsetInNanos": integer }
+    /// The start time for the video data range. timeInSeconds -&gt; (long) [required] The timestamp date, in seconds, in the Unix epoch format. Fractional nanosecond data is provided by offsetInNanos . Constraints: • min: 1 • max: 9223372036854774 offsetInNanos -&gt; (integer) The nanosecond offset from timeInSeconds . Constraints: • min: 0 • max: 999999999 Shorthand Syntax: timeInSeconds=long,offsetInNanos=integer JSON Syntax: { "timeInSeconds": long, "offsetInNanos": integer }
     /// </summary>
     [CliOption("--start-time")]
     public string? StartTime { get; private init; }
 
     /// <summary>
-    /// The end time for the video data range. Must be greater than start- Time. timeInSeconds -&gt; (long) [required] The timestamp date, in seconds, in the Unix epoch format. Frac- tional nanosecond data is provided by offsetInNanos . Constraints: o min: 1 o max: 9223372036854774 offsetInNanos -&gt; (integer) The nanosecond offset from timeInSeconds . Constraints: o min: 0 o max: 999999999 Shorthand Syntax: timeInSeconds=long,offsetInNanos=integer JSON Syntax: { "timeInSeconds": long, "offsetInNanos": integer }
+    /// The end time for the video data range. Must be greater than startTime. timeInSeconds -&gt; (long) [required] The timestamp date, in seconds, in the Unix epoch format. Fractional nanosecond data is provided by offsetInNanos . Constraints: • min: 1 • max: 9223372036854774 offsetInNanos -&gt; (integer) The nanosecond offset from timeInSeconds . Constraints: • min: 0 • max: 999999999 Shorthand Syntax: timeInSeconds=long,offsetInNanos=integer JSON Syntax: { "timeInSeconds": long, "offsetInNanos": integer }
     /// </summary>
     [CliOption("--end-time")]
     public string? EndTime { get; private init; }
 
     /// <summary>
-    /// The time series ID that identifies the capture source. Mutually ex- clusive with propertyAlias. Constraints: o min: 36 o max: 73
+    /// The time series ID that identifies the capture source. Mutually exclusive with propertyAlias. Constraints: • min: 36 • max: 73
     /// </summary>
     [CliOption("--time-series-id")]
     public string? TimeSeriesId { get; set; }
 
     /// <summary>
-    /// The property alias that identifies the capture source. Mutually ex- clusive with timeSeriesId. Constraints: o min: 1 o max: 2048 o pattern: [^\u0000-\u001F\u007F]+
+    /// The property alias that identifies the capture source. Mutually exclusive with timeSeriesId. Constraints: • min: 1 • max: 2048 • pattern: [^\u0000-\u001F\u007F]+
     /// </summary>
     [CliOption("--property-alias")]
     public string? PropertyAlias { get; set; }
 
     /// <summary>
-    /// The optional format settings for the output. framesPerSecond -&gt; (integer) &lt;p&gt;The target frame rate for the output.&lt;/p&gt; Constraints: o min: 1 widthInPixels -&gt; (integer) &lt;p&gt;The target width of the output, in pixels.&lt;/p&gt; Constraints: o min: 1 heightInPixels -&gt; (integer) &lt;p&gt;The target height of the output, in pixels.&lt;/p&gt; Constraints: o min: 1 Shorthand Syntax: framesPerSecond=integer,widthInPixels=integer,heightInPixels=integer JSON Syntax: { "framesPerSecond": integer, "widthInPixels": integer, "heightInPixels": integer }
+    /// The optional format settings for the output. framesPerSecond -&gt; (integer) &lt;p&gt;The target frame rate for the output.&lt;/p&gt; Constraints: • min: 1 widthInPixels -&gt; (integer) &lt;p&gt;The target width of the output, in pixels.&lt;/p&gt; Constraints: • min: 1 heightInPixels -&gt; (integer) &lt;p&gt;The target height of the output, in pixels.&lt;/p&gt; Constraints: • min: 1 Shorthand Syntax: framesPerSecond=integer,widthInPixels=integer,heightInPixels=integer JSON Syntax: { "framesPerSecond": integer, "widthInPixels": integer, "heightInPixels": integer }
     /// </summary>
     [CliOption("--format-settings")]
     public string? FormatSettings { get; set; }
 
     /// <summary>
-    /// The token from a previous response used to continue retrieving data. Constraints: o min: 1 o max: 4096
+    /// The token from a previous response used to continue retrieving data. Constraints: • min: 1 • max: 4096
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -128,6 +129,15 @@ public record AwsIotsitewiseGetCaptureDataOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

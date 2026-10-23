@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,9 +28,9 @@ public record AwsCognitoIdentityUnlinkIdentityOptions : AwsOptions, IValidatable
     /// <summary>
     /// Unlinks a federated identity from an existing account. Unlinked logins will be considered new identities next time they are seen. Removing the last linked login will make this identity inaccessible. This is a public API. You do not need any credentials to call this API. See also: AWS API Documentation
     /// </summary>
-    /// <param name="IdentityId">A unique identifier in the format REGION:GUID. Constraints: o min: 1 o max: 55 o pattern: [\w-]+:[0-9a-f-]+</param>
-    /// <param name="Logins">A set of optional name-value pairs that map provider names to provider tokens. Constraints: o max: 10 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 1 o max: 50000 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
-    /// <param name="LoginsToRemove">Provider names to unlink from this identity. (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...</param>
+    /// <param name="IdentityId">A unique identifier in the format REGION:GUID. Constraints: • min: 1 • max: 55 • pattern: [\w-]+:[0-9a-f-]+</param>
+    /// <param name="Logins">A set of optional name-value pairs that map provider names to provider tokens. Constraints: • max: 10 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 1 • max: 50000 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    /// <param name="LoginsToRemove">Provider names to unlink from this identity. (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...</param>
     public AwsCognitoIdentityUnlinkIdentityOptions(
         string IdentityId,
         IReadOnlyList<KeyValue> Logins,
@@ -87,19 +87,19 @@ public record AwsCognitoIdentityUnlinkIdentityOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier in the format REGION:GUID. Constraints: o min: 1 o max: 55 o pattern: [\w-]+:[0-9a-f-]+
+    /// A unique identifier in the format REGION:GUID. Constraints: • min: 1 • max: 55 • pattern: [\w-]+:[0-9a-f-]+
     /// </summary>
     [CliOption("--identity-id")]
     public string? IdentityId { get; private init; }
 
     /// <summary>
-    /// A set of optional name-value pairs that map provider names to provider tokens. Constraints: o max: 10 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 1 o max: 50000 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A set of optional name-value pairs that map provider names to provider tokens. Constraints: • max: 10 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 1 • max: 50000 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--logins", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Logins { get; private init; }
 
     /// <summary>
-    /// Provider names to unlink from this identity. (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...
+    /// Provider names to unlink from this identity. (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--logins-to-remove", GroupValues = true)]
     public IEnumerable<string>? LoginsToRemove { get; private init; }
@@ -125,6 +125,15 @@ public record AwsCognitoIdentityUnlinkIdentityOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

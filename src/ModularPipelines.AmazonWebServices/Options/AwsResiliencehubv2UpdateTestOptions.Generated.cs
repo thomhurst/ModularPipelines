@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +28,8 @@ public record AwsResiliencehubv2UpdateTestOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Updates the configuration of an existing test. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TestId">The identifier of the test to update. Constraints: o min: 1</param>
-    /// <param name="ServiceArn">The ARN of the service the test belongs to. Constraints: o min: 31 o pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}</param>
+    /// <param name="TestId">The identifier of the test to update. Constraints: • min: 1</param>
+    /// <param name="ServiceArn">The ARN of the service the test belongs to. Constraints: • min: 31 • pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}</param>
     public AwsResiliencehubv2UpdateTestOptions(
         string TestId,
         string ServiceArn
@@ -61,37 +61,37 @@ public record AwsResiliencehubv2UpdateTestOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the test to update. Constraints: o min: 1
+    /// The identifier of the test to update. Constraints: • min: 1
     /// </summary>
     [CliOption("--test-id")]
     public string? TestId { get; private init; }
 
     /// <summary>
-    /// The ARN of the service the test belongs to. Constraints: o min: 31 o pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}
+    /// The ARN of the service the test belongs to. Constraints: • min: 31 • pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}
     /// </summary>
     [CliOption("--service-arn")]
     public string? ServiceArn { get; private init; }
 
     /// <summary>
-    /// The updated logging configuration for the test. s3BucketName -&gt; (string) The name of the S3 bucket for log delivery. cloudWatchLogGroupArn -&gt; (string) The ARN of the CloudWatch Logs log group for log delivery. Constraints: o min: 31 o pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023} logSchemaVersion -&gt; (string) The version of the log schema. Shorthand Syntax: s3BucketName=string,cloudWatchLogGroupArn=string,logSchemaVersion=string JSON Syntax: { "s3BucketName": "string", "cloudWatchLogGroupArn": "string", "logSchemaVersion": "string" }
+    /// The updated logging configuration for the test. s3BucketName -&gt; (string) The name of the S3 bucket for log delivery. cloudWatchLogGroupArn -&gt; (string) The ARN of the CloudWatch Logs log group for log delivery. Constraints: • min: 31 • pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023} logSchemaVersion -&gt; (string) The version of the log schema. Shorthand Syntax: s3BucketName=string,cloudWatchLogGroupArn=string,logSchemaVersion=string JSON Syntax: { "s3BucketName": "string", "cloudWatchLogGroupArn": "string", "logSchemaVersion": "string" }
     /// </summary>
     [CliOption("--logging-configuration")]
     public string? LoggingConfiguration { get; set; }
 
     /// <summary>
-    /// The updated stop conditions for the test. (structure) A CloudWatch alarm that automatically stops a test run if it breaches its threshold. source -&gt; (string) [required] The source of the stop condition. Possible values: o aws:cloudwatch:alarm o none value -&gt; (string) [required] The value of the stop condition, such as the ARN of the CloudWatch alarm. Shorthand Syntax: source=string,value=string ... JSON Syntax: [ { "source": "aws:cloudwatch:alarm"|"none", "value": "string" } ... ]
+    /// The updated stop conditions for the test. (structure) A CloudWatch alarm that automatically stops a test run if it breaches its threshold. source -&gt; (string) [required] The source of the stop condition. Possible values: • aws:cloudwatch:alarm • none value -&gt; (string) [required] The value of the stop condition, such as the ARN of the CloudWatch alarm. Shorthand Syntax: source=string,value=string ... JSON Syntax: [ { "source": "aws:cloudwatch:alarm"|"none", "value": "string" } ... ]
     /// </summary>
     [CliOption("--stop-conditions", GroupValues = true)]
     public IEnumerable<string>? StopConditions { get; set; }
 
     /// <summary>
-    /// The updated IAM execution role name. Constraints: o min: 1 o max: 576 o pattern: ([A-Za-z0-9_+=,.@\-]+/)*[A-Za-z0-9_+=,.@\-]+
+    /// The updated IAM execution role name. Constraints: • min: 1 • max: 576 • pattern: ([A-Za-z0-9_+=,.@\-]+/)*[A-Za-z0-9_+=,.@\-]+
     /// </summary>
     [CliOption("--role-name")]
     public string? RoleName { get; set; }
 
     /// <summary>
-    /// The updated parameter values for the test. Constraints: o min: 0 o max: 20 key -&gt; (string) The key of a test parameter. Constraints: o min: 1 o max: 256 o pattern: [\w.-]+ value -&gt; (list) Constraints: o min: 0 o max: 10 (string) A value of a test parameter. Constraints: o min: 0 o max: 1024 Shorthand Syntax: KeyName1=string,string,KeyName2=string,string JSON Syntax: {"string": ["string", ...] ...}
+    /// The updated parameter values for the test. Constraints: • min: 0 • max: 20 key -&gt; (string) The key of a test parameter. Constraints: • min: 1 • max: 256 • pattern: [\w.-]+ value -&gt; (list) Constraints: • min: 0 • max: 10 (string) A value of a test parameter. Constraints: • min: 0 • max: 1024 Shorthand Syntax: KeyName1=string,string,KeyName2=string,string JSON Syntax: {"string": ["string", ...] ...}
     /// </summary>
     [CliOption("--parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Parameters { get; set; }
@@ -117,6 +117,15 @@ public record AwsResiliencehubv2UpdateTestOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

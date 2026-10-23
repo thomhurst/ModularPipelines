@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsS3tablesGetTableMaintenanceJobStatusOptions : AwsOptions, IVali
     /// <summary>
     /// Gets the status of a maintenance job for a table. For more information, see S3 Tables maintenance in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:GetTableMaintenanceJobStatus permission to use this operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TableBucketArn">The Amazon Resource Name (ARN) of the table bucket. Constraints: o pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})</param>
-    /// <param name="Namespace">The name of the namespace the table is associated with. Constraints: o min: 1 o max: 255 o pattern: [0-9a-z_]*</param>
-    /// <param name="Name">The name of the table containing the maintenance job status you want to check. Constraints: o min: 1 o max: 255 o pattern: [0-9a-z_]*</param>
+    /// <param name="TableBucketArn">The Amazon Resource Name (ARN) of the table bucket. Constraints: • pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})</param>
+    /// <param name="Namespace">The name of the namespace the table is associated with. Constraints: • min: 1 • max: 255 • pattern: [0-9a-z_]*</param>
+    /// <param name="Name">The name of the table containing the maintenance job status you want to check. Constraints: • min: 1 • max: 255 • pattern: [0-9a-z_]*</param>
     public AwsS3tablesGetTableMaintenanceJobStatusOptions(
         string TableBucketArn,
         string Namespace,
@@ -64,19 +65,19 @@ public record AwsS3tablesGetTableMaintenanceJobStatusOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the table bucket. Constraints: o pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})
+    /// The Amazon Resource Name (ARN) of the table bucket. Constraints: • pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})
     /// </summary>
     [CliOption("--table-bucket-arn")]
     public string? TableBucketArn { get; private init; }
 
     /// <summary>
-    /// The name of the namespace the table is associated with. Constraints: o min: 1 o max: 255 o pattern: [0-9a-z_]*
+    /// The name of the namespace the table is associated with. Constraints: • min: 1 • max: 255 • pattern: [0-9a-z_]*
     /// </summary>
     [CliOption("--namespace")]
     public string? Namespace { get; private init; }
 
     /// <summary>
-    /// The name of the table containing the maintenance job status you want to check. Constraints: o min: 1 o max: 255 o pattern: [0-9a-z_]*
+    /// The name of the table containing the maintenance job status you want to check. Constraints: • min: 1 • max: 255 • pattern: [0-9a-z_]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
@@ -102,6 +103,15 @@ public record AwsS3tablesGetTableMaintenanceJobStatusOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

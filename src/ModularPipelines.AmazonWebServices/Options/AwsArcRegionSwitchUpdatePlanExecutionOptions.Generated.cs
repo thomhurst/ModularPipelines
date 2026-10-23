@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +29,9 @@ public record AwsArcRegionSwitchUpdatePlanExecutionOptions : AwsOptions, IValida
     /// <summary>
     /// Updates an in-progress plan execution. This operation allows you to modify certain aspects of the execution, such as adding a comment or changing the action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PlanArn">The Amazon Resource Name (ARN) of the plan with the execution to up- date. Constraints: o pattern: arn:aws[a-zA-Z-]*:arc-re- gion-switch::[0-9]{12}:plan/([a-zA-Z0-9](?:[a-zA-Z0-9-]{0,30}[a-zA-Z0-9])?):([a-z0-9]{6})</param>
+    /// <param name="PlanArn">The Amazon Resource Name (ARN) of the plan with the execution to update. Constraints: • pattern: arn:aws[a-zA-Z-]*:arc-region-switch::[0-9]{12}:plan/([a-zA-Z0-9](?:[a-zA-Z0-9-]{0,30}[a-zA-Z0-9])?):([a-z0-9]{6})</param>
     /// <param name="ExecutionId">The execution identifier of a plan execution.</param>
-    /// <param name="Action">The action specified for a plan execution, for example, Switch to Graceful or Pause. Possible values: o switchToGraceful o switchToUngraceful o pause o resume</param>
+    /// <param name="Action">The action specified for a plan execution, for example, Switch to Graceful or Pause. Possible values: • switchToGraceful • switchToUngraceful • pause • resume</param>
     public AwsArcRegionSwitchUpdatePlanExecutionOptions(
         string PlanArn,
         string ExecutionId,
@@ -64,7 +65,7 @@ public record AwsArcRegionSwitchUpdatePlanExecutionOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the plan with the execution to up- date. Constraints: o pattern: arn:aws[a-zA-Z-]*:arc-re- gion-switch::[0-9]{12}:plan/([a-zA-Z0-9](?:[a-zA-Z0-9-]{0,30}[a-zA-Z0-9])?):([a-z0-9]{6})
+    /// The Amazon Resource Name (ARN) of the plan with the execution to update. Constraints: • pattern: arn:aws[a-zA-Z-]*:arc-region-switch::[0-9]{12}:plan/([a-zA-Z0-9](?:[a-zA-Z0-9-]{0,30}[a-zA-Z0-9])?):([a-z0-9]{6})
     /// </summary>
     [CliOption("--plan-arn")]
     public string? PlanArn { get; private init; }
@@ -76,13 +77,13 @@ public record AwsArcRegionSwitchUpdatePlanExecutionOptions : AwsOptions, IValida
     public string? ExecutionId { get; private init; }
 
     /// <summary>
-    /// The action specified for a plan execution, for example, Switch to Graceful or Pause. Possible values: o switchToGraceful o switchToUngraceful o pause o resume
+    /// The action specified for a plan execution, for example, Switch to Graceful or Pause. Possible values: • switchToGraceful • switchToUngraceful • pause • resume
     /// </summary>
     [CliOption("--action")]
     public AwsArcRegionSwitchUpdatePlanExecutionAction? Action { get; private init; }
 
     /// <summary>
-    /// An optional comment about the plan execution. Constraints: o min: 0 o max: 1024
+    /// An optional comment about the plan execution. Constraints: • min: 0 • max: 1024
     /// </summary>
     [CliOption("--comment")]
     public string? Comment { get; set; }
@@ -108,6 +109,15 @@ public record AwsArcRegionSwitchUpdatePlanExecutionOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

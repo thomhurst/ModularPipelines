@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates connectivity information for a Greengrass core device. Connectivity information includes endpoints and ports where client de- vices can connect to an MQTT broker on the core device. When a client device calls the IoT Greengrass discovery API , IoT Greengrass returns connectivity information for all of the core devices where the client device can connect. For more information, see Connect client devices to core devices in the IoT Greengrass Version 2 Developer Guide . See also: AWS API Do...
+/// Updates connectivity information for a Greengrass core device. Connectivity information includes endpoints and ports where client devices can connect to an MQTT broker on the core device. When a client device calls the IoT Greengrass discovery API , IoT Greengrass returns connectivity information for all of the core devices where the client device can connect. For more information, see Connect client devices to core devices in the IoT Greengrass Version 2 Developer Guide . See also: AWS API Docu...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsGreengrassv2UpdateConnectivityInfoOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates connectivity information for a Greengrass core device. Connectivity information includes endpoints and ports where client de- vices can connect to an MQTT broker on the core device. When a client device calls the IoT Greengrass discovery API , IoT Greengrass returns connectivity information for all of the core devices where the client device can connect. For more information, see Connect client devices to core devices in the IoT Greengrass Version 2 Developer Guide . See also: AWS API Do...
+    /// Updates connectivity information for a Greengrass core device. Connectivity information includes endpoints and ports where client devices can connect to an MQTT broker on the core device. When a client device calls the IoT Greengrass discovery API , IoT Greengrass returns connectivity information for all of the core devices where the client device can connect. For more information, see Connect client devices to core devices in the IoT Greengrass Version 2 Developer Guide . See also: AWS API Docu...
     /// </summary>
-    /// <param name="ThingName">The name of the core device. This is also the name of the IoT thing. Constraints: o min: 1 o max: 128</param>
-    /// <param name="ConnectivityInfo">The connectivity information for the core device. (structure) Contains information about an endpoint and port where client de- vices can connect to an MQTT broker on a Greengrass core device. id -&gt; (string) An ID for the connectivity information. hostAddress -&gt; (string) The IP address or DNS address where client devices can con- nect to an MQTT broker on the Greengrass core device. portNumber -&gt; (integer) The port where the MQTT broker operates on the core device. This port is typically 8883, which is the default port for the MQTT broker component that runs on core devices. Constraints: o min: 0 o max: 65535 metadata -&gt; (string) Additional metadata to provide to client devices that connect to this core device. Shorthand Syntax: id=string,hostAddress=string,portNumber=integer,metadata=string ... JSON Syntax: [ { "id": "string", "hostAddress": "string", "portNumber": integer, "metadata": "string" } ... ]</param>
+    /// <param name="ThingName">The name of the core device. This is also the name of the IoT thing. Constraints: • min: 1 • max: 128</param>
+    /// <param name="ConnectivityInfo">The connectivity information for the core device. (structure) Contains information about an endpoint and port where client devices can connect to an MQTT broker on a Greengrass core device. id -&gt; (string) An ID for the connectivity information. hostAddress -&gt; (string) The IP address or DNS address where client devices can connect to an MQTT broker on the Greengrass core device. portNumber -&gt; (integer) The port where the MQTT broker operates on the core device. This port is typically 8883, which is the default port for the MQTT broker component that runs on core devices. Constraints: • min: 0 • max: 65535 metadata -&gt; (string) Additional metadata to provide to client devices that connect to this core device. Shorthand Syntax: id=string,hostAddress=string,portNumber=integer,metadata=string ... JSON Syntax: [ { "id": "string", "hostAddress": "string", "portNumber": integer, "metadata": "string" } ... ]</param>
     public AwsGreengrassv2UpdateConnectivityInfoOptions(
         string ThingName,
         IEnumerable<string> ConnectivityInfo
@@ -71,13 +72,13 @@ public record AwsGreengrassv2UpdateConnectivityInfoOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the core device. This is also the name of the IoT thing. Constraints: o min: 1 o max: 128
+    /// The name of the core device. This is also the name of the IoT thing. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--thing-name")]
     public string? ThingName { get; private init; }
 
     /// <summary>
-    /// The connectivity information for the core device. (structure) Contains information about an endpoint and port where client de- vices can connect to an MQTT broker on a Greengrass core device. id -&gt; (string) An ID for the connectivity information. hostAddress -&gt; (string) The IP address or DNS address where client devices can con- nect to an MQTT broker on the Greengrass core device. portNumber -&gt; (integer) The port where the MQTT broker operates on the core device. This port is typically 8883, which is the default port for the MQTT broker component that runs on core devices. Constraints: o min: 0 o max: 65535 metadata -&gt; (string) Additional metadata to provide to client devices that connect to this core device. Shorthand Syntax: id=string,hostAddress=string,portNumber=integer,metadata=string ... JSON Syntax: [ { "id": "string", "hostAddress": "string", "portNumber": integer, "metadata": "string" } ... ]
+    /// The connectivity information for the core device. (structure) Contains information about an endpoint and port where client devices can connect to an MQTT broker on a Greengrass core device. id -&gt; (string) An ID for the connectivity information. hostAddress -&gt; (string) The IP address or DNS address where client devices can connect to an MQTT broker on the Greengrass core device. portNumber -&gt; (integer) The port where the MQTT broker operates on the core device. This port is typically 8883, which is the default port for the MQTT broker component that runs on core devices. Constraints: • min: 0 • max: 65535 metadata -&gt; (string) Additional metadata to provide to client devices that connect to this core device. Shorthand Syntax: id=string,hostAddress=string,portNumber=integer,metadata=string ... JSON Syntax: [ { "id": "string", "hostAddress": "string", "portNumber": integer, "metadata": "string" } ... ]
     /// </summary>
     [CliOption("--connectivity-info", GroupValues = true)]
     public IEnumerable<string>? ConnectivityInfo { get; private init; }
@@ -103,6 +104,15 @@ public record AwsGreengrassv2UpdateConnectivityInfoOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

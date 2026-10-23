@@ -10,13 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an intermediate table in a membership. The intermediate table is owned by the member with the CAN_QUERY ability. To populate the ta- ble with results, use PopulateIntermediateTable . See also: AWS API Documentation
+/// Creates an intermediate table in a membership. The intermediate table is owned by the member with the CAN_QUERY ability. To populate the table with results, use PopulateIntermediateTable . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +26,11 @@ public record AwsCleanroomsCreateIntermediateTableOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an intermediate table in a membership. The intermediate table is owned by the member with the CAN_QUERY ability. To populate the ta- ble with results, use PopulateIntermediateTable . See also: AWS API Documentation
+    /// Creates an intermediate table in a membership. The intermediate table is owned by the member with the CAN_QUERY ability. To populate the table with results, use PopulateIntermediateTable . See also: AWS API Documentation
     /// </summary>
-    /// <param name="MembershipIdentifier">The unique identifier of the membership where the intermediate table is created. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
-    /// <param name="Name">The display name for the intermediate table. Constraints: o min: 1 o max: 100 o pattern: (?!\s*$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]*</param>
-    /// <param name="PopulationAnalysisConfiguration">The configuration that defines the analysis used to populate the in- termediate table. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: sqlParameters. sqlParameters -&gt; (structure) The SQL parameters for the population analysis, including the query string or analysis template ARN. queryString -&gt; (string) The SQL query string used to populate the intermediate table. Constraints: o min: 0 o max: 500000 analysisTemplateArn -&gt; (string) The Amazon Resource Name (ARN) of the analysis template to use for populating the intermediate table. Constraints: o min: 0 o max: 200 o pattern: arn:aws[-a-z]*:clean- rooms:[\w]{2}-[\w]{4,9}-[\d]:[\d]{12}:member- ship/[\d\w-]+/analysistemplate/[\d\w-]+ Shorthand Syntax: sqlParameters={queryString=string,analysisTemplateArn=string} JSON Syntax: { "sqlParameters": { "queryString": "string", "analysisTemplateArn": "string" } }</param>
+    /// <param name="MembershipIdentifier">The unique identifier of the membership where the intermediate table is created. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="Name">The display name for the intermediate table. Constraints: • min: 1 • max: 100 • pattern: (?!\s*$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]*</param>
+    /// <param name="PopulationAnalysisConfiguration">The configuration that defines the analysis used to populate the intermediate table. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: sqlParameters. sqlParameters -&gt; (structure) The SQL parameters for the population analysis, including the query string or analysis template ARN. queryString -&gt; (string) The SQL query string used to populate the intermediate table. Constraints: • min: 0 • max: 500000 analysisTemplateArn -&gt; (string) The Amazon Resource Name (ARN) of the analysis template to use for populating the intermediate table. Constraints: • min: 0 • max: 200 • pattern: arn:aws[-a-z]*:cleanrooms:[\w]{2}-[\w]{4,9}-[\d]:[\d]{12}:membership/[\d\w-]+/analysistemplate/[\d\w-]+ Shorthand Syntax: sqlParameters={queryString=string,analysisTemplateArn=string} JSON Syntax: { "sqlParameters": { "queryString": "string", "analysisTemplateArn": "string" } }</param>
     public AwsCleanroomsCreateIntermediateTableOptions(
         string MembershipIdentifier,
         string Name,
@@ -65,43 +65,43 @@ public record AwsCleanroomsCreateIntermediateTableOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the membership where the intermediate table is created. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The unique identifier of the membership where the intermediate table is created. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--membership-identifier")]
     public string? MembershipIdentifier { get; private init; }
 
     /// <summary>
-    /// The display name for the intermediate table. Constraints: o min: 1 o max: 100 o pattern: (?!\s*$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]*
+    /// The display name for the intermediate table. Constraints: • min: 1 • max: 100 • pattern: (?!\s*$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The configuration that defines the analysis used to populate the in- termediate table. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: sqlParameters. sqlParameters -&gt; (structure) The SQL parameters for the population analysis, including the query string or analysis template ARN. queryString -&gt; (string) The SQL query string used to populate the intermediate table. Constraints: o min: 0 o max: 500000 analysisTemplateArn -&gt; (string) The Amazon Resource Name (ARN) of the analysis template to use for populating the intermediate table. Constraints: o min: 0 o max: 200 o pattern: arn:aws[-a-z]*:clean- rooms:[\w]{2}-[\w]{4,9}-[\d]:[\d]{12}:member- ship/[\d\w-]+/analysistemplate/[\d\w-]+ Shorthand Syntax: sqlParameters={queryString=string,analysisTemplateArn=string} JSON Syntax: { "sqlParameters": { "queryString": "string", "analysisTemplateArn": "string" } }
+    /// The configuration that defines the analysis used to populate the intermediate table. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: sqlParameters. sqlParameters -&gt; (structure) The SQL parameters for the population analysis, including the query string or analysis template ARN. queryString -&gt; (string) The SQL query string used to populate the intermediate table. Constraints: • min: 0 • max: 500000 analysisTemplateArn -&gt; (string) The Amazon Resource Name (ARN) of the analysis template to use for populating the intermediate table. Constraints: • min: 0 • max: 200 • pattern: arn:aws[-a-z]*:cleanrooms:[\w]{2}-[\w]{4,9}-[\d]:[\d]{12}:membership/[\d\w-]+/analysistemplate/[\d\w-]+ Shorthand Syntax: sqlParameters={queryString=string,analysisTemplateArn=string} JSON Syntax: { "sqlParameters": { "queryString": "string", "analysisTemplateArn": "string" } }
     /// </summary>
     [CliOption("--population-analysis-configuration")]
     public string? PopulationAnalysisConfiguration { get; private init; }
 
     /// <summary>
-    /// A description of the intermediate table. Constraints: o min: 0 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t\r\n]*
+    /// A description of the intermediate table. Constraints: • min: 0 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t\r\n]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the customer-managed KMS key used to encrypt the intermediate table data. Constraints: o min: 20 o max: 2048 o pattern: arn:aws:kms:[\w]{2}-[\w]{4,9}-[\d]:[\d]{12}:key/[a-zA-Z0-9-]+
+    /// The Amazon Resource Name (ARN) of the customer-managed KMS key used to encrypt the intermediate table data. Constraints: • min: 20 • max: 2048 • pattern: arn:aws:kms:[\w]{2}-[\w]{4,9}-[\d]:[\d]{12}:key/[a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--kms-key-arn")]
     public string? KmsKeyArn { get; set; }
 
     /// <summary>
-    /// The number of days to retain populated data versions. Constraints: o min: 1 o max: 365
+    /// The number of days to retain populated data versions. Constraints: • min: 1 • max: 365
     /// </summary>
     [CliOption("--retention-in-days")]
     public int? RetentionInDays { get; set; }
 
     /// <summary>
-    /// An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource. Constraints: • min: 0 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -127,6 +127,15 @@ public record AwsCleanroomsCreateIntermediateTableOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

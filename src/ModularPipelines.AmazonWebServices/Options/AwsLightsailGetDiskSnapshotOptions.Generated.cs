@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsLightsailGetDiskSnapshotOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Returns information about a specific block storage disk snapshot. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DiskSnapshotName">The name of the disk snapshot (my-disk-snapshot ). Constraints: o pattern: \w[\w\-]*\w</param>
+    /// <param name="DiskSnapshotName">The name of the disk snapshot (my-disk-snapshot ). Constraints: • pattern: \w[\w\-]*\w</param>
     public AwsLightsailGetDiskSnapshotOptions(
         string DiskSnapshotName
     )
@@ -56,7 +57,7 @@ public record AwsLightsailGetDiskSnapshotOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the disk snapshot (my-disk-snapshot ). Constraints: o pattern: \w[\w\-]*\w
+    /// The name of the disk snapshot (my-disk-snapshot ). Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--disk-snapshot-name")]
     public string? DiskSnapshotName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsLightsailGetDiskSnapshotOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

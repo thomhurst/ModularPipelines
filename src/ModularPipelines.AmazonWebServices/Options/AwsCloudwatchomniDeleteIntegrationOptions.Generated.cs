@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsCloudwatchomniDeleteIntegrationOptions : AwsOptions, IValidatab
     /// <summary>
     /// Deletes an integration. Returns the resulting status. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identifier">Identifies the integration to delete exactly one of integrationId, integrationArn, or integrationName. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: integrationId, integrationArn, integra- tionName. integrationId -&gt; (string) The unique identifier of the integration. integrationArn -&gt; (string) The Amazon Resource Name of the integration. integrationName -&gt; (string) The name of the integration; unique within the account. Shorthand Syntax: integrationId=string,integrationArn=string,integrationName=string JSON Syntax: { "integrationId": "string", "integrationArn": "string", "integrationName": "string" }</param>
+    /// <param name="Identifier">Identifies the integration to delete exactly one of integrationId, integrationArn, or integrationName. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: integrationId, integrationArn, integrationName. integrationId -&gt; (string) The unique identifier of the integration. integrationArn -&gt; (string) The Amazon Resource Name of the integration. integrationName -&gt; (string) The name of the integration; unique within the account. Shorthand Syntax: integrationId=string,integrationArn=string,integrationName=string JSON Syntax: { "integrationId": "string", "integrationArn": "string", "integrationName": "string" }</param>
     public AwsCloudwatchomniDeleteIntegrationOptions(
         string Identifier
     )
@@ -56,7 +57,7 @@ public record AwsCloudwatchomniDeleteIntegrationOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Identifies the integration to delete exactly one of integrationId, integrationArn, or integrationName. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: integrationId, integrationArn, integra- tionName. integrationId -&gt; (string) The unique identifier of the integration. integrationArn -&gt; (string) The Amazon Resource Name of the integration. integrationName -&gt; (string) The name of the integration; unique within the account. Shorthand Syntax: integrationId=string,integrationArn=string,integrationName=string JSON Syntax: { "integrationId": "string", "integrationArn": "string", "integrationName": "string" }
+    /// Identifies the integration to delete exactly one of integrationId, integrationArn, or integrationName. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: integrationId, integrationArn, integrationName. integrationId -&gt; (string) The unique identifier of the integration. integrationArn -&gt; (string) The Amazon Resource Name of the integration. integrationName -&gt; (string) The name of the integration; unique within the account. Shorthand Syntax: integrationId=string,integrationArn=string,integrationName=string JSON Syntax: { "integrationId": "string", "integrationArn": "string", "integrationName": "string" }
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
@@ -82,6 +83,15 @@ public record AwsCloudwatchomniDeleteIntegrationOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

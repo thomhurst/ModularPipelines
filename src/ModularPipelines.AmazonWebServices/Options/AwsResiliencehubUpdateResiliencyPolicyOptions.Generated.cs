@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,7 +29,7 @@ public record AwsResiliencehubUpdateResiliencyPolicyOptions : AwsOptions, IValid
     /// <summary>
     /// Updates a resiliency policy. NOTE: Resilience Hub allows you to provide a value of zero for rtoInSecs and rpoInSecs of your resiliency policy. But, while assessing your application, the lowest possible assessment result is near zero. Hence, if you provide value zero for rtoInSecs and rpoInSecs , the estimated workload RTO and estimated workload RPO result will be near zero and the Compliance status for your application will be set to Policy breached . See also: AWS API Documentation
     /// </summary>
-    /// <param name="PolicyArn">Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN is: arn:partition :resiliencehub:region :account :re- siliency-policy/policy-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Ref- erence guide. Constraints: o pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$</param>
+    /// <param name="PolicyArn">Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN is: arn:partition :resiliencehub:region :account :resiliency-policy/policy-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: • pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$</param>
     public AwsResiliencehubUpdateResiliencyPolicyOptions(
         string PolicyArn
     )
@@ -58,37 +58,37 @@ public record AwsResiliencehubUpdateResiliencyPolicyOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN is: arn:partition :resiliencehub:region :account :re- siliency-policy/policy-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Ref- erence guide. Constraints: o pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$
+    /// Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN is: arn:partition :resiliencehub:region :account :resiliency-policy/policy-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: • pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$
     /// </summary>
     [CliOption("--policy-arn")]
     public string? PolicyArn { get; private init; }
 
     /// <summary>
-    /// Specifies a high-level geographical location constraint for where your resilience policy data can be stored. Possible values: o AnyLocation o SameContinent o SameCountry
+    /// Specifies a high-level geographical location constraint for where your resilience policy data can be stored. Possible values: • AnyLocation • SameContinent • SameCountry
     /// </summary>
     [CliOption("--data-location-constraint")]
     public AwsResiliencehubUpdateResiliencyPolicyDataLocationConstraint? DataLocationConstraint { get; set; }
 
     /// <summary>
-    /// Resiliency policy to be created, including the recovery time objec- tive (RTO) and recovery point objective (RPO) in seconds. key -&gt; (string) Possible values: o Software o Hardware o AZ o Region value -&gt; (structure) Defines a failure policy. rpoInSecs -&gt; (integer) [required] Recovery Point Objective (RPO) in seconds. Constraints: o min: 0 rtoInSecs -&gt; (integer) [required] Recovery Time Objective (RTO) in seconds. Constraints: o min: 0 Shorthand Syntax: KeyName1={rpoInSecs=integer,rtoInSecs=integer},KeyName2={rpoInSecs=integer,rtoInSecs=integer} Where valid key names are: Software Hardware AZ Region JSON Syntax: {"Software"|"Hardware"|"AZ"|"Region": { "rpoInSecs": integer, "rtoInSecs": integer } ...}
+    /// Resiliency policy to be created, including the recovery time objective (RTO) and recovery point objective (RPO) in seconds. key -&gt; (string) Possible values: • Software • Hardware • AZ • Region value -&gt; (structure) Defines a failure policy. rpoInSecs -&gt; (integer) [required] Recovery Point Objective (RPO) in seconds. Constraints: • min: 0 rtoInSecs -&gt; (integer) [required] Recovery Time Objective (RTO) in seconds. Constraints: • min: 0 Shorthand Syntax: KeyName1={rpoInSecs=integer,rtoInSecs=integer},KeyName2={rpoInSecs=integer,rtoInSecs=integer} Where valid key names are: Software Hardware AZ Region JSON Syntax: {"Software"|"Hardware"|"AZ"|"Region": { "rpoInSecs": integer, "rtoInSecs": integer } ...}
     /// </summary>
     [CliOption("--policy", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Policy { get; set; }
 
     /// <summary>
-    /// Description of the resiliency policy. Constraints: o min: 0 o max: 500
+    /// Description of the resiliency policy. Constraints: • min: 0 • max: 500
     /// </summary>
     [CliOption("--policy-description")]
     public string? PolicyDescription { get; set; }
 
     /// <summary>
-    /// Name of the resiliency policy. Constraints: o pattern: ^[A-Za-z0-9][A-Za-z0-9_\-]{1,59}$
+    /// Name of the resiliency policy. Constraints: • pattern: ^[A-Za-z0-9][A-Za-z0-9_\-]{1,59}$
     /// </summary>
     [CliOption("--policy-name")]
     public string? PolicyName { get; set; }
 
     /// <summary>
-    /// The tier for this resiliency policy, ranging from the highest sever- ity (MissionCritical ) to lowest (NonCritical ). Possible values: o MissionCritical o Critical o Important o CoreServices o NonCritical o NotApplicable
+    /// The tier for this resiliency policy, ranging from the highest severity (MissionCritical ) to lowest (NonCritical ). Possible values: • MissionCritical • Critical • Important • CoreServices • NonCritical • NotApplicable
     /// </summary>
     [CliOption("--tier")]
     public AwsResiliencehubUpdateResiliencyPolicyTier? Tier { get; set; }
@@ -114,6 +114,15 @@ public record AwsResiliencehubUpdateResiliencyPolicyOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

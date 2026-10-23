@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Accepts the transfer of a domain from another Amazon Web Services ac- count to the currentAmazon Web Services account. You initiate a trans- fer between Amazon Web Services accounts using TransferDomainToAnotherAwsAccount . If you use the CLI command at accept-domain-transfer-from-another-aws-account , use JSON format as input instead of text because otherwise CLI will throw an error from domain transfer input that includes single quotes. Use either ListOperations or GetOperationDetail to determ...
+/// Accepts the transfer of a domain from another Amazon Web Services account to the currentAmazon Web Services account. You initiate a transfer between Amazon Web Services accounts using TransferDomainToAnotherAwsAccount . If you use the CLI command at accept-domain-transfer-from-another-aws-account , use JSON format as input instead of text because otherwise CLI will throw an error from domain transfer input that includes single quotes. Use either ListOperations or GetOperationDetail to determine ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsRoute53domainsAcceptDomainTransferFromAnotherAwsAccountOptions 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Accepts the transfer of a domain from another Amazon Web Services ac- count to the currentAmazon Web Services account. You initiate a trans- fer between Amazon Web Services accounts using TransferDomainToAnotherAwsAccount . If you use the CLI command at accept-domain-transfer-from-another-aws-account , use JSON format as input instead of text because otherwise CLI will throw an error from domain transfer input that includes single quotes. Use either ListOperations or GetOperationDetail to determ...
+    /// Accepts the transfer of a domain from another Amazon Web Services account to the currentAmazon Web Services account. You initiate a transfer between Amazon Web Services accounts using TransferDomainToAnotherAwsAccount . If you use the CLI command at accept-domain-transfer-from-another-aws-account , use JSON format as input instead of text because otherwise CLI will throw an error from domain transfer input that includes single quotes. Use either ListOperations or GetOperationDetail to determine ...
     /// </summary>
-    /// <param name="DomainName">The name of the domain that was specified when another Amazon Web Services account submitted a TransferDomainToAnotherAwsAccount re- quest. Constraints: o max: 255</param>
+    /// <param name="DomainName">The name of the domain that was specified when another Amazon Web Services account submitted a TransferDomainToAnotherAwsAccount request. Constraints: • max: 255</param>
     /// <param name="Password">The password that was returned by the TransferDomainToAnotherAwsAccount request.</param>
     public AwsRoute53domainsAcceptDomainTransferFromAnotherAwsAccountOptions(
         string DomainName,
@@ -61,7 +62,7 @@ public record AwsRoute53domainsAcceptDomainTransferFromAnotherAwsAccountOptions 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the domain that was specified when another Amazon Web Services account submitted a TransferDomainToAnotherAwsAccount re- quest. Constraints: o max: 255
+    /// The name of the domain that was specified when another Amazon Web Services account submitted a TransferDomainToAnotherAwsAccount request. Constraints: • max: 255
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
@@ -94,6 +95,15 @@ public record AwsRoute53domainsAcceptDomainTransferFromAnotherAwsAccountOptions 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

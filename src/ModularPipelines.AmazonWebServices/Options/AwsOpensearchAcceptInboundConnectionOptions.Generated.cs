@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Allows the destination Amazon OpenSearch Service domain owner to accept an inbound cross-cluster search connection request. For more informa- tion, see Cross-cluster search for Amazon OpenSearch Service . See also: AWS API Documentation
+/// Allows the destination Amazon OpenSearch Service domain owner to accept an inbound cross-cluster search connection request. For more information, see Cross-cluster search for Amazon OpenSearch Service . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsOpensearchAcceptInboundConnectionOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Allows the destination Amazon OpenSearch Service domain owner to accept an inbound cross-cluster search connection request. For more informa- tion, see Cross-cluster search for Amazon OpenSearch Service . See also: AWS API Documentation
+    /// Allows the destination Amazon OpenSearch Service domain owner to accept an inbound cross-cluster search connection request. For more information, see Cross-cluster search for Amazon OpenSearch Service . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConnectionId">The ID of the inbound connection to accept. Constraints: o min: 10 o max: 256 o pattern: [a-z][a-z0-9\-]+</param>
+    /// <param name="ConnectionId">The ID of the inbound connection to accept. Constraints: • min: 10 • max: 256 • pattern: [a-z][a-z0-9\-]+</param>
     public AwsOpensearchAcceptInboundConnectionOptions(
         string ConnectionId
     )
@@ -56,7 +57,7 @@ public record AwsOpensearchAcceptInboundConnectionOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the inbound connection to accept. Constraints: o min: 10 o max: 256 o pattern: [a-z][a-z0-9\-]+
+    /// The ID of the inbound connection to accept. Constraints: • min: 10 • max: 256 • pattern: [a-z][a-z0-9\-]+
     /// </summary>
     [CliOption("--connection-id")]
     public string? ConnectionId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsOpensearchAcceptInboundConnectionOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

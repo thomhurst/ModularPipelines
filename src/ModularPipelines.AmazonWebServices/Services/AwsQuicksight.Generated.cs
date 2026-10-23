@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -107,7 +107,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Creates Amazon Quick Sight customizations. Currently, you can add a custom default theme by using the CreateAccountCustomization or Up- dateAccountCustomization API operation. To further customize Amazon Quick Sight by removing Amazon Quick Sight sample assets and videos for all new users, see Customizing Quick Sight in the Amazon Quick Sight User Guide. You can create customizations for your Amazon Web Services account or, if you specify a namespace, for a Quick Sight namespace instead. Cus- to...
+    /// Creates Amazon Quick Sight customizations. Currently, you can add a custom default theme by using the CreateAccountCustomization or UpdateAccountCustomization API operation. To further customize Amazon Quick Sight by removing Amazon Quick Sight sample assets and videos for all new users, see Customizing Quick Sight in the Amazon Quick Sight User Guide. You can create customizations for your Amazon Web Services account or, if you specify a namespace, for a Quick Sight namespace instead. Customiza...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Creates an Amazon Quick Sight account, or subscribes to Amazon Quick Sight Q. The Amazon Web Services Region for the account is derived from what is configured in the CLI or SDK. Before you use this operation, make sure that you can connect to an ex- isting Amazon Web Services account. If you don't have an Amazon Web Services account, see Sign up for Amazon Web Services in the Amazon Quick Sight User Guide . The person who signs up for Amazon Quick Sight needs to have the correct Identity and Ac...
+    /// Creates an Amazon Quick Sight account, or subscribes to Amazon Quick Sight Q. The Amazon Web Services Region for the account is derived from what is configured in the CLI or SDK. Before you use this operation, make sure that you can connect to an existing Amazon Web Services account. If you don't have an Amazon Web Services account, see Sign up for Amazon Web Services in the Amazon Quick Sight User Guide . The person who signs up for Amazon Quick Sight needs to have the correct Identity and Acce...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Creates an action connector that enables Amazon Quick Sight to connect to external services and perform actions. Action connectors support various authentication methods and can be configured with specific ac- tions from supported connector types like Amazon S3, Salesforce, JIRA. See also: AWS API Documentation
+    /// Creates an action connector that enables Amazon Quick Sight to connect to external services and perform actions. Action connectors support various authentication methods and can be configured with specific actions from supported connector types like Amazon S3, Salesforce, JIRA. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Creates an analysis in Amazon Quick Sight. Analyses can be created ei- ther from a template or from an AnalysisDefinition . See also: AWS API Documentation
+    /// Creates an analysis in Amazon Quick Sight. Analyses can be created either from a template or from an AnalysisDefinition . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +227,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Creates a dashboard from either a template or directly with a Dash- boardDefinition . To first create a template, see the `` CreateTemplate `` API operation. A dashboard is an entity in Amazon Quick Sight that identifies Amazon Quick Sight reports, created from analyses. You can share Amazon Quick Sight dashboards. With the right permissions, you can create scheduled email reports from them. If you have the correct permissions, you can create a dashboard from a template that exists in a differen...
+    /// Creates a dashboard from either a template or directly with a DashboardDefinition . To first create a template, see the `` CreateTemplate `` API operation. A dashboard is an entity in Amazon Quick Sight that identifies Amazon Quick Sight reports, created from analyses. You can share Amazon Quick Sight dashboards. With the right permissions, you can create scheduled email reports from them. If you have the correct permissions, you can create a dashboard from a template that exists in a different ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +272,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Creates a data loss prevention (DLP) setting configuration for an Ama- zon Web Services account. A DLP setting defines the DLP provider, the enforcement behavior, and the Quick capabilities that the setting ap- plies to. See also: AWS API Documentation
+    /// Creates a data loss prevention (DLP) setting configuration for an Amazon Web Services account. A DLP setting defines the DLP provider, the enforcement behavior, and the Quick capabilities that the setting applies to. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -287,7 +287,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Creates a new flow in the specified Amazon Web Services account. Cre- ates both a DRAFT and PUBLISHED (auto-published) version. This operation is idempotent. Supply a ClientToken to safely retry without creating duplicate resources. See also: AWS API Documentation create-flow uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the ...
+    /// Creates a new flow in the specified Amazon Web Services account. Creates both a DRAFT and PUBLISHED (auto-published) version. This operation is idempotent. Supply a ClientToken to safely retry without creating duplicate resources. See also: AWS API Documentation create-flow uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the ty...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -347,7 +347,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Use the CreateGroup operation to create a group in Quick Sight. You can create up to 10,000 groups in a namespace. If you want to create more than 10,000 groups in a namespace, contact Amazon Web Services Support. The permissions resource is `` arn:aws:quicksight:&lt;your-region&gt;:&lt;relevant-aws-account-id&gt; :group/de- fault/&lt;group-name&gt; `` . System Message: WARNING/2 (&lt;string&gt;:, line 25) Inline literal start-string without end-string. The response is a group object. See also: AWS API Documentation
+    /// Use the CreateGroup operation to create a group in Quick Sight. You can create up to 10,000 groups in a namespace. If you want to create more than 10,000 groups in a namespace, contact Amazon Web Services Support. The permissions resource is `` arn:aws:quicksight:&lt;your-region&gt;:&lt;relevant-aws-account-id&gt; :group/default/&lt;group-name&gt; `` . System Message: WARNING/2 (&lt;string&gt;:, line 25) Inline literal start-string without end-string. The response is a group object. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -377,7 +377,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Creates and starts a new SPICE ingestion for a dataset. You can manu- ally refresh datasets in an Enterprise edition account 32 times in a 24-hour period. You can manually refresh datasets in a Standard edition account 8 times in a 24-hour period. Each 24-hour period is measured starting 24 hours before the current date and time. Any ingestions operating on tagged datasets inherit the same tags auto- matically for use in access control. For an example, see How do I cre- ate an IAM policy to cont...
+    /// Creates and starts a new SPICE ingestion for a dataset. You can manually refresh datasets in an Enterprise edition account 32 times in a 24-hour period. You can manually refresh datasets in a Standard edition account 8 times in a 24-hour period. Each 24-hour period is measured starting 24 hours before the current date and time. Any ingestions operating on tagged datasets inherit the same tags automatically for use in access control. For an example, see How do I create an IAM policy to control ac...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -392,7 +392,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Creates a knowledge base from a specified data source. Supported data source connector types include: o S3_KNOWLEDGE_BASE Uses an Amazon S3 bucket as the data source. o WEB_CRAWLER Uses web pages indexed by the built-in web crawler as the data source. o GOOGLE_DRIVE Uses Google Drive as the data source. Supports service account authentication only. o SHAREPOINT Uses SharePoint as the data source. Supports two-legged OAuth only. o ONE_DRIVE Uses OneDrive as the data source. Supports two-legged OA...
+    /// Creates a knowledge base from a specified data source. Supported data source connector types include: • S3_KNOWLEDGE_BASE Uses an Amazon S3 bucket as the data source. • WEB_CRAWLER Uses web pages indexed by the built-in web crawler as the data source. • GOOGLE_DRIVE Uses Google Drive as the data source. Supports service account authentication only. • SHAREPOINT Uses SharePoint as the data source. Supports two-legged OAuth only. • ONE_DRIVE Uses OneDrive as the data source. Supports two-legged OA...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -452,7 +452,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Creates a refresh schedule for a dataset. You can create up to 5 dif- ferent schedules for a single dataset. See also: AWS API Documentation
+    /// Creates a refresh schedule for a dataset. You can create up to 5 different schedules for a single dataset. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -467,7 +467,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Use CreateRoleMembership to add an existing Quick Sight group to an ex- isting role. See also: AWS API Documentation
+    /// Use CreateRoleMembership to add an existing Quick Sight group to an existing role. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -482,7 +482,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Creates a new Amazon QuickSight space. A space is a collection of re- sources that can be used to organize and manage QuickSight assets. See also: AWS API Documentation
+    /// Creates a new Amazon QuickSight space. A space is a collection of resources that can be used to organize and manage QuickSight assets. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -512,7 +512,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Creates a template either from a TemplateDefinition or from an existing Quick Sight analysis or template. You can use the resulting template to create additional dashboards, templates, or analyses. A template is an entity in Quick Sight that encapsulates the metadata required to create an analysis and that you can use to create s dash- board. A template adds a layer of abstraction by using placeholders to replace the dataset associated with the analysis. You can use templates to create dashboard...
+    /// Creates a template either from a TemplateDefinition or from an existing Quick Sight analysis or template. You can use the resulting template to create additional dashboards, templates, or analyses. A template is an entity in Quick Sight that encapsulates the metadata required to create an analysis and that you can use to create s dashboard. A template adds a layer of abstraction by using placeholders to replace the dataset associated with the analysis. You can use templates to create dashboards ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -617,21 +617,6 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// WARNING: This API permanently deletes all Quick Sight customizations for the specified Amazon Web Services account and namespace. When you delete account customizations: o All customizations are removed including themes, branding, and vi- sual settings o This action cannot be undone through the API o Users will see default Quick Sight styling after customizations are deleted Before proceeding: Ensure you have backups of any custom themes or branding elements you may want to recreate. Deletes all...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DeleteAccountCustomizationAsync(
-        AwsQuicksightDeleteAccountCustomizationOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Unapplies a custom permissions profile from an account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -647,7 +632,22 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// WARNING: Deleting your Quick Sight account subscription has permanent, irre- versible consequences across all Amazon Web Services regions: o Global deletion Running this operation from any single region will delete your Quick Sight account and all data in every Amazon Web Services region where you have Quick Sight resources. o Complete data loss All dashboards, analyses, datasets, data sources, and custom visuals will be permanently deleted across all regions. o Embedded content failure All embe...
+    /// WARNING: This API permanently deletes all Quick Sight customizations for the specified Amazon Web Services account and namespace. When you delete account customizations: • All customizations are removed including themes, branding, and visual settings • This action cannot be undone through the API • Users will see default Quick Sight styling after customizations are deleted Before proceeding: Ensure you have backups of any custom themes or branding elements you may want to recreate. Deletes all A...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DeleteAccountCustomizationAsync(
+        AwsQuicksightDeleteAccountCustomizationOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// WARNING: Deleting your Quick Sight account subscription has permanent, irreversible consequences across all Amazon Web Services regions: • Global deletion Running this operation from any single region will delete your Quick Sight account and all data in every Amazon Web Services region where you have Quick Sight resources. • Complete data loss All dashboards, analyses, datasets, data sources, and custom visuals will be permanently deleted across all regions. • Embedded content failure All embedd...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -662,7 +662,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Hard deletes an action connector, making it unrecoverable. This opera- tion removes the connector and all its associated configurations. Any resources currently using this action connector will no longer be able to perform actions through it. See also: AWS API Documentation
+    /// Hard deletes an action connector, making it unrecoverable. This operation removes the connector and all its associated configurations. Any resources currently using this action connector will no longer be able to perform actions through it. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -692,7 +692,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Deletes an analysis from Amazon Quick Sight. You can optionally include a recovery window during which you can restore the analysis. If you don't specify a recovery window value, the operation defaults to 30 days. Amazon Quick Sight attaches a DeletionTime stamp to the response that specifies the end of the recovery window. At the end of the recov- ery window, Amazon Quick Sight deletes the analysis permanently. At any time before recovery window ends, you can use the RestoreAnaly- sis API opera...
+    /// Deletes an analysis from Amazon Quick Sight. You can optionally include a recovery window during which you can restore the analysis. If you don't specify a recovery window value, the operation defaults to 30 days. Amazon Quick Sight attaches a DeletionTime stamp to the response that specifies the end of the recovery window. At the end of the recovery window, Amazon Quick Sight deletes the analysis permanently. At any time before recovery window ends, you can use the RestoreAnalysis API operation...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -752,7 +752,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// WARNING: This API permanently deletes the specified Quick Sight brand. When you delete a brand: o The brand and all its associated branding elements are permanently removed o Any applications or dashboards using this brand will revert to de- fault styling o This action cannot be undone through the API Before proceeding: Verify that the brand is no longer needed and consider the impact on any applications currently using this brand. Deletes an Quick Sight brand. See also: AWS API Documentation
+    /// WARNING: This API permanently deletes the specified Quick Sight brand. When you delete a brand: • The brand and all its associated branding elements are permanently removed • Any applications or dashboards using this brand will revert to default styling • This action cannot be undone through the API Before proceeding: Verify that the brand is no longer needed and consider the impact on any applications currently using this brand. Deletes an Quick Sight brand. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -842,7 +842,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Deletes a linked Amazon Q Business application from an Quick Sight ac- count See also: AWS API Documentation
+    /// Deletes a linked Amazon Q Business application from an Quick Sight account See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -857,7 +857,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Deletes a DLP setting configuration from an Amazon Web Services ac- count. See also: AWS API Documentation
+    /// Deletes a DLP setting configuration from an Amazon Web Services account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -872,7 +872,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Permanently deletes a flow from the specified Amazon Web Services ac- count. This operation cannot be undone. See also: AWS API Documentation
+    /// Permanently deletes a flow from the specified Amazon Web Services account. This operation cannot be undone. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1007,7 +1007,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Deletes a namespace and the users and groups that are associated with the namespace. This is an asynchronous process. Assets including dash- boards, analyses, datasets and data sources are not deleted. To delete these assets, you use the API operations for the relevant asset. See also: AWS API Documentation
+    /// Deletes a namespace and the users and groups that are associated with the namespace. This is an asynchronous process. Assets including dashboards, analyses, datasets and data sources are not deleted. To delete these assets, you use the API operations for the relevant asset. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1232,7 +1232,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Deletes the Amazon Quick Sight user that is associated with the iden- tity of the IAM user or role that's making the call. The IAM user isn't deleted as a result of this call. See also: AWS API Documentation
+    /// Deletes the Amazon Quick Sight user that is associated with the identity of the IAM user or role that's making the call. The IAM user isn't deleted as a result of this call. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1262,21 +1262,6 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Describes the customizations associated with the provided Amazon Web Services account and Amazon Quick Sight namespace. The Quick Sight con- sole evaluates which customizations to apply by running this API opera- tion with the Resolved flag included. To determine what customizations display when you run this command, it can help to visualize the relationship of the entities involved. o Amazon Web Services account - The Amazon Web Services account exists at the top of the hierarchy. It has the po...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeAccountCustomizationAsync(
-        AwsQuicksightDescribeAccountCustomizationOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Describes the custom permissions profile that is applied to an account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -1292,7 +1277,22 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Describes the settings that were used when your Quick Sight subscrip- tion was first created in this Amazon Web Services account. See also: AWS API Documentation
+    /// Describes the customizations associated with the provided Amazon Web Services account and Amazon Quick Sight namespace. The Quick Sight console evaluates which customizations to apply by running this API operation with the Resolved flag included. To determine what customizations display when you run this command, it can help to visualize the relationship of the entities involved. • Amazon Web Services account - The Amazon Web Services account exists at the top of the hierarchy. It has the potent...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeAccountCustomizationAsync(
+        AwsQuicksightDescribeAccountCustomizationOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Describes the settings that were used when your Quick Sight subscription was first created in this Amazon Web Services account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1337,7 +1337,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Retrieves the permissions configuration for an action connector, show- ing which users, groups, and namespaces have access and what operations they can perform. See also: AWS API Documentation
+    /// Retrieves the permissions configuration for an action connector, showing which users, groups, and namespaces have access and what operations they can perform. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1472,7 +1472,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Describes an existing export job. Poll job descriptions after a job starts to know the status of the job. When a job succeeds, a URL is provided to download the exported assets' data from. Download URLs are valid for five minutes after they are gen- erated. You can call the DescribeAssetBundleExportJob API for a new download URL as needed. Job descriptions are available for 14 days after the job starts. See also: AWS API Documentation
+    /// Describes an existing export job. Poll job descriptions after a job starts to know the status of the job. When a job succeeds, a URL is provided to download the exported assets' data from. Download URLs are valid for five minutes after they are generated. You can call the DescribeAssetBundleExportJob API for a new download URL as needed. Job descriptions are available for 14 days after the job starts. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1487,7 +1487,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Describes an existing import job. Poll job descriptions after starting a job to know when it has suc- ceeded or failed. Job descriptions are available for 14 days after job starts. See also: AWS API Documentation
+    /// Describes an existing import job. Poll job descriptions after starting a job to know when it has succeeded or failed. Job descriptions are available for 14 days after job starts. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1502,7 +1502,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Retrieves the status and details of a specified automation job, includ- ing its status and outputs. See also: AWS API Documentation
+    /// Retrieves the status and details of a specified automation job, including its status and outputs. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1622,7 +1622,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Describes an existing snapshot job. Poll job descriptions after a job starts to know the status of the job. For information on available status codes, see JobStatus . Registered user support This API can be called as before to get status of a job started by the same Quick Sight user. Possible error scenarios Request will fail with an Access Denied error in the following scenar- ios: o The credentials have expired. o Job has been started by a different user. o Impersonated Quick Sight user doesn'...
+    /// Describes an existing snapshot job. Poll job descriptions after a job starts to know the status of the job. For information on available status codes, see JobStatus . Registered user support This API can be called as before to get status of a job started by the same Quick Sight user. Possible error scenarios Request will fail with an Access Denied error in the following scenarios: • The credentials have expired. • Job has been started by a different user. • Impersonated Quick Sight user doesn't ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1637,7 +1637,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Describes the result of an existing snapshot job that has finished run- ning. A finished snapshot job will return a COMPLETED or FAILED status when you poll the job with a DescribeDashboardSnapshotJob API call. If the job has not finished running, this operation returns a message that says Dashboard Snapshot Job with id &lt;SnapshotjobId&gt; has not reached a terminal state. . Registered user support This API can be called as before to get the result of a job started by the same Quick Sight user. The ...
+    /// Describes the result of an existing snapshot job that has finished running. A finished snapshot job will return a COMPLETED or FAILED status when you poll the job with a DescribeDashboardSnapshotJob API call. If the job has not finished running, this operation returns a message that says Dashboard Snapshot Job with id &lt;SnapshotjobId&gt; has not reached a terminal state. . Registered user support This API can be called as before to get the result of a job started by the same Quick Sight user. The re...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1682,7 +1682,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Describes the permissions on a dataset. The permissions resource is arn:aws:quicksight:region:aws-ac- count-id:dataset/data-set-id . See also: AWS API Documentation
+    /// Describes the permissions on a dataset. The permissions resource is arn:aws:quicksight:region:aws-account-id:dataset/data-set-id . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1757,7 +1757,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Describes the full configuration of a DLP setting in an Amazon Web Ser- vices account. See also: AWS API Documentation
+    /// Describes the full configuration of a DLP setting in an Amazon Web Services account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1772,7 +1772,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Returns the full details of a flow for the latest version of the re- quested publish state. See also: AWS API Documentation describe-flow uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Returns the full details of a flow for the latest version of the requested publish state. See also: AWS API Documentation describe-flow uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1802,7 +1802,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Describes permissions for a folder. See also: AWS API Documentation describe-folder-permissions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Permissions
+    /// Describes permissions for a folder. See also: AWS API Documentation describe-folder-permissions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Permissions
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1817,7 +1817,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Describes the folder resolved permissions. Permissions consists of both folder direct permissions and the inherited permissions from the ances- tor folders. See also: AWS API Documentation describe-folder-resolved-permissions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query arg...
+    /// Describes the folder resolved permissions. Permissions consists of both folder direct permissions and the inherited permissions from the ancestor folders. See also: AWS API Documentation describe-folder-resolved-permissions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1862,7 +1862,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Describes an existing IAM policy assignment, as specified by the as- signment name. See also: AWS API Documentation
+    /// Describes an existing IAM policy assignment, as specified by the assignment name. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1907,7 +1907,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Describes all customer managed key registrations in a Quick Sight ac- count. See also: AWS API Documentation
+    /// Describes all customer managed key registrations in a Quick Sight account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1922,7 +1922,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Describes a knowledge base. See also: AWS API Documentation describe-knowledge-base uses document type values. Document types fol- low the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be pro- vided as JSON. Shorthand syntax does not support document types.
+    /// Describes a knowledge base. See also: AWS API Documentation describe-knowledge-base uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2327,7 +2327,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Generates an embed URL that you can use to embed an Amazon Quick dash- board or visual in your website, without having to register any reader users. Before you use this action, make sure that you have configured the dashboards and permissions. The following rules apply to the generated URL: o It contains a temporary bearer token. It is valid for 5 minutes after it is generated. Once redeemed within this period, it cannot be re-used again. o The URL validity period should not be confused with the...
+    /// Generates an embed URL that you can use to embed an Amazon Quick dashboard or visual in your website, without having to register any reader users. Before you use this action, make sure that you have configured the dashboards and permissions. The following rules apply to the generated URL: • It contains a temporary bearer token. It is valid for 5 minutes after it is generated. Once redeemed within this period, it cannot be re-used again. • The URL validity period should not be confused with the a...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2342,7 +2342,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Generates an embed URL that you can use to embed an Amazon Quick expe- rience in your website. This action can be used for any type of user registered in an Amazon Quick account. Before you use this action, make sure that you have configured the relevant Amazon Quick resource and permissions. The following rules apply to the generated URL: o It contains a temporary bearer token. It is valid for 5 minutes after it is generated. Once redeemed within this period, it cannot be re-used again. o The U...
+    /// Generates an embed URL that you can use to embed an Amazon Quick experience in your website. This action can be used for any type of user registered in an Amazon Quick account. Before you use this action, make sure that you have configured the relevant Amazon Quick resource and permissions. The following rules apply to the generated URL: • It contains a temporary bearer token. It is valid for 5 minutes after it is generated. Once redeemed within this period, it cannot be re-used again. • The URL...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2372,7 +2372,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Generates a temporary session URL and authorization code(bearer token) that you can use to embed an Amazon Quick Sight read-only dashboard in your website or application. Before you use this command, make sure that you have configured the dashboards and permissions. Currently, you can use GetDashboardEmbedURL only from the server, not from the user's browser. The following rules apply to the generated URL: o They must be used together. o They can be used one time only. o They are valid for 5 min...
+    /// Generates a temporary session URL and authorization code(bearer token) that you can use to embed an Amazon Quick Sight read-only dashboard in your website or application. Before you use this command, make sure that you have configured the dashboards and permissions. Currently, you can use GetDashboardEmbedURL only from the server, not from the user's browser. The following rules apply to the generated URL: • They must be used together. • They can be used one time only. • They are valid for 5 min...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2387,7 +2387,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Retrieves the metadata of a flow, not including its definition specify- ing the steps. See also: AWS API Documentation
+    /// Retrieves the metadata of a flow, not including its definition specifying the steps. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2417,7 +2417,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Retrieves the identity context for a Quick Sight user in a specified namespace, allowing you to obtain identity tokens that can be used with identity-enhanced IAM role sessions to call identity-aware APIs. Currently, you can call the following APIs with identity-enhanced Cre- dentials o StartDashboardSnapshotJob o DescribeDashboardSnapshotJob o DescribeDashboardSnapshotJobResult Supported Authentication Methods This API supports Quick Sight native users, IAM federated users, and Active Directory...
+    /// Retrieves the identity context for a Quick Sight user in a specified namespace, allowing you to obtain identity tokens that can be used with identity-enhanced IAM role sessions to call identity-aware APIs. Currently, you can call the following APIs with identity-enhanced Credentials • StartDashboardSnapshotJob • DescribeDashboardSnapshotJob • DescribeDashboardSnapshotJobResult Supported Authentication Methods This API supports Quick Sight native users, IAM federated users, and Active Directory u...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2432,7 +2432,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Generates a session URL and authorization code that you can use to em- bed the Amazon Amazon Quick Sight console in your web server code. Use GetSessionEmbedUrl where you want to provide an authoring portal that allows users to create data sources, datasets, analyses, and dash- boards. The users who access an embedded Amazon Quick Sight console need belong to the author or admin security cohort. If you want to re- strict permissions to some of these features, add a custom permissions profile to ...
+    /// Generates a session URL and authorization code that you can use to embed the Amazon Amazon Quick Sight console in your web server code. Use GetSessionEmbedUrl where you want to provide an authoring portal that allows users to create data sources, datasets, analyses, and dashboards. The users who access an embedded Amazon Quick Sight console need belong to the author or admin security cohort. If you want to restrict permissions to some of these features, add a custom permissions profile to the us...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2447,7 +2447,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Lists all action connectors in the specified Amazon Web Services ac- count. Returns summary information for each connector including its name, type, creation time, and status. See also: AWS API Documentation list-action-connectors is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query ar...
+    /// Lists all action connectors in the specified Amazon Web Services account. Returns summary information for each connector including its name, type, creation time, and status. See also: AWS API Documentation list-action-connectors is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2477,7 +2477,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Lists Amazon Quick Sight analyses that exist in the specified Amazon Web Services account. See also: AWS API Documentation list-analyses is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: AnalysisSumm...
+    /// Lists Amazon Quick Sight analyses that exist in the specified Amazon Web Services account. See also: AWS API Documentation list-analyses is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: AnalysisSummaryL...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2507,7 +2507,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Lists the apps in an Amazon Web Services account. Results are pagi- nated; use the NextToken parameter to retrieve additional results. See also: AWS API Documentation list-apps is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagi- nation by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query ar- gument must extract data from the results of the f...
+    /// Lists the apps in an Amazon Web Services account. Results are paginated; use the NextToken parameter to retrieve additional results. See also: AWS API Documentation list-apps is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the followi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2522,7 +2522,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Lists all asset bundle export jobs that have been taken place in the last 14 days. Jobs created more than 14 days ago are deleted forever and are not returned. If you are using the same job ID for multiple jobs, ListAssetBundleExportJobs only returns the most recent job that uses the repeated job ID. See also: AWS API Documentation list-asset-bundle-export-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagina...
+    /// Lists all asset bundle export jobs that have been taken place in the last 14 days. Jobs created more than 14 days ago are deleted forever and are not returned. If you are using the same job ID for multiple jobs, ListAssetBundleExportJobs only returns the most recent job that uses the repeated job ID. See also: AWS API Documentation list-asset-bundle-export-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable paginati...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2537,7 +2537,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Lists all asset bundle import jobs that have taken place in the last 14 days. Jobs created more than 14 days ago are deleted forever and are not returned. If you are using the same job ID for multiple jobs, Lis- tAssetBundleImportJobs only returns the most recent job that uses the repeated job ID. See also: AWS API Documentation list-asset-bundle-import-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable paginatio...
+    /// Lists all asset bundle import jobs that have taken place in the last 14 days. Jobs created more than 14 days ago are deleted forever and are not returned. If you are using the same job ID for multiple jobs, ListAssetBundleImportJobs only returns the most recent job that uses the repeated job ID. See also: AWS API Documentation list-asset-bundle-import-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2552,7 +2552,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Lists all brands in an Quick Sight account. See also: AWS API Documentation list-brands is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: Brands
+    /// Lists all brands in an Quick Sight account. See also: AWS API Documentation list-brands is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Brands
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2567,7 +2567,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Returns a list of all the custom permissions profiles. See also: AWS API Documentation list-custom-permissions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: CustomPermissionsList
+    /// Returns a list of all the custom permissions profiles. See also: AWS API Documentation list-custom-permissions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: CustomPermissionsList
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2582,22 +2582,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Lists dashboards in an Amazon Web Services account. See also: AWS API Documentation list-dashboards is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: DashboardSummaryList
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListDashboardsAsync(
-        AwsQuicksightListDashboardsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Lists all the versions of the dashboards in the Amazon Quick Sight sub- scription. See also: AWS API Documentation list-dashboard-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: DashboardVer...
+    /// Lists all the versions of the dashboards in the Amazon Quick Sight subscription. See also: AWS API Documentation list-dashboard-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: DashboardVersion...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2612,7 +2597,22 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Lists all of the datasets belonging to the current Amazon Web Services account in an Amazon Web Services Region. The permissions resource is arn:aws:quicksight:region:aws-ac- count-id:dataset/* . See also: AWS API Documentation list-data-sets is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response...
+    /// Lists dashboards in an Amazon Web Services account. See also: AWS API Documentation list-dashboards is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: DashboardSummaryList
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListDashboardsAsync(
+        AwsQuicksightListDashboardsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists all of the datasets belonging to the current Amazon Web Services account in an Amazon Web Services Region. The permissions resource is arn:aws:quicksight:region:aws-account-id:dataset/* . See also: AWS API Documentation list-data-sets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2657,7 +2657,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Lists flows in an Amazon Web Services account. See also: AWS API Documentation list-flows is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: FlowSummaryList
+    /// Lists flows in an Amazon Web Services account. See also: AWS API Documentation list-flows is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: FlowSummaryList
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2687,7 +2687,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// List all folders that a resource is a member of. See also: AWS API Documentation list-folders-for-resource is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: Folders
+    /// List all folders that a resource is a member of. See also: AWS API Documentation list-folders-for-resource is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Folders
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2702,7 +2702,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Lists all folders in an account. See also: AWS API Documentation list-folders is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: FolderSummaryList
+    /// Lists all folders in an account. See also: AWS API Documentation list-folders is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: FolderSummaryList
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2732,7 +2732,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Lists all user groups in Amazon Quick Sight. See also: AWS API Documentation list-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: GroupList
+    /// Lists all user groups in Amazon Quick Sight. See also: AWS API Documentation list-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: GroupList
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2747,7 +2747,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Lists all of the IAM policy assignments, including the Amazon Resource Names (ARNs), for the IAM policies assigned to the specified user and group, or groups that the user belongs to. See also: AWS API Documentation list-iam-policy-assignments-for-user is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginate...
+    /// Lists all of the IAM policy assignments, including the Amazon Resource Names (ARNs), for the IAM policies assigned to the specified user and group, or groups that the user belongs to. See also: AWS API Documentation list-iam-policy-assignments-for-user is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated re...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2762,7 +2762,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Lists the IAM policy assignments in the current Amazon Quick Sight ac- count. See also: AWS API Documentation list-iam-policy-assignments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: IAMPolicyAs...
+    /// Lists the IAM policy assignments in the current Amazon Quick Sight account. See also: AWS API Documentation list-iam-policy-assignments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: IAMPolicyAssignme...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2792,7 +2792,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Lists the history of SPICE ingestions for a dataset. Limited to 5 TPS per user and 25 TPS per account. See also: AWS API Documentation list-ingestions is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions...
+    /// Lists the history of SPICE ingestions for a dataset. Limited to 5 TPS per user and 25 TPS per account. See also: AWS API Documentation list-ingestions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: In...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2837,7 +2837,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Lists the namespaces for the specified Amazon Web Services account. This operation doesn't list deleted namespaces. See also: AWS API Documentation list-namespaces is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following quer...
+    /// Lists the namespaces for the specified Amazon Web Services account. This operation doesn't list deleted namespaces. See also: AWS API Documentation list-namespaces is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2852,7 +2852,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Lists all OAuthClientApplications in the current Amazon Web Services Region that belong to this Amazon Web Services account. See also: AWS API Documentation list-o-auth-client-applications is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the resu...
+    /// Lists all OAuthClientApplications in the current Amazon Web Services Region that belong to this Amazon Web Services account. See also: AWS API Documentation list-o-auth-client-applications is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2972,21 +2972,6 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Lists all the templates in the current Amazon Quick Sight account. See also: AWS API Documentation list-templates is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TemplateSummaryList
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListTemplatesAsync(
-        AwsQuicksightListTemplatesOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Lists all the versions of the templates in the current Amazon Quick Sight account. See also: AWS API Documentation list-template-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TemplateVersion...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -2995,6 +2980,21 @@ public class AwsQuicksight : IAwsQuicksight
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListTemplateVersionsAsync(
         AwsQuicksightListTemplateVersionsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists all the templates in the current Amazon Quick Sight account. See also: AWS API Documentation list-templates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TemplateSummaryList
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListTemplatesAsync(
+        AwsQuicksightListTemplatesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -3017,21 +3017,6 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Lists all the themes in the current Amazon Web Services account. See also: AWS API Documentation list-themes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: ThemeSummaryList
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListThemesAsync(
-        AwsQuicksightListThemesOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Lists all the versions of the themes in the current Amazon Web Services account. See also: AWS API Documentation list-theme-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ThemeVersionSummaryL...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -3040,6 +3025,21 @@ public class AwsQuicksight : IAwsQuicksight
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListThemeVersionsAsync(
         AwsQuicksightListThemeVersionsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists all the themes in the current Amazon Web Services account. See also: AWS API Documentation list-themes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ThemeSummaryList
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListThemesAsync(
+        AwsQuicksightListThemesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -3092,7 +3092,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Lists all of the Q topics in the specified Amazon Web Services account in an Amazon Web Services Region. See also: AWS API Documentation list-topics-v2 is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expression...
+    /// Lists all of the Q topics in the specified Amazon Web Services account in an Amazon Web Services Region. See also: AWS API Documentation list-topics-v2 is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: T...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3137,7 +3137,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Returns a list of all of the Amazon Quick Sight users belonging to this account. See also: AWS API Documentation list-users is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: UserList
+    /// Returns a list of all of the Amazon Quick Sight users belonging to this account. See also: AWS API Documentation list-users is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: UserList
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3167,7 +3167,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Predicts existing visuals or generates new visuals to answer a given query. This API uses trusted identity propagation to ensure that an end user is authenticated and receives the embed URL that is specific to that user. The IAM Identity Center application that the user has logged into needs to have trusted Identity Propagation enabled for Quick with the scope value set to quicksight:read . Before you use this action, make sure that you have configured the relevant Quick resource and permis- sio...
+    /// Predicts existing visuals or generates new visuals to answer a given query. This API uses trusted identity propagation to ensure that an end user is authenticated and receives the embed URL that is specific to that user. The IAM Identity Center application that the user has logged into needs to have trusted Identity Propagation enabled for Quick with the scope value set to quicksight:read . Before you use this action, make sure that you have configured the relevant Quick resource and permissions...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3197,7 +3197,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Creates an Amazon Quick Sight user whose identity is associated with the Identity and Access Management (IAM) identity or role specified in the request. When you register a new user from the Quick Sight API, Quick Sight generates a registration URL. The user accesses this regis- tration URL to create their account. Quick Sight doesn't send a regis- tration email to users who are registered from the Quick Sight API. If you want new users to receive a registration email, then add those users in th...
+    /// Creates an Amazon Quick Sight user whose identity is associated with the Identity and Access Management (IAM) identity or role specified in the request. When you register a new user from the Quick Sight API, Quick Sight generates a registration URL. The user accesses this registration URL to create their account. Quick Sight doesn't send a registration email to users who are registered from the Quick Sight API. If you want new users to receive a registration email, then add those users in the Qu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3227,7 +3227,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Searches for action connectors in the specified Amazon Web Services ac- count using filters. You can search by connector name, type, or user permissions. See also: AWS API Documentation search-action-connectors is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract ...
+    /// Searches for action connectors in the specified Amazon Web Services account using filters. You can search by connector name, type, or user permissions. See also: AWS API Documentation search-action-connectors is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract da...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3257,7 +3257,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Searches for analyses that belong to the user specified in the filter. NOTE: This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes. See also: AWS API Documentation search-analyses is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated resp...
+    /// Searches for analyses that belong to the user specified in the filter. NOTE: This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes. See also: AWS API Documentation search-analyses is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3272,7 +3272,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Searches for apps in an Amazon Web Services account using the specified filters. This operation is eventually consistent; the results might not reflect very recent updates. Results are paginated; use the NextToken parameter to retrieve additional results. See also: AWS API Documentation search-apps is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- pu...
+    /// Searches for apps in an Amazon Web Services account using the specified filters. This operation is eventually consistent; the results might not reflect very recent updates. Results are paginated; use the NextToken parameter to retrieve additional results. See also: AWS API Documentation search-apps is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3317,7 +3317,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Use the SearchDataSources operation to search for data sources that be- long to an account. See also: AWS API Documentation search-data-sources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: DataSourc...
+    /// Use the SearchDataSources operation to search for data sources that belong to an account. See also: AWS API Documentation search-data-sources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: DataSourceS...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3332,7 +3332,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Search for the flows in an Amazon Web Services account. See also: AWS API Documentation search-flows is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: FlowSummaryList
+    /// Search for the flows in an Amazon Web Services account. See also: AWS API Documentation search-flows is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: FlowSummaryList
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3347,7 +3347,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Searches the subfolders in a folder. See also: AWS API Documentation search-folders is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: FolderSummaryList
+    /// Searches the subfolders in a folder. See also: AWS API Documentation search-folders is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: FolderSummaryList
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3362,7 +3362,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Use the SearchGroups operation to search groups in a specified Quick Sight namespace using the supplied filters. See also: AWS API Documentation search-groups is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query exp...
+    /// Use the SearchGroups operation to search groups in a specified Quick Sight namespace using the supplied filters. See also: AWS API Documentation search-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query express...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3407,7 +3407,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Searches for any Q topic that exists in an Quick account. See also: AWS API Documentation search-topics is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TopicSummaryList
+    /// Searches for any Q topic that exists in an Quick account. See also: AWS API Documentation search-topics is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TopicSummaryList
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3437,7 +3437,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Starts an Asset Bundle export job. An Asset Bundle export job exports specified Amazon Quick Sight assets. You can also choose to export any asset dependencies in the same job. Export jobs run asynchronously and can be polled with a DescribeAsset- BundleExportJob API call. When a job is successfully completed, a down- load URL that contains the exported assets is returned. The URL is valid for 5 minutes and can be refreshed with a DescribeAssetBundleEx- portJob API call. Each Amazon Quick Sight ...
+    /// Starts an Asset Bundle export job. An Asset Bundle export job exports specified Amazon Quick Sight assets. You can also choose to export any asset dependencies in the same job. Export jobs run asynchronously and can be polled with a DescribeAssetBundleExportJob API call. When a job is successfully completed, a download URL that contains the exported assets is returned. The URL is valid for 5 minutes and can be refreshed with a DescribeAssetBundleExportJob API call. Each Amazon Quick Sight accoun...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3467,7 +3467,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Starts a new job for a specified automation. The job runs the automa- tion with the provided input payload. See also: AWS API Documentation
+    /// Starts a new job for a specified automation. The job runs the automation with the provided input payload. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3482,7 +3482,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Starts an asynchronous job that generates a snapshot of a dashboard's output. You can request one or several of the following format configu- rations in each API call. o 1 PDF o 1 Excel workbook that includes up to 5 table or pivot table visuals o 5 CSVs from table or pivot table visuals NOTE: Exporting CSV, Excel, or Pixel Perfect PDF reports requires Pixel Perfect Report Add-on. The status of a submitted job can be polled with the DescribeDashboard- SnapshotJob API. When you call the DescribeD...
+    /// Starts an asynchronous job that generates a snapshot of a dashboard's output. You can request one or several of the following format configurations in each API call. • 1 PDF • 1 Excel workbook that includes up to 5 table or pivot table visuals • 5 CSVs from table or pivot table visuals NOTE: Exporting CSV, Excel, or Pixel Perfect PDF reports requires Pixel Perfect Report Add-on. The status of a submitted job can be polled with the DescribeDashboardSnapshotJob API. When you call the DescribeDashb...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3497,7 +3497,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Starts an asynchronous job that runs an existing dashboard schedule and sends the dashboard snapshot through email. Only one job can run simultaneously in a given schedule. Repeated re- quests are skipped with a 202 HTTP status code. For more information, see Scheduling and sending Amazon Quick Sight re- ports by email and Configuring email report settings for a Amazon Quick Sight dashboard in the Amazon Quick Sight User Guide . See also: AWS API Documentation
+    /// Starts an asynchronous job that runs an existing dashboard schedule and sends the dashboard snapshot through email. Only one job can run simultaneously in a given schedule. Repeated requests are skipped with a 202 HTTP status code. For more information, see Scheduling and sending Amazon Quick Sight reports by email and Configuring email report settings for a Amazon Quick Sight dashboard in the Amazon Quick Sight User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3542,21 +3542,6 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Updates Amazon Quick Sight customizations. Currently, the only cus- tomization that you can use is a theme. You can use customizations for your Amazon Web Services account or, if you specify a namespace, for a Quick Sight namespace instead. Cus- tomizations that apply to a namespace override customizations that ap- ply to an Amazon Web Services account. To find out which customizations apply, use the DescribeAccountCustomization API operation. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> UpdateAccountCustomizationAsync(
-        AwsQuicksightUpdateAccountCustomizationOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Applies a custom permissions profile to an account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -3572,7 +3557,22 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Updates the Amazon Quick Sight settings in your Amazon Web Services ac- count. See also: AWS API Documentation
+    /// Updates Amazon Quick Sight customizations. Currently, the only customization that you can use is a theme. You can use customizations for your Amazon Web Services account or, if you specify a namespace, for a Quick Sight namespace instead. Customizations that apply to a namespace override customizations that apply to an Amazon Web Services account. To find out which customizations apply, use the DescribeAccountCustomization API operation. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> UpdateAccountCustomizationAsync(
+        AwsQuicksightUpdateAccountCustomizationOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Updates the Amazon Quick Sight settings in your Amazon Web Services account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3587,7 +3587,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Updates an existing action connector with new configuration details, authentication settings, or enabled actions. You can modify the connec- tor's name, description, authentication configuration, and which ac- tions are enabled. For more information, https://docs.aws.amazon.com/quicksuite/latest/userguide/quick-action-auth.html . See also: AWS API Documentation
+    /// Updates an existing action connector with new configuration details, authentication settings, or enabled actions. You can modify the connector's name, description, authentication configuration, and which actions are enabled. For more information, https://docs.aws.amazon.com/quicksuite/latest/userguide/quick-action-auth.html . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3677,21 +3677,6 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Updates an Quick application with a token exchange grant. This opera- tion only supports Quick applications that are registered with IAM Identity Center. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> UpdateApplicationWithTokenExchangeGrantAsync(
-        AwsQuicksightUpdateApplicationWithTokenExchangeGrantOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Updates the resource permissions for an app. You can grant or revoke permissions and, optionally, change the app's visibility. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -3700,6 +3685,21 @@ public class AwsQuicksight : IAwsQuicksight
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateAppPermissionsAsync(
         AwsQuicksightUpdateAppPermissionsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Updates an Quick application with a token exchange grant. This operation only supports Quick applications that are registered with IAM Identity Center. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> UpdateApplicationWithTokenExchangeGrantAsync(
+        AwsQuicksightUpdateApplicationWithTokenExchangeGrantOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -3872,7 +3872,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Updates the permissions on a dataset. The permissions resource is arn:aws:quicksight:region:aws-ac- count-id:dataset/data-set-id . See also: AWS API Documentation
+    /// Updates the permissions on a dataset. The permissions resource is arn:aws:quicksight:region:aws-account-id:dataset/data-set-id . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3947,7 +3947,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Updates an existing flow. Supply only the fields you want to change. Updates both DRAFT and PUBLISHED versions. When FlowDefinition is pro- vided, all existing steps are replaced with the new definition. See also: AWS API Documentation update-flow uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provide...
+    /// Updates an existing flow. Supply only the fields you want to change. Updates both DRAFT and PUBLISHED versions. When FlowDefinition is provided, all existing steps are replaced with the new definition. See also: AWS API Documentation update-flow uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4052,7 +4052,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Updates the content and status of IP rules. Traffic from a source is allowed when the source satisfies either the IpRestrictionRule , Vp- cIdRestrictionRule , or VpcEndpointIdRestrictionRule . To use this op- eration, you must provide the entire map of rules. You can use the De- scribeIpRestriction operation to get the current rule map. See also: AWS API Documentation
+    /// Updates the content and status of IP rules. Traffic from a source is allowed when the source satisfies either the IpRestrictionRule , VpcIdRestrictionRule , or VpcEndpointIdRestrictionRule . To use this operation, you must provide the entire map of rules. You can use the DescribeIpRestriction operation to get the current rule map. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4082,7 +4082,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Updates the properties of an existing knowledge base. See also: AWS API Documentation update-knowledge-base uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Updates the properties of an existing knowledge base. See also: AWS API Documentation update-knowledge-base uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4142,7 +4142,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// WARNING: This API controls public sharing settings for your entire Quick Sight account, affecting data security and access. When you enable public sharing: o Dashboards can be shared publicly o This setting affects your entire Amazon Web Services account and all Quick Sight users Before proceeding: Ensure you understand the security implica- tions and have proper IAM permissions configured. Use the UpdatePublicSharingSettings operation to turn on or turn off the public sharing settings of an Ama...
+    /// WARNING: This API controls public sharing settings for your entire Quick Sight account, affecting data security and access. When you enable public sharing: • Dashboards can be shared publicly • This setting affects your entire Amazon Web Services account and all Quick Sight users Before proceeding: Ensure you understand the security implications and have proper IAM permissions configured. Use the UpdatePublicSharingSettings operation to turn on or turn off the public sharing settings of an Amazo...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4322,7 +4322,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Updates a template from an existing Amazon Quick Sight analysis or an- other template. See also: AWS API Documentation
+    /// Updates a template from an existing Amazon Quick Sight analysis or another template. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4382,7 +4382,7 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Updates the resource permissions for a theme. Permissions apply to the action to grant or revoke permissions on, for example "quicksight:De- scribeTheme" . Theme permissions apply in groupings. Valid groupings include the fol- lowing for the three levels of permissions, which are user, owner, or no permissions: o User o "quicksight:DescribeTheme" o "quicksight:DescribeThemeAlias" o "quicksight:ListThemeAliases" o "quicksight:ListThemeVersions" o Owner o "quicksight:DescribeTheme" o "quicksight:D...
+    /// Updates the resource permissions for a theme. Permissions apply to the action to grant or revoke permissions on, for example "quicksight:DescribeTheme" . Theme permissions apply in groupings. Valid groupings include the following for the three levels of permissions, which are user, owner, or no permissions: • User • "quicksight:DescribeTheme" • "quicksight:DescribeThemeAlias" • "quicksight:ListThemeAliases" • "quicksight:ListThemeVersions" • Owner • "quicksight:DescribeTheme" • "quicksight:Descr...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

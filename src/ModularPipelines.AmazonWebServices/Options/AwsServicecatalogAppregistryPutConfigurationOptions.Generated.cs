@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsServicecatalogAppregistryPutConfigurationOptions : AwsOptions, 
     /// <summary>
     /// Associates a TagKey configuration to an account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Configuration">Associates a TagKey configuration to an account. tagQueryConfiguration -&gt; (structure) Includes the definition of a tagQuery . tagKey -&gt; (string) Condition in the IAM policy that associates resources to an application. Constraints: o min: 0 o max: 128 o pattern: ^(?!\s+$)[\p{L}\p{Z}\p{N}_.:/=+\-@]* Shorthand Syntax: tagQueryConfiguration={tagKey=string} JSON Syntax: { "tagQueryConfiguration": { "tagKey": "string" } }</param>
+    /// <param name="Configuration">Associates a TagKey configuration to an account. tagQueryConfiguration -&gt; (structure) Includes the definition of a tagQuery . tagKey -&gt; (string) Condition in the IAM policy that associates resources to an application. Constraints: • min: 0 • max: 128 • pattern: ^(?!\s+$)[\p{L}\p{Z}\p{N}_.:/=+\-@]* Shorthand Syntax: tagQueryConfiguration={tagKey=string} JSON Syntax: { "tagQueryConfiguration": { "tagKey": "string" } }</param>
     public AwsServicecatalogAppregistryPutConfigurationOptions(
         string Configuration
     )
@@ -56,7 +57,7 @@ public record AwsServicecatalogAppregistryPutConfigurationOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Associates a TagKey configuration to an account. tagQueryConfiguration -&gt; (structure) Includes the definition of a tagQuery . tagKey -&gt; (string) Condition in the IAM policy that associates resources to an application. Constraints: o min: 0 o max: 128 o pattern: ^(?!\s+$)[\p{L}\p{Z}\p{N}_.:/=+\-@]* Shorthand Syntax: tagQueryConfiguration={tagKey=string} JSON Syntax: { "tagQueryConfiguration": { "tagKey": "string" } }
+    /// Associates a TagKey configuration to an account. tagQueryConfiguration -&gt; (structure) Includes the definition of a tagQuery . tagKey -&gt; (string) Condition in the IAM policy that associates resources to an application. Constraints: • min: 0 • max: 128 • pattern: ^(?!\s+$)[\p{L}\p{Z}\p{N}_.:/=+\-@]* Shorthand Syntax: tagQueryConfiguration={tagKey=string} JSON Syntax: { "tagQueryConfiguration": { "tagKey": "string" } }
     /// </summary>
     [CliOption("--configuration")]
     public string? Configuration { get; private init; }
@@ -82,6 +83,15 @@ public record AwsServicecatalogAppregistryPutConfigurationOptions : AwsOptions, 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

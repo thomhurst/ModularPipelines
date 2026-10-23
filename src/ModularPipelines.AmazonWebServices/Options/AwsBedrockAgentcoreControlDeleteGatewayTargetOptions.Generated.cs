@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a gateway target. You cannot delete a target that is in a pending authorization state (CREATE_PENDING_AUTH , UPDATE_PENDING_AUTH , or SYNCHRONIZE_PEND- ING_AUTH ). Wait for the authorization to complete or fail before deleting the target. See also: AWS API Documentation
+/// Deletes a gateway target. You cannot delete a target that is in a pending authorization state (CREATE_PENDING_AUTH , UPDATE_PENDING_AUTH , or SYNCHRONIZE_PENDING_AUTH ). Wait for the authorization to complete or fail before deleting the target. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsBedrockAgentcoreControlDeleteGatewayTargetOptions : AwsOptions,
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a gateway target. You cannot delete a target that is in a pending authorization state (CREATE_PENDING_AUTH , UPDATE_PENDING_AUTH , or SYNCHRONIZE_PEND- ING_AUTH ). Wait for the authorization to complete or fail before deleting the target. See also: AWS API Documentation
+    /// Deletes a gateway target. You cannot delete a target that is in a pending authorization state (CREATE_PENDING_AUTH , UPDATE_PENDING_AUTH , or SYNCHRONIZE_PENDING_AUTH ). Wait for the authorization to complete or fail before deleting the target. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GatewayIdentifier">The unique identifier of the gateway associated with the target. Constraints: o pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}</param>
-    /// <param name="TargetId">The unique identifier of the gateway target to delete. Constraints: o pattern: [0-9a-zA-Z]{10}</param>
+    /// <param name="GatewayIdentifier">The unique identifier of the gateway associated with the target. Constraints: • pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}</param>
+    /// <param name="TargetId">The unique identifier of the gateway target to delete. Constraints: • pattern: [0-9a-zA-Z]{10}</param>
     public AwsBedrockAgentcoreControlDeleteGatewayTargetOptions(
         string GatewayIdentifier,
         string TargetId
@@ -60,13 +61,13 @@ public record AwsBedrockAgentcoreControlDeleteGatewayTargetOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the gateway associated with the target. Constraints: o pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}
+    /// The unique identifier of the gateway associated with the target. Constraints: • pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}
     /// </summary>
     [CliOption("--gateway-identifier")]
     public string? GatewayIdentifier { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the gateway target to delete. Constraints: o pattern: [0-9a-zA-Z]{10}
+    /// The unique identifier of the gateway target to delete. Constraints: • pattern: [0-9a-zA-Z]{10}
     /// </summary>
     [CliOption("--target-id")]
     public string? TargetId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsBedrockAgentcoreControlDeleteGatewayTargetOptions : AwsOptions,
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

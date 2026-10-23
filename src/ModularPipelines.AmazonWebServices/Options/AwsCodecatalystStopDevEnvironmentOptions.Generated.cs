@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsCodecatalystStopDevEnvironmentOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Pauses a specified Dev Environment and places it in a non-running state. Stopped Dev Environments do not consume compute minutes. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SpaceName">The name of the space. Constraints: o min: 3 o max: 63 o pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*</param>
-    /// <param name="ProjectName">The name of the project in the space. Constraints: o min: 3 o max: 63 o pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*</param>
-    /// <param name="Id">The system-generated unique ID of the Dev Environment. Constraints: o pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}</param>
+    /// <param name="SpaceName">The name of the space. Constraints: • min: 3 • max: 63 • pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*</param>
+    /// <param name="ProjectName">The name of the project in the space. Constraints: • min: 3 • max: 63 • pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*</param>
+    /// <param name="Id">The system-generated unique ID of the Dev Environment. Constraints: • pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}</param>
     public AwsCodecatalystStopDevEnvironmentOptions(
         string SpaceName,
         string ProjectName,
@@ -64,19 +65,19 @@ public record AwsCodecatalystStopDevEnvironmentOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the space. Constraints: o min: 3 o max: 63 o pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*
+    /// The name of the space. Constraints: • min: 3 • max: 63 • pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*
     /// </summary>
     [CliOption("--space-name")]
     public string? SpaceName { get; private init; }
 
     /// <summary>
-    /// The name of the project in the space. Constraints: o min: 3 o max: 63 o pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*
+    /// The name of the project in the space. Constraints: • min: 3 • max: 63 • pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*
     /// </summary>
     [CliOption("--project-name")]
     public string? ProjectName { get; private init; }
 
     /// <summary>
-    /// The system-generated unique ID of the Dev Environment. Constraints: o pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}
+    /// The system-generated unique ID of the Dev Environment. Constraints: • pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
@@ -102,6 +103,15 @@ public record AwsCodecatalystStopDevEnvironmentOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

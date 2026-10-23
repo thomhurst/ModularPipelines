@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsIotsitewiseDeleteDataSetOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Deletes a dataset. This can't be undone. Deleting a session dataset also deletes the underlying time series data in the session. You can't delete a session dataset while a curated dataset references its data segments. First delete the curated dataset or disassociate the data segments. Deleting a curated dataset doesn't delete the underlying data in the source session datasets. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DataSetId">The ID of the dataset. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$</param>
+    /// <param name="DataSetId">The ID of the dataset. Constraints: • min: 36 • max: 36 • pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$</param>
     public AwsIotsitewiseDeleteDataSetOptions(
         string DataSetId
     )
@@ -57,19 +58,19 @@ public record AwsIotsitewiseDeleteDataSetOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the dataset. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+    /// The ID of the dataset. Constraints: • min: 36 • max: 36 • pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
     /// </summary>
     [CliOption("--dataset-id")]
     public string? DataSetId { get; private init; }
 
     /// <summary>
-    /// The name of the workspace that contains the dataset. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The name of the workspace that contains the dataset. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--workspace-name")]
     public string? WorkspaceName { get; set; }
 
     /// <summary>
-    /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required. Constraints: o min: 36 o max: 64 o pattern: \S{36,64}
+    /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required. Constraints: • min: 36 • max: 64 • pattern: \S{36,64}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -96,6 +97,15 @@ public record AwsIotsitewiseDeleteDataSetOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

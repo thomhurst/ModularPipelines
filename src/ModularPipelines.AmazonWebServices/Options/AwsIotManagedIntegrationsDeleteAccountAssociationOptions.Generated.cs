@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Remove a third-party account association for an end user. NOTE: You must first call the DeregisterAccountAssociation to remove the connection between the managed thing and the third-party account be- fore calling the DeleteAccountAssociation API. See also: AWS API Documentation
+/// Remove a third-party account association for an end user. NOTE: You must first call the DeregisterAccountAssociation to remove the connection between the managed thing and the third-party account before calling the DeleteAccountAssociation API. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsIotManagedIntegrationsDeleteAccountAssociationOptions : AwsOpti
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Remove a third-party account association for an end user. NOTE: You must first call the DeregisterAccountAssociation to remove the connection between the managed thing and the third-party account be- fore calling the DeleteAccountAssociation API. See also: AWS API Documentation
+    /// Remove a third-party account association for an end user. NOTE: You must first call the DeregisterAccountAssociation to remove the connection between the managed thing and the third-party account before calling the DeleteAccountAssociation API. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountAssociationId">The unique identifier of the account association to be deleted. Constraints: o min: 1 o max: 64 o pattern: [0-9a-zA-Z]+</param>
+    /// <param name="AccountAssociationId">The unique identifier of the account association to be deleted. Constraints: • min: 1 • max: 64 • pattern: [0-9a-zA-Z]+</param>
     public AwsIotManagedIntegrationsDeleteAccountAssociationOptions(
         string AccountAssociationId
     )
@@ -56,7 +57,7 @@ public record AwsIotManagedIntegrationsDeleteAccountAssociationOptions : AwsOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the account association to be deleted. Constraints: o min: 1 o max: 64 o pattern: [0-9a-zA-Z]+
+    /// The unique identifier of the account association to be deleted. Constraints: • min: 1 • max: 64 • pattern: [0-9a-zA-Z]+
     /// </summary>
     [CliOption("--account-association-id")]
     public string? AccountAssociationId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsIotManagedIntegrationsDeleteAccountAssociationOptions : AwsOpti
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

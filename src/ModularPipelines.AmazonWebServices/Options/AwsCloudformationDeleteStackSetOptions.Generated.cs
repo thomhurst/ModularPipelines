@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a StackSet. Before you can delete a StackSet, all its member stack instances must be deleted. For more information about how to com- plete this, see DeleteStackInstances . See also: AWS API Documentation
+/// Deletes a StackSet. Before you can delete a StackSet, all its member stack instances must be deleted. For more information about how to complete this, see DeleteStackInstances . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +27,7 @@ public record AwsCloudformationDeleteStackSetOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a StackSet. Before you can delete a StackSet, all its member stack instances must be deleted. For more information about how to com- plete this, see DeleteStackInstances . See also: AWS API Documentation
+    /// Deletes a StackSet. Before you can delete a StackSet, all its member stack instances must be deleted. For more information about how to complete this, see DeleteStackInstances . See also: AWS API Documentation
     /// </summary>
     /// <param name="StackSetName">The name or unique ID of the StackSet that you're deleting. You can obtain this value by running ListStackSets .</param>
     public AwsCloudformationDeleteStackSetOptions(
@@ -63,7 +64,7 @@ public record AwsCloudformationDeleteStackSetOptions : AwsOptions, IValidatableO
     public string? StackSetName { get; private init; }
 
     /// <summary>
-    /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for StackSets with self-man- aged permissions. o If you are signed in to the management account, specify SELF . o If you are signed in to a delegated administrator account, specify DELEGATED_ADMIN . Your Amazon Web Services account must be regis- tered as a delegated administrator in the management account. For more information, see Register a delegated administrator in the CloudFormation User Guide . Possible values: o SELF o DELEGATED_ADMIN
+    /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for StackSets with self-managed permissions. • If you are signed in to the management account, specify SELF . • If you are signed in to a delegated administrator account, specify DELEGATED_ADMIN . Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see Register a delegated administrator in the CloudFormation User Guide . Possible values: • SELF • DELEGATED_ADMIN
     /// </summary>
     [CliOption("--call-as")]
     public AwsCloudformationDeleteStackSetCallAs? CallAs { get; set; }
@@ -89,6 +90,15 @@ public record AwsCloudformationDeleteStackSetOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves information about the specified version of the specified man- aged policy, including the policy document. NOTE: Policies returned by this operation are URL-encoded compliant with RFC 3986 . You can use a URL decoding method to convert the policy back to plain JSON text. For example, if you use Java, you can use the decode method of the java.net.URLDecoder utility class in the Java SDK. Other languages and SDKs provide similar functionality, and some SDKs do this decoding automatically....
+/// Retrieves information about the specified version of the specified managed policy, including the policy document. NOTE: Policies returned by this operation are URL-encoded compliant with RFC 3986 . You can use a URL decoding method to convert the policy back to plain JSON text. For example, if you use Java, you can use the decode method of the java.net.URLDecoder utility class in the Java SDK. Other languages and SDKs provide similar functionality, and some SDKs do this decoding automatically. T...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsIamGetPolicyVersionOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves information about the specified version of the specified man- aged policy, including the policy document. NOTE: Policies returned by this operation are URL-encoded compliant with RFC 3986 . You can use a URL decoding method to convert the policy back to plain JSON text. For example, if you use Java, you can use the decode method of the java.net.URLDecoder utility class in the Java SDK. Other languages and SDKs provide similar functionality, and some SDKs do this decoding automatically....
+    /// Retrieves information about the specified version of the specified managed policy, including the policy document. NOTE: Policies returned by this operation are URL-encoded compliant with RFC 3986 . You can use a URL decoding method to convert the policy back to plain JSON text. For example, if you use Java, you can use the decode method of the java.net.URLDecoder utility class in the Java SDK. Other languages and SDKs provide similar functionality, and some SDKs do this decoding automatically. T...
     /// </summary>
-    /// <param name="PolicyArn">The Amazon Resource Name (ARN) of the managed policy that you want information about. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference . Constraints: o min: 20 o max: 2048</param>
-    /// <param name="VersionId">Identifies the policy version to retrieve. This parameter allows (through its regex pattern ) a string of char- acters that consists of the lowercase letter 'v' followed by one or two digits, and optionally followed by a period '.' and a string of letters and digits. Constraints: o pattern: v[1-9][0-9]*(\.[A-Za-z0-9-]*)?</param>
+    /// <param name="PolicyArn">The Amazon Resource Name (ARN) of the managed policy that you want information about. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference . Constraints: • min: 20 • max: 2048</param>
+    /// <param name="VersionId">Identifies the policy version to retrieve. This parameter allows (through its regex pattern ) a string of characters that consists of the lowercase letter 'v' followed by one or two digits, and optionally followed by a period '.' and a string of letters and digits. Constraints: • pattern: v[1-9][0-9]*(\.[A-Za-z0-9-]*)?</param>
     public AwsIamGetPolicyVersionOptions(
         string PolicyArn,
         string VersionId
@@ -60,13 +61,13 @@ public record AwsIamGetPolicyVersionOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the managed policy that you want information about. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference . Constraints: o min: 20 o max: 2048
+    /// The Amazon Resource Name (ARN) of the managed policy that you want information about. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference . Constraints: • min: 20 • max: 2048
     /// </summary>
     [CliOption("--policy-arn")]
     public string? PolicyArn { get; private init; }
 
     /// <summary>
-    /// Identifies the policy version to retrieve. This parameter allows (through its regex pattern ) a string of char- acters that consists of the lowercase letter 'v' followed by one or two digits, and optionally followed by a period '.' and a string of letters and digits. Constraints: o pattern: v[1-9][0-9]*(\.[A-Za-z0-9-]*)?
+    /// Identifies the policy version to retrieve. This parameter allows (through its regex pattern ) a string of characters that consists of the lowercase letter 'v' followed by one or two digits, and optionally followed by a period '.' and a string of letters and digits. Constraints: • pattern: v[1-9][0-9]*(\.[A-Za-z0-9-]*)?
     /// </summary>
     [CliOption("--version-id")]
     public string? VersionId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsIamGetPolicyVersionOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new invocation within a session. An invocation groups the re- lated invocation steps that store the content from a conversation. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions . Related APIs o ListInvocations o ListSessions o GetSession See also: AWS API Documentation
+/// Creates a new invocation within a session. An invocation groups the related invocation steps that store the content from a conversation. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions . Related APIs • ListInvocations • ListSessions • GetSession See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsBedrockAgentRuntimeCreateInvocationOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new invocation within a session. An invocation groups the re- lated invocation steps that store the content from a conversation. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions . Related APIs o ListInvocations o ListSessions o GetSession See also: AWS API Documentation
+    /// Creates a new invocation within a session. An invocation groups the related invocation steps that store the content from a conversation. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions . Related APIs • ListInvocations • ListSessions • GetSession See also: AWS API Documentation
     /// </summary>
-    /// <param name="SessionIdentifier">The unique identifier for the associated session for the invocation. You can specify either the session's sessionId or its Amazon Re- source Name (ARN). Constraints: o pattern: ^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]+:[0-9]{12}:ses- sion/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})|([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})$</param>
+    /// <param name="SessionIdentifier">The unique identifier for the associated session for the invocation. You can specify either the session's sessionId or its Amazon Resource Name (ARN). Constraints: • pattern: ^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]+:[0-9]{12}:session/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})|([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})$</param>
     public AwsBedrockAgentRuntimeCreateInvocationOptions(
         string SessionIdentifier
     )
@@ -56,19 +57,19 @@ public record AwsBedrockAgentRuntimeCreateInvocationOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the associated session for the invocation. You can specify either the session's sessionId or its Amazon Re- source Name (ARN). Constraints: o pattern: ^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]+:[0-9]{12}:ses- sion/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})|([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})$
+    /// The unique identifier for the associated session for the invocation. You can specify either the session's sessionId or its Amazon Resource Name (ARN). Constraints: • pattern: ^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]+:[0-9]{12}:session/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})|([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})$
     /// </summary>
     [CliOption("--session-identifier")]
     public string? SessionIdentifier { get; private init; }
 
     /// <summary>
-    /// A description for the interactions in the invocation. For example, "User asking about weather in Seattle". Constraints: o min: 1 o max: 200
+    /// A description for the interactions in the invocation. For example, "User asking about weather in Seattle". Constraints: • min: 1 • max: 200
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// A unique identifier for the invocation in UUID format. Constraints: o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
+    /// A unique identifier for the invocation in UUID format. Constraints: • pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
     /// </summary>
     [CliOption("--invocation-id")]
     public string? InvocationId { get; set; }
@@ -94,6 +95,15 @@ public record AwsBedrockAgentRuntimeCreateInvocationOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

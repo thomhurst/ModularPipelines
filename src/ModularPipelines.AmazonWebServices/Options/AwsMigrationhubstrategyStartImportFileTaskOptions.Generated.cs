@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +29,9 @@ public record AwsMigrationhubstrategyStartImportFileTaskOptions : AwsOptions, IV
     /// <summary>
     /// Starts a file import. See also: AWS API Documentation
     /// </summary>
-    /// <param name="S3Bucket">The S3 bucket where the import file is located. The bucket name is required to begin with migrationhub-strategy- . Constraints: o min: 0 o max: 63 o pattern: [0-9a-z]+[0-9a-z\.\-]*[0-9a-z]+</param>
-    /// <param name="Name">A descriptive name for the request. Constraints: o min: 1 o max: 50 o pattern: [a-zA-Z0-9_-]+</param>
-    /// <param name="S3key">The Amazon S3 key name of the import file. Constraints: o min: 0 o max: 1024 o pattern: .*\S.*</param>
+    /// <param name="S3Bucket">The S3 bucket where the import file is located. The bucket name is required to begin with migrationhub-strategy- . Constraints: • min: 0 • max: 63 • pattern: [0-9a-z]+[0-9a-z\.\-]*[0-9a-z]+</param>
+    /// <param name="Name">A descriptive name for the request. Constraints: • min: 1 • max: 50 • pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="S3key">The Amazon S3 key name of the import file. Constraints: • min: 0 • max: 1024 • pattern: .*\S.*</param>
     public AwsMigrationhubstrategyStartImportFileTaskOptions(
         string S3Bucket,
         string Name,
@@ -65,37 +66,37 @@ public record AwsMigrationhubstrategyStartImportFileTaskOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The S3 bucket where the import file is located. The bucket name is required to begin with migrationhub-strategy- . Constraints: o min: 0 o max: 63 o pattern: [0-9a-z]+[0-9a-z\.\-]*[0-9a-z]+
+    /// The S3 bucket where the import file is located. The bucket name is required to begin with migrationhub-strategy- . Constraints: • min: 0 • max: 63 • pattern: [0-9a-z]+[0-9a-z\.\-]*[0-9a-z]+
     /// </summary>
     [CliOption("--s3-bucket")]
     public string? S3Bucket { get; private init; }
 
     /// <summary>
-    /// A descriptive name for the request. Constraints: o min: 1 o max: 50 o pattern: [a-zA-Z0-9_-]+
+    /// A descriptive name for the request. Constraints: • min: 1 • max: 50 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The Amazon S3 key name of the import file. Constraints: o min: 0 o max: 1024 o pattern: .*\S.*
+    /// The Amazon S3 key name of the import file. Constraints: • min: 0 • max: 1024 • pattern: .*\S.*
     /// </summary>
     [CliOption("--s3key")]
     public string? S3key { get; private init; }
 
     /// <summary>
-    /// Specifies the source that the servers are coming from. By default, Strategy Recommendations assumes that the servers specified in the import file are available in AWS Application Discovery Service. Possible values: o ApplicationDiscoveryService o MPA o Import o StrategyRecommendationsApplicationDataCollector
+    /// Specifies the source that the servers are coming from. By default, Strategy Recommendations assumes that the servers specified in the import file are available in AWS Application Discovery Service. Possible values: • ApplicationDiscoveryService • MPA • Import • StrategyRecommendationsApplicationDataCollector
     /// </summary>
     [CliOption("--data-source-type")]
     public AwsMigrationhubstrategyStartImportFileTaskDataSourceType? DataSourceType { get; set; }
 
     /// <summary>
-    /// Groups the resources in the import file together with a unique name. This ID can be as filter in ListApplicationComponents and List- Servers . (structure) The object containing information about distinct imports or groups for Strategy Recommendations. name -&gt; (string) The key of the specific import group. Possible values: o ExternalId o ExternalSourceType value -&gt; (string) The value of the specific import group. Constraints: o min: 0 o max: 1024 o pattern: .*\S.* Shorthand Syntax: name=string,value=string ... JSON Syntax: [ { "name": "ExternalId"|"ExternalSourceType", "value": "string" } ... ]
+    /// Groups the resources in the import file together with a unique name. This ID can be as filter in ListApplicationComponents and ListServers . (structure) The object containing information about distinct imports or groups for Strategy Recommendations. name -&gt; (string) The key of the specific import group. Possible values: • ExternalId • ExternalSourceType value -&gt; (string) The value of the specific import group. Constraints: • min: 0 • max: 1024 • pattern: .*\S.* Shorthand Syntax: name=string,value=string ... JSON Syntax: [ { "name": "ExternalId"|"ExternalSourceType", "value": "string" } ... ]
     /// </summary>
     [CliOption("--group-id", GroupValues = true)]
     public IEnumerable<string>? GroupId { get; set; }
 
     /// <summary>
-    /// The S3 bucket where Strategy Recommendations uploads import results. The bucket name is required to begin with migrationhub-strategy-. Constraints: o min: 0 o max: 63 o pattern: [0-9a-z]+[0-9a-z\.\-]*[0-9a-z]+
+    /// The S3 bucket where Strategy Recommendations uploads import results. The bucket name is required to begin with migrationhub-strategy-. Constraints: • min: 0 • max: 63 • pattern: [0-9a-z]+[0-9a-z\.\-]*[0-9a-z]+
     /// </summary>
     [CliOption("--s3bucket-for-report-data")]
     public string? S3bucketForReportData { get; set; }
@@ -121,6 +122,15 @@ public record AwsMigrationhubstrategyStartImportFileTaskOptions : AwsOptions, IV
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

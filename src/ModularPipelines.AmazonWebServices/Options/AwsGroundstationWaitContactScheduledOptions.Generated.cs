@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsGroundstationWaitContactScheduledOptions : AwsOptions, IValidat
     /// <summary>
     /// Waits until a contact has been scheduled It will poll every 5 seconds until a successful state has been reached. This will exit with a return code of 255 after 180 failed checks. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ContactId">UUID of a contact. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="ContactId">UUID of a contact. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
     public AwsGroundstationWaitContactScheduledOptions(
         string ContactId
     )
@@ -56,7 +57,7 @@ public record AwsGroundstationWaitContactScheduledOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// UUID of a contact. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// UUID of a contact. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--contact-id")]
     public string? ContactId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsGroundstationWaitContactScheduledOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsCloudfrontCreateKeyValueStoreOptions : AwsOptions, IValidatable
     /// <summary>
     /// Specifies the key value store resource to add to your account. In your account, the key value store names must be unique. You can also import key value store data in JSON format from an S3 bucket by providing a valid ImportSource that you own. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the key value store. The minimum length is 1 character and the maximum length is 64 characters. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-_]{1,64}</param>
+    /// <param name="Name">The name of the key value store. The minimum length is 1 character and the maximum length is 64 characters. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-_]{1,64}</param>
     public AwsCloudfrontCreateKeyValueStoreOptions(
         string Name
     )
@@ -56,25 +57,25 @@ public record AwsCloudfrontCreateKeyValueStoreOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the key value store. The minimum length is 1 character and the maximum length is 64 characters. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-_]{1,64}
+    /// The name of the key value store. The minimum length is 1 character and the maximum length is 64 characters. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-_]{1,64}
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The comment of the key value store. Constraints: o min: 0 o max: 128
+    /// The comment of the key value store. Constraints: • min: 0 • max: 128
     /// </summary>
     [CliOption("--comment")]
     public string? Comment { get; set; }
 
     /// <summary>
-    /// The S3 bucket that provides the source for the import. The source must be in a valid JSON format. SourceType -&gt; (string) [required] The source type of the import source for the key value store. Possible values: o S3 SourceARN -&gt; (string) [required] The Amazon Resource Name (ARN) of the import source for the key value store. Shorthand Syntax: SourceType=string,SourceARN=string JSON Syntax: { "SourceType": "S3", "SourceARN": "string" }
+    /// The S3 bucket that provides the source for the import. The source must be in a valid JSON format. SourceType -&gt; (string) [required] The source type of the import source for the key value store. Possible values: • S3 SourceARN -&gt; (string) [required] The Amazon Resource Name (ARN) of the import source for the key value store. Shorthand Syntax: SourceType=string,SourceARN=string JSON Syntax: { "SourceType": "S3", "SourceARN": "string" }
     /// </summary>
     [CliOption("--import-source")]
     public string? ImportSource { get; set; }
 
     /// <summary>
-    /// A complex type that contains zero or more Tag elements. Items -&gt; (list) A complex type that contains Tag elements. (structure) A complex type that contains Tag key and Tag value. Key -&gt; (string) [required] A string that contains Tag key. The string length should be between 1 and 128 characters. Valid characters include a-z , A-Z , 0-9 , space, and the special characters _ - . : / = + @ . Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) A string that contains an optional Tag value. The string length should be between 0 and 256 characters. Valid characters include a-z , A-Z , 0-9 , space, and the special characters _ - . : / = + @ . Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Items=[{Key=string,Value=string},{Key=string,Value=string}] JSON Syntax: { "Items": [ { "Key": "string", "Value": "string" } ... ] }
+    /// A complex type that contains zero or more Tag elements. Items -&gt; (list) A complex type that contains Tag elements. (structure) A complex type that contains Tag key and Tag value. Key -&gt; (string) [required] A string that contains Tag key. The string length should be between 1 and 128 characters. Valid characters include a-z , A-Z , 0-9 , space, and the special characters _ - . : / = + @ . Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) A string that contains an optional Tag value. The string length should be between 0 and 256 characters. Valid characters include a-z , A-Z , 0-9 , space, and the special characters _ - . : / = + @ . Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Items=[{Key=string,Value=string},{Key=string,Value=string}] JSON Syntax: { "Items": [ { "Key": "string", "Value": "string" } ... ] }
     /// </summary>
     [CliOption("--tags")]
     public string? Tags { get; set; }
@@ -100,6 +101,15 @@ public record AwsCloudfrontCreateKeyValueStoreOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -22,19 +22,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsEc2DeleteLaunchTemplateOptions : AwsOptions
 {
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// The ID of the launch template. You must specify either the launch template ID or the launch tem- plate name, but not both.
+    /// The ID of the launch template. You must specify either the launch template ID or the launch template name, but not both.
     /// </summary>
     [CliOption("--launch-template-id")]
     public string? LaunchTemplateId { get; set; }
 
     /// <summary>
-    /// The name of the launch template. You must specify either the launch template ID or the launch tem- plate name, but not both. Constraints: o min: 3 o max: 128 o pattern: [a-zA-Z0-9\(\)\.\-/_]+
+    /// The name of the launch template. You must specify either the launch template ID or the launch template name, but not both. Constraints: • min: 3 • max: 128 • pattern: [a-zA-Z0-9\(\)\.\-/_]+
     /// </summary>
     [CliOption("--launch-template-name")]
     public string? LaunchTemplateName { get; set; }
@@ -44,5 +44,14 @@ public record AwsEc2DeleteLaunchTemplateOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

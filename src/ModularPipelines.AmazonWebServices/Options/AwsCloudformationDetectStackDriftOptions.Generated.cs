@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsCloudformationDetectStackDriftOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Detects whether a stack's actual configuration differs, or has drifted , from its expected configuration, as defined in the stack template and any values specified as template parameters. For each resource in the stack that supports drift detection, CloudFormation compares the actual configuration of the resource with its expected template configuration. Only resource properties explicitly defined in the stack template are checked for drift. A stack is considered to have drifted if one or more o...
     /// </summary>
-    /// <param name="StackName">The name of the stack for which you want to detect drift. Constraints: o min: 1 o pattern: ([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)</param>
+    /// <param name="StackName">The name of the stack for which you want to detect drift. Constraints: • min: 1 • pattern: ([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)</param>
     public AwsCloudformationDetectStackDriftOptions(
         string StackName
     )
@@ -56,13 +57,13 @@ public record AwsCloudformationDetectStackDriftOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the stack for which you want to detect drift. Constraints: o min: 1 o pattern: ([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)
+    /// The name of the stack for which you want to detect drift. Constraints: • min: 1 • pattern: ([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)
     /// </summary>
     [CliOption("--stack-name")]
     public string? StackName { get; private init; }
 
     /// <summary>
-    /// The logical names of any resources you want to use as filters. Constraints: o min: 1 o max: 200 (string) Syntax: "string" "string" ...
+    /// The logical names of any resources you want to use as filters. Constraints: • min: 1 • max: 200 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--logical-resource-ids", GroupValues = true)]
     public IEnumerable<string>? LogicalResourceIds { get; set; }
@@ -88,6 +89,15 @@ public record AwsCloudformationDetectStackDriftOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

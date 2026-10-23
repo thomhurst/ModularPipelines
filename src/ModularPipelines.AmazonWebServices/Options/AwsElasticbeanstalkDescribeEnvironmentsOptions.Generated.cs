@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns descriptions for existing environments. This action only returns information about environments that the call- ing principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three environ- ments. When the user calls the DescribeEnvironments action, the re- sponse will only include the one environment that the user has permis- sion to access instead of all three environments. If the user doesnt have access to any of the environm...
+/// Returns descriptions for existing environments. This action only returns information about environments that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three environments. When the user calls the DescribeEnvironments action, the response will only include the one environment that the user has permission to access instead of all three environments. If the user doesnt have access to any of the environments an ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,13 +23,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsElasticbeanstalkDescribeEnvironmentsOptions : AwsOptions
 {
     /// <summary>
-    /// If specified, Elastic Beanstalk restricts the returned descriptions to include only those that are associated with this application. Constraints: o min: 1 o max: 100
+    /// If specified, Elastic Beanstalk restricts the returned descriptions to include only those that are associated with this application. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--application-name")]
     public string? ApplicationName { get; set; }
 
     /// <summary>
-    /// If specified, Elastic Beanstalk restricts the returned descriptions to include only those that are associated with this application ver- sion. Constraints: o min: 1 o max: 100
+    /// If specified, Elastic Beanstalk restricts the returned descriptions to include only those that are associated with this application version. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--version-label")]
     public string? VersionLabel { get; set; }
@@ -41,13 +41,13 @@ public record AwsElasticbeanstalkDescribeEnvironmentsOptions : AwsOptions
     public IEnumerable<string>? EnvironmentIds { get; set; }
 
     /// <summary>
-    /// If specified, Elastic Beanstalk restricts the returned descriptions to include only those that have the specified names. (string) Constraints: o min: 4 o max: 40 Syntax: "string" "string" ...
+    /// If specified, Elastic Beanstalk restricts the returned descriptions to include only those that have the specified names. (string) Constraints: • min: 4 • max: 40 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--environment-names", GroupValues = true)]
     public IEnumerable<string>? EnvironmentNames { get; set; }
 
     /// <summary>
-    /// Indicates whether to include deleted environments: true : Environments that have been deleted after IncludedDelet- edBackTo are displayed. false : Do not include deleted environments.
+    /// Indicates whether to include deleted environments: true : Environments that have been deleted after IncludedDeletedBackTo are displayed. false : Do not include deleted environments.
     /// </summary>
     [CliFlag("--include-deleted", NegatedName = "--no-include-deleted")]
     public bool? IncludeDeleted { get; set; }
@@ -61,9 +61,6 @@ public record AwsElasticbeanstalkDescribeEnvironmentsOptions : AwsOptions
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
-
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
@@ -72,15 +69,27 @@ public record AwsElasticbeanstalkDescribeEnvironmentsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 1000
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

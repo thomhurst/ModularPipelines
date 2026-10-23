@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Wait until ResourceNotFoundException is thrown when polling with de- scribe-cluster. It will poll every 30 seconds until a successful state has been reached. This will exit with a return code of 255 after 40 failed checks. See also: AWS API Documentation
+/// Wait until ResourceNotFoundException is thrown when polling with describe-cluster. It will poll every 30 seconds until a successful state has been reached. This will exit with a return code of 255 after 40 failed checks. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsEksWaitClusterDeletedOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Wait until ResourceNotFoundException is thrown when polling with de- scribe-cluster. It will poll every 30 seconds until a successful state has been reached. This will exit with a return code of 255 after 40 failed checks. See also: AWS API Documentation
+    /// Wait until ResourceNotFoundException is thrown when polling with describe-cluster. It will poll every 30 seconds until a successful state has been reached. This will exit with a return code of 255 after 40 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="Name">The name of your cluster.</param>
     public AwsEksWaitClusterDeletedOptions(
@@ -82,6 +83,15 @@ public record AwsEksWaitClusterDeletedOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

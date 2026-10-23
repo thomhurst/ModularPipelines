@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsCloudsearchDescribeScalingParametersOptions : AwsOptions, IVali
     /// <summary>
     /// Gets the scaling parameters configured for a domain. A domain's scaling parameters specify the desired search instance type and replication count. For more information, see Configuring Scaling Options in the Amazon CloudSearch Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">A string that represents the name of a domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the fol- lowing characters: a-z (lowercase), 0-9, and - (hyphen). Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+</param>
+    /// <param name="DomainName">A string that represents the name of a domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen). Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+</param>
     public AwsCloudsearchDescribeScalingParametersOptions(
         string DomainName
     )
@@ -56,7 +57,7 @@ public record AwsCloudsearchDescribeScalingParametersOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A string that represents the name of a domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the fol- lowing characters: a-z (lowercase), 0-9, and - (hyphen). Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+
+    /// A string that represents the name of a domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen). Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsCloudsearchDescribeScalingParametersOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

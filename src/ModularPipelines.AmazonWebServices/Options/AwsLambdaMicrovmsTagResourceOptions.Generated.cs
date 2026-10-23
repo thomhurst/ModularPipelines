@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +28,8 @@ public record AwsLambdaMicrovmsTagResourceOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Adds tags to a Lambda MicroVM resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Resource">The ARN of the resource to tag. Constraints: o min: 1 o max: 10000 o pattern: arn:(aws[a-zA-Z-]*):lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:(func- tion:[a-zA-Z0-9-_]+(:(\$LAT- EST|[a-zA-Z0-9-_]+))?|layer:([a-zA-Z0-9-_]+)|code-signing-con- fig:csc-[a-z0-9]{17}|event-source-map- ping:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}|(ca- pacity-provider|network-connector|microvm-image):[a-zA-Z0-9-_]+)</param>
-    /// <param name="Tags">The key-value pairs of tags to add to the resource. key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    /// <param name="Resource">The ARN of the resource to tag. Constraints: • min: 1 • max: 10000 • pattern: arn:(aws[a-zA-Z-]*):lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:(function:[a-zA-Z0-9-_]+(:(\$LATEST|[a-zA-Z0-9-_]+))?|layer:([a-zA-Z0-9-_]+)|code-signing-config:csc-[a-z0-9]{17}|event-source-mapping:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}|(capacity-provider|network-connector|microvm-image):[a-zA-Z0-9-_]+)</param>
+    /// <param name="Tags">The key-value pairs of tags to add to the resource. key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
     public AwsLambdaMicrovmsTagResourceOptions(
         string Resource,
         IReadOnlyList<KeyValue> Tags
@@ -72,13 +72,13 @@ public record AwsLambdaMicrovmsTagResourceOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the resource to tag. Constraints: o min: 1 o max: 10000 o pattern: arn:(aws[a-zA-Z-]*):lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:(func- tion:[a-zA-Z0-9-_]+(:(\$LAT- EST|[a-zA-Z0-9-_]+))?|layer:([a-zA-Z0-9-_]+)|code-signing-con- fig:csc-[a-z0-9]{17}|event-source-map- ping:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}|(ca- pacity-provider|network-connector|microvm-image):[a-zA-Z0-9-_]+)
+    /// The ARN of the resource to tag. Constraints: • min: 1 • max: 10000 • pattern: arn:(aws[a-zA-Z-]*):lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:(function:[a-zA-Z0-9-_]+(:(\$LATEST|[a-zA-Z0-9-_]+))?|layer:([a-zA-Z0-9-_]+)|code-signing-config:csc-[a-z0-9]{17}|event-source-mapping:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}|(capacity-provider|network-connector|microvm-image):[a-zA-Z0-9-_]+)
     /// </summary>
     [CliOption("--resource")]
     public string? Resource { get; private init; }
 
     /// <summary>
-    /// The key-value pairs of tags to add to the resource. key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The key-value pairs of tags to add to the resource. key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; private init; }
@@ -104,6 +104,15 @@ public record AwsLambdaMicrovmsTagResourceOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

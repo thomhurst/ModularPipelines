@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsSagemakerStopMonitoringScheduleOptions : AwsOptions, IValidatab
     /// <summary>
     /// Stops a previously started monitoring schedule. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MonitoringScheduleName">The name of the schedule to stop. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="MonitoringScheduleName">The name of the schedule to stop. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
     public AwsSagemakerStopMonitoringScheduleOptions(
         string MonitoringScheduleName
     )
@@ -56,7 +57,7 @@ public record AwsSagemakerStopMonitoringScheduleOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the schedule to stop. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// The name of the schedule to stop. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--monitoring-schedule-name")]
     public string? MonitoringScheduleName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSagemakerStopMonitoringScheduleOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsSupportauthzDeleteSupportPermitOptions : AwsOptions, IValidatab
     /// <summary>
     /// Deletes a support permit, revoking the authorization previously granted to the AWS support operator. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SupportPermitIdentifier">The Amazon Resource Name (ARN) or name of the support permit to delete. Constraints: o min: 1 o max: 512 o pattern: arn:[a-z0-9-]+:[a-z0-9-]+:[a-z0-9-]*:[0-9]{12}:.+</param>
+    /// <param name="SupportPermitIdentifier">The Amazon Resource Name (ARN) or name of the support permit to delete. Constraints: • min: 1 • max: 512 • pattern: arn:[a-z0-9-]+:[a-z0-9-]+:[a-z0-9-]*:[0-9]{12}:.+</param>
     public AwsSupportauthzDeleteSupportPermitOptions(
         string SupportPermitIdentifier
     )
@@ -56,7 +57,7 @@ public record AwsSupportauthzDeleteSupportPermitOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) or name of the support permit to delete. Constraints: o min: 1 o max: 512 o pattern: arn:[a-z0-9-]+:[a-z0-9-]+:[a-z0-9-]*:[0-9]{12}:.+
+    /// The Amazon Resource Name (ARN) or name of the support permit to delete. Constraints: • min: 1 • max: 512 • pattern: arn:[a-z0-9-]+:[a-z0-9-]+:[a-z0-9-]*:[0-9]{12}:.+
     /// </summary>
     [CliOption("--support-permit-identifier")]
     public string? SupportPermitIdentifier { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSupportauthzDeleteSupportPermitOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

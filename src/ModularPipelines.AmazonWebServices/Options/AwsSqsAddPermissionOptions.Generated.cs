@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Adds a permission to a queue for a specific principal . This allows sharing access to the queue. When you create a queue, you have full control access rights for the queue. Only you, the owner of the queue, can grant or deny permissions to the queue. For more information about these permissions, see Allow Developers to Write Messages to a Shared Queue in the Amazon SQS Devel- oper Guide . NOTE: o AddPermission generates a policy for you. You can use `` SetQueueAttributes `` to upload your policy...
+/// Adds a permission to a queue for a specific principal . This allows sharing access to the queue. When you create a queue, you have full control access rights for the queue. Only you, the owner of the queue, can grant or deny permissions to the queue. For more information about these permissions, see Allow Developers to Write Messages to a Shared Queue in the Amazon SQS Developer Guide . NOTE: • AddPermission generates a policy for you. You can use `` SetQueueAttributes `` to upload your policy. ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsSqsAddPermissionOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Adds a permission to a queue for a specific principal . This allows sharing access to the queue. When you create a queue, you have full control access rights for the queue. Only you, the owner of the queue, can grant or deny permissions to the queue. For more information about these permissions, see Allow Developers to Write Messages to a Shared Queue in the Amazon SQS Devel- oper Guide . NOTE: o AddPermission generates a policy for you. You can use `` SetQueueAttributes `` to upload your policy...
+    /// Adds a permission to a queue for a specific principal . This allows sharing access to the queue. When you create a queue, you have full control access rights for the queue. Only you, the owner of the queue, can grant or deny permissions to the queue. For more information about these permissions, see Allow Developers to Write Messages to a Shared Queue in the Amazon SQS Developer Guide . NOTE: • AddPermission generates a policy for you. You can use `` SetQueueAttributes `` to upload your policy. ...
     /// </summary>
     /// <param name="QueueUrl">The URL of the Amazon SQS queue to which permissions are added. Queue URLs and names are case-sensitive.</param>
-    /// <param name="Label">The unique identification of the permission you're setting (for ex- ample, AliceSendMessage ). Maximum 80 characters. Allowed characters include alphanumeric characters, hyphens (- ), and underscores (_ ).</param>
-    /// <param name="AwsAccountIds">The Amazon Web Services account numbers of the principals who are to receive permission. For information about locating the Amazon Web Services account identification, see Your Amazon Web Services Iden- tifiers in the Amazon SQS Developer Guide . (string) Syntax: "string" "string" ...</param>
+    /// <param name="Label">The unique identification of the permission you're setting (for example, AliceSendMessage ). Maximum 80 characters. Allowed characters include alphanumeric characters, hyphens (- ), and underscores (_ ).</param>
+    /// <param name="AwsAccountIds">The Amazon Web Services account numbers of the principals who are to receive permission. For information about locating the Amazon Web Services account identification, see Your Amazon Web Services Identifiers in the Amazon SQS Developer Guide . (string) Syntax: "string" "string" ...</param>
     /// <param name="Actions">The action the client wants to allow for the specified principal. Valid values: the name of any action or * . For more information about these actions, see Overview of Managing Access Permissions to Your Amazon Simple Queue Service Resource in the Amazon SQS Developer Guide . Specifying SendMessage , DeleteMessage , or ChangeMessageVisibility for ActionName.n also grants permissions for the corresponding batch versions of those actions: SendMessageBatch , DeleteMessageBatch , and ChangeMessageVisibilityBatch . (string) Syntax: "string" "string" ...</param>
     public AwsSqsAddPermissionOptions(
         string QueueUrl,
@@ -96,13 +97,13 @@ public record AwsSqsAddPermissionOptions : AwsOptions, IValidatableObject
     public string? QueueUrl { get; private init; }
 
     /// <summary>
-    /// The unique identification of the permission you're setting (for ex- ample, AliceSendMessage ). Maximum 80 characters. Allowed characters include alphanumeric characters, hyphens (- ), and underscores (_ ).
+    /// The unique identification of the permission you're setting (for example, AliceSendMessage ). Maximum 80 characters. Allowed characters include alphanumeric characters, hyphens (- ), and underscores (_ ).
     /// </summary>
     [CliOption("--label")]
     public string? Label { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services account numbers of the principals who are to receive permission. For information about locating the Amazon Web Services account identification, see Your Amazon Web Services Iden- tifiers in the Amazon SQS Developer Guide . (string) Syntax: "string" "string" ...
+    /// The Amazon Web Services account numbers of the principals who are to receive permission. For information about locating the Amazon Web Services account identification, see Your Amazon Web Services Identifiers in the Amazon SQS Developer Guide . (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--aws-account-ids", GroupValues = true)]
     public IEnumerable<string>? AwsAccountIds { get; private init; }
@@ -134,6 +135,15 @@ public record AwsSqsAddPermissionOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

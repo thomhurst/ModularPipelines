@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,10 +28,10 @@ public record AwsBedrockAgentcoreDeleteEventOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Deletes an event from an AgentCore Memory resource. When you delete an event, it is permanently removed. To use this operation, you must have the bedrock-agentcore:DeleteEvent permission. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MemoryId">The identifier of the AgentCore Memory resource from which to delete the event. Constraints: o min: 12 o pattern: (arn:(aws|aws-cn|aws-us-gov):bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:mem- ory/)?[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}</param>
-    /// <param name="SessionId">The identifier of the session containing the event to delete. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9][a-zA-Z0-9-_]*</param>
-    /// <param name="EventId">The identifier of the event to delete. Constraints: o pattern: [0-9]+#[a-fA-F0-9]+</param>
-    /// <param name="ActorId">The identifier of the actor associated with the event to delete. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9][a-zA-Z0-9-_/]*(?::[a-zA-Z0-9-_/]+)*[a-zA-Z0-9-_/]*</param>
+    /// <param name="MemoryId">The identifier of the AgentCore Memory resource from which to delete the event. Constraints: • min: 12 • pattern: (arn:(aws|aws-cn|aws-us-gov):bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:memory/)?[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}</param>
+    /// <param name="SessionId">The identifier of the session containing the event to delete. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9][a-zA-Z0-9-_]*</param>
+    /// <param name="EventId">The identifier of the event to delete. Constraints: • pattern: [0-9]+#[a-fA-F0-9]+</param>
+    /// <param name="ActorId">The identifier of the actor associated with the event to delete. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9][a-zA-Z0-9-_/]*(?::[a-zA-Z0-9-_/]+)*[a-zA-Z0-9-_/]*</param>
     public AwsBedrockAgentcoreDeleteEventOptions(
         string MemoryId,
         string SessionId,
@@ -68,25 +69,25 @@ public record AwsBedrockAgentcoreDeleteEventOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the AgentCore Memory resource from which to delete the event. Constraints: o min: 12 o pattern: (arn:(aws|aws-cn|aws-us-gov):bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:mem- ory/)?[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}
+    /// The identifier of the AgentCore Memory resource from which to delete the event. Constraints: • min: 12 • pattern: (arn:(aws|aws-cn|aws-us-gov):bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:memory/)?[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}
     /// </summary>
     [CliOption("--memory-id")]
     public string? MemoryId { get; private init; }
 
     /// <summary>
-    /// The identifier of the session containing the event to delete. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9][a-zA-Z0-9-_]*
+    /// The identifier of the session containing the event to delete. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9][a-zA-Z0-9-_]*
     /// </summary>
     [CliOption("--session-id")]
     public string? SessionId { get; private init; }
 
     /// <summary>
-    /// The identifier of the event to delete. Constraints: o pattern: [0-9]+#[a-fA-F0-9]+
+    /// The identifier of the event to delete. Constraints: • pattern: [0-9]+#[a-fA-F0-9]+
     /// </summary>
     [CliOption("--event-id")]
     public string? EventId { get; private init; }
 
     /// <summary>
-    /// The identifier of the actor associated with the event to delete. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9][a-zA-Z0-9-_/]*(?::[a-zA-Z0-9-_/]+)*[a-zA-Z0-9-_/]*
+    /// The identifier of the actor associated with the event to delete. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9][a-zA-Z0-9-_/]*(?::[a-zA-Z0-9-_/]+)*[a-zA-Z0-9-_/]*
     /// </summary>
     [CliOption("--actor-id")]
     public string? ActorId { get; private init; }
@@ -112,6 +113,15 @@ public record AwsBedrockAgentcoreDeleteEventOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

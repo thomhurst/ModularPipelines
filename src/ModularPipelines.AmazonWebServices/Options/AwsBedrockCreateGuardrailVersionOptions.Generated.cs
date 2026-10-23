@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsBedrockCreateGuardrailVersionOptions : AwsOptions, IValidatable
     /// <summary>
     /// Creates a version of the guardrail. Use this API to create a snapshot of the guardrail when you are satisfied with a configuration, or to compare the configuration with another version. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GuardrailIdentifier">The unique identifier of the guardrail. This can be an ID or the ARN. Constraints: o min: 0 o max: 2048 o pattern: (([a-z0-9]+)|(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:guardrail/[a-z0-9]+))</param>
+    /// <param name="GuardrailIdentifier">The unique identifier of the guardrail. This can be an ID or the ARN. Constraints: • min: 0 • max: 2048 • pattern: (([a-z0-9]+)|(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:guardrail/[a-z0-9]+))</param>
     public AwsBedrockCreateGuardrailVersionOptions(
         string GuardrailIdentifier
     )
@@ -57,19 +58,19 @@ public record AwsBedrockCreateGuardrailVersionOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the guardrail. This can be an ID or the ARN. Constraints: o min: 0 o max: 2048 o pattern: (([a-z0-9]+)|(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:guardrail/[a-z0-9]+))
+    /// The unique identifier of the guardrail. This can be an ID or the ARN. Constraints: • min: 0 • max: 2048 • pattern: (([a-z0-9]+)|(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:guardrail/[a-z0-9]+))
     /// </summary>
     [CliOption("--guardrail-identifier")]
     public string? GuardrailIdentifier { get; private init; }
 
     /// <summary>
-    /// A description of the guardrail version. Constraints: o min: 1 o max: 200
+    /// A description of the guardrail version. Constraints: • min: 1 • max: 200
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure that the API request completes no more than once. If this token matches a previous re- quest, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency in the Amazon S3 User Guide . Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9]([-a-zA-Z0-9]{0,254}[a-zA-Z0-9])?
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than once. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency in the Amazon S3 User Guide . Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9]([-a-zA-Z0-9]{0,254}[a-zA-Z0-9])?
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
@@ -96,6 +97,15 @@ public record AwsBedrockCreateGuardrailVersionOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

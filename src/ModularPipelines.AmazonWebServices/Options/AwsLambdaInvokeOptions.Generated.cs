@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Invokes a Lambda function. You can invoke a function synchronously (and wait for the response), or asynchronously. By default, Lambda invokes your function synchronously (i.e. the``InvocationType`` is RequestRe- sponse ). To invoke a function asynchronously, set InvocationType to Event . Lambda passes the ClientContext object to your function for synchronous invocations only. For synchronous invocations, the maximum payload size is 6 MB. For asynchronous invocations, the maximum payload size is ...
+/// Invokes a Lambda Event Function. You can invoke a function synchronously (and wait for the response), or asynchronously. By default, Lambda invokes your function synchronously (i.e. the``InvocationType`` is RequestResponse ). To invoke a function asynchronously, set InvocationType to Event . Lambda passes the ClientContext object to your function for synchronous invocations only. For synchronous invocations, the maximum payload size is 6 MB. For asynchronous invocations, the maximum payload size...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,9 +23,9 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsLambdaInvokeOptions : AwsOptions
 {
     /// <summary>
-    /// Invokes a Lambda function. You can invoke a function synchronously (and wait for the response), or asynchronously. By default, Lambda invokes your function synchronously (i.e. the``InvocationType`` is RequestRe- sponse ). To invoke a function asynchronously, set InvocationType to Event . Lambda passes the ClientContext object to your function for synchronous invocations only. For synchronous invocations, the maximum payload size is 6 MB. For asynchronous invocations, the maximum payload size is ...
+    /// Invokes a Lambda Event Function. You can invoke a function synchronously (and wait for the response), or asynchronously. By default, Lambda invokes your function synchronously (i.e. the``InvocationType`` is RequestResponse ). To invoke a function asynchronously, set InvocationType to Event . Lambda passes the ClientContext object to your function for synchronous invocations only. For synchronous invocations, the maximum payload size is 6 MB. For asynchronous invocations, the maximum payload size...
     /// </summary>
-    /// <param name="FunctionName">The name or ARN of the Lambda function, version, or alias. Name formats o Function name my-function (name-only), my-function:v1 (with alias). o Function ARN arn:aws:lambda:us-west-2:123456789012:func- tion:my-function . o Partial ARN 123456789012:function:my-function . You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length. Constraints: o min: 1 o max: 256 o pattern: (arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?(func- tion:)?([a-zA-Z0-9-_\.]+)(:(\$LATEST(\.PUB- LISHED)?|[a-zA-Z0-9-_]+))?</param>
+    /// <param name="FunctionName">The name or ARN of the Lambda function, version, or alias. Name formats • Function name my-function (name-only), my-function:v1 (with alias). • Function ARN arn:aws:lambda:us-west-2:123456789012:function:my-function . • Partial ARN 123456789012:function:my-function . You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length. Constraints: • min: 1 • max: 256 • pattern: (arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_\.]+)(:(\$LATEST(\.PUBLISHED)?|[a-zA-Z0-9-_]+))?</param>
     /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
     public AwsLambdaInvokeOptions(
         string FunctionName,
@@ -45,19 +45,19 @@ public record AwsLambdaInvokeOptions : AwsOptions
     }
 
     /// <summary>
-    /// The name or ARN of the Lambda function, version, or alias. Name formats o Function name my-function (name-only), my-function:v1 (with alias). o Function ARN arn:aws:lambda:us-west-2:123456789012:func- tion:my-function . o Partial ARN 123456789012:function:my-function . You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length. Constraints: o min: 1 o max: 256 o pattern: (arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?(func- tion:)?([a-zA-Z0-9-_\.]+)(:(\$LATEST(\.PUB- LISHED)?|[a-zA-Z0-9-_]+))?
+    /// The name or ARN of the Lambda function, version, or alias. Name formats • Function name my-function (name-only), my-function:v1 (with alias). • Function ARN arn:aws:lambda:us-west-2:123456789012:function:my-function . • Partial ARN 123456789012:function:my-function . You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length. Constraints: • min: 1 • max: 256 • pattern: (arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_\.]+)(:(\$LATEST(\.PUBLISHED)?|[a-zA-Z0-9-_]+))?
     /// </summary>
     [CliOption("--function-name")]
     public string FunctionName { get; private init; }
 
     /// <summary>
-    /// Choose from the following options. o RequestResponse (default) Invoke the function synchronously. Keep the connection open until the function returns a response or times out. The API response includes the function response and addi- tional data. o Event Invoke the function asynchronously. Send events that fail multiple times to the function's dead-letter queue (if one is con- figured). The API response only includes a status code. o DryRun Validate parameter values and verify that the user or role has permission to invoke the function. Possible values: o Event o RequestResponse o DryRun
+    /// Choose from the following options. • RequestResponse (default) Invoke the function synchronously. Keep the connection open until the function returns a response or times out. The API response includes the function response and additional data. • Event Invoke the function asynchronously. Send events that fail multiple times to the function's dead-letter queue (if one is configured). The API response only includes a status code. • DryRun Validate parameter values and verify that the user or role has permission to invoke the function. Possible values: • Event • RequestResponse • DryRun
     /// </summary>
     [CliOption("--invocation-type")]
     public AwsLambdaInvokeInvocationType? InvocationType { get; set; }
 
     /// <summary>
-    /// Set to Tail to include the execution log in the response. Applies to synchronously invoked functions only. Possible values: o None o Tail
+    /// Set to Tail to include the execution log in the response. Applies to synchronously invoked functions only. Possible values: • None • Tail
     /// </summary>
     [CliOption("--log-type")]
     public AwsLambdaInvokeLogType? LogType { get; set; }
@@ -69,25 +69,25 @@ public record AwsLambdaInvokeOptions : AwsOptions
     public string? ClientContext { get; set; }
 
     /// <summary>
-    /// A unique name for the durable execution. If you invoke a durable function using a name that already exists with the same payload, Lambda returns the existing execution instead of creating a dupli- cate. If the payload differs, Lambda returns a DurableExecutionAl- readyStartedException error. If not specified, Lambda generates a unique identifier automati- cally. For more information, see Execution names . Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-_]+
+    /// A unique name for the durable execution. If you invoke a durable function using a name that already exists with the same payload, Lambda returns the existing execution instead of creating a duplicate. If the payload differs, Lambda returns a DurableExecutionAlreadyStartedException error. If not specified, Lambda generates a unique identifier automatically. For more information, see Execution names . Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-_]+
     /// </summary>
     [CliOption("--durable-execution-name")]
     public string? DurableExecutionName { get; set; }
 
     /// <summary>
-    /// The JSON that you want to provide to your Lambda function as input. The maximum payload size is 6 MB for synchronous invocations and 1 MB for asynchronous invocations. You can enter the JSON directly. For example, --payload '{ "key": "value" }' . You can also specify a file path. For example, --pay- load file://payload.json .
+    /// The JSON that you want to provide to your Lambda function as input. The maximum payload size is 6 MB for synchronous invocations and 1 MB for asynchronous invocations. You can enter the JSON directly. For example, --payload '{ "key": "value" }' . You can also specify a file path. For example, --payload file://payload.json .
     /// </summary>
     [CliOption("--payload")]
     public string? Payload { get; set; }
 
     /// <summary>
-    /// Specify a version or alias to invoke a published version of the function. Constraints: o min: 1 o max: 128 o pattern: \$(LATEST(\.PUBLISHED)?)|[a-zA-Z0-9-_$]+
+    /// Specify a version or alias to invoke a published version of the function. Constraints: • min: 1 • max: 128 • pattern: \$(LATEST(\.PUBLISHED)?)|[a-zA-Z0-9-_$]+
     /// </summary>
     [CliOption("--qualifier")]
     public string? Qualifier { get; set; }
 
     /// <summary>
-    /// The identifier of the tenant in a multi-tenant Lambda function. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9\._:\/=+\-@ ]+ outfile (string) [required] Filename where the content will be saved
+    /// The identifier of the tenant in a multi-tenant Lambda function. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9\._:\/=+\-@ ]+ outfile (string) [required] Filename where the content will be saved
     /// </summary>
     [CliOption("--tenant-id")]
     public string? TenantId { get; set; }
@@ -97,5 +97,14 @@ public record AwsLambdaInvokeOptions : AwsOptions
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
     public string Outfile { get; private init; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

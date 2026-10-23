@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,9 +29,9 @@ public record AwsAthenaUpdateNotebookOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates the contents of a Spark notebook. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NotebookId">The ID of the notebook to update. Constraints: o min: 1 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
-    /// <param name="Payload">The updated content for the notebook. Constraints: o min: 1 o max: 10485760</param>
-    /// <param name="Type">The notebook content type. Currently, the only valid type is IPYNB . Possible values: o IPYNB</param>
+    /// <param name="NotebookId">The ID of the notebook to update. Constraints: • min: 1 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="Payload">The updated content for the notebook. Constraints: • min: 1 • max: 10485760</param>
+    /// <param name="Type">The notebook content type. Currently, the only valid type is IPYNB . Possible values: • IPYNB</param>
     public AwsAthenaUpdateNotebookOptions(
         string NotebookId,
         string Payload,
@@ -65,31 +66,31 @@ public record AwsAthenaUpdateNotebookOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the notebook to update. Constraints: o min: 1 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// The ID of the notebook to update. Constraints: • min: 1 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--notebook-id")]
     public string? NotebookId { get; private init; }
 
     /// <summary>
-    /// The updated content for the notebook. Constraints: o min: 1 o max: 10485760
+    /// The updated content for the notebook. Constraints: • min: 1 • max: 10485760
     /// </summary>
     [CliOption("--payload")]
     public string? Payload { get; private init; }
 
     /// <summary>
-    /// The notebook content type. Currently, the only valid type is IPYNB . Possible values: o IPYNB
+    /// The notebook content type. Currently, the only valid type is IPYNB . Possible values: • IPYNB
     /// </summary>
     [CliOption("--type")]
     public string? Type { get; private init; }
 
     /// <summary>
-    /// The active notebook session ID. Required if the notebook has an ac- tive session. Constraints: o min: 1 o max: 256
+    /// The active notebook session ID. Required if the notebook has an active session. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--session-id")]
     public string? SessionId { get; set; }
 
     /// <summary>
-    /// A unique case-sensitive string used to ensure the request to create the notebook is idempotent (executes only once). WARNING: This token is listed as not required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for Java) auto-generate the token for you. If you are not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must pro- vide this token or the action will fail. Constraints: o min: 1 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// A unique case-sensitive string used to ensure the request to create the notebook is idempotent (executes only once). WARNING: This token is listed as not required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for Java) auto-generate the token for you. If you are not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must provide this token or the action will fail. Constraints: • min: 1 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
@@ -116,6 +117,15 @@ public record AwsAthenaUpdateNotebookOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

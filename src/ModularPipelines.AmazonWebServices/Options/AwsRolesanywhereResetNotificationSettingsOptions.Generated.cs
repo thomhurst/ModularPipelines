@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsRolesanywhereResetNotificationSettingsOptions : AwsOptions, IVa
     /// <summary>
     /// Resets the custom notification setting to IAM Roles Anywhere default setting. Required permissions: rolesanywhere:ResetNotificationSettings . See also: AWS API Documentation
     /// </summary>
-    /// <param name="TrustAnchorId">The unique identifier of the trust anchor. Constraints: o min: 36 o max: 36 o pattern: .*[a-f0-9]{8}-([a-z0-9]{4}-){3}[a-z0-9]{12}.*</param>
-    /// <param name="NotificationSettingKeys">A list of notification setting keys to reset. A notification setting key includes the event and the channel. Constraints: o min: 0 o max: 50 (structure) A notification setting key to reset. A notification setting key includes the event and the channel. event -&gt; (string) [required] The notification setting event to reset. Possible values: o CA_CERTIFICATE_EXPIRY o END_ENTITY_CERTIFICATE_EXPIRY channel -&gt; (string) The specified channel of notification. Possible values: o ALL Shorthand Syntax: event=string,channel=string ... JSON Syntax: [ { "event": "CA_CERTIFICATE_EXPIRY"|"END_ENTITY_CERTIFICATE_EXPIRY", "channel": "ALL" } ... ]</param>
+    /// <param name="TrustAnchorId">The unique identifier of the trust anchor. Constraints: • min: 36 • max: 36 • pattern: .*[a-f0-9]{8}-([a-z0-9]{4}-){3}[a-z0-9]{12}.*</param>
+    /// <param name="NotificationSettingKeys">A list of notification setting keys to reset. A notification setting key includes the event and the channel. Constraints: • min: 0 • max: 50 (structure) A notification setting key to reset. A notification setting key includes the event and the channel. event -&gt; (string) [required] The notification setting event to reset. Possible values: • CA_CERTIFICATE_EXPIRY • END_ENTITY_CERTIFICATE_EXPIRY channel -&gt; (string) The specified channel of notification. Possible values: • ALL Shorthand Syntax: event=string,channel=string ... JSON Syntax: [ { "event": "CA_CERTIFICATE_EXPIRY"|"END_ENTITY_CERTIFICATE_EXPIRY", "channel": "ALL" } ... ]</param>
     public AwsRolesanywhereResetNotificationSettingsOptions(
         string TrustAnchorId,
         IEnumerable<string> NotificationSettingKeys
@@ -71,13 +72,13 @@ public record AwsRolesanywhereResetNotificationSettingsOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the trust anchor. Constraints: o min: 36 o max: 36 o pattern: .*[a-f0-9]{8}-([a-z0-9]{4}-){3}[a-z0-9]{12}.*
+    /// The unique identifier of the trust anchor. Constraints: • min: 36 • max: 36 • pattern: .*[a-f0-9]{8}-([a-z0-9]{4}-){3}[a-z0-9]{12}.*
     /// </summary>
     [CliOption("--trust-anchor-id")]
     public string? TrustAnchorId { get; private init; }
 
     /// <summary>
-    /// A list of notification setting keys to reset. A notification setting key includes the event and the channel. Constraints: o min: 0 o max: 50 (structure) A notification setting key to reset. A notification setting key includes the event and the channel. event -&gt; (string) [required] The notification setting event to reset. Possible values: o CA_CERTIFICATE_EXPIRY o END_ENTITY_CERTIFICATE_EXPIRY channel -&gt; (string) The specified channel of notification. Possible values: o ALL Shorthand Syntax: event=string,channel=string ... JSON Syntax: [ { "event": "CA_CERTIFICATE_EXPIRY"|"END_ENTITY_CERTIFICATE_EXPIRY", "channel": "ALL" } ... ]
+    /// A list of notification setting keys to reset. A notification setting key includes the event and the channel. Constraints: • min: 0 • max: 50 (structure) A notification setting key to reset. A notification setting key includes the event and the channel. event -&gt; (string) [required] The notification setting event to reset. Possible values: • CA_CERTIFICATE_EXPIRY • END_ENTITY_CERTIFICATE_EXPIRY channel -&gt; (string) The specified channel of notification. Possible values: • ALL Shorthand Syntax: event=string,channel=string ... JSON Syntax: [ { "event": "CA_CERTIFICATE_EXPIRY"|"END_ENTITY_CERTIFICATE_EXPIRY", "channel": "ALL" } ... ]
     /// </summary>
     [CliOption("--notification-setting-keys", GroupValues = true)]
     public IEnumerable<string>? NotificationSettingKeys { get; private init; }
@@ -103,6 +104,15 @@ public record AwsRolesanywhereResetNotificationSettingsOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

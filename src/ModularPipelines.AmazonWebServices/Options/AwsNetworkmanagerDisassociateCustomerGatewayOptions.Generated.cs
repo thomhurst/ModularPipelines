@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsNetworkmanagerDisassociateCustomerGatewayOptions : AwsOptions, 
     /// <summary>
     /// Disassociates a customer gateway from a device and a link. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GlobalNetworkId">The ID of the global network. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*</param>
-    /// <param name="CustomerGatewayArn">The Amazon Resource Name (ARN) of the customer gateway. Constraints: o min: 0 o max: 500 o pattern: [\s\S]*</param>
+    /// <param name="GlobalNetworkId">The ID of the global network. Constraints: • min: 0 • max: 50 • pattern: [\s\S]*</param>
+    /// <param name="CustomerGatewayArn">The Amazon Resource Name (ARN) of the customer gateway. Constraints: • min: 0 • max: 500 • pattern: [\s\S]*</param>
     public AwsNetworkmanagerDisassociateCustomerGatewayOptions(
         string GlobalNetworkId,
         string CustomerGatewayArn
@@ -60,13 +61,13 @@ public record AwsNetworkmanagerDisassociateCustomerGatewayOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the global network. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*
+    /// The ID of the global network. Constraints: • min: 0 • max: 50 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--global-network-id")]
     public string? GlobalNetworkId { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the customer gateway. Constraints: o min: 0 o max: 500 o pattern: [\s\S]*
+    /// The Amazon Resource Name (ARN) of the customer gateway. Constraints: • min: 0 • max: 500 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--customer-gateway-arn")]
     public string? CustomerGatewayArn { get; private init; }
@@ -92,6 +93,15 @@ public record AwsNetworkmanagerDisassociateCustomerGatewayOptions : AwsOptions, 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

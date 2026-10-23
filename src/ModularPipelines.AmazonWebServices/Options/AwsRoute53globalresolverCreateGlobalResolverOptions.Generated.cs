@@ -11,14 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new Route 53 Global Resolver instance. A Route 53 Global Re- solver is a global, internet-accessible DNS resolver that provides se- cure DNS resolution for both public and private domains through global anycast IP addresses. WARNING: Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, ...
+/// Creates a new Route 53 Global Resolver instance. A Route 53 Global Resolver is a global, internet-accessible DNS resolver that provides secure DNS resolution for both public and private domains through global anycast IP addresses. WARNING: Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, spec...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -28,10 +28,10 @@ public record AwsRoute53globalresolverCreateGlobalResolverOptions : AwsOptions, 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new Route 53 Global Resolver instance. A Route 53 Global Re- solver is a global, internet-accessible DNS resolver that provides se- cure DNS resolution for both public and private domains through global anycast IP addresses. WARNING: Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, ...
+    /// Creates a new Route 53 Global Resolver instance. A Route 53 Global Resolver is a global, internet-accessible DNS resolver that provides secure DNS resolution for both public and private domains through global anycast IP addresses. WARNING: Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, spec...
     /// </summary>
-    /// <param name="Name">A descriptive name for the Route 53 Global Resolver instance. Maxi- mum length of 64 characters. Constraints: o min: 1 o max: 64 o pattern: (?!^[0-9]+$)([a-zA-Z0-9-_/' ']+)</param>
-    /// <param name="Regions">List of Amazon Web Services Regions where the Route 53 Global Re- solver will operate. The resolver will be distributed across these Regions to provide global availability and low-latency DNS resolu- tion. (string) Constraints: o min: 0 o max: 32 Syntax: "string" "string" ...</param>
+    /// <param name="Name">A descriptive name for the Route 53 Global Resolver instance. Maximum length of 64 characters. Constraints: • min: 1 • max: 64 • pattern: (?!^[0-9]+$)([a-zA-Z0-9-_/' ']+)</param>
+    /// <param name="Regions">List of Amazon Web Services Regions where the Route 53 Global Resolver will operate. The resolver will be distributed across these Regions to provide global availability and low-latency DNS resolution. (string) Constraints: • min: 0 • max: 32 Syntax: "string" "string" ...</param>
     public AwsRoute53globalresolverCreateGlobalResolverOptions(
         string Name,
         IEnumerable<string> Regions
@@ -74,44 +74,44 @@ public record AwsRoute53globalresolverCreateGlobalResolverOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A descriptive name for the Route 53 Global Resolver instance. Maxi- mum length of 64 characters. Constraints: o min: 1 o max: 64 o pattern: (?!^[0-9]+$)([a-zA-Z0-9-_/' ']+)
+    /// A descriptive name for the Route 53 Global Resolver instance. Maximum length of 64 characters. Constraints: • min: 1 • max: 64 • pattern: (?!^[0-9]+$)([a-zA-Z0-9-_/' ']+)
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// List of Amazon Web Services Regions where the Route 53 Global Re- solver will operate. The resolver will be distributed across these Regions to provide global availability and low-latency DNS resolu- tion. (string) Constraints: o min: 0 o max: 32 Syntax: "string" "string" ...
+    /// List of Amazon Web Services Regions where the Route 53 Global Resolver will operate. The resolver will be distributed across these Regions to provide global availability and low-latency DNS resolution. (string) Constraints: • min: 0 • max: 32 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--regions", GroupValues = true)]
     public IEnumerable<string>? Regions { get; private init; }
 
     /// <summary>
-    /// A unique string that identifies the request and ensures idempotency. If you make multiple requests with the same client token, only one Route 53 Global Resolver is created. Constraints: o min: 1 o max: 256
+    /// A unique string that identifies the request and ensures idempotency. If you make multiple requests with the same client token, only one Route 53 Global Resolver is created. Constraints: • min: 1 • max: 256
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// An optional description for the Route 53 Global Resolver instance. Maximum length of 1024 characters. Constraints: o min: 1 o max: 256
+    /// An optional description for the Route 53 Global Resolver instance. Maximum length of 1024 characters. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The IP address type for the Route 53 Global Resolver. Valid values are IPV4 (default) or DUAL_STACK for both IPv4 and IPv6 support. Possible values: o IPV4 o DUAL_STACK
+    /// The IP address type for the Route 53 Global Resolver. Valid values are IPV4 (default) or DUAL_STACK for both IPv4 and IPv6 support. Possible values: • IPV4 • DUAL_STACK
     /// </summary>
     [CliOption("--ip-address-type")]
     public AwsRoute53globalresolverCreateGlobalResolverIpAddressType? IpAddressType { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services Region where query resolution logs and met- rics will be aggregated and delivered. If not specified, logging is not enabled. Constraints: o min: 0 o max: 32
+    /// The Amazon Web Services Region where query resolution logs and metrics will be aggregated and delivered. If not specified, logging is not enabled. Constraints: • min: 0 • max: 32
     /// </summary>
     [CliOption("--observability-region")]
     public string? ObservabilityRegion { get; set; }
 
     /// <summary>
-    /// Tags to associate with the Route 53 Global Resolver. Tags are key-value pairs that help you organize and identify your resources. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Tags to associate with the Route 53 Global Resolver. Tags are key-value pairs that help you organize and identify your resources. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -137,6 +137,15 @@ public record AwsRoute53globalresolverCreateGlobalResolverOptions : AwsOptions, 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

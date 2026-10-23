@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsIotfleetwiseGetVehicleOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Retrieves information about a vehicle. See also: AWS API Documentation
     /// </summary>
-    /// <param name="VehicleName">The ID of the vehicle to retrieve information about. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z\d\-_:]+</param>
+    /// <param name="VehicleName">The ID of the vehicle to retrieve information about. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z\d\-_:]+</param>
     public AwsIotfleetwiseGetVehicleOptions(
         string VehicleName
     )
@@ -56,7 +57,7 @@ public record AwsIotfleetwiseGetVehicleOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the vehicle to retrieve information about. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z\d\-_:]+
+    /// The ID of the vehicle to retrieve information about. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z\d\-_:]+
     /// </summary>
     [CliOption("--vehicle-name")]
     public string? VehicleName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsIotfleetwiseGetVehicleOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

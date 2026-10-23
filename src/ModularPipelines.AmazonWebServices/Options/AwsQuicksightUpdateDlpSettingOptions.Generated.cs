@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +29,8 @@ public record AwsQuicksightUpdateDlpSettingOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Updates an existing DLP setting configuration in an Amazon Web Services account. Fields that are omitted from the request retain their current values. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the DLP set- ting that you want to update. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="DlpSettingId">The ID of the DLP setting that you want to update. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9\-_]+</param>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the DLP setting that you want to update. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="DlpSettingId">The ID of the DLP setting that you want to update. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9\-_]+</param>
     public AwsQuicksightUpdateDlpSettingOptions(
         string AwsAccountId,
         string DlpSettingId
@@ -61,37 +62,37 @@ public record AwsQuicksightUpdateDlpSettingOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon Web Services account that contains the DLP set- ting that you want to update. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID of the Amazon Web Services account that contains the DLP setting that you want to update. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The ID of the DLP setting that you want to update. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9\-_]+
+    /// The ID of the DLP setting that you want to update. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9\-_]+
     /// </summary>
     [CliOption("--dlp-setting-id")]
     public string? DlpSettingId { get; private init; }
 
     /// <summary>
-    /// An updated display name for the DLP setting. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z0-9](?:[\w- &amp;]*[A-Za-z0-9])?
+    /// An updated display name for the DLP setting. Constraints: • min: 1 • max: 255 • pattern: [A-Za-z0-9](?:[\w- &amp;]*[A-Za-z0-9])?
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// An updated DLP provider type. Currently, the only supported value is MICROSOFT_PURVIEW . Possible values: o MICROSOFT_PURVIEW
+    /// An updated DLP provider type. Currently, the only supported value is MICROSOFT_PURVIEW . Possible values: • MICROSOFT_PURVIEW
     /// </summary>
     [CliOption("--provider-type")]
     public string? ProviderType { get; set; }
 
     /// <summary>
-    /// An updated provider-specific configuration for the DLP integration. This is a union type structure. For this structure to be valid, only one of the attributes can be defined. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: MicrosoftPurview. MicrosoftPurview -&gt; (structure) The configuration for a Microsoft Purview DLP integration. Credentials -&gt; (structure) [required] The credentials used to authenticate with Microsoft Purview. SecretArn -&gt; (string) [required] The ARN of the Amazon Web Services Secrets Manager secret that contains the Microsoft Purview OAuth credentials. The secret includes the Azure tenant ID, client ID, and client secret or certificate. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(-[\w]+)*:secretsman- ager:[a-z0-9\-]+:\d{12}:secret:.+ LabelActionMappings -&gt; (list) [required] The mappings from Microsoft Purview sensitivity labels to en- forcement actions. Constraints: o min: 0 o max: 100 (structure) Maps a sensitivity label from Microsoft Purview to an en- forcement action. LabelId -&gt; (string) [required] The identifier of the sensitivity label from the DLP provider. Constraints: o min: 1 o max: 512 LabelName -&gt; (string) [required] The display name of the sensitivity label from the DLP provider. Constraints: o min: 1 o max: 512 Action -&gt; (string) [required] The enforcement action to apply when content with this sensitivity label is detected. Valid values are ALLOW , BLOCK , and WARN . Possible values: o ALLOW o WARN o BLOCK UnmappedAction -&gt; (string) [required] The default action to apply to content that has no sensitiv- ity label or whose label is not mapped. Valid values are AL- LOW , BLOCK , and WARN . Possible values: o ALLOW o WARN o BLOCK JSON Syntax: { "MicrosoftPurview": { "Credentials": { "SecretArn": "string" }, "LabelActionMappings": [ { "LabelId": "string", "LabelName": "string", "Action": "ALLOW"|"WARN"|"BLOCK" } ... ], "UnmappedAction": "ALLOW"|"WARN"|"BLOCK" } }
+    /// An updated provider-specific configuration for the DLP integration. This is a union type structure. For this structure to be valid, only one of the attributes can be defined. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: MicrosoftPurview. MicrosoftPurview -&gt; (structure) The configuration for a Microsoft Purview DLP integration. Credentials -&gt; (structure) [required] The credentials used to authenticate with Microsoft Purview. SecretArn -&gt; (string) [required] The ARN of the Amazon Web Services Secrets Manager secret that contains the Microsoft Purview OAuth credentials. The secret includes the Azure tenant ID, client ID, and client secret or certificate. Constraints: • min: 1 • max: 2048 • pattern: arn:aws(-[\w]+)*:secretsmanager:[a-z0-9\-]+:\d{12}:secret:.+ LabelActionMappings -&gt; (list) [required] The mappings from Microsoft Purview sensitivity labels to enforcement actions. Constraints: • min: 0 • max: 100 (structure) Maps a sensitivity label from Microsoft Purview to an enforcement action. LabelId -&gt; (string) [required] The identifier of the sensitivity label from the DLP provider. Constraints: • min: 1 • max: 512 LabelName -&gt; (string) [required] The display name of the sensitivity label from the DLP provider. Constraints: • min: 1 • max: 512 Action -&gt; (string) [required] The enforcement action to apply when content with this sensitivity label is detected. Valid values are ALLOW , BLOCK , and WARN . Possible values: • ALLOW • WARN • BLOCK UnmappedAction -&gt; (string) [required] The default action to apply to content that has no sensitivity label or whose label is not mapped. Valid values are ALLOW , BLOCK , and WARN . Possible values: • ALLOW • WARN • BLOCK JSON Syntax: { "MicrosoftPurview": { "Credentials": { "SecretArn": "string" }, "LabelActionMappings": [ { "LabelId": "string", "LabelName": "string", "Action": "ALLOW"|"WARN"|"BLOCK" } ... ], "UnmappedAction": "ALLOW"|"WARN"|"BLOCK" } }
     /// </summary>
     [CliOption("--provider-config")]
     public string? ProviderConfig { get; set; }
 
     /// <summary>
-    /// An updated behavior to apply when the DLP provider is unreachable. Valid values are ALLOW , WARN , and BLOCK . Possible values: o ALLOW o WARN o BLOCK
+    /// An updated behavior to apply when the DLP provider is unreachable. Valid values are ALLOW , WARN , and BLOCK . Possible values: • ALLOW • WARN • BLOCK
     /// </summary>
     [CliOption("--provider-outage-action")]
     public AwsQuicksightUpdateDlpSettingProviderOutageAction? ProviderOutageAction { get; set; }
@@ -123,6 +124,15 @@ public record AwsQuicksightUpdateDlpSettingOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

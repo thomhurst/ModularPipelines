@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsPcsDeleteClusterOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes a cluster and all its linked resources. You must delete all queues and compute node groups associated with the cluster before you can delete the cluster. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClusterIdentifier">The name or ID of the cluster to delete. Constraints: o pattern: (pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{2,40})</param>
+    /// <param name="ClusterIdentifier">The name or ID of the cluster to delete. Constraints: • pattern: (pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{2,40})</param>
     public AwsPcsDeleteClusterOptions(
         string ClusterIdentifier
     )
@@ -57,13 +58,13 @@ public record AwsPcsDeleteClusterOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name or ID of the cluster to delete. Constraints: o pattern: (pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{2,40})
+    /// The name or ID of the cluster to delete. Constraints: • pattern: (pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{2,40})
     /// </summary>
     [CliOption("--cluster-identifier")]
     public string? ClusterIdentifier { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original re- quest completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate 1 for you. Constraints: o min: 8 o max: 100
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate 1 for you. Constraints: • min: 8 • max: 100
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -90,6 +91,15 @@ public record AwsPcsDeleteClusterOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

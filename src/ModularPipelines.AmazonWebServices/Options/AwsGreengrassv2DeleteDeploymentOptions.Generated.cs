@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a deployment. To delete an active deployment, you must first cancel it. For more information, see CancelDeployment . Deleting a deployment doesn't affect core devices that run that deploy- ment, because core devices store the deployment's configuration on the device. Additionally, core devices can roll back to a previous deploy- ment that has been deleted. See also: AWS API Documentation
+/// Deletes a deployment. To delete an active deployment, you must first cancel it. For more information, see CancelDeployment . Deleting a deployment doesn't affect core devices that run that deployment, because core devices store the deployment's configuration on the device. Additionally, core devices can roll back to a previous deployment that has been deleted. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsGreengrassv2DeleteDeploymentOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a deployment. To delete an active deployment, you must first cancel it. For more information, see CancelDeployment . Deleting a deployment doesn't affect core devices that run that deploy- ment, because core devices store the deployment's configuration on the device. Additionally, core devices can roll back to a previous deploy- ment that has been deleted. See also: AWS API Documentation
+    /// Deletes a deployment. To delete an active deployment, you must first cancel it. For more information, see CancelDeployment . Deleting a deployment doesn't affect core devices that run that deployment, because core devices store the deployment's configuration on the device. Additionally, core devices can roll back to a previous deployment that has been deleted. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DeploymentId">The ID of the deployment. Constraints: o min: 1</param>
+    /// <param name="DeploymentId">The ID of the deployment. Constraints: • min: 1</param>
     public AwsGreengrassv2DeleteDeploymentOptions(
         string DeploymentId
     )
@@ -56,7 +57,7 @@ public record AwsGreengrassv2DeleteDeploymentOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the deployment. Constraints: o min: 1
+    /// The ID of the deployment. Constraints: • min: 1
     /// </summary>
     [CliOption("--deployment-id")]
     public string? DeploymentId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsGreengrassv2DeleteDeploymentOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

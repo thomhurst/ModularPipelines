@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsArcZonalShiftGetManagedResourceOptions : AwsOptions, IValidatab
     /// <summary>
     /// Get information about a resource that's been registered for zonal shifts with Amazon Application Recovery Controller in this Amazon Web Services Region. Resources that are registered for zonal shifts are managed resources in ARC. You can start zonal shifts and configure zonal autoshift for managed resources. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceIdentifier">The identifier for the resource that Amazon Web Services shifts traffic for. The identifier is the Amazon Resource Name (ARN) for the resource. Amazon Application Recovery Controller currently supports enabling the following resources for zonal shift and zonal autoshift: o Amazon EC2 Auto Scaling groups o Amazon Elastic Kubernetes Service o Application Load Balancer o Network Load Balancer Constraints: o min: 8 o max: 1024</param>
+    /// <param name="ResourceIdentifier">The identifier for the resource that Amazon Web Services shifts traffic for. The identifier is the Amazon Resource Name (ARN) for the resource. Amazon Application Recovery Controller currently supports enabling the following resources for zonal shift and zonal autoshift: • Amazon EC2 Auto Scaling groups • Amazon Elastic Kubernetes Service • Application Load Balancer • Network Load Balancer Constraints: • min: 8 • max: 1024</param>
     public AwsArcZonalShiftGetManagedResourceOptions(
         string ResourceIdentifier
     )
@@ -56,7 +57,7 @@ public record AwsArcZonalShiftGetManagedResourceOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier for the resource that Amazon Web Services shifts traffic for. The identifier is the Amazon Resource Name (ARN) for the resource. Amazon Application Recovery Controller currently supports enabling the following resources for zonal shift and zonal autoshift: o Amazon EC2 Auto Scaling groups o Amazon Elastic Kubernetes Service o Application Load Balancer o Network Load Balancer Constraints: o min: 8 o max: 1024
+    /// The identifier for the resource that Amazon Web Services shifts traffic for. The identifier is the Amazon Resource Name (ARN) for the resource. Amazon Application Recovery Controller currently supports enabling the following resources for zonal shift and zonal autoshift: • Amazon EC2 Auto Scaling groups • Amazon Elastic Kubernetes Service • Application Load Balancer • Network Load Balancer Constraints: • min: 8 • max: 1024
     /// </summary>
     [CliOption("--resource-identifier")]
     public string? ResourceIdentifier { get; private init; }
@@ -82,6 +83,15 @@ public record AwsArcZonalShiftGetManagedResourceOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

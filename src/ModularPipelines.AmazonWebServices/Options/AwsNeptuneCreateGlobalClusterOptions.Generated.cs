@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a Neptune global database spread across multiple Amazon Re- gions. The global database contains a single primary cluster with read-write capability, and read-only secondary clusters that receive data from the primary cluster through high-speed replication performed by the Neptune storage subsystem. You can create a global database that is initially empty, and then add a primary cluster and secondary clusters to it, or you can specify an existing Neptune cluster during the create operatio...
+/// Creates a Neptune global database spread across multiple Amazon Regions. The global database contains a single primary cluster with read-write capability, and read-only secondary clusters that receive data from the primary cluster through high-speed replication performed by the Neptune storage subsystem. You can create a global database that is initially empty, and then add a primary cluster and secondary clusters to it, or you can specify an existing Neptune cluster during the create operation ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsNeptuneCreateGlobalClusterOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a Neptune global database spread across multiple Amazon Re- gions. The global database contains a single primary cluster with read-write capability, and read-only secondary clusters that receive data from the primary cluster through high-speed replication performed by the Neptune storage subsystem. You can create a global database that is initially empty, and then add a primary cluster and secondary clusters to it, or you can specify an existing Neptune cluster during the create operatio...
+    /// Creates a Neptune global database spread across multiple Amazon Regions. The global database contains a single primary cluster with read-write capability, and read-only secondary clusters that receive data from the primary cluster through high-speed replication performed by the Neptune storage subsystem. You can create a global database that is initially empty, and then add a primary cluster and secondary clusters to it, or you can specify an existing Neptune cluster during the create operation ...
     /// </summary>
-    /// <param name="GlobalClusterIdentifier">The cluster identifier of the new global database cluster. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][0-9A-Za-z-:._]*</param>
+    /// <param name="GlobalClusterIdentifier">The cluster identifier of the new global database cluster. Constraints: • min: 1 • max: 255 • pattern: [A-Za-z][0-9A-Za-z-:._]*</param>
     public AwsNeptuneCreateGlobalClusterOptions(
         string GlobalClusterIdentifier
     )
@@ -56,7 +57,7 @@ public record AwsNeptuneCreateGlobalClusterOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The cluster identifier of the new global database cluster. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][0-9A-Za-z-:._]*
+    /// The cluster identifier of the new global database cluster. Constraints: • min: 1 • max: 255 • pattern: [A-Za-z][0-9A-Za-z-:._]*
     /// </summary>
     [CliOption("--global-cluster-identifier")]
     public string? GlobalClusterIdentifier { get; private init; }
@@ -80,13 +81,13 @@ public record AwsNeptuneCreateGlobalClusterOptions : AwsOptions, IValidatableObj
     public string? EngineVersion { get; set; }
 
     /// <summary>
-    /// The deletion protection setting for the new global database. The global database can't be deleted when deletion protection is en- abled.
+    /// The deletion protection setting for the new global database. The global database can't be deleted when deletion protection is enabled.
     /// </summary>
     [CliFlag("--deletion-protection", NegatedName = "--no-deletion-protection")]
     public bool? DeletionProtection { get; set; }
 
     /// <summary>
-    /// The name for the new global database (up to 64 alpha-numeric charac- ters).
+    /// The name for the new global database (up to 64 alpha-numeric characters).
     /// </summary>
     [CliOption("--database-name")]
     public string? DatabaseName { get; set; }
@@ -124,6 +125,15 @@ public record AwsNeptuneCreateGlobalClusterOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

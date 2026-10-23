@@ -11,13 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new SQL view. A view is a named, reusable SQL query that can be referenced from telemetry queries. View names must be unique within the account and re- gion. Only USER views can be created MANAGED views are provisioned by AWS. See also: AWS API Documentation
+/// Creates a new SQL view. A view is a named, reusable SQL query that can be referenced from telemetry queries. View names must be unique within the account and region. Only USER views can be created MANAGED views are provisioned by AWS. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +27,10 @@ public record AwsCloudwatchomniCreateViewOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new SQL view. A view is a named, reusable SQL query that can be referenced from telemetry queries. View names must be unique within the account and re- gion. Only USER views can be created MANAGED views are provisioned by AWS. See also: AWS API Documentation
+    /// Creates a new SQL view. A view is a named, reusable SQL query that can be referenced from telemetry queries. View names must be unique within the account and region. Only USER views can be created MANAGED views are provisioned by AWS. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the view. Must begin with the "view." prefix. View names must be unique within the account and region. Constraints: o min: 6 o max: 256 o pattern: view\.[a-z0-9][a-z0-9_-]{0,250}</param>
-    /// <param name="Definition">The SQL query that defines the view. Constraints: o min: 1 o max: 10000</param>
+    /// <param name="Name">The name of the view. Must begin with the "view." prefix. View names must be unique within the account and region. Constraints: • min: 6 • max: 256 • pattern: view\.[a-z0-9][a-z0-9_-]{0,250}</param>
+    /// <param name="Definition">The SQL query that defines the view. Constraints: • min: 1 • max: 10000</param>
     public AwsCloudwatchomniCreateViewOptions(
         string Name,
         string Definition
@@ -62,31 +62,31 @@ public record AwsCloudwatchomniCreateViewOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the view. Must begin with the "view." prefix. View names must be unique within the account and region. Constraints: o min: 6 o max: 256 o pattern: view\.[a-z0-9][a-z0-9_-]{0,250}
+    /// The name of the view. Must begin with the "view." prefix. View names must be unique within the account and region. Constraints: • min: 6 • max: 256 • pattern: view\.[a-z0-9][a-z0-9_-]{0,250}
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The SQL query that defines the view. Constraints: o min: 1 o max: 10000
+    /// The SQL query that defines the view. Constraints: • min: 1 • max: 10000
     /// </summary>
     [CliOption("--definition")]
     public string? Definition { get; private init; }
 
     /// <summary>
-    /// A description of the view. Constraints: o min: 0 o max: 1024
+    /// A description of the view. Constraints: • min: 0 • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Resource tags. Constraints: o min: 0 o max: 50 key -&gt; (string) Tag key. Must be non-empty; AWS-standard maximum length. Con- straining the key (rather than a bare String) rejects empty-key payloads at the edge with a 400 ValidationException instead of faulting downstream as a 500. Constraints: o min: 1 o max: 128 value -&gt; (string) Tag value. AWS-standard maximum length; may be empty. Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Resource tags. Constraints: • min: 0 • max: 50 key -&gt; (string) Tag key. Must be non-empty; AWS-standard maximum length. Constraining the key (rather than a bare String) rejects empty-key payloads at the edge with a 400 ValidationException instead of faulting downstream as a 500. Constraints: • min: 1 • max: 128 value -&gt; (string) Tag value. AWS-standard maximum length; may be empty. Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// Idempotency token for safe retries. Retrying with the same token re- turns the original view instead of creating a duplicate. Constraints: o min: 1 o max: 64 o pattern: [!-~]+
+    /// Idempotency token for safe retries. Retrying with the same token returns the original view instead of creating a duplicate. Constraints: • min: 1 • max: 64 • pattern: [!-~]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -113,6 +113,15 @@ public record AwsCloudwatchomniCreateViewOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

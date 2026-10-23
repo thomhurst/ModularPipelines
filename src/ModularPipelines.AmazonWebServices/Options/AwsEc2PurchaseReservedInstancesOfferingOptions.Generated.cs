@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Purchases a Reserved Instance for use with your account. With Reserved Instances, you pay a lower hourly rate compared to On-Demand instance pricing. Use DescribeReservedInstancesOfferings to get a list of Reserved In- stance offerings that match your specifications. After you've purchased a Reserved Instance, you can check for your new Reserved Instance with DescribeReservedInstances . To queue a purchase for a future date and time, specify a purchase time. If you do not specify a purchase time...
+/// Purchases a Reserved Instance for use with your account. With Reserved Instances, you pay a lower hourly rate compared to On-Demand instance pricing. Use DescribeReservedInstancesOfferings to get a list of Reserved Instance offerings that match your specifications. After you've purchased a Reserved Instance, you can check for your new Reserved Instance with DescribeReservedInstances . To queue a purchase for a future date and time, specify a purchase time. If you do not specify a purchase time, ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsEc2PurchaseReservedInstancesOfferingOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Purchases a Reserved Instance for use with your account. With Reserved Instances, you pay a lower hourly rate compared to On-Demand instance pricing. Use DescribeReservedInstancesOfferings to get a list of Reserved In- stance offerings that match your specifications. After you've purchased a Reserved Instance, you can check for your new Reserved Instance with DescribeReservedInstances . To queue a purchase for a future date and time, specify a purchase time. If you do not specify a purchase time...
+    /// Purchases a Reserved Instance for use with your account. With Reserved Instances, you pay a lower hourly rate compared to On-Demand instance pricing. Use DescribeReservedInstancesOfferings to get a list of Reserved Instance offerings that match your specifications. After you've purchased a Reserved Instance, you can check for your new Reserved Instance with DescribeReservedInstances . To queue a purchase for a future date and time, specify a purchase time. If you do not specify a purchase time, ...
     /// </summary>
     /// <param name="InstanceCount">The number of Reserved Instances to purchase.</param>
     /// <param name="ReservedInstancesOfferingId">The ID of the Reserved Instance offering to purchase.</param>
@@ -77,13 +78,13 @@ public record AwsEc2PurchaseReservedInstancesOfferingOptions : AwsOptions, IVali
     public string? PurchaseTime { get; set; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// Specified for Reserved Instance Marketplace offerings to limit the total order and ensure that the Reserved Instances are not purchased at unexpected prices. Amount -&gt; (double) Used for Reserved Instance Marketplace offerings. Specifies the limit price on the total order (instanceCount * price). CurrencyCode -&gt; (string) The currency in which the limitPrice amount is specified. At this time, the only supported currency is USD . Possible values: o USD Shorthand Syntax: Amount=double,CurrencyCode=string JSON Syntax: { "Amount": double, "CurrencyCode": "USD" }
+    /// Specified for Reserved Instance Marketplace offerings to limit the total order and ensure that the Reserved Instances are not purchased at unexpected prices. Amount -&gt; (double) Used for Reserved Instance Marketplace offerings. Specifies the limit price on the total order (instanceCount * price). CurrencyCode -&gt; (string) The currency in which the limitPrice amount is specified. At this time, the only supported currency is USD . Possible values: • USD Shorthand Syntax: Amount=double,CurrencyCode=string JSON Syntax: { "Amount": double, "CurrencyCode": "USD" }
     /// </summary>
     [CliOption("--limit-price")]
     public string? LimitPrice { get; set; }
@@ -109,6 +110,15 @@ public record AwsEc2PurchaseReservedInstancesOfferingOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -72,7 +73,7 @@ public record AwsKafkaUpdateReplicationInfoOptions : AwsOptions, IValidatableObj
     public string? ReplicatorArn { get; private init; }
 
     /// <summary>
-    /// Updated consumer group replication information. ConsumerGroupsToExclude -&gt; (list) [required] List of regular expression patterns indicating the consumer groups that should not be replicated. (string) Constraints: o max: 256 ConsumerGroupsToReplicate -&gt; (list) [required] List of regular expression patterns indicating the consumer groups to copy. (string) Constraints: o max: 256 DetectAndCopyNewConsumerGroups -&gt; (boolean) [required] Enables synchronization of consumer groups to target cluster. SynchroniseConsumerGroupOffsets -&gt; (boolean) [required] Enables synchronization of consumer group offsets to target cluster. The translated offsets will be written to topic __con- sumer_offsets. Shorthand Syntax: ConsumerGroupsToExclude=string,string,ConsumerGroupsToReplicate=string,string,DetectAndCopyNewConsumerGroups=boolean,SynchroniseConsumerGroupOffsets=boolean JSON Syntax: { "ConsumerGroupsToExclude": ["string", ...], "ConsumerGroupsToReplicate": ["string", ...], "DetectAndCopyNewConsumerGroups": true|false, "SynchroniseConsumerGroupOffsets": true|false }
+    /// Updated consumer group replication information. ConsumerGroupsToExclude -&gt; (list) [required] List of regular expression patterns indicating the consumer groups that should not be replicated. (string) Constraints: • max: 256 ConsumerGroupsToReplicate -&gt; (list) [required] List of regular expression patterns indicating the consumer groups to copy. (string) Constraints: • max: 256 DetectAndCopyNewConsumerGroups -&gt; (boolean) [required] Enables synchronization of consumer groups to target cluster. SynchroniseConsumerGroupOffsets -&gt; (boolean) [required] Enables synchronization of consumer group offsets to target cluster. The translated offsets will be written to topic __consumer_offsets. Shorthand Syntax: ConsumerGroupsToExclude=string,string,ConsumerGroupsToReplicate=string,string,DetectAndCopyNewConsumerGroups=boolean,SynchroniseConsumerGroupOffsets=boolean JSON Syntax: { "ConsumerGroupsToExclude": ["string", ...], "ConsumerGroupsToReplicate": ["string", ...], "DetectAndCopyNewConsumerGroups": true|false, "SynchroniseConsumerGroupOffsets": true|false }
     /// </summary>
     [CliOption("--consumer-group-replication")]
     public string? ConsumerGroupReplication { get; set; }
@@ -102,13 +103,13 @@ public record AwsKafkaUpdateReplicationInfoOptions : AwsOptions, IValidatableObj
     public string? TargetKafkaClusterId { get; set; }
 
     /// <summary>
-    /// Updated topic replication information. CopyAccessControlListsForTopics -&gt; (boolean) [required] Whether to periodically configure remote topic ACLs to match their corresponding upstream topics. CopyTopicConfigurations -&gt; (boolean) [required] Whether to periodically configure remote topics to match their corresponding upstream topics. DetectAndCopyNewTopics -&gt; (boolean) [required] Whether to periodically check for new topics and partitions. TopicsToExclude -&gt; (list) [required] List of regular expression patterns indicating the topics that should not be replicated. (string) Constraints: o max: 249 TopicsToReplicate -&gt; (list) [required] List of regular expression patterns indicating the topics to copy. (string) Constraints: o max: 249 Shorthand Syntax: CopyAccessControlListsForTopics=boolean,CopyTopicConfigurations=boolean,DetectAndCopyNewTopics=boolean,TopicsToExclude=string,string,TopicsToReplicate=string,string JSON Syntax: { "CopyAccessControlListsForTopics": true|false, "CopyTopicConfigurations": true|false, "DetectAndCopyNewTopics": true|false, "TopicsToExclude": ["string", ...], "TopicsToReplicate": ["string", ...] }
+    /// Updated topic replication information. CopyAccessControlListsForTopics -&gt; (boolean) [required] Whether to periodically configure remote topic ACLs to match their corresponding upstream topics. CopyTopicConfigurations -&gt; (boolean) [required] Whether to periodically configure remote topics to match their corresponding upstream topics. DetectAndCopyNewTopics -&gt; (boolean) [required] Whether to periodically check for new topics and partitions. TopicsToExclude -&gt; (list) [required] List of regular expression patterns indicating the topics that should not be replicated. (string) Constraints: • max: 249 TopicsToReplicate -&gt; (list) [required] List of regular expression patterns indicating the topics to copy. (string) Constraints: • max: 249 Shorthand Syntax: CopyAccessControlListsForTopics=boolean,CopyTopicConfigurations=boolean,DetectAndCopyNewTopics=boolean,TopicsToExclude=string,string,TopicsToReplicate=string,string JSON Syntax: { "CopyAccessControlListsForTopics": true|false, "CopyTopicConfigurations": true|false, "DetectAndCopyNewTopics": true|false, "TopicsToExclude": ["string", ...], "TopicsToReplicate": ["string", ...] }
     /// </summary>
     [CliOption("--topic-replication")]
     public string? TopicReplication { get; set; }
 
     /// <summary>
-    /// Configuration for delivering replicator logs to customer destina- tions. ReplicatorLogDelivery -&gt; (structure) Configuration for replicator log delivery. CloudWatchLogs -&gt; (structure) Configuration for CloudWatch Logs delivery. Enabled -&gt; (boolean) [required] Whether log delivery to CloudWatch Logs is enabled. LogGroup -&gt; (string) The CloudWatch log group that is the destination for log delivery. Firehose -&gt; (structure) Configuration for Firehose delivery. Enabled -&gt; (boolean) [required] Whether log delivery to Firehose is enabled. DeliveryStream -&gt; (string) The Firehose delivery stream that is the destination for log delivery. S3 -&gt; (structure) Configuration for S3 delivery. Enabled -&gt; (boolean) [required] Whether log delivery to S3 is enabled. Bucket -&gt; (string) The S3 bucket that is the destination for log delivery. Prefix -&gt; (string) The S3 prefix that is the destination for log delivery. Shorthand Syntax: ReplicatorLogDelivery={CloudWatchLogs={Enabled=boolean,LogGroup=string},Firehose={Enabled=boolean,DeliveryStream=string},S3={Enabled=boolean,Bucket=string,Prefix=string}} JSON Syntax: { "ReplicatorLogDelivery": { "CloudWatchLogs": { "Enabled": true|false, "LogGroup": "string" }, "Firehose": { "Enabled": true|false, "DeliveryStream": "string" }, "S3": { "Enabled": true|false, "Bucket": "string", "Prefix": "string" } } }
+    /// Configuration for delivering replicator logs to customer destinations. ReplicatorLogDelivery -&gt; (structure) Configuration for replicator log delivery. CloudWatchLogs -&gt; (structure) Configuration for CloudWatch Logs delivery. Enabled -&gt; (boolean) [required] Whether log delivery to CloudWatch Logs is enabled. LogGroup -&gt; (string) The CloudWatch log group that is the destination for log delivery. Firehose -&gt; (structure) Configuration for Firehose delivery. Enabled -&gt; (boolean) [required] Whether log delivery to Firehose is enabled. DeliveryStream -&gt; (string) The Firehose delivery stream that is the destination for log delivery. S3 -&gt; (structure) Configuration for S3 delivery. Enabled -&gt; (boolean) [required] Whether log delivery to S3 is enabled. Bucket -&gt; (string) The S3 bucket that is the destination for log delivery. Prefix -&gt; (string) The S3 prefix that is the destination for log delivery. Shorthand Syntax: ReplicatorLogDelivery={CloudWatchLogs={Enabled=boolean,LogGroup=string},Firehose={Enabled=boolean,DeliveryStream=string},S3={Enabled=boolean,Bucket=string,Prefix=string}} JSON Syntax: { "ReplicatorLogDelivery": { "CloudWatchLogs": { "Enabled": true|false, "LogGroup": "string" }, "Firehose": { "Enabled": true|false, "DeliveryStream": "string" }, "S3": { "Enabled": true|false, "Bucket": "string", "Prefix": "string" } } }
     /// </summary>
     [CliOption("--log-delivery")]
     public string? LogDelivery { get; set; }
@@ -134,6 +135,15 @@ public record AwsKafkaUpdateReplicationInfoOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

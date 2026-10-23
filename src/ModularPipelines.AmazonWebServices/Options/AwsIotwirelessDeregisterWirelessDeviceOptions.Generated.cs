@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsIotwirelessDeregisterWirelessDeviceOptions : AwsOptions, IValid
     /// <summary>
     /// Deregister a wireless device from AWS IoT Wireless. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identifier">The identifier of the wireless device to deregister from AWS IoT Wireless. Constraints: o max: 256</param>
+    /// <param name="Identifier">The identifier of the wireless device to deregister from AWS IoT Wireless. Constraints: • max: 256</param>
     public AwsIotwirelessDeregisterWirelessDeviceOptions(
         string Identifier
     )
@@ -57,13 +58,13 @@ public record AwsIotwirelessDeregisterWirelessDeviceOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the wireless device to deregister from AWS IoT Wireless. Constraints: o max: 256
+    /// The identifier of the wireless device to deregister from AWS IoT Wireless. Constraints: • max: 256
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// The type of wireless device to deregister from AWS IoT Wireless, which can be LoRaWAN or Sidewalk . Possible values: o Sidewalk o LoRaWAN
+    /// The type of wireless device to deregister from AWS IoT Wireless, which can be LoRaWAN or Sidewalk . Possible values: • Sidewalk • LoRaWAN
     /// </summary>
     [CliOption("--wireless-device-type")]
     public AwsIotwirelessDeregisterWirelessDeviceWirelessDeviceType? WirelessDeviceType { get; set; }
@@ -89,6 +90,15 @@ public record AwsIotwirelessDeregisterWirelessDeviceOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

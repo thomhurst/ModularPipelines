@@ -11,14 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an Amazon EKS add-on. Amazon EKS add-ons help to automate the provisioning and lifecycle man- agement of common operational software for Amazon EKS clusters. For more information, see Amazon EKS add-ons in the Amazon EKS User Guide . See also: AWS API Documentation
+/// Creates an Amazon EKS add-on. Amazon EKS add-ons help to automate the provisioning and lifecycle management of common operational software for Amazon EKS clusters. For more information, see Amazon EKS add-ons in the Amazon EKS User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -28,10 +28,10 @@ public record AwsEksCreateAddonOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an Amazon EKS add-on. Amazon EKS add-ons help to automate the provisioning and lifecycle man- agement of common operational software for Amazon EKS clusters. For more information, see Amazon EKS add-ons in the Amazon EKS User Guide . See also: AWS API Documentation
+    /// Creates an Amazon EKS add-on. Amazon EKS add-ons help to automate the provisioning and lifecycle management of common operational software for Amazon EKS clusters. For more information, see Amazon EKS add-ons in the Amazon EKS User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClusterName">The name of your cluster. Constraints: o min: 1 o max: 100 o pattern: ^[0-9A-Za-z][A-Za-z0-9\-_]*</param>
-    /// <param name="AddonName">The name of the add-on. The name must match one of the names re- turned by DescribeAddonVersions .</param>
+    /// <param name="ClusterName">The name of your cluster. Constraints: • min: 1 • max: 100 • pattern: ^[0-9A-Za-z][A-Za-z0-9\-_]*</param>
+    /// <param name="AddonName">The name of the add-on. The name must match one of the names returned by DescribeAddonVersions .</param>
     public AwsEksCreateAddonOptions(
         string ClusterName,
         string AddonName
@@ -63,31 +63,31 @@ public record AwsEksCreateAddonOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of your cluster. Constraints: o min: 1 o max: 100 o pattern: ^[0-9A-Za-z][A-Za-z0-9\-_]*
+    /// The name of your cluster. Constraints: • min: 1 • max: 100 • pattern: ^[0-9A-Za-z][A-Za-z0-9\-_]*
     /// </summary>
     [CliOption("--cluster-name")]
     public string? ClusterName { get; private init; }
 
     /// <summary>
-    /// The name of the add-on. The name must match one of the names re- turned by DescribeAddonVersions .
+    /// The name of the add-on. The name must match one of the names returned by DescribeAddonVersions .
     /// </summary>
     [CliOption("--addon-name")]
     public string? AddonName { get; private init; }
 
     /// <summary>
-    /// The version of the add-on. The version must match one of the ver- sions returned by ` DescribeAddonVersions https://docs.aws.amazon.com/eks/latest/APIReference/API_DescribeAddonVersions.html`__ .
+    /// The version of the add-on. The version must match one of the versions returned by ` DescribeAddonVersions https://docs.aws.amazon.com/eks/latest/APIReference/API_DescribeAddonVersions.html`__ .
     /// </summary>
     [CliOption("--addon-version")]
     public string? AddonVersion { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of an existing IAM role to bind to the add-on's service account. The role must be assigned the IAM per- missions required by the add-on. If you don't specify an existing IAM role, then the add-on uses the permissions assigned to the node IAM role. For more information, see Amazon EKS node IAM role in the Amazon EKS User Guide . NOTE: To specify an existing IAM role, you must have an IAM OpenID Connect (OIDC) provider created for your cluster. For more in- formation, see Enabling IAM roles for service accounts on your cluster in the Amazon EKS User Guide . Constraints: o min: 1 o max: 255
+    /// The Amazon Resource Name (ARN) of an existing IAM role to bind to the add-on's service account. The role must be assigned the IAM permissions required by the add-on. If you don't specify an existing IAM role, then the add-on uses the permissions assigned to the node IAM role. For more information, see Amazon EKS node IAM role in the Amazon EKS User Guide . NOTE: To specify an existing IAM role, you must have an IAM OpenID Connect (OIDC) provider created for your cluster. For more information, see Enabling IAM roles for service accounts on your cluster in the Amazon EKS User Guide . Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--service-account-role-arn")]
     public string? ServiceAccountRoleArn { get; set; }
 
     /// <summary>
-    /// How to resolve field value conflicts for an Amazon EKS add-on. Con- flicts are handled based on the value you choose: o None If the self-managed version of the add-on is installed on your cluster, Amazon EKS doesn't change the value. Creation of the add-on might fail. o Overwrite If the self-managed version of the add-on is installed on your cluster and the Amazon EKS default value is different than the existing value, Amazon EKS changes the value to the Amazon EKS default value. o Preserve This is similar to the NONE option. If the self-managed version of the add-on is installed on your cluster Amazon EKS doesn't change the add-on resource properties. Creation of the add-on might fail if conflicts are detected. This option works differently during the update operation. For more information, see ` UpdateAddon https://docs.aws.amazon.com/eks/latest/APIReference/API_UpdateAddon.html`__ . If you don't currently have the self-managed version of the add-on installed on your cluster, the Amazon EKS add-on is installed. Ama- zon EKS sets all values to default values, regardless of the option that you specify. Possible values: o OVERWRITE o NONE o PRESERVE
+    /// How to resolve field value conflicts for an Amazon EKS add-on. Conflicts are handled based on the value you choose: • None If the self-managed version of the add-on is installed on your cluster, Amazon EKS doesn't change the value. Creation of the add-on might fail. • Overwrite If the self-managed version of the add-on is installed on your cluster and the Amazon EKS default value is different than the existing value, Amazon EKS changes the value to the Amazon EKS default value. • Preserve This is similar to the NONE option. If the self-managed version of the add-on is installed on your cluster Amazon EKS doesn't change the add-on resource properties. Creation of the add-on might fail if conflicts are detected. This option works differently during the update operation. For more information, see ` UpdateAddon https://docs.aws.amazon.com/eks/latest/APIReference/API_UpdateAddon.html`__ . If you don't currently have the self-managed version of the add-on installed on your cluster, the Amazon EKS add-on is installed. Amazon EKS sets all values to default values, regardless of the option that you specify. Possible values: • OVERWRITE • NONE • PRESERVE
     /// </summary>
     [CliOption("--resolve-conflicts")]
     public AwsEksCreateAddonResolveConflicts? ResolveConflicts { get; set; }
@@ -100,7 +100,7 @@ public record AwsEksCreateAddonOptions : AwsOptions, IValidatableObject
     public string? ClientRequestToken { get; set; }
 
     /// <summary>
-    /// Metadata that assists with categorization and organization. Each tag consists of a key and an optional value. You define both. Tags don't propagate to any other cluster or Amazon Web Services resources. Constraints: o min: 1 o max: 50 key -&gt; (string) One part of a key-value pair that make up a tag. A key is a gen- eral label that acts like a category for more specific tag val- ues. Constraints: o min: 1 o max: 128 value -&gt; (string) The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key). Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Metadata that assists with categorization and organization. Each tag consists of a key and an optional value. You define both. Tags don't propagate to any other cluster or Amazon Web Services resources. Constraints: • min: 1 • max: 50 key -&gt; (string) One part of a key-value pair that make up a tag. A key is a general label that acts like a category for more specific tag values. Constraints: • min: 1 • max: 128 value -&gt; (string) The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key). Constraints: • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -112,13 +112,13 @@ public record AwsEksCreateAddonOptions : AwsOptions, IValidatableObject
     public string? ConfigurationValues { get; set; }
 
     /// <summary>
-    /// An array of EKS Pod Identity associations to be created. Each asso- ciation maps a Kubernetes service account to an IAM role. For more information, see Attach an IAM Role to an Amazon EKS add-on using EKS Pod Identity in the Amazon EKS User Guide . (structure) A type of EKS Pod Identity association owned by an Amazon EKS add-on. Each association maps a role to a service account in a namespace in the cluster. For more information, see Attach an IAM Role to an Amazon EKS add-on using EKS Pod Identity in the Amazon EKS User Guide . serviceAccount -&gt; (string) [required] The name of a Kubernetes Service Account. roleArn -&gt; (string) [required] The ARN of an IAM Role. Shorthand Syntax: serviceAccount=string,roleArn=string ... JSON Syntax: [ { "serviceAccount": "string", "roleArn": "string" } ... ]
+    /// An array of EKS Pod Identity associations to be created. Each association maps a Kubernetes service account to an IAM role. For more information, see Attach an IAM Role to an Amazon EKS add-on using EKS Pod Identity in the Amazon EKS User Guide . (structure) A type of EKS Pod Identity association owned by an Amazon EKS add-on. Each association maps a role to a service account in a namespace in the cluster. For more information, see Attach an IAM Role to an Amazon EKS add-on using EKS Pod Identity in the Amazon EKS User Guide . serviceAccount -&gt; (string) [required] The name of a Kubernetes Service Account. roleArn -&gt; (string) [required] The ARN of an IAM Role. Shorthand Syntax: serviceAccount=string,roleArn=string ... JSON Syntax: [ { "serviceAccount": "string", "roleArn": "string" } ... ]
     /// </summary>
     [CliOption("--pod-identity-associations", GroupValues = true)]
     public IEnumerable<string>? PodIdentityAssociations { get; set; }
 
     /// <summary>
-    /// The namespace configuration for the addon. If specified, this will override the default namespace for the addon. namespace -&gt; (string) The name of the Kubernetes namespace to install the addon in. Must be a valid RFC 1123 DNS label. Constraints: o min: 1 o max: 63 Shorthand Syntax: namespace=string JSON Syntax: { "namespace": "string" }
+    /// The namespace configuration for the addon. If specified, this will override the default namespace for the addon. namespace -&gt; (string) The name of the Kubernetes namespace to install the addon in. Must be a valid RFC 1123 DNS label. Constraints: • min: 1 • max: 63 Shorthand Syntax: namespace=string JSON Syntax: { "namespace": "string" }
     /// </summary>
     [CliOption("--namespace-config")]
     public string? NamespaceConfig { get; set; }
@@ -144,6 +144,15 @@ public record AwsEksCreateAddonOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

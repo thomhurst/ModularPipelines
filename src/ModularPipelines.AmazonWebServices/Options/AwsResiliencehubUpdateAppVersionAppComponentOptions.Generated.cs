@@ -10,13 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates an existing Application Component in the Resilience Hub appli- cation. NOTE: This API updates the Resilience Hub application draft version. To use this Application Component for running assessments, you must publish the Resilience Hub application using the PublishAppVersion API. See also: AWS API Documentation
+/// Updates an existing Application Component in the Resilience Hub application. NOTE: This API updates the Resilience Hub application draft version. To use this Application Component for running assessments, you must publish the Resilience Hub application using the PublishAppVersion API. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +26,10 @@ public record AwsResiliencehubUpdateAppVersionAppComponentOptions : AwsOptions, 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates an existing Application Component in the Resilience Hub appli- cation. NOTE: This API updates the Resilience Hub application draft version. To use this Application Component for running assessments, you must publish the Resilience Hub application using the PublishAppVersion API. See also: AWS API Documentation
+    /// Updates an existing Application Component in the Resilience Hub application. NOTE: This API updates the Resilience Hub application draft version. To use this Application Component for running assessments, you must publish the Resilience Hub application using the PublishAppVersion API. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AppArn">Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition :resiliencehub:region :account :app/app-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: o pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$</param>
-    /// <param name="Id">Identifier of the Application Component. Constraints: o min: 1 o max: 255</param>
+    /// <param name="AppArn">Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition :resiliencehub:region :account :app/app-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: • pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$</param>
+    /// <param name="Id">Identifier of the Application Component. Constraints: • min: 1 • max: 255</param>
     public AwsResiliencehubUpdateAppVersionAppComponentOptions(
         string AppArn,
         string Id
@@ -61,31 +61,31 @@ public record AwsResiliencehubUpdateAppVersionAppComponentOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition :resiliencehub:region :account :app/app-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: o pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition :resiliencehub:region :account :app/app-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: • pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$
     /// </summary>
     [CliOption("--app-arn")]
     public string? AppArn { get; private init; }
 
     /// <summary>
-    /// Identifier of the Application Component. Constraints: o min: 1 o max: 255
+    /// Identifier of the Application Component. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// Currently, there is no supported additional information for Applica- tion Components. key -&gt; (string) Constraints: o pattern: ^\S{1,128}$ value -&gt; (list) Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 1024 Shorthand Syntax: KeyName1=string,string,KeyName2=string,string JSON Syntax: {"string": ["string", ...] ...}
+    /// Currently, there is no supported additional information for Application Components. key -&gt; (string) Constraints: • pattern: ^\S{1,128}$ value -&gt; (list) Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 1024 Shorthand Syntax: KeyName1=string,string,KeyName2=string,string JSON Syntax: {"string": ["string", ...] ...}
     /// </summary>
     [CliOption("--additional-info", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? AdditionalInfo { get; set; }
 
     /// <summary>
-    /// Name of the Application Component. Constraints: o min: 1 o max: 255
+    /// Name of the Application Component. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// Type of Application Component. For more information about the types of Application Component, see Grouping resources in an AppComponent . Constraints: o min: 1 o max: 255
+    /// Type of Application Component. For more information about the types of Application Component, see Grouping resources in an AppComponent . Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--type")]
     public string? Type { get; set; }
@@ -111,6 +111,15 @@ public record AwsResiliencehubUpdateAppVersionAppComponentOptions : AwsOptions, 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

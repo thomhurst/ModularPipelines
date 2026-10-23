@@ -10,13 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Sets account-level properties for the caller's Amazon Web Services ac- count. Account properties are configuration settings that control ac- count-wide IAM features such as Role Manager. Specify properties as key-value pairs in Namespace/PropertyName format. All properties in a single request must belong to the same namespace. Use GetAccountProperties to view the current properties. See also: AWS API Documentation
+/// Sets account-level properties for the caller's Amazon Web Services account. Account properties are configuration settings that control account-wide IAM features such as Role Manager. Specify properties as key-value pairs in Namespace/PropertyName format. All properties in a single request must belong to the same namespace. Use GetAccountProperties to view the current properties. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +26,9 @@ public record AwsIamPutAccountPropertiesOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Sets account-level properties for the caller's Amazon Web Services ac- count. Account properties are configuration settings that control ac- count-wide IAM features such as Role Manager. Specify properties as key-value pairs in Namespace/PropertyName format. All properties in a single request must belong to the same namespace. Use GetAccountProperties to view the current properties. See also: AWS API Documentation
+    /// Sets account-level properties for the caller's Amazon Web Services account. Account properties are configuration settings that control account-wide IAM features such as Role Manager. Specify properties as key-value pairs in Namespace/PropertyName format. All properties in a single request must belong to the same namespace. Use GetAccountProperties to view the current properties. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Properties">A map of property key-value pairs to set. All keys must belong to the same namespace. Each key uses the format Namespace/PropertyName . The key must con- tain exactly one / separating the namespace from the property name, and cannot start or end with / . The service validates each value based on the property key's ex- pected type. For example, boolean properties expect true or false . key -&gt; (string) Constraints: o min: 1 o max: 50 o pattern: ^[A-Za-z][A-Za-z0-9/_-]*$ value -&gt; (string) String representation of the property value. The service will validate and coerce the value based on the property key's ex- pected type. For example, integer properties expect numeric strings, and boolean properties expect "true" or "false". Constraints: o min: 1 o max: 1024 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    /// <param name="Properties">A map of property key-value pairs to set. All keys must belong to the same namespace. Each key uses the format Namespace/PropertyName . The key must contain exactly one / separating the namespace from the property name, and cannot start or end with / . The service validates each value based on the property key's expected type. For example, boolean properties expect true or false . key -&gt; (string) Constraints: • min: 1 • max: 50 • pattern: ^[A-Za-z][A-Za-z0-9/_-]*$ value -&gt; (string) String representation of the property value. The service will validate and coerce the value based on the property key's expected type. For example, integer properties expect numeric strings, and boolean properties expect "true" or "false". Constraints: • min: 1 • max: 1024 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
     public AwsIamPutAccountPropertiesOptions(
         IReadOnlyList<KeyValue> Properties
     )
@@ -68,7 +68,7 @@ public record AwsIamPutAccountPropertiesOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A map of property key-value pairs to set. All keys must belong to the same namespace. Each key uses the format Namespace/PropertyName . The key must con- tain exactly one / separating the namespace from the property name, and cannot start or end with / . The service validates each value based on the property key's ex- pected type. For example, boolean properties expect true or false . key -&gt; (string) Constraints: o min: 1 o max: 50 o pattern: ^[A-Za-z][A-Za-z0-9/_-]*$ value -&gt; (string) String representation of the property value. The service will validate and coerce the value based on the property key's ex- pected type. For example, integer properties expect numeric strings, and boolean properties expect "true" or "false". Constraints: o min: 1 o max: 1024 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A map of property key-value pairs to set. All keys must belong to the same namespace. Each key uses the format Namespace/PropertyName . The key must contain exactly one / separating the namespace from the property name, and cannot start or end with / . The service validates each value based on the property key's expected type. For example, boolean properties expect true or false . key -&gt; (string) Constraints: • min: 1 • max: 50 • pattern: ^[A-Za-z][A-Za-z0-9/_-]*$ value -&gt; (string) String representation of the property value. The service will validate and coerce the value based on the property key's expected type. For example, integer properties expect numeric strings, and boolean properties expect "true" or "false". Constraints: • min: 1 • max: 1024 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--properties", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Properties { get; private init; }
@@ -94,6 +94,15 @@ public record AwsIamPutAccountPropertiesOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

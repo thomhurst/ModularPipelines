@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves a paginated list of users in a specified Wickr network. You can filter and sort the results based on various criteria such as name, status, or security group membership. See also: AWS API Documentation list-users is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument...
+/// Retrieves a paginated list of users in a specified Wickr network. You can filter and sort the results based on various criteria such as name, status, or security group membership. See also: AWS API Documentation list-users is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument m...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +28,9 @@ public record AwsWickrListUsersOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves a paginated list of users in a specified Wickr network. You can filter and sort the results based on various criteria such as name, status, or security group membership. See also: AWS API Documentation list-users is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument...
+    /// Retrieves a paginated list of users in a specified Wickr network. You can filter and sort the results based on various criteria such as name, status, or security group membership. See also: AWS API Documentation list-users is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument m...
     /// </summary>
-    /// <param name="NetworkId">The ID of the Wickr network from which to list users. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}</param>
+    /// <param name="NetworkId">The ID of the Wickr network from which to list users. Constraints: • min: 8 • max: 8 • pattern: [0-9]{8}</param>
     public AwsWickrListUsersOptions(
         string NetworkId
     )
@@ -58,58 +59,55 @@ public record AwsWickrListUsersOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Wickr network from which to list users. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}
+    /// The ID of the Wickr network from which to list users. Constraints: • min: 8 • max: 8 • pattern: [0-9]{8}
     /// </summary>
     [CliOption("--network-id")]
     public string? NetworkId { get; private init; }
 
     /// <summary>
-    /// The fields to sort users by. Multiple fields can be specified by separating them with '+'. Accepted values include 'username', 'firstName', 'lastName', 'status', and 'groupId'. Constraints: o pattern: [\S\s]*
+    /// The fields to sort users by. Multiple fields can be specified by separating them with '+'. Accepted values include 'username', 'firstName', 'lastName', 'status', and 'groupId'. Constraints: • pattern: [\S\s]*
     /// </summary>
     [CliOption("--sort-fields")]
     public string? SortFields { get; set; }
 
     /// <summary>
-    /// The direction to sort results. Valid values are 'ASC' (ascending) or 'DESC' (descending). Default is 'DESC'. Possible values: o ASC o DESC
+    /// The direction to sort results. Valid values are 'ASC' (ascending) or 'DESC' (descending). Default is 'DESC'. Possible values: • ASC • DESC
     /// </summary>
     [CliOption("--sort-direction")]
     public AwsWickrListUsersSortDirection? SortDirection { get; set; }
 
     /// <summary>
-    /// Filter results to only include users with first names matching this value. Constraints: o pattern: [\S\s]*
+    /// Filter results to only include users with first names matching this value. Constraints: • pattern: [\S\s]*
     /// </summary>
     [CliOption("--first-name")]
     public string? FirstName { get; set; }
 
     /// <summary>
-    /// Filter results to only include users with last names matching this value. Constraints: o pattern: [\S\s]*
+    /// Filter results to only include users with last names matching this value. Constraints: • pattern: [\S\s]*
     /// </summary>
     [CliOption("--last-name")]
     public string? LastName { get; set; }
 
     /// <summary>
-    /// Filter results to only include users with usernames matching this value. Constraints: o pattern: [\S\s]*
+    /// Filter results to only include users with usernames matching this value. Constraints: • pattern: [\S\s]*
     /// </summary>
     [CliOption("--username")]
     public string? Username { get; set; }
 
     /// <summary>
-    /// Filter results to only include users with this status (1 for pend- ing, 2 for active).
+    /// Filter results to only include users with this status (1 for pending, 2 for active).
     /// </summary>
     [CliOption("--status")]
     public int? Status { get; set; }
 
     /// <summary>
-    /// Filter results to only include users belonging to this security group. Constraints: o pattern: [\S\s]*
+    /// Filter results to only include users belonging to this security group. Constraints: • pattern: [\S\s]*
     /// </summary>
     [CliOption("--group-id")]
     public string? GroupId { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -119,16 +117,19 @@ public record AwsWickrListUsersOptions : AwsOptions, IValidatableObject
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -145,6 +146,15 @@ public record AwsWickrListUsersOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

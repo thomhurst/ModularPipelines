@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -72,7 +73,7 @@ public record AwsApigatewayv2UpdateProductPageOptions : AwsOptions, IValidatable
     public string? ProductPageId { get; private init; }
 
     /// <summary>
-    /// The content of the product page. Body -&gt; (string) [required] The body. Constraints: o min: 1 o max: 32768 Title -&gt; (string) [required] The title. Constraints: o min: 1 o max: 255 Shorthand Syntax: Body=string,Title=string JSON Syntax: { "Body": "string", "Title": "string" }
+    /// The content of the product page. Body -&gt; (string) [required] The body. Constraints: • min: 1 • max: 32768 Title -&gt; (string) [required] The title. Constraints: • min: 1 • max: 255 Shorthand Syntax: Body=string,Title=string JSON Syntax: { "Body": "string", "Title": "string" }
     /// </summary>
     [CliOption("--display-content")]
     public string? DisplayContent { get; set; }
@@ -98,6 +99,15 @@ public record AwsApigatewayv2UpdateProductPageOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

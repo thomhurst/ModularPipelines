@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -24,7 +24,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsMgnCreateLaunchConfigurationTemplateOptions : AwsOptions
 {
     /// <summary>
-    /// Launch configuration template post launch actions. deployment -&gt; (string) Deployment type in which AWS Systems Manager Documents will be executed. Possible values: o TEST_AND_CUTOVER o CUTOVER_ONLY o TEST_ONLY s3LogBucket -&gt; (string) AWS Systems Manager Command's logs S3 log bucket. Constraints: o min: 3 o max: 63 s3OutputKeyPrefix -&gt; (string) AWS Systems Manager Command's logs S3 output key prefix. Constraints: o min: 0 o max: 256 cloudWatchLogGroupName -&gt; (string) AWS Systems Manager Command's CloudWatch log group name. Constraints: o min: 1 o max: 512 o pattern: [\.\-_/#A-Za-z0-9]+ ssmDocuments -&gt; (list) AWS Systems Manager Documents. Constraints: o min: 0 o max: 10 (structure) AWS Systems Manager Document. actionName -&gt; (string) [required] User-friendly name for the AWS Systems Manager Document. Constraints: o min: 0 o max: 256 ssmDocumentName -&gt; (string) [required] AWS Systems Manager Document name or full ARN. Constraints: o min: 3 o max: 172 o pattern: ([A-Za-z0-9/:_\.-])+ timeoutSeconds -&gt; (integer) AWS Systems Manager Document timeout seconds. Constraints: o min: 1 mustSucceedForCutover -&gt; (boolean) If true, Cutover will not be enabled if the document has failed. parameters -&gt; (map) AWS Systems Manager Document parameters. Constraints: o min: 0 o max: 20 key -&gt; (string) Constraints: o min: 1 o max: 1011 o pattern: ([A-Za-z0-9])+ value -&gt; (list) Constraints: o min: 0 o max: 10 (structure) AWS Systems Manager Parameter Store parameter. parameterType -&gt; (string) [required] AWS Systems Manager Parameter Store parameter type. Possible values: o STRING o SECURE_STRING parameterName -&gt; (string) [required] AWS Systems Manager Parameter Store parameter name. Constraints: o min: 1 o max: 1011 o pattern: ([A-Za-z0-9_\.-])+ externalParameters -&gt; (map) AWS Systems Manager Document external parameters. Constraints: o min: 0 o max: 20 key -&gt; (string) Constraints: o min: 1 o max: 1011 o pattern: ([A-Za-z0-9])+ value -&gt; (tagged union structure) AWS Systems Manager Document external parameter. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: dynamicPath. dynamicPath -&gt; (string) AWS Systems Manager Document external parameters dynamic path. Constraints: o min: 1 o max: 1011 o pattern: [a-zA-Z0-9_]+(\.[a-zA-Z0-9_\[\]]+)* JSON Syntax: { "deployment": "TEST_AND_CUTOVER"|"CUTOVER_ONLY"|"TEST_ONLY", "s3LogBucket": "string", "s3OutputKeyPrefix": "string", "cloudWatchLogGroupName": "string", "ssmDocuments": [ { "actionName": "string", "ssmDocumentName": "string", "timeoutSeconds": integer, "mustSucceedForCutover": true|false, "parameters": {"string": [ { "parameterType": "STRING"|"SECURE_STRING", "parameterName": "string" } ... ] ...}, "externalParameters": {"string": { "dynamicPath": "string" } ...} } ... ] }
+    /// Launch configuration template post launch actions. deployment -&gt; (string) Deployment type in which AWS Systems Manager Documents will be executed. Possible values: • TEST_AND_CUTOVER • CUTOVER_ONLY • TEST_ONLY s3LogBucket -&gt; (string) AWS Systems Manager Command's logs S3 log bucket. Constraints: • min: 3 • max: 63 s3OutputKeyPrefix -&gt; (string) AWS Systems Manager Command's logs S3 output key prefix. Constraints: • min: 0 • max: 256 cloudWatchLogGroupName -&gt; (string) AWS Systems Manager Command's CloudWatch log group name. Constraints: • min: 1 • max: 512 • pattern: [\.\-_/#A-Za-z0-9]+ ssmDocuments -&gt; (list) AWS Systems Manager Documents. Constraints: • min: 0 • max: 10 (structure) AWS Systems Manager Document. actionName -&gt; (string) [required] User-friendly name for the AWS Systems Manager Document. Constraints: • min: 0 • max: 256 ssmDocumentName -&gt; (string) [required] AWS Systems Manager Document name or full ARN. Constraints: • min: 3 • max: 172 • pattern: ([A-Za-z0-9/:_\.-])+ timeoutSeconds -&gt; (integer) AWS Systems Manager Document timeout seconds. Constraints: • min: 1 mustSucceedForCutover -&gt; (boolean) If true, Cutover will not be enabled if the document has failed. parameters -&gt; (map) AWS Systems Manager Document parameters. Constraints: • min: 0 • max: 20 key -&gt; (string) Constraints: • min: 1 • max: 1011 • pattern: ([A-Za-z0-9])+ value -&gt; (list) Constraints: • min: 0 • max: 10 (structure) AWS Systems Manager Parameter Store parameter. parameterType -&gt; (string) [required] AWS Systems Manager Parameter Store parameter type. Possible values: • STRING • SECURE_STRING parameterName -&gt; (string) [required] AWS Systems Manager Parameter Store parameter name. Constraints: • min: 1 • max: 1011 • pattern: ([A-Za-z0-9_\.-])+ externalParameters -&gt; (map) AWS Systems Manager Document external parameters. Constraints: • min: 0 • max: 20 key -&gt; (string) Constraints: • min: 1 • max: 1011 • pattern: ([A-Za-z0-9])+ value -&gt; (tagged union structure) AWS Systems Manager Document external parameter. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: dynamicPath. dynamicPath -&gt; (string) AWS Systems Manager Document external parameters dynamic path. Constraints: • min: 1 • max: 1011 • pattern: [a-zA-Z0-9_]+(\.[a-zA-Z0-9_\[\]]+)* JSON Syntax: { "deployment": "TEST_AND_CUTOVER"|"CUTOVER_ONLY"|"TEST_ONLY", "s3LogBucket": "string", "s3OutputKeyPrefix": "string", "cloudWatchLogGroupName": "string", "ssmDocuments": [ { "actionName": "string", "ssmDocumentName": "string", "timeoutSeconds": integer, "mustSucceedForCutover": true|false, "parameters": {"string": [ { "parameterType": "STRING"|"SECURE_STRING", "parameterName": "string" } ... ] ...}, "externalParameters": {"string": { "dynamicPath": "string" } ...} } ... ] }
     /// </summary>
     [CliOption("--post-launch-actions")]
     public string? PostLaunchActions { get; set; }
@@ -36,25 +36,25 @@ public record AwsMgnCreateLaunchConfigurationTemplateOptions : AwsOptions
     public bool? EnableMapAutoTagging { get; set; }
 
     /// <summary>
-    /// Launch configuration template map auto tagging MPE ID. Constraints: o min: 0 o max: 256
+    /// Launch configuration template map auto tagging MPE ID. Constraints: • min: 0 • max: 256
     /// </summary>
     [CliOption("--map-auto-tagging-mpe-id")]
     public string? MapAutoTaggingMpeId { get; set; }
 
     /// <summary>
-    /// Request to associate tags during creation of a Launch Configuration Template. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 0 o max: 256 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Request to associate tags during creation of a Launch Configuration Template. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 0 • max: 256 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// Launch disposition. Possible values: o STOPPED o STARTED
+    /// Launch disposition. Possible values: • STOPPED • STARTED
     /// </summary>
     [CliOption("--launch-disposition")]
     public AwsMgnCreateLaunchConfigurationTemplateLaunchDisposition? LaunchDisposition { get; set; }
 
     /// <summary>
-    /// Target instance type right-sizing method. Possible values: o NONE o BASIC
+    /// Target instance type right-sizing method. Possible values: • NONE • BASIC
     /// </summary>
     [CliOption("--target-instance-type-right-sizing-method")]
     public AwsMgnCreateLaunchConfigurationTemplateTargetInstanceTypeRightSizingMethod? TargetInstanceTypeRightSizingMethod { get; set; }
@@ -84,25 +84,25 @@ public record AwsMgnCreateLaunchConfigurationTemplateOptions : AwsOptions
     public string? Licensing { get; set; }
 
     /// <summary>
-    /// Launch configuration template boot mode. Possible values: o LEGACY_BIOS o UEFI o USE_SOURCE
+    /// Launch configuration template boot mode. Possible values: • LEGACY_BIOS • UEFI • USE_SOURCE
     /// </summary>
     [CliOption("--boot-mode")]
     public AwsMgnCreateLaunchConfigurationTemplateBootMode? BootMode { get; set; }
 
     /// <summary>
-    /// Small volume maximum size. Constraints: o min: 0
+    /// Small volume maximum size. Constraints: • min: 0
     /// </summary>
     [CliOption("--small-volume-max-size")]
-    public int? SmallVolumeMaxSize { get; set; }
+    public long? SmallVolumeMaxSize { get; set; }
 
     /// <summary>
-    /// Small volume config. volumeType -&gt; (string) Launch template disk volume type configuration. Possible values: o io1 o io2 o gp3 o gp2 o st1 o sc1 o standard iops -&gt; (long) Launch template disk iops configuration. Constraints: o min: 100 o max: 64000 throughput -&gt; (long) Launch template disk throughput configuration. Constraints: o min: 125 o max: 2000 volumeInitializationRate -&gt; (long) Launch template disk volume initialization rate configuration. Constraints: o min: 100 o max: 300 deleteOnTermination -&gt; (boolean) Launch template disk delete on termination configuration. Shorthand Syntax: volumeType=string,iops=long,throughput=long,volumeInitializationRate=long,deleteOnTermination=boolean JSON Syntax: { "volumeType": "io1"|"io2"|"gp3"|"gp2"|"st1"|"sc1"|"standard", "iops": long, "throughput": long, "volumeInitializationRate": long, "deleteOnTermination": true|false }
+    /// Small volume config. volumeType -&gt; (string) Launch template disk volume type configuration. Possible values: • io1 • io2 • gp3 • gp2 • st1 • sc1 • standard iops -&gt; (long) Launch template disk iops configuration. Constraints: • min: 100 • max: 64000 throughput -&gt; (long) Launch template disk throughput configuration. Constraints: • min: 125 • max: 2000 volumeInitializationRate -&gt; (long) Launch template disk volume initialization rate configuration. Constraints: • min: 100 • max: 300 deleteOnTermination -&gt; (boolean) Launch template disk delete on termination configuration. Shorthand Syntax: volumeType=string,iops=long,throughput=long,volumeInitializationRate=long,deleteOnTermination=boolean JSON Syntax: { "volumeType": "io1"|"io2"|"gp3"|"gp2"|"st1"|"sc1"|"standard", "iops": long, "throughput": long, "volumeInitializationRate": long, "deleteOnTermination": true|false }
     /// </summary>
     [CliOption("--small-volume-conf")]
     public string? SmallVolumeConf { get; set; }
 
     /// <summary>
-    /// Large volume config. volumeType -&gt; (string) Launch template disk volume type configuration. Possible values: o io1 o io2 o gp3 o gp2 o st1 o sc1 o standard iops -&gt; (long) Launch template disk iops configuration. Constraints: o min: 100 o max: 64000 throughput -&gt; (long) Launch template disk throughput configuration. Constraints: o min: 125 o max: 2000 volumeInitializationRate -&gt; (long) Launch template disk volume initialization rate configuration. Constraints: o min: 100 o max: 300 deleteOnTermination -&gt; (boolean) Launch template disk delete on termination configuration. Shorthand Syntax: volumeType=string,iops=long,throughput=long,volumeInitializationRate=long,deleteOnTermination=boolean JSON Syntax: { "volumeType": "io1"|"io2"|"gp3"|"gp2"|"st1"|"sc1"|"standard", "iops": long, "throughput": long, "volumeInitializationRate": long, "deleteOnTermination": true|false }
+    /// Large volume config. volumeType -&gt; (string) Launch template disk volume type configuration. Possible values: • io1 • io2 • gp3 • gp2 • st1 • sc1 • standard iops -&gt; (long) Launch template disk iops configuration. Constraints: • min: 100 • max: 64000 throughput -&gt; (long) Launch template disk throughput configuration. Constraints: • min: 125 • max: 2000 volumeInitializationRate -&gt; (long) Launch template disk volume initialization rate configuration. Constraints: • min: 100 • max: 300 deleteOnTermination -&gt; (boolean) Launch template disk delete on termination configuration. Shorthand Syntax: volumeType=string,iops=long,throughput=long,volumeInitializationRate=long,deleteOnTermination=boolean JSON Syntax: { "volumeType": "io1"|"io2"|"gp3"|"gp2"|"st1"|"sc1"|"standard", "iops": long, "throughput": long, "volumeInitializationRate": long, "deleteOnTermination": true|false }
     /// </summary>
     [CliOption("--large-volume-conf")]
     public string? LargeVolumeConf { get; set; }
@@ -114,7 +114,7 @@ public record AwsMgnCreateLaunchConfigurationTemplateOptions : AwsOptions
     public bool? EnableParametersEncryption { get; set; }
 
     /// <summary>
-    /// Parameters encryption key. Constraints: o min: 0 o max: 276 o pattern: ((arn:[\w-]+:kms:([a-z]{2}-(gov-)?[a-z]+-\d{1})?:(\d{12})?:((alias|key)/[a-zA-Z0-9:/_-]{1,256}))|())
+    /// Parameters encryption key. Constraints: • min: 0 • max: 276 • pattern: ((arn:[\w-]+:kms:([a-z]{2}-(gov-)?[a-z]+-\d{1})?:(\d{12})?:((alias|key)/[a-zA-Z0-9:/_-]{1,256}))|())
     /// </summary>
     [CliOption("--parameters-encryption-key")]
     public string? ParametersEncryptionKey { get; set; }
@@ -124,5 +124,14 @@ public record AwsMgnCreateLaunchConfigurationTemplateOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

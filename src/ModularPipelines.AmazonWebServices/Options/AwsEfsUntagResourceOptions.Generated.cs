@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes tags from an EFS resource. You can remove tags from EFS file systems and access points using this API operation. This operation requires permissions for the elasticfilesystem:UntagRe- source action. See also: AWS API Documentation
+/// Removes tags from an EFS resource. You can remove tags from EFS file systems and access points using this API operation. This operation requires permissions for the elasticfilesystem:UntagResource action. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsEfsUntagResourceOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes tags from an EFS resource. You can remove tags from EFS file systems and access points using this API operation. This operation requires permissions for the elasticfilesystem:UntagRe- source action. See also: AWS API Documentation
+    /// Removes tags from an EFS resource. You can remove tags from EFS file systems and access points using this API operation. This operation requires permissions for the elasticfilesystem:UntagResource action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceId">Specifies the EFS resource that you want to remove tags from. Constraints: o max: 128 o pattern: ^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:(ac- cess-point/fsap|file-sys- tem/fs)-[0-9a-f]{8,40}|fs(ap)?-[0-9a-f]{8,40})$</param>
-    /// <param name="TagKeys">The keys of the key-value tag pairs that you want to remove from the specified EFS resource. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: ^(?![aA]{1}[wW]{1}[sS]{1}:)([\p{L}\p{Z}\p{N}_.:/=+\-@]+)$ Syntax: "string" "string" ...</param>
+    /// <param name="ResourceId">Specifies the EFS resource that you want to remove tags from. Constraints: • max: 128 • pattern: ^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:(access-point/fsap|file-system/fs)-[0-9a-f]{8,40}|fs(ap)?-[0-9a-f]{8,40})$</param>
+    /// <param name="TagKeys">The keys of the key-value tag pairs that you want to remove from the specified EFS resource. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 1 • max: 128 • pattern: ^(?![aA]{1}[wW]{1}[sS]{1}:)([\p{L}\p{Z}\p{N}_.:/=+\-@]+)$ Syntax: "string" "string" ...</param>
     public AwsEfsUntagResourceOptions(
         string ResourceId,
         IEnumerable<string> TagKeys
@@ -71,13 +72,13 @@ public record AwsEfsUntagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the EFS resource that you want to remove tags from. Constraints: o max: 128 o pattern: ^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:(ac- cess-point/fsap|file-sys- tem/fs)-[0-9a-f]{8,40}|fs(ap)?-[0-9a-f]{8,40})$
+    /// Specifies the EFS resource that you want to remove tags from. Constraints: • max: 128 • pattern: ^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:(access-point/fsap|file-system/fs)-[0-9a-f]{8,40}|fs(ap)?-[0-9a-f]{8,40})$
     /// </summary>
     [CliOption("--resource-id")]
     public string? ResourceId { get; private init; }
 
     /// <summary>
-    /// The keys of the key-value tag pairs that you want to remove from the specified EFS resource. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: ^(?![aA]{1}[wW]{1}[sS]{1}:)([\p{L}\p{Z}\p{N}_.:/=+\-@]+)$ Syntax: "string" "string" ...
+    /// The keys of the key-value tag pairs that you want to remove from the specified EFS resource. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 1 • max: 128 • pattern: ^(?![aA]{1}[wW]{1}[sS]{1}:)([\p{L}\p{Z}\p{N}_.:/=+\-@]+)$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }
@@ -103,6 +104,15 @@ public record AwsEfsUntagResourceOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

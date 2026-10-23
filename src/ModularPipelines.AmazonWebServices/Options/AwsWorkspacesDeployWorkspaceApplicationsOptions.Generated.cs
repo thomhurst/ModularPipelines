@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsWorkspacesDeployWorkspaceApplicationsOptions : AwsOptions, IVal
     /// <summary>
     /// Deploys associated applications to the specified WorkSpace See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkspaceId">The identifier of the WorkSpace. Constraints: o pattern: ^ws-[0-9a-z]{8,63}$</param>
+    /// <param name="WorkspaceId">The identifier of the WorkSpace. Constraints: • pattern: ^ws-[0-9a-z]{8,63}$</param>
     public AwsWorkspacesDeployWorkspaceApplicationsOptions(
         string WorkspaceId
     )
@@ -56,13 +57,13 @@ public record AwsWorkspacesDeployWorkspaceApplicationsOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the WorkSpace. Constraints: o pattern: ^ws-[0-9a-z]{8,63}$
+    /// The identifier of the WorkSpace. Constraints: • pattern: ^ws-[0-9a-z]{8,63}$
     /// </summary>
     [CliOption("--workspace-id")]
     public string? WorkspaceId { get; private init; }
 
     /// <summary>
-    /// Indicates whether the force flag is applied for the specified Work- Space. When the force flag is enabled, it allows previously failed deployments to be retried.
+    /// Indicates whether the force flag is applied for the specified WorkSpace. When the force flag is enabled, it allows previously failed deployments to be retried.
     /// </summary>
     [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }
@@ -88,6 +89,15 @@ public record AwsWorkspacesDeployWorkspaceApplicationsOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

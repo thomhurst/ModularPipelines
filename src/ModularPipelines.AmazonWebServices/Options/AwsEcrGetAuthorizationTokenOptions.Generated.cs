@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves an authorization token. An authorization token represents your IAM authentication credentials and can be used to access any Ama- zon ECR registry that your IAM principal has access to. The authoriza- tion token is valid for 12 hours. The authorizationToken returned is a base64 encoded string that can be decoded and used in a docker login command to authenticate to a reg- istry. The CLI offers an get-login-password command that simplifies the login process. For more information, see Reg...
+/// Retrieves an authorization token. An authorization token represents your IAM authentication credentials and can be used to access any Amazon ECR registry that your IAM principal has access to. The authorization token is valid for 12 hours. The authorizationToken returned is a base64 encoded string that can be decoded and used in a docker login command to authenticate to a registry. The CLI offers an get-login-password command that simplifies the login process. For more information, see Registry ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsEcrGetAuthorizationTokenOptions : AwsOptions
 {
     /// <summary>
-    /// A list of Amazon Web Services account IDs that are associated with the registries for which to get AuthorizationData objects. If you do not specify a registry, the default registry is assumed. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: [0-9]{12} Syntax: "string" "string" ...
+    /// A list of Amazon Web Services account IDs that are associated with the registries for which to get AuthorizationData objects. If you do not specify a registry, the default registry is assumed. Constraints: • min: 1 • max: 10 (string) Constraints: • pattern: [0-9]{12} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--registry-ids", GroupValues = true)]
     public IEnumerable<string>? RegistryIds { get; set; }
@@ -32,5 +32,14 @@ public record AwsEcrGetAuthorizationTokenOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

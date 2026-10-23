@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsGlueGetCatalogsOptions : AwsOptions
 {
     /// <summary>
-    /// The ID of the parent catalog in which the catalog resides. If none is provided, the Amazon Web Services Account Number is used by de- fault. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The ID of the parent catalog in which the catalog resides. If none is provided, the Amazon Web Services Account Number is used by default. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--parent-catalog-id")]
     public string? ParentCatalogId { get; set; }
@@ -36,19 +36,19 @@ public record AwsGlueGetCatalogsOptions : AwsOptions
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of catalogs to return in one response. Constraints: o min: 1 o max: 1000
+    /// The maximum number of catalogs to return in one response. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// Whether to list all catalogs across the catalog hierarchy, starting from the ParentCatalogId . Defaults to false . When true , all cata- log objects in the ParentCatalogID hierarchy are enumerated in the response.
+    /// Whether to list all catalogs across the catalog hierarchy, starting from the ParentCatalogId . Defaults to false . When true , all catalog objects in the ParentCatalogID hierarchy are enumerated in the response.
     /// </summary>
     [CliFlag("--recursive", NegatedName = "--no-recursive")]
     public bool? Recursive { get; set; }
 
     /// <summary>
-    /// Whether to list the default catalog in the account and region in the response. Defaults to false . When true and ParentCatalogId = NULL | Amazon Web Services Account ID , all catalogs and the default cata- log are enumerated in the response. When the ParentCatalogId is not equal to null, and this attribute is passed as false or true , an InvalidInputException is thrown.
+    /// Whether to list the default catalog in the account and region in the response. Defaults to false . When true and ParentCatalogId = NULL | Amazon Web Services Account ID , all catalogs and the default catalog are enumerated in the response. When the ParentCatalogId is not equal to null, and this attribute is passed as false or true , an InvalidInputException is thrown.
     /// </summary>
     [CliFlag("--include-root", NegatedName = "--no-include-root")]
     public bool? IncludeRoot { get; set; }
@@ -64,5 +64,14 @@ public record AwsGlueGetCatalogsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

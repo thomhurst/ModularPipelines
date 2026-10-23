@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsDsqlGetStreamOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Retrieves information about a stream. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClusterIdentifier">The ID of the cluster containing the stream to retrieve. Constraints: o pattern: [a-z0-9]{26}</param>
-    /// <param name="StreamIdentifier">The ID of the stream to retrieve. Constraints: o pattern: [a-z0-9]{26}</param>
+    /// <param name="ClusterIdentifier">The ID of the cluster containing the stream to retrieve. Constraints: • pattern: [a-z0-9]{26}</param>
+    /// <param name="StreamIdentifier">The ID of the stream to retrieve. Constraints: • pattern: [a-z0-9]{26}</param>
     public AwsDsqlGetStreamOptions(
         string ClusterIdentifier,
         string StreamIdentifier
@@ -60,13 +61,13 @@ public record AwsDsqlGetStreamOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the cluster containing the stream to retrieve. Constraints: o pattern: [a-z0-9]{26}
+    /// The ID of the cluster containing the stream to retrieve. Constraints: • pattern: [a-z0-9]{26}
     /// </summary>
     [CliOption("--cluster-identifier")]
     public string? ClusterIdentifier { get; private init; }
 
     /// <summary>
-    /// The ID of the stream to retrieve. Constraints: o pattern: [a-z0-9]{26}
+    /// The ID of the stream to retrieve. Constraints: • pattern: [a-z0-9]{26}
     /// </summary>
     [CliOption("--stream-identifier")]
     public string? StreamIdentifier { get; private init; }
@@ -92,6 +93,15 @@ public record AwsDsqlGetStreamOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

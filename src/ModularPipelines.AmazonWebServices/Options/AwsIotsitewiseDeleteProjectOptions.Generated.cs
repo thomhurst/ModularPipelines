@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsIotsitewiseDeleteProjectOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Deletes a project from IoT SiteWise Monitor. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProjectId">The ID of the project. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$</param>
+    /// <param name="ProjectId">The ID of the project. Constraints: • min: 36 • max: 36 • pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$</param>
     public AwsIotsitewiseDeleteProjectOptions(
         string ProjectId
     )
@@ -57,13 +58,13 @@ public record AwsIotsitewiseDeleteProjectOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the project. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+    /// The ID of the project. Constraints: • min: 36 • max: 36 • pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
     /// </summary>
     [CliOption("--project-id")]
     public string? ProjectId { get; private init; }
 
     /// <summary>
-    /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required. Constraints: o min: 36 o max: 64 o pattern: \S{36,64}
+    /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required. Constraints: • min: 36 • max: 64 • pattern: \S{36,64}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -90,6 +91,15 @@ public record AwsIotsitewiseDeleteProjectOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

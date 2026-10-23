@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsLookoutequipmentDeleteLabelGroupOptions : AwsOptions, IValidata
     /// <summary>
     /// Deletes a group of labels. See also: AWS API Documentation
     /// </summary>
-    /// <param name="LabelGroupName">The name of the label group that you want to delete. Data in this field will be retained for service usage. Follow best practices for the security of your data. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$</param>
+    /// <param name="LabelGroupName">The name of the label group that you want to delete. Data in this field will be retained for service usage. Follow best practices for the security of your data. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z_-]{1,200}$</param>
     public AwsLookoutequipmentDeleteLabelGroupOptions(
         string LabelGroupName
     )
@@ -56,7 +57,7 @@ public record AwsLookoutequipmentDeleteLabelGroupOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the label group that you want to delete. Data in this field will be retained for service usage. Follow best practices for the security of your data. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$
+    /// The name of the label group that you want to delete. Data in this field will be retained for service usage. Follow best practices for the security of your data. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z_-]{1,200}$
     /// </summary>
     [CliOption("--label-group-name")]
     public string? LabelGroupName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsLookoutequipmentDeleteLabelGroupOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

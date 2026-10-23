@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves a list of resource view snapshots based on specified crite- ria. This operation supports various use cases, including: o Fetching all snapshots associated with an engagement. o Retrieving snapshots of a specific resource type within an engage- ment. o Obtaining snapshots for a particular resource using a specified tem- plate. o Accessing the latest snapshot of a resource within an engagement. o Filtering snapshots by resource owner. See also: AWS API Documentation list-resource-snapsho...
+/// Retrieves a list of resource view snapshots based on specified criteria. This operation supports various use cases, including: • Fetching all snapshots associated with an engagement. • Retrieving snapshots of a specific resource type within an engagement. • Obtaining snapshots for a particular resource using a specified template. • Accessing the latest snapshot of a resource within an engagement. • Filtering snapshots by resource owner. See also: AWS API Documentation list-resource-snapshots is ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsPartnercentralSellingListResourceSnapshotsOptions : AwsOptions,
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves a list of resource view snapshots based on specified crite- ria. This operation supports various use cases, including: o Fetching all snapshots associated with an engagement. o Retrieving snapshots of a specific resource type within an engage- ment. o Obtaining snapshots for a particular resource using a specified tem- plate. o Accessing the latest snapshot of a resource within an engagement. o Filtering snapshots by resource owner. See also: AWS API Documentation list-resource-snapsho...
+    /// Retrieves a list of resource view snapshots based on specified criteria. This operation supports various use cases, including: • Fetching all snapshots associated with an engagement. • Retrieving snapshots of a specific resource type within an engagement. • Obtaining snapshots for a particular resource using a specified template. • Accessing the latest snapshot of a resource within an engagement. • Filtering snapshots by resource owner. See also: AWS API Documentation list-resource-snapshots is ...
     /// </summary>
-    /// <param name="Catalog">Specifies the catalog related to the request. Constraints: o pattern: [a-zA-Z]+</param>
-    /// <param name="EngagementIdentifier">The unique identifier of the engagement associated with the snap- shots. Constraints: o pattern: eng-[0-9a-z]{14}</param>
+    /// <param name="Catalog">Specifies the catalog related to the request. Constraints: • pattern: [a-zA-Z]+</param>
+    /// <param name="EngagementIdentifier">The unique identifier of the engagement associated with the snapshots. Constraints: • pattern: eng-[0-9a-z]{14}</param>
     public AwsPartnercentralSellingListResourceSnapshotsOptions(
         string Catalog,
         string EngagementIdentifier
@@ -61,46 +62,43 @@ public record AwsPartnercentralSellingListResourceSnapshotsOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the catalog related to the request. Constraints: o pattern: [a-zA-Z]+
+    /// Specifies the catalog related to the request. Constraints: • pattern: [a-zA-Z]+
     /// </summary>
     [CliOption("--catalog")]
     public string? Catalog { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the engagement associated with the snap- shots. Constraints: o pattern: eng-[0-9a-z]{14}
+    /// The unique identifier of the engagement associated with the snapshots. Constraints: • pattern: eng-[0-9a-z]{14}
     /// </summary>
     [CliOption("--engagement-identifier")]
     public string? EngagementIdentifier { get; private init; }
 
     /// <summary>
-    /// Filters the response to include only snapshots of the specified re- source type. Possible values: o Opportunity
+    /// Filters the response to include only snapshots of the specified resource type. Possible values: • Opportunity
     /// </summary>
     [CliOption("--resource-type")]
     public string? ResourceType { get; set; }
 
     /// <summary>
-    /// Filters the response to include only snapshots of the specified re- source. Constraints: o pattern: O[0-9]{1,19}
+    /// Filters the response to include only snapshots of the specified resource. Constraints: • pattern: O[0-9]{1,19}
     /// </summary>
     [CliOption("--resource-identifier")]
     public string? ResourceIdentifier { get; set; }
 
     /// <summary>
-    /// Filters the response to include only snapshots created using the specified template. Constraints: o pattern: [a-zA-Z0-9]{3,80}
+    /// Filters the response to include only snapshots created using the specified template. Constraints: • pattern: [a-zA-Z0-9]{3,80}
     /// </summary>
     [CliOption("--resource-snapshot-template-identifier")]
     public string? ResourceSnapshotTemplateIdentifier { get; set; }
 
     /// <summary>
-    /// Filters the response to include only snapshots of resources owned by the specified AWS account. Constraints: o pattern: ([0-9]{12}|\w{1,12})
+    /// Filters the response to include only snapshots of resources owned by the specified AWS account. Constraints: • pattern: ([0-9]{12}|\w{1,12})
     /// </summary>
     [CliOption("--created-by")]
     public string? CreatedBy { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -110,16 +108,19 @@ public record AwsPartnercentralSellingListResourceSnapshotsOptions : AwsOptions,
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 1000
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -136,6 +137,15 @@ public record AwsPartnercentralSellingListResourceSnapshotsOptions : AwsOptions,
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

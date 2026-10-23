@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSavingsplansDescribeSavingsPlansOptions : AwsOptions
 {
     /// <summary>
-    /// The Amazon Resource Names (ARN) of the Savings Plans. Constraints: o max: 100 (string) Constraints: o pattern: arn:aws:[a-z]+:([a-z]{2}-[a-z]+-\d{1}|):(\d{12}):sav- ings- plan\/([0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})$ Syntax: "string" "string" ...
+    /// The Amazon Resource Names (ARN) of the Savings Plans. Constraints: • max: 100 (string) Constraints: • pattern: arn:aws:[a-z]+:([a-z]{2}-[a-z]+-\d{1}|):(\d{12}):savingsplan\/([0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--savings-plan-arns", GroupValues = true)]
     public IEnumerable<string>? SavingsPlanArns { get; set; }
@@ -35,26 +35,26 @@ public record AwsSavingsplansDescribeSavingsPlansOptions : AwsOptions
     public IEnumerable<string>? SavingsPlanIds { get; set; }
 
     /// <summary>
-    /// The token for the next page of results. Constraints: o max: 1024 o pattern: ^[A-Za-z0-9/=\+]+$
+    /// The token for the next page of results. Constraints: • max: 1024 • pattern: ^[A-Za-z0-9/=\+]+$
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return with a single call. To re- trieve additional results, make another call with the returned token value. Constraints: o min: 1 o max: 1000
+    /// The maximum number of results to return with a single call. To retrieve additional results, make another call with the returned token value. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The current states of the Savings Plans. (string) Possible values: o payment-pending o payment-failed o active o retired o queued o queued-deleted o pending-return o returned Syntax: "string" "string" ...
+    /// The current states of the Savings Plans. (string) Possible values: • payment-pending • payment-failed • active • retired • queued • queued-deleted • pending-return • returned Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--states", GroupValues = true)]
     public IEnumerable<string>? States { get; set; }
 
     /// <summary>
-    /// The filters. (structure) Information about a Savings Plan filter. name -&gt; (string) The filter name. Possible values: o region o ec2-instance-family o commitment o upfront o term o savings-plan-type o payment-option o start o end o instance-family values -&gt; (list) The filter value. (string) Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "region"|"ec2-instance-family"|"commitment"|"upfront"|"term"|"savings-plan-type"|"payment-option"|"start"|"end"|"instance-family", "values": ["string", ...] } ... ]
+    /// The filters. (structure) Information about a Savings Plan filter. name -&gt; (string) The filter name. Possible values: • region • ec2-instance-family • commitment • upfront • term • savings-plan-type • payment-option • start • end • instance-family values -&gt; (list) The filter value. (string) Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "region"|"ec2-instance-family"|"commitment"|"upfront"|"term"|"savings-plan-type"|"payment-option"|"start"|"end"|"instance-family", "values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
@@ -64,5 +64,14 @@ public record AwsSavingsplansDescribeSavingsPlansOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

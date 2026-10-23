@@ -22,25 +22,25 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsRedshiftCreateSnapshotScheduleOptions : AwsOptions
 {
     /// <summary>
-    /// The definition of the snapshot schedule. The definition is made up of schedule expressions, for example "cron(30 12 * )" or "rate(12 hours)". System Message: WARNING/2 (&lt;string&gt;:, line 73) Inline emphasis start-string without end-string. (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...
+    /// The definition of the snapshot schedule. The definition is made up of schedule expressions, for example "cron(30 12 * )" or "rate(12 hours)". System Message: WARNING/2 (&lt;string&gt;:, line 73) Inline emphasis start-string without end-string. (string) Constraints: • max: 2147483647 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--schedule-definitions", GroupValues = true)]
     public IEnumerable<string>? ScheduleDefinitions { get; set; }
 
     /// <summary>
-    /// A unique identifier for a snapshot schedule. Only alphanumeric char- acters are allowed for the identifier. Constraints: o max: 2147483647
+    /// A unique identifier for a snapshot schedule. Only alphanumeric characters are allowed for the identifier. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--schedule-identifier")]
     public string? ScheduleIdentifier { get; set; }
 
     /// <summary>
-    /// The description of the snapshot schedule. Constraints: o max: 2147483647
+    /// The description of the snapshot schedule. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--schedule-description")]
     public string? ScheduleDescription { get; set; }
 
     /// <summary>
-    /// An optional set of tags you can use to search for the schedule. (structure) A tag consisting of a name/value pair for a resource. Key -&gt; (string) The key, or name, for the resource tag. Constraints: o max: 2147483647 Value -&gt; (string) The value for the resource tag. Constraints: o max: 2147483647 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// An optional set of tags you can use to search for the schedule. (structure) A tag consisting of a name/value pair for a resource. Key -&gt; (string) The key, or name, for the resource tag. Constraints: • max: 2147483647 Value -&gt; (string) The value for the resource tag. Constraints: • max: 2147483647 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -52,7 +52,7 @@ public record AwsRedshiftCreateSnapshotScheduleOptions : AwsOptions
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// --cli-input-json | --cli-input-yaml (string) Reads arguments from the JSON string provided. The JSON string follows the format provided by
+    /// --cli-input-json | --cli-input-yaml (string) Reads arguments from the JSON string provided. The JSON string follows the format provided by --generate-cli-skeleton. If other arguments are provided on the command line, those values will override the JSON-provided values. It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally. This may not be specified along with --cli-input-yaml.
     /// </summary>
     [CliOption("--next-invocations")]
     public int? NextInvocations { get; set; }
@@ -62,5 +62,14 @@ public record AwsRedshiftCreateSnapshotScheduleOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

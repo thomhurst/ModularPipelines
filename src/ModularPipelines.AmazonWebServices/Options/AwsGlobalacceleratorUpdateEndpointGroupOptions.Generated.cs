@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsGlobalacceleratorUpdateEndpointGroupOptions : AwsOptions, IVali
     /// <summary>
     /// Update an endpoint group. A resource must be valid and active when you add it as an endpoint. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EndpointGroupArn">The Amazon Resource Name (ARN) of the endpoint group. Constraints: o max: 255</param>
+    /// <param name="EndpointGroupArn">The Amazon Resource Name (ARN) of the endpoint group. Constraints: • max: 255</param>
     public AwsGlobalacceleratorUpdateEndpointGroupOptions(
         string EndpointGroupArn
     )
@@ -57,55 +58,55 @@ public record AwsGlobalacceleratorUpdateEndpointGroupOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the endpoint group. Constraints: o max: 255
+    /// The Amazon Resource Name (ARN) of the endpoint group. Constraints: • max: 255
     /// </summary>
     [CliOption("--endpoint-group-arn")]
     public string? EndpointGroupArn { get; private init; }
 
     /// <summary>
-    /// The list of endpoint objects. A resource must be valid and active when you add it as an endpoint. Constraints: o min: 0 o max: 10 (structure) A complex type for endpoints. A resource must be valid and ac- tive when you add it as an endpoint. EndpointId -&gt; (string) An ID for the endpoint. If the endpoint is a Network Load Balancer or Application Load Balancer, this is the Amazon Re- source Name (ARN) of the resource. If the endpoint is an Elastic IP address, this is the Elastic IP address allocation ID. For Amazon EC2 instances, this is the EC2 instance ID. A resource must be valid and active when you add it as an end- point. For cross-account endpoints, this must be the ARN of the re- source. Constraints: o max: 255 Weight -&gt; (integer) The weight associated with the endpoint. When you add weights to endpoints, you configure Global Accelerator to route traf- fic based on proportions that you specify. For example, you might specify endpoint weights of 4, 5, 5, and 6 (sum=20). The result is that 4/20 of your traffic, on average, is routed to the first endpoint, 5/20 is routed both to the sec- ond and third endpoints, and 6/20 is routed to the last end- point. For more information, see Endpoint weights in the Global Accelerator Developer Guide . Constraints: o min: 0 o max: 255 ClientIPPreservationEnabled -&gt; (boolean) Indicates whether client IP address preservation is enabled for an endpoint. The value is true or false. The default value is true for Application Load Balancer endpoints. If the value is set to true, the client's IP address is pre- served in the X-Forwarded-For request header as traffic trav- els to applications on the endpoint fronted by the accelera- tor. Client IP address preservation is supported, in specific Ama- zon Web Services Regions, for endpoints that are Application Load Balancers, Amazon EC2 instances, and Network Load Bal- ancers with security groups. IMPORTANT: You cannot use client IP address preservation with Network Load Balancers with TLS listeners. For more information, see Preserve client IP addresses in Global Accelerator in the Global Accelerator Developer Guide . AttachmentArn -&gt; (string) The Amazon Resource Name (ARN) of the cross-account attach- ment that specifies the endpoints (resources) that can be added to accelerators and principals that have permission to add the endpoints. Constraints: o max: 255 Shorthand Syntax: EndpointId=string,Weight=integer,ClientIPPreservationEnabled=boolean,AttachmentArn=string ... JSON Syntax: [ { "EndpointId": "string", "Weight": integer, "ClientIPPreservationEnabled": true|false, "AttachmentArn": "string" } ... ]
+    /// The list of endpoint objects. A resource must be valid and active when you add it as an endpoint. Constraints: • min: 0 • max: 10 (structure) A complex type for endpoints. A resource must be valid and active when you add it as an endpoint. EndpointId -&gt; (string) An ID for the endpoint. If the endpoint is a Network Load Balancer or Application Load Balancer, this is the Amazon Resource Name (ARN) of the resource. If the endpoint is an Elastic IP address, this is the Elastic IP address allocation ID. For Amazon EC2 instances, this is the EC2 instance ID. A resource must be valid and active when you add it as an endpoint. For cross-account endpoints, this must be the ARN of the resource. Constraints: • max: 255 Weight -&gt; (integer) The weight associated with the endpoint. When you add weights to endpoints, you configure Global Accelerator to route traffic based on proportions that you specify. For example, you might specify endpoint weights of 4, 5, 5, and 6 (sum=20). The result is that 4/20 of your traffic, on average, is routed to the first endpoint, 5/20 is routed both to the second and third endpoints, and 6/20 is routed to the last endpoint. For more information, see Endpoint weights in the Global Accelerator Developer Guide . Constraints: • min: 0 • max: 255 ClientIPPreservationEnabled -&gt; (boolean) Indicates whether client IP address preservation is enabled for an endpoint. The value is true or false. The default value is true for Application Load Balancer endpoints. If the value is set to true, the client's IP address is preserved in the X-Forwarded-For request header as traffic travels to applications on the endpoint fronted by the accelerator. Client IP address preservation is supported, in specific Amazon Web Services Regions, for endpoints that are Application Load Balancers, Amazon EC2 instances, and Network Load Balancers with security groups. IMPORTANT: You cannot use client IP address preservation with Network Load Balancers with TLS listeners. For more information, see Preserve client IP addresses in Global Accelerator in the Global Accelerator Developer Guide . AttachmentArn -&gt; (string) The Amazon Resource Name (ARN) of the cross-account attachment that specifies the endpoints (resources) that can be added to accelerators and principals that have permission to add the endpoints. Constraints: • max: 255 Shorthand Syntax: EndpointId=string,Weight=integer,ClientIPPreservationEnabled=boolean,AttachmentArn=string ... JSON Syntax: [ { "EndpointId": "string", "Weight": integer, "ClientIPPreservationEnabled": true|false, "AttachmentArn": "string" } ... ]
     /// </summary>
     [CliOption("--endpoint-configurations", GroupValues = true)]
     public IEnumerable<string>? EndpointConfigurations { get; set; }
 
     /// <summary>
-    /// The percentage of traffic to send to an Amazon Web Services Region. Additional traffic is distributed to other endpoint groups for this listener. Use this action to increase (dial up) or decrease (dial down) traf- fic to a specific Region. The percentage is applied to the traffic that would otherwise have been routed to the Region based on optimal routing. The default value is 100. Constraints: o min: 0 o max: 100
+    /// The percentage of traffic to send to an Amazon Web Services Region. Additional traffic is distributed to other endpoint groups for this listener. Use this action to increase (dial up) or decrease (dial down) traffic to a specific Region. The percentage is applied to the traffic that would otherwise have been routed to the Region based on optimal routing. The default value is 100. Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--traffic-dial-percentage")]
-    public int? TrafficDialPercentage { get; set; }
+    public double? TrafficDialPercentage { get; set; }
 
     /// <summary>
-    /// The port that Global Accelerator uses to check the health of end- points that are part of this endpoint group. The default port is the listener port that this endpoint group is associated with. If the listener port is a list of ports, Global Accelerator uses the first port in the list. Constraints: o min: 1 o max: 65535
+    /// The port that Global Accelerator uses to check the health of endpoints that are part of this endpoint group. The default port is the listener port that this endpoint group is associated with. If the listener port is a list of ports, Global Accelerator uses the first port in the list. Constraints: • min: 1 • max: 65535
     /// </summary>
     [CliOption("--health-check-port")]
     public int? HealthCheckPort { get; set; }
 
     /// <summary>
-    /// The protocol that Global Accelerator uses to check the health of endpoints that are part of this endpoint group. The default value is TCP. Possible values: o TCP o HTTP o HTTPS
+    /// The protocol that Global Accelerator uses to check the health of endpoints that are part of this endpoint group. The default value is TCP. Possible values: • TCP • HTTP • HTTPS
     /// </summary>
     [CliOption("--health-check-protocol")]
     public AwsGlobalacceleratorUpdateEndpointGroupHealthCheckProtocol? HealthCheckProtocol { get; set; }
 
     /// <summary>
-    /// If the protocol is HTTP/S, then this specifies the path that is the destination for health check targets. The default value is slash (/). Constraints: o max: 255 o pattern: ^/[-a-zA-Z0-9@:%_\\+.~#?&amp;/=]*$
+    /// If the protocol is HTTP/S, then this specifies the path that is the destination for health check targets. The default value is slash (/). Constraints: • max: 255 • pattern: ^/[-a-zA-Z0-9@:%_\\+.~#?&amp;/=]*$
     /// </summary>
     [CliOption("--health-check-path")]
     public string? HealthCheckPath { get; set; }
 
     /// <summary>
-    /// The time10 seconds or 30 secondsbetween each health check for an endpoint. The default value is 30. Constraints: o min: 10 o max: 30
+    /// The time10 seconds or 30 secondsbetween each health check for an endpoint. The default value is 30. Constraints: • min: 10 • max: 30
     /// </summary>
     [CliOption("--health-check-interval-seconds")]
     public int? HealthCheckIntervalSeconds { get; set; }
 
     /// <summary>
-    /// The number of consecutive health checks required to set the state of a healthy endpoint to unhealthy, or to set an unhealthy endpoint to healthy. The default value is 3. Constraints: o min: 1 o max: 10
+    /// The number of consecutive health checks required to set the state of a healthy endpoint to unhealthy, or to set an unhealthy endpoint to healthy. The default value is 3. Constraints: • min: 1 • max: 10
     /// </summary>
     [CliOption("--threshold-count")]
     public int? ThresholdCount { get; set; }
 
     /// <summary>
-    /// Override specific listener ports used to route traffic to endpoints that are part of this endpoint group. For example, you can create a port override in which the listener receives user traffic on ports 80 and 443, but your accelerator routes that traffic to ports 1080 and 1443, respectively, on the endpoints. For more information, see Overriding listener ports in the Global Accelerator Developer Guide . Constraints: o min: 0 o max: 10 (structure) Override specific listener ports used to route traffic to end- points that are part of an endpoint group. For example, you can create a port override in which the listener receives user traf- fic on ports 80 and 443, but your accelerator routes that traf- fic to ports 1080 and 1443, respectively, on the endpoints. For more information, see Overriding listener ports in the Global Accelerator Developer Guide . ListenerPort -&gt; (integer) The listener port that you want to map to a specific endpoint port. This is the port that user traffic arrives to the Global Accelerator on. Constraints: o min: 1 o max: 65535 EndpointPort -&gt; (integer) The endpoint port that you want a listener port to be mapped to. This is the port on the endpoint, such as the Application Load Balancer or Amazon EC2 instance. Constraints: o min: 1 o max: 65535 Shorthand Syntax: ListenerPort=integer,EndpointPort=integer ... JSON Syntax: [ { "ListenerPort": integer, "EndpointPort": integer } ... ]
+    /// Override specific listener ports used to route traffic to endpoints that are part of this endpoint group. For example, you can create a port override in which the listener receives user traffic on ports 80 and 443, but your accelerator routes that traffic to ports 1080 and 1443, respectively, on the endpoints. For more information, see Overriding listener ports in the Global Accelerator Developer Guide . Constraints: • min: 0 • max: 10 (structure) Override specific listener ports used to route traffic to endpoints that are part of an endpoint group. For example, you can create a port override in which the listener receives user traffic on ports 80 and 443, but your accelerator routes that traffic to ports 1080 and 1443, respectively, on the endpoints. For more information, see Overriding listener ports in the Global Accelerator Developer Guide . ListenerPort -&gt; (integer) The listener port that you want to map to a specific endpoint port. This is the port that user traffic arrives to the Global Accelerator on. Constraints: • min: 1 • max: 65535 EndpointPort -&gt; (integer) The endpoint port that you want a listener port to be mapped to. This is the port on the endpoint, such as the Application Load Balancer or Amazon EC2 instance. Constraints: • min: 1 • max: 65535 Shorthand Syntax: ListenerPort=integer,EndpointPort=integer ... JSON Syntax: [ { "ListenerPort": integer, "EndpointPort": integer } ... ]
     /// </summary>
     [CliOption("--port-overrides", GroupValues = true)]
     public IEnumerable<string>? PortOverrides { get; set; }
@@ -131,6 +132,15 @@ public record AwsGlobalacceleratorUpdateEndpointGroupOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

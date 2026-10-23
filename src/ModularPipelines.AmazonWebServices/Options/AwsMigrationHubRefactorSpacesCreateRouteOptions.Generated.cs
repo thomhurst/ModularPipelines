@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -30,10 +30,10 @@ public record AwsMigrationHubRefactorSpacesCreateRouteOptions : AwsOptions, IVal
     /// <summary>
     /// Creates an Amazon Web Services Migration Hub Refactor Spaces route. The account owner of the service resource is always the environment owner, regardless of which account creates the route. Routes target a service in the application. If an application does not have any routes, then the first route must be created as a DEFAULT RouteType . When created, the default route defaults to an active state so state is not a required input. However, like all other state values the state of the default rout...
     /// </summary>
-    /// <param name="ApplicationIdentifier">The ID of the application within which the route is being created. Constraints: o min: 14 o max: 14 o pattern: ^app-[0-9A-Za-z]{10}$</param>
-    /// <param name="EnvironmentIdentifier">The ID of the environment in which the route is created. Constraints: o min: 14 o max: 14 o pattern: ^env-[0-9A-Za-z]{10}$</param>
-    /// <param name="RouteType">The route type of the route. DEFAULT indicates that all traffic that does not match another route is forwarded to the default route. Ap- plications must have a default route before any other routes can be created. URI_PATH indicates a route that is based on a URI path. Possible values: o DEFAULT o URI_PATH</param>
-    /// <param name="ServiceIdentifier">The ID of the service in which the route is created. Traffic that matches this route is forwarded to this service. Constraints: o min: 14 o max: 14 o pattern: ^svc-[0-9A-Za-z]{10}$</param>
+    /// <param name="ApplicationIdentifier">The ID of the application within which the route is being created. Constraints: • min: 14 • max: 14 • pattern: ^app-[0-9A-Za-z]{10}$</param>
+    /// <param name="EnvironmentIdentifier">The ID of the environment in which the route is created. Constraints: • min: 14 • max: 14 • pattern: ^env-[0-9A-Za-z]{10}$</param>
+    /// <param name="RouteType">The route type of the route. DEFAULT indicates that all traffic that does not match another route is forwarded to the default route. Applications must have a default route before any other routes can be created. URI_PATH indicates a route that is based on a URI path. Possible values: • DEFAULT • URI_PATH</param>
+    /// <param name="ServiceIdentifier">The ID of the service in which the route is created. Traffic that matches this route is forwarded to this service. Constraints: • min: 14 • max: 14 • pattern: ^svc-[0-9A-Za-z]{10}$</param>
     public AwsMigrationHubRefactorSpacesCreateRouteOptions(
         string ApplicationIdentifier,
         string EnvironmentIdentifier,
@@ -70,50 +70,50 @@ public record AwsMigrationHubRefactorSpacesCreateRouteOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the application within which the route is being created. Constraints: o min: 14 o max: 14 o pattern: ^app-[0-9A-Za-z]{10}$
+    /// The ID of the application within which the route is being created. Constraints: • min: 14 • max: 14 • pattern: ^app-[0-9A-Za-z]{10}$
     /// </summary>
     [CliOption("--application-identifier")]
     public string? ApplicationIdentifier { get; private init; }
 
     /// <summary>
-    /// The ID of the environment in which the route is created. Constraints: o min: 14 o max: 14 o pattern: ^env-[0-9A-Za-z]{10}$
+    /// The ID of the environment in which the route is created. Constraints: • min: 14 • max: 14 • pattern: ^env-[0-9A-Za-z]{10}$
     /// </summary>
     [CliOption("--environment-identifier")]
     public string? EnvironmentIdentifier { get; private init; }
 
     /// <summary>
-    /// The route type of the route. DEFAULT indicates that all traffic that does not match another route is forwarded to the default route. Ap- plications must have a default route before any other routes can be created. URI_PATH indicates a route that is based on a URI path. Possible values: o DEFAULT o URI_PATH
+    /// The route type of the route. DEFAULT indicates that all traffic that does not match another route is forwarded to the default route. Applications must have a default route before any other routes can be created. URI_PATH indicates a route that is based on a URI path. Possible values: • DEFAULT • URI_PATH
     /// </summary>
     [CliOption("--route-type")]
     public AwsMigrationHubRefactorSpacesCreateRouteRouteType? RouteType { get; private init; }
 
     /// <summary>
-    /// The ID of the service in which the route is created. Traffic that matches this route is forwarded to this service. Constraints: o min: 14 o max: 14 o pattern: ^svc-[0-9A-Za-z]{10}$
+    /// The ID of the service in which the route is created. Traffic that matches this route is forwarded to this service. Constraints: • min: 14 • max: 14 • pattern: ^svc-[0-9A-Za-z]{10}$
     /// </summary>
     [CliOption("--service-identifier")]
     public string? ServiceIdentifier { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 1 o max: 64 o pattern: ^[\x20-\x7E]{1,64}$
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: • min: 1 • max: 64 • pattern: ^[\x20-\x7E]{1,64}$
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// Configuration for the default route type. ActivationState -&gt; (string) If set to ACTIVE , traffic is forwarded to this routes service after the route is created. Possible values: o ACTIVE o INACTIVE Shorthand Syntax: ActivationState=string JSON Syntax: { "ActivationState": "ACTIVE"|"INACTIVE" }
+    /// Configuration for the default route type. ActivationState -&gt; (string) If set to ACTIVE , traffic is forwarded to this routes service after the route is created. Possible values: • ACTIVE • INACTIVE Shorthand Syntax: ActivationState=string JSON Syntax: { "ActivationState": "ACTIVE"|"INACTIVE" }
     /// </summary>
     [CliOption("--default-route")]
     public string? DefaultRoute { get; set; }
 
     /// <summary>
-    /// The tags to assign to the route. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key-value pair.. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:).+ value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags to assign to the route. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key-value pair.. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:).+ value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// The configuration for the URI path route type. ActivationState -&gt; (string) [required] If set to ACTIVE , traffic is forwarded to this routes service after the route is created. Possible values: o ACTIVE o INACTIVE AppendSourcePath -&gt; (boolean) If set to true , this option appends the source path to the ser- vice URL endpoint. IncludeChildPaths -&gt; (boolean) Indicates whether to match all subpaths of the given source path. If this value is false , requests must match the source path exactly before they are forwarded to this route's service. Methods -&gt; (list) A list of HTTP methods to match. An empty list matches all val- ues. If a method is present, only HTTP requests using that method are forwarded to this routes service. (string) Possible values: o DELETE o GET o HEAD o OPTIONS o PATCH o POST o PUT SourcePath -&gt; (string) [required] This is the path that Refactor Spaces uses to match traffic. Paths must start with / and are relative to the base of the ap- plication. To use path parameters in the source path, add a variable in curly braces. For example, the resource path {user} represents a path parameter called 'user'. Constraints: o min: 1 o max: 2048 o pattern: ^(/([a-zA-Z0-9._:-]+|\{[a-zA-Z0-9._:-]+\}))+$ Shorthand Syntax: ActivationState=string,AppendSourcePath=boolean,IncludeChildPaths=boolean,Methods=string,string,SourcePath=string JSON Syntax: { "ActivationState": "ACTIVE"|"INACTIVE", "AppendSourcePath": true|false, "IncludeChildPaths": true|false, "Methods": ["DELETE"|"GET"|"HEAD"|"OPTIONS"|"PATCH"|"POST"|"PUT", ...], "SourcePath": "string" }
+    /// The configuration for the URI path route type. ActivationState -&gt; (string) [required] If set to ACTIVE , traffic is forwarded to this routes service after the route is created. Possible values: • ACTIVE • INACTIVE AppendSourcePath -&gt; (boolean) If set to true , this option appends the source path to the service URL endpoint. IncludeChildPaths -&gt; (boolean) Indicates whether to match all subpaths of the given source path. If this value is false , requests must match the source path exactly before they are forwarded to this route's service. Methods -&gt; (list) A list of HTTP methods to match. An empty list matches all values. If a method is present, only HTTP requests using that method are forwarded to this routes service. (string) Possible values: • DELETE • GET • HEAD • OPTIONS • PATCH • POST • PUT SourcePath -&gt; (string) [required] This is the path that Refactor Spaces uses to match traffic. Paths must start with / and are relative to the base of the application. To use path parameters in the source path, add a variable in curly braces. For example, the resource path {user} represents a path parameter called 'user'. Constraints: • min: 1 • max: 2048 • pattern: ^(/([a-zA-Z0-9._:-]+|\{[a-zA-Z0-9._:-]+\}))+$ Shorthand Syntax: ActivationState=string,AppendSourcePath=boolean,IncludeChildPaths=boolean,Methods=string,string,SourcePath=string JSON Syntax: { "ActivationState": "ACTIVE"|"INACTIVE", "AppendSourcePath": true|false, "IncludeChildPaths": true|false, "Methods": ["DELETE"|"GET"|"HEAD"|"OPTIONS"|"PATCH"|"POST"|"PUT", ...], "SourcePath": "string" }
     /// </summary>
     [CliOption("--uri-path-route")]
     public string? UriPathRoute { get; set; }
@@ -139,6 +139,15 @@ public record AwsMigrationHubRefactorSpacesCreateRouteOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

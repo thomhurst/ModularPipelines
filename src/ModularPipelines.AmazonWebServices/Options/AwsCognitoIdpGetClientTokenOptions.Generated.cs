@@ -11,13 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Issues an access token for machine-to-machine (M2M) authorization. Your app client provides its client ID and secret, and receives an access token that authorizes requests to your resource servers. GetClientToken provides the same functionality as the OAuth2 client-credentials grant; both authorize an application rather than a user. To use this operation, you must configure the app client with a client secret and enable the ALLOW_CLIENT_TOKEN_AUTH authentication flow. The ALLOW_CLIENT_TOKEN_AUTH...
+/// Issues an access token for machine-to-machine (M2M) authorization. Your app client provides its client ID and secret, and receives an access token that authorizes requests to your resource servers. To use this operation, you must configure the app client with a client secret and enable the ALLOW_CLIENT_TOKEN_AUTH authentication flow. The ALLOW_CLIENT_TOKEN_AUTH flow is mutually exclusive with user authentication flows. It must be the only authentication flow that you configure for the app client...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +27,10 @@ public record AwsCognitoIdpGetClientTokenOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Issues an access token for machine-to-machine (M2M) authorization. Your app client provides its client ID and secret, and receives an access token that authorizes requests to your resource servers. GetClientToken provides the same functionality as the OAuth2 client-credentials grant; both authorize an application rather than a user. To use this operation, you must configure the app client with a client secret and enable the ALLOW_CLIENT_TOKEN_AUTH authentication flow. The ALLOW_CLIENT_TOKEN_AUTH...
+    /// Issues an access token for machine-to-machine (M2M) authorization. Your app client provides its client ID and secret, and receives an access token that authorizes requests to your resource servers. To use this operation, you must configure the app client with a client secret and enable the ALLOW_CLIENT_TOKEN_AUTH authentication flow. The ALLOW_CLIENT_TOKEN_AUTH flow is mutually exclusive with user authentication flows. It must be the only authentication flow that you configure for the app client...
     /// </summary>
-    /// <param name="ClientId">The ID of the app client that requests the access token. The app client must have a client secret and the ALLOW_CLIENT_TOKEN_AUTH au- thentication flow. Constraints: o min: 1 o max: 128 o pattern: [\w+]+</param>
-    /// <param name="Secret">An active secret for the app client. Constraints: o min: 24 o max: 64 o pattern: [\w+]+</param>
+    /// <param name="ClientId">The ID of the app client that requests the access token. The app client must have a client secret and the ALLOW_CLIENT_TOKEN_AUTH authentication flow. Constraints: • min: 1 • max: 128 • pattern: [\w+]+</param>
+    /// <param name="Secret">An active secret for the app client. Constraints: • min: 24 • max: 64 • pattern: [\w+]+</param>
     public AwsCognitoIdpGetClientTokenOptions(
         string ClientId,
         string Secret
@@ -62,26 +62,26 @@ public record AwsCognitoIdpGetClientTokenOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the app client that requests the access token. The app client must have a client secret and the ALLOW_CLIENT_TOKEN_AUTH au- thentication flow. Constraints: o min: 1 o max: 128 o pattern: [\w+]+
+    /// The ID of the app client that requests the access token. The app client must have a client secret and the ALLOW_CLIENT_TOKEN_AUTH authentication flow. Constraints: • min: 1 • max: 128 • pattern: [\w+]+
     /// </summary>
     [CliOption("--client-id")]
     public string? ClientId { get; private init; }
 
     /// <summary>
-    /// An active secret for the app client. Constraints: o min: 24 o max: 64 o pattern: [\w+]+
+    /// An active secret for the app client. Constraints: • min: 24 • max: 64 • pattern: [\w+]+
     /// </summary>
     [SecretValue]
     [CliOption("--secret")]
     public string? Secret { get; private init; }
 
     /// <summary>
-    /// The custom scopes to authorize in the access token, in the format resource-server-identifier/scope-name . Each scope must belong to a resource server in your user pool. If you don't specify any scopes, Amazon Cognito authorizes the scopes that are configured for the app client. Constraints: o max: 50 (string) Constraints: o min: 1 o max: 256 o pattern: [\x21\x23-\x5B\x5D-\x7E]+ Syntax: "string" "string" ...
+    /// The custom scopes to authorize in the access token, in the format resource-server-identifier/scope-name . Each scope must belong to a resource server in your user pool. If you don't specify any scopes, Amazon Cognito authorizes the scopes that are configured for the app client. Constraints: • max: 50 (string) Constraints: • min: 1 • max: 256 • pattern: [\x21\x23-\x5B\x5D-\x7E]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--scopes", GroupValues = true)]
     public IEnumerable<string>? Scopes { get; set; }
 
     /// <summary>
-    /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When Amazon Cognito invokes any of these functions, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute that provides the data that you assigned to the ClientMetadata parameter in your request. In your function code, you can process the clientMetadata value to enhance your work- flow for your specific needs. To review the Lambda trigger types that Amazon Cognito invokes at runtime with API requests, see Connecting API actions to Lambda triggers in the Amazon Cognito Developer Guide . NOTE: When you use the ClientMetadata parameter, note that Amazon Cog- nito won't do the following: o Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't in- clude triggers, the ClientMetadata parameter serves no pur- pose. o Validate the ClientMetadata value. o Encrypt the ClientMetadata value. Don't send sensitive infor- mation in this parameter. key -&gt; (string) Constraints: o min: 0 o max: 131072 value -&gt; (string) Constraints: o min: 0 o max: 131072 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When Amazon Cognito invokes any of these functions, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute that provides the data that you assigned to the ClientMetadata parameter in your request. In your function code, you can process the clientMetadata value to enhance your workflow for your specific needs. To review the Lambda trigger types that Amazon Cognito invokes at runtime with API requests, see Connecting API actions to Lambda triggers in the Amazon Cognito Developer Guide . NOTE: When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following: • Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose. • Validate the ClientMetadata value. • Encrypt the ClientMetadata value. Don't send sensitive information in this parameter. key -&gt; (string) Constraints: • min: 0 • max: 131072 value -&gt; (string) Constraints: • min: 0 • max: 131072 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--client-metadata", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ClientMetadata { get; set; }
@@ -107,6 +107,15 @@ public record AwsCognitoIdpGetClientTokenOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsSagemakerUpdateClusterSchedulerConfigOptions : AwsOptions, IVal
     /// <summary>
     /// Update the cluster policy configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClusterSchedulerConfigId">ID of the cluster policy. Constraints: o min: 0 o max: 12 o pattern: [a-z0-9]{12}</param>
+    /// <param name="ClusterSchedulerConfigId">ID of the cluster policy. Constraints: • min: 0 • max: 12 • pattern: [a-z0-9]{12}</param>
     /// <param name="TargetVersion">Target version.</param>
     public AwsSagemakerUpdateClusterSchedulerConfigOptions(
         string ClusterSchedulerConfigId,
@@ -59,7 +60,7 @@ public record AwsSagemakerUpdateClusterSchedulerConfigOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ID of the cluster policy. Constraints: o min: 0 o max: 12 o pattern: [a-z0-9]{12}
+    /// ID of the cluster policy. Constraints: • min: 0 • max: 12 • pattern: [a-z0-9]{12}
     /// </summary>
     [CliOption("--cluster-scheduler-config-id")]
     public string? ClusterSchedulerConfigId { get; private init; }
@@ -71,13 +72,13 @@ public record AwsSagemakerUpdateClusterSchedulerConfigOptions : AwsOptions, IVal
     public int? TargetVersion { get; private init; }
 
     /// <summary>
-    /// Cluster policy configuration. PriorityClasses -&gt; (list) List of the priority classes, PriorityClass , of the cluster policy. When specified, these class configurations define how tasks are queued. Constraints: o min: 0 o max: 10 (structure) Priority class configuration. When included in Priority- Classes , these class configurations define how tasks are queued. Name -&gt; (string) [required] Name of the priority class. Constraints: o pattern: [a-z0-9]([-a-z0-9]*[a-z0-9]){0,39}? Weight -&gt; (integer) [required] Weight of the priority class. The value is within a range from 0 to 100, where 0 is the default. A weight of 0 is the lowest priority and 100 is the high- est. Weight 0 is the default. Constraints: o min: 0 o max: 100 FairShare -&gt; (string) When enabled, entities borrow idle compute based on their as- signed FairShareWeight . When disabled, entities borrow idle compute based on a first-come first-serve basis. Default is Enabled . Possible values: o Enabled o Disabled IdleResourceSharing -&gt; (string) Configuration for sharing idle compute resources across entities in the cluster. When enabled, unallocated resources are automat- ically calculated and made available for entities to borrow. Possible values: o Enabled o Disabled Shorthand Syntax: PriorityClasses=[{Name=string,Weight=integer},{Name=string,Weight=integer}],FairShare=string,IdleResourceSharing=string JSON Syntax: { "PriorityClasses": [ { "Name": "string", "Weight": integer } ... ], "FairShare": "Enabled"|"Disabled", "IdleResourceSharing": "Enabled"|"Disabled" }
+    /// Cluster policy configuration. PriorityClasses -&gt; (list) List of the priority classes, PriorityClass , of the cluster policy. When specified, these class configurations define how tasks are queued. Constraints: • min: 0 • max: 10 (structure) Priority class configuration. When included in PriorityClasses , these class configurations define how tasks are queued. Name -&gt; (string) [required] Name of the priority class. Constraints: • pattern: [a-z0-9]([-a-z0-9]*[a-z0-9]){0,39}? Weight -&gt; (integer) [required] Weight of the priority class. The value is within a range from 0 to 100, where 0 is the default. A weight of 0 is the lowest priority and 100 is the highest. Weight 0 is the default. Constraints: • min: 0 • max: 100 FairShare -&gt; (string) When enabled, entities borrow idle compute based on their assigned FairShareWeight . When disabled, entities borrow idle compute based on a first-come first-serve basis. Default is Enabled . Possible values: • Enabled • Disabled IdleResourceSharing -&gt; (string) Configuration for sharing idle compute resources across entities in the cluster. When enabled, unallocated resources are automatically calculated and made available for entities to borrow. Possible values: • Enabled • Disabled Shorthand Syntax: PriorityClasses=[{Name=string,Weight=integer},{Name=string,Weight=integer}],FairShare=string,IdleResourceSharing=string JSON Syntax: { "PriorityClasses": [ { "Name": "string", "Weight": integer } ... ], "FairShare": "Enabled"|"Disabled", "IdleResourceSharing": "Enabled"|"Disabled" }
     /// </summary>
     [CliOption("--scheduler-config")]
     public string? SchedulerConfig { get; set; }
 
     /// <summary>
-    /// Description of the cluster policy. Constraints: o min: 0 o max: 1024 o pattern: [\p{L}\p{M}\p{Z}\p{S}\p{N}\p{P}]*
+    /// Description of the cluster policy. Constraints: • min: 0 • max: 1024 • pattern: [\p{L}\p{M}\p{Z}\p{S}\p{N}\p{P}]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
@@ -103,6 +104,15 @@ public record AwsSagemakerUpdateClusterSchedulerConfigOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

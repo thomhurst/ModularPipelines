@@ -11,13 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a workspace in IoT SiteWise. A workspace isolates its re- sources, such as datasets, time series, pipelines, and tasks, and their data from other workspaces, and has its own quotas and throttling lim- its. You must specify an encryption configuration when you create a workspace. The operation returns immediately with the workspace in the CREATING state. Provisioning completes asynchronously, after which the workspace state is ACTIVE , or FAILED if provisioning doesn't complete. See also:...
+/// Creates a workspace in IoT SiteWise. A workspace isolates its resources, such as datasets, time series, pipelines, and tasks, and their data from other workspaces, and has its own quotas and throttling limits. You must specify an encryption configuration when you create a workspace. The operation returns immediately with the workspace in the CREATING state. Provisioning completes asynchronously, after which the workspace state is ACTIVE , or FAILED if provisioning doesn't complete. See also: AWS...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +27,10 @@ public record AwsIotsitewiseCreateWorkspaceOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a workspace in IoT SiteWise. A workspace isolates its re- sources, such as datasets, time series, pipelines, and tasks, and their data from other workspaces, and has its own quotas and throttling lim- its. You must specify an encryption configuration when you create a workspace. The operation returns immediately with the workspace in the CREATING state. Provisioning completes asynchronously, after which the workspace state is ACTIVE , or FAILED if provisioning doesn't complete. See also:...
+    /// Creates a workspace in IoT SiteWise. A workspace isolates its resources, such as datasets, time series, pipelines, and tasks, and their data from other workspaces, and has its own quotas and throttling limits. You must specify an encryption configuration when you create a workspace. The operation returns immediately with the workspace in the CREATING state. Provisioning completes asynchronously, after which the workspace state is ACTIVE , or FAILED if provisioning doesn't complete. See also: AWS...
     /// </summary>
-    /// <param name="WorkspaceName">The name of the workspace to create. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
-    /// <param name="EncryptionConfiguration">The encryption configuration for the workspace. encryptionType -&gt; (string) [required] The encryption scheme for the workspace. SITEWISE_DEFAULT_EN- CRYPTION encrypts data with the IoT SiteWise default key. KMS_BASED_ENCRYPTION encrypts data with the customer managed KMS key identified by kmsKeyId . Possible values: o SITEWISE_DEFAULT_ENCRYPTION o KMS_BASED_ENCRYPTION kmsKeyId -&gt; (string) The customer managed KMS key used when encryptionType is KMS_BASED_ENCRYPTION . Accepts a key ID, key ARN, or key alias. Required for KMS_BASED_ENCRYPTION ; must be omitted for SITE- WISE_DEFAULT_ENCRYPTION . After a workspace's customer managed key configuration becomes active, the key can't be changed. Constraints: o min: 1 o max: 2048 Shorthand Syntax: encryptionType=string,kmsKeyId=string JSON Syntax: { "encryptionType": "SITEWISE_DEFAULT_ENCRYPTION"|"KMS_BASED_ENCRYPTION", "kmsKeyId": "string" }</param>
+    /// <param name="WorkspaceName">The name of the workspace to create. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="EncryptionConfiguration">The encryption configuration for the workspace. encryptionType -&gt; (string) [required] The encryption scheme for the workspace. SITEWISE_DEFAULT_ENCRYPTION encrypts data with the IoT SiteWise default key. KMS_BASED_ENCRYPTION encrypts data with the customer managed KMS key identified by kmsKeyId . Possible values: • SITEWISE_DEFAULT_ENCRYPTION • KMS_BASED_ENCRYPTION kmsKeyId -&gt; (string) The customer managed KMS key used when encryptionType is KMS_BASED_ENCRYPTION . Accepts a key ID, key ARN, or key alias. Required for KMS_BASED_ENCRYPTION ; must be omitted for SITEWISE_DEFAULT_ENCRYPTION . After a workspace's customer managed key configuration becomes active, the key can't be changed. Constraints: • min: 1 • max: 2048 Shorthand Syntax: encryptionType=string,kmsKeyId=string JSON Syntax: { "encryptionType": "SITEWISE_DEFAULT_ENCRYPTION"|"KMS_BASED_ENCRYPTION", "kmsKeyId": "string" }</param>
     public AwsIotsitewiseCreateWorkspaceOptions(
         string WorkspaceName,
         string EncryptionConfiguration
@@ -62,31 +62,31 @@ public record AwsIotsitewiseCreateWorkspaceOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the workspace to create. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The name of the workspace to create. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--workspace-name")]
     public string? WorkspaceName { get; private init; }
 
     /// <summary>
-    /// The encryption configuration for the workspace. encryptionType -&gt; (string) [required] The encryption scheme for the workspace. SITEWISE_DEFAULT_EN- CRYPTION encrypts data with the IoT SiteWise default key. KMS_BASED_ENCRYPTION encrypts data with the customer managed KMS key identified by kmsKeyId . Possible values: o SITEWISE_DEFAULT_ENCRYPTION o KMS_BASED_ENCRYPTION kmsKeyId -&gt; (string) The customer managed KMS key used when encryptionType is KMS_BASED_ENCRYPTION . Accepts a key ID, key ARN, or key alias. Required for KMS_BASED_ENCRYPTION ; must be omitted for SITE- WISE_DEFAULT_ENCRYPTION . After a workspace's customer managed key configuration becomes active, the key can't be changed. Constraints: o min: 1 o max: 2048 Shorthand Syntax: encryptionType=string,kmsKeyId=string JSON Syntax: { "encryptionType": "SITEWISE_DEFAULT_ENCRYPTION"|"KMS_BASED_ENCRYPTION", "kmsKeyId": "string" }
+    /// The encryption configuration for the workspace. encryptionType -&gt; (string) [required] The encryption scheme for the workspace. SITEWISE_DEFAULT_ENCRYPTION encrypts data with the IoT SiteWise default key. KMS_BASED_ENCRYPTION encrypts data with the customer managed KMS key identified by kmsKeyId . Possible values: • SITEWISE_DEFAULT_ENCRYPTION • KMS_BASED_ENCRYPTION kmsKeyId -&gt; (string) The customer managed KMS key used when encryptionType is KMS_BASED_ENCRYPTION . Accepts a key ID, key ARN, or key alias. Required for KMS_BASED_ENCRYPTION ; must be omitted for SITEWISE_DEFAULT_ENCRYPTION . After a workspace's customer managed key configuration becomes active, the key can't be changed. Constraints: • min: 1 • max: 2048 Shorthand Syntax: encryptionType=string,kmsKeyId=string JSON Syntax: { "encryptionType": "SITEWISE_DEFAULT_ENCRYPTION"|"KMS_BASED_ENCRYPTION", "kmsKeyId": "string" }
     /// </summary>
     [CliOption("--encryption-configuration")]
     public string? EncryptionConfiguration { get; private init; }
 
     /// <summary>
-    /// A description for the workspace. Constraints: o min: 1 o max: 2048 o pattern: [^\u0000-\u001F\u007F]+
+    /// A description for the workspace. Constraints: • min: 1 • max: 2048 • pattern: [^\u0000-\u001F\u007F]+
     /// </summary>
     [CliOption("--workspace-description")]
     public string? WorkspaceDescription { get; set; }
 
     /// <summary>
-    /// A list of key-value pairs that contain metadata for the workspace. For more information, see Tagging your IoT SiteWise resources in the IoT SiteWise User Guide . Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A list of key-value pairs that contain metadata for the workspace. For more information, see Tagging your IoT SiteWise resources in the IoT SiteWise User Guide . Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure that the request is idempotent. If you retry a request that completed successfully using the same client token, the retry succeeds without performing any further actions. Constraints: o min: 36 o max: 64 o pattern: \S{36,64}
+    /// A unique, case-sensitive identifier that you provide to ensure that the request is idempotent. If you retry a request that completed successfully using the same client token, the retry succeeds without performing any further actions. Constraints: • min: 36 • max: 64 • pattern: \S{36,64}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -113,6 +113,15 @@ public record AwsIotsitewiseCreateWorkspaceOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

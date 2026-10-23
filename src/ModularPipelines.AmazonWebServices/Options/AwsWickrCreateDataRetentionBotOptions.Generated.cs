@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a data retention bot in a Wickr network. Data retention bots are specialized bots that handle message archiving and compliance by capturing and storing messages for regulatory or organizational re- quirements. See also: AWS API Documentation
+/// Creates a data retention bot in a Wickr network. Data retention bots are specialized bots that handle message archiving and compliance by capturing and storing messages for regulatory or organizational requirements. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsWickrCreateDataRetentionBotOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a data retention bot in a Wickr network. Data retention bots are specialized bots that handle message archiving and compliance by capturing and storing messages for regulatory or organizational re- quirements. See also: AWS API Documentation
+    /// Creates a data retention bot in a Wickr network. Data retention bots are specialized bots that handle message archiving and compliance by capturing and storing messages for regulatory or organizational requirements. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NetworkId">The ID of the Wickr network where the data retention bot will be created. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}</param>
+    /// <param name="NetworkId">The ID of the Wickr network where the data retention bot will be created. Constraints: • min: 8 • max: 8 • pattern: [0-9]{8}</param>
     public AwsWickrCreateDataRetentionBotOptions(
         string NetworkId
     )
@@ -56,7 +57,7 @@ public record AwsWickrCreateDataRetentionBotOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Wickr network where the data retention bot will be created. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}
+    /// The ID of the Wickr network where the data retention bot will be created. Constraints: • min: 8 • max: 8 • pattern: [0-9]{8}
     /// </summary>
     [CliOption("--network-id")]
     public string? NetworkId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsWickrCreateDataRetentionBotOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

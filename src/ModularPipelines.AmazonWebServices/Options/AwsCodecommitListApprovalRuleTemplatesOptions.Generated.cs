@@ -30,7 +30,7 @@ public record AwsCodecommitListApprovalRuleTemplatesOptions : AwsOptions
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// A non-zero, non-negative integer used to limit the number of re- turned results.
+    /// A non-zero, non-negative integer used to limit the number of returned results.
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -40,5 +40,14 @@ public record AwsCodecommitListApprovalRuleTemplatesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

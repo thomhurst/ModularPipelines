@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsWisdomUpdateQuickResponseOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Updates an existing Wisdom quick response. See also: AWS API Documentation
     /// </summary>
-    /// <param name="KnowledgeBaseId">The identifier of the knowledge base. This should not be a QUICK_RE- SPONSES type knowledge base if you're storing Wisdom Content re- source to it. Can be either the ID or the ARN. URLs cannot contain the ARN. Constraints: o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})?$</param>
-    /// <param name="QuickResponseId">The identifier of the quick response. Constraints: o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})?$</param>
+    /// <param name="KnowledgeBaseId">The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can be either the ID or the ARN. URLs cannot contain the ARN. Constraints: • pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})?$</param>
+    /// <param name="QuickResponseId">The identifier of the quick response. Constraints: • pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})?$</param>
     public AwsWisdomUpdateQuickResponseOptions(
         string KnowledgeBaseId,
         string QuickResponseId
@@ -60,43 +61,43 @@ public record AwsWisdomUpdateQuickResponseOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the knowledge base. This should not be a QUICK_RE- SPONSES type knowledge base if you're storing Wisdom Content re- source to it. Can be either the ID or the ARN. URLs cannot contain the ARN. Constraints: o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})?$
+    /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can be either the ID or the ARN. URLs cannot contain the ARN. Constraints: • pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})?$
     /// </summary>
     [CliOption("--knowledge-base-id")]
     public string? KnowledgeBaseId { get; private init; }
 
     /// <summary>
-    /// The identifier of the quick response. Constraints: o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})?$
+    /// The identifier of the quick response. Constraints: • pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})?$
     /// </summary>
     [CliOption("--quick-response-id")]
     public string? QuickResponseId { get; private init; }
 
     /// <summary>
-    /// The Amazon Connect contact channels this quick response applies to. The supported contact channel types include Chat . (string) Constraints: o min: 1 o max: 10 Syntax: "string" "string" ...
+    /// The Amazon Connect contact channels this quick response applies to. The supported contact channel types include Chat . (string) Constraints: • min: 1 • max: 10 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--channels", GroupValues = true)]
     public IEnumerable<string>? Channels { get; set; }
 
     /// <summary>
-    /// The updated content of the quick response. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: content. content -&gt; (string) The content of the quick response. Constraints: o min: 1 o max: 1024 Shorthand Syntax: content=string JSON Syntax: { "content": "string" }
+    /// The updated content of the quick response. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: content. content -&gt; (string) The content of the quick response. Constraints: • min: 1 • max: 1024 Shorthand Syntax: content=string JSON Syntax: { "content": "string" }
     /// </summary>
     [CliOption("--content")]
     public string? Content { get; set; }
 
     /// <summary>
-    /// The media type of the quick response content. o Use application/x.quickresponse;format=plain for quick response written in plain text. o Use application/x.quickresponse;format=markdown for quick response written in richtext. Constraints: o pattern: ^(application/x\.quickresponse;format=(plain|markdown))$
+    /// The media type of the quick response content. • Use application/x.quickresponse;format=plain for quick response written in plain text. • Use application/x.quickresponse;format=markdown for quick response written in richtext. Constraints: • pattern: ^(application/x\.quickresponse;format=(plain|markdown))$
     /// </summary>
     [CliOption("--content-type")]
     public string? ContentType { get; set; }
 
     /// <summary>
-    /// The updated description of the quick response. Constraints: o min: 1 o max: 255
+    /// The updated description of the quick response. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The updated grouping configuration of the quick response. criteria -&gt; (string) The criteria used for grouping Wisdom users. The following is the list of supported criteria values. o RoutingProfileArn : Grouping the users by their Amazon Connect routing profile ARN . User should have SearchRoutingProfile and DescribeRoutingProfile permissions when setting criteria to this value. Constraints: o min: 1 o max: 100 values -&gt; (list) The list of values that define different groups of Wisdom users. o When setting criteria to RoutingProfileArn , you need to pro- vide a list of ARNs of Amazon Connect routing profiles as val- ues of this parameter. (string) Constraints: o min: 1 o max: 2048 Shorthand Syntax: criteria=string,values=string,string JSON Syntax: { "criteria": "string", "values": ["string", ...] }
+    /// The updated grouping configuration of the quick response. criteria -&gt; (string) The criteria used for grouping Wisdom users. The following is the list of supported criteria values. • RoutingProfileArn : Grouping the users by their Amazon Connect routing profile ARN . User should have SearchRoutingProfile and DescribeRoutingProfile permissions when setting criteria to this value. Constraints: • min: 1 • max: 100 values -&gt; (list) The list of values that define different groups of Wisdom users. • When setting criteria to RoutingProfileArn , you need to provide a list of ARNs of Amazon Connect routing profiles as values of this parameter. (string) Constraints: • min: 1 • max: 2048 Shorthand Syntax: criteria=string,values=string,string JSON Syntax: { "criteria": "string", "values": ["string", ...] }
     /// </summary>
     [CliOption("--grouping-configuration")]
     public string? GroupingConfiguration { get; set; }
@@ -108,13 +109,13 @@ public record AwsWisdomUpdateQuickResponseOptions : AwsOptions, IValidatableObje
     public bool? IsActive { get; set; }
 
     /// <summary>
-    /// The language code value for the language in which the quick response is written. The supported language codes include de_DE , en_US , es_ES , fr_FR , id_ID , it_IT , ja_JP , ko_KR , pt_BR , zh_CN , zh_TW Constraints: o min: 2 o max: 5
+    /// The language code value for the language in which the quick response is written. The supported language codes include de_DE , en_US , es_ES , fr_FR , id_ID , it_IT , ja_JP , ko_KR , pt_BR , zh_CN , zh_TW Constraints: • min: 2 • max: 5
     /// </summary>
     [CliOption("--language")]
     public string? Language { get; set; }
 
     /// <summary>
-    /// The name of the quick response. Constraints: o min: 1 o max: 40
+    /// The name of the quick response. Constraints: • min: 1 • max: 40
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
@@ -138,7 +139,7 @@ public record AwsWisdomUpdateQuickResponseOptions : AwsOptions, IValidatableObje
     public bool? RemoveShortcutKey { get; set; }
 
     /// <summary>
-    /// The shortcut key of the quick response. The value should be unique across the knowledge base. Constraints: o min: 1 o max: 10
+    /// The shortcut key of the quick response. The value should be unique across the knowledge base. Constraints: • min: 1 • max: 10
     /// </summary>
     [CliOption("--shortcut-key")]
     public string? ShortcutKey { get; set; }
@@ -164,6 +165,15 @@ public record AwsWisdomUpdateQuickResponseOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

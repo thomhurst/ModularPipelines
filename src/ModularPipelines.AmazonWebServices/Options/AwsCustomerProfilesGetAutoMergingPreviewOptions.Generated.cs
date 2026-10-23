@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Tests the auto-merging settings of your Identity Resolution Job without merging your data. It randomly selects a sample of matching groups from the existing matching results, and applies the automerging settings that you provided. You can then view the number of profiles in the sam- ple, the number of matches, and the number of profiles identified to be merged. This enables you to evaluate the accuracy of the attributes in your matching list. You can't view which profiles are matched and would b...
+/// Tests the auto-merging settings of your Identity Resolution Job without merging your data. It randomly selects a sample of matching groups from the existing matching results, and applies the automerging settings that you provided. You can then view the number of profiles in the sample, the number of matches, and the number of profiles identified to be merged. This enables you to evaluate the accuracy of the attributes in your matching list. You can't view which profiles are matched and would be ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsCustomerProfilesGetAutoMergingPreviewOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Tests the auto-merging settings of your Identity Resolution Job without merging your data. It randomly selects a sample of matching groups from the existing matching results, and applies the automerging settings that you provided. You can then view the number of profiles in the sam- ple, the number of matches, and the number of profiles identified to be merged. This enables you to evaluate the accuracy of the attributes in your matching list. You can't view which profiles are matched and would b...
+    /// Tests the auto-merging settings of your Identity Resolution Job without merging your data. It randomly selects a sample of matching groups from the existing matching results, and applies the automerging settings that you provided. You can then view the number of profiles in the sample, the number of matches, and the number of profiles identified to be merged. This enables you to evaluate the accuracy of the attributes in your matching list. You can't view which profiles are matched and would be ...
     /// </summary>
-    /// <param name="DomainName">The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
-    /// <param name="Consolidation">A list of matching attributes that represent matching criteria. MatchingAttributesList -&gt; (list) [required] A list of matching criteria. Constraints: o min: 1 o max: 10 (list) Constraints: o min: 1 o max: 20 (string) Constraints: o min: 1 o max: 255 Shorthand Syntax: MatchingAttributesList=[[string,string],[string,string]] JSON Syntax: { "MatchingAttributesList": [ ["string", ...] ... ] }</param>
-    /// <param name="ConflictResolution">How the auto-merging process should resolve conflicts between dif- ferent profiles. ConflictResolvingModel -&gt; (string) [required] How the auto-merging process should resolve conflicts between different profiles. o RECENCY : Uses the data that was most recently updated. o SOURCE : Uses the data from a specific source. For example, if a company has been aquired or two departments have merged, data from the specified source is used. If two duplicate pro- files are from the same source, then RECENCY is used again. Possible values: o RECENCY o SOURCE SourceName -&gt; (string) The ObjectType name that is used to resolve profile merging con- flicts when choosing SOURCE as the ConflictResolvingModel . Constraints: o min: 1 o max: 255 Shorthand Syntax: ConflictResolvingModel=string,SourceName=string JSON Syntax: { "ConflictResolvingModel": "RECENCY"|"SOURCE", "SourceName": "string" }</param>
+    /// <param name="DomainName">The unique name of the domain. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="Consolidation">A list of matching attributes that represent matching criteria. MatchingAttributesList -&gt; (list) [required] A list of matching criteria. Constraints: • min: 1 • max: 10 (list) Constraints: • min: 1 • max: 20 (string) Constraints: • min: 1 • max: 255 Shorthand Syntax: MatchingAttributesList=[[string,string],[string,string]] JSON Syntax: { "MatchingAttributesList": [ ["string", ...] ... ] }</param>
+    /// <param name="ConflictResolution">How the auto-merging process should resolve conflicts between different profiles. ConflictResolvingModel -&gt; (string) [required] How the auto-merging process should resolve conflicts between different profiles. • RECENCY : Uses the data that was most recently updated. • SOURCE : Uses the data from a specific source. For example, if a company has been aquired or two departments have merged, data from the specified source is used. If two duplicate profiles are from the same source, then RECENCY is used again. Possible values: • RECENCY • SOURCE SourceName -&gt; (string) The ObjectType name that is used to resolve profile merging conflicts when choosing SOURCE as the ConflictResolvingModel . Constraints: • min: 1 • max: 255 Shorthand Syntax: ConflictResolvingModel=string,SourceName=string JSON Syntax: { "ConflictResolvingModel": "RECENCY"|"SOURCE", "SourceName": "string" }</param>
     public AwsCustomerProfilesGetAutoMergingPreviewOptions(
         string DomainName,
         string Consolidation,
@@ -64,28 +65,28 @@ public record AwsCustomerProfilesGetAutoMergingPreviewOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The unique name of the domain. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// A list of matching attributes that represent matching criteria. MatchingAttributesList -&gt; (list) [required] A list of matching criteria. Constraints: o min: 1 o max: 10 (list) Constraints: o min: 1 o max: 20 (string) Constraints: o min: 1 o max: 255 Shorthand Syntax: MatchingAttributesList=[[string,string],[string,string]] JSON Syntax: { "MatchingAttributesList": [ ["string", ...] ... ] }
+    /// A list of matching attributes that represent matching criteria. MatchingAttributesList -&gt; (list) [required] A list of matching criteria. Constraints: • min: 1 • max: 10 (list) Constraints: • min: 1 • max: 20 (string) Constraints: • min: 1 • max: 255 Shorthand Syntax: MatchingAttributesList=[[string,string],[string,string]] JSON Syntax: { "MatchingAttributesList": [ ["string", ...] ... ] }
     /// </summary>
     [CliOption("--consolidation")]
     public string? Consolidation { get; private init; }
 
     /// <summary>
-    /// How the auto-merging process should resolve conflicts between dif- ferent profiles. ConflictResolvingModel -&gt; (string) [required] How the auto-merging process should resolve conflicts between different profiles. o RECENCY : Uses the data that was most recently updated. o SOURCE : Uses the data from a specific source. For example, if a company has been aquired or two departments have merged, data from the specified source is used. If two duplicate pro- files are from the same source, then RECENCY is used again. Possible values: o RECENCY o SOURCE SourceName -&gt; (string) The ObjectType name that is used to resolve profile merging con- flicts when choosing SOURCE as the ConflictResolvingModel . Constraints: o min: 1 o max: 255 Shorthand Syntax: ConflictResolvingModel=string,SourceName=string JSON Syntax: { "ConflictResolvingModel": "RECENCY"|"SOURCE", "SourceName": "string" }
+    /// How the auto-merging process should resolve conflicts between different profiles. ConflictResolvingModel -&gt; (string) [required] How the auto-merging process should resolve conflicts between different profiles. • RECENCY : Uses the data that was most recently updated. • SOURCE : Uses the data from a specific source. For example, if a company has been aquired or two departments have merged, data from the specified source is used. If two duplicate profiles are from the same source, then RECENCY is used again. Possible values: • RECENCY • SOURCE SourceName -&gt; (string) The ObjectType name that is used to resolve profile merging conflicts when choosing SOURCE as the ConflictResolvingModel . Constraints: • min: 1 • max: 255 Shorthand Syntax: ConflictResolvingModel=string,SourceName=string JSON Syntax: { "ConflictResolvingModel": "RECENCY"|"SOURCE", "SourceName": "string" }
     /// </summary>
     [CliOption("--conflict-resolution")]
     public string? ConflictResolution { get; private init; }
 
     /// <summary>
-    /// Minimum confidence score required for profiles within a matching group to be merged during the auto-merge process. Constraints: o min: 0.0 o max: 1.0
+    /// Minimum confidence score required for profiles within a matching group to be merged during the auto-merge process. Constraints: • min: 0.0 • max: 1.0
     /// </summary>
     [CliOption("--min-allowed-confidence-score-for-merging")]
-    public int? MinAllowedConfidenceScoreForMerging { get; set; }
+    public double? MinAllowedConfidenceScoreForMerging { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -108,6 +109,15 @@ public record AwsCustomerProfilesGetAutoMergingPreviewOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

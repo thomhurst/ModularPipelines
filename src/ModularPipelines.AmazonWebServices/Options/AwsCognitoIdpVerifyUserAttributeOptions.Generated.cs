@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Submits a verification code for a signed-in user who has added or changed a value of an auto-verified attribute. When successful, the user's attribute becomes verified and the attribute email_verified or phone_number_verified becomes true . If your user pool requires verification before Amazon Cognito updates the attribute value, this operation updates the affected attribute to its pending value. Authorize this action with a signed-in user's access token. It must in- clude the scope aws.cognito....
+/// Submits a verification code for a signed-in user who has added or changed a value of an auto-verified attribute. When successful, the user's attribute becomes verified and the attribute email_verified or phone_number_verified becomes true . If your user pool requires verification before Amazon Cognito updates the attribute value, this operation updates the affected attribute to its pending value. Authorize this action with a signed-in user's access token. It must include the scope aws.cognito.si...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsCognitoIdpVerifyUserAttributeOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Submits a verification code for a signed-in user who has added or changed a value of an auto-verified attribute. When successful, the user's attribute becomes verified and the attribute email_verified or phone_number_verified becomes true . If your user pool requires verification before Amazon Cognito updates the attribute value, this operation updates the affected attribute to its pending value. Authorize this action with a signed-in user's access token. It must in- clude the scope aws.cognito....
+    /// Submits a verification code for a signed-in user who has added or changed a value of an auto-verified attribute. When successful, the user's attribute becomes verified and the attribute email_verified or phone_number_verified becomes true . If your user pool requires verification before Amazon Cognito updates the attribute value, this operation updates the affected attribute to its pending value. Authorize this action with a signed-in user's access token. It must include the scope aws.cognito.si...
     /// </summary>
-    /// <param name="AccessToken">A valid access token that Amazon Cognito issued to the currently signed-in user. Must include a scope claim for aws.cog- nito.signin.user.admin . Constraints: o pattern: [A-Za-z0-9-_=.]+</param>
-    /// <param name="AttributeName">The name of the attribute that you want to verify. Constraints: o min: 1 o max: 32 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+</param>
-    /// <param name="Code">The verification code that your user pool sent to the added or changed attribute, for example the user's email address. Constraints: o min: 1 o max: 2048 o pattern: [\S]+</param>
+    /// <param name="AccessToken">A valid access token that Amazon Cognito issued to the currently signed-in user. Must include a scope claim for aws.cognito.signin.user.admin . Constraints: • pattern: [A-Za-z0-9-_=.]+</param>
+    /// <param name="AttributeName">The name of the attribute that you want to verify. Constraints: • min: 1 • max: 32 • pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+</param>
+    /// <param name="Code">The verification code that your user pool sent to the added or changed attribute, for example the user's email address. Constraints: • min: 1 • max: 2048 • pattern: [\S]+</param>
     public AwsCognitoIdpVerifyUserAttributeOptions(
         string AccessToken,
         string AttributeName,
@@ -65,21 +66,22 @@ public record AwsCognitoIdpVerifyUserAttributeOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A valid access token that Amazon Cognito issued to the currently signed-in user. Must include a scope claim for aws.cog- nito.signin.user.admin . Constraints: o pattern: [A-Za-z0-9-_=.]+
+    /// A valid access token that Amazon Cognito issued to the currently signed-in user. Must include a scope claim for aws.cognito.signin.user.admin . Constraints: • pattern: [A-Za-z0-9-_=.]+
     /// </summary>
     [SecretValue]
     [CliOption("--access-token")]
     public string? AccessToken { get; private init; }
 
     /// <summary>
-    /// The name of the attribute that you want to verify. Constraints: o min: 1 o max: 32 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+
+    /// The name of the attribute that you want to verify. Constraints: • min: 1 • max: 32 • pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+
     /// </summary>
     [CliOption("--attribute-name")]
     public string? AttributeName { get; private init; }
 
     /// <summary>
-    /// The verification code that your user pool sent to the added or changed attribute, for example the user's email address. Constraints: o min: 1 o max: 2048 o pattern: [\S]+
+    /// The verification code that your user pool sent to the added or changed attribute, for example the user's email address. Constraints: • min: 1 • max: 2048 • pattern: [\S]+
     /// </summary>
+    [SecretValue]
     [CliOption("--code")]
     public string? Code { get; private init; }
 
@@ -104,6 +106,15 @@ public record AwsCognitoIdpVerifyUserAttributeOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

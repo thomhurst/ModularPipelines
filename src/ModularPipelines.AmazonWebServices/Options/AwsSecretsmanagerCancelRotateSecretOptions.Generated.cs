@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Turns off automatic rotation, and if a rotation is currently in progress, cancels the rotation. If you cancel a rotation in progress, it can leave the VersionStage la- bels in an unexpected state. You might need to remove the staging label AWSPENDING from the partially created version. You also need to deter- mine whether to roll back to the previous version of the secret by mov- ing the staging label AWSCURRENT to the version that has AWSPENDING . To determine which version has a specific stagi...
+/// Turns off automatic rotation, and if a rotation is currently in progress, cancels the rotation. If you cancel a rotation in progress, it can leave the VersionStage labels in an unexpected state. You might need to remove the staging label AWSPENDING from the partially created version. You also need to determine whether to roll back to the previous version of the secret by moving the staging label AWSCURRENT to the version that has AWSPENDING . To determine which version has a specific staging lab...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsSecretsmanagerCancelRotateSecretOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Turns off automatic rotation, and if a rotation is currently in progress, cancels the rotation. If you cancel a rotation in progress, it can leave the VersionStage la- bels in an unexpected state. You might need to remove the staging label AWSPENDING from the partially created version. You also need to deter- mine whether to roll back to the previous version of the secret by mov- ing the staging label AWSCURRENT to the version that has AWSPENDING . To determine which version has a specific stagi...
+    /// Turns off automatic rotation, and if a rotation is currently in progress, cancels the rotation. If you cancel a rotation in progress, it can leave the VersionStage labels in an unexpected state. You might need to remove the staging label AWSPENDING from the partially created version. You also need to determine whether to roll back to the previous version of the secret by moving the staging label AWSCURRENT to the version that has AWSPENDING . To determine which version has a specific staging lab...
     /// </summary>
-    /// <param name="SecretId">The ARN or name of the secret. For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See Finding a secret from a partial ARN . Constraints: o min: 1 o max: 2048</param>
+    /// <param name="SecretId">The ARN or name of the secret. For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See Finding a secret from a partial ARN . Constraints: • min: 1 • max: 2048</param>
     public AwsSecretsmanagerCancelRotateSecretOptions(
         string SecretId
     )
@@ -57,7 +58,7 @@ public record AwsSecretsmanagerCancelRotateSecretOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN or name of the secret. For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See Finding a secret from a partial ARN . Constraints: o min: 1 o max: 2048
+    /// The ARN or name of the secret. For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See Finding a secret from a partial ARN . Constraints: • min: 1 • max: 2048
     /// </summary>
     [SecretValue]
     [CliOption("--secret-id")]
@@ -84,6 +85,15 @@ public record AwsSecretsmanagerCancelRotateSecretOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

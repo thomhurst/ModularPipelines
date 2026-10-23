@@ -10,13 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets and starts the next pending (status IN_PROGRESS or QUEUED) job ex- ecution for a thing. Requires permission to access the StartNextPendingJobExecution action. See also: AWS API Documentation
+/// Gets and starts the next pending (status IN_PROGRESS or QUEUED) job execution for a thing. Requires permission to access the StartNextPendingJobExecution action. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +26,9 @@ public record AwsIotJobsDataStartNextPendingJobExecutionOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets and starts the next pending (status IN_PROGRESS or QUEUED) job ex- ecution for a thing. Requires permission to access the StartNextPendingJobExecution action. See also: AWS API Documentation
+    /// Gets and starts the next pending (status IN_PROGRESS or QUEUED) job execution for a thing. Requires permission to access the StartNextPendingJobExecution action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ThingName">The name of the thing associated with the device. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+</param>
+    /// <param name="ThingName">The name of the thing associated with the device. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+</param>
     public AwsIotJobsDataStartNextPendingJobExecutionOptions(
         string ThingName
     )
@@ -57,22 +57,22 @@ public record AwsIotJobsDataStartNextPendingJobExecutionOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the thing associated with the device. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+
+    /// The name of the thing associated with the device. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+
     /// </summary>
     [CliOption("--thing-name")]
     public string? ThingName { get; private init; }
 
     /// <summary>
-    /// A collection of name/value pairs that describe the status of the job execution. If not specified, the statusDetails are unchanged. The maximum length of the value in the name/value pair is 1,024 characters. key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+ value -&gt; (string) Constraints: o min: 1 o pattern: [^\p{C}]+ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A collection of name/value pairs that describe the status of the job execution. If not specified, the statusDetails are unchanged. The maximum length of the value in the name/value pair is 1,024 characters. key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+ value -&gt; (string) Constraints: • min: 1 • pattern: [^\p{C}]+ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--status-details", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? StatusDetails { get; set; }
 
     /// <summary>
-    /// Specifies the amount of time this device has to finish execution of this job. If the job execution status is not set to a terminal state before this timer expires, or before the timer is reset (by calling UpdateJobExecution , setting the status to IN_PROGRESS , and speci- fying a new timeout value in field stepTimeoutInMinutes ) the job execution status will be automatically set to TIMED_OUT . Note that setting the step timeout has no effect on the in progress timeout that may have been specified when the job was created (CreateJob us- ing field timeoutConfig ). Valid values for this parameter range from 1 to 10080 (1 minute to 7 days).
+    /// Specifies the amount of time this device has to finish execution of this job. If the job execution status is not set to a terminal state before this timer expires, or before the timer is reset (by calling UpdateJobExecution , setting the status to IN_PROGRESS , and specifying a new timeout value in field stepTimeoutInMinutes ) the job execution status will be automatically set to TIMED_OUT . Note that setting the step timeout has no effect on the in progress timeout that may have been specified when the job was created (CreateJob using field timeoutConfig ). Valid values for this parameter range from 1 to 10080 (1 minute to 7 days).
     /// </summary>
     [CliOption("--step-timeout-in-minutes")]
-    public int? StepTimeoutInMinutes { get; set; }
+    public long? StepTimeoutInMinutes { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -95,6 +95,15 @@ public record AwsIotJobsDataStartNextPendingJobExecutionOptions : AwsOptions, IV
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

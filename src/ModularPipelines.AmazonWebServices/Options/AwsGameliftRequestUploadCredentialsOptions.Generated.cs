@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsGameliftRequestUploadCredentialsOptions : AwsOptions, IValidata
     /// <summary>
     /// This API works with the following fleet types: EC2 Retrieves a fresh set of credentials for use when uploading a new set of game build files to Amazon GameLift Servers's Amazon S3. This is done as part of the build creation process; see CreateBuild . To request new credentials, specify the build ID as returned with an initial CreateBuild request. If successful, a new set of credentials are returned, along with the S3 storage location associated with the build ID. Learn more Create a Build with F...
     /// </summary>
-    /// <param name="BuildId">A unique identifier for the build to get credentials for. You can use either the build ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^(build-\S+|arn:.*:build\/build-\S+)$</param>
+    /// <param name="BuildId">A unique identifier for the build to get credentials for. You can use either the build ID or ARN value. Constraints: • min: 1 • max: 512 • pattern: ^(build-\S+|arn:.*:build\/build-\S+)$</param>
     public AwsGameliftRequestUploadCredentialsOptions(
         string BuildId
     )
@@ -56,7 +57,7 @@ public record AwsGameliftRequestUploadCredentialsOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the build to get credentials for. You can use either the build ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^(build-\S+|arn:.*:build\/build-\S+)$
+    /// A unique identifier for the build to get credentials for. You can use either the build ID or ARN value. Constraints: • min: 1 • max: 512 • pattern: ^(build-\S+|arn:.*:build\/build-\S+)$
     /// </summary>
     [CliOption("--build-id")]
     public string? BuildId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsGameliftRequestUploadCredentialsOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsBedrockAgentcoreGetPaymentSessionOptions : AwsOptions, IValidat
     /// <summary>
     /// Get a payment session. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PaymentManagerArn">The ARN of the payment manager that owns this session. Constraints: o min: 66 o max: 2048 o pattern: arn:(aws|aws-[a-z0-9-]+):bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:payment-man- ager/[a-z0-9]([a-z0-9-]{0,47}[a-z0-9])?-[a-z0-9]{10}</param>
-    /// <param name="PaymentSessionId">The ID of the payment session to retrieve. Constraints: o min: 31 o max: 31 o pattern: payment-session-[0-9a-zA-Z-]{15}</param>
+    /// <param name="PaymentManagerArn">The ARN of the payment manager that owns this session. Constraints: • min: 66 • max: 2048 • pattern: arn:(aws|aws-[a-z0-9-]+):bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:payment-manager/[a-z0-9]([a-z0-9-]{0,47}[a-z0-9])?-[a-z0-9]{10}</param>
+    /// <param name="PaymentSessionId">The ID of the payment session to retrieve. Constraints: • min: 31 • max: 31 • pattern: payment-session-[0-9a-zA-Z-]{15}</param>
     public AwsBedrockAgentcoreGetPaymentSessionOptions(
         string PaymentManagerArn,
         string PaymentSessionId
@@ -60,25 +61,25 @@ public record AwsBedrockAgentcoreGetPaymentSessionOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the payment manager that owns this session. Constraints: o min: 66 o max: 2048 o pattern: arn:(aws|aws-[a-z0-9-]+):bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:payment-man- ager/[a-z0-9]([a-z0-9-]{0,47}[a-z0-9])?-[a-z0-9]{10}
+    /// The ARN of the payment manager that owns this session. Constraints: • min: 66 • max: 2048 • pattern: arn:(aws|aws-[a-z0-9-]+):bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:payment-manager/[a-z0-9]([a-z0-9-]{0,47}[a-z0-9])?-[a-z0-9]{10}
     /// </summary>
     [CliOption("--payment-manager-arn")]
     public string? PaymentManagerArn { get; private init; }
 
     /// <summary>
-    /// The ID of the payment session to retrieve. Constraints: o min: 31 o max: 31 o pattern: payment-session-[0-9a-zA-Z-]{15}
+    /// The ID of the payment session to retrieve. Constraints: • min: 31 • max: 31 • pattern: payment-session-[0-9a-zA-Z-]{15}
     /// </summary>
     [CliOption("--payment-session-id")]
     public string? PaymentSessionId { get; private init; }
 
     /// <summary>
-    /// The user ID associated with this payment session. Constraints: o min: 0 o max: 120
+    /// The user ID associated with this payment session. Constraints: • min: 0 • max: 120
     /// </summary>
     [CliOption("--user-id")]
     public string? UserId { get; set; }
 
     /// <summary>
-    /// The agent name associated with this request, used for observability. Constraints: o min: 0 o max: 256
+    /// The agent name associated with this request, used for observability. Constraints: • min: 0 • max: 256
     /// </summary>
     [CliOption("--agent-name")]
     public string? AgentName { get; set; }
@@ -104,6 +105,15 @@ public record AwsBedrockAgentcoreGetPaymentSessionOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

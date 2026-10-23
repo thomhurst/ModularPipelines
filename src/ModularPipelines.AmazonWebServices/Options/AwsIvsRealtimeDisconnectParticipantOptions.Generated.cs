@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Disconnects a specified participant from a specified stage. If the par- ticipant is publishing using an IngestConfiguration , DisconnectPar- ticipant also updates the stageArn in the IngestConfiguration to be an empty string. See also: AWS API Documentation
+/// Disconnects a specified participant from a specified stage. If the participant is publishing using an IngestConfiguration , DisconnectParticipant also updates the stageArn in the IngestConfiguration to be an empty string. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsIvsRealtimeDisconnectParticipantOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Disconnects a specified participant from a specified stage. If the par- ticipant is publishing using an IngestConfiguration , DisconnectPar- ticipant also updates the stageArn in the IngestConfiguration to be an empty string. See also: AWS API Documentation
+    /// Disconnects a specified participant from a specified stage. If the participant is publishing using an IngestConfiguration , DisconnectParticipant also updates the stageArn in the IngestConfiguration to be an empty string. See also: AWS API Documentation
     /// </summary>
-    /// <param name="StageArn">ARN of the stage to which the participant is attached. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+</param>
-    /// <param name="ParticipantId">Identifier of the participant to be disconnected. IVS assigns this; it is returned by CreateParticipantToken (for streams using WebRTC ingest) or CreateIngestConfiguration (for streams using RTMP in- gest). Constraints: o min: 0 o max: 64 o pattern: [a-zA-Z0-9-_]*</param>
+    /// <param name="StageArn">ARN of the stage to which the participant is attached. Constraints: • min: 1 • max: 128 • pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+</param>
+    /// <param name="ParticipantId">Identifier of the participant to be disconnected. IVS assigns this; it is returned by CreateParticipantToken (for streams using WebRTC ingest) or CreateIngestConfiguration (for streams using RTMP ingest). Constraints: • min: 0 • max: 64 • pattern: [a-zA-Z0-9-_]*</param>
     public AwsIvsRealtimeDisconnectParticipantOptions(
         string StageArn,
         string ParticipantId
@@ -60,19 +61,19 @@ public record AwsIvsRealtimeDisconnectParticipantOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ARN of the stage to which the participant is attached. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+
+    /// ARN of the stage to which the participant is attached. Constraints: • min: 1 • max: 128 • pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--stage-arn")]
     public string? StageArn { get; private init; }
 
     /// <summary>
-    /// Identifier of the participant to be disconnected. IVS assigns this; it is returned by CreateParticipantToken (for streams using WebRTC ingest) or CreateIngestConfiguration (for streams using RTMP in- gest). Constraints: o min: 0 o max: 64 o pattern: [a-zA-Z0-9-_]*
+    /// Identifier of the participant to be disconnected. IVS assigns this; it is returned by CreateParticipantToken (for streams using WebRTC ingest) or CreateIngestConfiguration (for streams using RTMP ingest). Constraints: • min: 0 • max: 64 • pattern: [a-zA-Z0-9-_]*
     /// </summary>
     [CliOption("--participant-id")]
     public string? ParticipantId { get; private init; }
 
     /// <summary>
-    /// Description of why this participant is being disconnected. Constraints: o min: 0 o max: 128
+    /// Description of why this participant is being disconnected. Constraints: • min: 0 • max: 128
     /// </summary>
     [CliOption("--reason")]
     public string? Reason { get; set; }
@@ -98,6 +99,15 @@ public record AwsIvsRealtimeDisconnectParticipantOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

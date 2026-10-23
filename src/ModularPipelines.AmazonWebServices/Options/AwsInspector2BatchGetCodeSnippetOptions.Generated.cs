@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsInspector2BatchGetCodeSnippetOptions : AwsOptions, IValidatable
     /// <summary>
     /// Retrieves code snippets from findings that Amazon Inspector detected code vulnerabilities in. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FindingArns">An array of finding ARNs for the findings you want to retrieve code snippets from. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 100 o pattern: arn:(aws[a-zA-Z-]*)?:inspec- tor2:[a-z]{2}(-gov)?-[a-z]+-\d{1}:\d{12}:finding/[a-f0-9]{32} Syntax: "string" "string" ...</param>
+    /// <param name="FindingArns">An array of finding ARNs for the findings you want to retrieve code snippets from. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 100 • pattern: arn:(aws[a-zA-Z-]*)?:inspector2:[a-z]{2}(-gov)?-[a-z]+-\d{1}:\d{12}:finding/[a-f0-9]{32} Syntax: "string" "string" ...</param>
     public AwsInspector2BatchGetCodeSnippetOptions(
         IEnumerable<string> FindingArns
     )
@@ -67,7 +68,7 @@ public record AwsInspector2BatchGetCodeSnippetOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// An array of finding ARNs for the findings you want to retrieve code snippets from. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 100 o pattern: arn:(aws[a-zA-Z-]*)?:inspec- tor2:[a-z]{2}(-gov)?-[a-z]+-\d{1}:\d{12}:finding/[a-f0-9]{32} Syntax: "string" "string" ...
+    /// An array of finding ARNs for the findings you want to retrieve code snippets from. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 100 • pattern: arn:(aws[a-zA-Z-]*)?:inspector2:[a-z]{2}(-gov)?-[a-z]+-\d{1}:\d{12}:finding/[a-f0-9]{32} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--finding-arns", GroupValues = true)]
     public IEnumerable<string>? FindingArns { get; private init; }
@@ -93,6 +94,15 @@ public record AwsInspector2BatchGetCodeSnippetOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

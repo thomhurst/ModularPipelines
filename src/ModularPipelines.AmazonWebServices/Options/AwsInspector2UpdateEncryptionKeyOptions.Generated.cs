@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +29,9 @@ public record AwsInspector2UpdateEncryptionKeyOptions : AwsOptions, IValidatable
     /// <summary>
     /// Updates an encryption key. A ResourceNotFoundException means that an Amazon Web Services owned key is being used for encryption. See also: AWS API Documentation
     /// </summary>
-    /// <param name="KmsKeyId">A KMS key ID for the encryption key. Constraints: o pattern: arn:aws(-(us-gov|cn))?:kms:([a-z0-9][-.a-z0-9]{0,62})?:[0-9]{12}?:key/(([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})|(mrk-[0-9a-zA-Z]{32}))</param>
-    /// <param name="ScanType">The scan type for the encryption key. Possible values: o NETWORK o PACKAGE o CODE</param>
-    /// <param name="ResourceType">The resource type for the encryption key. Possible values: o AWS_EC2_INSTANCE o AWS_ECR_CONTAINER_IMAGE o AWS_ECR_REPOSITORY o AWS_LAMBDA_FUNCTION o CODE_REPOSITORY o Microsoft.Compute/virtualMachines o Microsoft.ContainerRegistry/registry/containerImage o Microsoft.Web/sites</param>
+    /// <param name="KmsKeyId">A KMS key ID for the encryption key. Constraints: • pattern: arn:aws(-(us-gov|cn))?:kms:([a-z0-9][-.a-z0-9]{0,62})?:[0-9]{12}?:key/(([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})|(mrk-[0-9a-zA-Z]{32}))</param>
+    /// <param name="ScanType">The scan type for the encryption key. Possible values: • NETWORK • PACKAGE • CODE</param>
+    /// <param name="ResourceType">The resource type for the encryption key. Possible values: • AWS_EC2_INSTANCE • AWS_ECR_CONTAINER_IMAGE • AWS_ECR_REPOSITORY • AWS_LAMBDA_FUNCTION • CODE_REPOSITORY • Microsoft.Compute/virtualMachines • Microsoft.ContainerRegistry/registry/containerImage • Microsoft.Web/sites</param>
     public AwsInspector2UpdateEncryptionKeyOptions(
         string KmsKeyId,
         AwsInspector2UpdateEncryptionKeyScanType ScanType,
@@ -64,19 +65,19 @@ public record AwsInspector2UpdateEncryptionKeyOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A KMS key ID for the encryption key. Constraints: o pattern: arn:aws(-(us-gov|cn))?:kms:([a-z0-9][-.a-z0-9]{0,62})?:[0-9]{12}?:key/(([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})|(mrk-[0-9a-zA-Z]{32}))
+    /// A KMS key ID for the encryption key. Constraints: • pattern: arn:aws(-(us-gov|cn))?:kms:([a-z0-9][-.a-z0-9]{0,62})?:[0-9]{12}?:key/(([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})|(mrk-[0-9a-zA-Z]{32}))
     /// </summary>
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; private init; }
 
     /// <summary>
-    /// The scan type for the encryption key. Possible values: o NETWORK o PACKAGE o CODE
+    /// The scan type for the encryption key. Possible values: • NETWORK • PACKAGE • CODE
     /// </summary>
     [CliOption("--scan-type")]
     public AwsInspector2UpdateEncryptionKeyScanType? ScanType { get; private init; }
 
     /// <summary>
-    /// The resource type for the encryption key. Possible values: o AWS_EC2_INSTANCE o AWS_ECR_CONTAINER_IMAGE o AWS_ECR_REPOSITORY o AWS_LAMBDA_FUNCTION o CODE_REPOSITORY o Microsoft.Compute/virtualMachines o Microsoft.ContainerRegistry/registry/containerImage o Microsoft.Web/sites
+    /// The resource type for the encryption key. Possible values: • AWS_EC2_INSTANCE • AWS_ECR_CONTAINER_IMAGE • AWS_ECR_REPOSITORY • AWS_LAMBDA_FUNCTION • CODE_REPOSITORY • Microsoft.Compute/virtualMachines • Microsoft.ContainerRegistry/registry/containerImage • Microsoft.Web/sites
     /// </summary>
     [CliOption("--resource-type")]
     public string? ResourceType { get; private init; }
@@ -102,6 +103,15 @@ public record AwsInspector2UpdateEncryptionKeyOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

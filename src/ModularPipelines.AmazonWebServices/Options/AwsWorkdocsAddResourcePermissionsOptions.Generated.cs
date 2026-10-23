@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +29,8 @@ public record AwsWorkdocsAddResourcePermissionsOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Creates a set of permissions for the specified folder or document. The resource permissions are overwritten if the principals already have different permissions. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceId">The ID of the resource. Constraints: o min: 1 o max: 128 o pattern: [\w+-.@]+</param>
-    /// <param name="Principals">The users, groups, or organization being granted permission. (structure) Describes the recipient type and ID, if available. Id -&gt; (string) [required] The ID of the recipient. Constraints: o min: 1 o max: 256 o pattern: [&amp;\w+-.@]+ Type -&gt; (string) [required] The type of the recipient. Possible values: o USER o GROUP o INVITE o ANONYMOUS o ORGANIZATION Role -&gt; (string) [required] The role of the recipient. Possible values: o VIEWER o CONTRIBUTOR o OWNER o COOWNER Shorthand Syntax: Id=string,Type=string,Role=string ... JSON Syntax: [ { "Id": "string", "Type": "USER"|"GROUP"|"INVITE"|"ANONYMOUS"|"ORGANIZATION", "Role": "VIEWER"|"CONTRIBUTOR"|"OWNER"|"COOWNER" } ... ]</param>
+    /// <param name="ResourceId">The ID of the resource. Constraints: • min: 1 • max: 128 • pattern: [\w+-.@]+</param>
+    /// <param name="Principals">The users, groups, or organization being granted permission. (structure) Describes the recipient type and ID, if available. Id -&gt; (string) [required] The ID of the recipient. Constraints: • min: 1 • max: 256 • pattern: [&amp;\w+-.@]+ Type -&gt; (string) [required] The type of the recipient. Possible values: • USER • GROUP • INVITE • ANONYMOUS • ORGANIZATION Role -&gt; (string) [required] The role of the recipient. Possible values: • VIEWER • CONTRIBUTOR • OWNER • COOWNER Shorthand Syntax: Id=string,Type=string,Role=string ... JSON Syntax: [ { "Id": "string", "Type": "USER"|"GROUP"|"INVITE"|"ANONYMOUS"|"ORGANIZATION", "Role": "VIEWER"|"CONTRIBUTOR"|"OWNER"|"COOWNER" } ... ]</param>
     public AwsWorkdocsAddResourcePermissionsOptions(
         string ResourceId,
         IEnumerable<string> Principals
@@ -72,26 +73,26 @@ public record AwsWorkdocsAddResourcePermissionsOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the resource. Constraints: o min: 1 o max: 128 o pattern: [\w+-.@]+
+    /// The ID of the resource. Constraints: • min: 1 • max: 128 • pattern: [\w+-.@]+
     /// </summary>
     [CliOption("--resource-id")]
     public string? ResourceId { get; private init; }
 
     /// <summary>
-    /// The users, groups, or organization being granted permission. (structure) Describes the recipient type and ID, if available. Id -&gt; (string) [required] The ID of the recipient. Constraints: o min: 1 o max: 256 o pattern: [&amp;\w+-.@]+ Type -&gt; (string) [required] The type of the recipient. Possible values: o USER o GROUP o INVITE o ANONYMOUS o ORGANIZATION Role -&gt; (string) [required] The role of the recipient. Possible values: o VIEWER o CONTRIBUTOR o OWNER o COOWNER Shorthand Syntax: Id=string,Type=string,Role=string ... JSON Syntax: [ { "Id": "string", "Type": "USER"|"GROUP"|"INVITE"|"ANONYMOUS"|"ORGANIZATION", "Role": "VIEWER"|"CONTRIBUTOR"|"OWNER"|"COOWNER" } ... ]
+    /// The users, groups, or organization being granted permission. (structure) Describes the recipient type and ID, if available. Id -&gt; (string) [required] The ID of the recipient. Constraints: • min: 1 • max: 256 • pattern: [&amp;\w+-.@]+ Type -&gt; (string) [required] The type of the recipient. Possible values: • USER • GROUP • INVITE • ANONYMOUS • ORGANIZATION Role -&gt; (string) [required] The role of the recipient. Possible values: • VIEWER • CONTRIBUTOR • OWNER • COOWNER Shorthand Syntax: Id=string,Type=string,Role=string ... JSON Syntax: [ { "Id": "string", "Type": "USER"|"GROUP"|"INVITE"|"ANONYMOUS"|"ORGANIZATION", "Role": "VIEWER"|"CONTRIBUTOR"|"OWNER"|"COOWNER" } ... ]
     /// </summary>
     [CliOption("--principals", GroupValues = true)]
     public IEnumerable<string>? Principals { get; private init; }
 
     /// <summary>
-    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API. Constraints: o min: 1 o max: 8199
+    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API. Constraints: • min: 1 • max: 8199
     /// </summary>
     [SecretValue]
     [CliOption("--authentication-token")]
     public string? AuthenticationToken { get; set; }
 
     /// <summary>
-    /// The notification options. SendEmail -&gt; (boolean) Boolean value to indicate an email notification should be sent to the recipients. EmailMessage -&gt; (string) Text value to be included in the email body. Constraints: o min: 0 o max: 2048 Shorthand Syntax: SendEmail=boolean,EmailMessage=string JSON Syntax: { "SendEmail": true|false, "EmailMessage": "string" }
+    /// The notification options. SendEmail -&gt; (boolean) Boolean value to indicate an email notification should be sent to the recipients. EmailMessage -&gt; (string) Text value to be included in the email body. Constraints: • min: 0 • max: 2048 Shorthand Syntax: SendEmail=boolean,EmailMessage=string JSON Syntax: { "SendEmail": true|false, "EmailMessage": "string" }
     /// </summary>
     [CliOption("--notification-options")]
     public string? NotificationOptions { get; set; }
@@ -117,6 +118,15 @@ public record AwsWorkdocsAddResourcePermissionsOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

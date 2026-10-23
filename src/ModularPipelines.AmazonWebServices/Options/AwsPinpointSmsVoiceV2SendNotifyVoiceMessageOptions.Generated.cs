@@ -10,13 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Sends a templated voice message through a notify configuration to a re- cipient's phone number. See also: AWS API Documentation
+/// Sends a templated voice message through a notify configuration to a recipient's phone number. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +26,11 @@ public record AwsPinpointSmsVoiceV2SendNotifyVoiceMessageOptions : AwsOptions, I
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Sends a templated voice message through a notify configuration to a re- cipient's phone number. See also: AWS API Documentation
+    /// Sends a templated voice message through a notify configuration to a recipient's phone number. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NotifyConfigurationId">The unique identifier of the notify configuration to use for sending the message. This can be either the NotifyConfigurationId or Notify- ConfigurationArn. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+</param>
-    /// <param name="DestinationPhoneNumber">The destination phone number in E.164 format. Constraints: o min: 1 o max: 20 o pattern: \+?[1-9][0-9]{1,18}</param>
-    /// <param name="TemplateVariables">A map of template variable names and their values. All variable val- ues are passed as strings regardless of the declared variable type. For example, pass INTEGER values as "42" and BOOLEAN values as "true" or "false" . Constraints: o min: 0 o max: 20 key -&gt; (string) Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_]+ value -&gt; (string) Constraints: o min: 1 o max: 2048 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    /// <param name="NotifyConfigurationId">The unique identifier of the notify configuration to use for sending the message. This can be either the NotifyConfigurationId or NotifyConfigurationArn. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+</param>
+    /// <param name="DestinationPhoneNumber">The destination phone number in E.164 format. Constraints: • min: 1 • max: 20 • pattern: \+?[1-9][0-9]{1,18}</param>
+    /// <param name="TemplateVariables">A map of template variable names and their values. All variable values are passed as strings regardless of the declared variable type. For example, pass INTEGER values as "42" and BOOLEAN values as "true" or "false" . Constraints: • min: 0 • max: 20 key -&gt; (string) Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9_]+ value -&gt; (string) Constraints: • min: 1 • max: 2048 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
     public AwsPinpointSmsVoiceV2SendNotifyVoiceMessageOptions(
         string NotifyConfigurationId,
         string DestinationPhoneNumber,
@@ -76,49 +76,49 @@ public record AwsPinpointSmsVoiceV2SendNotifyVoiceMessageOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the notify configuration to use for sending the message. This can be either the NotifyConfigurationId or Notify- ConfigurationArn. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// The unique identifier of the notify configuration to use for sending the message. This can be either the NotifyConfigurationId or NotifyConfigurationArn. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+
     /// </summary>
     [CliOption("--notify-configuration-id")]
     public string? NotifyConfigurationId { get; private init; }
 
     /// <summary>
-    /// The destination phone number in E.164 format. Constraints: o min: 1 o max: 20 o pattern: \+?[1-9][0-9]{1,18}
+    /// The destination phone number in E.164 format. Constraints: • min: 1 • max: 20 • pattern: \+?[1-9][0-9]{1,18}
     /// </summary>
     [CliOption("--destination-phone-number")]
     public string? DestinationPhoneNumber { get; private init; }
 
     /// <summary>
-    /// A map of template variable names and their values. All variable val- ues are passed as strings regardless of the declared variable type. For example, pass INTEGER values as "42" and BOOLEAN values as "true" or "false" . Constraints: o min: 0 o max: 20 key -&gt; (string) Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_]+ value -&gt; (string) Constraints: o min: 1 o max: 2048 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A map of template variable names and their values. All variable values are passed as strings regardless of the declared variable type. For example, pass INTEGER values as "42" and BOOLEAN values as "true" or "false" . Constraints: • min: 0 • max: 20 key -&gt; (string) Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9_]+ value -&gt; (string) Constraints: • min: 1 • max: 2048 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--template-variables", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? TemplateVariables { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the template to use for the message. Constraints: o min: 0 o max: 256 o pattern: ([A-Za-z0-9_-]*|UNSET_DEFAULT_TEMPLATE)
+    /// The unique identifier of the template to use for the message. Constraints: • min: 0 • max: 256 • pattern: ([A-Za-z0-9_-]*|UNSET_DEFAULT_TEMPLATE)
     /// </summary>
     [CliOption("--template-id")]
     public string? TemplateId { get; set; }
 
     /// <summary>
-    /// The voice ID to use for the voice message. Possible values: o AMY o ASTRID o BIANCA o BRIAN o CAMILA o CARLA o CARMEN o CELINE o CHANTAL o CONCHITA o CRISTIANO o DORA o EMMA o ENRIQUE o EWA o FILIZ o GERAINT o GIORGIO o GWYNETH o HANS o INES o IVY o JACEK o JAN o JOANNA o JOEY o JUSTIN o KARL o KENDRA o KIMBERLY o LEA o LIV o LOTTE o LUCIA o LUPE o MADS o MAJA o MARLENE o MATHIEU o MATTHEW o MAXIM o MIA o MIGUEL o MIZUKI o NAJA o NICOLE o PENELOPE o RAVEENA o RICARDO o RUBEN o RUSSELL o SALLI o SEOYEON o TAKUMI o TATYANA o VICKI o VITORIA o ZEINA o ZHIYU
+    /// The voice ID to use for the voice message. Possible values: • AMY • ASTRID • BIANCA • BRIAN • CAMILA • CARLA • CARMEN • CELINE • CHANTAL • CONCHITA • CRISTIANO • DORA • EMMA • ENRIQUE • EWA • FILIZ • GERAINT • GIORGIO • GWYNETH • HANS • INES • IVY • JACEK • JAN • JOANNA • JOEY • JUSTIN • KARL • KENDRA • KIMBERLY • LEA • LIV • LOTTE • LUCIA • LUPE • MADS • MAJA • MARLENE • MATHIEU • MATTHEW • MAXIM • MIA • MIGUEL • MIZUKI • NAJA • NICOLE • PENELOPE • RAVEENA • RICARDO • RUBEN • RUSSELL • SALLI • SEOYEON • TAKUMI • TATYANA • VICKI • VITORIA • ZEINA • ZHIYU
     /// </summary>
     [CliOption("--voice-id")]
     public string? VoiceId { get; set; }
 
     /// <summary>
-    /// How long the voice message is valid for, in seconds. By default this is 72 hours. Constraints: o min: 5 o max: 259200
+    /// How long the voice message is valid for, in seconds. By default this is 72 hours. Constraints: • min: 5 • max: 259200
     /// </summary>
     [CliOption("--time-to-live")]
     public int? TimeToLive { get; set; }
 
     /// <summary>
-    /// You can specify custom data in this field. If you do, that data is logged to the event destination. Constraints: o min: 0 o max: 5 key -&gt; (string) Constraints: o min: 1 o max: 100 o pattern: \S+ value -&gt; (string) Constraints: o min: 1 o max: 800 o pattern: (?!\s)^[\s\S]+(?&lt;!\s) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// You can specify custom data in this field. If you do, that data is logged to the event destination. Constraints: • min: 0 • max: 5 key -&gt; (string) Constraints: • min: 1 • max: 100 • pattern: \S+ value -&gt; (string) Constraints: • min: 1 • max: 800 • pattern: (?!\s)^[\s\S]+(?&lt;!\s) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--context", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Context { get; set; }
 
     /// <summary>
-    /// The name of the configuration set to use. This can be either the ConfigurationSetName or ConfigurationSetArn. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// The name of the configuration set to use. This can be either the ConfigurationSetName or ConfigurationSetArn. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+
     /// </summary>
     [CliOption("--configuration-set-name")]
     public string? ConfigurationSetName { get; set; }
@@ -156,6 +156,15 @@ public record AwsPinpointSmsVoiceV2SendNotifyVoiceMessageOptions : AwsOptions, I
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

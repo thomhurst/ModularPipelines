@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves a list of configuration items that have tags as specified by the key-value pairs, name and value, passed to the optional parameter filters . There are three valid tag filter names: o tagKey o tagValue o configurationId Also, all configuration items associated with your user that have tags can be listed if you call DescribeTags as is without passing any para- meters. See also: AWS API Documentation describe-tags is a paginated operation. Multiple API calls may be is- sued in order to re...
+/// Retrieves a list of configuration items that have tags as specified by the key-value pairs, name and value, passed to the optional parameter filters . There are three valid tag filter names: • tagKey • tagValue • configurationId Also, all configuration items associated with your user that have tags can be listed if you call DescribeTags as is without passing any parameters. See also: AWS API Documentation describe-tags is a paginated operation. Multiple API calls may be issued in order to retrie...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,16 +23,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsDiscoveryDescribeTagsOptions : AwsOptions
 {
     /// <summary>
-    /// You can filter the list using a key -value format. You can separate these items by using logical operators. Allowed filters include tagKey , tagValue , and configurationId . (structure) The tag filter. Valid names are: tagKey , tagValue , configura- tionId . name -&gt; (string) [required] A name of the tag filter. Constraints: o max: 1000 o pattern: [\s\S]*\S[\s\S]* values -&gt; (list) [required] Values for the tag filter. (string) Constraints: o max: 1000 o pattern: (^$|[\s\S]*\S[\s\S]*) Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "string", "values": ["string", ...] } ... ]
+    /// You can filter the list using a key -value format. You can separate these items by using logical operators. Allowed filters include tagKey , tagValue , and configurationId . (structure) The tag filter. Valid names are: tagKey , tagValue , configurationId . name -&gt; (string) [required] A name of the tag filter. Constraints: • max: 1000 • pattern: [\s\S]*\S[\s\S]* values -&gt; (list) [required] Values for the tag filter. (string) Constraints: • max: 1000 • pattern: (^$|[\s\S]*\S[\s\S]*) Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "string", "values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -42,15 +39,27 @@ public record AwsDiscoveryDescribeTagsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

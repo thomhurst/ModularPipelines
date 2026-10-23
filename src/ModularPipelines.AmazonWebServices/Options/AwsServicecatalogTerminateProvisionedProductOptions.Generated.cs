@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Terminates the specified provisioned product. This operation does not delete any records associated with the provi- sioned product. You can check the status of this request using DescribeRecord . See also: AWS API Documentation
+/// Terminates the specified provisioned product. This operation does not delete any records associated with the provisioned product. You can check the status of this request using DescribeRecord . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,38 +23,38 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsServicecatalogTerminateProvisionedProductOptions : AwsOptions
 {
     /// <summary>
-    /// The name of the provisioned product. You cannot specify both Provi- sionedProductName and ProvisionedProductId . Constraints: o min: 1 o max: 1224 o pattern: [a-zA-Z0-9][a-zA-Z0-9._-]{0,127}|arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
+    /// The name of the provisioned product. You cannot specify both ProvisionedProductName and ProvisionedProductId . Constraints: • min: 1 • max: 1224 • pattern: [a-zA-Z0-9][a-zA-Z0-9._-]{0,127}|arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
     /// </summary>
     [CliOption("--provisioned-product-name")]
     public string? ProvisionedProductName { get; set; }
 
     /// <summary>
-    /// The identifier of the provisioned product. You cannot specify both ProvisionedProductName and ProvisionedProductId . Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// The identifier of the provisioned product. You cannot specify both ProvisionedProductName and ProvisionedProductId . Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*
     /// </summary>
     [CliOption("--provisioned-product-id")]
     public string? ProvisionedProductId { get; set; }
 
     /// <summary>
-    /// An idempotency token that uniquely identifies the termination re- quest. This token is only valid during the termination process. Af- ter the provisioned product is terminated, subsequent requests to terminate the same provisioned product always return ResourceNot- Found . Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
+    /// An idempotency token that uniquely identifies the termination request. This token is only valid during the termination process. After the provisioned product is terminated, subsequent requests to terminate the same provisioned product always return ResourceNotFound . Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
     /// </summary>
     [SecretValue]
     [CliOption("--terminate-token")]
     public string? TerminateToken { get; set; }
 
     /// <summary>
-    /// If set to true, Service Catalog stops managing the specified provi- sioned product even if it cannot delete the underlying resources.
+    /// If set to true, Service Catalog stops managing the specified provisioned product even if it cannot delete the underlying resources.
     /// </summary>
     [CliFlag("--ignore-errors", NegatedName = "--no-ignore-errors")]
     public bool? IgnoreErrors { get; set; }
 
     /// <summary>
-    /// The language code. o jp - Japanese o zh - Chinese Constraints: o max: 100
+    /// The language code. • jp - Japanese • zh - Chinese Constraints: • max: 100
     /// </summary>
     [CliOption("--accept-language")]
     public string? AcceptLanguage { get; set; }
 
     /// <summary>
-    /// When this boolean parameter is set to true, the TerminateProvi- sionedProduct API deletes the Service Catalog provisioned product. However, it does not remove the CloudFormation stack, stack set, or the underlying resources of the deleted provisioned product. The de- fault value is false.
+    /// When this boolean parameter is set to true, the TerminateProvisionedProduct API deletes the Service Catalog provisioned product. However, it does not remove the CloudFormation stack, stack set, or the underlying resources of the deleted provisioned product. The default value is false.
     /// </summary>
     [CliFlag("--retain-physical-resources", NegatedName = "--no-retain-physical-resources")]
     public bool? RetainPhysicalResources { get; set; }
@@ -64,5 +64,14 @@ public record AwsServicecatalogTerminateProvisionedProductOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

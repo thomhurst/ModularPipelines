@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsSsmIncidentsPutResourcePolicyOptions : AwsOptions, IValidatable
     /// <summary>
     /// Adds a resource policy to the specified response plan. The resource policy is used to share the response plan using Resource Access Manager (RAM). For more information about cross-account sharing, see Cross-Region and cross-account incident management . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Policy">Details of the resource policy. Constraints: o min: 0 o max: 4000</param>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the response plan to add the re- source policy to. Constraints: o min: 0 o max: 1000 o pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$</param>
+    /// <param name="Policy">Details of the resource policy. Constraints: • min: 0 • max: 4000</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the response plan to add the resource policy to. Constraints: • min: 0 • max: 1000 • pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$</param>
     public AwsSsmIncidentsPutResourcePolicyOptions(
         string Policy,
         string ResourceArn
@@ -60,13 +61,13 @@ public record AwsSsmIncidentsPutResourcePolicyOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Details of the resource policy. Constraints: o min: 0 o max: 4000
+    /// Details of the resource policy. Constraints: • min: 0 • max: 4000
     /// </summary>
     [CliOption("--policy")]
     public string? Policy { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the response plan to add the re- source policy to. Constraints: o min: 0 o max: 1000 o pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$
+    /// The Amazon Resource Name (ARN) of the response plan to add the resource policy to. Constraints: • min: 0 • max: 1000 • pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
@@ -92,6 +93,15 @@ public record AwsSsmIncidentsPutResourcePolicyOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsVoiceIdDescribeFraudsterOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Describes the specified fraudster. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainId">The identifier of the domain that contains the fraudster. Constraints: o min: 22 o max: 22 o pattern: ^[a-zA-Z0-9]{22}$</param>
-    /// <param name="FraudsterId">The identifier of the fraudster you are describing. Constraints: o min: 25 o max: 25 o pattern: ^id#[a-zA-Z0-9]{22}$</param>
+    /// <param name="DomainId">The identifier of the domain that contains the fraudster. Constraints: • min: 22 • max: 22 • pattern: ^[a-zA-Z0-9]{22}$</param>
+    /// <param name="FraudsterId">The identifier of the fraudster you are describing. Constraints: • min: 25 • max: 25 • pattern: ^id#[a-zA-Z0-9]{22}$</param>
     public AwsVoiceIdDescribeFraudsterOptions(
         string DomainId,
         string FraudsterId
@@ -60,13 +61,13 @@ public record AwsVoiceIdDescribeFraudsterOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the domain that contains the fraudster. Constraints: o min: 22 o max: 22 o pattern: ^[a-zA-Z0-9]{22}$
+    /// The identifier of the domain that contains the fraudster. Constraints: • min: 22 • max: 22 • pattern: ^[a-zA-Z0-9]{22}$
     /// </summary>
     [CliOption("--domain-id")]
     public string? DomainId { get; private init; }
 
     /// <summary>
-    /// The identifier of the fraudster you are describing. Constraints: o min: 25 o max: 25 o pattern: ^id#[a-zA-Z0-9]{22}$
+    /// The identifier of the fraudster you are describing. Constraints: • min: 25 • max: 25 • pattern: ^id#[a-zA-Z0-9]{22}$
     /// </summary>
     [CliOption("--fraudster-id")]
     public string? FraudsterId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsVoiceIdDescribeFraudsterOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsSsoAdminDeleteApplicationGrantOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Deletes a grant from an application. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationArn">Specifies the ARN of the application with the grant to delete. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::\d{12}:applica- tion/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}</param>
-    /// <param name="GrantType">Specifies the type of grant to delete from the application. Possible values: o authorization_code o refresh_token o urn:ietf:params:oauth:grant-type:jwt-bearer o urn:ietf:params:oauth:grant-type:token-exchange</param>
+    /// <param name="ApplicationArn">Specifies the ARN of the application with the grant to delete. Constraints: • min: 10 • max: 1224 • pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}</param>
+    /// <param name="GrantType">Specifies the type of grant to delete from the application. Possible values: • authorization_code • refresh_token • urn:ietf:params:oauth:grant-type:jwt-bearer • urn:ietf:params:oauth:grant-type:token-exchange</param>
     public AwsSsoAdminDeleteApplicationGrantOptions(
         string ApplicationArn,
         string GrantType
@@ -60,13 +61,13 @@ public record AwsSsoAdminDeleteApplicationGrantOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the ARN of the application with the grant to delete. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::\d{12}:applica- tion/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}
+    /// Specifies the ARN of the application with the grant to delete. Constraints: • min: 10 • max: 1224 • pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}
     /// </summary>
     [CliOption("--application-arn")]
     public string? ApplicationArn { get; private init; }
 
     /// <summary>
-    /// Specifies the type of grant to delete from the application. Possible values: o authorization_code o refresh_token o urn:ietf:params:oauth:grant-type:jwt-bearer o urn:ietf:params:oauth:grant-type:token-exchange
+    /// Specifies the type of grant to delete from the application. Possible values: • authorization_code • refresh_token • urn:ietf:params:oauth:grant-type:jwt-bearer • urn:ietf:params:oauth:grant-type:token-exchange
     /// </summary>
     [CliOption("--grant-type")]
     public string? GrantType { get; private init; }
@@ -92,6 +93,15 @@ public record AwsSsoAdminDeleteApplicationGrantOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

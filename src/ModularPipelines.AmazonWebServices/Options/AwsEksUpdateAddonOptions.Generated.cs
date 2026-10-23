@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,8 +30,8 @@ public record AwsEksUpdateAddonOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates an Amazon EKS add-on. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClusterName">The name of your cluster. Constraints: o min: 1 o max: 100 o pattern: ^[0-9A-Za-z][A-Za-z0-9\-_]*</param>
-    /// <param name="AddonName">The name of the add-on. The name must match one of the names re- turned by ` ListAddons https://docs.aws.amazon.com/eks/latest/APIReference/API_ListAddons.html`__ .</param>
+    /// <param name="ClusterName">The name of your cluster. Constraints: • min: 1 • max: 100 • pattern: ^[0-9A-Za-z][A-Za-z0-9\-_]*</param>
+    /// <param name="AddonName">The name of the add-on. The name must match one of the names returned by ` ListAddons https://docs.aws.amazon.com/eks/latest/APIReference/API_ListAddons.html`__ .</param>
     public AwsEksUpdateAddonOptions(
         string ClusterName,
         string AddonName
@@ -62,31 +63,31 @@ public record AwsEksUpdateAddonOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of your cluster. Constraints: o min: 1 o max: 100 o pattern: ^[0-9A-Za-z][A-Za-z0-9\-_]*
+    /// The name of your cluster. Constraints: • min: 1 • max: 100 • pattern: ^[0-9A-Za-z][A-Za-z0-9\-_]*
     /// </summary>
     [CliOption("--cluster-name")]
     public string? ClusterName { get; private init; }
 
     /// <summary>
-    /// The name of the add-on. The name must match one of the names re- turned by ` ListAddons https://docs.aws.amazon.com/eks/latest/APIReference/API_ListAddons.html`__ .
+    /// The name of the add-on. The name must match one of the names returned by ` ListAddons https://docs.aws.amazon.com/eks/latest/APIReference/API_ListAddons.html`__ .
     /// </summary>
     [CliOption("--addon-name")]
     public string? AddonName { get; private init; }
 
     /// <summary>
-    /// The version of the add-on. The version must match one of the ver- sions returned by ` DescribeAddonVersions https://docs.aws.amazon.com/eks/latest/APIReference/API_DescribeAddonVersions.html`__ .
+    /// The version of the add-on. The version must match one of the versions returned by ` DescribeAddonVersions https://docs.aws.amazon.com/eks/latest/APIReference/API_DescribeAddonVersions.html`__ .
     /// </summary>
     [CliOption("--addon-version")]
     public string? AddonVersion { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of an existing IAM role to bind to the add-on's service account. The role must be assigned the IAM per- missions required by the add-on. If you don't specify an existing IAM role, then the add-on uses the permissions assigned to the node IAM role. For more information, see Amazon EKS node IAM role in the Amazon EKS User Guide . NOTE: To specify an existing IAM role, you must have an IAM OpenID Connect (OIDC) provider created for your cluster. For more in- formation, see Enabling IAM roles for service accounts on your cluster in the Amazon EKS User Guide . Constraints: o min: 1 o max: 255
+    /// The Amazon Resource Name (ARN) of an existing IAM role to bind to the add-on's service account. The role must be assigned the IAM permissions required by the add-on. If you don't specify an existing IAM role, then the add-on uses the permissions assigned to the node IAM role. For more information, see Amazon EKS node IAM role in the Amazon EKS User Guide . NOTE: To specify an existing IAM role, you must have an IAM OpenID Connect (OIDC) provider created for your cluster. For more information, see Enabling IAM roles for service accounts on your cluster in the Amazon EKS User Guide . Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--service-account-role-arn")]
     public string? ServiceAccountRoleArn { get; set; }
 
     /// <summary>
-    /// How to resolve field value conflicts for an Amazon EKS add-on if you've changed a value from the Amazon EKS default value. Conflicts are handled based on the option you choose: o None Amazon EKS doesn't change the value. The update might fail. o Overwrite Amazon EKS overwrites the changed value back to the Amazon EKS default value. o Preserve Amazon EKS preserves the value. If you choose this op- tion, we recommend that you test any field and value changes on a non-production cluster before updating the add-on on your produc- tion cluster. Possible values: o OVERWRITE o NONE o PRESERVE
+    /// How to resolve field value conflicts for an Amazon EKS add-on if you've changed a value from the Amazon EKS default value. Conflicts are handled based on the option you choose: • None Amazon EKS doesn't change the value. The update might fail. • Overwrite Amazon EKS overwrites the changed value back to the Amazon EKS default value. • Preserve Amazon EKS preserves the value. If you choose this option, we recommend that you test any field and value changes on a non-production cluster before updating the add-on on your production cluster. Possible values: • OVERWRITE • NONE • PRESERVE
     /// </summary>
     [CliOption("--resolve-conflicts")]
     public AwsEksUpdateAddonResolveConflicts? ResolveConflicts { get; set; }
@@ -105,7 +106,7 @@ public record AwsEksUpdateAddonOptions : AwsOptions, IValidatableObject
     public string? ConfigurationValues { get; set; }
 
     /// <summary>
-    /// An array of EKS Pod Identity associations to be updated. Each asso- ciation maps a Kubernetes service account to an IAM role. If this value is left blank, no change. If an empty array is provided, ex- isting associations owned by the add-on are deleted. For more information, see Attach an IAM Role to an Amazon EKS add-on using EKS Pod Identity in the Amazon EKS User Guide . (structure) A type of EKS Pod Identity association owned by an Amazon EKS add-on. Each association maps a role to a service account in a namespace in the cluster. For more information, see Attach an IAM Role to an Amazon EKS add-on using EKS Pod Identity in the Amazon EKS User Guide . serviceAccount -&gt; (string) [required] The name of a Kubernetes Service Account. roleArn -&gt; (string) [required] The ARN of an IAM Role. Shorthand Syntax: serviceAccount=string,roleArn=string ... JSON Syntax: [ { "serviceAccount": "string", "roleArn": "string" } ... ]
+    /// An array of EKS Pod Identity associations to be updated. Each association maps a Kubernetes service account to an IAM role. If this value is left blank, no change. If an empty array is provided, existing associations owned by the add-on are deleted. For more information, see Attach an IAM Role to an Amazon EKS add-on using EKS Pod Identity in the Amazon EKS User Guide . (structure) A type of EKS Pod Identity association owned by an Amazon EKS add-on. Each association maps a role to a service account in a namespace in the cluster. For more information, see Attach an IAM Role to an Amazon EKS add-on using EKS Pod Identity in the Amazon EKS User Guide . serviceAccount -&gt; (string) [required] The name of a Kubernetes Service Account. roleArn -&gt; (string) [required] The ARN of an IAM Role. Shorthand Syntax: serviceAccount=string,roleArn=string ... JSON Syntax: [ { "serviceAccount": "string", "roleArn": "string" } ... ]
     /// </summary>
     [CliOption("--pod-identity-associations", GroupValues = true)]
     public IEnumerable<string>? PodIdentityAssociations { get; set; }
@@ -131,6 +132,15 @@ public record AwsEksUpdateAddonOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

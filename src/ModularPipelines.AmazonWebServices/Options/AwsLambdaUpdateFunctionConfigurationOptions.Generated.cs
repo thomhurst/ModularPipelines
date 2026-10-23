@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modify the version-specific settings of a Lambda function. When you update a function, Lambda provisions an instance of the func- tion and its supporting resources. If your function connects to a VPC, this process can take a minute. During this time, you can't modify the function, but you can still invoke it. The LastUpdateStatus , LastUp- dateStatusReason , and LastUpdateStatusReasonCode fields in the re- sponse from GetFunctionConfiguration indicate when the update is com- plete and the functi...
+/// Modifies the version-specific settings of a Lambda Event Function. When you update a function, Lambda provisions an instance of the function and its supporting resources. If your function connects to a VPC, this process can take a minute. During this time, you can't modify the function, but you can still invoke it. The LastUpdateStatus , LastUpdateStatusReason , and LastUpdateStatusReasonCode fields in the response from GetFunctionConfiguration indicate when the update is complete and the functi...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsLambdaUpdateFunctionConfigurationOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Modify the version-specific settings of a Lambda function. When you update a function, Lambda provisions an instance of the func- tion and its supporting resources. If your function connects to a VPC, this process can take a minute. During this time, you can't modify the function, but you can still invoke it. The LastUpdateStatus , LastUp- dateStatusReason , and LastUpdateStatusReasonCode fields in the re- sponse from GetFunctionConfiguration indicate when the update is com- plete and the functi...
+    /// Modifies the version-specific settings of a Lambda Event Function. When you update a function, Lambda provisions an instance of the function and its supporting resources. If your function connects to a VPC, this process can take a minute. During this time, you can't modify the function, but you can still invoke it. The LastUpdateStatus , LastUpdateStatusReason , and LastUpdateStatusReasonCode fields in the response from GetFunctionConfiguration indicate when the update is complete and the functi...
     /// </summary>
-    /// <param name="FunctionName">The name or ARN of the Lambda function. Name formats o Function name my-function . o Function ARN arn:aws:lambda:us-west-2:123456789012:func- tion:my-function . o Partial ARN 123456789012:function:my-function . The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length. Constraints: o min: 1 o max: 140 o pattern: (arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?(func- tion:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?</param>
+    /// <param name="FunctionName">The name or ARN of the Lambda function. Name formats • Function name my-function . • Function ARN arn:aws:lambda:us-west-2:123456789012:function:my-function . • Partial ARN 123456789012:function:my-function . The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length. Constraints: • min: 1 • max: 140 • pattern: (arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?</param>
     public AwsLambdaUpdateFunctionConfigurationOptions(
         string FunctionName
     )
@@ -56,73 +57,73 @@ public record AwsLambdaUpdateFunctionConfigurationOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name or ARN of the Lambda function. Name formats o Function name my-function . o Function ARN arn:aws:lambda:us-west-2:123456789012:func- tion:my-function . o Partial ARN 123456789012:function:my-function . The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length. Constraints: o min: 1 o max: 140 o pattern: (arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?(func- tion:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?
+    /// The name or ARN of the Lambda function. Name formats • Function name my-function . • Function ARN arn:aws:lambda:us-west-2:123456789012:function:my-function . • Partial ARN 123456789012:function:my-function . The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length. Constraints: • min: 1 • max: 140 • pattern: (arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?
     /// </summary>
     [CliOption("--function-name")]
     public string? FunctionName { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the function's execution role. Constraints: o min: 0 o max: 10000 o pattern: arn:(aws[a-zA-Z-]*)?:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+
+    /// The Amazon Resource Name (ARN) of the function's execution role. Constraints: • min: 0 • max: 10000 • pattern: arn:(aws[a-zA-Z-]*)?:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+
     /// </summary>
     [CliOption("--role")]
     public string? Role { get; set; }
 
     /// <summary>
-    /// The name of the method within your code that Lambda calls to run your function. Handler is required if the deployment package is a .zip file archive. The format includes the file name. It can also include namespaces and other qualifiers, depending on the runtime. For more information, see Lambda programming model . Constraints: o min: 0 o max: 128 o pattern: [^\s]+
+    /// The name of the method within your code that Lambda calls to run your function. Handler is required if the deployment package is a .zip file archive. The format includes the file name. It can also include namespaces and other qualifiers, depending on the runtime. For more information, see Lambda programming model . Constraints: • min: 0 • max: 128 • pattern: [^\s]+
     /// </summary>
     [CliOption("--handler")]
     public string? Handler { get; set; }
 
     /// <summary>
-    /// A description of the function. Constraints: o min: 0 o max: 256
+    /// A description of the function. Constraints: • min: 0 • max: 256
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The amount of time (in seconds) that Lambda allows a function to run before stopping it. The default is 3 seconds, and the maximum al- lowed value is 900 seconds. For functions using Lambda Managed In- stances, asynchronous invocations and event source mapping invoca- tions (except Amazon MQ and Amazon DocumentDB) support a maximum al- lowed value of 5,400 seconds (90 minutes). For more information, see Lambda execution environment . Constraints: o min: 1 o max: 5400
+    /// The amount of time (in seconds) that Lambda allows a function to run before stopping it. The default is 3 seconds, and the maximum allowed value is 900 seconds. For functions using Lambda Managed Instances, asynchronous invocations and event source mapping invocations (except Amazon MQ and Amazon DocumentDB) support a maximum allowed value of 5,400 seconds (90 minutes). For more information, see Lambda execution environment . Constraints: • min: 1 • max: 5400
     /// </summary>
     [CliOption("--timeout")]
     public int? Timeout { get; set; }
 
     /// <summary>
-    /// The amount of memory available to the function at runtime. Increas- ing the function memory also increases its CPU allocation. The de- fault value is 128 MB. The value can be any multiple of 1 MB. Constraints: o min: 128 o max: 32768
+    /// The amount of memory available to the function at runtime. Increasing the function memory also increases its CPU allocation. The default value is 128 MB. The value can be any multiple of 1 MB. Constraints: • min: 128 • max: 32768
     /// </summary>
     [CliOption("--memory-size")]
     public int? MemorySize { get; set; }
 
     /// <summary>
-    /// For network connectivity to Amazon Web Services resources in a VPC, specify a list of security groups and subnets in the VPC. When you connect a function to a VPC, it can access resources and the inter- net only through that VPC. For more information, see Configuring a Lambda function to access resources in a VPC . SubnetIds -&gt; (list) A list of VPC subnet IDs. Constraints: o min: 0 o max: 16 (string) Constraints: o min: 0 o max: 1024 o pattern: subnet-[0-9a-z]* SecurityGroupIds -&gt; (list) A list of VPC security group IDs. Constraints: o min: 0 o max: 5 (string) Constraints: o min: 0 o max: 1024 o pattern: sg-[0-9a-zA-Z]* Ipv6AllowedForDualStack -&gt; (boolean) Allows outbound IPv6 traffic on VPC functions that are connected to dual-stack subnets. Shorthand Syntax: SubnetIds=string,string,SecurityGroupIds=string,string,Ipv6AllowedForDualStack=boolean JSON Syntax: { "SubnetIds": ["string", ...], "SecurityGroupIds": ["string", ...], "Ipv6AllowedForDualStack": true|false }
+    /// For network connectivity to Amazon Web Services resources in a VPC, specify a list of security groups and subnets in the VPC. When you connect a function to a VPC, it can access resources and the internet only through that VPC. For more information, see Configuring a Lambda function to access resources in a VPC . SubnetIds -&gt; (list) A list of VPC subnet IDs. Constraints: • min: 0 • max: 16 (string) Constraints: • min: 0 • max: 1024 • pattern: subnet-[0-9a-z]* SecurityGroupIds -&gt; (list) A list of VPC security group IDs. Constraints: • min: 0 • max: 5 (string) Constraints: • min: 0 • max: 1024 • pattern: sg-[0-9a-zA-Z]* Ipv6AllowedForDualStack -&gt; (boolean) Allows outbound IPv6 traffic on VPC functions that are connected to dual-stack subnets. Shorthand Syntax: SubnetIds=string,string,SecurityGroupIds=string,string,Ipv6AllowedForDualStack=boolean JSON Syntax: { "SubnetIds": ["string", ...], "SecurityGroupIds": ["string", ...], "Ipv6AllowedForDualStack": true|false }
     /// </summary>
     [CliOption("--vpc-config")]
     public string? VpcConfig { get; set; }
 
     /// <summary>
-    /// Environment variables that are accessible from function code during execution. Variables -&gt; (map) Environment variable key-value pairs. For more information, see Using Lambda environment variables . key -&gt; (string) Constraints: o pattern: [a-zA-Z]([a-zA-Z0-9_])+ value -&gt; (string) Shorthand Syntax: Variables={KeyName1=string,KeyName2=string} JSON Syntax: { "Variables": {"string": "string" ...} }
+    /// Environment variables that are accessible from function code during execution. Variables -&gt; (map) Environment variable key-value pairs. For more information, see Using Lambda environment variables . key -&gt; (string) Constraints: • pattern: [a-zA-Z]([a-zA-Z0-9_])+ value -&gt; (string) Shorthand Syntax: Variables={KeyName1=string,KeyName2=string} JSON Syntax: { "Variables": {"string": "string" ...} }
     /// </summary>
     [CliOption("--environment")]
     public string? Environment { get; set; }
 
     /// <summary>
-    /// The identifier of the function's runtime . Runtime is required if the deployment package is a .zip file archive. Specifying a runtime results in an error if you're deploying a function using a container image. The following list includes deprecated runtimes. Lambda blocks cre- ating new functions and updating existing functions shortly after each runtime is deprecated. For more information, see Runtime use after deprecation . For a list of all currently supported runtimes, see Supported run- times . Possible values: o nodejs o nodejs4.3 o nodejs6.10 o nodejs8.10 o nodejs10.x o nodejs12.x o nodejs14.x o nodejs16.x o nodejs18.x o nodejs20.x o nodejs22.x o nodejs24.x o java8 o java8.al2 o java11 o java17 o java21 o java25 o python2.7 o python3.6 o python3.7 o python3.8 o python3.9 o python3.10 o python3.11 o python3.12 o python3.13 o python3.14 o dotnetcore1.0 o dotnetcore2.0 o dotnetcore2.1 o dotnetcore3.1 o dotnet6 o dotnet8 o dotnet10 o nodejs4.3-edge o go1.x o ruby2.5 o ruby2.7 o ruby3.2 o ruby3.3 o ruby3.4 o ruby4.0 o provided o provided.al2 o provided.al2023 o nodejs26.x o python3.15 o java8.al2023 o java11.al2023 o java17.al2023
+    /// The identifier of the function's runtime . Runtime is required if the deployment package is a .zip file archive. Specifying a runtime results in an error if you're deploying a function using a container image. The following list includes deprecated runtimes. Lambda blocks creating new functions and updating existing functions shortly after each runtime is deprecated. For more information, see Runtime use after deprecation . For a list of all currently supported runtimes, see Supported runtimes . Possible values: • nodejs • nodejs4.3 • nodejs6.10 • nodejs8.10 • nodejs10.x • nodejs12.x • nodejs14.x • nodejs16.x • nodejs18.x • nodejs20.x • nodejs22.x • nodejs24.x • java8 • java8.al2 • java11 • java17 • java21 • java25 • python2.7 • python3.6 • python3.7 • python3.8 • python3.9 • python3.10 • python3.11 • python3.12 • python3.13 • python3.14 • dotnetcore1.0 • dotnetcore2.0 • dotnetcore2.1 • dotnetcore3.1 • dotnet6 • dotnet8 • dotnet10 • nodejs4.3-edge • go1.x • ruby2.5 • ruby2.7 • ruby3.2 • ruby3.3 • ruby3.4 • ruby4.0 • provided • provided.al2 • provided.al2023 • nodejs26.x • python3.15 • java8.al2023 • java11.al2023 • java17.al2023
     /// </summary>
     [CliOption("--runtime")]
     public string? Runtime { get; set; }
 
     /// <summary>
-    /// A dead-letter queue configuration that specifies the queue or topic where Lambda sends asynchronous events when they fail processing. For more information, see Dead-letter queues . TargetArn -&gt; (string) The Amazon Resource Name (ARN) of an Amazon SQS queue or Amazon SNS topic. Constraints: o min: 0 o max: 10000 o pattern: (arn:(aws[a-zA-Z-]*)?:[a-z0-9-.]+:.*)|() Shorthand Syntax: TargetArn=string JSON Syntax: { "TargetArn": "string" }
+    /// A dead-letter queue configuration that specifies the queue or topic where Lambda sends asynchronous events when they fail processing. For more information, see Dead-letter queues . TargetArn -&gt; (string) The Amazon Resource Name (ARN) of an Amazon SQS queue or Amazon SNS topic. Constraints: • min: 0 • max: 10000 • pattern: (arn:(aws[a-zA-Z-]*)?:[a-z0-9-.]+:.*)|() Shorthand Syntax: TargetArn=string JSON Syntax: { "TargetArn": "string" }
     /// </summary>
     [CliOption("--dead-letter-config")]
     public string? DeadLetterConfig { get; set; }
 
     /// <summary>
-    /// The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt the following resources: o The function's environment variables . o The function's Lambda SnapStart snapshots. o When used with SourceKMSKeyArn , the unzipped version of the .zip deployment package that's used for function invocations. For more information, see Specifying a customer managed key for Lambda . o The optimized version of the container image that's used for func- tion invocations. Note that this is not the same key that's used to protect your container image in the Amazon Elastic Container Registry (Amazon ECR). For more information, see Function lifecy- cle . If you don't provide a customer managed key, Lambda uses an Amazon Web Services owned key or an Amazon Web Services managed key . Constraints: o min: 0 o max: 10000 o pattern: (arn:(aws[a-zA-Z-]*)?:[a-z0-9-.]+:.*)|()
+    /// The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt the following resources: • The function's environment variables . • The function's Lambda SnapStart snapshots. • When used with SourceKMSKeyArn , the unzipped version of the .zip deployment package that's used for function invocations. For more information, see Specifying a customer managed key for Lambda . • The optimized version of the container image that's used for function invocations. Note that this is not the same key that's used to protect your container image in the Amazon Elastic Container Registry (Amazon ECR). For more information, see Function lifecycle . If you don't provide a customer managed key, Lambda uses an Amazon Web Services owned key or an Amazon Web Services managed key . Constraints: • min: 0 • max: 10000 • pattern: (arn:(aws[a-zA-Z-]*)?:[a-z0-9-.]+:.*)|()
     /// </summary>
     [CliOption("--kms-key-arn")]
     public string? KmsKeyArn { get; set; }
 
     /// <summary>
-    /// Set Mode to Active to sample and trace a subset of incoming requests with X-Ray . Mode -&gt; (string) The tracing mode. Possible values: o Active o PassThrough Shorthand Syntax: Mode=string JSON Syntax: { "Mode": "Active"|"PassThrough" }
+    /// Set Mode to Active to sample and trace a subset of incoming requests with X-Ray . Mode -&gt; (string) The tracing mode. Possible values: • Active • PassThrough Shorthand Syntax: Mode=string JSON Syntax: { "Mode": "Active"|"PassThrough" }
     /// </summary>
     [CliOption("--tracing-config")]
     public string? TracingConfig { get; set; }
@@ -134,49 +135,49 @@ public record AwsLambdaUpdateFunctionConfigurationOptions : AwsOptions, IValidat
     public string? RevisionId { get; set; }
 
     /// <summary>
-    /// A list of function layers to add to the function's execution envi- ronment. Specify each layer by its ARN, including the version. (string) Constraints: o min: 1 o max: 2048 o pattern: ((arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:layer:[a-zA-Z0-9-_]+:[0-9]+)|(arn:[a-zA-Z0-9-]+:lambda:::awslayer:[a-zA-Z0-9-_]+)) Syntax: "string" "string" ...
+    /// A list of function layers to add to the function's execution environment. Specify each layer by its ARN, including the version. (string) Constraints: • min: 1 • max: 2048 • pattern: ((arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:layer:[a-zA-Z0-9-_]+:[0-9]+)|(arn:[a-zA-Z0-9-]+:lambda:::awslayer:[a-zA-Z0-9-_]+)) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--layers", GroupValues = true)]
     public IEnumerable<string>? Layers { get; set; }
 
     /// <summary>
-    /// Connection settings for an Amazon EFS file system or an Amazon S3 Files file system. Constraints: o min: 0 o max: 1 (structure) Details about the connection between a Lambda function and an Amazon EFS file system or an Amazon S3 file system . Arn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Amazon EFS or Amazon S3 Files access point that provides access to the file system. Constraints: o min: 0 o max: 256 o pattern: arn:aws[a-zA-Z-]*:elasticfilesys- tem:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:ac- cess-point/fsap-[a-f0-9]{17}$|^arn:aws[-a-z]*:s3files:[0-9a-z-:]+:file-sys- tem/fs-[0-9a-f]{17,40}/access-point/fsap-[0-9a-f]{17,40} LocalMountPath -&gt; (string) [required] The path where the function can access the file system, starting with /mnt/ . Constraints: o min: 0 o max: 160 o pattern: /mnt/[a-zA-Z0-9-_.]+ S3FilesConfig -&gt; (structure) The configuration for how your function accesses data on an Amazon S3 file system. Valid only when the file system access point ARN is an Amazon S3 Files access point. If you specify a different access point type (for example, Amazon Elastic File System), the operation returns an InvalidParameterExcep- tion . DirectS3Read -&gt; (string) Specifies if a function reads from the file system for the lowest latency, or through Amazon S3 Files feature "direct Amazon S3 bucket reads" for the highest through- put. Valid values: o AUTO (default) Direct reads are active for functions you configure with 512 MB or more of memory. o ENABLED Enforces all reads are directly from the Ama- zon S3 bucket, regardless of available memory (less than 512 MB). o DISABLED Routes all reads through the file system, re- gardless of memory configuration. To use direct reads, you must grant the execution role the s3:GetObject and s3:GetObjectVersion permissions. If a direct read fails, Lambda automatically falls back to reading through the file system. Possible values: o ENABLED o DISABLED o AUTO Shorthand Syntax: Arn=string,LocalMountPath=string,S3FilesConfig={DirectS3Read=string} ... JSON Syntax: [ { "Arn": "string", "LocalMountPath": "string", "S3FilesConfig": { "DirectS3Read": "ENABLED"|"DISABLED"|"AUTO" } } ... ]
+    /// Connection settings for an Amazon EFS file system or an Amazon S3 Files file system. Constraints: • min: 0 • max: 1 (structure) Details about the connection between a Lambda function and an Amazon EFS file system or an Amazon S3 file system . Arn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Amazon EFS or Amazon S3 Files access point that provides access to the file system. Constraints: • min: 0 • max: 256 • pattern: arn:aws[a-zA-Z-]*:elasticfilesystem:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:access-point/fsap-[a-f0-9]{17}$|^arn:aws[-a-z]*:s3files:[0-9a-z-:]+:file-system/fs-[0-9a-f]{17,40}/access-point/fsap-[0-9a-f]{17,40} LocalMountPath -&gt; (string) [required] The path where the function can access the file system, starting with /mnt/ . Constraints: • min: 0 • max: 160 • pattern: /mnt/[a-zA-Z0-9-_.]+ S3FilesConfig -&gt; (structure) The configuration for how your function accesses data on an Amazon S3 file system. Valid only when the file system access point ARN is an Amazon S3 Files access point. If you specify a different access point type (for example, Amazon Elastic File System), the operation returns an InvalidParameterException . DirectS3Read -&gt; (string) Specifies if a function reads from the file system for the lowest latency, or through Amazon S3 Files feature "direct Amazon S3 bucket reads" for the highest throughput. Valid values: • AUTO (default) Direct reads are active for functions you configure with 512 MB or more of memory. • ENABLED Enforces all reads are directly from the Amazon S3 bucket, regardless of available memory (less than 512 MB). • DISABLED Routes all reads through the file system, regardless of memory configuration. To use direct reads, you must grant the execution role the s3:GetObject and s3:GetObjectVersion permissions. If a direct read fails, Lambda automatically falls back to reading through the file system. Possible values: • ENABLED • DISABLED • AUTO Shorthand Syntax: Arn=string,LocalMountPath=string,S3FilesConfig={DirectS3Read=string} ... JSON Syntax: [ { "Arn": "string", "LocalMountPath": "string", "S3FilesConfig": { "DirectS3Read": "ENABLED"|"DISABLED"|"AUTO" } } ... ]
     /// </summary>
     [CliOption("--file-system-configs", GroupValues = true)]
     public IEnumerable<string>? FileSystemConfigs { get; set; }
 
     /// <summary>
-    /// Container image configuration values that override the values in the container image Docker file. EntryPoint -&gt; (list) Specifies the entry point to their application, which is typi- cally the location of the runtime executable. Constraints: o min: 0 o max: 1500 (string) Command -&gt; (list) Specifies parameters that you want to pass in with ENTRYPOINT. Constraints: o min: 0 o max: 1500 (string) WorkingDirectory -&gt; (string) Specifies the working directory. Constraints: o min: 0 o max: 1000 Shorthand Syntax: EntryPoint=string,string,Command=string,string,WorkingDirectory=string JSON Syntax: { "EntryPoint": ["string", ...], "Command": ["string", ...], "WorkingDirectory": "string" }
+    /// Container image configuration values that override the values in the container image Docker file. EntryPoint -&gt; (list) Specifies the entry point to their application, which is typically the location of the runtime executable. Constraints: • min: 0 • max: 1500 (string) Command -&gt; (list) Specifies parameters that you want to pass in with ENTRYPOINT. Constraints: • min: 0 • max: 1500 (string) WorkingDirectory -&gt; (string) Specifies the working directory. Constraints: • min: 0 • max: 1000 Shorthand Syntax: EntryPoint=string,string,Command=string,string,WorkingDirectory=string JSON Syntax: { "EntryPoint": ["string", ...], "Command": ["string", ...], "WorkingDirectory": "string" }
     /// </summary>
     [CliOption("--image-config")]
     public string? ImageConfig { get; set; }
 
     /// <summary>
-    /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For more information, see Configuring ephemeral storage (console) . Size -&gt; (integer) [required] The size of the function's /tmp directory. Constraints: o min: 512 o max: 32768 Shorthand Syntax: Size=integer JSON Syntax: { "Size": integer }
+    /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For more information, see Configuring ephemeral storage (console) . Size -&gt; (integer) [required] The size of the function's /tmp directory. Constraints: • min: 512 • max: 32768 Shorthand Syntax: Size=integer JSON Syntax: { "Size": integer }
     /// </summary>
     [CliOption("--ephemeral-storage")]
     public string? EphemeralStorage { get; set; }
 
     /// <summary>
-    /// The function's SnapStart setting. ApplyOn -&gt; (string) Set to PublishedVersions to create a snapshot of the initialized execution environment when you publish a function version. Possible values: o PublishedVersions o None Shorthand Syntax: ApplyOn=string JSON Syntax: { "ApplyOn": "PublishedVersions"|"None" }
+    /// The function's SnapStart setting. ApplyOn -&gt; (string) Set to PublishedVersions to create a snapshot of the initialized execution environment when you publish a function version. Possible values: • PublishedVersions • None Shorthand Syntax: ApplyOn=string JSON Syntax: { "ApplyOn": "PublishedVersions"|"None" }
     /// </summary>
     [CliOption("--snap-start")]
     public string? SnapStart { get; set; }
 
     /// <summary>
-    /// The function's Amazon CloudWatch Logs configuration settings. LogFormat -&gt; (string) The format in which Lambda sends your function's application and system logs to CloudWatch. Select between plain text and struc- tured JSON. Possible values: o JSON o Text ApplicationLogLevel -&gt; (string) Set this property to filter the application logs for your func- tion that Lambda sends to CloudWatch. Lambda only sends applica- tion logs at the selected level of detail and lower, where TRACE is the highest level and FATAL is the lowest. Possible values: o TRACE o DEBUG o INFO o WARN o ERROR o FATAL SystemLogLevel -&gt; (string) Set this property to filter the system logs for your function that Lambda sends to CloudWatch. Lambda only sends system logs at the selected level of detail and lower, where DEBUG is the highest level and WARN is the lowest. Possible values: o DEBUG o INFO o WARN LogGroup -&gt; (string) The name of the Amazon CloudWatch log group the function sends logs to. By default, Lambda functions send logs to a default log group named /aws/lambda/&lt;function name&gt; . To use a different log group, enter an existing log group or enter a new log group name. Constraints: o min: 1 o max: 512 o pattern: [\.\-_/#A-Za-z0-9]+ Shorthand Syntax: LogFormat=string,ApplicationLogLevel=string,SystemLogLevel=string,LogGroup=string JSON Syntax: { "LogFormat": "JSON"|"Text", "ApplicationLogLevel": "TRACE"|"DEBUG"|"INFO"|"WARN"|"ERROR"|"FATAL", "SystemLogLevel": "DEBUG"|"INFO"|"WARN", "LogGroup": "string" }
+    /// The function's Amazon CloudWatch Logs configuration settings. LogFormat -&gt; (string) The format in which Lambda sends your function's application and system logs to CloudWatch. Select between plain text and structured JSON. Possible values: • JSON • Text ApplicationLogLevel -&gt; (string) Set this property to filter the application logs for your function that Lambda sends to CloudWatch. Lambda only sends application logs at the selected level of detail and lower, where TRACE is the highest level and FATAL is the lowest. Possible values: • TRACE • DEBUG • INFO • WARN • ERROR • FATAL SystemLogLevel -&gt; (string) Set this property to filter the system logs for your function that Lambda sends to CloudWatch. Lambda only sends system logs at the selected level of detail and lower, where DEBUG is the highest level and WARN is the lowest. Possible values: • DEBUG • INFO • WARN LogGroup -&gt; (string) The name of the Amazon CloudWatch log group the function sends logs to. By default, Lambda functions send logs to a default log group named /aws/lambda/&lt;function name&gt; . To use a different log group, enter an existing log group or enter a new log group name. Constraints: • min: 1 • max: 512 • pattern: [\.\-_/#A-Za-z0-9]+ Shorthand Syntax: LogFormat=string,ApplicationLogLevel=string,SystemLogLevel=string,LogGroup=string JSON Syntax: { "LogFormat": "JSON"|"Text", "ApplicationLogLevel": "TRACE"|"DEBUG"|"INFO"|"WARN"|"ERROR"|"FATAL", "SystemLogLevel": "DEBUG"|"INFO"|"WARN", "LogGroup": "string" }
     /// </summary>
     [CliOption("--logging-config")]
     public string? LoggingConfig { get; set; }
 
     /// <summary>
-    /// Configuration for the capacity provider that manages compute re- sources for Lambda functions. LambdaManagedInstancesCapacityProviderConfig -&gt; (structure) [re- quired] Configuration for Lambda-managed instances used by the capacity provider. CapacityProviderArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the capacity provider. Constraints: o min: 1 o max: 140 o pattern: arn:aws[a-zA-Z-]*:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:ca- pacity-provider:[a-zA-Z0-9-_]+ PerExecutionEnvironmentMaxConcurrency -&gt; (integer) The maximum number of concurrent execution environments that can run on each compute instance. Constraints: o min: 1 o max: 1600 ExecutionEnvironmentMemoryGiBPerVCpu -&gt; (double) The amount of memory in GiB allocated per vCPU for execution environments. Constraints: o min: 2 o max: 8 Shorthand Syntax: LambdaManagedInstancesCapacityProviderConfig={CapacityProviderArn=string,PerExecutionEnvironmentMaxConcurrency=integer,ExecutionEnvironmentMemoryGiBPerVCpu=double} JSON Syntax: { "LambdaManagedInstancesCapacityProviderConfig": { "CapacityProviderArn": "string", "PerExecutionEnvironmentMaxConcurrency": integer, "ExecutionEnvironmentMemoryGiBPerVCpu": double } }
+    /// Configuration for the capacity provider that manages compute resources for Lambda functions. LambdaManagedInstancesCapacityProviderConfig -&gt; (structure) [required] Configuration for Lambda-managed instances used by the capacity provider. CapacityProviderArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the capacity provider. Constraints: • min: 1 • max: 140 • pattern: arn:aws[a-zA-Z-]*:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:capacity-provider:[a-zA-Z0-9-_]+ PerExecutionEnvironmentMaxConcurrency -&gt; (integer) The maximum number of concurrent execution environments that can run on each compute instance. Constraints: • min: 1 • max: 1600 ExecutionEnvironmentMemoryGiBPerVCpu -&gt; (double) The amount of memory in GiB allocated per vCPU for execution environments. Constraints: • min: 2 • max: 8 Shorthand Syntax: LambdaManagedInstancesCapacityProviderConfig={CapacityProviderArn=string,PerExecutionEnvironmentMaxConcurrency=integer,ExecutionEnvironmentMemoryGiBPerVCpu=double} JSON Syntax: { "LambdaManagedInstancesCapacityProviderConfig": { "CapacityProviderArn": "string", "PerExecutionEnvironmentMaxConcurrency": integer, "ExecutionEnvironmentMemoryGiBPerVCpu": double } }
     /// </summary>
     [CliOption("--capacity-provider-config")]
     public string? CapacityProviderConfig { get; set; }
 
     /// <summary>
-    /// Configuration settings for durable functions , including execution timeout, retention period for execution history, and an optional ARN of the Key Management Service (KMS) customer managed key that is used to encrypt your durable execution's payload data, including in- put, output, and error payloads. KMSKeyArn -&gt; (string) The ARN of the Key Management Service (KMS) customer managed key that is used to encrypt your durable execution's payload data, including input, output, and error payloads. Constraints: o min: 0 o max: 10000 o pattern: (arn:(aws[a-zA-Z-]*)?:[a-z0-9-.]+:.*)|() RetentionPeriodInDays -&gt; (integer) The number of days to retain execution history after a durable execution completes. After this period, execution history is no longer available through the GetDurableExecutionHistory API. Constraints: o min: 1 o max: 90 ExecutionTimeout -&gt; (integer) The maximum time (in seconds) that a durable execution can run before timing out. This timeout applies to the entire durable execution, not individual function invocations. Constraints: o min: 1 o max: 31622400 Shorthand Syntax: KMSKeyArn=string,RetentionPeriodInDays=integer,ExecutionTimeout=integer JSON Syntax: { "KMSKeyArn": "string", "RetentionPeriodInDays": integer, "ExecutionTimeout": integer }
+    /// Configuration settings for durable functions , including execution timeout, retention period for execution history, and an optional ARN of the Key Management Service (KMS) customer managed key that is used to encrypt your durable execution's payload data, including input, output, and error payloads. KMSKeyArn -&gt; (string) The ARN of the Key Management Service (KMS) customer managed key that is used to encrypt your durable execution's payload data, including input, output, and error payloads. Constraints: • min: 0 • max: 10000 • pattern: (arn:(aws[a-zA-Z-]*)?:[a-z0-9-.]+:.*)|() RetentionPeriodInDays -&gt; (integer) The number of days to retain execution history after a durable execution completes. After this period, execution history is no longer available through the GetDurableExecutionHistory API. Constraints: • min: 1 • max: 90 ExecutionTimeout -&gt; (integer) The maximum time (in seconds) that a durable execution can run before timing out. This timeout applies to the entire durable execution, not individual function invocations. Constraints: • min: 1 • max: 31622400 Shorthand Syntax: KMSKeyArn=string,RetentionPeriodInDays=integer,ExecutionTimeout=integer JSON Syntax: { "KMSKeyArn": "string", "RetentionPeriodInDays": integer, "ExecutionTimeout": integer }
     /// </summary>
     [CliOption("--durable-config")]
     public string? DurableConfig { get; set; }
@@ -202,6 +203,15 @@ public record AwsLambdaUpdateFunctionConfigurationOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

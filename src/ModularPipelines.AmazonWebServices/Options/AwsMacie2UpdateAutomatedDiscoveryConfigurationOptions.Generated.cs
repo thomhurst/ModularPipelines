@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsMacie2UpdateAutomatedDiscoveryConfigurationOptions : AwsOptions
     /// <summary>
     /// Changes the configuration settings and status of automated sensitive data discovery for an organization or standalone account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Status">The new status of automated sensitive data discovery for the organi- zation or account. Valid values are: ENABLED, start or resume all automated sensitive data discovery activities; and, DISABLED, stop performing all automated sensitive data discovery activities. If you specify DISABLED for an administrator account, you also dis- able automated sensitive data discovery for all member accounts in the organization. Possible values: o ENABLED o DISABLED</param>
+    /// <param name="Status">The new status of automated sensitive data discovery for the organization or account. Valid values are: ENABLED, start or resume all automated sensitive data discovery activities; and, DISABLED, stop performing all automated sensitive data discovery activities. If you specify DISABLED for an administrator account, you also disable automated sensitive data discovery for all member accounts in the organization. Possible values: • ENABLED • DISABLED</param>
     public AwsMacie2UpdateAutomatedDiscoveryConfigurationOptions(
         AwsMacie2UpdateAutomatedDiscoveryConfigurationStatus Status
     )
@@ -56,13 +57,13 @@ public record AwsMacie2UpdateAutomatedDiscoveryConfigurationOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The new status of automated sensitive data discovery for the organi- zation or account. Valid values are: ENABLED, start or resume all automated sensitive data discovery activities; and, DISABLED, stop performing all automated sensitive data discovery activities. If you specify DISABLED for an administrator account, you also dis- able automated sensitive data discovery for all member accounts in the organization. Possible values: o ENABLED o DISABLED
+    /// The new status of automated sensitive data discovery for the organization or account. Valid values are: ENABLED, start or resume all automated sensitive data discovery activities; and, DISABLED, stop performing all automated sensitive data discovery activities. If you specify DISABLED for an administrator account, you also disable automated sensitive data discovery for all member accounts in the organization. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--status")]
     public AwsMacie2UpdateAutomatedDiscoveryConfigurationStatus? Status { get; private init; }
 
     /// <summary>
-    /// Specifies whether to automatically enable automated sensitive data discovery for accounts in the organization. Valid values are: ALL (default), enable it for all existing accounts and new member ac- counts; NEW, enable it only for new member accounts; and, NONE, don't enable it for any accounts. If you specify NEW or NONE, automated sensitive data discovery con- tinues to be enabled for any existing accounts that it's currently enabled for. To enable or disable it for individual member accounts, specify NEW or NONE, and then enable or disable it for each account by using the BatchUpdateAutomatedDiscoveryAccounts operation. Possible values: o ALL o NEW o NONE
+    /// Specifies whether to automatically enable automated sensitive data discovery for accounts in the organization. Valid values are: ALL (default), enable it for all existing accounts and new member accounts; NEW, enable it only for new member accounts; and, NONE, don't enable it for any accounts. If you specify NEW or NONE, automated sensitive data discovery continues to be enabled for any existing accounts that it's currently enabled for. To enable or disable it for individual member accounts, specify NEW or NONE, and then enable or disable it for each account by using the BatchUpdateAutomatedDiscoveryAccounts operation. Possible values: • ALL • NEW • NONE
     /// </summary>
     [CliOption("--auto-enable-organization-members")]
     public AwsMacie2UpdateAutomatedDiscoveryConfigurationAutoEnableOrganizationMembers? AutoEnableOrganizationMembers { get; set; }
@@ -88,6 +89,15 @@ public record AwsMacie2UpdateAutomatedDiscoveryConfigurationOptions : AwsOptions
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

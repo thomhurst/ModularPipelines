@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associates the specified IP access control group with the specified di- rectory. See also: AWS API Documentation
+/// Associates the specified IP access control group with the specified directory. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsWorkspacesAssociateIpGroupsOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associates the specified IP access control group with the specified di- rectory. See also: AWS API Documentation
+    /// Associates the specified IP access control group with the specified directory. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DirectoryId">The identifier of the directory. Constraints: o min: 10 o max: 65 o pattern: ^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)</param>
-    /// <param name="GroupIds">The identifiers of one or more IP access control groups. (string) Constraints: o pattern: wsipg-[0-9a-z]{8,63}$ Syntax: "string" "string" ...</param>
+    /// <param name="DirectoryId">The identifier of the directory. Constraints: • min: 10 • max: 65 • pattern: ^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)</param>
+    /// <param name="GroupIds">The identifiers of one or more IP access control groups. (string) Constraints: • pattern: wsipg-[0-9a-z]{8,63}$ Syntax: "string" "string" ...</param>
     public AwsWorkspacesAssociateIpGroupsOptions(
         string DirectoryId,
         IEnumerable<string> GroupIds
@@ -71,13 +72,13 @@ public record AwsWorkspacesAssociateIpGroupsOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the directory. Constraints: o min: 10 o max: 65 o pattern: ^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)
+    /// The identifier of the directory. Constraints: • min: 10 • max: 65 • pattern: ^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)
     /// </summary>
     [CliOption("--directory-id")]
     public string? DirectoryId { get; private init; }
 
     /// <summary>
-    /// The identifiers of one or more IP access control groups. (string) Constraints: o pattern: wsipg-[0-9a-z]{8,63}$ Syntax: "string" "string" ...
+    /// The identifiers of one or more IP access control groups. (string) Constraints: • pattern: wsipg-[0-9a-z]{8,63}$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--group-ids", GroupValues = true)]
     public IEnumerable<string>? GroupIds { get; private init; }
@@ -103,6 +104,15 @@ public record AwsWorkspacesAssociateIpGroupsOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

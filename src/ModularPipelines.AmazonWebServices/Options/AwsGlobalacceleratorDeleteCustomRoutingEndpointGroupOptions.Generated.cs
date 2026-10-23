@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Delete an endpoint group from a listener for a custom routing accelera- tor. See also: AWS API Documentation
+/// Delete an endpoint group from a listener for a custom routing accelerator. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsGlobalacceleratorDeleteCustomRoutingEndpointGroupOptions : AwsO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Delete an endpoint group from a listener for a custom routing accelera- tor. See also: AWS API Documentation
+    /// Delete an endpoint group from a listener for a custom routing accelerator. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EndpointGroupArn">The Amazon Resource Name (ARN) of the endpoint group to delete. Constraints: o max: 255</param>
+    /// <param name="EndpointGroupArn">The Amazon Resource Name (ARN) of the endpoint group to delete. Constraints: • max: 255</param>
     public AwsGlobalacceleratorDeleteCustomRoutingEndpointGroupOptions(
         string EndpointGroupArn
     )
@@ -56,7 +57,7 @@ public record AwsGlobalacceleratorDeleteCustomRoutingEndpointGroupOptions : AwsO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the endpoint group to delete. Constraints: o max: 255
+    /// The Amazon Resource Name (ARN) of the endpoint group to delete. Constraints: • max: 255
     /// </summary>
     [CliOption("--endpoint-group-arn")]
     public string? EndpointGroupArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsGlobalacceleratorDeleteCustomRoutingEndpointGroupOptions : AwsO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

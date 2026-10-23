@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,7 +30,7 @@ public record AwsOpensearchserverlessListSecurityPoliciesOptions : AwsOptions, I
     /// <summary>
     /// Returns information about configured OpenSearch Serverless security policies. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Type">The type of policy. Possible values: o encryption o network</param>
+    /// <param name="Type">The type of policy. Possible values: • encryption • network</param>
     public AwsOpensearchserverlessListSecurityPoliciesOptions(
         AwsOpensearchserverlessListSecurityPoliciesType Type
     )
@@ -57,26 +58,26 @@ public record AwsOpensearchserverlessListSecurityPoliciesOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The type of policy. Possible values: o encryption o network
+    /// The type of policy. Possible values: • encryption • network
     /// </summary>
     [CliOption("--type")]
     public AwsOpensearchserverlessListSecurityPoliciesType? Type { get; private init; }
 
     /// <summary>
-    /// Resource filters (can be collection or indexes) that policies can apply to. Constraints: o min: 1 o max: 1000 (string) Syntax: "string" "string" ...
+    /// Resource filters (can be collection or indexes) that policies can apply to. Constraints: • min: 1 • max: 1000 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--resource", GroupValues = true)]
     public IEnumerable<string>? Resource { get; set; }
 
     /// <summary>
-    /// If your initial ListSecurityPolicies operation returns a nextToken , you can include the returned nextToken in subsequent ListSecurity- Policies operations, which returns results in the next page.
+    /// If your initial ListSecurityPolicies operation returns a nextToken , you can include the returned nextToken in subsequent ListSecurityPolicies operations, which returns results in the next page.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results. The default is 20. Constraints: o min: 1 o max: 100
+    /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results. The default is 20. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -102,6 +103,15 @@ public record AwsOpensearchserverlessListSecurityPoliciesOptions : AwsOptions, I
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a key group that you can use with CloudFront signed URLs and signed cookies . To create a key group, you must specify at least one public key for the key group. After you create a key group, you can reference it from one or more cache behaviors. When you reference a key group in a cache be- havior, CloudFront requires signed URLs or signed cookies for all re- quests that match the cache behavior. The URLs or cookies must be signed with a private key whose corresponding public key is in t...
+/// Creates a key group that you can use with CloudFront signed URLs and signed cookies . To create a key group, you must specify at least one public key for the key group. After you create a key group, you can reference it from one or more cache behaviors. When you reference a key group in a cache behavior, CloudFront requires signed URLs or signed cookies for all requests that match the cache behavior. The URLs or cookies must be signed with a private key whose corresponding public key is in the k...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsCloudfrontCreateKeyGroupOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a key group that you can use with CloudFront signed URLs and signed cookies . To create a key group, you must specify at least one public key for the key group. After you create a key group, you can reference it from one or more cache behaviors. When you reference a key group in a cache be- havior, CloudFront requires signed URLs or signed cookies for all re- quests that match the cache behavior. The URLs or cookies must be signed with a private key whose corresponding public key is in t...
+    /// Creates a key group that you can use with CloudFront signed URLs and signed cookies . To create a key group, you must specify at least one public key for the key group. After you create a key group, you can reference it from one or more cache behaviors. When you reference a key group in a cache behavior, CloudFront requires signed URLs or signed cookies for all requests that match the cache behavior. The URLs or cookies must be signed with a private key whose corresponding public key is in the k...
     /// </summary>
     /// <param name="KeyGroupConfig">A key group configuration. Name -&gt; (string) [required] A name to identify the key group. Items -&gt; (list) [required] A list of the identifiers of the public keys in the key group. (string) Comment -&gt; (string) A comment to describe the key group. The comment cannot be longer than 128 characters. Shorthand Syntax: Name=string,Items=string,string,Comment=string JSON Syntax: { "Name": "string", "Items": ["string", ...], "Comment": "string" }</param>
     public AwsCloudfrontCreateKeyGroupOptions(
@@ -82,6 +83,15 @@ public record AwsCloudfrontCreateKeyGroupOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

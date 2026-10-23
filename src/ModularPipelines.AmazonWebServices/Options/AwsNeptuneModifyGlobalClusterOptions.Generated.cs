@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modify a setting for an Amazon Neptune global cluster. You can change one or more database configuration parameters by specifying these para- meters and their new values in the request. See also: AWS API Documentation
+/// Modify a setting for an Amazon Neptune global cluster. You can change one or more database configuration parameters by specifying these parameters and their new values in the request. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsNeptuneModifyGlobalClusterOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Modify a setting for an Amazon Neptune global cluster. You can change one or more database configuration parameters by specifying these para- meters and their new values in the request. See also: AWS API Documentation
+    /// Modify a setting for an Amazon Neptune global cluster. You can change one or more database configuration parameters by specifying these parameters and their new values in the request. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GlobalClusterIdentifier">The DB cluster identifier for the global cluster being modified. This parameter is not case-sensitive. Constraints: Must match the identifier of an existing global data- base cluster. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][0-9A-Za-z-:._]*</param>
+    /// <param name="GlobalClusterIdentifier">The DB cluster identifier for the global cluster being modified. This parameter is not case-sensitive. Constraints: Must match the identifier of an existing global database cluster. Constraints: • min: 1 • max: 255 • pattern: [A-Za-z][0-9A-Za-z-:._]*</param>
     public AwsNeptuneModifyGlobalClusterOptions(
         string GlobalClusterIdentifier
     )
@@ -56,31 +57,31 @@ public record AwsNeptuneModifyGlobalClusterOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The DB cluster identifier for the global cluster being modified. This parameter is not case-sensitive. Constraints: Must match the identifier of an existing global data- base cluster. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][0-9A-Za-z-:._]*
+    /// The DB cluster identifier for the global cluster being modified. This parameter is not case-sensitive. Constraints: Must match the identifier of an existing global database cluster. Constraints: • min: 1 • max: 255 • pattern: [A-Za-z][0-9A-Za-z-:._]*
     /// </summary>
     [CliOption("--global-cluster-identifier")]
     public string? GlobalClusterIdentifier { get; private init; }
 
     /// <summary>
-    /// A new cluster identifier to assign to the global database. This value is stored as a lowercase string. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens. o The first character must be a letter. o Can't end with a hyphen or contain two consecutive hyphens Example: my-cluster2 Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][0-9A-Za-z-:._]*
+    /// A new cluster identifier to assign to the global database. This value is stored as a lowercase string. Constraints: • Must contain from 1 to 63 letters, numbers, or hyphens. • The first character must be a letter. • Can't end with a hyphen or contain two consecutive hyphens Example: my-cluster2 Constraints: • min: 1 • max: 255 • pattern: [A-Za-z][0-9A-Za-z-:._]*
     /// </summary>
     [CliOption("--new-global-cluster-identifier")]
     public string? NewGlobalClusterIdentifier { get; set; }
 
     /// <summary>
-    /// Indicates whether the global database has deletion protection en- abled. The global database cannot be deleted when deletion protec- tion is enabled.
+    /// Indicates whether the global database has deletion protection enabled. The global database cannot be deleted when deletion protection is enabled.
     /// </summary>
     [CliFlag("--deletion-protection", NegatedName = "--no-deletion-protection")]
     public bool? DeletionProtection { get; set; }
 
     /// <summary>
-    /// The version number of the database engine to which you want to up- grade. Changing this parameter will result in an outage. The change is applied during the next maintenance window unless ApplyImmedi- ately is enabled. To list all of the available Neptune engine versions, use the fol- lowing command:
+    /// The version number of the database engine to which you want to upgrade. Changing this parameter will result in an outage. The change is applied during the next maintenance window unless ApplyImmediately is enabled. To list all of the available Neptune engine versions, use the following command:
     /// </summary>
     [CliOption("--engine-version")]
     public string? EngineVersion { get; set; }
 
     /// <summary>
-    /// A value that indicates whether major version upgrades are allowed. Constraints: You must allow major version upgrades if you specify a value for the EngineVersion parameter that is a different major ver- sion than the DB cluster's current version. If you upgrade the major version of a global database, the cluster and DB instance parameter groups are set to the default parameter groups for the new version, so you will need to apply any custom pa- rameter groups after completing the upgrade.
+    /// A value that indicates whether major version upgrades are allowed. Constraints: You must allow major version upgrades if you specify a value for the EngineVersion parameter that is a different major version than the DB cluster's current version. If you upgrade the major version of a global database, the cluster and DB instance parameter groups are set to the default parameter groups for the new version, so you will need to apply any custom parameter groups after completing the upgrade.
     /// </summary>
     [CliFlag("--allow-major-version-upgrade", NegatedName = "--no-allow-major-version-upgrade")]
     public bool? AllowMajorVersionUpgrade { get; set; }
@@ -106,6 +107,15 @@ public record AwsNeptuneModifyGlobalClusterOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

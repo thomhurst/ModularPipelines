@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsCloudcontrolCancelResourceRequestOptions : AwsOptions, IValidat
     /// <summary>
     /// Cancels the specified resource operation request. For more information, see Canceling resource operation requests in the Amazon Web Services Cloud Control API User Guide . Only resource operations requests with a status of PENDING or IN_PROGRESS can be canceled. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RequestToken">The RequestToken of the ProgressEvent object returned by the re- source operation request. Constraints: o min: 1 o max: 128 o pattern: [-A-Za-z0-9+/=]+</param>
+    /// <param name="RequestToken">The RequestToken of the ProgressEvent object returned by the resource operation request. Constraints: • min: 1 • max: 128 • pattern: [-A-Za-z0-9+/=]+</param>
     public AwsCloudcontrolCancelResourceRequestOptions(
         string RequestToken
     )
@@ -57,7 +58,7 @@ public record AwsCloudcontrolCancelResourceRequestOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The RequestToken of the ProgressEvent object returned by the re- source operation request. Constraints: o min: 1 o max: 128 o pattern: [-A-Za-z0-9+/=]+
+    /// The RequestToken of the ProgressEvent object returned by the resource operation request. Constraints: • min: 1 • max: 128 • pattern: [-A-Za-z0-9+/=]+
     /// </summary>
     [SecretValue]
     [CliOption("--request-token")]
@@ -84,6 +85,15 @@ public record AwsCloudcontrolCancelResourceRequestOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

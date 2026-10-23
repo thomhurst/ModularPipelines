@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -77,7 +77,7 @@ public class AwsS3 : IAwsS3
     }
 
     /// <summary>
-    /// Moves a local file or S3 object to another location locally or in S3. The mv command copies the source object or file to the specified desti- nation and then deletes the source object or file. WARNING: If you are using any type of access point ARNs or access point aliases in your S3 URIs, you must take extra care to make sure that your source and destination S3 URIs resolve to different underlying buckets. If the source and destination buckets are the same, the source file or object can be moved...
+    /// Moves a local file or S3 object to another location locally or in S3. The mv command copies the source object or file to the specified destination and then deletes the source object or file. WARNING: If you are using any type of access point ARNs or access point aliases in your S3 URIs, you must take extra care to make sure that your source and destination S3 URIs resolve to different underlying buckets. If the source and destination buckets are the same, the source file or object can be moved o...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsS3 : IAwsS3
     }
 
     /// <summary>
-    /// Deletes an empty S3 bucket. A bucket must be completely empty of ob- jects and versioned objects before it can be deleted. However, the --force parameter can be used to delete the non-versioned objects in the bucket before the bucket is deleted.
+    /// Deletes an empty S3 bucket. A bucket must be completely empty of objects and versioned objects before it can be deleted. However, the --force parameter can be used to delete the non-versioned objects in the bucket before the bucket is deleted.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsS3 : IAwsS3
     }
 
     /// <summary>
-    /// Syncs directories and S3 prefixes. Recursively copies new and updated files from the source directory to the destination. Only creates fold- ers in the destination if they contain one or more files.
+    /// Syncs directories and S3 prefixes. Recursively copies new and updated files from the source directory to the destination. Only creates folders in the destination if they contain one or more files.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

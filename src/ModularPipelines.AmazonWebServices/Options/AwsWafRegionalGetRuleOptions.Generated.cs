@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsWafRegionalGetRuleOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// NOTE: This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns the Rule that is specified by the RuleId that you included in the GetRule request. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RuleId">The RuleId of the Rule that you want to get. RuleId is returned by CreateRule and by ListRules . Constraints: o min: 1 o max: 128 o pattern: .*\S.*</param>
+    /// <param name="RuleId">The RuleId of the Rule that you want to get. RuleId is returned by CreateRule and by ListRules . Constraints: • min: 1 • max: 128 • pattern: .*\S.*</param>
     public AwsWafRegionalGetRuleOptions(
         string RuleId
     )
@@ -56,7 +57,7 @@ public record AwsWafRegionalGetRuleOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The RuleId of the Rule that you want to get. RuleId is returned by CreateRule and by ListRules . Constraints: o min: 1 o max: 128 o pattern: .*\S.*
+    /// The RuleId of the Rule that you want to get. RuleId is returned by CreateRule and by ListRules . Constraints: • min: 1 • max: 128 • pattern: .*\S.*
     /// </summary>
     [CliOption("--rule-id")]
     public string? RuleId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsWafRegionalGetRuleOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

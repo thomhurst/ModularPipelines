@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Stops the specified pipeline execution. You choose to either stop the pipeline execution by completing in-progress actions without starting subsequent actions, or by abandoning in-progress actions. While com- pleting or abandoning in-progress actions, the pipeline execution is in a Stopping state. After all in-progress actions are completed or aban- doned, the pipeline execution is in a Stopped state. See also: AWS API Documentation
+/// Stops the specified pipeline execution. You choose to either stop the pipeline execution by completing in-progress actions without starting subsequent actions, or by abandoning in-progress actions. While completing or abandoning in-progress actions, the pipeline execution is in a Stopping state. After all in-progress actions are completed or abandoned, the pipeline execution is in a Stopped state. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsCodepipelineStopPipelineExecutionOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Stops the specified pipeline execution. You choose to either stop the pipeline execution by completing in-progress actions without starting subsequent actions, or by abandoning in-progress actions. While com- pleting or abandoning in-progress actions, the pipeline execution is in a Stopping state. After all in-progress actions are completed or aban- doned, the pipeline execution is in a Stopped state. See also: AWS API Documentation
+    /// Stops the specified pipeline execution. You choose to either stop the pipeline execution by completing in-progress actions without starting subsequent actions, or by abandoning in-progress actions. While completing or abandoning in-progress actions, the pipeline execution is in a Stopping state. After all in-progress actions are completed or abandoned, the pipeline execution is in a Stopped state. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PipelineName">The name of the pipeline to stop. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9.@\-_]+</param>
-    /// <param name="PipelineExecutionId">The ID of the pipeline execution to be stopped in the current stage. Use the GetPipelineState action to retrieve the current pipelineExe- cutionId. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="PipelineName">The name of the pipeline to stop. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9.@\-_]+</param>
+    /// <param name="PipelineExecutionId">The ID of the pipeline execution to be stopped in the current stage. Use the GetPipelineState action to retrieve the current pipelineExecutionId. Constraints: • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
     public AwsCodepipelineStopPipelineExecutionOptions(
         string PipelineName,
         string PipelineExecutionId
@@ -60,13 +61,13 @@ public record AwsCodepipelineStopPipelineExecutionOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the pipeline to stop. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9.@\-_]+
+    /// The name of the pipeline to stop. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9.@\-_]+
     /// </summary>
     [CliOption("--pipeline-name")]
     public string? PipelineName { get; private init; }
 
     /// <summary>
-    /// The ID of the pipeline execution to be stopped in the current stage. Use the GetPipelineState action to retrieve the current pipelineExe- cutionId. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The ID of the pipeline execution to be stopped in the current stage. Use the GetPipelineState action to retrieve the current pipelineExecutionId. Constraints: • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--pipeline-execution-id")]
     public string? PipelineExecutionId { get; private init; }
@@ -78,7 +79,7 @@ public record AwsCodepipelineStopPipelineExecutionOptions : AwsOptions, IValidat
     public bool? Abandon { get; set; }
 
     /// <summary>
-    /// Use this option to enter comments, such as the reason the pipeline was stopped. Constraints: o max: 200
+    /// Use this option to enter comments, such as the reason the pipeline was stopped. Constraints: • max: 200
     /// </summary>
     [CliOption("--reason")]
     public string? Reason { get; set; }
@@ -104,6 +105,15 @@ public record AwsCodepipelineStopPipelineExecutionOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

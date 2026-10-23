@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsFisListExperimentTargetAccountConfigurationsOptions : AwsOption
     /// <summary>
     /// Lists the target account configurations of the specified experiment. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ExperimentId">The ID of the experiment. Constraints: o max: 64 o pattern: [\S]+</param>
+    /// <param name="ExperimentId">The ID of the experiment. Constraints: • max: 64 • pattern: [\S]+</param>
     public AwsFisListExperimentTargetAccountConfigurationsOptions(
         string ExperimentId
     )
@@ -57,13 +58,13 @@ public record AwsFisListExperimentTargetAccountConfigurationsOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the experiment. Constraints: o max: 64 o pattern: [\S]+
+    /// The ID of the experiment. Constraints: • max: 64 • pattern: [\S]+
     /// </summary>
     [CliOption("--experiment-id")]
     public string? ExperimentId { get; private init; }
 
     /// <summary>
-    /// The token for the next page of results. Constraints: o min: 1 o max: 1024 o pattern: [\S]+
+    /// The token for the next page of results. Constraints: • min: 1 • max: 1024 • pattern: [\S]+
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -90,6 +91,15 @@ public record AwsFisListExperimentTargetAccountConfigurationsOptions : AwsOption
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

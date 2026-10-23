@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves a list of components that meet the component, version, and platform requirements of a deployment. Greengrass core devices call this operation when they receive a deployment to identify the compo- nents to install. This operation identifies components that meet all dependency require- ments for a deployment. If the requirements conflict, then this opera- tion returns an error and the deployment fails. For example, this oc- curs if component A requires version &gt;2.0.0 and component B requ...
+/// Retrieves a list of components that meet the component, version, and platform requirements of a deployment. Greengrass core devices call this operation when they receive a deployment to identify the components to install. This operation identifies components that meet all dependency requirements for a deployment. If the requirements conflict, then this operation returns an error and the deployment fails. For example, this occurs if component A requires version &gt;2.0.0 and component B requires ver...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,13 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsGreengrassv2ResolveComponentCandidatesOptions : AwsOptions
 {
     /// <summary>
-    /// The platform to use to resolve compatible components. name -&gt; (string) The friendly name of the platform. This name helps you identify the platform. If you omit this parameter, IoT Greengrass creates a friendly name from the os and architecture of the platform. Constraints: o min: 1 attributes -&gt; (map) A dictionary of attributes for the platform. The IoT Greengrass Core software defines the os and architecture by default. You can specify additional platform attributes for a core device when you deploy the Greengrass nucleus component. For more in- formation, see the Greengrass nucleus component in the IoT Greengrass V2 Developer Guide . key -&gt; (string) Constraints: o min: 1 value -&gt; (string) Constraints: o min: 1 Shorthand Syntax: name=string,attributes={KeyName1=string,KeyName2=string} JSON Syntax: { "name": "string", "attributes": {"string": "string" ...} }
+    /// The platform to use to resolve compatible components. name -&gt; (string) The friendly name of the platform. This name helps you identify the platform. If you omit this parameter, IoT Greengrass creates a friendly name from the os and architecture of the platform. Constraints: • min: 1 attributes -&gt; (map) A dictionary of attributes for the platform. The IoT Greengrass Core software defines the os and architecture by default. You can specify additional platform attributes for a core device when you deploy the Greengrass nucleus component. For more information, see the Greengrass nucleus component in the IoT Greengrass V2 Developer Guide . key -&gt; (string) Constraints: • min: 1 value -&gt; (string) Constraints: • min: 1 Shorthand Syntax: name=string,attributes={KeyName1=string,KeyName2=string} JSON Syntax: { "name": "string", "attributes": {"string": "string" ...} }
     /// </summary>
     [CliOption("--platform")]
     public string? Platform { get; set; }
 
     /// <summary>
-    /// The list of components to resolve. (structure) Contains information about a component that is a candidate to deploy to a Greengrass core device. componentName -&gt; (string) The name of the component. Constraints: o min: 1 o max: 128 componentVersion -&gt; (string) The version of the component. Constraints: o min: 1 o max: 64 versionRequirements -&gt; (map) The version requirements for the component's dependencies. Greengrass core devices get the version requirements from component recipes. IoT Greengrass V2 uses semantic version constraints. For more information, see Semantic Versioning . key -&gt; (string) Constraints: o min: 1 value -&gt; (string) Constraints: o min: 1 Shorthand Syntax: componentName=string,componentVersion=string,versionRequirements={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "componentName": "string", "componentVersion": "string", "versionRequirements": {"string": "string" ...} } ... ]
+    /// The list of components to resolve. (structure) Contains information about a component that is a candidate to deploy to a Greengrass core device. componentName -&gt; (string) The name of the component. Constraints: • min: 1 • max: 128 componentVersion -&gt; (string) The version of the component. Constraints: • min: 1 • max: 64 versionRequirements -&gt; (map) The version requirements for the component's dependencies. Greengrass core devices get the version requirements from component recipes. IoT Greengrass V2 uses semantic version constraints. For more information, see Semantic Versioning . key -&gt; (string) Constraints: • min: 1 value -&gt; (string) Constraints: • min: 1 Shorthand Syntax: componentName=string,componentVersion=string,versionRequirements={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "componentName": "string", "componentVersion": "string", "versionRequirements": {"string": "string" ...} } ... ]
     /// </summary>
     [CliOption("--component-candidates", GroupValues = true)]
     public IEnumerable<string>? ComponentCandidates { get; set; }
@@ -38,5 +38,14 @@ public record AwsGreengrassv2ResolveComponentCandidatesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

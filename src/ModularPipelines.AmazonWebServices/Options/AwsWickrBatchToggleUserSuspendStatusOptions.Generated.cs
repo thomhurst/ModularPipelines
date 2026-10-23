@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Suspends or unsuspends multiple users in a Wickr network. Suspended users cannot access the network until they are unsuspended. This opera- tion is useful for temporarily restricting access without deleting user accounts. See also: AWS API Documentation
+/// Suspends or unsuspends multiple users in a Wickr network. Suspended users cannot access the network until they are unsuspended. This operation is useful for temporarily restricting access without deleting user accounts. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsWickrBatchToggleUserSuspendStatusOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Suspends or unsuspends multiple users in a Wickr network. Suspended users cannot access the network until they are unsuspended. This opera- tion is useful for temporarily restricting access without deleting user accounts. See also: AWS API Documentation
+    /// Suspends or unsuspends multiple users in a Wickr network. Suspended users cannot access the network until they are unsuspended. This operation is useful for temporarily restricting access without deleting user accounts. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NetworkId">The ID of the Wickr network where users will be suspended or unsus- pended. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}</param>
+    /// <param name="NetworkId">The ID of the Wickr network where users will be suspended or unsuspended. Constraints: • min: 8 • max: 8 • pattern: [0-9]{8}</param>
     /// <param name="Suspend">A boolean value indicating whether to suspend (true) or unsuspend (false) the specified users.</param>
-    /// <param name="UserIds">A list of user IDs identifying the users whose suspend status will be toggled. Maximum 50 users per batch request. (string) Constraints: o min: 1 o max: 10 o pattern: [0-9]+ Syntax: "string" "string" ...</param>
+    /// <param name="UserIds">A list of user IDs identifying the users whose suspend status will be toggled. Maximum 50 users per batch request. (string) Constraints: • min: 1 • max: 10 • pattern: [0-9]+ Syntax: "string" "string" ...</param>
     public AwsWickrBatchToggleUserSuspendStatusOptions(
         string NetworkId,
         bool Suspend,
@@ -75,7 +76,7 @@ public record AwsWickrBatchToggleUserSuspendStatusOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Wickr network where users will be suspended or unsus- pended. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}
+    /// The ID of the Wickr network where users will be suspended or unsuspended. Constraints: • min: 8 • max: 8 • pattern: [0-9]{8}
     /// </summary>
     [CliOption("--network-id")]
     public string? NetworkId { get; private init; }
@@ -87,13 +88,13 @@ public record AwsWickrBatchToggleUserSuspendStatusOptions : AwsOptions, IValidat
     public bool? Suspend { get; private init; }
 
     /// <summary>
-    /// A list of user IDs identifying the users whose suspend status will be toggled. Maximum 50 users per batch request. (string) Constraints: o min: 1 o max: 10 o pattern: [0-9]+ Syntax: "string" "string" ...
+    /// A list of user IDs identifying the users whose suspend status will be toggled. Maximum 50 users per batch request. (string) Constraints: • min: 1 • max: 10 • pattern: [0-9]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--user-ids", GroupValues = true)]
     public IEnumerable<string>? UserIds { get; private init; }
 
     /// <summary>
-    /// A unique identifier for this request to ensure idempotency. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-_:]+
+    /// A unique identifier for this request to ensure idempotency. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-_:]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -120,6 +121,15 @@ public record AwsWickrBatchToggleUserSuspendStatusOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

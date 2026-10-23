@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves metadata for a Greengrass core device. NOTE: IoT Greengrass relies on individual devices to send status updates to the Amazon Web Services Cloud. If the IoT Greengrass Core soft- ware isn't running on the device, or if device isn't connected to the Amazon Web Services Cloud, then the reported status of that de- vice might not reflect its current status. The status timestamp in- dicates when the device status was last updated. Core devices send status updates at the following times: o W...
+/// Retrieves metadata for a Greengrass core device. NOTE: IoT Greengrass relies on individual devices to send status updates to the Amazon Web Services Cloud. If the IoT Greengrass Core software isn't running on the device, or if device isn't connected to the Amazon Web Services Cloud, then the reported status of that device might not reflect its current status. The status timestamp indicates when the device status was last updated. Core devices send status updates at the following times: • When th...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsGreengrassv2GetCoreDeviceOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves metadata for a Greengrass core device. NOTE: IoT Greengrass relies on individual devices to send status updates to the Amazon Web Services Cloud. If the IoT Greengrass Core soft- ware isn't running on the device, or if device isn't connected to the Amazon Web Services Cloud, then the reported status of that de- vice might not reflect its current status. The status timestamp in- dicates when the device status was last updated. Core devices send status updates at the following times: o W...
+    /// Retrieves metadata for a Greengrass core device. NOTE: IoT Greengrass relies on individual devices to send status updates to the Amazon Web Services Cloud. If the IoT Greengrass Core software isn't running on the device, or if device isn't connected to the Amazon Web Services Cloud, then the reported status of that device might not reflect its current status. The status timestamp indicates when the device status was last updated. Core devices send status updates at the following times: • When th...
     /// </summary>
-    /// <param name="CoreDeviceThingName">The name of the core device. This is also the name of the IoT thing. Constraints: o min: 1 o max: 128</param>
+    /// <param name="CoreDeviceThingName">The name of the core device. This is also the name of the IoT thing. Constraints: • min: 1 • max: 128</param>
     public AwsGreengrassv2GetCoreDeviceOptions(
         string CoreDeviceThingName
     )
@@ -56,7 +57,7 @@ public record AwsGreengrassv2GetCoreDeviceOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the core device. This is also the name of the IoT thing. Constraints: o min: 1 o max: 128
+    /// The name of the core device. This is also the name of the IoT thing. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--core-device-thing-name")]
     public string? CoreDeviceThingName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsGreengrassv2GetCoreDeviceOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

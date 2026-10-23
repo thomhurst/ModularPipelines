@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsDiscoveryCreateTagsOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates one or more tags for configuration items. Tags are metadata that help you categorize IT assets. This API accepts a list of multiple configuration items. WARNING: Do not store sensitive information (like personal data) in tags. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConfigurationIds">A list of configuration items that you want to tag. (string) Constraints: o max: 200 o pattern: \S* Syntax: "string" "string" ...</param>
-    /// <param name="Tags">Tags that you want to associate with one or more configuration items. Specify the tags that you want to create in a key -value for- mat. For example: {"key": "serverType", "value": "webServer"} (structure) Metadata that help you categorize IT assets. WARNING: Do not store sensitive information (like personal data) in tags. key -&gt; (string) [required] The type of tag on which to filter. value -&gt; (string) [required] A value for a tag key on which to filter. Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]</param>
+    /// <param name="ConfigurationIds">A list of configuration items that you want to tag. (string) Constraints: • max: 200 • pattern: \S* Syntax: "string" "string" ...</param>
+    /// <param name="Tags">Tags that you want to associate with one or more configuration items. Specify the tags that you want to create in a key -value format. For example: {"key": "serverType", "value": "webServer"} (structure) Metadata that help you categorize IT assets. WARNING: Do not store sensitive information (like personal data) in tags. key -&gt; (string) [required] The type of tag on which to filter. value -&gt; (string) [required] A value for a tag key on which to filter. Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]</param>
     public AwsDiscoveryCreateTagsOptions(
         IEnumerable<string> ConfigurationIds,
         IEnumerable<string> Tags
@@ -82,13 +83,13 @@ public record AwsDiscoveryCreateTagsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A list of configuration items that you want to tag. (string) Constraints: o max: 200 o pattern: \S* Syntax: "string" "string" ...
+    /// A list of configuration items that you want to tag. (string) Constraints: • max: 200 • pattern: \S* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--configuration-ids", GroupValues = true)]
     public IEnumerable<string>? ConfigurationIds { get; private init; }
 
     /// <summary>
-    /// Tags that you want to associate with one or more configuration items. Specify the tags that you want to create in a key -value for- mat. For example: {"key": "serverType", "value": "webServer"} (structure) Metadata that help you categorize IT assets. WARNING: Do not store sensitive information (like personal data) in tags. key -&gt; (string) [required] The type of tag on which to filter. value -&gt; (string) [required] A value for a tag key on which to filter. Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// Tags that you want to associate with one or more configuration items. Specify the tags that you want to create in a key -value format. For example: {"key": "serverType", "value": "webServer"} (structure) Metadata that help you categorize IT assets. WARNING: Do not store sensitive information (like personal data) in tags. key -&gt; (string) [required] The type of tag on which to filter. value -&gt; (string) [required] A value for a tag key on which to filter. Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; private init; }
@@ -114,6 +115,15 @@ public record AwsDiscoveryCreateTagsOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

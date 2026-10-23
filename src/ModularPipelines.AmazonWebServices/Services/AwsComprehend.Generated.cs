@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -32,7 +32,7 @@ public class AwsComprehend : IAwsComprehend
     #region Commands
 
     /// <summary>
-    /// Determines the dominant language of the input text for a batch of docu- ments. For a list of languages that Amazon Comprehend can detect, see Amazon Comprehend Supported Languages . See also: AWS API Documentation
+    /// Determines the dominant language of the input text for a batch of documents. For a list of languages that Amazon Comprehend can detect, see Amazon Comprehend Supported Languages . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsComprehend : IAwsComprehend
     }
 
     /// <summary>
-    /// Inspects the text of a batch of documents for named entities and re- turns information about them. For more information about named enti- ties, see Entities in the Comprehend Developer Guide. See also: AWS API Documentation
+    /// Inspects the text of a batch of documents for named entities and returns information about them. For more information about named entities, see Entities in the Comprehend Developer Guide. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsComprehend : IAwsComprehend
     }
 
     /// <summary>
-    /// Inspects a batch of documents and returns an inference of the prevail- ing sentiment, POSITIVE , NEUTRAL , MIXED , or NEGATIVE , in each one. See also: AWS API Documentation
+    /// Inspects a batch of documents and returns an inference of the prevailing sentiment, POSITIVE , NEUTRAL , MIXED , or NEGATIVE , in each one. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsComprehend : IAwsComprehend
     }
 
     /// <summary>
-    /// Creates a classification request to analyze a single document in real-time. ClassifyDocument supports the following model types: o Custom classifier - a custom model that you have created and trained. For input, you can provide plain text, a single-page document (PDF, Word, or image), or Amazon Textract API output. For more information, see Custom classification in the Amazon Comprehend Developer Guide . o Prompt safety classifier - Amazon Comprehend provides a pre-trained model for classifying ...
+    /// Creates a classification request to analyze a single document in real-time. ClassifyDocument supports the following model types: • Custom classifier - a custom model that you have created and trained. For input, you can provide plain text, a single-page document (PDF, Word, or image), or Amazon Textract API output. For more information, see Custom classification in the Amazon Comprehend Developer Guide . • Prompt safety classifier - Amazon Comprehend provides a pre-trained model for classifying ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsComprehend : IAwsComprehend
     }
 
     /// <summary>
-    /// Analyzes input text for the presence of personally identifiable infor- mation (PII) and returns the labels of identified PII entity types such as name, address, bank account number, or phone number. See also: AWS API Documentation
+    /// Analyzes input text for the presence of personally identifiable information (PII) and returns the labels of identified PII entity types such as name, address, bank account number, or phone number. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsComprehend : IAwsComprehend
     }
 
     /// <summary>
-    /// Creates a dataset to upload training or test data for a model associ- ated with a flywheel. For more information about datasets, see Flywheel overview in the Amazon Comprehend Developer Guide . See also: AWS API Documentation
+    /// Creates a dataset to upload training or test data for a model associated with a flywheel. For more information about datasets, see Flywheel overview in the Amazon Comprehend Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsComprehend : IAwsComprehend
     }
 
     /// <summary>
-    /// Creates a new document classifier that you can use to categorize docu- ments. To create a classifier, you provide a set of training documents that are labeled with the categories that you want to use. For more in- formation, see Training classifier models in the Comprehend Developer Guide. See also: AWS API Documentation
+    /// Creates a new document classifier that you can use to categorize documents. To create a classifier, you provide a set of training documents that are labeled with the categories that you want to use. For more information, see Training classifier models in the Comprehend Developer Guide. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsComprehend : IAwsComprehend
     }
 
     /// <summary>
-    /// Creates a model-specific endpoint for synchronous inference for a pre- viously trained custom model For information about endpoints, see Managing endpoints . See also: AWS API Documentation
+    /// Creates a model-specific endpoint for synchronous inference for a previously trained custom model For information about endpoints, see Managing endpoints . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsComprehend : IAwsComprehend
     }
 
     /// <summary>
-    /// Creates an entity recognizer using submitted files. After your Cre- ateEntityRecognizer request is submitted, you can check job status us- ing the DescribeEntityRecognizer API. See also: AWS API Documentation
+    /// Creates an entity recognizer using submitted files. After your CreateEntityRecognizer request is submitted, you can check job status using the DescribeEntityRecognizer API. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsComprehend : IAwsComprehend
     }
 
     /// <summary>
-    /// A flywheel is an Amazon Web Services resource that orchestrates the on- going training of a model for custom classification or custom entity recognition. You can create a flywheel to start with an existing trained model, or Comprehend can create and train a new model. When you create the flywheel, Comprehend creates a data lake in your account. The data lake holds the training data and test data for all versions of the model. To use a flywheel with an existing trained model, you specify the ac- ...
+    /// A flywheel is an Amazon Web Services resource that orchestrates the ongoing training of a model for custom classification or custom entity recognition. You can create a flywheel to start with an existing trained model, or Comprehend can create and train a new model. When you create the flywheel, Comprehend creates a data lake in your account. The data lake holds the training data and test data for all versions of the model. To use a flywheel with an existing trained model, you specify the active...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +272,7 @@ public class AwsComprehend : IAwsComprehend
     }
 
     /// <summary>
-    /// Deletes a flywheel. When you delete the flywheel, Amazon Comprehend does not delete the data lake or the model associated with the fly- wheel. For more information about flywheels, see Flywheel overview in the Ama- zon Comprehend Developer Guide . See also: AWS API Documentation
+    /// Deletes a flywheel. When you delete the flywheel, Amazon Comprehend does not delete the data lake or the model associated with the flywheel. For more information about flywheels, see Flywheel overview in the Amazon Comprehend Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -302,7 +302,7 @@ public class AwsComprehend : IAwsComprehend
     }
 
     /// <summary>
-    /// Returns information about the dataset that you specify. For more infor- mation about datasets, see Flywheel overview in the Amazon Comprehend Developer Guide . See also: AWS API Documentation
+    /// Returns information about the dataset that you specify. For more information about datasets, see Flywheel overview in the Amazon Comprehend Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public class AwsComprehend : IAwsComprehend
     }
 
     /// <summary>
-    /// Gets the properties associated with a specific endpoint. Use this oper- ation to get the status of an endpoint. For information about end- points, see Managing endpoints . See also: AWS API Documentation
+    /// Gets the properties associated with a specific endpoint. Use this operation to get the status of an endpoint. For information about endpoints, see Managing endpoints . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -392,7 +392,7 @@ public class AwsComprehend : IAwsComprehend
     }
 
     /// <summary>
-    /// Provides details about an entity recognizer including status, S3 buck- ets containing training data, recognizer metadata, metrics, and so on. See also: AWS API Documentation
+    /// Provides details about an entity recognizer including status, S3 buckets containing training data, recognizer metadata, metrics, and so on. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -422,7 +422,7 @@ public class AwsComprehend : IAwsComprehend
     }
 
     /// <summary>
-    /// Retrieve the configuration properties of a flywheel iteration. For more information about flywheels, see Flywheel overview in the Amazon Com- prehend Developer Guide . See also: AWS API Documentation
+    /// Retrieve the configuration properties of a flywheel iteration. For more information about flywheels, see Flywheel overview in the Amazon Comprehend Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -437,7 +437,7 @@ public class AwsComprehend : IAwsComprehend
     }
 
     /// <summary>
-    /// Provides configuration information about the flywheel. For more infor- mation about flywheels, see Flywheel overview in the Amazon Comprehend Developer Guide . See also: AWS API Documentation
+    /// Provides configuration information about the flywheel. For more information about flywheels, see Flywheel overview in the Amazon Comprehend Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -482,7 +482,7 @@ public class AwsComprehend : IAwsComprehend
     }
 
     /// <summary>
-    /// Gets the details of a resource-based policy that is attached to a cus- tom model, including the JSON body of the policy. See also: AWS API Documentation
+    /// Gets the details of a resource-based policy that is attached to a custom model, including the JSON body of the policy. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -527,7 +527,7 @@ public class AwsComprehend : IAwsComprehend
     }
 
     /// <summary>
-    /// Gets the properties associated with a topic detection job. Use this op- eration to get the status of a detection job. See also: AWS API Documentation
+    /// Gets the properties associated with a topic detection job. Use this operation to get the status of a detection job. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -542,7 +542,7 @@ public class AwsComprehend : IAwsComprehend
     }
 
     /// <summary>
-    /// Determines the dominant language of the input text. For a list of lan- guages that Amazon Comprehend can detect, see Amazon Comprehend Sup- ported Languages . See also: AWS API Documentation
+    /// Determines the dominant language of the input text. For a list of languages that Amazon Comprehend can detect, see Amazon Comprehend Supported Languages . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -587,7 +587,7 @@ public class AwsComprehend : IAwsComprehend
     }
 
     /// <summary>
-    /// Inspects the input text for entities that contain personally identifi- able information (PII) and returns information about them. See also: AWS API Documentation
+    /// Inspects the input text for entities that contain personally identifiable information (PII) and returns information about them. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -617,7 +617,7 @@ public class AwsComprehend : IAwsComprehend
     }
 
     /// <summary>
-    /// Inspects text for syntax and the part of speech of words in the docu- ment. For more information, see Syntax in the Comprehend Developer Guide. See also: AWS API Documentation
+    /// Inspects text for syntax and the part of speech of words in the document. For more information, see Syntax in the Comprehend Developer Guide. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -632,7 +632,7 @@ public class AwsComprehend : IAwsComprehend
     }
 
     /// <summary>
-    /// Inspects the input text and returns a sentiment analysis for each en- tity identified in the text. For more information about targeted sentiment, see Targeted sentiment in the Amazon Comprehend Developer Guide . See also: AWS API Documentation
+    /// Inspects the input text and returns a sentiment analysis for each entity identified in the text. For more information about targeted sentiment, see Targeted sentiment in the Amazon Comprehend Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -662,7 +662,7 @@ public class AwsComprehend : IAwsComprehend
     }
 
     /// <summary>
-    /// Creates a new custom model that replicates a source custom model that you import. The source model can be in your Amazon Web Services account or another one. If the source model is in another Amazon Web Services account, then it must have a resource-based policy that authorizes you to import it. The source model must be in the same Amazon Web Services Region that you're using when you import. You can't import a model that's in a dif- ferent Region. See also: AWS API Documentation
+    /// Creates a new custom model that replicates a source custom model that you import. The source model can be in your Amazon Web Services account or another one. If the source model is in another Amazon Web Services account, then it must have a resource-based policy that authorizes you to import it. The source model must be in the same Amazon Web Services Region that you're using when you import. You can't import a model that's in a different Region. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -677,7 +677,7 @@ public class AwsComprehend : IAwsComprehend
     }
 
     /// <summary>
-    /// List the datasets that you have configured in this Region. For more in- formation about datasets, see Flywheel overview in the Amazon Compre- hend Developer Guide . See also: AWS API Documentation
+    /// List the datasets that you have configured in this Region. For more information about datasets, see Flywheel overview in the Amazon Comprehend Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -692,7 +692,7 @@ public class AwsComprehend : IAwsComprehend
     }
 
     /// <summary>
-    /// Gets a list of the documentation classification jobs that you have sub- mitted. See also: AWS API Documentation list-document-classification-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Doc...
+    /// Gets a list of the documentation classification jobs that you have submitted. See also: AWS API Documentation list-document-classification-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: DocumentC...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -707,22 +707,7 @@ public class AwsComprehend : IAwsComprehend
     }
 
     /// <summary>
-    /// Gets a list of the document classifiers that you have created. See also: AWS API Documentation list-document-classifiers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: DocumentClassifierPropertiesLi...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListDocumentClassifiersAsync(
-        AwsComprehendListDocumentClassifiersOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsComprehendListDocumentClassifiersOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Gets a list of summaries of the document classifiers that you have cre- ated See also: AWS API Documentation
+    /// Gets a list of summaries of the document classifiers that you have created See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -737,7 +722,22 @@ public class AwsComprehend : IAwsComprehend
     }
 
     /// <summary>
-    /// Gets a list of the dominant language detection jobs that you have sub- mitted. See also: AWS API Documentation list-dominant-language-detection-jobs is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions...
+    /// Gets a list of the document classifiers that you have created. See also: AWS API Documentation list-document-classifiers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: DocumentClassifierPropertiesList
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListDocumentClassifiersAsync(
+        AwsComprehendListDocumentClassifiersOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsComprehendListDocumentClassifiersOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Gets a list of the dominant language detection jobs that you have submitted. See also: AWS API Documentation list-dominant-language-detection-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Domina...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -752,7 +752,7 @@ public class AwsComprehend : IAwsComprehend
     }
 
     /// <summary>
-    /// Gets a list of all existing endpoints that you've created. For informa- tion about endpoints, see Managing endpoints . See also: AWS API Documentation list-endpoints is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following qu...
+    /// Gets a list of all existing endpoints that you've created. For information about endpoints, see Managing endpoints . See also: AWS API Documentation list-endpoints is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -767,7 +767,7 @@ public class AwsComprehend : IAwsComprehend
     }
 
     /// <summary>
-    /// Gets a list of the entity detection jobs that you have submitted. See also: AWS API Documentation list-entities-detection-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: EntitiesDetectionJobPr...
+    /// Gets a list of the entity detection jobs that you have submitted. See also: AWS API Documentation list-entities-detection-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: EntitiesDetectionJobProper...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -782,22 +782,7 @@ public class AwsComprehend : IAwsComprehend
     }
 
     /// <summary>
-    /// Gets a list of the properties of all entity recognizers that you cre- ated, including recognizers currently in training. Allows you to filter the list of recognizers based on criteria such as status and submission time. This call returns up to 500 entity recognizers in the list, with a default number of 100 recognizers in the list. The results of this list are not in any particular order. Please get the list and sort locally if needed. See also: AWS API Documentation list-entity-recognizers is a...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListEntityRecognizersAsync(
-        AwsComprehendListEntityRecognizersOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsComprehendListEntityRecognizersOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Gets a list of summaries for the entity recognizers that you have cre- ated. See also: AWS API Documentation
+    /// Gets a list of summaries for the entity recognizers that you have created. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -809,6 +794,21 @@ public class AwsComprehend : IAwsComprehend
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsComprehendListEntityRecognizerSummariesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Gets a list of the properties of all entity recognizers that you created, including recognizers currently in training. Allows you to filter the list of recognizers based on criteria such as status and submission time. This call returns up to 500 entity recognizers in the list, with a default number of 100 recognizers in the list. The results of this list are not in any particular order. Please get the list and sort locally if needed. See also: AWS API Documentation list-entity-recognizers is a p...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListEntityRecognizersAsync(
+        AwsComprehendListEntityRecognizersOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsComprehendListEntityRecognizersOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -827,7 +827,7 @@ public class AwsComprehend : IAwsComprehend
     }
 
     /// <summary>
-    /// Information about the history of a flywheel iteration. For more infor- mation about flywheels, see Flywheel overview in the Amazon Comprehend Developer Guide . See also: AWS API Documentation
+    /// Information about the history of a flywheel iteration. For more information about flywheels, see Flywheel overview in the Amazon Comprehend Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -857,7 +857,7 @@ public class AwsComprehend : IAwsComprehend
     }
 
     /// <summary>
-    /// Get a list of key phrase detection jobs that you have submitted. See also: AWS API Documentation list-key-phrases-detection-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: KeyPhrasesDetectionJ...
+    /// Get a list of key phrase detection jobs that you have submitted. See also: AWS API Documentation list-key-phrases-detection-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: KeyPhrasesDetectionJobPr...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -872,7 +872,7 @@ public class AwsComprehend : IAwsComprehend
     }
 
     /// <summary>
-    /// Gets a list of the PII entity detection jobs that you have submitted. See also: AWS API Documentation list-pii-entities-detection-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: PiiEntitiesDet...
+    /// Gets a list of the PII entity detection jobs that you have submitted. See also: AWS API Documentation list-pii-entities-detection-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: PiiEntitiesDetecti...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -887,7 +887,7 @@ public class AwsComprehend : IAwsComprehend
     }
 
     /// <summary>
-    /// Gets a list of sentiment detection jobs that you have submitted. See also: AWS API Documentation list-sentiment-detection-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: SentimentDetectionJobP...
+    /// Gets a list of sentiment detection jobs that you have submitted. See also: AWS API Documentation list-sentiment-detection-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: SentimentDetectionJobPrope...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -917,7 +917,7 @@ public class AwsComprehend : IAwsComprehend
     }
 
     /// <summary>
-    /// Gets a list of targeted sentiment detection jobs that you have submit- ted. See also: AWS API Documentation
+    /// Gets a list of targeted sentiment detection jobs that you have submitted. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -932,7 +932,7 @@ public class AwsComprehend : IAwsComprehend
     }
 
     /// <summary>
-    /// Gets a list of the topic detection jobs that you have submitted. See also: AWS API Documentation list-topics-detection-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: TopicsDetectionJobPropertie...
+    /// Gets a list of the topic detection jobs that you have submitted. See also: AWS API Documentation list-topics-detection-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TopicsDetectionJobPropertiesL...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -962,7 +962,7 @@ public class AwsComprehend : IAwsComprehend
     }
 
     /// <summary>
-    /// Starts an asynchronous document classification job using a custom clas- sification model. Use the DescribeDocumentClassificationJob operation to track the progress of the job. See also: AWS API Documentation
+    /// Starts an asynchronous document classification job using a custom classification model. Use the DescribeDocumentClassificationJob operation to track the progress of the job. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -992,7 +992,7 @@ public class AwsComprehend : IAwsComprehend
     }
 
     /// <summary>
-    /// Starts an asynchronous entity detection job for a collection of docu- ments. Use the operation to track the status of a job. This API can be used for either standard entity detection or custom en- tity recognition. In order to be used for custom entity recognition, the optional EntityRecognizerArn must be used in order to provide ac- cess to the recognizer being used to detect the custom entity. See also: AWS API Documentation
+    /// Starts an asynchronous entity detection job for a collection of documents. Use the operation to track the status of a job. This API can be used for either standard entity detection or custom entity recognition. In order to be used for custom entity recognition, the optional EntityRecognizerArn must be used in order to provide access to the recognizer being used to detect the custom entity. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1007,7 +1007,7 @@ public class AwsComprehend : IAwsComprehend
     }
 
     /// <summary>
-    /// Starts an asynchronous event detection job for a collection of docu- ments. See also: AWS API Documentation
+    /// Starts an asynchronous event detection job for a collection of documents. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1067,7 +1067,7 @@ public class AwsComprehend : IAwsComprehend
     }
 
     /// <summary>
-    /// Starts an asynchronous sentiment detection job for a collection of doc- uments. Use the operation to track the status of a job. See also: AWS API Documentation
+    /// Starts an asynchronous sentiment detection job for a collection of documents. Use the operation to track the status of a job. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1082,7 +1082,7 @@ public class AwsComprehend : IAwsComprehend
     }
 
     /// <summary>
-    /// Starts an asynchronous targeted sentiment detection job for a collec- tion of documents. Use the DescribeTargetedSentimentDetectionJob opera- tion to track the status of a job. See also: AWS API Documentation
+    /// Starts an asynchronous targeted sentiment detection job for a collection of documents. Use the DescribeTargetedSentimentDetectionJob operation to track the status of a job. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1097,7 +1097,7 @@ public class AwsComprehend : IAwsComprehend
     }
 
     /// <summary>
-    /// Starts an asynchronous topic detection job. Use the DescribeTopicDetec- tionJob operation to track the status of a job. See also: AWS API Documentation
+    /// Starts an asynchronous topic detection job. Use the DescribeTopicDetectionJob operation to track the status of a job. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1112,7 +1112,7 @@ public class AwsComprehend : IAwsComprehend
     }
 
     /// <summary>
-    /// Stops a dominant language detection job in progress. If the job state is IN_PROGRESS the job is marked for termination and put into the STOP_REQUESTED state. If the job completes before it can be stopped, it is put into the COMPLETED state; otherwise the job is stopped and put into the STOPPED state. If the job is in the COMPLETED or FAILED state when you call the Stop- DominantLanguageDetectionJob operation, the operation returns a 400 In- ternal Request Exception. When a job is stopped, any do...
+    /// Stops a dominant language detection job in progress. If the job state is IN_PROGRESS the job is marked for termination and put into the STOP_REQUESTED state. If the job completes before it can be stopped, it is put into the COMPLETED state; otherwise the job is stopped and put into the STOPPED state. If the job is in the COMPLETED or FAILED state when you call the StopDominantLanguageDetectionJob operation, the operation returns a 400 Internal Request Exception. When a job is stopped, any docume...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1127,7 +1127,7 @@ public class AwsComprehend : IAwsComprehend
     }
 
     /// <summary>
-    /// Stops an entities detection job in progress. If the job state is IN_PROGRESS the job is marked for termination and put into the STOP_REQUESTED state. If the job completes before it can be stopped, it is put into the COMPLETED state; otherwise the job is stopped and put into the STOPPED state. If the job is in the COMPLETED or FAILED state when you call the Stop- DominantLanguageDetectionJob operation, the operation returns a 400 In- ternal Request Exception. When a job is stopped, any documents ...
+    /// Stops an entities detection job in progress. If the job state is IN_PROGRESS the job is marked for termination and put into the STOP_REQUESTED state. If the job completes before it can be stopped, it is put into the COMPLETED state; otherwise the job is stopped and put into the STOPPED state. If the job is in the COMPLETED or FAILED state when you call the StopDominantLanguageDetectionJob operation, the operation returns a 400 Internal Request Exception. When a job is stopped, any documents alre...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1157,7 +1157,7 @@ public class AwsComprehend : IAwsComprehend
     }
 
     /// <summary>
-    /// Stops a key phrases detection job in progress. If the job state is IN_PROGRESS the job is marked for termination and put into the STOP_REQUESTED state. If the job completes before it can be stopped, it is put into the COMPLETED state; otherwise the job is stopped and put into the STOPPED state. If the job is in the COMPLETED or FAILED state when you call the Stop- DominantLanguageDetectionJob operation, the operation returns a 400 In- ternal Request Exception. When a job is stopped, any document...
+    /// Stops a key phrases detection job in progress. If the job state is IN_PROGRESS the job is marked for termination and put into the STOP_REQUESTED state. If the job completes before it can be stopped, it is put into the COMPLETED state; otherwise the job is stopped and put into the STOPPED state. If the job is in the COMPLETED or FAILED state when you call the StopDominantLanguageDetectionJob operation, the operation returns a 400 Internal Request Exception. When a job is stopped, any documents al...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1187,7 +1187,7 @@ public class AwsComprehend : IAwsComprehend
     }
 
     /// <summary>
-    /// Stops a sentiment detection job in progress. If the job state is IN_PROGRESS , the job is marked for termination and put into the STOP_REQUESTED state. If the job completes before it can be stopped, it is put into the COMPLETED state; otherwise the job is be stopped and put into the STOPPED state. If the job is in the COMPLETED or FAILED state when you call the Stop- DominantLanguageDetectionJob operation, the operation returns a 400 In- ternal Request Exception. When a job is stopped, any docum...
+    /// Stops a sentiment detection job in progress. If the job state is IN_PROGRESS , the job is marked for termination and put into the STOP_REQUESTED state. If the job completes before it can be stopped, it is put into the COMPLETED state; otherwise the job is be stopped and put into the STOPPED state. If the job is in the COMPLETED or FAILED state when you call the StopDominantLanguageDetectionJob operation, the operation returns a 400 Internal Request Exception. When a job is stopped, any documents...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1202,7 +1202,7 @@ public class AwsComprehend : IAwsComprehend
     }
 
     /// <summary>
-    /// Stops a targeted sentiment detection job in progress. If the job state is IN_PROGRESS , the job is marked for termination and put into the STOP_REQUESTED state. If the job completes before it can be stopped, it is put into the COMPLETED state; otherwise the job is be stopped and put into the STOPPED state. If the job is in the COMPLETED or FAILED state when you call the Stop- DominantLanguageDetectionJob operation, the operation returns a 400 In- ternal Request Exception. When a job is stopped, ...
+    /// Stops a targeted sentiment detection job in progress. If the job state is IN_PROGRESS , the job is marked for termination and put into the STOP_REQUESTED state. If the job completes before it can be stopped, it is put into the COMPLETED state; otherwise the job is be stopped and put into the STOPPED state. If the job is in the COMPLETED or FAILED state when you call the StopDominantLanguageDetectionJob operation, the operation returns a 400 Internal Request Exception. When a job is stopped, any ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1217,7 +1217,7 @@ public class AwsComprehend : IAwsComprehend
     }
 
     /// <summary>
-    /// Stops a document classifier training job while in progress. If the training job state is TRAINING , the job is marked for termina- tion and put into the STOP_REQUESTED state. If the training job com- pletes before it can be stopped, it is put into the TRAINED ; otherwise the training job is stopped and put into the STOPPED state and the ser- vice sends back an HTTP 200 response with an empty HTTP body. See also: AWS API Documentation
+    /// Stops a document classifier training job while in progress. If the training job state is TRAINING , the job is marked for termination and put into the STOP_REQUESTED state. If the training job completes before it can be stopped, it is put into the TRAINED ; otherwise the training job is stopped and put into the STOPPED state and the service sends back an HTTP 200 response with an empty HTTP body. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1232,7 +1232,7 @@ public class AwsComprehend : IAwsComprehend
     }
 
     /// <summary>
-    /// Stops an entity recognizer training job while in progress. If the training job state is TRAINING , the job is marked for termina- tion and put into the STOP_REQUESTED state. If the training job com- pletes before it can be stopped, it is put into the TRAINED ; otherwise the training job is stopped and putted into the STOPPED state and the service sends back an HTTP 200 response with an empty HTTP body. See also: AWS API Documentation
+    /// Stops an entity recognizer training job while in progress. If the training job state is TRAINING , the job is marked for termination and put into the STOP_REQUESTED state. If the training job completes before it can be stopped, it is put into the TRAINED ; otherwise the training job is stopped and putted into the STOPPED state and the service sends back an HTTP 200 response with an empty HTTP body. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

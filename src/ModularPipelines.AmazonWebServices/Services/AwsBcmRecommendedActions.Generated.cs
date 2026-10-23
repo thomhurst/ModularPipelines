@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws bcmrecommendedactions commands.
+/// aws bcm-recommended-actions commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsBcmRecommendedActions : IAwsBcmRecommendedActions
@@ -32,7 +32,7 @@ public class AwsBcmRecommendedActions : IAwsBcmRecommendedActions
     #region Commands
 
     /// <summary>
-    /// Returns a list of recommended actions that match the filter criteria. See also: AWS API Documentation list-recommended-actions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: recommendedActions
+    /// Returns a list of recommended actions that match the filter criteria. See also: AWS API Documentation list-recommended-actions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: recommendedActions
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

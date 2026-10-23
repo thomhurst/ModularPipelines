@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes multiple instrumentation configurations in a single request. Supports two mutually exclusive selection methods: o By scope: Delete all configurations matching a Service + Environment + InstrumentationType o By ARN list: Delete specific configurations by providing a list of resource ARNs See also: AWS API Documentation
+/// Deletes multiple instrumentation configurations in a single request. Supports two mutually exclusive selection methods: • By scope: Delete all configurations matching a Service + Environment + InstrumentationType • By ARN list: Delete specific configurations by providing a list of resource ARNs See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsApplicationSignalsBatchDeleteInstrumentationConfigurationsOptio
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes multiple instrumentation configurations in a single request. Supports two mutually exclusive selection methods: o By scope: Delete all configurations matching a Service + Environment + InstrumentationType o By ARN list: Delete specific configurations by providing a list of resource ARNs See also: AWS API Documentation
+    /// Deletes multiple instrumentation configurations in a single request. Supports two mutually exclusive selection methods: • By scope: Delete all configurations matching a Service + Environment + InstrumentationType • By ARN list: Delete specific configurations by providing a list of resource ARNs See also: AWS API Documentation
     /// </summary>
-    /// <param name="DeletionTarget">The deletion target - either bulk by scope or targeted by ARN list. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Scope, ResourceArns. Scope -&gt; (structure) Delete all configurations matching the specified scope. Service -&gt; (string) [required] Service name for the instrumentation configurations. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z0-9:/+=,.@_-]+ Environment -&gt; (string) [required] Environment identifier for the instrumentation configura- tions. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z0-9:/+=,.@_-]+ InstrumentationType -&gt; (string) [required] Instrumentation type: BREAKPOINT or PROBE. Possible values: o BREAKPOINT o PROBE ResourceArns -&gt; (structure) Delete specific configurations by ARN list. ResourceArns -&gt; (list) [required] List of resource ARNs to delete. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 20 o max: 2048 InstrumentationType -&gt; (string) [required] Instrumentation type: BREAKPOINT or PROBE. Possible values: o BREAKPOINT o PROBE Shorthand Syntax: Scope={Service=string,Environment=string,InstrumentationType=string},ResourceArns={ResourceArns=[string,string],InstrumentationType=string} JSON Syntax: { "Scope": { "Service": "string", "Environment": "string", "InstrumentationType": "BREAKPOINT"|"PROBE" }, "ResourceArns": { "ResourceArns": ["string", ...], "InstrumentationType": "BREAKPOINT"|"PROBE" } }</param>
+    /// <param name="DeletionTarget">The deletion target - either bulk by scope or targeted by ARN list. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Scope, ResourceArns. Scope -&gt; (structure) Delete all configurations matching the specified scope. Service -&gt; (string) [required] Service name for the instrumentation configurations. Constraints: • min: 1 • max: 255 • pattern: [A-Za-z0-9:/+=,.@_-]+ Environment -&gt; (string) [required] Environment identifier for the instrumentation configurations. Constraints: • min: 1 • max: 255 • pattern: [A-Za-z0-9:/+=,.@_-]+ InstrumentationType -&gt; (string) [required] Instrumentation type: BREAKPOINT or PROBE. Possible values: • BREAKPOINT • PROBE ResourceArns -&gt; (structure) Delete specific configurations by ARN list. ResourceArns -&gt; (list) [required] List of resource ARNs to delete. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 20 • max: 2048 InstrumentationType -&gt; (string) [required] Instrumentation type: BREAKPOINT or PROBE. Possible values: • BREAKPOINT • PROBE Shorthand Syntax: Scope={Service=string,Environment=string,InstrumentationType=string},ResourceArns={ResourceArns=[string,string],InstrumentationType=string} JSON Syntax: { "Scope": { "Service": "string", "Environment": "string", "InstrumentationType": "BREAKPOINT"|"PROBE" }, "ResourceArns": { "ResourceArns": ["string", ...], "InstrumentationType": "BREAKPOINT"|"PROBE" } }</param>
     public AwsApplicationSignalsBatchDeleteInstrumentationConfigurationsOptions(
         string DeletionTarget
     )
@@ -56,7 +57,7 @@ public record AwsApplicationSignalsBatchDeleteInstrumentationConfigurationsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The deletion target - either bulk by scope or targeted by ARN list. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Scope, ResourceArns. Scope -&gt; (structure) Delete all configurations matching the specified scope. Service -&gt; (string) [required] Service name for the instrumentation configurations. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z0-9:/+=,.@_-]+ Environment -&gt; (string) [required] Environment identifier for the instrumentation configura- tions. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z0-9:/+=,.@_-]+ InstrumentationType -&gt; (string) [required] Instrumentation type: BREAKPOINT or PROBE. Possible values: o BREAKPOINT o PROBE ResourceArns -&gt; (structure) Delete specific configurations by ARN list. ResourceArns -&gt; (list) [required] List of resource ARNs to delete. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 20 o max: 2048 InstrumentationType -&gt; (string) [required] Instrumentation type: BREAKPOINT or PROBE. Possible values: o BREAKPOINT o PROBE Shorthand Syntax: Scope={Service=string,Environment=string,InstrumentationType=string},ResourceArns={ResourceArns=[string,string],InstrumentationType=string} JSON Syntax: { "Scope": { "Service": "string", "Environment": "string", "InstrumentationType": "BREAKPOINT"|"PROBE" }, "ResourceArns": { "ResourceArns": ["string", ...], "InstrumentationType": "BREAKPOINT"|"PROBE" } }
+    /// The deletion target - either bulk by scope or targeted by ARN list. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Scope, ResourceArns. Scope -&gt; (structure) Delete all configurations matching the specified scope. Service -&gt; (string) [required] Service name for the instrumentation configurations. Constraints: • min: 1 • max: 255 • pattern: [A-Za-z0-9:/+=,.@_-]+ Environment -&gt; (string) [required] Environment identifier for the instrumentation configurations. Constraints: • min: 1 • max: 255 • pattern: [A-Za-z0-9:/+=,.@_-]+ InstrumentationType -&gt; (string) [required] Instrumentation type: BREAKPOINT or PROBE. Possible values: • BREAKPOINT • PROBE ResourceArns -&gt; (structure) Delete specific configurations by ARN list. ResourceArns -&gt; (list) [required] List of resource ARNs to delete. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 20 • max: 2048 InstrumentationType -&gt; (string) [required] Instrumentation type: BREAKPOINT or PROBE. Possible values: • BREAKPOINT • PROBE Shorthand Syntax: Scope={Service=string,Environment=string,InstrumentationType=string},ResourceArns={ResourceArns=[string,string],InstrumentationType=string} JSON Syntax: { "Scope": { "Service": "string", "Environment": "string", "InstrumentationType": "BREAKPOINT"|"PROBE" }, "ResourceArns": { "ResourceArns": ["string", ...], "InstrumentationType": "BREAKPOINT"|"PROBE" } }
     /// </summary>
     [CliOption("--deletion-target")]
     public string? DeletionTarget { get; private init; }
@@ -82,6 +83,15 @@ public record AwsApplicationSignalsBatchDeleteInstrumentationConfigurationsOptio
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

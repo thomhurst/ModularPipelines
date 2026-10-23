@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets the data product. Prerequisites: o The data product ID must exist. o The domain must be valid and accessible. o User must have read or discovery permissions for the data product. See also: AWS API Documentation
+/// Gets the data product. Prerequisites: • The data product ID must exist. • The domain must be valid and accessible. • User must have read or discovery permissions for the data product. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsDatazoneGetDataProductOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets the data product. Prerequisites: o The data product ID must exist. o The domain must be valid and accessible. o User must have read or discovery permissions for the data product. See also: AWS API Documentation
+    /// Gets the data product. Prerequisites: • The data product ID must exist. • The domain must be valid and accessible. • User must have read or discovery permissions for the data product. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainIdentifier">The ID of the domain where the data product lives. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="Identifier">The ID of the data product. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="DomainIdentifier">The ID of the domain where the data product lives. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="Identifier">The ID of the data product. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}</param>
     public AwsDatazoneGetDataProductOptions(
         string DomainIdentifier,
         string Identifier
@@ -60,19 +61,19 @@ public record AwsDatazoneGetDataProductOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the domain where the data product lives. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The ID of the domain where the data product lives. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The ID of the data product. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The ID of the data product. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// The revision of the data product. Constraints: o min: 1 o max: 64
+    /// The revision of the data product. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--revision")]
     public string? Revision { get; set; }
@@ -98,6 +99,15 @@ public record AwsDatazoneGetDataProductOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

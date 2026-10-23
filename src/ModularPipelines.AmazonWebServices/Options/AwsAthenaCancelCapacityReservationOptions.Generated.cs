@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsAthenaCancelCapacityReservationOptions : AwsOptions, IValidatab
     /// <summary>
     /// Cancels the capacity reservation with the specified name. Cancelled reservations remain in your account and will be deleted 45 days after cancellation. During the 45 days, you cannot re-purpose or reuse a reservation that has been cancelled, but you can refer to its tags and view it for historical reference. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the capacity reservation to cancel. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9._-]+</param>
+    /// <param name="Name">The name of the capacity reservation to cancel. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9._-]+</param>
     public AwsAthenaCancelCapacityReservationOptions(
         string Name
     )
@@ -56,7 +57,7 @@ public record AwsAthenaCancelCapacityReservationOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the capacity reservation to cancel. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9._-]+
+    /// The name of the capacity reservation to cancel. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9._-]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
@@ -82,6 +83,15 @@ public record AwsAthenaCancelCapacityReservationOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

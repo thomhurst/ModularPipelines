@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a policy of a specified type that you can attach to a root, an organizational unit (OU), or an individual Amazon Web Services account. For more information about policies and their use, see Managing Organi- zations policies . If the request includes tags, then the requester must have the organi- zations:TagResource permission. You can only call this operation from the management account or a mem- ber account that is a delegated administrator. See also: AWS API Documentation
+/// Creates a policy of a specified type that you can attach to a root, an organizational unit (OU), or an individual Amazon Web Services account. For more information about policies and their use, see Managing Organizations policies . If the request includes tags, then the requester must have the organizations:TagResource permission. You can only call this operation from the management account or a member account that is a delegated administrator. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,12 +27,12 @@ public record AwsOrganizationsCreatePolicyOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a policy of a specified type that you can attach to a root, an organizational unit (OU), or an individual Amazon Web Services account. For more information about policies and their use, see Managing Organi- zations policies . If the request includes tags, then the requester must have the organi- zations:TagResource permission. You can only call this operation from the management account or a mem- ber account that is a delegated administrator. See also: AWS API Documentation
+    /// Creates a policy of a specified type that you can attach to a root, an organizational unit (OU), or an individual Amazon Web Services account. For more information about policies and their use, see Managing Organizations policies . If the request includes tags, then the requester must have the organizations:TagResource permission. You can only call this operation from the management account or a member account that is a delegated administrator. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Content">The policy text content to add to the new policy. The text that you supply must adhere to the rules of the policy type you specify in the Type parameter. The maximum size of a policy document depends on the policy's type. For more information, see Maximum and minimum values in the Organi- zations User Guide . Constraints: o min: 1 o pattern: [\s\S]*</param>
-    /// <param name="Description">An optional description to assign to the policy. Constraints: o max: 512 o pattern: [\s\S]*</param>
-    /// <param name="Name">The friendly name to assign to the policy. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range. Constraints: o min: 1 o max: 128 o pattern: [\s\S]*</param>
-    /// <param name="Type">The type of policy to create. You can specify one of the following values: o SERVICE_CONTROL_POLICY o RESOURCE_CONTROL_POLICY o DECLARATIVE_POLICY_EC2 o BACKUP_POLICY o TAG_POLICY o CHATBOT_POLICY o AISERVICES_OPT_OUT_POLICY o SECURITYHUB_POLICY o UPGRADE_ROLLOUT_POLICY o INSPECTOR_POLICY o BEDROCK_POLICY o S3_POLICY o NETWORK_SECURITY_DIRECTOR_POLICY o GUARDDUTY_POLICY Possible values: o SERVICE_CONTROL_POLICY o RESOURCE_CONTROL_POLICY o TAG_POLICY o BACKUP_POLICY o AISERVICES_OPT_OUT_POLICY o CHATBOT_POLICY o DECLARATIVE_POLICY_EC2 o SECURITYHUB_POLICY o INSPECTOR_POLICY o UPGRADE_ROLLOUT_POLICY o BEDROCK_POLICY o S3_POLICY o NETWORK_SECURITY_DIRECTOR_POLICY o GUARDDUTY_POLICY</param>
+    /// <param name="Content">The policy text content to add to the new policy. The text that you supply must adhere to the rules of the policy type you specify in the Type parameter. The maximum size of a policy document depends on the policy's type. For more information, see Maximum and minimum values in the Organizations User Guide . Constraints: • min: 1 • pattern: [\s\S]*</param>
+    /// <param name="Description">An optional description to assign to the policy. Constraints: • max: 512 • pattern: [\s\S]*</param>
+    /// <param name="Name">The friendly name to assign to the policy. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range. Constraints: • min: 1 • max: 128 • pattern: [\s\S]*</param>
+    /// <param name="Type">The type of policy to create. You can specify one of the following values: • SERVICE_CONTROL_POLICY • RESOURCE_CONTROL_POLICY • DECLARATIVE_POLICY_EC2 • BACKUP_POLICY • TAG_POLICY • CHATBOT_POLICY • AISERVICES_OPT_OUT_POLICY • SECURITYHUB_POLICY • UPGRADE_ROLLOUT_POLICY • INSPECTOR_POLICY • BEDROCK_POLICY • S3_POLICY • NETWORK_SECURITY_DIRECTOR_POLICY • GUARDDUTY_POLICY Possible values: • SERVICE_CONTROL_POLICY • RESOURCE_CONTROL_POLICY • TAG_POLICY • BACKUP_POLICY • AISERVICES_OPT_OUT_POLICY • CHATBOT_POLICY • DECLARATIVE_POLICY_EC2 • SECURITYHUB_POLICY • INSPECTOR_POLICY • UPGRADE_ROLLOUT_POLICY • BEDROCK_POLICY • S3_POLICY • NETWORK_SECURITY_DIRECTOR_POLICY • GUARDDUTY_POLICY</param>
     public AwsOrganizationsCreatePolicyOptions(
         string Content,
         string Description,
@@ -68,31 +69,31 @@ public record AwsOrganizationsCreatePolicyOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The policy text content to add to the new policy. The text that you supply must adhere to the rules of the policy type you specify in the Type parameter. The maximum size of a policy document depends on the policy's type. For more information, see Maximum and minimum values in the Organi- zations User Guide . Constraints: o min: 1 o pattern: [\s\S]*
+    /// The policy text content to add to the new policy. The text that you supply must adhere to the rules of the policy type you specify in the Type parameter. The maximum size of a policy document depends on the policy's type. For more information, see Maximum and minimum values in the Organizations User Guide . Constraints: • min: 1 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--content")]
     public string? Content { get; private init; }
 
     /// <summary>
-    /// An optional description to assign to the policy. Constraints: o max: 512 o pattern: [\s\S]*
+    /// An optional description to assign to the policy. Constraints: • max: 512 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; private init; }
 
     /// <summary>
-    /// The friendly name to assign to the policy. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range. Constraints: o min: 1 o max: 128 o pattern: [\s\S]*
+    /// The friendly name to assign to the policy. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range. Constraints: • min: 1 • max: 128 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The type of policy to create. You can specify one of the following values: o SERVICE_CONTROL_POLICY o RESOURCE_CONTROL_POLICY o DECLARATIVE_POLICY_EC2 o BACKUP_POLICY o TAG_POLICY o CHATBOT_POLICY o AISERVICES_OPT_OUT_POLICY o SECURITYHUB_POLICY o UPGRADE_ROLLOUT_POLICY o INSPECTOR_POLICY o BEDROCK_POLICY o S3_POLICY o NETWORK_SECURITY_DIRECTOR_POLICY o GUARDDUTY_POLICY Possible values: o SERVICE_CONTROL_POLICY o RESOURCE_CONTROL_POLICY o TAG_POLICY o BACKUP_POLICY o AISERVICES_OPT_OUT_POLICY o CHATBOT_POLICY o DECLARATIVE_POLICY_EC2 o SECURITYHUB_POLICY o INSPECTOR_POLICY o UPGRADE_ROLLOUT_POLICY o BEDROCK_POLICY o S3_POLICY o NETWORK_SECURITY_DIRECTOR_POLICY o GUARDDUTY_POLICY
+    /// The type of policy to create. You can specify one of the following values: • SERVICE_CONTROL_POLICY • RESOURCE_CONTROL_POLICY • DECLARATIVE_POLICY_EC2 • BACKUP_POLICY • TAG_POLICY • CHATBOT_POLICY • AISERVICES_OPT_OUT_POLICY • SECURITYHUB_POLICY • UPGRADE_ROLLOUT_POLICY • INSPECTOR_POLICY • BEDROCK_POLICY • S3_POLICY • NETWORK_SECURITY_DIRECTOR_POLICY • GUARDDUTY_POLICY Possible values: • SERVICE_CONTROL_POLICY • RESOURCE_CONTROL_POLICY • TAG_POLICY • BACKUP_POLICY • AISERVICES_OPT_OUT_POLICY • CHATBOT_POLICY • DECLARATIVE_POLICY_EC2 • SECURITYHUB_POLICY • INSPECTOR_POLICY • UPGRADE_ROLLOUT_POLICY • BEDROCK_POLICY • S3_POLICY • NETWORK_SECURITY_DIRECTOR_POLICY • GUARDDUTY_POLICY
     /// </summary>
     [CliOption("--type")]
     public AwsOrganizationsCreatePolicyType? Type { get; private init; }
 
     /// <summary>
-    /// A list of tags that you want to attach to the newly created policy. For each tag in the list, you must specify both a tag key and a value. You can set the value to an empty string, but you can't set it to null . For more information about tagging, see Tagging Organi- zations resources in the Organizations User Guide. NOTE: If any one of the tags is not valid or if you exceed the allowed number of tags for a policy, then the entire request fails and the policy is not created. (structure) A custom key-value pair associated with a resource within your organization. You can attach tags to any of the following organization re- sources. o Amazon Web Services account o Organizational unit (OU) o Organization root o Policy Key -&gt; (string) [required] The key identifier, or name, of the tag. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The string value that's associated with the key of the tag. You can set the value of a tag to an empty string, but you can't set the value of a tag to null. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of tags that you want to attach to the newly created policy. For each tag in the list, you must specify both a tag key and a value. You can set the value to an empty string, but you can't set it to null . For more information about tagging, see Tagging Organizations resources in the Organizations User Guide. NOTE: If any one of the tags is not valid or if you exceed the allowed number of tags for a policy, then the entire request fails and the policy is not created. (structure) A custom key-value pair associated with a resource within your organization. You can attach tags to any of the following organization resources. • Amazon Web Services account • Organizational unit (OU) • Organization root • Policy Key -&gt; (string) [required] The key identifier, or name, of the tag. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The string value that's associated with the key of the tag. You can set the value of a tag to an empty string, but you can't set the value of a tag to null. Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -118,6 +119,15 @@ public record AwsOrganizationsCreatePolicyOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

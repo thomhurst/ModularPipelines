@@ -6,14 +6,14 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Models;
+using ModularPipelines;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws geomaps commands.
+/// aws geo-maps commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -22,14 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Services;
 public interface IAwsGeoMaps
 {
     /// <summary>
-    /// GetGlyphs returns the map's glyphs. For more information, see Style labels with glyphs in the Amazon Loca- tion Service Developer Guide . See also: AWS API Documentation
+    /// GetGlyphs returns the map's glyphs. For more information, see Style labels with glyphs in the Amazon Location Service Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetGlyphsAsync(AwsGeoMapsGetGlyphsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetGlyphsAsync(AwsGeoMapsGetGlyphsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// GetSprites returns the map's sprites. For more information, see Style iconography with sprites in the Amazon Location Service Developer Guide . See also: AWS API Documentation
@@ -38,18 +37,16 @@ public interface IAwsGeoMaps
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSpritesAsync(AwsGeoMapsGetSpritesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSpritesAsync(AwsGeoMapsGetSpritesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// GetStaticMap provides high-quality static map images with customiz- able options. You can modify the map's appearance and overlay addi- tional information. It's an ideal solution for applications requir- ing tailored static map snapshots. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers. For more information, see the following topics in the Amazon Location Service Developer Guide : o Static maps o Customize static maps o Overlay on the static map See also: AWS AP...
+    /// GetStaticMap provides high-quality static map images with customizable options. You can modify the map's appearance and overlay additional information. It's an ideal solution for applications requiring tailored static map snapshots. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers. For more information, see the following topics in the Amazon Location Service Developer Guide : • Static maps • Customize static maps • Overlay on the static map See also: AWS API Docu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetStaticMapAsync(AwsGeoMapsGetStaticMapOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetStaticMapAsync(AwsGeoMapsGetStaticMapOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// GetStyleDescriptor returns information about the style. For more information, see Style dynamic maps in the Amazon Location Service Developer Guide . See also: AWS API Documentation
@@ -58,17 +55,15 @@ public interface IAwsGeoMaps
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetStyleDescriptorAsync(AwsGeoMapsGetStyleDescriptorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetStyleDescriptorAsync(AwsGeoMapsGetStyleDescriptorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// GetTile returns a tile. Map tiles are used by clients to render a map. They're addressed using a grid arrangement with an X coordi- nate, Y coordinate, and Z (zoom) level. For more information, see Tiles in the Amazon Location Service Devel- oper Guide . See also: AWS API Documentation
+    /// GetTile returns a tile. Map tiles are used by clients to render a map. They're addressed using a grid arrangement with an X coordinate, Y coordinate, and Z (zoom) level. For more information, see Tiles in the Amazon Location Service Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTileAsync(AwsGeoMapsGetTileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTileAsync(AwsGeoMapsGetTileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -30,8 +30,8 @@ public record AwsIotUpdatePackageVersionOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates the supported fields for a specific package version. Requires permission to access the UpdatePackageVersion and GetIndexingConfiguration actions. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PackageName">The name of the associated software package. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9-_.]+</param>
-    /// <param name="VersionName">The name of the target package version. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-_.]+</param>
+    /// <param name="PackageName">The name of the associated software package. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9-_.]+</param>
+    /// <param name="VersionName">The name of the target package version. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-_.]+</param>
     public AwsIotUpdatePackageVersionOptions(
         string PackageName,
         string VersionName
@@ -63,49 +63,49 @@ public record AwsIotUpdatePackageVersionOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the associated software package. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9-_.]+
+    /// The name of the associated software package. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9-_.]+
     /// </summary>
     [CliOption("--package-name")]
     public string? PackageName { get; private init; }
 
     /// <summary>
-    /// The name of the target package version. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-_.]+
+    /// The name of the target package version. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-_.]+
     /// </summary>
     [CliOption("--version-name")]
     public string? VersionName { get; private init; }
 
     /// <summary>
-    /// The package version description. Constraints: o min: 0 o max: 1024 o pattern: [^\p{C}]+
+    /// The package version description. Constraints: • min: 0 • max: 1024 • pattern: [^\p{C}]+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Metadata that can be used to define a package versions configura- tion. For example, the Amazon S3 file location, configuration op- tions that are being sent to the device or fleet. Note: Attributes can be updated only when the package version is in a draft state. The combined size of all the attributes on a package version is lim- ited to 3KB. key -&gt; (string) Constraints: o min: 1 o pattern: [a-zA-Z0-9:_-]+ value -&gt; (string) Constraints: o min: 1 o pattern: [^\p{C}]+ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Metadata that can be used to define a package versions configuration. For example, the Amazon S3 file location, configuration options that are being sent to the device or fleet. Note: Attributes can be updated only when the package version is in a draft state. The combined size of all the attributes on a package version is limited to 3KB. key -&gt; (string) Constraints: • min: 1 • pattern: [a-zA-Z0-9:_-]+ value -&gt; (string) Constraints: • min: 1 • pattern: [^\p{C}]+ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--attributes", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Attributes { get; set; }
 
     /// <summary>
-    /// The various components that make up a software package version. s3Location -&gt; (structure) The S3 location. bucket -&gt; (string) The S3 bucket. Constraints: o min: 1 key -&gt; (string) The S3 key. Constraints: o min: 1 version -&gt; (string) The S3 bucket version. Shorthand Syntax: s3Location={bucket=string,key=string,version=string} JSON Syntax: { "s3Location": { "bucket": "string", "key": "string", "version": "string" } }
+    /// The various components that make up a software package version. s3Location -&gt; (structure) The S3 location. bucket -&gt; (string) The S3 bucket. Constraints: • min: 1 key -&gt; (string) The S3 key. Constraints: • min: 1 version -&gt; (string) The S3 bucket version. Shorthand Syntax: s3Location={bucket=string,key=string,version=string} JSON Syntax: { "s3Location": { "bucket": "string", "key": "string", "version": "string" } }
     /// </summary>
     [CliOption("--artifact")]
     public string? Artifact { get; set; }
 
     /// <summary>
-    /// The status that the package version should be assigned. For more in- formation, see Package version lifecycle . Possible values: o PUBLISH o DEPRECATE
+    /// The status that the package version should be assigned. For more information, see Package version lifecycle . Possible values: • PUBLISH • DEPRECATE
     /// </summary>
     [CliOption("--action")]
     public AwsIotUpdatePackageVersionAction? Action { get; set; }
 
     /// <summary>
-    /// The inline job document associated with a software package version used for a quick job deployment. Constraints: o max: 3072
+    /// The inline job document associated with a software package version used for a quick job deployment. Constraints: • max: 3072
     /// </summary>
     [CliOption("--recipe")]
     public string? Recipe { get; set; }
 
     /// <summary>
-    /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required. Constraints: o min: 36 o max: 64 o pattern: \S{36,64}
+    /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required. Constraints: • min: 36 • max: 64 • pattern: \S{36,64}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -132,6 +132,15 @@ public record AwsIotUpdatePackageVersionOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

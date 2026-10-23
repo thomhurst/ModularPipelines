@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns detailed metadata about the specified ACM certificate. If you have just created a certificate using the RequestCertificate ac- tion, there is a delay of several seconds before you can retrieve in- formation about it. See also: AWS API Documentation
+/// Returns detailed metadata about the specified ACM certificate. If you have just created a certificate using the RequestCertificate action, there is a delay of several seconds before you can retrieve information about it. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsAcmDescribeCertificateOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns detailed metadata about the specified ACM certificate. If you have just created a certificate using the RequestCertificate ac- tion, there is a delay of several seconds before you can retrieve in- formation about it. See also: AWS API Documentation
+    /// Returns detailed metadata about the specified ACM certificate. If you have just created a certificate using the RequestCertificate action, there is a delay of several seconds before you can retrieve information about it. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CertificateArn">The Amazon Resource Name (ARN) of the ACM certificate. The ARN must have the following form: arn:aws:acm:region:123456789012:certifi- cate/12345678-1234-1234-1234-123456789012 For more information about ARNs, see Amazon Resource Names (ARNs) . Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=/,.@-]+:acm:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*</param>
+    /// <param name="CertificateArn">The Amazon Resource Name (ARN) of the ACM certificate. The ARN must have the following form: arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012 For more information about ARNs, see Amazon Resource Names (ARNs) . Constraints: • min: 20 • max: 2048 • pattern: arn:[\w+=/,.@-]+:acm:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*</param>
     public AwsAcmDescribeCertificateOptions(
         string CertificateArn
     )
@@ -56,7 +57,7 @@ public record AwsAcmDescribeCertificateOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the ACM certificate. The ARN must have the following form: arn:aws:acm:region:123456789012:certifi- cate/12345678-1234-1234-1234-123456789012 For more information about ARNs, see Amazon Resource Names (ARNs) . Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=/,.@-]+:acm:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*
+    /// The Amazon Resource Name (ARN) of the ACM certificate. The ARN must have the following form: arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012 For more information about ARNs, see Amazon Resource Names (ARNs) . Constraints: • min: 20 • max: 2048 • pattern: arn:[\w+=/,.@-]+:acm:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*
     /// </summary>
     [CliOption("--certificate-arn")]
     public string? CertificateArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsAcmDescribeCertificateOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

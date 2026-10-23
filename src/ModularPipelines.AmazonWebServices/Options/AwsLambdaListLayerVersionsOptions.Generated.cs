@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists the versions of an Lambda layer . Versions that have been deleted aren't listed. Specify a runtime identifier to list only versions that indicate that they're compatible with that runtime. Specify a compati- ble architecture to include only layer versions that are compatible with that architecture. See also: AWS API Documentation list-layer-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by ...
+/// Lists the versions of an Lambda layer . Versions that have been deleted aren't listed. Specify a runtime identifier to list only versions that indicate that they're compatible with that runtime. Specify a compatible architecture to include only layer versions that are compatible with that architecture. See also: AWS API Documentation list-layer-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by pr...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +28,9 @@ public record AwsLambdaListLayerVersionsOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists the versions of an Lambda layer . Versions that have been deleted aren't listed. Specify a runtime identifier to list only versions that indicate that they're compatible with that runtime. Specify a compati- ble architecture to include only layer versions that are compatible with that architecture. See also: AWS API Documentation list-layer-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by ...
+    /// Lists the versions of an Lambda layer . Versions that have been deleted aren't listed. Specify a runtime identifier to list only versions that indicate that they're compatible with that runtime. Specify a compatible architecture to include only layer versions that are compatible with that architecture. See also: AWS API Documentation list-layer-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by pr...
     /// </summary>
-    /// <param name="LayerName">The name or Amazon Resource Name (ARN) of the layer. Constraints: o min: 1 o max: 140 o pattern: (arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+</param>
+    /// <param name="LayerName">The name or Amazon Resource Name (ARN) of the layer. Constraints: • min: 1 • max: 140 • pattern: (arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+</param>
     public AwsLambdaListLayerVersionsOptions(
         string LayerName
     )
@@ -58,34 +59,31 @@ public record AwsLambdaListLayerVersionsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name or Amazon Resource Name (ARN) of the layer. Constraints: o min: 1 o max: 140 o pattern: (arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+
+    /// The name or Amazon Resource Name (ARN) of the layer. Constraints: • min: 1 • max: 140 • pattern: (arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+
     /// </summary>
     [CliOption("--layer-name")]
     public string? LayerName { get; private init; }
 
     /// <summary>
-    /// The compatible instruction set architecture . Possible values: o x86_64 o arm64
+    /// The compatible instruction set architecture . Possible values: • x86_64 • arm64
     /// </summary>
     [CliOption("--compatible-architecture")]
     public AwsLambdaListLayerVersionsCompatibleArchitecture? CompatibleArchitecture { get; set; }
 
     /// <summary>
-    /// A runtime identifier. The following list includes deprecated runtimes. For more informa- tion, see Runtime use after deprecation . For a list of all currently supported runtimes, see Supported run- times . Possible values: o nodejs o nodejs4.3 o nodejs6.10 o nodejs8.10 o nodejs10.x o nodejs12.x o nodejs14.x o nodejs16.x o nodejs18.x o nodejs20.x o nodejs22.x o nodejs24.x o java8 o java8.al2 o java11 o java17 o java21 o java25 o python2.7 o python3.6 o python3.7 o python3.8 o python3.9 o python3.10 o python3.11 o python3.12 o python3.13 o python3.14 o dotnetcore1.0 o dotnetcore2.0 o dotnetcore2.1 o dotnetcore3.1 o dotnet6 o dotnet8 o dotnet10 o nodejs4.3-edge o go1.x o ruby2.5 o ruby2.7 o ruby3.2 o ruby3.3 o ruby3.4 o ruby4.0 o provided o provided.al2 o provided.al2023 o nodejs26.x o python3.15 o java8.al2023 o java11.al2023 o java17.al2023
+    /// A runtime identifier. The following list includes deprecated runtimes. For more information, see Runtime use after deprecation . For a list of all currently supported runtimes, see Supported runtimes . Possible values: • nodejs • nodejs4.3 • nodejs6.10 • nodejs8.10 • nodejs10.x • nodejs12.x • nodejs14.x • nodejs16.x • nodejs18.x • nodejs20.x • nodejs22.x • nodejs24.x • java8 • java8.al2 • java11 • java17 • java21 • java25 • python2.7 • python3.6 • python3.7 • python3.8 • python3.9 • python3.10 • python3.11 • python3.12 • python3.13 • python3.14 • dotnetcore1.0 • dotnetcore2.0 • dotnetcore2.1 • dotnetcore3.1 • dotnet6 • dotnet8 • dotnet10 • nodejs4.3-edge • go1.x • ruby2.5 • ruby2.7 • ruby3.2 • ruby3.3 • ruby3.4 • ruby4.0 • provided • provided.al2 • provided.al2023 • nodejs26.x • python3.15 • java8.al2023 • java11.al2023 • java17.al2023
     /// </summary>
     [CliOption("--compatible-runtime")]
     public string? CompatibleRuntime { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -95,10 +93,13 @@ public record AwsLambdaListLayerVersionsOptions : AwsOptions, IValidatableObject
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 50
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -115,6 +116,15 @@ public record AwsLambdaListLayerVersionsOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

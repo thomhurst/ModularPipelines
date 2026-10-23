@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Shares or unshares an image with one account in the same Amazon Web Services Region by specifying whether that account has permission to copy the image. If the copy image permission is granted, the image is shared with that account. If the copy image permission is revoked, the image is unshared with the account. After an image has been shared, the recipient account can copy the im- age to other Regions as needed. In the China (Ningxia) Region, you can copy images only within the same Region. In ...
+/// Shares or unshares an image with one account in the same Amazon Web Services Region by specifying whether that account has permission to copy the image. If the copy image permission is granted, the image is shared with that account. If the copy image permission is revoked, the image is unshared with the account. After an image has been shared, the recipient account can copy the image to other Regions as needed. In the China (Ningxia) Region, you can copy images only within the same Region. In Am...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsWorkspacesUpdateWorkspaceImagePermissionOptions : AwsOptions, I
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Shares or unshares an image with one account in the same Amazon Web Services Region by specifying whether that account has permission to copy the image. If the copy image permission is granted, the image is shared with that account. If the copy image permission is revoked, the image is unshared with the account. After an image has been shared, the recipient account can copy the im- age to other Regions as needed. In the China (Ningxia) Region, you can copy images only within the same Region. In ...
+    /// Shares or unshares an image with one account in the same Amazon Web Services Region by specifying whether that account has permission to copy the image. If the copy image permission is granted, the image is shared with that account. If the copy image permission is revoked, the image is unshared with the account. After an image has been shared, the recipient account can copy the image to other Regions as needed. In the China (Ningxia) Region, you can copy images only within the same Region. In Am...
     /// </summary>
-    /// <param name="ImageId">The identifier of the image. Constraints: o pattern: wsi-[0-9a-z]{9,63}$</param>
+    /// <param name="ImageId">The identifier of the image. Constraints: • pattern: wsi-[0-9a-z]{9,63}$</param>
     /// <param name="AllowCopyImage">The permission to copy the image. This permission can be revoked only after an image has been shared.</param>
-    /// <param name="SharedAccountId">The identifier of the Amazon Web Services account to share or un- share the image with. WARNING: Before sharing the image, confirm that you are sharing to the correct Amazon Web Services account ID. Constraints: o pattern: ^\d{12}$</param>
+    /// <param name="SharedAccountId">The identifier of the Amazon Web Services account to share or unshare the image with. WARNING: Before sharing the image, confirm that you are sharing to the correct Amazon Web Services account ID. Constraints: • pattern: ^\d{12}$</param>
     public AwsWorkspacesUpdateWorkspaceImagePermissionOptions(
         string ImageId,
         bool AllowCopyImage,
@@ -63,7 +64,7 @@ public record AwsWorkspacesUpdateWorkspaceImagePermissionOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the image. Constraints: o pattern: wsi-[0-9a-z]{9,63}$
+    /// The identifier of the image. Constraints: • pattern: wsi-[0-9a-z]{9,63}$
     /// </summary>
     [CliOption("--image-id")]
     public string? ImageId { get; private init; }
@@ -75,7 +76,7 @@ public record AwsWorkspacesUpdateWorkspaceImagePermissionOptions : AwsOptions, I
     public bool? AllowCopyImage { get; private init; }
 
     /// <summary>
-    /// The identifier of the Amazon Web Services account to share or un- share the image with. WARNING: Before sharing the image, confirm that you are sharing to the correct Amazon Web Services account ID. Constraints: o pattern: ^\d{12}$
+    /// The identifier of the Amazon Web Services account to share or unshare the image with. WARNING: Before sharing the image, confirm that you are sharing to the correct Amazon Web Services account ID. Constraints: • pattern: ^\d{12}$
     /// </summary>
     [CliOption("--shared-account-id")]
     public string? SharedAccountId { get; private init; }
@@ -101,6 +102,15 @@ public record AwsWorkspacesUpdateWorkspaceImagePermissionOptions : AwsOptions, I
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsIottwinmakerListSyncJobsOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// List all SyncJobs. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkspaceId">The ID of the workspace that contains the sync job. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+</param>
+    /// <param name="WorkspaceId">The ID of the workspace that contains the sync job. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+</param>
     public AwsIottwinmakerListSyncJobsOptions(
         string WorkspaceId
     )
@@ -57,19 +58,19 @@ public record AwsIottwinmakerListSyncJobsOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the workspace that contains the sync job. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+
+    /// The ID of the workspace that contains the sync job. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+
     /// </summary>
     [CliOption("--workspace-id")]
     public string? WorkspaceId { get; private init; }
 
     /// <summary>
-    /// The maximum number of results to return at one time. The default is 50. Valid Range: Minimum value of 0. Maximum value of 200. Constraints: o min: 0 o max: 200
+    /// The maximum number of results to return at one time. The default is 50. Valid Range: Minimum value of 0. Maximum value of 200. Constraints: • min: 0 • max: 200
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The string that specifies the next page of results. Constraints: o min: 0 o max: 17880 o pattern: .*
+    /// The string that specifies the next page of results. Constraints: • min: 0 • max: 17880 • pattern: .*
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -96,6 +97,15 @@ public record AwsIottwinmakerListSyncJobsOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

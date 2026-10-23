@@ -10,14 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a service environment for running service jobs. Service envi- ronments define capacity limits for specific service types such as SageMaker Training jobs. See also: AWS API Documentation
+/// Creates a service environment for running service jobs. Service environments define capacity limits for specific service types such as SageMaker Training jobs. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +27,11 @@ public record AwsBatchCreateServiceEnvironmentOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a service environment for running service jobs. Service envi- ronments define capacity limits for specific service types such as SageMaker Training jobs. See also: AWS API Documentation
+    /// Creates a service environment for running service jobs. Service environments define capacity limits for specific service types such as SageMaker Training jobs. See also: AWS API Documentation
     /// </summary>
     /// <param name="ServiceEnvironmentName">The name for the service environment. It can be up to 128 characters long and can contain letters, numbers, hyphens (-), and underscores (_).</param>
-    /// <param name="ServiceEnvironmentType">The type of service environment. For SageMaker Training jobs, spec- ify SAGEMAKER_TRAINING . Possible values: o SAGEMAKER_TRAINING</param>
-    /// <param name="CapacityLimits">The capacity limits for the service environment. The number of in- stances a job consumes is the total number of instances requested in the submit training job request resource configuration. (structure) Defines the type and maximum quantity of resources that can be allocated to service jobs in a service environment. maxCapacity -&gt; (integer) The maximum capacity available for the service environment. For a quota management enabled service environment, this value represents the maximum quantity of a particular re- source type (specified by capacityUnit ) that can be allo- cated to service jobs. For other service environments, this value represents the maximum quantity of all resources that can be allocated to service jobs. For example, if maxCapacity=50 and capacityUnit=NUM_INSTANCES , you can run up to 50 instances concurrently. If you run 5 SageMaker Training jobs that each use 10 instances, a subse- quent job requiring 10 instances waits in the queue until ca- pacity is available. In a quota management enabled service environment with capacityUnit=ml.m5.large , only ml.m5.large instances count against this limit, and jobs requiring other instance types wait until a matching capacity limit is con- figured. capacityUnit -&gt; (string) The unit of measure for the capacity limit, which defines how maxCapacity is interpreted. For SAGEMAKER_TRAINING jobs in a quota management enabled service environment, specify the instance type (for example, ml.m5.large ). Otherwise, use NUM_INSTANCES . Shorthand Syntax: maxCapacity=integer,capacityUnit=string ... JSON Syntax: [ { "maxCapacity": integer, "capacityUnit": "string" } ... ]</param>
+    /// <param name="ServiceEnvironmentType">The type of service environment. For SageMaker Training jobs, specify SAGEMAKER_TRAINING . Possible values: • SAGEMAKER_TRAINING</param>
+    /// <param name="CapacityLimits">The capacity limits for the service environment. The number of instances a job consumes is the total number of instances requested in the submit training job request resource configuration. (structure) Defines the type and maximum quantity of resources that can be allocated to service jobs in a service environment. maxCapacity -&gt; (integer) The maximum capacity available for the service environment. For a quota management enabled service environment, this value represents the maximum quantity of a particular resource type (specified by capacityUnit ) that can be allocated to service jobs. For other service environments, this value represents the maximum quantity of all resources that can be allocated to service jobs. For example, if maxCapacity=50 and capacityUnit=NUM_INSTANCES , you can run up to 50 instances concurrently. If you run 5 SageMaker Training jobs that each use 10 instances, a subsequent job requiring 10 instances waits in the queue until capacity is available. In a quota management enabled service environment with capacityUnit=ml.m5.large , only ml.m5.large instances count against this limit, and jobs requiring other instance types wait until a matching capacity limit is configured. capacityUnit -&gt; (string) The unit of measure for the capacity limit, which defines how maxCapacity is interpreted. For SAGEMAKER_TRAINING jobs in a quota management enabled service environment, specify the instance type (for example, ml.m5.large ). Otherwise, use NUM_INSTANCES . Shorthand Syntax: maxCapacity=integer,capacityUnit=string ... JSON Syntax: [ { "maxCapacity": integer, "capacityUnit": "string" } ... ]</param>
     public AwsBatchCreateServiceEnvironmentOptions(
         string ServiceEnvironmentName,
         string ServiceEnvironmentType,
@@ -83,25 +83,25 @@ public record AwsBatchCreateServiceEnvironmentOptions : AwsOptions, IValidatable
     public string? ServiceEnvironmentName { get; private init; }
 
     /// <summary>
-    /// The type of service environment. For SageMaker Training jobs, spec- ify SAGEMAKER_TRAINING . Possible values: o SAGEMAKER_TRAINING
+    /// The type of service environment. For SageMaker Training jobs, specify SAGEMAKER_TRAINING . Possible values: • SAGEMAKER_TRAINING
     /// </summary>
     [CliOption("--service-environment-type")]
     public string? ServiceEnvironmentType { get; private init; }
 
     /// <summary>
-    /// The capacity limits for the service environment. The number of in- stances a job consumes is the total number of instances requested in the submit training job request resource configuration. (structure) Defines the type and maximum quantity of resources that can be allocated to service jobs in a service environment. maxCapacity -&gt; (integer) The maximum capacity available for the service environment. For a quota management enabled service environment, this value represents the maximum quantity of a particular re- source type (specified by capacityUnit ) that can be allo- cated to service jobs. For other service environments, this value represents the maximum quantity of all resources that can be allocated to service jobs. For example, if maxCapacity=50 and capacityUnit=NUM_INSTANCES , you can run up to 50 instances concurrently. If you run 5 SageMaker Training jobs that each use 10 instances, a subse- quent job requiring 10 instances waits in the queue until ca- pacity is available. In a quota management enabled service environment with capacityUnit=ml.m5.large , only ml.m5.large instances count against this limit, and jobs requiring other instance types wait until a matching capacity limit is con- figured. capacityUnit -&gt; (string) The unit of measure for the capacity limit, which defines how maxCapacity is interpreted. For SAGEMAKER_TRAINING jobs in a quota management enabled service environment, specify the instance type (for example, ml.m5.large ). Otherwise, use NUM_INSTANCES . Shorthand Syntax: maxCapacity=integer,capacityUnit=string ... JSON Syntax: [ { "maxCapacity": integer, "capacityUnit": "string" } ... ]
+    /// The capacity limits for the service environment. The number of instances a job consumes is the total number of instances requested in the submit training job request resource configuration. (structure) Defines the type and maximum quantity of resources that can be allocated to service jobs in a service environment. maxCapacity -&gt; (integer) The maximum capacity available for the service environment. For a quota management enabled service environment, this value represents the maximum quantity of a particular resource type (specified by capacityUnit ) that can be allocated to service jobs. For other service environments, this value represents the maximum quantity of all resources that can be allocated to service jobs. For example, if maxCapacity=50 and capacityUnit=NUM_INSTANCES , you can run up to 50 instances concurrently. If you run 5 SageMaker Training jobs that each use 10 instances, a subsequent job requiring 10 instances waits in the queue until capacity is available. In a quota management enabled service environment with capacityUnit=ml.m5.large , only ml.m5.large instances count against this limit, and jobs requiring other instance types wait until a matching capacity limit is configured. capacityUnit -&gt; (string) The unit of measure for the capacity limit, which defines how maxCapacity is interpreted. For SAGEMAKER_TRAINING jobs in a quota management enabled service environment, specify the instance type (for example, ml.m5.large ). Otherwise, use NUM_INSTANCES . Shorthand Syntax: maxCapacity=integer,capacityUnit=string ... JSON Syntax: [ { "maxCapacity": integer, "capacityUnit": "string" } ... ]
     /// </summary>
     [CliOption("--capacity-limits", GroupValues = true)]
     public IEnumerable<string>? CapacityLimits { get; private init; }
 
     /// <summary>
-    /// The state of the service environment. Valid values are ENABLED and DISABLED . The default value is ENABLED . Possible values: o ENABLED o DISABLED
+    /// The state of the service environment. Valid values are ENABLED and DISABLED . The default value is ENABLED . Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--state")]
     public AwsBatchCreateServiceEnvironmentState? State { get; set; }
 
     /// <summary>
-    /// The tags that you apply to the service environment to help you cate- gorize and organize your resources. Each tag consists of a key and an optional value. For more information, see Tagging your Batch re- sources . Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags that you apply to the service environment to help you categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see Tagging your Batch resources . Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -127,6 +127,15 @@ public record AwsBatchCreateServiceEnvironmentOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

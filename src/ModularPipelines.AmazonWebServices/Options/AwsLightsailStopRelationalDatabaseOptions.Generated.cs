@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Stops a specific database that is currently running in Amazon Light- sail. NOTE: If you don't manually start your database instance after it has been stopped for seven consecutive days, Amazon Lightsail automatically starts it for you. This action helps ensure that your database in- stance doesn't fall behind on any required maintenance updates. The stop relational database operation supports tag-based access con- trol via resource tags applied to the resource identified by relation- alDatabaseN...
+/// Stops a specific database that is currently running in Amazon Lightsail. NOTE: If you don't manually start your database instance after it has been stopped for seven consecutive days, Amazon Lightsail automatically starts it for you. This action helps ensure that your database instance doesn't fall behind on any required maintenance updates. The stop relational database operation supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName. For...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsLightsailStopRelationalDatabaseOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Stops a specific database that is currently running in Amazon Light- sail. NOTE: If you don't manually start your database instance after it has been stopped for seven consecutive days, Amazon Lightsail automatically starts it for you. This action helps ensure that your database in- stance doesn't fall behind on any required maintenance updates. The stop relational database operation supports tag-based access con- trol via resource tags applied to the resource identified by relation- alDatabaseN...
+    /// Stops a specific database that is currently running in Amazon Lightsail. NOTE: If you don't manually start your database instance after it has been stopped for seven consecutive days, Amazon Lightsail automatically starts it for you. This action helps ensure that your database instance doesn't fall behind on any required maintenance updates. The stop relational database operation supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName. For...
     /// </summary>
-    /// <param name="RelationalDatabaseName">The name of your database to stop. Constraints: o pattern: \w[\w\-]*\w</param>
+    /// <param name="RelationalDatabaseName">The name of your database to stop. Constraints: • pattern: \w[\w\-]*\w</param>
     public AwsLightsailStopRelationalDatabaseOptions(
         string RelationalDatabaseName
     )
@@ -56,13 +57,13 @@ public record AwsLightsailStopRelationalDatabaseOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of your database to stop. Constraints: o pattern: \w[\w\-]*\w
+    /// The name of your database to stop. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--relational-database-name")]
     public string? RelationalDatabaseName { get; private init; }
 
     /// <summary>
-    /// The name of your new database snapshot to be created before stopping your database. Constraints: o pattern: \w[\w\-]*\w
+    /// The name of your new database snapshot to be created before stopping your database. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--relational-database-snapshot-name")]
     public string? RelationalDatabaseSnapshotName { get; set; }
@@ -88,6 +89,15 @@ public record AwsLightsailStopRelationalDatabaseOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

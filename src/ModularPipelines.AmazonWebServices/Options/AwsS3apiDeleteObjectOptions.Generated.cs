@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes an object from a bucket. The behavior depends on the bucket's versioning state: o If bucket versioning is not enabled, the operation permanently deletes the object. o If bucket versioning is enabled, the operation inserts a delete marker, which becomes the current version of the object. To perma- nently delete an object in a versioned bucket, you must include the objects versionId in the request. For more information about version- ing-enabled buckets, see Deleting object versions from a...
+/// Removes an object from a bucket. The behavior depends on the bucket's versioning state: • If bucket versioning is not enabled, the operation permanently deletes the object. • If bucket versioning is enabled, the operation inserts a delete marker, which becomes the current version of the object. To permanently delete an object in a versioned bucket, you must include the objects versionId in the request. For more information about versioning-enabled buckets, see Deleting object versions from a ver...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsS3apiDeleteObjectOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes an object from a bucket. The behavior depends on the bucket's versioning state: o If bucket versioning is not enabled, the operation permanently deletes the object. o If bucket versioning is enabled, the operation inserts a delete marker, which becomes the current version of the object. To perma- nently delete an object in a versioned bucket, you must include the objects versionId in the request. For more information about version- ing-enabled buckets, see Deleting object versions from a...
+    /// Removes an object from a bucket. The behavior depends on the bucket's versioning state: • If bucket versioning is not enabled, the operation permanently deletes the object. • If bucket versioning is enabled, the operation inserts a delete marker, which becomes the current version of the object. To permanently delete an object in a versioned bucket, you must include the objects versionId in the request. For more information about versioning-enabled buckets, see Deleting object versions from a ver...
     /// </summary>
-    /// <param name="Bucket">The bucket name of the bucket containing the object. Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format `` Bucket-name .s3express-zone-id .*region-code* .amazon- aws.com`` . Path-style requests are not supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format `` bucket-base-name --zone-id --x-s3`` (for example, `` amzn-s3-demo-bucket --usw2-az1 --x-s3`` ). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide . Access points - When you use this action with an access point for general purpose buckets, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When you use this action with an access point for di- rectory buckets, you must provide the access point name in place of the bucket name. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName -AccountId .s3-access- point.*Region* .amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more in- formation about access point ARNs, see Using access points in the Amazon S3 User Guide . NOTE: Object Lambda access points are not supported by directory buckets. S3 on Outposts - When you use this action with S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form `` AccessPointName -Accoun- tId .*outpostID* .s3-outposts.*Region* .amazonaws.com`` . When you use this action with S3 on Outposts, the destination bucket must be the Outposts access point ARN or the access point alias. For more information about S3 on Outposts, see What is S3 on Outposts? in the Amazon S3 User Guide .</param>
-    /// <param name="Key">Key name of the object to delete. Constraints: o min: 1</param>
+    /// <param name="Bucket">The bucket name of the bucket containing the object. Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format `` Bucket-name .s3express-zone-id .*region-code* .amazonaws.com`` . Path-style requests are not supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format `` bucket-base-name --zone-id --x-s3`` (for example, `` amzn-s3-demo-bucket --usw2-az1 --x-s3`` ). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide . Access points - When you use this action with an access point for general purpose buckets, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When you use this action with an access point for directory buckets, you must provide the access point name in place of the bucket name. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName -AccountId .s3-accesspoint.*Region* .amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide . NOTE: Object Lambda access points are not supported by directory buckets. S3 on Outposts - When you use this action with S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form `` AccessPointName -AccountId .*outpostID* .s3-outposts.*Region* .amazonaws.com`` . When you use this action with S3 on Outposts, the destination bucket must be the Outposts access point ARN or the access point alias. For more information about S3 on Outposts, see What is S3 on Outposts? in the Amazon S3 User Guide .</param>
+    /// <param name="Key">Key name of the object to delete. Constraints: • min: 1</param>
     public AwsS3apiDeleteObjectOptions(
         string Bucket,
         string Key
@@ -60,19 +61,19 @@ public record AwsS3apiDeleteObjectOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The bucket name of the bucket containing the object. Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format `` Bucket-name .s3express-zone-id .*region-code* .amazon- aws.com`` . Path-style requests are not supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format `` bucket-base-name --zone-id --x-s3`` (for example, `` amzn-s3-demo-bucket --usw2-az1 --x-s3`` ). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide . Access points - When you use this action with an access point for general purpose buckets, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When you use this action with an access point for di- rectory buckets, you must provide the access point name in place of the bucket name. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName -AccountId .s3-access- point.*Region* .amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more in- formation about access point ARNs, see Using access points in the Amazon S3 User Guide . NOTE: Object Lambda access points are not supported by directory buckets. S3 on Outposts - When you use this action with S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form `` AccessPointName -Accoun- tId .*outpostID* .s3-outposts.*Region* .amazonaws.com`` . When you use this action with S3 on Outposts, the destination bucket must be the Outposts access point ARN or the access point alias. For more information about S3 on Outposts, see What is S3 on Outposts? in the Amazon S3 User Guide .
+    /// The bucket name of the bucket containing the object. Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format `` Bucket-name .s3express-zone-id .*region-code* .amazonaws.com`` . Path-style requests are not supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format `` bucket-base-name --zone-id --x-s3`` (for example, `` amzn-s3-demo-bucket --usw2-az1 --x-s3`` ). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide . Access points - When you use this action with an access point for general purpose buckets, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When you use this action with an access point for directory buckets, you must provide the access point name in place of the bucket name. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName -AccountId .s3-accesspoint.*Region* .amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide . NOTE: Object Lambda access points are not supported by directory buckets. S3 on Outposts - When you use this action with S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form `` AccessPointName -AccountId .*outpostID* .s3-outposts.*Region* .amazonaws.com`` . When you use this action with S3 on Outposts, the destination bucket must be the Outposts access point ARN or the access point alias. For more information about S3 on Outposts, see What is S3 on Outposts? in the Amazon S3 User Guide .
     /// </summary>
     [CliOption("--bucket")]
     public string? Bucket { get; private init; }
 
     /// <summary>
-    /// Key name of the object to delete. Constraints: o min: 1
+    /// Key name of the object to delete. Constraints: • min: 1
     /// </summary>
     [CliOption("--key")]
     public string? Key { get; private init; }
 
     /// <summary>
-    /// The concatenation of the authentication device's serial number, a space, and the value that is displayed on your authentication de- vice. Required to permanently delete a versioned object if version- ing is configured with MFA delete enabled. NOTE: This functionality is not supported for directory buckets.
+    /// The concatenation of the authentication device's serial number, a space, and the value that is displayed on your authentication device. Required to permanently delete a versioned object if versioning is configured with MFA delete enabled. NOTE: This functionality is not supported for directory buckets.
     /// </summary>
     [CliOption("--mfa")]
     public string? Mfa { get; set; }
@@ -84,19 +85,19 @@ public record AwsS3apiDeleteObjectOptions : AwsOptions, IValidatableObject
     public string? VersionId { get; set; }
 
     /// <summary>
-    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their re- quests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for the corresponding charges. For information about downloading objects from Requester Pays buck- ets, see Downloading Objects in Requester Pays Buckets in the Amazon S3 User Guide . NOTE: This functionality is not supported for directory buckets. Possible values: o requester
+    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for the corresponding charges. For information about downloading objects from Requester Pays buckets, see Downloading Objects in Requester Pays Buckets in the Amazon S3 User Guide . NOTE: This functionality is not supported for directory buckets. Possible values: • requester
     /// </summary>
     [CliOption("--request-payer")]
     public string? RequestPayer { get; set; }
 
     /// <summary>
-    /// Indicates whether S3 Object Lock should bypass Governance-mode re- strictions to process this operation. To use this header, you must have the s3:BypassGovernanceRetention permission. NOTE: This functionality is not supported for directory buckets.
+    /// Indicates whether S3 Object Lock should bypass Governance-mode restrictions to process this operation. To use this header, you must have the s3:BypassGovernanceRetention permission. NOTE: This functionality is not supported for directory buckets.
     /// </summary>
     [CliFlag("--bypass-governance-retention", NegatedName = "--no-bypass-governance-retention")]
     public bool? BypassGovernanceRetention { get; set; }
 
     /// <summary>
-    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the re- quest fails with the HTTP status code 403 Forbidden (access denied).
+    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
     /// </summary>
     [CliOption("--expected-bucket-owner")]
     public string? ExpectedBucketOwner { get; set; }
@@ -108,16 +109,16 @@ public record AwsS3apiDeleteObjectOptions : AwsOptions, IValidatableObject
     public string? IfMatch { get; set; }
 
     /// <summary>
-    /// If present, the object is deleted only if its modification times matches the provided Timestamp . If the Timestamp values do not match, the operation returns a 412 Precondition Failed error. If the Timestamp matches or if the object doesnt exist, the operation re- turns a 204 Success (No Content) response. NOTE: This functionality is only supported for directory buckets.
+    /// If present, the object is deleted only if its modification times matches the provided Timestamp . If the Timestamp values do not match, the operation returns a 412 Precondition Failed error. If the Timestamp matches or if the object doesnt exist, the operation returns a 204 Success (No Content) response. NOTE: This functionality is only supported for directory buckets.
     /// </summary>
     [CliOption("--if-match-last-modified-time")]
     public string? IfMatchLastModifiedTime { get; set; }
 
     /// <summary>
-    /// If present, the object is deleted only if its size matches the pro- vided size in bytes. If the Size value does not match, the operation returns a 412 Precondition Failed error. If the Size matches or if the object doesnt exist, the operation returns a 204 Success (No Content) response. NOTE: This functionality is only supported for directory buckets. WARNING: You can use the If-Match , x-amz-if-match-last-modified-time and x-amz-if-match-size conditional headers in conjunction with each-other or individually.
+    /// If present, the object is deleted only if its size matches the provided size in bytes. If the Size value does not match, the operation returns a 412 Precondition Failed error. If the Size matches or if the object doesnt exist, the operation returns a 204 Success (No Content) response. NOTE: This functionality is only supported for directory buckets. WARNING: You can use the If-Match , x-amz-if-match-last-modified-time and x-amz-if-match-size conditional headers in conjunction with each-other or individually.
     /// </summary>
     [CliOption("--if-match-size")]
-    public int? IfMatchSize { get; set; }
+    public long? IfMatchSize { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -140,6 +141,15 @@ public record AwsS3apiDeleteObjectOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

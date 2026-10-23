@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsBedrockAgentPrepareAgentOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Creates a DRAFT version of the agent that can be used for internal testing. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AgentId">The unique identifier of the agent for which to create a DRAFT ver- sion. Constraints: o pattern: [0-9a-zA-Z]{10}</param>
+    /// <param name="AgentId">The unique identifier of the agent for which to create a DRAFT version. Constraints: • pattern: [0-9a-zA-Z]{10}</param>
     public AwsBedrockAgentPrepareAgentOptions(
         string AgentId
     )
@@ -56,7 +57,7 @@ public record AwsBedrockAgentPrepareAgentOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the agent for which to create a DRAFT ver- sion. Constraints: o pattern: [0-9a-zA-Z]{10}
+    /// The unique identifier of the agent for which to create a DRAFT version. Constraints: • pattern: [0-9a-zA-Z]{10}
     /// </summary>
     [CliOption("--agent-id")]
     public string? AgentId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsBedrockAgentPrepareAgentOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

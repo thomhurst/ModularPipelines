@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsDsRemoveIpRoutesOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Removes IP address blocks from a directory. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DirectoryId">Identifier (ID) of the directory from which you want to remove the IP addresses. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="DirectoryId">Identifier (ID) of the directory from which you want to remove the IP addresses. Constraints: • pattern: ^d-[0-9a-f]{10}$</param>
     public AwsDsRemoveIpRoutesOptions(
         string DirectoryId
     )
@@ -56,19 +57,19 @@ public record AwsDsRemoveIpRoutesOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Identifier (ID) of the directory from which you want to remove the IP addresses. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// Identifier (ID) of the directory from which you want to remove the IP addresses. Constraints: • pattern: ^d-[0-9a-f]{10}$
     /// </summary>
     [CliOption("--directory-id")]
     public string? DirectoryId { get; private init; }
 
     /// <summary>
-    /// IP address blocks that you want to remove. (string) Constraints: o pattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([1-9]|[1-2][0-9]|3[0-2]))$ Syntax: "string" "string" ...
+    /// IP address blocks that you want to remove. (string) Constraints: • pattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([1-9]|[1-2][0-9]|3[0-2]))$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--cidr-ips", GroupValues = true)]
     public IEnumerable<string>? CidrIps { get; set; }
 
     /// <summary>
-    /// IPv6 address blocks that you want to remove. (string) Constraints: o pattern: ^((([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4})|(([0-9a-fA-F]{1,4}:){1,7}:)|(([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4})|(([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2})|(([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3})|(([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4})|(([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5})|([0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6}))|(:((:[0-9a-fA-F]{1,4}){1,7}|:)))\/(12[0-8]|1[01][0-9]|[1-9]?[0-9])$ Syntax: "string" "string" ...
+    /// IPv6 address blocks that you want to remove. (string) Constraints: • pattern: ^((([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4})|(([0-9a-fA-F]{1,4}:){1,7}:)|(([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4})|(([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2})|(([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3})|(([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4})|(([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5})|([0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6}))|(:((:[0-9a-fA-F]{1,4}){1,7}|:)))\/(12[0-8]|1[01][0-9]|[1-9]?[0-9])$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--cidr-ipv6s", GroupValues = true)]
     public IEnumerable<string>? CidrIpv6s { get; set; }
@@ -94,6 +95,15 @@ public record AwsDsRemoveIpRoutesOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

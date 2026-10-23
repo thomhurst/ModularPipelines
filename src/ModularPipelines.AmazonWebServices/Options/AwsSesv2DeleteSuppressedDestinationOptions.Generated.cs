@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes an email address from the suppression list for your account or for a specific tenant. To target a tenant's suppression list, specify the TenantName parameter. If you omit TenantName , the address is re- moved from the account-level suppression list. See also: AWS API Documentation
+/// Removes an email address from the suppression list for your account or for a specific tenant. To target a tenant's suppression list, specify the TenantName parameter. If you omit TenantName , the address is removed from the account-level suppression list. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsSesv2DeleteSuppressedDestinationOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes an email address from the suppression list for your account or for a specific tenant. To target a tenant's suppression list, specify the TenantName parameter. If you omit TenantName , the address is re- moved from the account-level suppression list. See also: AWS API Documentation
+    /// Removes an email address from the suppression list for your account or for a specific tenant. To target a tenant's suppression list, specify the TenantName parameter. If you omit TenantName , the address is removed from the account-level suppression list. See also: AWS API Documentation
     /// </summary>
     /// <param name="EmailAddress">The suppressed email destination to remove from the suppression list for your account or for the specified tenant.</param>
     public AwsSesv2DeleteSuppressedDestinationOptions(
@@ -62,7 +63,7 @@ public record AwsSesv2DeleteSuppressedDestinationOptions : AwsOptions, IValidata
     public string? EmailAddress { get; private init; }
 
     /// <summary>
-    /// The name of the tenant whose suppression list you want to remove the address from. If you omit this parameter, the address is removed from the account-level suppression list. Constraints: o min: 1
+    /// The name of the tenant whose suppression list you want to remove the address from. If you omit this parameter, the address is removed from the account-level suppression list. Constraints: • min: 1
     /// </summary>
     [CliOption("--tenant-name")]
     public string? TenantName { get; set; }
@@ -88,6 +89,15 @@ public record AwsSesv2DeleteSuppressedDestinationOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

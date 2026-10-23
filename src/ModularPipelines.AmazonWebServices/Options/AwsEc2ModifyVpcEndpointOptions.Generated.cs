@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -63,13 +64,13 @@ public record AwsEc2ModifyVpcEndpointOptions : AwsOptions, IValidatableObject
     public string? VpcEndpointId { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// (Gateway endpoint) Specify true to reset the policy document to the default policy. The default policy allows full access to the ser- vice.
+    /// (Gateway endpoint) Specify true to reset the policy document to the default policy. The default policy allows full access to the service.
     /// </summary>
     [CliFlag("--reset-policy", NegatedName = "--no-reset-policy")]
     public bool? ResetPolicy { get; set; }
@@ -93,7 +94,7 @@ public record AwsEc2ModifyVpcEndpointOptions : AwsOptions, IValidatableObject
     public IEnumerable<string>? RemoveRouteTableIds { get; set; }
 
     /// <summary>
-    /// (Interface and Gateway Load Balancer endpoints) The IDs of the sub- nets in which to serve the endpoint. For a Gateway Load Balancer endpoint, you can specify only one subnet. (string) Syntax: "string" "string" ...
+    /// (Interface and Gateway Load Balancer endpoints) The IDs of the subnets in which to serve the endpoint. For a Gateway Load Balancer endpoint, you can specify only one subnet. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--add-subnet-ids", GroupValues = true)]
     public IEnumerable<string>? AddSubnetIds { get; set; }
@@ -117,19 +118,19 @@ public record AwsEc2ModifyVpcEndpointOptions : AwsOptions, IValidatableObject
     public IEnumerable<string>? RemoveSecurityGroupIds { get; set; }
 
     /// <summary>
-    /// The IP address type for the endpoint. Possible values: o ipv4 o dualstack o ipv6
+    /// The IP address type for the endpoint. Possible values: • ipv4 • dualstack • ipv6
     /// </summary>
     [CliOption("--ip-address-type")]
     public AwsEc2ModifyVpcEndpointIpAddressType? IpAddressType { get; set; }
 
     /// <summary>
-    /// The DNS options for the endpoint. DnsRecordIpType -&gt; (string) The DNS records created for the endpoint. Possible values: o ipv4 o dualstack o ipv6 o service-defined PrivateDnsOnlyForInboundResolverEndpoint -&gt; (boolean) Indicates whether to enable private DNS only for inbound end- points. This option is available only for services that support both gateway and interface endpoints. It routes traffic that originates from the VPC to the gateway endpoint and traffic that originates from on-premises to the interface endpoint. PrivateDnsPreference -&gt; (string) The preference for which private domains have a private hosted zone created for and associated with the specified VPC. Only supported when private DNS is enabled and when the VPC endpoint type is ServiceNetwork or Resource. o ALL_DOMAINS - VPC Lattice provisions private hosted zones for all custom domain names. o VERIFIED_DOMAINS_ONLY - VPC Lattice provisions a private hosted zone only if custom domain name has been verified by the provider. o VERIFIED_DOMAINS_AND_SPECIFIED_DOMAINS - VPC Lattice provi- sions private hosted zones for all verified custom domain names and other domain names that the resource consumer speci- fies. The resource consumer specifies the domain names in the PrivateDnsSpecifiedDomains parameter. o SPECIFIED_DOMAINS_ONLY - VPC Lattice provisions a private hosted zone for domain names specified by the resource con- sumer. The resource consumer specifies the domain names in the PrivateDnsSpecifiedDomains parameter. PrivateDnsSpecifiedDomains -&gt; (list) Indicates which of the private domains to create private hosted zones for and associate with the specified VPC. Only supported when private DNS is enabled and the private DNS preference is verified-domains-and-specified-domains or specified-do- mains-only. Constraints: o min: 0 o max: 10 (string) Shorthand Syntax: DnsRecordIpType=string,PrivateDnsOnlyForInboundResolverEndpoint=boolean,PrivateDnsPreference=string,PrivateDnsSpecifiedDomains=string,string JSON Syntax: { "DnsRecordIpType": "ipv4"|"dualstack"|"ipv6"|"service-defined", "PrivateDnsOnlyForInboundResolverEndpoint": true|false, "PrivateDnsPreference": "string", "PrivateDnsSpecifiedDomains": ["string", ...] }
+    /// The DNS options for the endpoint. DnsRecordIpType -&gt; (string) The DNS records created for the endpoint. Possible values: • ipv4 • dualstack • ipv6 • service-defined PrivateDnsOnlyForInboundResolverEndpoint -&gt; (boolean) Indicates whether to enable private DNS only for inbound endpoints. This option is available only for services that support both gateway and interface endpoints. It routes traffic that originates from the VPC to the gateway endpoint and traffic that originates from on-premises to the interface endpoint. PrivateDnsPreference -&gt; (string) The preference for which private domains have a private hosted zone created for and associated with the specified VPC. Only supported when private DNS is enabled and when the VPC endpoint type is ServiceNetwork or Resource. • ALL_DOMAINS - VPC Lattice provisions private hosted zones for all custom domain names. • VERIFIED_DOMAINS_ONLY - VPC Lattice provisions a private hosted zone only if custom domain name has been verified by the provider. • VERIFIED_DOMAINS_AND_SPECIFIED_DOMAINS - VPC Lattice provisions private hosted zones for all verified custom domain names and other domain names that the resource consumer specifies. The resource consumer specifies the domain names in the PrivateDnsSpecifiedDomains parameter. • SPECIFIED_DOMAINS_ONLY - VPC Lattice provisions a private hosted zone for domain names specified by the resource consumer. The resource consumer specifies the domain names in the PrivateDnsSpecifiedDomains parameter. PrivateDnsSpecifiedDomains -&gt; (list) Indicates which of the private domains to create private hosted zones for and associate with the specified VPC. Only supported when private DNS is enabled and the private DNS preference is verified-domains-and-specified-domains or specified-domains-only. Constraints: • min: 0 • max: 10 (string) Shorthand Syntax: DnsRecordIpType=string,PrivateDnsOnlyForInboundResolverEndpoint=boolean,PrivateDnsPreference=string,PrivateDnsSpecifiedDomains=string,string JSON Syntax: { "DnsRecordIpType": "ipv4"|"dualstack"|"ipv6"|"service-defined", "PrivateDnsOnlyForInboundResolverEndpoint": true|false, "PrivateDnsPreference": "string", "PrivateDnsSpecifiedDomains": ["string", ...] }
     /// </summary>
     [CliOption("--dns-options")]
     public string? DnsOptions { get; set; }
 
     /// <summary>
-    /// (Interface endpoint) Indicates whether a private hosted zone is as- sociated with the VPC.
+    /// (Interface endpoint) Indicates whether a private hosted zone is associated with the VPC.
     /// </summary>
     [CliFlag("--private-dns-enabled", NegatedName = "--no-private-dns-enabled")]
     public bool? PrivateDnsEnabled { get; set; }
@@ -161,6 +162,15 @@ public record AwsEc2ModifyVpcEndpointOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

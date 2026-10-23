@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Remove endpoints from an endpoint group. The RemoveEndpoints API operation is the recommended option for remov- ing endpoints. The alternative is to remove endpoints by updating an endpoint group by using the UpdateEndpointGroup API operation. There are two advantages to using AddEndpoints to remove endpoints instead: o It's more convenient, because you only need to specify the endpoints that you want to remove. With the UpdateEndpointGroup API operation, you must specify all of the endpoints in...
+/// Remove endpoints from an endpoint group. The RemoveEndpoints API operation is the recommended option for removing endpoints. The alternative is to remove endpoints by updating an endpoint group by using the UpdateEndpointGroup API operation. There are two advantages to using AddEndpoints to remove endpoints instead: • It's more convenient, because you only need to specify the endpoints that you want to remove. With the UpdateEndpointGroup API operation, you must specify all of the endpoints in t...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsGlobalacceleratorRemoveEndpointsOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Remove endpoints from an endpoint group. The RemoveEndpoints API operation is the recommended option for remov- ing endpoints. The alternative is to remove endpoints by updating an endpoint group by using the UpdateEndpointGroup API operation. There are two advantages to using AddEndpoints to remove endpoints instead: o It's more convenient, because you only need to specify the endpoints that you want to remove. With the UpdateEndpointGroup API operation, you must specify all of the endpoints in...
+    /// Remove endpoints from an endpoint group. The RemoveEndpoints API operation is the recommended option for removing endpoints. The alternative is to remove endpoints by updating an endpoint group by using the UpdateEndpointGroup API operation. There are two advantages to using AddEndpoints to remove endpoints instead: • It's more convenient, because you only need to specify the endpoints that you want to remove. With the UpdateEndpointGroup API operation, you must specify all of the endpoints in t...
     /// </summary>
-    /// <param name="EndpointIdentifiers">The identifiers of the endpoints that you want to remove. Constraints: o min: 1 o max: 10 (structure) A complex type for an endpoint. Specifies information about the endpoint to remove from the endpoint group. EndpointId -&gt; (string) [required] An ID for the endpoint. If the endpoint is a Network Load Balancer or Application Load Balancer, this is the Amazon Re- source Name (ARN) of the resource. If the endpoint is an Elastic IP address, this is the Elastic IP address allocation ID. For Amazon EC2 instances, this is the EC2 instance ID. An Application Load Balancer can be either internal or inter- net-facing. Constraints: o max: 255 ClientIPPreservationEnabled -&gt; (boolean) Indicates whether client IP address preservation is enabled for an endpoint. The value is true or false. If the value is set to true, the client's IP address is pre- served in the X-Forwarded-For request header as traffic trav- els to applications on the endpoint fronted by the accelera- tor. Shorthand Syntax: EndpointId=string,ClientIPPreservationEnabled=boolean ... JSON Syntax: [ { "EndpointId": "string", "ClientIPPreservationEnabled": true|false } ... ]</param>
-    /// <param name="EndpointGroupArn">The Amazon Resource Name (ARN) of the endpoint group. Constraints: o max: 255</param>
+    /// <param name="EndpointIdentifiers">The identifiers of the endpoints that you want to remove. Constraints: • min: 1 • max: 10 (structure) A complex type for an endpoint. Specifies information about the endpoint to remove from the endpoint group. EndpointId -&gt; (string) [required] An ID for the endpoint. If the endpoint is a Network Load Balancer or Application Load Balancer, this is the Amazon Resource Name (ARN) of the resource. If the endpoint is an Elastic IP address, this is the Elastic IP address allocation ID. For Amazon EC2 instances, this is the EC2 instance ID. An Application Load Balancer can be either internal or internet-facing. Constraints: • max: 255 ClientIPPreservationEnabled -&gt; (boolean) Indicates whether client IP address preservation is enabled for an endpoint. The value is true or false. If the value is set to true, the client's IP address is preserved in the X-Forwarded-For request header as traffic travels to applications on the endpoint fronted by the accelerator. Shorthand Syntax: EndpointId=string,ClientIPPreservationEnabled=boolean ... JSON Syntax: [ { "EndpointId": "string", "ClientIPPreservationEnabled": true|false } ... ]</param>
+    /// <param name="EndpointGroupArn">The Amazon Resource Name (ARN) of the endpoint group. Constraints: • max: 255</param>
     public AwsGlobalacceleratorRemoveEndpointsOptions(
         IEnumerable<string> EndpointIdentifiers,
         string EndpointGroupArn
@@ -71,13 +72,13 @@ public record AwsGlobalacceleratorRemoveEndpointsOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifiers of the endpoints that you want to remove. Constraints: o min: 1 o max: 10 (structure) A complex type for an endpoint. Specifies information about the endpoint to remove from the endpoint group. EndpointId -&gt; (string) [required] An ID for the endpoint. If the endpoint is a Network Load Balancer or Application Load Balancer, this is the Amazon Re- source Name (ARN) of the resource. If the endpoint is an Elastic IP address, this is the Elastic IP address allocation ID. For Amazon EC2 instances, this is the EC2 instance ID. An Application Load Balancer can be either internal or inter- net-facing. Constraints: o max: 255 ClientIPPreservationEnabled -&gt; (boolean) Indicates whether client IP address preservation is enabled for an endpoint. The value is true or false. If the value is set to true, the client's IP address is pre- served in the X-Forwarded-For request header as traffic trav- els to applications on the endpoint fronted by the accelera- tor. Shorthand Syntax: EndpointId=string,ClientIPPreservationEnabled=boolean ... JSON Syntax: [ { "EndpointId": "string", "ClientIPPreservationEnabled": true|false } ... ]
+    /// The identifiers of the endpoints that you want to remove. Constraints: • min: 1 • max: 10 (structure) A complex type for an endpoint. Specifies information about the endpoint to remove from the endpoint group. EndpointId -&gt; (string) [required] An ID for the endpoint. If the endpoint is a Network Load Balancer or Application Load Balancer, this is the Amazon Resource Name (ARN) of the resource. If the endpoint is an Elastic IP address, this is the Elastic IP address allocation ID. For Amazon EC2 instances, this is the EC2 instance ID. An Application Load Balancer can be either internal or internet-facing. Constraints: • max: 255 ClientIPPreservationEnabled -&gt; (boolean) Indicates whether client IP address preservation is enabled for an endpoint. The value is true or false. If the value is set to true, the client's IP address is preserved in the X-Forwarded-For request header as traffic travels to applications on the endpoint fronted by the accelerator. Shorthand Syntax: EndpointId=string,ClientIPPreservationEnabled=boolean ... JSON Syntax: [ { "EndpointId": "string", "ClientIPPreservationEnabled": true|false } ... ]
     /// </summary>
     [CliOption("--endpoint-identifiers", GroupValues = true)]
     public IEnumerable<string>? EndpointIdentifiers { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the endpoint group. Constraints: o max: 255
+    /// The Amazon Resource Name (ARN) of the endpoint group. Constraints: • max: 255
     /// </summary>
     [CliOption("--endpoint-group-arn")]
     public string? EndpointGroupArn { get; private init; }
@@ -103,6 +104,15 @@ public record AwsGlobalacceleratorRemoveEndpointsOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

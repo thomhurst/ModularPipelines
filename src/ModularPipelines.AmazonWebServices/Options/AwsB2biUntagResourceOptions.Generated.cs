@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsB2biUntagResourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Detaches a key-value pair from the specified resource, as identified by its Amazon Resource Name (ARN). Resources are capability, partnership, profile, transformers and other entities. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">Specifies an Amazon Resource Name (ARN) for a specific Amazon Web Services resource, such as a capability, partnership, profile, or transformer. Constraints: o min: 1 o max: 1011</param>
-    /// <param name="TagKeys">Specifies the key-value pairs assigned to ARNs that you can use to group and search for resources by type. You can attach this metadata to resources (capabilities, partnerships, and so on) for any pur- pose. Constraints: o min: 0 o max: 200 (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArn">Specifies an Amazon Resource Name (ARN) for a specific Amazon Web Services resource, such as a capability, partnership, profile, or transformer. Constraints: • min: 1 • max: 1011</param>
+    /// <param name="TagKeys">Specifies the key-value pairs assigned to ARNs that you can use to group and search for resources by type. You can attach this metadata to resources (capabilities, partnerships, and so on) for any purpose. Constraints: • min: 0 • max: 200 (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...</param>
     public AwsB2biUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -71,13 +72,13 @@ public record AwsB2biUntagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies an Amazon Resource Name (ARN) for a specific Amazon Web Services resource, such as a capability, partnership, profile, or transformer. Constraints: o min: 1 o max: 1011
+    /// Specifies an Amazon Resource Name (ARN) for a specific Amazon Web Services resource, such as a capability, partnership, profile, or transformer. Constraints: • min: 1 • max: 1011
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// Specifies the key-value pairs assigned to ARNs that you can use to group and search for resources by type. You can attach this metadata to resources (capabilities, partnerships, and so on) for any pur- pose. Constraints: o min: 0 o max: 200 (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...
+    /// Specifies the key-value pairs assigned to ARNs that you can use to group and search for resources by type. You can attach this metadata to resources (capabilities, partnerships, and so on) for any purpose. Constraints: • min: 0 • max: 200 (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }
@@ -103,6 +104,15 @@ public record AwsB2biUntagResourceOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

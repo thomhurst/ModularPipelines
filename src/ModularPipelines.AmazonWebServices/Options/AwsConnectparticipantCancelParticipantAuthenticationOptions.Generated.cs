@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Cancels the authentication session. The opted out branch of the Authen- ticate Customer flow block will be taken. NOTE: The current supported channel is chat. This API is not supported for Apple Messages for Business, WhatsApp, or SMS chats. NOTE: ConnectionToken is used for invoking this API instead of Partici- pantToken . The Amazon Connect Participant Service APIs do not use Signature Ver- sion 4 authentication . See also: AWS API Documentation
+/// Cancels the authentication session. The opted out branch of the Authenticate Customer flow block will be taken. NOTE: The current supported channel is chat. This API is not supported for Apple Messages for Business, WhatsApp, or SMS chats. NOTE: ConnectionToken is used for invoking this API instead of ParticipantToken . The Amazon Connect Participant Service APIs do not use Signature Version 4 authentication . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsConnectparticipantCancelParticipantAuthenticationOptions : AwsO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Cancels the authentication session. The opted out branch of the Authen- ticate Customer flow block will be taken. NOTE: The current supported channel is chat. This API is not supported for Apple Messages for Business, WhatsApp, or SMS chats. NOTE: ConnectionToken is used for invoking this API instead of Partici- pantToken . The Amazon Connect Participant Service APIs do not use Signature Ver- sion 4 authentication . See also: AWS API Documentation
+    /// Cancels the authentication session. The opted out branch of the Authenticate Customer flow block will be taken. NOTE: The current supported channel is chat. This API is not supported for Apple Messages for Business, WhatsApp, or SMS chats. NOTE: ConnectionToken is used for invoking this API instead of ParticipantToken . The Amazon Connect Participant Service APIs do not use Signature Version 4 authentication . See also: AWS API Documentation
     /// </summary>
-    /// <param name="SessionId">The sessionId provided in the authenticationInitiated event. Constraints: o min: 36 o max: 36</param>
-    /// <param name="ConnectionToken">The authentication token associated with the participant's connec- tion. Constraints: o min: 1 o max: 1000</param>
+    /// <param name="SessionId">The sessionId provided in the authenticationInitiated event. Constraints: • min: 36 • max: 36</param>
+    /// <param name="ConnectionToken">The authentication token associated with the participant's connection. Constraints: • min: 1 • max: 1000</param>
     public AwsConnectparticipantCancelParticipantAuthenticationOptions(
         string SessionId,
         string ConnectionToken
@@ -61,13 +62,13 @@ public record AwsConnectparticipantCancelParticipantAuthenticationOptions : AwsO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The sessionId provided in the authenticationInitiated event. Constraints: o min: 36 o max: 36
+    /// The sessionId provided in the authenticationInitiated event. Constraints: • min: 36 • max: 36
     /// </summary>
     [CliOption("--session-id")]
     public string? SessionId { get; private init; }
 
     /// <summary>
-    /// The authentication token associated with the participant's connec- tion. Constraints: o min: 1 o max: 1000
+    /// The authentication token associated with the participant's connection. Constraints: • min: 1 • max: 1000
     /// </summary>
     [SecretValue]
     [CliOption("--connection-token")]
@@ -94,6 +95,15 @@ public record AwsConnectparticipantCancelParticipantAuthenticationOptions : AwsO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

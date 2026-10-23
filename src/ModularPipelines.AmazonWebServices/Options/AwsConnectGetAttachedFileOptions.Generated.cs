@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsConnectGetAttachedFileOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Provides a pre-signed URL for download of an approved attached file. This API also returns metadata about the attached file. It will only return a downloadURL if the status of the attached file is APPROVED . See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The unique identifier of the Connect Customer instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="FileId">The unique identifier of the attached file resource. Constraints: o min: 1 o max: 256</param>
+    /// <param name="InstanceId">The unique identifier of the Connect Customer instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="FileId">The unique identifier of the attached file resource. Constraints: • min: 1 • max: 256</param>
     /// <param name="AssociatedResourceArn">The resource to which the attached file is (being) uploaded to. The supported resources are Cases , Email , and Task . NOTE: This value must be a valid ARN.</param>
     public AwsConnectGetAttachedFileOptions(
         string InstanceId,
@@ -64,13 +65,13 @@ public record AwsConnectGetAttachedFileOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the Connect Customer instance. Constraints: o min: 1 o max: 100
+    /// The unique identifier of the Connect Customer instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the attached file resource. Constraints: o min: 1 o max: 256
+    /// The unique identifier of the attached file resource. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--file-id")]
     public string? FileId { get; private init; }
@@ -82,7 +83,7 @@ public record AwsConnectGetAttachedFileOptions : AwsOptions, IValidatableObject
     public string? AssociatedResourceArn { get; private init; }
 
     /// <summary>
-    /// Optional override for the expiry of the pre-signed S3 URL in sec- onds. The default value is 300. Constraints: o min: 5 o max: 300
+    /// Optional override for the expiry of the pre-signed S3 URL in seconds. The default value is 300. Constraints: • min: 5 • max: 300
     /// </summary>
     [CliOption("--url-expiry-in-seconds")]
     public int? UrlExpiryInSeconds { get; set; }
@@ -108,6 +109,15 @@ public record AwsConnectGetAttachedFileOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

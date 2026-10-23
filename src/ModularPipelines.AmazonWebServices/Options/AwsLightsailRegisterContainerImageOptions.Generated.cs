@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Registers a container image to your Amazon Lightsail container service. NOTE: This action is not required if you install and use the Lightsail Control (lightsailctl) plugin to push container images to your Lightsail container service. For more information, see Pushing and managing container images on your Amazon Lightsail container ser- vices in the Amazon Lightsail Developer Guide . See also: AWS API Documentation
+/// Registers a container image to your Amazon Lightsail container service. NOTE: This action is not required if you install and use the Lightsail Control (lightsailctl) plugin to push container images to your Lightsail container service. For more information, see Pushing and managing container images on your Amazon Lightsail container services in the Amazon Lightsail Developer Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsLightsailRegisterContainerImageOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Registers a container image to your Amazon Lightsail container service. NOTE: This action is not required if you install and use the Lightsail Control (lightsailctl) plugin to push container images to your Lightsail container service. For more information, see Pushing and managing container images on your Amazon Lightsail container ser- vices in the Amazon Lightsail Developer Guide . See also: AWS API Documentation
+    /// Registers a container image to your Amazon Lightsail container service. NOTE: This action is not required if you install and use the Lightsail Control (lightsailctl) plugin to push container images to your Lightsail container service. For more information, see Pushing and managing container images on your Amazon Lightsail container services in the Amazon Lightsail Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ServiceName">The name of the container service for which to register a container image. Constraints: o min: 1 o max: 63 o pattern: ^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$</param>
-    /// <param name="Label">The label for the container image when it's registered to the con- tainer service. Use a descriptive label that you can use to track the different ver- sions of your registered container images. Use the GetContainerImages action to return the container images registered to a Lightsail container service. The label is the &lt;im- agelabel&gt; portion of the following image name example: o :container-service-1.&lt;imagelabel&gt;.1 If the name of your container service is mycontainerservice , and the label that you specify is mystaticwebsite , then the name of the registered container image will be :mycontainerservice.mystaticweb- site.1 . The number at the end of these image name examples represents the version of the registered container image. If you push and register another container image to the same Lightsail container service, with the same label, then the version number for the new registered container image will be 2 . If you push and register another con- tainer image, the version number will be 3 , and so on. Constraints: o min: 1 o max: 53 o pattern: ^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$</param>
+    /// <param name="ServiceName">The name of the container service for which to register a container image. Constraints: • min: 1 • max: 63 • pattern: ^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$</param>
+    /// <param name="Label">The label for the container image when it's registered to the container service. Use a descriptive label that you can use to track the different versions of your registered container images. Use the GetContainerImages action to return the container images registered to a Lightsail container service. The label is the &lt;imagelabel&gt; portion of the following image name example: • :container-service-1.&lt;imagelabel&gt;.1 If the name of your container service is mycontainerservice , and the label that you specify is mystaticwebsite , then the name of the registered container image will be :mycontainerservice.mystaticwebsite.1 . The number at the end of these image name examples represents the version of the registered container image. If you push and register another container image to the same Lightsail container service, with the same label, then the version number for the new registered container image will be 2 . If you push and register another container image, the version number will be 3 , and so on. Constraints: • min: 1 • max: 53 • pattern: ^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$</param>
     /// <param name="Digest">The digest of the container image to be registered.</param>
     public AwsLightsailRegisterContainerImageOptions(
         string ServiceName,
@@ -64,13 +65,13 @@ public record AwsLightsailRegisterContainerImageOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the container service for which to register a container image. Constraints: o min: 1 o max: 63 o pattern: ^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$
+    /// The name of the container service for which to register a container image. Constraints: • min: 1 • max: 63 • pattern: ^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$
     /// </summary>
     [CliOption("--service-name")]
     public string? ServiceName { get; private init; }
 
     /// <summary>
-    /// The label for the container image when it's registered to the con- tainer service. Use a descriptive label that you can use to track the different ver- sions of your registered container images. Use the GetContainerImages action to return the container images registered to a Lightsail container service. The label is the &lt;im- agelabel&gt; portion of the following image name example: o :container-service-1.&lt;imagelabel&gt;.1 If the name of your container service is mycontainerservice , and the label that you specify is mystaticwebsite , then the name of the registered container image will be :mycontainerservice.mystaticweb- site.1 . The number at the end of these image name examples represents the version of the registered container image. If you push and register another container image to the same Lightsail container service, with the same label, then the version number for the new registered container image will be 2 . If you push and register another con- tainer image, the version number will be 3 , and so on. Constraints: o min: 1 o max: 53 o pattern: ^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$
+    /// The label for the container image when it's registered to the container service. Use a descriptive label that you can use to track the different versions of your registered container images. Use the GetContainerImages action to return the container images registered to a Lightsail container service. The label is the &lt;imagelabel&gt; portion of the following image name example: • :container-service-1.&lt;imagelabel&gt;.1 If the name of your container service is mycontainerservice , and the label that you specify is mystaticwebsite , then the name of the registered container image will be :mycontainerservice.mystaticwebsite.1 . The number at the end of these image name examples represents the version of the registered container image. If you push and register another container image to the same Lightsail container service, with the same label, then the version number for the new registered container image will be 2 . If you push and register another container image, the version number will be 3 , and so on. Constraints: • min: 1 • max: 53 • pattern: ^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$
     /// </summary>
     [CliOption("--label")]
     public string? Label { get; private init; }
@@ -102,6 +103,15 @@ public record AwsLightsailRegisterContainerImageOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

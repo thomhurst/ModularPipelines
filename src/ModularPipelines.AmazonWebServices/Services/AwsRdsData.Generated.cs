@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws rdsdata commands.
+/// aws rds-data commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsRdsData : IAwsRdsData
@@ -32,7 +32,7 @@ public class AwsRdsData : IAwsRdsData
     #region Commands
 
     /// <summary>
-    /// Runs a batch SQL statement over an array of data. You can run bulk update and insert operations for multiple records us- ing a DML statement with different parameter sets. Bulk operations can provide a significant performance improvement over individual insert and update operations. NOTE: If a call isn't part of a transaction because it doesn't include the transactionID parameter, changes that result from the call are com- mitted automatically. There isn't a fixed upper limit on the number of pa...
+    /// Runs a batch SQL statement over an array of data. You can run bulk update and insert operations for multiple records using a DML statement with different parameter sets. Bulk operations can provide a significant performance improvement over individual insert and update operations. NOTE: If a call isn't part of a transaction because it doesn't include the transactionID parameter, changes that result from the call are committed automatically. There isn't a fixed upper limit on the number of parame...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsRdsData : IAwsRdsData
     }
 
     /// <summary>
-    /// Starts a SQL transaction. NOTE: A transaction can run for a maximum of 24 hours. A transaction is terminated and rolled back automatically after 24 hours. A transaction times out if no calls use its transaction ID in three minutes. If a transaction times out before it's committed, it's rolled back automatically. For Aurora MySQL, DDL statements inside a transaction cause an im- plicit commit. We recommend that you run each MySQL DDL statement in a separate ExecuteStatement call with continueAfte...
+    /// Starts a SQL transaction. NOTE: A transaction can run for a maximum of 24 hours. A transaction is terminated and rolled back automatically after 24 hours. A transaction times out if no calls use its transaction ID in three minutes. If a transaction times out before it's committed, it's rolled back automatically. For Aurora MySQL, DDL statements inside a transaction cause an implicit commit. We recommend that you run each MySQL DDL statement in a separate ExecuteStatement call with continueAfterT...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsRdsData : IAwsRdsData
     }
 
     /// <summary>
-    /// Runs a SQL statement against a database. NOTE: If a call isn't part of a transaction because it doesn't include the transactionID parameter, changes that result from the call are com- mitted automatically. If the binary response data from the database is more than 1 MB, the call is terminated. See also: AWS API Documentation
+    /// Runs a SQL statement against a database. NOTE: If a call isn't part of a transaction because it doesn't include the transactionID parameter, changes that result from the call are committed automatically. If the binary response data from the database is more than 1 MB, the call is terminated. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsRdsData : IAwsRdsData
     }
 
     /// <summary>
-    /// Performs a rollback of a transaction. Rolling back a transaction can- cels its changes. See also: AWS API Documentation
+    /// Performs a rollback of a transaction. Rolling back a transaction cancels its changes. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

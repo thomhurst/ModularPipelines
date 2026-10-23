@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the current status of a query for the Network Flow Monitor query interface, for a specified query ID and monitor. This call re- turns the query status for the top contributors data for workload in- sights. When you start a query, use this call to check the status of the query to make sure that it has has SUCCEEDED before you review the results. Use the same query ID that you used for the corresponding API call to start the query, StartQueryWorkloadInsightsTopContributorsData . Top contri...
+/// Returns the current status of a query for the Network Flow Monitor query interface, for a specified query ID and monitor. This call returns the query status for the top contributors data for workload insights. When you start a query, use this call to check the status of the query to make sure that it has has SUCCEEDED before you review the results. Use the same query ID that you used for the corresponding API call to start the query, StartQueryWorkloadInsightsTopContributorsData . Top contributo...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsNetworkflowmonitorGetQueryStatusWorkloadInsightsTopContributors
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the current status of a query for the Network Flow Monitor query interface, for a specified query ID and monitor. This call re- turns the query status for the top contributors data for workload in- sights. When you start a query, use this call to check the status of the query to make sure that it has has SUCCEEDED before you review the results. Use the same query ID that you used for the corresponding API call to start the query, StartQueryWorkloadInsightsTopContributorsData . Top contri...
+    /// Returns the current status of a query for the Network Flow Monitor query interface, for a specified query ID and monitor. This call returns the query status for the top contributors data for workload insights. When you start a query, use this call to check the status of the query to make sure that it has has SUCCEEDED before you review the results. Use the same query ID that you used for the corresponding API call to start the query, StartQueryWorkloadInsightsTopContributorsData . Top contributo...
     /// </summary>
-    /// <param name="ScopeId">The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identi- fier that includes all the resources for a specific root account. A scope ID is returned from a CreateScope API call.</param>
+    /// <param name="ScopeId">The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account. A scope ID is returned from a CreateScope API call.</param>
     /// <param name="QueryId">The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to start a query.</param>
     public AwsNetworkflowmonitorGetQueryStatusWorkloadInsightsTopContributorsDataOptions(
         string ScopeId,
@@ -60,7 +61,7 @@ public record AwsNetworkflowmonitorGetQueryStatusWorkloadInsightsTopContributors
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identi- fier that includes all the resources for a specific root account. A scope ID is returned from a CreateScope API call.
+    /// The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account. A scope ID is returned from a CreateScope API call.
     /// </summary>
     [CliOption("--scope-id")]
     public string? ScopeId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsNetworkflowmonitorGetQueryStatusWorkloadInsightsTopContributors
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

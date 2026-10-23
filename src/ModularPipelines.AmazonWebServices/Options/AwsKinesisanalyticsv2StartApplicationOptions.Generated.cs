@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Starts the specified Managed Service for Apache Flink application. Af- ter creating an application, you must exclusively call this operation to start your application. See also: AWS API Documentation
+/// Starts the specified Managed Service for Apache Flink application. After creating an application, you must exclusively call this operation to start your application. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsKinesisanalyticsv2StartApplicationOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Starts the specified Managed Service for Apache Flink application. Af- ter creating an application, you must exclusively call this operation to start your application. See also: AWS API Documentation
+    /// Starts the specified Managed Service for Apache Flink application. After creating an application, you must exclusively call this operation to start your application. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationName">The name of the application. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="ApplicationName">The name of the application. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+</param>
     public AwsKinesisanalyticsv2StartApplicationOptions(
         string ApplicationName
     )
@@ -56,13 +57,13 @@ public record AwsKinesisanalyticsv2StartApplicationOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the application. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
+    /// The name of the application. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--application-name")]
     public string? ApplicationName { get; private init; }
 
     /// <summary>
-    /// Identifies the run configuration (start parameters) of a Managed Service for Apache Flink application. FlinkRunConfiguration -&gt; (structure) Describes the starting parameters for a Managed Service for Apache Flink application. AllowNonRestoredState -&gt; (boolean) When restoring from a snapshot, specifies whether the runtime is allowed to skip a state that cannot be mapped to the new program. This will happen if the program is updated between snapshots to remove stateful parameters, and state data in the snapshot no longer corresponds to valid application data. For more information, see Allowing Non-Restored State in the Apache Flink documentation . NOTE: This value defaults to false . If you update your appli- cation without specifying this parameter, AllowNonRe- storedState will be set to false , even if it was previ- ously set to true . SqlRunConfigurations -&gt; (list) Describes the starting parameters for a SQL-based Kinesis Data Analytics application application. (structure) Describes the starting parameters for a SQL-based Kinesis Data Analytics application. InputId -&gt; (string) [required] The input source ID. You can get this ID by calling the DescribeApplication operation. Constraints: o min: 1 o max: 50 o pattern: [a-zA-Z0-9_.-]+ InputStartingPositionConfiguration -&gt; (structure) [required] The point at which you want the application to start pro- cessing records from the streaming source. InputStartingPosition -&gt; (string) The starting position on the stream. o NOW - Start reading just after the most recent record in the stream, and start at the request time- stamp that the customer issued. o TRIM_HORIZON - Start reading at the last untrimmed record in the stream, which is the oldest record available in the stream. This option is not avail- able for an Amazon Kinesis Data Firehose delivery stream. o LAST_STOPPED_POINT - Resume reading from where the application last stopped reading. Possible values: o NOW o TRIM_HORIZON o LAST_STOPPED_POINT ApplicationRestoreConfiguration -&gt; (structure) Describes the restore behavior of a restarting application. ApplicationRestoreType -&gt; (string) [required] Specifies how the application should be restored. Possible values: o SKIP_RESTORE_FROM_SNAPSHOT o RESTORE_FROM_LATEST_SNAPSHOT o RESTORE_FROM_CUSTOM_SNAPSHOT SnapshotName -&gt; (string) The identifier of an existing snapshot of application state to use to restart an application. The application uses this value if RESTORE_FROM_CUSTOM_SNAPSHOT is specified for the ApplicationRestoreType . Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_.-]+ JSON Syntax: { "FlinkRunConfiguration": { "AllowNonRestoredState": true|false }, "SqlRunConfigurations": [ { "InputId": "string", "InputStartingPositionConfiguration": { "InputStartingPosition": "NOW"|"TRIM_HORIZON"|"LAST_STOPPED_POINT" } } ... ], "ApplicationRestoreConfiguration": { "ApplicationRestoreType": "SKIP_RESTORE_FROM_SNAPSHOT"|"RESTORE_FROM_LATEST_SNAPSHOT"|"RESTORE_FROM_CUSTOM_SNAPSHOT", "SnapshotName": "string" } }
+    /// Identifies the run configuration (start parameters) of a Managed Service for Apache Flink application. FlinkRunConfiguration -&gt; (structure) Describes the starting parameters for a Managed Service for Apache Flink application. AllowNonRestoredState -&gt; (boolean) When restoring from a snapshot, specifies whether the runtime is allowed to skip a state that cannot be mapped to the new program. This will happen if the program is updated between snapshots to remove stateful parameters, and state data in the snapshot no longer corresponds to valid application data. For more information, see Allowing Non-Restored State in the Apache Flink documentation . NOTE: This value defaults to false . If you update your application without specifying this parameter, AllowNonRestoredState will be set to false , even if it was previously set to true . SqlRunConfigurations -&gt; (list) Describes the starting parameters for a SQL-based Kinesis Data Analytics application application. (structure) Describes the starting parameters for a SQL-based Kinesis Data Analytics application. InputId -&gt; (string) [required] The input source ID. You can get this ID by calling the DescribeApplication operation. Constraints: • min: 1 • max: 50 • pattern: [a-zA-Z0-9_.-]+ InputStartingPositionConfiguration -&gt; (structure) [required] The point at which you want the application to start processing records from the streaming source. InputStartingPosition -&gt; (string) The starting position on the stream. • NOW - Start reading just after the most recent record in the stream, and start at the request timestamp that the customer issued. • TRIM_HORIZON - Start reading at the last untrimmed record in the stream, which is the oldest record available in the stream. This option is not available for an Amazon Kinesis Data Firehose delivery stream. • LAST_STOPPED_POINT - Resume reading from where the application last stopped reading. Possible values: • NOW • TRIM_HORIZON • LAST_STOPPED_POINT ApplicationRestoreConfiguration -&gt; (structure) Describes the restore behavior of a restarting application. ApplicationRestoreType -&gt; (string) [required] Specifies how the application should be restored. Possible values: • SKIP_RESTORE_FROM_SNAPSHOT • RESTORE_FROM_LATEST_SNAPSHOT • RESTORE_FROM_CUSTOM_SNAPSHOT SnapshotName -&gt; (string) The identifier of an existing snapshot of application state to use to restart an application. The application uses this value if RESTORE_FROM_CUSTOM_SNAPSHOT is specified for the ApplicationRestoreType . Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_.-]+ JSON Syntax: { "FlinkRunConfiguration": { "AllowNonRestoredState": true|false }, "SqlRunConfigurations": [ { "InputId": "string", "InputStartingPositionConfiguration": { "InputStartingPosition": "NOW"|"TRIM_HORIZON"|"LAST_STOPPED_POINT" } } ... ], "ApplicationRestoreConfiguration": { "ApplicationRestoreType": "SKIP_RESTORE_FROM_SNAPSHOT"|"RESTORE_FROM_LATEST_SNAPSHOT"|"RESTORE_FROM_CUSTOM_SNAPSHOT", "SnapshotName": "string" } }
     /// </summary>
     [CliOption("--run-configuration")]
     public string? RunConfiguration { get; set; }
@@ -88,6 +89,15 @@ public record AwsKinesisanalyticsv2StartApplicationOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

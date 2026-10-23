@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,10 +29,10 @@ public record AwsNovaActCreateActOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a new AI task (act) within a session that can interact with tools and perform specific actions. See also: AWS API Documentation create-act uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
-    /// <param name="WorkflowDefinitionName">The name of the workflow definition containing the session. Constraints: o min: 1 o max: 40 o pattern: [a-zA-Z0-9_-]{1,40}</param>
-    /// <param name="WorkflowRunId">The unique identifier of the workflow run containing the session. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
-    /// <param name="SessionId">The unique identifier of the session to create the act in. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
-    /// <param name="Task">The task description that defines what the act should accomplish. Constraints: o min: 1 o max: 10000</param>
+    /// <param name="WorkflowDefinitionName">The name of the workflow definition containing the session. Constraints: • min: 1 • max: 40 • pattern: [a-zA-Z0-9_-]{1,40}</param>
+    /// <param name="WorkflowRunId">The unique identifier of the workflow run containing the session. Constraints: • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="SessionId">The unique identifier of the session to create the act in. Constraints: • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="Task">The task description that defines what the act should accomplish. Constraints: • min: 1 • max: 10000</param>
     public AwsNovaActCreateActOptions(
         string WorkflowDefinitionName,
         string WorkflowRunId,
@@ -69,37 +70,37 @@ public record AwsNovaActCreateActOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the workflow definition containing the session. Constraints: o min: 1 o max: 40 o pattern: [a-zA-Z0-9_-]{1,40}
+    /// The name of the workflow definition containing the session. Constraints: • min: 1 • max: 40 • pattern: [a-zA-Z0-9_-]{1,40}
     /// </summary>
     [CliOption("--workflow-definition-name")]
     public string? WorkflowDefinitionName { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the workflow run containing the session. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The unique identifier of the workflow run containing the session. Constraints: • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--workflow-run-id")]
     public string? WorkflowRunId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the session to create the act in. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The unique identifier of the session to create the act in. Constraints: • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--session-id")]
     public string? SessionId { get; private init; }
 
     /// <summary>
-    /// The task description that defines what the act should accomplish. Constraints: o min: 1 o max: 10000
+    /// The task description that defines what the act should accomplish. Constraints: • min: 1 • max: 10000
     /// </summary>
     [CliOption("--task")]
     public string? Task { get; private init; }
 
     /// <summary>
-    /// A list of tool specifications that the act can invoke to complete its task. Constraints: o min: 0 o max: 100 (structure) Specification for a tool that acts can invoke, including its name, description, and input schema. name -&gt; (string) [required] The unique name of the tool that acts will use to invoke it. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+ description -&gt; (string) [required] A description of what the tool does and how it should be used. Constraints: o min: 1 o max: 10000 inputSchema -&gt; (tagged union structure) [required] The JSON schema that defines the expected input format for the tool. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: json. json -&gt; (document) The JSON schema that defines the expected input format for the tool. Shorthand Syntax: name=string,description=string,inputSchema={} ... JSON Syntax: [ { "name": "string", "description": "string", "inputSchema": { "json": {...} } } ... ]
+    /// A list of tool specifications that the act can invoke to complete its task. Constraints: • min: 0 • max: 100 (structure) Specification for a tool that acts can invoke, including its name, description, and input schema. name -&gt; (string) [required] The unique name of the tool that acts will use to invoke it. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+ description -&gt; (string) [required] A description of what the tool does and how it should be used. Constraints: • min: 1 • max: 10000 inputSchema -&gt; (tagged union structure) [required] The JSON schema that defines the expected input format for the tool. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: json. json -&gt; (document) The JSON schema that defines the expected input format for the tool. Shorthand Syntax: name=string,description=string,inputSchema={} ... JSON Syntax: [ { "name": "string", "description": "string", "inputSchema": { "json": {...} } } ... ]
     /// </summary>
     [CliOption("--tool-specs", GroupValues = true)]
     public IEnumerable<string>? ToolSpecs { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 33 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: • min: 33 • max: 256 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -126,6 +127,15 @@ public record AwsNovaActCreateActOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

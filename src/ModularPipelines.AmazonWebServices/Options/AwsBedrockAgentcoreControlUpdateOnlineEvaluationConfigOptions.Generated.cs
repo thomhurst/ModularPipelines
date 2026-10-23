@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates an online evaluation configuration's settings, including rules, data sources, evaluators, and execution status. Changes take effect im- mediately for ongoing evaluations. See also: AWS API Documentation
+/// Updates an online evaluation configuration's settings, including rules, data sources, evaluators, and execution status. Changes take effect immediately for ongoing evaluations. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +28,9 @@ public record AwsBedrockAgentcoreControlUpdateOnlineEvaluationConfigOptions : Aw
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates an online evaluation configuration's settings, including rules, data sources, evaluators, and execution status. Changes take effect im- mediately for ongoing evaluations. See also: AWS API Documentation
+    /// Updates an online evaluation configuration's settings, including rules, data sources, evaluators, and execution status. Changes take effect immediately for ongoing evaluations. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OnlineEvaluationConfigId">The unique identifier of the online evaluation configuration to up- date. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}</param>
+    /// <param name="OnlineEvaluationConfigId">The unique identifier of the online evaluation configuration to update. Constraints: • pattern: [a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}</param>
     public AwsBedrockAgentcoreControlUpdateOnlineEvaluationConfigOptions(
         string OnlineEvaluationConfigId
     )
@@ -58,68 +59,68 @@ public record AwsBedrockAgentcoreControlUpdateOnlineEvaluationConfigOptions : Aw
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the online evaluation configuration to up- date. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}
+    /// The unique identifier of the online evaluation configuration to update. Constraints: • pattern: [a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}
     /// </summary>
     [CliOption("--online-evaluation-config-id")]
     public string? OnlineEvaluationConfigId { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previ- ous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency . Constraints: o min: 33 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency . Constraints: • min: 33 • max: 256 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The updated description of the online evaluation configuration. Constraints: o min: 1 o max: 200 o pattern: .+
+    /// The updated description of the online evaluation configuration. Constraints: • min: 1 • max: 200 • pattern: .+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The updated evaluation rule containing sampling configuration, fil- ters, and session settings. samplingConfig -&gt; (structure) [required] The sampling configuration that determines what percentage of agent traces to evaluate. samplingPercentage -&gt; (double) [required] The percentage of agent traces to sample for evaluation, ranging from 0.01% to 100%. Constraints: o min: 0.01 o max: 100.0 filters -&gt; (list) The list of filters that determine which agent traces should be included in the evaluation based on trace properties. Constraints: o min: 0 o max: 5 (structure) The filter that applies conditions to agent traces during on- line evaluation to determine which traces should be evalu- ated. key -&gt; (string) [required] The key or field name to filter on within the agent trace data. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._-]+ operator -&gt; (string) [required] The comparison operator to use for filtering. Possible values: o Equals o NotEquals o GreaterThan o LessThan o GreaterThanOrEqual o LessThanOrEqual o Contains o NotContains value -&gt; (tagged union structure) [required] The value to compare against using the specified opera- tor. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: stringValue, double- Value, booleanValue. stringValue -&gt; (string) The string value for text-based filtering. Constraints: o min: 1 o max: 1024 doubleValue -&gt; (double) The numeric value for numerical filtering and compar- isons. booleanValue -&gt; (boolean) The boolean value for true/false filtering conditions. sessionConfig -&gt; (structure) The session configuration that defines timeout settings for de- tecting when agent sessions are complete and ready for evalua- tion. sessionTimeoutMinutes -&gt; (integer) [required] The number of minutes of inactivity after which an agent ses- sion is considered complete and ready for evaluation. Default is 15 minutes. Constraints: o min: 1 o max: 1440 JSON Syntax: { "samplingConfig": { "samplingPercentage": double }, "filters": [ { "key": "string", "operator": "Equals"|"NotEquals"|"GreaterThan"|"LessThan"|"GreaterThanOrEqual"|"LessThanOrEqual"|"Contains"|"NotContains", "value": { "stringValue": "string", "doubleValue": double, "booleanValue": true|false } } ... ], "sessionConfig": { "sessionTimeoutMinutes": integer } }
+    /// The updated evaluation rule containing sampling configuration, filters, and session settings. samplingConfig -&gt; (structure) [required] The sampling configuration that determines what percentage of agent traces to evaluate. samplingPercentage -&gt; (double) [required] The percentage of agent traces to sample for evaluation, ranging from 0.01% to 100%. Constraints: • min: 0.01 • max: 100.0 filters -&gt; (list) The list of filters that determine which agent traces should be included in the evaluation based on trace properties. Constraints: • min: 0 • max: 5 (structure) The filter that applies conditions to agent traces during online evaluation to determine which traces should be evaluated. key -&gt; (string) [required] The key or field name to filter on within the agent trace data. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9._-]+ operator -&gt; (string) [required] The comparison operator to use for filtering. Possible values: • Equals • NotEquals • GreaterThan • LessThan • GreaterThanOrEqual • LessThanOrEqual • Contains • NotContains value -&gt; (tagged union structure) [required] The value to compare against using the specified operator. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: stringValue, doubleValue, booleanValue. stringValue -&gt; (string) The string value for text-based filtering. Constraints: • min: 1 • max: 1024 doubleValue -&gt; (double) The numeric value for numerical filtering and comparisons. booleanValue -&gt; (boolean) The boolean value for true/false filtering conditions. sessionConfig -&gt; (structure) The session configuration that defines timeout settings for detecting when agent sessions are complete and ready for evaluation. sessionTimeoutMinutes -&gt; (integer) [required] The number of minutes of inactivity after which an agent session is considered complete and ready for evaluation. Default is 15 minutes. Constraints: • min: 1 • max: 1440 JSON Syntax: { "samplingConfig": { "samplingPercentage": double }, "filters": [ { "key": "string", "operator": "Equals"|"NotEquals"|"GreaterThan"|"LessThan"|"GreaterThanOrEqual"|"LessThanOrEqual"|"Contains"|"NotContains", "value": { "stringValue": "string", "doubleValue": double, "booleanValue": true|false } } ... ], "sessionConfig": { "sessionTimeoutMinutes": integer } }
     /// </summary>
     [CliOption("--rule")]
     public string? Rule { get; set; }
 
     /// <summary>
-    /// The updated data source configuration specifying CloudWatch log groups and service names to monitor. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: cloudWatchLogs. cloudWatchLogs -&gt; (structure) The CloudWatch logs configuration for reading agent traces from log groups. logGroupNames -&gt; (list) The list of CloudWatch log group names to monitor for agent traces. Constraints: o min: 0 o max: 10 (string) Constraints: o pattern: [.\-_/#A-Za-z0-9]+ logGroupNamePrefixes -&gt; (list) The list of CloudWatch log group name prefixes to monitor for agent traces. Specify this instead of logGroupNames to match log groups by prefix. Specify either logGroupNames or log- GroupNamePrefixes , not both. One of the two is required. Constraints: o min: 1 o max: 5 (string) Prefix of a CloudWatch Logs log group name. Constraints: o min: 1 o max: 512 o pattern: [.\-_/#A-Za-z0-9]+ serviceNames -&gt; (list) [required] The list of service names to filter traces within the speci- fied log groups. Used to identify relevant agent sessions. Constraints: o min: 1 o max: 1 (string) Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._-]+ Shorthand Syntax: cloudWatchLogs={logGroupNames=[string,string],logGroupNamePrefixes=[string,string],serviceNames=[string,string]} JSON Syntax: { "cloudWatchLogs": { "logGroupNames": ["string", ...], "logGroupNamePrefixes": ["string", ...], "serviceNames": ["string", ...] } }
+    /// The updated data source configuration specifying CloudWatch log groups and service names to monitor. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: cloudWatchLogs. cloudWatchLogs -&gt; (structure) The CloudWatch logs configuration for reading agent traces from log groups. logGroupNames -&gt; (list) The list of CloudWatch log group names to monitor for agent traces. Constraints: • min: 0 • max: 10 (string) Constraints: • pattern: [.\-_/#A-Za-z0-9]+ logGroupNamePrefixes -&gt; (list) The list of CloudWatch log group name prefixes to monitor for agent traces. Specify this instead of logGroupNames to match log groups by prefix. Specify either logGroupNames or logGroupNamePrefixes , not both. One of the two is required. Constraints: • min: 1 • max: 5 (string) Prefix of a CloudWatch Logs log group name. Constraints: • min: 1 • max: 512 • pattern: [.\-_/#A-Za-z0-9]+ serviceNames -&gt; (list) [required] The list of service names to filter traces within the specified log groups. Used to identify relevant agent sessions. Constraints: • min: 1 • max: 1 (string) Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9._-]+ Shorthand Syntax: cloudWatchLogs={logGroupNames=[string,string],logGroupNamePrefixes=[string,string],serviceNames=[string,string]} JSON Syntax: { "cloudWatchLogs": { "logGroupNames": ["string", ...], "logGroupNamePrefixes": ["string", ...], "serviceNames": ["string", ...] } }
     /// </summary>
     [CliOption("--data-source-config")]
     public string? DataSourceConfig { get; set; }
 
     /// <summary>
-    /// The updated list of evaluators to apply during online evaluation. Constraints: o min: 0 o max: 25 (tagged union structure) The reference to an evaluator used in online evaluation configu- rations, containing the evaluator identifier. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: evaluatorId. evaluatorId -&gt; (string) The unique identifier of the evaluator. Can reference builtin evaluators (e.g., Builtin.Helpfulness) or custom evaluators. Constraints: o min: 1 o max: 111 o pattern: (Builtin\.[a-zA-Z0-9._-]+|Third- Party\.[a-zA-Z0-9_-]+\.[a-zA-Z0-9_-]+|[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}) Shorthand Syntax: evaluatorId=string ... JSON Syntax: [ { "evaluatorId": "string" } ... ]
+    /// The updated list of evaluators to apply during online evaluation. Constraints: • min: 0 • max: 25 (tagged union structure) The reference to an evaluator used in online evaluation configurations, containing the evaluator identifier. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: evaluatorId. evaluatorId -&gt; (string) The unique identifier of the evaluator. Can reference builtin evaluators (e.g., Builtin.Helpfulness) or custom evaluators. Constraints: • min: 1 • max: 111 • pattern: (Builtin\.[a-zA-Z0-9._-]+|ThirdParty\.[a-zA-Z0-9_-]+\.[a-zA-Z0-9_-]+|[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}) Shorthand Syntax: evaluatorId=string ... JSON Syntax: [ { "evaluatorId": "string" } ... ]
     /// </summary>
     [CliOption("--evaluators", GroupValues = true)]
     public IEnumerable<string>? Evaluators { get; set; }
 
     /// <summary>
-    /// The updated list of insight types to run against agent sessions. Constraints: o min: 0 o max: 10 (structure) A reference to an insight analysis to run against sessions dur- ing evaluation. Insights provide deeper analysis beyond individ- ual evaluator scores, including failure detection, user intent clustering, and execution summarization. insightId -&gt; (string) [required] The unique identifier of the insight to run. Constraints: o pattern: (Builtin\.[a-zA-Z0-9._-]+|[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}) Shorthand Syntax: insightId=string ... JSON Syntax: [ { "insightId": "string" } ... ]
+    /// The updated list of insight types to run against agent sessions. Constraints: • min: 0 • max: 10 (structure) A reference to an insight analysis to run against sessions during evaluation. Insights provide deeper analysis beyond individual evaluator scores, including failure detection, user intent clustering, and execution summarization. insightId -&gt; (string) [required] The unique identifier of the insight to run. Constraints: • pattern: (Builtin\.[a-zA-Z0-9._-]+|[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}) Shorthand Syntax: insightId=string ... JSON Syntax: [ { "insightId": "string" } ... ]
     /// </summary>
     [CliOption("--insights", GroupValues = true)]
     public IEnumerable<string>? Insights { get; set; }
 
     /// <summary>
-    /// The updated clustering configuration for periodic batch evaluation. frequencies -&gt; (list) [required] The list of frequencies at which clustering batch evaluations are triggered. Constraints: o min: 0 o max: 3 (string) Possible values: o DAILY o WEEKLY o MONTHLY Shorthand Syntax: frequencies=string,string JSON Syntax: { "frequencies": ["DAILY"|"WEEKLY"|"MONTHLY", ...] }
+    /// The updated clustering configuration for periodic batch evaluation. frequencies -&gt; (list) [required] The list of frequencies at which clustering batch evaluations are triggered. Constraints: • min: 0 • max: 3 (string) Possible values: • DAILY • WEEKLY • MONTHLY Shorthand Syntax: frequencies=string,string JSON Syntax: { "frequencies": ["DAILY"|"WEEKLY"|"MONTHLY", ...] }
     /// </summary>
     [CliOption("--clustering-config")]
     public string? ClusteringConfig { get; set; }
 
     /// <summary>
-    /// The configuration that specifies where evaluation results should be written for monitoring and analysis. cloudWatchConfig -&gt; (structure) [required] The CloudWatch configuration for writing evaluation results to CloudWatch logs with embedded metric format. logGroupName -&gt; (string) The name of the CloudWatch log group where evaluation results will be written. An existing log group is used as-is; other- wise the service creates it, which requires the evaluation execution role to grant logs:CreateLogGroup on the log group. Don't specify this value when resultDestination is SOURCE_LOG_GROUP . The name can't be under the service-re- served /aws/bedrock-agentcore/evaluations/ namespace, apart from this configuration's own service-managed default group. Constraints: o pattern: $|^[.\-_/#A-Za-z0-9]+ metricsNamespace -&gt; (string) The CloudWatch metrics namespace where evaluation result met- rics are published. If you omit this value, the service pub- lishes metrics to Bedrock-AgentCore/Evaluations . This value can't begin with AWS/ . Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9._#/:-]+ resultDestination -&gt; (string) The destination where evaluation results are written. Valid values: o DEDICATED_LOG_GROUP (default) Writes results to a dedi- cated result log group. o SOURCE_LOG_GROUP Writes results back to the log group that the agent traces were read from. If you use this value, don't specify logGroupName . Possible values: o DEDICATED_LOG_GROUP o SOURCE_LOG_GROUP Shorthand Syntax: cloudWatchConfig={logGroupName=string,metricsNamespace=string,resultDestination=string} JSON Syntax: { "cloudWatchConfig": { "logGroupName": "string", "metricsNamespace": "string", "resultDestination": "DEDICATED_LOG_GROUP"|"SOURCE_LOG_GROUP" } }
+    /// The configuration that specifies where evaluation results should be written for monitoring and analysis. cloudWatchConfig -&gt; (structure) [required] The CloudWatch configuration for writing evaluation results to CloudWatch logs with embedded metric format. logGroupName -&gt; (string) The name of the CloudWatch log group where evaluation results will be written. An existing log group is used as-is; otherwise the service creates it, which requires the evaluation execution role to grant logs:CreateLogGroup on the log group. Don't specify this value when resultDestination is SOURCE_LOG_GROUP . The name can't be under the service-reserved /aws/bedrock-agentcore/evaluations/ namespace, apart from this configuration's own service-managed default group. Constraints: • pattern: $|^[.\-_/#A-Za-z0-9]+ metricsNamespace -&gt; (string) The CloudWatch metrics namespace where evaluation result metrics are published. If you omit this value, the service publishes metrics to Bedrock-AgentCore/Evaluations . This value can't begin with AWS/ . Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9._#/:-]+ resultDestination -&gt; (string) The destination where evaluation results are written. Valid values: • DEDICATED_LOG_GROUP (default) Writes results to a dedicated result log group. • SOURCE_LOG_GROUP Writes results back to the log group that the agent traces were read from. If you use this value, don't specify logGroupName . Possible values: • DEDICATED_LOG_GROUP • SOURCE_LOG_GROUP Shorthand Syntax: cloudWatchConfig={logGroupName=string,metricsNamespace=string,resultDestination=string} JSON Syntax: { "cloudWatchConfig": { "logGroupName": "string", "metricsNamespace": "string", "resultDestination": "DEDICATED_LOG_GROUP"|"SOURCE_LOG_GROUP" } }
     /// </summary>
     [CliOption("--output-config")]
     public string? OutputConfig { get; set; }
 
     /// <summary>
-    /// The updated Amazon Resource Name (ARN) of the IAM role used for evaluation execution. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(-[^:]+)?:iam::([0-9]{12})?:role/.+
+    /// The updated Amazon Resource Name (ARN) of the IAM role used for evaluation execution. Constraints: • min: 1 • max: 2048 • pattern: arn:aws(-[^:]+)?:iam::([0-9]{12})?:role/.+
     /// </summary>
     [CliOption("--evaluation-execution-role-arn")]
     public string? EvaluationExecutionRoleArn { get; set; }
 
     /// <summary>
-    /// The updated execution status to enable or disable the online evalua- tion. Possible values: o ENABLED o DISABLED
+    /// The updated execution status to enable or disable the online evaluation. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--execution-status")]
     public AwsBedrockAgentcoreControlUpdateOnlineEvaluationConfigExecutionStatus? ExecutionStatus { get; set; }
@@ -145,6 +146,15 @@ public record AwsBedrockAgentcoreControlUpdateOnlineEvaluationConfigOptions : Aw
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

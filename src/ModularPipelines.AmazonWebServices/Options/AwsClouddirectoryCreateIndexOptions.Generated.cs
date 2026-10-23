@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsClouddirectoryCreateIndexOptions : AwsOptions, IValidatableObje
     /// Creates an index object. See Indexing and search for more information. See also: AWS API Documentation
     /// </summary>
     /// <param name="DirectoryArn">The ARN of the directory where the index should be created.</param>
-    /// <param name="OrderedIndexedAttributeList">Specifies the attributes that should be indexed on. Currently only a single attribute is supported. (structure) A unique identifier for an attribute. SchemaArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the schema that contains the facet and attribute. FacetName -&gt; (string) [required] The name of the facet that the attribute exists within. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9._-]*$ Name -&gt; (string) [required] The name of the attribute. Constraints: o min: 1 o max: 230 o pattern: ^[a-zA-Z0-9._:-]*$ Shorthand Syntax: SchemaArn=string,FacetName=string,Name=string ... JSON Syntax: [ { "SchemaArn": "string", "FacetName": "string", "Name": "string" } ... ]</param>
+    /// <param name="OrderedIndexedAttributeList">Specifies the attributes that should be indexed on. Currently only a single attribute is supported. (structure) A unique identifier for an attribute. SchemaArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the schema that contains the facet and attribute. FacetName -&gt; (string) [required] The name of the facet that the attribute exists within. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9._-]*$ Name -&gt; (string) [required] The name of the attribute. Constraints: • min: 1 • max: 230 • pattern: ^[a-zA-Z0-9._:-]*$ Shorthand Syntax: SchemaArn=string,FacetName=string,Name=string ... JSON Syntax: [ { "SchemaArn": "string", "FacetName": "string", "Name": "string" } ... ]</param>
     /// <param name="IsUnique">Indicates whether the attribute that is being indexed has unique values or not.</param>
     public AwsClouddirectoryCreateIndexOptions(
         string DirectoryArn,
@@ -80,7 +81,7 @@ public record AwsClouddirectoryCreateIndexOptions : AwsOptions, IValidatableObje
     public string? DirectoryArn { get; private init; }
 
     /// <summary>
-    /// Specifies the attributes that should be indexed on. Currently only a single attribute is supported. (structure) A unique identifier for an attribute. SchemaArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the schema that contains the facet and attribute. FacetName -&gt; (string) [required] The name of the facet that the attribute exists within. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9._-]*$ Name -&gt; (string) [required] The name of the attribute. Constraints: o min: 1 o max: 230 o pattern: ^[a-zA-Z0-9._:-]*$ Shorthand Syntax: SchemaArn=string,FacetName=string,Name=string ... JSON Syntax: [ { "SchemaArn": "string", "FacetName": "string", "Name": "string" } ... ]
+    /// Specifies the attributes that should be indexed on. Currently only a single attribute is supported. (structure) A unique identifier for an attribute. SchemaArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the schema that contains the facet and attribute. FacetName -&gt; (string) [required] The name of the facet that the attribute exists within. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9._-]*$ Name -&gt; (string) [required] The name of the attribute. Constraints: • min: 1 • max: 230 • pattern: ^[a-zA-Z0-9._:-]*$ Shorthand Syntax: SchemaArn=string,FacetName=string,Name=string ... JSON Syntax: [ { "SchemaArn": "string", "FacetName": "string", "Name": "string" } ... ]
     /// </summary>
     [CliOption("--ordered-indexed-attribute-list", GroupValues = true)]
     public IEnumerable<string>? OrderedIndexedAttributeList { get; private init; }
@@ -92,13 +93,13 @@ public record AwsClouddirectoryCreateIndexOptions : AwsOptions, IValidatableObje
     public bool? IsUnique { get; private init; }
 
     /// <summary>
-    /// A reference to the parent object that contains the index object. Selector -&gt; (string) A path selector supports easy selection of an object by the par- ent/child links leading to it from the directory root. Use the link names from each parent/child link to construct the path. Path selectors start with a slash (/) and link names are sepa- rated by slashes. For more information about paths, see Access Objects . You can identify an object in one of the following ways: o $ObjectIdentifier - An object identifier is an opaque string provided by Amazon Cloud Directory. When creating objects, the system will provide you with the identifier of the created ob- ject. An objects identifier is immutable and no two objects will ever share the same object identifier. To identify an ob- ject with ObjectIdentifier, the ObjectIdentifier must be wrapped in double quotes. o /some/path - Identifies the object based on path o #SomeBatchReference - Identifies the object in a batch call Shorthand Syntax: Selector=string JSON Syntax: { "Selector": "string" }
+    /// A reference to the parent object that contains the index object. Selector -&gt; (string) A path selector supports easy selection of an object by the parent/child links leading to it from the directory root. Use the link names from each parent/child link to construct the path. Path selectors start with a slash (/) and link names are separated by slashes. For more information about paths, see Access Objects . You can identify an object in one of the following ways: • $ObjectIdentifier - An object identifier is an opaque string provided by Amazon Cloud Directory. When creating objects, the system will provide you with the identifier of the created object. An objects identifier is immutable and no two objects will ever share the same object identifier. To identify an object with ObjectIdentifier, the ObjectIdentifier must be wrapped in double quotes. • /some/path - Identifies the object based on path • #SomeBatchReference - Identifies the object in a batch call Shorthand Syntax: Selector=string JSON Syntax: { "Selector": "string" }
     /// </summary>
     [CliOption("--parent-reference")]
     public string? ParentReference { get; set; }
 
     /// <summary>
-    /// The name of the link between the parent object and the index object. Constraints: o min: 1 o max: 64 o pattern: [^\/\[\]\(\):\{\}#@!?\s\\;]+
+    /// The name of the link between the parent object and the index object. Constraints: • min: 1 • max: 64 • pattern: [^\/\[\]\(\):\{\}#@!?\s\\;]+
     /// </summary>
     [CliOption("--link-name")]
     public string? LinkName { get; set; }
@@ -124,6 +125,15 @@ public record AwsClouddirectoryCreateIndexOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

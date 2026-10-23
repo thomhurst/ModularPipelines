@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a previously provisioned cluster without its final snapshot be- ing created. A successful response from the web service indicates that the request was received correctly. Use DescribeClusters to monitor the status of the deletion. The delete operation cannot be canceled or reverted once submitted. For more information about managing clusters, go to Amazon Redshift Clusters in the Amazon Redshift Cluster Manage- ment Guide . If you want to shut down the cluster and retain it for future us...
+/// Deletes a previously provisioned cluster without its final snapshot being created. A successful response from the web service indicates that the request was received correctly. Use DescribeClusters to monitor the status of the deletion. The delete operation cannot be canceled or reverted once submitted. For more information about managing clusters, go to Amazon Redshift Clusters in the Amazon Redshift Cluster Management Guide . If you want to shut down the cluster and retain it for future use, s...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsRedshiftDeleteClusterOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a previously provisioned cluster without its final snapshot be- ing created. A successful response from the web service indicates that the request was received correctly. Use DescribeClusters to monitor the status of the deletion. The delete operation cannot be canceled or reverted once submitted. For more information about managing clusters, go to Amazon Redshift Clusters in the Amazon Redshift Cluster Manage- ment Guide . If you want to shut down the cluster and retain it for future us...
+    /// Deletes a previously provisioned cluster without its final snapshot being created. A successful response from the web service indicates that the request was received correctly. Use DescribeClusters to monitor the status of the deletion. The delete operation cannot be canceled or reverted once submitted. For more information about managing clusters, go to Amazon Redshift Clusters in the Amazon Redshift Cluster Management Guide . If you want to shut down the cluster and retain it for future use, s...
     /// </summary>
-    /// <param name="ClusterIdentifier">The identifier of the cluster to be deleted. Constraints: o Must contain lowercase characters. o Must contain from 1 to 63 alphanumeric characters or hyphens. o First character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. Constraints: o max: 2147483647</param>
+    /// <param name="ClusterIdentifier">The identifier of the cluster to be deleted. Constraints: • Must contain lowercase characters. • Must contain from 1 to 63 alphanumeric characters or hyphens. • First character must be a letter. • Cannot end with a hyphen or contain two consecutive hyphens. Constraints: • max: 2147483647</param>
     public AwsRedshiftDeleteClusterOptions(
         string ClusterIdentifier
     )
@@ -56,19 +57,19 @@ public record AwsRedshiftDeleteClusterOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the cluster to be deleted. Constraints: o Must contain lowercase characters. o Must contain from 1 to 63 alphanumeric characters or hyphens. o First character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. Constraints: o max: 2147483647
+    /// The identifier of the cluster to be deleted. Constraints: • Must contain lowercase characters. • Must contain from 1 to 63 alphanumeric characters or hyphens. • First character must be a letter. • Cannot end with a hyphen or contain two consecutive hyphens. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--cluster-identifier")]
     public string? ClusterIdentifier { get; private init; }
 
     /// <summary>
-    /// Determines whether a final snapshot of the cluster is created before Amazon Redshift deletes the cluster. If true , a final cluster snap- shot is not created. If false , a final cluster snapshot is created before the cluster is deleted. NOTE: The FinalClusterSnapshotIdentifier parameter must be specified if SkipFinalClusterSnapshot is false . Default: false
+    /// Determines whether a final snapshot of the cluster is created before Amazon Redshift deletes the cluster. If true , a final cluster snapshot is not created. If false , a final cluster snapshot is created before the cluster is deleted. NOTE: The FinalClusterSnapshotIdentifier parameter must be specified if SkipFinalClusterSnapshot is false . Default: false
     /// </summary>
     [CliFlag("--skip-final-cluster-snapshot", NegatedName = "--no-skip-final-cluster-snapshot")]
     public bool? SkipFinalClusterSnapshot { get; set; }
 
     /// <summary>
-    /// The identifier of the final snapshot that is to be created immedi- ately before deleting the cluster. If this parameter is provided, SkipFinalClusterSnapshot must be false . Constraints: o Must be 1 to 255 alphanumeric characters. o First character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. Constraints: o max: 2147483647
+    /// The identifier of the final snapshot that is to be created immediately before deleting the cluster. If this parameter is provided, SkipFinalClusterSnapshot must be false . Constraints: • Must be 1 to 255 alphanumeric characters. • First character must be a letter. • Cannot end with a hyphen or contain two consecutive hyphens. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--final-cluster-snapshot-identifier")]
     public string? FinalClusterSnapshotIdentifier { get; set; }
@@ -100,6 +101,15 @@ public record AwsRedshiftDeleteClusterOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

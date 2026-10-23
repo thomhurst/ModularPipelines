@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsWellarchitectedDeleteAgentProfileOptions : AwsOptions, IValidat
     /// <summary>
     /// Deletes an optimization profile and its associated configuration. This action cannot be undone. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProfileArn">The Amazon Resource Name (ARN) of the profile to delete. Constraints: o min: 0 o max: 2048 o pattern: arn:aws([a-z0-9-]+)?:wellarchi- tected:[a-z0-9-]{6,64}:\d{12}:agent-profile/([a-zA-Z0-9_-]+)</param>
+    /// <param name="ProfileArn">The Amazon Resource Name (ARN) of the profile to delete. Constraints: • min: 0 • max: 2048 • pattern: arn:aws([a-z0-9-]+)?:wellarchitected:[a-z0-9-]{6,64}:\d{12}:agent-profile/([a-zA-Z0-9_-]+)</param>
     public AwsWellarchitectedDeleteAgentProfileOptions(
         string ProfileArn
     )
@@ -56,7 +57,7 @@ public record AwsWellarchitectedDeleteAgentProfileOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the profile to delete. Constraints: o min: 0 o max: 2048 o pattern: arn:aws([a-z0-9-]+)?:wellarchi- tected:[a-z0-9-]{6,64}:\d{12}:agent-profile/([a-zA-Z0-9_-]+)
+    /// The Amazon Resource Name (ARN) of the profile to delete. Constraints: • min: 0 • max: 2048 • pattern: arn:aws([a-z0-9-]+)?:wellarchitected:[a-z0-9-]{6,64}:\d{12}:agent-profile/([a-zA-Z0-9_-]+)
     /// </summary>
     [CliOption("--profile-arn")]
     public string? ProfileArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsWellarchitectedDeleteAgentProfileOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

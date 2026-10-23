@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets a response headers policy configuration. To get a response headers policy configuration, you must provide the policy's identifier. If the response headers policy is attached to a distribution's cache behavior, you can get the policy's identifier us- ing ListDistributions or GetDistribution . If the response headers pol- icy is not attached to a cache behavior, you can get the identifier us- ing ListResponseHeadersPolicies . See also: AWS API Documentation
+/// Gets a response headers policy configuration. To get a response headers policy configuration, you must provide the policy's identifier. If the response headers policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution . If the response headers policy is not attached to a cache behavior, you can get the identifier using ListResponseHeadersPolicies . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsCloudfrontGetResponseHeadersPolicyConfigOptions : AwsOptions, I
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets a response headers policy configuration. To get a response headers policy configuration, you must provide the policy's identifier. If the response headers policy is attached to a distribution's cache behavior, you can get the policy's identifier us- ing ListDistributions or GetDistribution . If the response headers pol- icy is not attached to a cache behavior, you can get the identifier us- ing ListResponseHeadersPolicies . See also: AWS API Documentation
+    /// Gets a response headers policy configuration. To get a response headers policy configuration, you must provide the policy's identifier. If the response headers policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution . If the response headers policy is not attached to a cache behavior, you can get the identifier using ListResponseHeadersPolicies . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The identifier for the response headers policy. If the response headers policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistribu- tions or GetDistribution . If the response headers policy is not at- tached to a cache behavior, you can get the identifier using ListRe- sponseHeadersPolicies .</param>
+    /// <param name="Id">The identifier for the response headers policy. If the response headers policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution . If the response headers policy is not attached to a cache behavior, you can get the identifier using ListResponseHeadersPolicies .</param>
     public AwsCloudfrontGetResponseHeadersPolicyConfigOptions(
         string Id
     )
@@ -56,7 +57,7 @@ public record AwsCloudfrontGetResponseHeadersPolicyConfigOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier for the response headers policy. If the response headers policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistribu- tions or GetDistribution . If the response headers policy is not at- tached to a cache behavior, you can get the identifier using ListRe- sponseHeadersPolicies .
+    /// The identifier for the response headers policy. If the response headers policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution . If the response headers policy is not attached to a cache behavior, you can get the identifier using ListResponseHeadersPolicies .
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
@@ -82,6 +83,15 @@ public record AwsCloudfrontGetResponseHeadersPolicyConfigOptions : AwsOptions, I
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

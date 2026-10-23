@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the specified policy template. You can update only the descrip- tion and the some elements of the policyBody . WARNING: Changes you make to the policy template content are immediately (within the constraints of eventual consistency) reflected in autho- rization decisions that involve all template-linked policies instan- tiated from this template. NOTE: Verified Permissions is * eventually consistent * . It can take a few seconds for a new or changed element to propagate through the servi...
+/// Updates the specified policy template. You can update only the description and the some elements of the policyBody . WARNING: Changes you make to the policy template content are immediately (within the constraints of eventual consistency) reflected in authorization decisions that involve all template-linked policies instantiated from this template. NOTE: Verified Permissions is * eventually consistent * . It can take a few seconds for a new or changed element to propagate through the service and...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsVerifiedpermissionsUpdatePolicyTemplateOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the specified policy template. You can update only the descrip- tion and the some elements of the policyBody . WARNING: Changes you make to the policy template content are immediately (within the constraints of eventual consistency) reflected in autho- rization decisions that involve all template-linked policies instan- tiated from this template. NOTE: Verified Permissions is * eventually consistent * . It can take a few seconds for a new or changed element to propagate through the servi...
+    /// Updates the specified policy template. You can update only the description and the some elements of the policyBody . WARNING: Changes you make to the policy template content are immediately (within the constraints of eventual consistency) reflected in authorization decisions that involve all template-linked policies instantiated from this template. NOTE: Verified Permissions is * eventually consistent * . It can take a few seconds for a new or changed element to propagate through the service and...
     /// </summary>
-    /// <param name="PolicyStoreId">Specifies the ID of the policy store that contains the policy tem- plate that you want to update. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/ . For example: o ID: PSEXAMPLEabcdefg111111 o Alias name: policy-store-alias/example-policy-store To view aliases, use ListPolicyStoreAliases . Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9-/_]*</param>
-    /// <param name="PolicyTemplateId">Specifies the ID of the policy template that you want to update. You can use the policy template name in place of the policy template ID. When using a name, prefix it with name/ . For example: o ID: PTEXAMPLEabcdefg111111 o Name: name/example-policy-template Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9-/_]*</param>
-    /// <param name="Statement">Specifies new statement content written in Cedar policy language to replace the current body of the policy template. You can change only the following elements of the policy body: o The action referenced by the policy template. o Any conditional clauses, such as when or unless clauses. You can't change the following elements: o The effect (permit or forbid ) of the policy template. o The principal referenced by the policy template. o The resource referenced by the policy template. Constraints: o min: 1</param>
+    /// <param name="PolicyStoreId">Specifies the ID of the policy store that contains the policy template that you want to update. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/ . For example: • ID: PSEXAMPLEabcdefg111111 • Alias name: policy-store-alias/example-policy-store To view aliases, use ListPolicyStoreAliases . Constraints: • min: 1 • max: 200 • pattern: [a-zA-Z0-9-/_]*</param>
+    /// <param name="PolicyTemplateId">Specifies the ID of the policy template that you want to update. You can use the policy template name in place of the policy template ID. When using a name, prefix it with name/ . For example: • ID: PTEXAMPLEabcdefg111111 • Name: name/example-policy-template Constraints: • min: 1 • max: 200 • pattern: [a-zA-Z0-9-/_]*</param>
+    /// <param name="Statement">Specifies new statement content written in Cedar policy language to replace the current body of the policy template. You can change only the following elements of the policy body: • The action referenced by the policy template. • Any conditional clauses, such as when or unless clauses. You can't change the following elements: • The effect (permit or forbid ) of the policy template. • The principal referenced by the policy template. • The resource referenced by the policy template. Constraints: • min: 1</param>
     public AwsVerifiedpermissionsUpdatePolicyTemplateOptions(
         string PolicyStoreId,
         string PolicyTemplateId,
@@ -64,31 +65,31 @@ public record AwsVerifiedpermissionsUpdatePolicyTemplateOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the ID of the policy store that contains the policy tem- plate that you want to update. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/ . For example: o ID: PSEXAMPLEabcdefg111111 o Alias name: policy-store-alias/example-policy-store To view aliases, use ListPolicyStoreAliases . Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9-/_]*
+    /// Specifies the ID of the policy store that contains the policy template that you want to update. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/ . For example: • ID: PSEXAMPLEabcdefg111111 • Alias name: policy-store-alias/example-policy-store To view aliases, use ListPolicyStoreAliases . Constraints: • min: 1 • max: 200 • pattern: [a-zA-Z0-9-/_]*
     /// </summary>
     [CliOption("--policy-store-id")]
     public string? PolicyStoreId { get; private init; }
 
     /// <summary>
-    /// Specifies the ID of the policy template that you want to update. You can use the policy template name in place of the policy template ID. When using a name, prefix it with name/ . For example: o ID: PTEXAMPLEabcdefg111111 o Name: name/example-policy-template Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9-/_]*
+    /// Specifies the ID of the policy template that you want to update. You can use the policy template name in place of the policy template ID. When using a name, prefix it with name/ . For example: • ID: PTEXAMPLEabcdefg111111 • Name: name/example-policy-template Constraints: • min: 1 • max: 200 • pattern: [a-zA-Z0-9-/_]*
     /// </summary>
     [CliOption("--policy-template-id")]
     public string? PolicyTemplateId { get; private init; }
 
     /// <summary>
-    /// Specifies new statement content written in Cedar policy language to replace the current body of the policy template. You can change only the following elements of the policy body: o The action referenced by the policy template. o Any conditional clauses, such as when or unless clauses. You can't change the following elements: o The effect (permit or forbid ) of the policy template. o The principal referenced by the policy template. o The resource referenced by the policy template. Constraints: o min: 1
+    /// Specifies new statement content written in Cedar policy language to replace the current body of the policy template. You can change only the following elements of the policy body: • The action referenced by the policy template. • Any conditional clauses, such as when or unless clauses. You can't change the following elements: • The effect (permit or forbid ) of the policy template. • The principal referenced by the policy template. • The resource referenced by the policy template. Constraints: • min: 1
     /// </summary>
     [CliOption("--statement")]
     public string? Statement { get; private init; }
 
     /// <summary>
-    /// Specifies a new description to apply to the policy template. Constraints: o min: 0 o max: 150
+    /// Specifies a new description to apply to the policy template. Constraints: • min: 0 • max: 150
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Specifies a name for the policy template that is unique among all policy templates within the policy store. You can use the name in place of the policy template ID in API operations that reference the policy template. The name must be prefixed with name/ . NOTE: If you don't include the name in an update request, the existing name is unchanged. To remove a name, set it to an empty string ("" ). If you specify a name that is already associated with another policy template in the policy store, you receive a ConflictException error. Constraints: o min: 0 o max: 150 o pattern: [a-zA-Z0-9-/_]*
+    /// Specifies a name for the policy template that is unique among all policy templates within the policy store. You can use the name in place of the policy template ID in API operations that reference the policy template. The name must be prefixed with name/ . NOTE: If you don't include the name in an update request, the existing name is unchanged. To remove a name, set it to an empty string ("" ). If you specify a name that is already associated with another policy template in the policy store, you receive a ConflictException error. Constraints: • min: 0 • max: 150 • pattern: [a-zA-Z0-9-/_]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
@@ -114,6 +115,15 @@ public record AwsVerifiedpermissionsUpdatePolicyTemplateOptions : AwsOptions, IV
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

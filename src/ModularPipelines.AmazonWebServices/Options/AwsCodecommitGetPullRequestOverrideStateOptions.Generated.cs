@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns information about whether approval rules have been set aside (overridden) for a pull request, and if so, the Amazon Resource Name (ARN) of the user or identity that overrode the rules and their re- quirements for the pull request. See also: AWS API Documentation
+/// Returns information about whether approval rules have been set aside (overridden) for a pull request, and if so, the Amazon Resource Name (ARN) of the user or identity that overrode the rules and their requirements for the pull request. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsCodecommitGetPullRequestOverrideStateOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns information about whether approval rules have been set aside (overridden) for a pull request, and if so, the Amazon Resource Name (ARN) of the user or identity that overrode the rules and their re- quirements for the pull request. See also: AWS API Documentation
+    /// Returns information about whether approval rules have been set aside (overridden) for a pull request, and if so, the Amazon Resource Name (ARN) of the user or identity that overrode the rules and their requirements for the pull request. See also: AWS API Documentation
     /// </summary>
     /// <param name="PullRequestId">The ID of the pull request for which you want to get information about whether approval rules have been set aside (overridden).</param>
-    /// <param name="RevisionId">The system-generated ID of the revision for the pull request. To re- trieve the most recent revision ID, use GetPullRequest .</param>
+    /// <param name="RevisionId">The system-generated ID of the revision for the pull request. To retrieve the most recent revision ID, use GetPullRequest .</param>
     public AwsCodecommitGetPullRequestOverrideStateOptions(
         string PullRequestId,
         string RevisionId
@@ -66,7 +67,7 @@ public record AwsCodecommitGetPullRequestOverrideStateOptions : AwsOptions, IVal
     public string? PullRequestId { get; private init; }
 
     /// <summary>
-    /// The system-generated ID of the revision for the pull request. To re- trieve the most recent revision ID, use GetPullRequest .
+    /// The system-generated ID of the revision for the pull request. To retrieve the most recent revision ID, use GetPullRequest .
     /// </summary>
     [CliOption("--revision-id")]
     public string? RevisionId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsCodecommitGetPullRequestOverrideStateOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

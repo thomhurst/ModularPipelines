@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Synchronizes the gateway targets by fetching the latest tool defini- tions from the target endpoints. You cannot synchronize a target that is in a pending authorization state (CREATE_PENDING_AUTH , UPDATE_PENDING_AUTH , or SYNCHRONIZE_PEND- ING_AUTH ). Wait for the authorization to complete or fail before syn- chronizing. You cannot synchronize a target that has a static tool schema (mcp- ToolSchema ) configured. Remove the static schema through an Update- GatewayTarget call to enable dynamic to...
+/// Synchronizes the gateway targets by fetching the latest tool definitions from the target endpoints. You cannot synchronize a target that is in a pending authorization state (CREATE_PENDING_AUTH , UPDATE_PENDING_AUTH , or SYNCHRONIZE_PENDING_AUTH ). Wait for the authorization to complete or fail before synchronizing. You cannot synchronize a target that has a static tool schema (mcpToolSchema ) configured. Remove the static schema through an UpdateGatewayTarget call to enable dynamic tool synchro...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsBedrockAgentcoreControlSynchronizeGatewayTargetsOptions : AwsOp
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Synchronizes the gateway targets by fetching the latest tool defini- tions from the target endpoints. You cannot synchronize a target that is in a pending authorization state (CREATE_PENDING_AUTH , UPDATE_PENDING_AUTH , or SYNCHRONIZE_PEND- ING_AUTH ). Wait for the authorization to complete or fail before syn- chronizing. You cannot synchronize a target that has a static tool schema (mcp- ToolSchema ) configured. Remove the static schema through an Update- GatewayTarget call to enable dynamic to...
+    /// Synchronizes the gateway targets by fetching the latest tool definitions from the target endpoints. You cannot synchronize a target that is in a pending authorization state (CREATE_PENDING_AUTH , UPDATE_PENDING_AUTH , or SYNCHRONIZE_PENDING_AUTH ). Wait for the authorization to complete or fail before synchronizing. You cannot synchronize a target that has a static tool schema (mcpToolSchema ) configured. Remove the static schema through an UpdateGatewayTarget call to enable dynamic tool synchro...
     /// </summary>
-    /// <param name="GatewayIdentifier">The gateway Identifier. Constraints: o pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}</param>
-    /// <param name="TargetIdList">The target ID list. Constraints: o min: 1 o max: 1 (string) Constraints: o pattern: [0-9a-zA-Z]{10} Syntax: "string" "string" ...</param>
+    /// <param name="GatewayIdentifier">The gateway Identifier. Constraints: • pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}</param>
+    /// <param name="TargetIdList">The target ID list. Constraints: • min: 1 • max: 1 (string) Constraints: • pattern: [0-9a-zA-Z]{10} Syntax: "string" "string" ...</param>
     public AwsBedrockAgentcoreControlSynchronizeGatewayTargetsOptions(
         string GatewayIdentifier,
         IEnumerable<string> TargetIdList
@@ -71,13 +72,13 @@ public record AwsBedrockAgentcoreControlSynchronizeGatewayTargetsOptions : AwsOp
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The gateway Identifier. Constraints: o pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}
+    /// The gateway Identifier. Constraints: • pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}
     /// </summary>
     [CliOption("--gateway-identifier")]
     public string? GatewayIdentifier { get; private init; }
 
     /// <summary>
-    /// The target ID list. Constraints: o min: 1 o max: 1 (string) Constraints: o pattern: [0-9a-zA-Z]{10} Syntax: "string" "string" ...
+    /// The target ID list. Constraints: • min: 1 • max: 1 (string) Constraints: • pattern: [0-9a-zA-Z]{10} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--target-id-list", GroupValues = true)]
     public IEnumerable<string>? TargetIdList { get; private init; }
@@ -103,6 +104,15 @@ public record AwsBedrockAgentcoreControlSynchronizeGatewayTargetsOptions : AwsOp
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

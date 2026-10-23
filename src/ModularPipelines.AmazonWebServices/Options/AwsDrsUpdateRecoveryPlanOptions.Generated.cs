@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsDrsUpdateRecoveryPlanOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates a Recovery Plan's name or description. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RecoveryPlanArn">The ARN of the Recovery Plan to update. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[a-z0-9]+)*:drs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_/.-]+</param>
+    /// <param name="RecoveryPlanArn">The ARN of the Recovery Plan to update. Constraints: • min: 20 • max: 2048 • pattern: arn:aws(-[a-z0-9]+)*:drs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_/.-]+</param>
     public AwsDrsUpdateRecoveryPlanOptions(
         string RecoveryPlanArn
     )
@@ -56,19 +57,19 @@ public record AwsDrsUpdateRecoveryPlanOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the Recovery Plan to update. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[a-z0-9]+)*:drs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_/.-]+
+    /// The ARN of the Recovery Plan to update. Constraints: • min: 20 • max: 2048 • pattern: arn:aws(-[a-z0-9]+)*:drs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_/.-]+
     /// </summary>
     [CliOption("--recovery-plan-arn")]
     public string? RecoveryPlanArn { get; private init; }
 
     /// <summary>
-    /// The name of a Recovery Plan. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9][a-zA-Z0-9 _-]*
+    /// The name of a Recovery Plan. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9][a-zA-Z0-9 _-]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The description of a Recovery Plan. Constraints: o min: 0 o max: 1024
+    /// The description of a Recovery Plan. Constraints: • min: 0 • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
@@ -94,6 +95,15 @@ public record AwsDrsUpdateRecoveryPlanOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

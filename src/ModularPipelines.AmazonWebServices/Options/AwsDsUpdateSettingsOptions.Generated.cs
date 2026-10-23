@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsDsUpdateSettingsOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates the configurable settings for the specified directory. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DirectoryId">The identifier of the directory for which to update settings. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
-    /// <param name="Settings">The list of Setting objects. (structure) Contains information about the configurable settings for a di- rectory. Name -&gt; (string) [required] The name of the directory setting. For example: TLS_1_0 Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9-/. _]*$ Value -&gt; (string) [required] The value of the directory setting for which to retrieve in- formation. For example, for TLS_1_0 , the valid values are: Enable and Disable . Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9_]*$ Shorthand Syntax: Name=string,Value=string ... JSON Syntax: [ { "Name": "string", "Value": "string" } ... ]</param>
+    /// <param name="DirectoryId">The identifier of the directory for which to update settings. Constraints: • pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="Settings">The list of Setting objects. (structure) Contains information about the configurable settings for a directory. Name -&gt; (string) [required] The name of the directory setting. For example: TLS_1_0 Constraints: • min: 1 • max: 255 • pattern: ^[a-zA-Z0-9-/. _]*$ Value -&gt; (string) [required] The value of the directory setting for which to retrieve information. For example, for TLS_1_0 , the valid values are: Enable and Disable . Constraints: • min: 1 • max: 255 • pattern: ^[a-zA-Z0-9_]*$ Shorthand Syntax: Name=string,Value=string ... JSON Syntax: [ { "Name": "string", "Value": "string" } ... ]</param>
     public AwsDsUpdateSettingsOptions(
         string DirectoryId,
         IEnumerable<string> Settings
@@ -71,13 +72,13 @@ public record AwsDsUpdateSettingsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the directory for which to update settings. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// The identifier of the directory for which to update settings. Constraints: • pattern: ^d-[0-9a-f]{10}$
     /// </summary>
     [CliOption("--directory-id")]
     public string? DirectoryId { get; private init; }
 
     /// <summary>
-    /// The list of Setting objects. (structure) Contains information about the configurable settings for a di- rectory. Name -&gt; (string) [required] The name of the directory setting. For example: TLS_1_0 Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9-/. _]*$ Value -&gt; (string) [required] The value of the directory setting for which to retrieve in- formation. For example, for TLS_1_0 , the valid values are: Enable and Disable . Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9_]*$ Shorthand Syntax: Name=string,Value=string ... JSON Syntax: [ { "Name": "string", "Value": "string" } ... ]
+    /// The list of Setting objects. (structure) Contains information about the configurable settings for a directory. Name -&gt; (string) [required] The name of the directory setting. For example: TLS_1_0 Constraints: • min: 1 • max: 255 • pattern: ^[a-zA-Z0-9-/. _]*$ Value -&gt; (string) [required] The value of the directory setting for which to retrieve information. For example, for TLS_1_0 , the valid values are: Enable and Disable . Constraints: • min: 1 • max: 255 • pattern: ^[a-zA-Z0-9_]*$ Shorthand Syntax: Name=string,Value=string ... JSON Syntax: [ { "Name": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--settings", GroupValues = true)]
     public IEnumerable<string>? Settings { get; private init; }
@@ -103,6 +104,15 @@ public record AwsDsUpdateSettingsOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

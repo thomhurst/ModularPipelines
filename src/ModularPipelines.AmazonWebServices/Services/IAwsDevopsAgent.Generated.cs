@@ -6,14 +6,14 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Models;
+using ModularPipelines;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws devopsagent commands.
+/// aws devops-agent commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -22,34 +22,31 @@ namespace ModularPipelines.AmazonWebServices.Services;
 public interface IAwsDevopsAgent
 {
     /// <summary>
-    /// Adds a specific service association to an AgentSpace. It overwrites the existing association of the same service. Returns 201 Created on suc- cess. See also: AWS API Documentation
+    /// Adds a specific service association to an AgentSpace. It overwrites the existing association of the same service. Returns 201 Created on success. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateServiceAsync(AwsDevopsAgentAssociateServiceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateServiceAsync(AwsDevopsAgentAssociateServiceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates a new AgentSpace with the specified name and description. Du- plicate space names are allowed. See also: AWS API Documentation
+    /// Creates a new AgentSpace with the specified name and description. Duplicate space names are allowed. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAgentSpaceAsync(AwsDevopsAgentCreateAgentSpaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAgentSpaceAsync(AwsDevopsAgentCreateAgentSpaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates a file in an asset See also: AWS API Documentation create-asset-file uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Creates a file in an asset See also: AWS API Documentation create-asset-file uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAssetFileAsync(AwsDevopsAgentCreateAssetFileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAssetFileAsync(AwsDevopsAgentCreateAssetFileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new asset in the specified agent space See also: AWS API Documentation create-asset uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
@@ -58,18 +55,16 @@ public interface IAwsDevopsAgent
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAssetAsync(AwsDevopsAgentCreateAssetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAssetAsync(AwsDevopsAgentCreateAssetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates a new backlog task in the specified agent space See also: AWS API Documentation create-backlog-task uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Creates a new backlog task in the specified agent space See also: AWS API Documentation create-backlog-task uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateBacklogTaskAsync(AwsDevopsAgentCreateBacklogTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateBacklogTaskAsync(AwsDevopsAgentCreateBacklogTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new chat execution in the specified agent space See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsDevopsAgent
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateChatAsync(AwsDevopsAgentCreateChatOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateChatAsync(AwsDevopsAgentCreateChatOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a Private Connection to a target resource. See also: AWS API Documentation
@@ -88,18 +82,16 @@ public interface IAwsDevopsAgent
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreatePrivateConnectionAsync(AwsDevopsAgentCreatePrivateConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreatePrivateConnectionAsync(AwsDevopsAgentCreatePrivateConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates a new Trigger in the specified agent space See also: AWS API Documentation create-trigger uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Creates a new Trigger in the specified agent space See also: AWS API Documentation create-trigger uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateTriggerAsync(AwsDevopsAgentCreateTriggerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateTriggerAsync(AwsDevopsAgentCreateTriggerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an AgentSpace. This operation is idempotent and returns a 204 No Content response on success. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsDevopsAgent
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAgentSpaceAsync(AwsDevopsAgentDeleteAgentSpaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAgentSpaceAsync(AwsDevopsAgentDeleteAgentSpaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a file from an asset See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsDevopsAgent
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAssetFileAsync(AwsDevopsAgentDeleteAssetFileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAssetFileAsync(AwsDevopsAgentDeleteAssetFileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an asset and all its files from the specified agent space See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsDevopsAgent
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAssetAsync(AwsDevopsAgentDeleteAssetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAssetAsync(AwsDevopsAgentDeleteAssetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a Private Connection. The deletion is asynchronous and returns DELETE_IN_PROGRESS status. See also: AWS API Documentation
@@ -138,8 +127,7 @@ public interface IAwsDevopsAgent
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeletePrivateConnectionAsync(AwsDevopsAgentDeletePrivateConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeletePrivateConnectionAsync(AwsDevopsAgentDeletePrivateConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a Trigger from the specified agent space See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsDevopsAgent
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTriggerAsync(AwsDevopsAgentDeleteTriggerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTriggerAsync(AwsDevopsAgentDeleteTriggerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deregister a service See also: AWS API Documentation
@@ -158,8 +145,7 @@ public interface IAwsDevopsAgent
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeregisterServiceAsync(AwsDevopsAgentDeregisterServiceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeregisterServiceAsync(AwsDevopsAgentDeregisterServiceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves details of an existing Private Connection. See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsDevopsAgent
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribePrivateConnectionAsync(AwsDevopsAgentDescribePrivateConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribePrivateConnectionAsync(AwsDevopsAgentDescribePrivateConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disable the Operator App for the specified AgentSpace See also: AWS API Documentation
@@ -178,18 +163,16 @@ public interface IAwsDevopsAgent
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisableOperatorAppAsync(AwsDevopsAgentDisableOperatorAppOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisableOperatorAppAsync(AwsDevopsAgentDisableOperatorAppOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deletes a specific service association from an AgentSpace. This opera- tion is idempotent and returns a 204 No Content response on success. See also: AWS API Documentation
+    /// Deletes a specific service association from an AgentSpace. This operation is idempotent and returns a 204 No Content response on success. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateServiceAsync(AwsDevopsAgentDisassociateServiceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateServiceAsync(AwsDevopsAgentDisassociateServiceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enable the Operator App to access the given AgentSpace See also: AWS API Documentation
@@ -198,8 +181,7 @@ public interface IAwsDevopsAgent
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> EnableOperatorAppAsync(AwsDevopsAgentEnableOperatorAppOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> EnableOperatorAppAsync(AwsDevopsAgentEnableOperatorAppOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves monthly account usage metrics and limits for the AWS account. See also: AWS API Documentation
@@ -208,8 +190,7 @@ public interface IAwsDevopsAgent
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAccountUsageAsync(AwsDevopsAgentGetAccountUsageOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAccountUsageAsync(AwsDevopsAgentGetAccountUsageOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves detailed information about a specific AgentSpace. See also: AWS API Documentation
@@ -218,8 +199,7 @@ public interface IAwsDevopsAgent
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAgentSpaceAsync(AwsDevopsAgentGetAgentSpaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAgentSpaceAsync(AwsDevopsAgentGetAgentSpaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets an asset's content as a zip bundle See also: AWS API Documentation
@@ -228,18 +208,16 @@ public interface IAwsDevopsAgent
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAssetContentAsync(AwsDevopsAgentGetAssetContentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAssetContentAsync(AwsDevopsAgentGetAssetContentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets a file from an asset See also: AWS API Documentation get-asset-file uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Gets a file from an asset See also: AWS API Documentation get-asset-file uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAssetFileAsync(AwsDevopsAgentGetAssetFileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAssetFileAsync(AwsDevopsAgentGetAssetFileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets an asset from the specified agent space See also: AWS API Documentation get-asset uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
@@ -248,8 +226,7 @@ public interface IAwsDevopsAgent
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAssetAsync(AwsDevopsAgentGetAssetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAssetAsync(AwsDevopsAgentGetAssetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves given associations configured for a specific AgentSpace. See also: AWS API Documentation
@@ -258,18 +235,16 @@ public interface IAwsDevopsAgent
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAssociationAsync(AwsDevopsAgentGetAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAssociationAsync(AwsDevopsAgentGetAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets a backlog task for the specified agent space and task id See also: AWS API Documentation get-backlog-task uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Gets a backlog task for the specified agent space and task id See also: AWS API Documentation get-backlog-task uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBacklogTaskAsync(AwsDevopsAgentGetBacklogTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetBacklogTaskAsync(AwsDevopsAgentGetBacklogTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get the full auth configuration of operator including any enabled auth flow See also: AWS API Documentation
@@ -278,8 +253,7 @@ public interface IAwsDevopsAgent
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetOperatorAppAsync(AwsDevopsAgentGetOperatorAppOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetOperatorAppAsync(AwsDevopsAgentGetOperatorAppOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a specific recommendation by its ID See also: AWS API Documentation
@@ -288,8 +262,7 @@ public interface IAwsDevopsAgent
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRecommendationAsync(AwsDevopsAgentGetRecommendationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRecommendationAsync(AwsDevopsAgentGetRecommendationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves given service by it's unique identifier See also: AWS API Documentation get-service uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
@@ -298,8 +271,7 @@ public interface IAwsDevopsAgent
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetServiceAsync(AwsDevopsAgentGetServiceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetServiceAsync(AwsDevopsAgentGetServiceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a Trigger from the specified agent space See also: AWS API Documentation get-trigger uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
@@ -308,8 +280,7 @@ public interface IAwsDevopsAgent
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTriggerAsync(AwsDevopsAgentGetTriggerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTriggerAsync(AwsDevopsAgentGetTriggerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all AgentSpaces with optional pagination. See also: AWS API Documentation list-agent-spaces is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: agentSpaces
@@ -318,28 +289,16 @@ public interface IAwsDevopsAgent
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAgentSpacesAsync(AwsDevopsAgentListAgentSpacesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAgentSpacesAsync(AwsDevopsAgentListAgentSpacesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists files in an asset See also: AWS API Documentation list-asset-files uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types. list-asset-files is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data...
+    /// Lists files in an asset See also: AWS API Documentation list-asset-files uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types. list-asset-files is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data s...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAssetFilesAsync(AwsDevopsAgentListAssetFilesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// Lists assets in the specified agent space See also: AWS API Documentation list-assets uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types. list-assets is a paginated operation. Multiple API calls may be issued in order to retrieve the entir...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAssetsAsync(AwsDevopsAgentListAssetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAssetFilesAsync(AwsDevopsAgentListAssetFilesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the supported asset types See also: AWS API Documentation list-asset-types is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
@@ -348,8 +307,7 @@ public interface IAwsDevopsAgent
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAssetTypesAsync(AwsDevopsAgentListAssetTypesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAssetTypesAsync(AwsDevopsAgentListAssetTypesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists versions of an asset in the specified agent space See also: AWS API Documentation list-asset-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
@@ -358,8 +316,16 @@ public interface IAwsDevopsAgent
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAssetVersionsAsync(AwsDevopsAgentListAssetVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAssetVersionsAsync(AwsDevopsAgentListAssetVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Lists assets in the specified agent space See also: AWS API Documentation list-assets uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types. list-assets is a paginated operation. Multiple API calls may be issued in order to retrieve the entir...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ListAssetsAsync(AwsDevopsAgentListAssetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List all associations for given AgentSpace See also: AWS API Documentation list-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: associations
@@ -368,18 +334,16 @@ public interface IAwsDevopsAgent
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAssociationsAsync(AwsDevopsAgentListAssociationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAssociationsAsync(AwsDevopsAgentListAssociationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists backlog tasks in the specified agent space with optional filter- ing and sorting See also: AWS API Documentation list-backlog-tasks uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types. list-backlog-tasks is a paginated operation. Mu...
+    /// Lists backlog tasks in the specified agent space with optional filtering and sorting See also: AWS API Documentation list-backlog-tasks uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types. list-backlog-tasks is a paginated operation. Multip...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListBacklogTasksAsync(AwsDevopsAgentListBacklogTasksOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListBacklogTasksAsync(AwsDevopsAgentListBacklogTasksOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a paginated list of the user's recent chat executions See also: AWS API Documentation
@@ -388,48 +352,43 @@ public interface IAwsDevopsAgent
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListChatsAsync(AwsDevopsAgentListChatsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListChatsAsync(AwsDevopsAgentListChatsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// List executions See also: AWS API Documentation list-executions is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: executions
+    /// List executions See also: AWS API Documentation list-executions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: executions
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListExecutionsAsync(AwsDevopsAgentListExecutionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListExecutionsAsync(AwsDevopsAgentListExecutionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists goals in the specified agent space with optional filtering See also: AWS API Documentation list-goals is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: goals
+    /// Lists goals in the specified agent space with optional filtering See also: AWS API Documentation list-goals is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: goals
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListGoalsAsync(AwsDevopsAgentListGoalsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListGoalsAsync(AwsDevopsAgentListGoalsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// List journal records for a specific execution See also: AWS API Documentation list-journal-records uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types. list-journal-records is a paginated operation. Multiple API calls may be issued in ord...
+    /// List journal records for a specific execution See also: AWS API Documentation list-journal-records uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types. list-journal-records is a paginated operation. Multiple API calls may be issued in order...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListJournalRecordsAsync(AwsDevopsAgentListJournalRecordsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListJournalRecordsAsync(AwsDevopsAgentListJournalRecordsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// List pending messages for a specific execution. See also: AWS API Documentation list-pending-messages uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// List pending messages for a specific execution. See also: AWS API Documentation list-pending-messages uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPendingMessagesAsync(AwsDevopsAgentListPendingMessagesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPendingMessagesAsync(AwsDevopsAgentListPendingMessagesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all Private Connections in the caller's account. See also: AWS API Documentation
@@ -438,8 +397,7 @@ public interface IAwsDevopsAgent
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPrivateConnectionsAsync(AwsDevopsAgentListPrivateConnectionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPrivateConnectionsAsync(AwsDevopsAgentListPrivateConnectionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists recommendations for the specified agent space See also: AWS API Documentation
@@ -448,18 +406,16 @@ public interface IAwsDevopsAgent
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRecommendationsAsync(AwsDevopsAgentListRecommendationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRecommendationsAsync(AwsDevopsAgentListRecommendationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// List a list of registered service on the account level. See also: AWS API Documentation list-services uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types. list-services is a paginated operation. Multiple API calls may be is- sued in order t...
+    /// List a list of registered service on the account level. See also: AWS API Documentation list-services uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types. list-services is a paginated operation. Multiple API calls may be issued in order to ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListServicesAsync(AwsDevopsAgentListServicesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListServicesAsync(AwsDevopsAgentListServicesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists tags for the specified AWS DevOps Agent resource. See also: AWS API Documentation
@@ -468,18 +424,16 @@ public interface IAwsDevopsAgent
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsDevopsAgentListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsDevopsAgentListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists Triggers in the specified agent space See also: AWS API Documentation list-triggers uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types. list-triggers is a paginated operation. Multiple API calls may be is- sued in order to retrieve t...
+    /// Lists Triggers in the specified agent space See also: AWS API Documentation list-triggers uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types. list-triggers is a paginated operation. Multiple API calls may be issued in order to retrieve the...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTriggersAsync(AwsDevopsAgentListTriggersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTriggersAsync(AwsDevopsAgentListTriggersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List all webhooks for given Association See also: AWS API Documentation
@@ -488,8 +442,7 @@ public interface IAwsDevopsAgent
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListWebhooksAsync(AwsDevopsAgentListWebhooksOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListWebhooksAsync(AwsDevopsAgentListWebhooksOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This operation registers the specified service See also: AWS API Documentation
@@ -498,8 +451,7 @@ public interface IAwsDevopsAgent
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RegisterServiceAsync(AwsDevopsAgentRegisterServiceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RegisterServiceAsync(AwsDevopsAgentRegisterServiceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds or overwrites tags for the specified AWS DevOps Agent resource. See also: AWS API Documentation
@@ -508,8 +460,7 @@ public interface IAwsDevopsAgent
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsDevopsAgentTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsDevopsAgentTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes tags from the specified AWS DevOps Agent resource. See also: AWS API Documentation
@@ -518,8 +469,7 @@ public interface IAwsDevopsAgent
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsDevopsAgentUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsDevopsAgentUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the information of an existing AgentSpace. See also: AWS API Documentation
@@ -528,28 +478,25 @@ public interface IAwsDevopsAgent
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAgentSpaceAsync(AwsDevopsAgentUpdateAgentSpaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAgentSpaceAsync(AwsDevopsAgentUpdateAgentSpaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Updates an approval request with the terminal decision (APPROVED or RE- JECTED). A single operation handles both verbs via the action enum. See also: AWS API Documentation
+    /// Updates an approval request with the terminal decision (APPROVED or REJECTED). A single operation handles both verbs via the action enum. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateApprovalActionAsync(AwsDevopsAgentUpdateApprovalActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateApprovalActionAsync(AwsDevopsAgentUpdateApprovalActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Updates a file in an asset See also: AWS API Documentation update-asset-file uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Updates a file in an asset See also: AWS API Documentation update-asset-file uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAssetFileAsync(AwsDevopsAgentUpdateAssetFileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAssetFileAsync(AwsDevopsAgentUpdateAssetFileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an asset in the specified agent space See also: AWS API Documentation update-asset uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
@@ -558,8 +505,7 @@ public interface IAwsDevopsAgent
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAssetAsync(AwsDevopsAgentUpdateAssetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAssetAsync(AwsDevopsAgentUpdateAssetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Partially updates the configuration of an existing service association for an AgentSpace. Present fields are fully replaced; absent fields are left unchanged. Returns 200 OK on success. See also: AWS API Documentation
@@ -568,18 +514,16 @@ public interface IAwsDevopsAgent
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAssociationAsync(AwsDevopsAgentUpdateAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAssociationAsync(AwsDevopsAgentUpdateAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Update an existing backlog task. See also: AWS API Documentation update-backlog-task uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Update an existing backlog task. See also: AWS API Documentation update-backlog-task uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateBacklogTaskAsync(AwsDevopsAgentUpdateBacklogTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateBacklogTaskAsync(AwsDevopsAgentUpdateBacklogTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update an existing goal See also: AWS API Documentation
@@ -588,8 +532,7 @@ public interface IAwsDevopsAgent
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateGoalAsync(AwsDevopsAgentUpdateGoalOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateGoalAsync(AwsDevopsAgentUpdateGoalOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update the external Identity Provider configuration for the Operator App See also: AWS API Documentation
@@ -598,8 +541,7 @@ public interface IAwsDevopsAgent
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateOperatorAppIdpConfigAsync(AwsDevopsAgentUpdateOperatorAppIdpConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateOperatorAppIdpConfigAsync(AwsDevopsAgentUpdateOperatorAppIdpConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the certificate associated with a Private Connection. See also: AWS API Documentation
@@ -608,37 +550,33 @@ public interface IAwsDevopsAgent
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdatePrivateConnectionCertificateAsync(AwsDevopsAgentUpdatePrivateConnectionCertificateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdatePrivateConnectionCertificateAsync(AwsDevopsAgentUpdatePrivateConnectionCertificateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Updates an existing recommendation with new content, status, or meta- data See also: AWS API Documentation
+    /// Updates an existing recommendation with new content, status, or metadata See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateRecommendationAsync(AwsDevopsAgentUpdateRecommendationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateRecommendationAsync(AwsDevopsAgentUpdateRecommendationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Updates the status of an existing Trigger See also: AWS API Documentation update-trigger uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Updates the status of an existing Trigger See also: AWS API Documentation update-trigger uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateTriggerAsync(AwsDevopsAgentUpdateTriggerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateTriggerAsync(AwsDevopsAgentUpdateTriggerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Validates an aws association and set status and returns a 204 No Con- tent response on success. See also: AWS API Documentation
+    /// Validates an aws association and set status and returns a 204 No Content response on success. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ValidateAwsAssociationsAsync(AwsDevopsAgentValidateAwsAssociationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ValidateAwsAssociationsAsync(AwsDevopsAgentValidateAwsAssociationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a VPC configuration that lets a knowledge base connect to a re- source in your private VPC. This operation is asynchronous: it returns a vpcConfigurationId with status CREATING . Poll GetVpcConfiguration until the status becomes CREATED or CREATE_FAILED . See also: AWS API Documentation
+/// Creates a VPC configuration that lets a knowledge base connect to a resource in your private VPC. This operation is asynchronous: it returns a vpcConfigurationId with status CREATING . Poll GetVpcConfiguration until the status becomes CREATED or CREATE_FAILED . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,15 +28,15 @@ public record AwsBedrockAgentCreateVpcConfigurationOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a VPC configuration that lets a knowledge base connect to a re- source in your private VPC. This operation is asynchronous: it returns a vpcConfigurationId with status CREATING . Poll GetVpcConfiguration until the status becomes CREATED or CREATE_FAILED . See also: AWS API Documentation
+    /// Creates a VPC configuration that lets a knowledge base connect to a resource in your private VPC. This operation is asynchronous: it returns a vpcConfigurationId with status CREATING . Poll GetVpcConfiguration until the status becomes CREATED or CREATE_FAILED . See also: AWS API Documentation
     /// </summary>
-    /// <param name="KnowledgeBaseId">The unique identifier of the knowledge base to associate this VPC configuration with. Constraints: o pattern: [0-9a-zA-Z]{10}</param>
-    /// <param name="VpcId">The identifier of the VPC that the knowledge base connects through to reach the resource. Constraints: o min: 1 o max: 64 o pattern: vpc-[a-zA-Z0-9]+</param>
-    /// <param name="SubnetIds">The subnets, in the VPC identified by vpcId , that the knowledge base uses to connect to the resource. Constraints: o min: 1 o max: 6 (string) Constraints: o min: 1 o max: 64 o pattern: subnet-[a-zA-Z0-9]+ Syntax: "string" "string" ...</param>
-    /// <param name="ResourceTarget">The private IPv4 address or DNS name of the resource you want the knowledge base to reach. The target must be privately reachable from inside your VPC, such as an internal load balancer or a private IP. The following are not supported: o Internet-facing endpoints o Loopback addresses o Link-local addresses o Wildcard addresses o Multicast addresses o IPv6 literals Constraints: o min: 1 o max: 255</param>
-    /// <param name="Port">The port on which to reach the resource. Constraints: o min: 1 o max: 65535</param>
-    /// <param name="Protocol">The protocol used to connect to the resource. Specify HTTP for plaintext or HTTPS for TLS. When you specify HTTPS , you must also provide tlsServerName . Possible values: o HTTP o HTTPS</param>
-    /// <param name="ResolutionMode">Controls how a domain-name resourceTarget is resolved. This applies only when the target is a domain name; it has no effect for IP-ad- dress targets, which have no name to resolve. In all cases the re- solved address must be reachable from inside your VPC. Valid values: o IN_VPC (default, recommended) The target domain name is resolved privately, using the DNS resolvers of the VPC, such as private Route 53 hosted zones or on-premises DNS reachable from the VPC. Use this for targets that are private to your VPC, such as inter- nal load balancers, private hosted-zone names, or on-premises hosts. o PUBLIC The target domain name is resolved against public DNS re- solvers. Select this only when the target's domain name must be resolved through public DNS and the resulting address is still reachable from the VPC, an uncommon split-horizon configuration. If you are unsure, use IN_VPC . Possible values: o PUBLIC o IN_VPC</param>
+    /// <param name="KnowledgeBaseId">The unique identifier of the knowledge base to associate this VPC configuration with. Constraints: • pattern: [0-9a-zA-Z]{10}</param>
+    /// <param name="VpcId">The identifier of the VPC that the knowledge base connects through to reach the resource. Constraints: • min: 1 • max: 64 • pattern: vpc-[a-zA-Z0-9]+</param>
+    /// <param name="SubnetIds">The subnets, in the VPC identified by vpcId , that the knowledge base uses to connect to the resource. Constraints: • min: 1 • max: 6 (string) Constraints: • min: 1 • max: 64 • pattern: subnet-[a-zA-Z0-9]+ Syntax: "string" "string" ...</param>
+    /// <param name="ResourceTarget">The private IPv4 address or DNS name of the resource you want the knowledge base to reach. The target must be privately reachable from inside your VPC, such as an internal load balancer or a private IP. The following are not supported: • Internet-facing endpoints • Loopback addresses • Link-local addresses • Wildcard addresses • Multicast addresses • IPv6 literals Constraints: • min: 1 • max: 255</param>
+    /// <param name="Port">The port on which to reach the resource. Constraints: • min: 1 • max: 65535</param>
+    /// <param name="Protocol">The protocol used to connect to the resource. Specify HTTP for plaintext or HTTPS for TLS. When you specify HTTPS , you must also provide tlsServerName . Possible values: • HTTP • HTTPS</param>
+    /// <param name="ResolutionMode">Controls how a domain-name resourceTarget is resolved. This applies only when the target is a domain name; it has no effect for IP-address targets, which have no name to resolve. In all cases the resolved address must be reachable from inside your VPC. Valid values: • IN_VPC (default, recommended) The target domain name is resolved privately, using the DNS resolvers of the VPC, such as private Route 53 hosted zones or on-premises DNS reachable from the VPC. Use this for targets that are private to your VPC, such as internal load balancers, private hosted-zone names, or on-premises hosts. • PUBLIC The target domain name is resolved against public DNS resolvers. Select this only when the target's domain name must be resolved through public DNS and the resulting address is still reachable from the VPC, an uncommon split-horizon configuration. If you are unsure, use IN_VPC . Possible values: • PUBLIC • IN_VPC</param>
     public AwsBedrockAgentCreateVpcConfigurationOptions(
         string KnowledgeBaseId,
         string VpcId,
@@ -91,74 +92,74 @@ public record AwsBedrockAgentCreateVpcConfigurationOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the knowledge base to associate this VPC configuration with. Constraints: o pattern: [0-9a-zA-Z]{10}
+    /// The unique identifier of the knowledge base to associate this VPC configuration with. Constraints: • pattern: [0-9a-zA-Z]{10}
     /// </summary>
     [CliOption("--knowledge-base-id")]
     public string? KnowledgeBaseId { get; private init; }
 
     /// <summary>
-    /// The identifier of the VPC that the knowledge base connects through to reach the resource. Constraints: o min: 1 o max: 64 o pattern: vpc-[a-zA-Z0-9]+
+    /// The identifier of the VPC that the knowledge base connects through to reach the resource. Constraints: • min: 1 • max: 64 • pattern: vpc-[a-zA-Z0-9]+
     /// </summary>
     [CliOption("--vpc-id")]
     public string? VpcId { get; private init; }
 
     /// <summary>
-    /// The subnets, in the VPC identified by vpcId , that the knowledge base uses to connect to the resource. Constraints: o min: 1 o max: 6 (string) Constraints: o min: 1 o max: 64 o pattern: subnet-[a-zA-Z0-9]+ Syntax: "string" "string" ...
+    /// The subnets, in the VPC identified by vpcId , that the knowledge base uses to connect to the resource. Constraints: • min: 1 • max: 6 (string) Constraints: • min: 1 • max: 64 • pattern: subnet-[a-zA-Z0-9]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--subnet-ids", GroupValues = true)]
     public IEnumerable<string>? SubnetIds { get; private init; }
 
     /// <summary>
-    /// The private IPv4 address or DNS name of the resource you want the knowledge base to reach. The target must be privately reachable from inside your VPC, such as an internal load balancer or a private IP. The following are not supported: o Internet-facing endpoints o Loopback addresses o Link-local addresses o Wildcard addresses o Multicast addresses o IPv6 literals Constraints: o min: 1 o max: 255
+    /// The private IPv4 address or DNS name of the resource you want the knowledge base to reach. The target must be privately reachable from inside your VPC, such as an internal load balancer or a private IP. The following are not supported: • Internet-facing endpoints • Loopback addresses • Link-local addresses • Wildcard addresses • Multicast addresses • IPv6 literals Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--resource-target")]
     public string? ResourceTarget { get; private init; }
 
     /// <summary>
-    /// The port on which to reach the resource. Constraints: o min: 1 o max: 65535
+    /// The port on which to reach the resource. Constraints: • min: 1 • max: 65535
     /// </summary>
     [CliOption("--port")]
     public int? Port { get; private init; }
 
     /// <summary>
-    /// The protocol used to connect to the resource. Specify HTTP for plaintext or HTTPS for TLS. When you specify HTTPS , you must also provide tlsServerName . Possible values: o HTTP o HTTPS
+    /// The protocol used to connect to the resource. Specify HTTP for plaintext or HTTPS for TLS. When you specify HTTPS , you must also provide tlsServerName . Possible values: • HTTP • HTTPS
     /// </summary>
     [CliOption("--protocol")]
     public AwsBedrockAgentCreateVpcConfigurationProtocol? Protocol { get; private init; }
 
     /// <summary>
-    /// Controls how a domain-name resourceTarget is resolved. This applies only when the target is a domain name; it has no effect for IP-ad- dress targets, which have no name to resolve. In all cases the re- solved address must be reachable from inside your VPC. Valid values: o IN_VPC (default, recommended) The target domain name is resolved privately, using the DNS resolvers of the VPC, such as private Route 53 hosted zones or on-premises DNS reachable from the VPC. Use this for targets that are private to your VPC, such as inter- nal load balancers, private hosted-zone names, or on-premises hosts. o PUBLIC The target domain name is resolved against public DNS re- solvers. Select this only when the target's domain name must be resolved through public DNS and the resulting address is still reachable from the VPC, an uncommon split-horizon configuration. If you are unsure, use IN_VPC . Possible values: o PUBLIC o IN_VPC
+    /// Controls how a domain-name resourceTarget is resolved. This applies only when the target is a domain name; it has no effect for IP-address targets, which have no name to resolve. In all cases the resolved address must be reachable from inside your VPC. Valid values: • IN_VPC (default, recommended) The target domain name is resolved privately, using the DNS resolvers of the VPC, such as private Route 53 hosted zones or on-premises DNS reachable from the VPC. Use this for targets that are private to your VPC, such as internal load balancers, private hosted-zone names, or on-premises hosts. • PUBLIC The target domain name is resolved against public DNS resolvers. Select this only when the target's domain name must be resolved through public DNS and the resulting address is still reachable from the VPC, an uncommon split-horizon configuration. If you are unsure, use IN_VPC . Possible values: • PUBLIC • IN_VPC
     /// </summary>
     [CliOption("--resolution-mode")]
     public string? ResolutionMode { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request but does not return an er- ror. Constraints: o min: 33 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
+    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request but does not return an error. Constraints: • min: 33 • max: 256 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// An optional HTTP Host header value to send when invoking the re- source. Set this only if your resource (or an upstream router or ingress) routes by the Host header and that host differs from the target. This setting is independent of tlsServerName . Constraints: o min: 1 o max: 255 o pattern: [A-Za-z0-9._:\[\]-]{1,255}
+    /// An optional HTTP Host header value to send when invoking the resource. Set this only if your resource (or an upstream router or ingress) routes by the Host header and that host differs from the target. This setting is independent of tlsServerName . Constraints: • min: 1 • max: 255 • pattern: [A-Za-z0-9._:\[\]-]{1,255}
     /// </summary>
     [CliOption("--host-header")]
     public string? HostHeader { get; set; }
 
     /// <summary>
-    /// The expected TLS server name. The service matches this value against the Subject Alternative Names on your resource's TLS certificate during invocation. This field is required when protocol is HTTPS . Set it to a hostname on your certificate, such as app.internal.exam- ple.com . You can use a single leftmost wildcard, such as *.exam- ple.com . The value must be a hostname without a port. Constraints: o min: 1 o max: 253 o pattern: (\*\.)?([A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?\.)*[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?
+    /// The expected TLS server name. The service matches this value against the Subject Alternative Names on your resource's TLS certificate during invocation. This field is required when protocol is HTTPS . Set it to a hostname on your certificate, such as app.internal.example.com . You can use a single leftmost wildcard, such as *.example.com . The value must be a hostname without a port. Constraints: • min: 1 • max: 253 • pattern: (\*\.)?([A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?\.)*[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?
     /// </summary>
     [CliOption("--tls-server-name")]
     public string? TlsServerName { get; set; }
 
     /// <summary>
-    /// An optional human-readable name for the VPC configuration. If you don't specify a name, the VPC configuration has no name. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9]([a-zA-Z0-9 _-]*[a-zA-Z0-9])?
+    /// An optional human-readable name for the VPC configuration. If you don't specify a name, the VPC configuration has no name. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9]([a-zA-Z0-9 _-]*[a-zA-Z0-9])?
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// An optional description of the VPC configuration. If you don't spec- ify a description, the VPC configuration has no description. Constraints: o min: 0 o max: 512 o pattern: [^\p{C}]*
+    /// An optional description of the VPC configuration. If you don't specify a description, the VPC configuration has no description. Constraints: • min: 0 • max: 512 • pattern: [^\p{C}]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
@@ -184,6 +185,15 @@ public record AwsBedrockAgentCreateVpcConfigurationOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new training plan in SageMaker to reserve compute capacity. Amazon SageMaker Training Plan is a capability within SageMaker that allows customers to reserve and manage GPU capacity for large-scale AI model training. It provides a way to secure predictable access to com- putational resources within specific timelines and budgets, without the need to manage underlying infrastructure. How it works Plans can be created for specific resources such as SageMaker Training Jobs or SageMaker Hyp...
+/// Creates a new training plan in SageMaker to reserve compute capacity. Amazon SageMaker Training Plan is a capability within SageMaker that allows customers to reserve and manage GPU capacity for large-scale AI model training. It provides a way to secure predictable access to computational resources within specific timelines and budgets, without the need to manage underlying infrastructure. How it works Plans can be created for specific resources such as SageMaker Training Jobs or SageMaker Hyper...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsSagemakerCreateTrainingPlanOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new training plan in SageMaker to reserve compute capacity. Amazon SageMaker Training Plan is a capability within SageMaker that allows customers to reserve and manage GPU capacity for large-scale AI model training. It provides a way to secure predictable access to com- putational resources within specific timelines and budgets, without the need to manage underlying infrastructure. How it works Plans can be created for specific resources such as SageMaker Training Jobs or SageMaker Hyp...
+    /// Creates a new training plan in SageMaker to reserve compute capacity. Amazon SageMaker Training Plan is a capability within SageMaker that allows customers to reserve and manage GPU capacity for large-scale AI model training. It provides a way to secure predictable access to computational resources within specific timelines and budgets, without the need to manage underlying infrastructure. How it works Plans can be created for specific resources such as SageMaker Training Jobs or SageMaker Hyper...
     /// </summary>
-    /// <param name="TrainingPlanName">The name of the training plan to create. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,63}</param>
-    /// <param name="TrainingPlanOfferingId">The unique identifier of the training plan offering to use for cre- ating this plan. Constraints: o min: 1 o max: 256 o pattern: [a-z0-9\-]+</param>
+    /// <param name="TrainingPlanName">The name of the training plan to create. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,63}</param>
+    /// <param name="TrainingPlanOfferingId">The unique identifier of the training plan offering to use for creating this plan. Constraints: • min: 1 • max: 256 • pattern: [a-z0-9\-]+</param>
     public AwsSagemakerCreateTrainingPlanOptions(
         string TrainingPlanName,
         string TrainingPlanOfferingId
@@ -60,25 +61,25 @@ public record AwsSagemakerCreateTrainingPlanOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the training plan to create. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,63}
+    /// The name of the training plan to create. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,63}
     /// </summary>
     [CliOption("--training-plan-name")]
     public string? TrainingPlanName { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the training plan offering to use for cre- ating this plan. Constraints: o min: 1 o max: 256 o pattern: [a-z0-9\-]+
+    /// The unique identifier of the training plan offering to use for creating this plan. Constraints: • min: 1 • max: 256 • pattern: [a-z0-9\-]+
     /// </summary>
     [CliOption("--training-plan-offering-id")]
     public string? TrainingPlanOfferingId { get; private init; }
 
     /// <summary>
-    /// Number of spare instances to reserve per UltraServer for enhanced resiliency. Default is 1. Constraints: o min: 0
+    /// Number of spare instances to reserve per UltraServer for enhanced resiliency. Default is 1. Constraints: • min: 0
     /// </summary>
     [CliOption("--spare-instance-count-per-ultra-server")]
     public int? SpareInstanceCountPerUltraServer { get; set; }
 
     /// <summary>
-    /// An array of key-value pairs to apply to this training plan. Constraints: o min: 0 o max: 50 (structure) A tag object that consists of a key and an optional value, used to manage metadata for SageMaker Amazon Web Services resources. You can add tags to notebook instances, training jobs, hyperpa- rameter tuning jobs, batch transform jobs, models, labeling jobs, work teams, endpoint configurations, and endpoints. For more information on adding tags to SageMaker resources, see AddTags . For more information on adding metadata to your Amazon Web Ser- vices resources with tagging, see Tagging Amazon Web Services resources . For advice on best practices for managing Amazon Web Services resources with tagging, see Tagging Best Practices: Im- plement an Effective Amazon Web Services Resource Tagging Strat- egy . Key -&gt; (string) [required] The tag key. Tag keys must be unique per resource. Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The tag value. Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// An array of key-value pairs to apply to this training plan. Constraints: • min: 0 • max: 50 (structure) A tag object that consists of a key and an optional value, used to manage metadata for SageMaker Amazon Web Services resources. You can add tags to notebook instances, training jobs, hyperparameter tuning jobs, batch transform jobs, models, labeling jobs, work teams, endpoint configurations, and endpoints. For more information on adding tags to SageMaker resources, see AddTags . For more information on adding metadata to your Amazon Web Services resources with tagging, see Tagging Amazon Web Services resources . For advice on best practices for managing Amazon Web Services resources with tagging, see Tagging Best Practices: Implement an Effective Amazon Web Services Resource Tagging Strategy . Key -&gt; (string) [required] The tag key. Tag keys must be unique per resource. Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The tag value. Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -104,6 +105,15 @@ public record AwsSagemakerCreateTrainingPlanOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

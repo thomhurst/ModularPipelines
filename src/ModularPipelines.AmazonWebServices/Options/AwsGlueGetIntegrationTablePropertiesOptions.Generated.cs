@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API is used to retrieve optional override properties for the ta- bles that need to be replicated. These properties can include proper- ties for filtering and partition for source and target tables. See also: AWS API Documentation
+/// This API is used to retrieve optional override properties for the tables that need to be replicated. These properties can include properties for filtering and partition for source and target tables. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsGlueGetIntegrationTablePropertiesOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API is used to retrieve optional override properties for the ta- bles that need to be replicated. These properties can include proper- ties for filtering and partition for source and target tables. See also: AWS API Documentation
+    /// This API is used to retrieve optional override properties for the tables that need to be replicated. These properties can include properties for filtering and partition for source and target tables. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the target table for which to re- trieve integration table properties. Currently, this API only sup- ports retrieving properties for target tables, and the provided ARN should be the ARN of the target table in the Glue Data Catalog. Sup- port for retrieving integration table properties for source connec- tions (using the connection ARN) is not yet implemented and will be added in a future release. Constraints: o min: 1 o max: 512</param>
-    /// <param name="TableName">The name of the table to be replicated. Constraints: o min: 1 o max: 128</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the target table for which to retrieve integration table properties. Currently, this API only supports retrieving properties for target tables, and the provided ARN should be the ARN of the target table in the Glue Data Catalog. Support for retrieving integration table properties for source connections (using the connection ARN) is not yet implemented and will be added in a future release. Constraints: • min: 1 • max: 512</param>
+    /// <param name="TableName">The name of the table to be replicated. Constraints: • min: 1 • max: 128</param>
     public AwsGlueGetIntegrationTablePropertiesOptions(
         string ResourceArn,
         string TableName
@@ -60,13 +61,13 @@ public record AwsGlueGetIntegrationTablePropertiesOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the target table for which to re- trieve integration table properties. Currently, this API only sup- ports retrieving properties for target tables, and the provided ARN should be the ARN of the target table in the Glue Data Catalog. Sup- port for retrieving integration table properties for source connec- tions (using the connection ARN) is not yet implemented and will be added in a future release. Constraints: o min: 1 o max: 512
+    /// The Amazon Resource Name (ARN) of the target table for which to retrieve integration table properties. Currently, this API only supports retrieving properties for target tables, and the provided ARN should be the ARN of the target table in the Glue Data Catalog. Support for retrieving integration table properties for source connections (using the connection ARN) is not yet implemented and will be added in a future release. Constraints: • min: 1 • max: 512
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The name of the table to be replicated. Constraints: o min: 1 o max: 128
+    /// The name of the table to be replicated. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--table-name")]
     public string? TableName { get; private init; }
@@ -92,6 +93,15 @@ public record AwsGlueGetIntegrationTablePropertiesOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

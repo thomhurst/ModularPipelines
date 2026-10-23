@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Performs a test on an availability provider to ensure that access is allowed. For EWS, it verifies the provided credentials can be used to successfully log in. For Lambda, it verifies that the Lambda function can be invoked and that the resource access policy was configured to deny anonymous access. An anonymous invocation is one done without pro- viding either a SourceArn or SourceAccount header. NOTE: The request must contain either one provider definition (EwsProvider or LambdaProvider ) or t...
+/// Performs a test on an availability provider to ensure that access is allowed. For EWS, it verifies the provided credentials can be used to successfully log in. For Lambda, it verifies that the Lambda function can be invoked and that the resource access policy was configured to deny anonymous access. An anonymous invocation is one done without providing either a SourceArn or SourceAccount header. NOTE: The request must contain either one provider definition (EwsProvider or LambdaProvider ) or the...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsWorkmailTestAvailabilityConfigurationOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Performs a test on an availability provider to ensure that access is allowed. For EWS, it verifies the provided credentials can be used to successfully log in. For Lambda, it verifies that the Lambda function can be invoked and that the resource access policy was configured to deny anonymous access. An anonymous invocation is one done without pro- viding either a SourceArn or SourceAccount header. NOTE: The request must contain either one provider definition (EwsProvider or LambdaProvider ) or t...
+    /// Performs a test on an availability provider to ensure that access is allowed. For EWS, it verifies the provided credentials can be used to successfully log in. For Lambda, it verifies that the Lambda function can be invoked and that the resource access policy was configured to deny anonymous access. An anonymous invocation is one done without providing either a SourceArn or SourceAccount header. NOTE: The request must contain either one provider definition (EwsProvider or LambdaProvider ) or the...
     /// </summary>
-    /// <param name="OrganizationId">The WorkMail organization where the availability provider will be tested. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$</param>
+    /// <param name="OrganizationId">The WorkMail organization where the availability provider will be tested. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$</param>
     public AwsWorkmailTestAvailabilityConfigurationOptions(
         string OrganizationId
     )
@@ -56,25 +57,25 @@ public record AwsWorkmailTestAvailabilityConfigurationOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The WorkMail organization where the availability provider will be tested. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$
+    /// The WorkMail organization where the availability provider will be tested. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$
     /// </summary>
     [CliOption("--organization-id")]
     public string? OrganizationId { get; private init; }
 
     /// <summary>
-    /// The domain to which the provider applies. If this field is provided, a stored availability provider associated to this domain name will be tested. Constraints: o min: 3 o max: 255 o pattern: [a-zA-Z0-9.-]+
+    /// The domain to which the provider applies. If this field is provided, a stored availability provider associated to this domain name will be tested. Constraints: • min: 3 • max: 255 • pattern: [a-zA-Z0-9.-]+
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; set; }
 
     /// <summary>
-    /// Describes an EWS based availability provider. This is only used as input to the service. EwsEndpoint -&gt; (string) [required] The endpoint of the remote EWS server. Constraints: o max: 256 o pattern: https?://[A-Za-z0-9.-]+(:[0-9]+)?/.* EwsUsername -&gt; (string) [required] The username used to authenticate the remote EWS server. Constraints: o max: 256 o pattern: [\u0020-\u00FF]+ EwsPassword -&gt; (string) [required] The password used to authenticate the remote EWS server. Constraints: o max: 256 o pattern: [\u0020-\u00FF]+ Shorthand Syntax: EwsEndpoint=string,EwsUsername=string,EwsPassword=string JSON Syntax: { "EwsEndpoint": "string", "EwsUsername": "string", "EwsPassword": "string" }
+    /// Describes an EWS based availability provider. This is only used as input to the service. EwsEndpoint -&gt; (string) [required] The endpoint of the remote EWS server. Constraints: • max: 256 • pattern: https?://[A-Za-z0-9.-]+(:[0-9]+)?/.* EwsUsername -&gt; (string) [required] The username used to authenticate the remote EWS server. Constraints: • max: 256 • pattern: [\u0020-\u00FF]+ EwsPassword -&gt; (string) [required] The password used to authenticate the remote EWS server. Constraints: • max: 256 • pattern: [\u0020-\u00FF]+ Shorthand Syntax: EwsEndpoint=string,EwsUsername=string,EwsPassword=string JSON Syntax: { "EwsEndpoint": "string", "EwsUsername": "string", "EwsPassword": "string" }
     /// </summary>
     [CliOption("--ews-provider")]
     public string? EwsProvider { get; set; }
 
     /// <summary>
-    /// Describes a Lambda based availability provider. LambdaArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Lambda that acts as the availability provider. Constraints: o min: 49 o max: 256 o pattern: arn:aws:lambda:[a-z]{2}-[a-z]+-\d{1}:\d{12}:func- tion:[a-zA-Z0-9\-_\.]+(:(\$LATEST|[a-zA-Z0-9\-_]+))? Shorthand Syntax: LambdaArn=string JSON Syntax: { "LambdaArn": "string" }
+    /// Describes a Lambda based availability provider. LambdaArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Lambda that acts as the availability provider. Constraints: • min: 49 • max: 256 • pattern: arn:aws:lambda:[a-z]{2}-[a-z]+-\d{1}:\d{12}:function:[a-zA-Z0-9\-_\.]+(:(\$LATEST|[a-zA-Z0-9\-_]+))? Shorthand Syntax: LambdaArn=string JSON Syntax: { "LambdaArn": "string" }
     /// </summary>
     [CliOption("--lambda-provider")]
     public string? LambdaProvider { get; set; }
@@ -100,6 +101,15 @@ public record AwsWorkmailTestAvailabilityConfigurationOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

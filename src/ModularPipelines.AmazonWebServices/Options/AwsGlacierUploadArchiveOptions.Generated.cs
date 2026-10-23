@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This operation adds an archive to a vault. This is a synchronous opera- tion, and for a successful upload, your data is durably persisted. Ama- zon Glacier returns the archive ID in the x-amz-archive-id header of the response. You must use the archive ID to access your data in Amazon Glacier. Af- ter you upload an archive, you should save the archive ID returned so that you can retrieve or delete the archive later. Besides saving the archive ID, you can also index it and give it a friendly name ...
+/// This operation adds an archive to a vault. This is a synchronous operation, and for a successful upload, your data is durably persisted. Amazon Glacier returns the archive ID in the x-amz-archive-id header of the response. You must use the archive ID to access your data in Amazon Glacier. After you upload an archive, you should save the archive ID returned so that you can retrieve or delete the archive later. Besides saving the archive ID, you can also index it and give it a friendly name to all...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsGlacierUploadArchiveOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This operation adds an archive to a vault. This is a synchronous opera- tion, and for a successful upload, your data is durably persisted. Ama- zon Glacier returns the archive ID in the x-amz-archive-id header of the response. You must use the archive ID to access your data in Amazon Glacier. Af- ter you upload an archive, you should save the archive ID returned so that you can retrieve or delete the archive later. Besides saving the archive ID, you can also index it and give it a friendly name ...
+    /// This operation adds an archive to a vault. This is a synchronous operation, and for a successful upload, your data is durably persisted. Amazon Glacier returns the archive ID in the x-amz-archive-id header of the response. You must use the archive ID to access your data in Amazon Glacier. After you upload an archive, you should save the archive ID returned so that you can retrieve or delete the archive later. Besides saving the archive ID, you can also index it and give it a friendly name to all...
     /// </summary>
     /// <param name="VaultName">The name of the vault.</param>
-    /// <param name="AccountId">The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '- ' (hyphen), in which case Amazon Glacier uses the AWS ac- count ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.</param>
+    /// <param name="AccountId">The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '- ' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.</param>
     public AwsGlacierUploadArchiveOptions(
         string VaultName,
         string AccountId
@@ -66,7 +67,7 @@ public record AwsGlacierUploadArchiveOptions : AwsOptions, IValidatableObject
     public string? VaultName { get; private init; }
 
     /// <summary>
-    /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '- ' (hyphen), in which case Amazon Glacier uses the AWS ac- count ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
+    /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '- ' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
@@ -110,6 +111,15 @@ public record AwsGlacierUploadArchiveOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

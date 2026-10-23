@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsFmsGetAdminScopeOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Returns information about the specified account's administrative scope. The administrative scope defines the resources that an Firewall Manager administrator can manage. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AdminAccount">The administrator account that you want to get the details for. Constraints: o min: 1 o max: 1024 o pattern: ^[0-9]+$</param>
+    /// <param name="AdminAccount">The administrator account that you want to get the details for. Constraints: • min: 1 • max: 1024 • pattern: ^[0-9]+$</param>
     public AwsFmsGetAdminScopeOptions(
         string AdminAccount
     )
@@ -56,7 +57,7 @@ public record AwsFmsGetAdminScopeOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The administrator account that you want to get the details for. Constraints: o min: 1 o max: 1024 o pattern: ^[0-9]+$
+    /// The administrator account that you want to get the details for. Constraints: • min: 1 • max: 1024 • pattern: ^[0-9]+$
     /// </summary>
     [CliOption("--admin-account")]
     public string? AdminAccount { get; private init; }
@@ -82,6 +83,15 @@ public record AwsFmsGetAdminScopeOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

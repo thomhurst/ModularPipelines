@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +28,8 @@ public record AwsServicediscoveryUpdateServiceAttributesOptions : AwsOptions, IV
     /// <summary>
     /// Submits a request to update a specified service to add service-level attributes. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ServiceId">The ID or Amazon Resource Name (ARN) of the service that you want to update. For services created in a namespace shared with your Amazon Web Services account, specify the service ARN. Constraints: o max: 255</param>
-    /// <param name="Attributes">A string map that contains attribute key-value pairs. Constraints: o min: 1 o max: 30 key -&gt; (string) Constraints: o max: 255 value -&gt; (string) Constraints: o max: 1024 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    /// <param name="ServiceId">The ID or Amazon Resource Name (ARN) of the service that you want to update. For services created in a namespace shared with your Amazon Web Services account, specify the service ARN. Constraints: • max: 255</param>
+    /// <param name="Attributes">A string map that contains attribute key-value pairs. Constraints: • min: 1 • max: 30 key -&gt; (string) Constraints: • max: 255 value -&gt; (string) Constraints: • max: 1024 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
     public AwsServicediscoveryUpdateServiceAttributesOptions(
         string ServiceId,
         IReadOnlyList<KeyValue> Attributes
@@ -72,13 +72,13 @@ public record AwsServicediscoveryUpdateServiceAttributesOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID or Amazon Resource Name (ARN) of the service that you want to update. For services created in a namespace shared with your Amazon Web Services account, specify the service ARN. Constraints: o max: 255
+    /// The ID or Amazon Resource Name (ARN) of the service that you want to update. For services created in a namespace shared with your Amazon Web Services account, specify the service ARN. Constraints: • max: 255
     /// </summary>
     [CliOption("--service-id")]
     public string? ServiceId { get; private init; }
 
     /// <summary>
-    /// A string map that contains attribute key-value pairs. Constraints: o min: 1 o max: 30 key -&gt; (string) Constraints: o max: 255 value -&gt; (string) Constraints: o max: 1024 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A string map that contains attribute key-value pairs. Constraints: • min: 1 • max: 30 key -&gt; (string) Constraints: • max: 255 value -&gt; (string) Constraints: • max: 1024 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--attributes", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Attributes { get; private init; }
@@ -104,6 +104,15 @@ public record AwsServicediscoveryUpdateServiceAttributesOptions : AwsOptions, IV
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Detaches the specified principal from the specified thing. A principal can be X.509 certificates, IAM users, groups, and roles, Amazon Cognito identities or federated identities. NOTE: This call is asynchronous. It might take several seconds for the de- tachment to propagate. Requires permission to access the DetachThingPrincipal action. See also: AWS API Documentation
+/// Detaches the specified principal from the specified thing. A principal can be X.509 certificates, IAM users, groups, and roles, Amazon Cognito identities or federated identities. NOTE: This call is asynchronous. It might take several seconds for the detachment to propagate. Requires permission to access the DetachThingPrincipal action. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsIotDetachThingPrincipalOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Detaches the specified principal from the specified thing. A principal can be X.509 certificates, IAM users, groups, and roles, Amazon Cognito identities or federated identities. NOTE: This call is asynchronous. It might take several seconds for the de- tachment to propagate. Requires permission to access the DetachThingPrincipal action. See also: AWS API Documentation
+    /// Detaches the specified principal from the specified thing. A principal can be X.509 certificates, IAM users, groups, and roles, Amazon Cognito identities or federated identities. NOTE: This call is asynchronous. It might take several seconds for the detachment to propagate. Requires permission to access the DetachThingPrincipal action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ThingName">The name of the thing. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+</param>
+    /// <param name="ThingName">The name of the thing. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+</param>
     /// <param name="Principal">If the principal is a certificate, this value must be ARN of the certificate. If the principal is an Amazon Cognito identity, this value must be the ID of the Amazon Cognito identity.</param>
     public AwsIotDetachThingPrincipalOptions(
         string ThingName,
@@ -60,7 +61,7 @@ public record AwsIotDetachThingPrincipalOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the thing. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+
+    /// The name of the thing. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+
     /// </summary>
     [CliOption("--thing-name")]
     public string? ThingName { get; private init; }
@@ -92,6 +93,15 @@ public record AwsIotDetachThingPrincipalOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

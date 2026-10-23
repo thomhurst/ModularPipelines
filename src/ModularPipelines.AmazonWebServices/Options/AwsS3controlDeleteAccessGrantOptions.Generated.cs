@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the access grant from the S3 Access Grants instance. You cannot undo an access grant deletion and the grantee will no longer have ac- cess to the S3 data. Permissions You must have the s3:DeleteAccessGrant permission to use this opera- tion. See also: AWS API Documentation
+/// Deletes the access grant from the S3 Access Grants instance. You cannot undo an access grant deletion and the grantee will no longer have access to the S3 data. Permissions You must have the s3:DeleteAccessGrant permission to use this operation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsS3controlDeleteAccessGrantOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the access grant from the S3 Access Grants instance. You cannot undo an access grant deletion and the grantee will no longer have ac- cess to the S3 data. Permissions You must have the s3:DeleteAccessGrant permission to use this opera- tion. See also: AWS API Documentation
+    /// Deletes the access grant from the S3 Access Grants instance. You cannot undo an access grant deletion and the grantee will no longer have access to the S3 data. Permissions You must have the s3:DeleteAccessGrant permission to use this operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountId">The Amazon Web Services account ID of the S3 Access Grants instance. Constraints: o max: 64 o pattern: ^\d{12}$</param>
-    /// <param name="AccessGrantId">The ID of the access grant. S3 Access Grants auto-generates this ID when you create the access grant. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9\-]+</param>
+    /// <param name="AccountId">The Amazon Web Services account ID of the S3 Access Grants instance. Constraints: • max: 64 • pattern: ^\d{12}$</param>
+    /// <param name="AccessGrantId">The ID of the access grant. S3 Access Grants auto-generates this ID when you create the access grant. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9\-]+</param>
     public AwsS3controlDeleteAccessGrantOptions(
         string AccountId,
         string AccessGrantId
@@ -60,13 +61,13 @@ public record AwsS3controlDeleteAccessGrantOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services account ID of the S3 Access Grants instance. Constraints: o max: 64 o pattern: ^\d{12}$
+    /// The Amazon Web Services account ID of the S3 Access Grants instance. Constraints: • max: 64 • pattern: ^\d{12}$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// The ID of the access grant. S3 Access Grants auto-generates this ID when you create the access grant. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9\-]+
+    /// The ID of the access grant. S3 Access Grants auto-generates this ID when you create the access grant. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9\-]+
     /// </summary>
     [CliOption("--access-grant-id")]
     public string? AccessGrantId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsS3controlDeleteAccessGrantOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

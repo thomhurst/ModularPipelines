@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Provides a list of analysis segments for a real-time chat analysis ses- sion. This API supports CHAT channels only. WARNING: This API does not support VOICE. If you attempt to use it for VOICE, an InvalidRequestException occurs. See also: AWS API Documentation
+/// Provides a list of analysis segments for a real-time chat analysis session. This API supports CHAT channels only. WARNING: This API does not support VOICE. If you attempt to use it for VOICE, an InvalidRequestException occurs. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,12 +28,12 @@ public record AwsConnectListRealtimeContactAnalysisSegmentsV2Options : AwsOption
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Provides a list of analysis segments for a real-time chat analysis ses- sion. This API supports CHAT channels only. WARNING: This API does not support VOICE. If you attempt to use it for VOICE, an InvalidRequestException occurs. See also: AWS API Documentation
+    /// Provides a list of analysis segments for a real-time chat analysis session. This API supports CHAT channels only. WARNING: This API does not support VOICE. If you attempt to use it for VOICE, an InvalidRequestException occurs. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="ContactId">The identifier of the contact in this instance of Connect Customer. Constraints: o min: 1 o max: 256</param>
-    /// <param name="OutputType">The Contact Lens output type to be returned. Possible values: o Raw o Redacted</param>
-    /// <param name="SegmentTypes">Enum with segment types . Each value corresponds to a segment type returned in the segments list of the API. Each segment type has its own structure. Different channels may have different sets of sup- ported segment types. Constraints: o max: 7 (string) Possible values: o Transcript o Categories o Issues o Event o Attachments o PostContactSummary o ExtractedInformation Syntax: "string" "string" ...</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="ContactId">The identifier of the contact in this instance of Connect Customer. Constraints: • min: 1 • max: 256</param>
+    /// <param name="OutputType">The Contact Lens output type to be returned. Possible values: • Raw • Redacted</param>
+    /// <param name="SegmentTypes">Enum with segment types . Each value corresponds to a segment type returned in the segments list of the API. Each segment type has its own structure. Different channels may have different sets of supported segment types. Constraints: • max: 7 (string) Possible values: • Transcript • Categories • Issues • Event • Attachments • PostContactSummary • ExtractedInformation Syntax: "string" "string" ...</param>
     public AwsConnectListRealtimeContactAnalysisSegmentsV2Options(
         string InstanceId,
         string ContactId,
@@ -80,37 +81,37 @@ public record AwsConnectListRealtimeContactAnalysisSegmentsV2Options : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The identifier of the contact in this instance of Connect Customer. Constraints: o min: 1 o max: 256
+    /// The identifier of the contact in this instance of Connect Customer. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--contact-id")]
     public string? ContactId { get; private init; }
 
     /// <summary>
-    /// The Contact Lens output type to be returned. Possible values: o Raw o Redacted
+    /// The Contact Lens output type to be returned. Possible values: • Raw • Redacted
     /// </summary>
     [CliOption("--output-type")]
     public AwsConnectListRealtimeContactAnalysisSegmentsV2OutputType? OutputType { get; private init; }
 
     /// <summary>
-    /// Enum with segment types . Each value corresponds to a segment type returned in the segments list of the API. Each segment type has its own structure. Different channels may have different sets of sup- ported segment types. Constraints: o max: 7 (string) Possible values: o Transcript o Categories o Issues o Event o Attachments o PostContactSummary o ExtractedInformation Syntax: "string" "string" ...
+    /// Enum with segment types . Each value corresponds to a segment type returned in the segments list of the API. Each segment type has its own structure. Different channels may have different sets of supported segment types. Constraints: • max: 7 (string) Possible values: • Transcript • Categories • Issues • Event • Attachments • PostContactSummary • ExtractedInformation Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--segment-types", GroupValues = true)]
     public IEnumerable<string>? SegmentTypes { get; private init; }
 
     /// <summary>
-    /// The maximum number of results to return per page. Constraints: o min: 1 o max: 100
+    /// The maximum number of results to return per page. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. Constraints: o min: 1 o max: 100000
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. Constraints: • min: 1 • max: 100000
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -137,6 +138,15 @@ public record AwsConnectListRealtimeContactAnalysisSegmentsV2Options : AwsOption
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

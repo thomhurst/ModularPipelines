@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a connection that can then be given to other Amazon Web Ser- vices services like CodePipeline so that it can access third-party code repositories. The connection is in pending status until the third-party connection handshake is completed from the console. See also: AWS API Documentation
+/// Creates a connection that can then be given to other Amazon Web Services services like CodePipeline so that it can access third-party code repositories. The connection is in pending status until the third-party connection handshake is completed from the console. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsCodeconnectionsCreateConnectionOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a connection that can then be given to other Amazon Web Ser- vices services like CodePipeline so that it can access third-party code repositories. The connection is in pending status until the third-party connection handshake is completed from the console. See also: AWS API Documentation
+    /// Creates a connection that can then be given to other Amazon Web Services services like CodePipeline so that it can access third-party code repositories. The connection is in pending status until the third-party connection handshake is completed from the console. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConnectionName">The name of the connection to be created. Constraints: o min: 1 o max: 32 o pattern: [\s\S]*</param>
+    /// <param name="ConnectionName">The name of the connection to be created. Constraints: • min: 1 • max: 32 • pattern: [\s\S]*</param>
     public AwsCodeconnectionsCreateConnectionOptions(
         string ConnectionName
     )
@@ -57,25 +58,25 @@ public record AwsCodeconnectionsCreateConnectionOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the connection to be created. Constraints: o min: 1 o max: 32 o pattern: [\s\S]*
+    /// The name of the connection to be created. Constraints: • min: 1 • max: 32 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--connection-name")]
     public string? ConnectionName { get; private init; }
 
     /// <summary>
-    /// The name of the external provider where your third-party code repos- itory is configured. Possible values: o Bitbucket o GitHub o GitHubEnterpriseServer o GitLab o GitLabSelfManaged o AzureDevOps
+    /// The name of the external provider where your third-party code repository is configured. Possible values: • Bitbucket • GitHub • GitHubEnterpriseServer • GitLab • GitLabSelfManaged • AzureDevOps
     /// </summary>
     [CliOption("--provider-type")]
     public AwsCodeconnectionsCreateConnectionProviderType? ProviderType { get; set; }
 
     /// <summary>
-    /// The key-value pair to use when tagging the resource. Constraints: o min: 0 o max: 200 (structure) A tag is a key-value pair that is used to manage the resource. This tag is available for use by Amazon Web Services services that support tags. Key -&gt; (string) [required] The tag's key. Constraints: o min: 1 o max: 128 o pattern: .* Value -&gt; (string) [required] The tag's value. Constraints: o min: 0 o max: 256 o pattern: .* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The key-value pair to use when tagging the resource. Constraints: • min: 0 • max: 200 (structure) A tag is a key-value pair that is used to manage the resource. This tag is available for use by Amazon Web Services services that support tags. Key -&gt; (string) [required] The tag's key. Constraints: • min: 1 • max: 128 • pattern: .* Value -&gt; (string) [required] The tag's value. Constraints: • min: 0 • max: 256 • pattern: .* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the host associated with the con- nection to be created. Constraints: o min: 0 o max: 256 o pattern: arn:aws(-[\w]+)*:(codestar-connections|codeconnec- tions):.+:[0-9]{12}:host\/.+
+    /// The Amazon Resource Name (ARN) of the host associated with the connection to be created. Constraints: • min: 0 • max: 256 • pattern: arn:aws(-[\w]+)*:(codestar-connections|codeconnections):.+:[0-9]{12}:host\/.+
     /// </summary>
     [CliOption("--host-arn")]
     public string? HostArn { get; set; }
@@ -101,6 +102,15 @@ public record AwsCodeconnectionsCreateConnectionOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

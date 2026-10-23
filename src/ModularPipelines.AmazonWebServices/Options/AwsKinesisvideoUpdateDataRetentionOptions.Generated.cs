@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Increases or decreases the stream's data retention period by the value that you specify. To indicate whether you want to increase or decrease the data retention period, specify the Operation parameter in the re- quest body. In the request, you must specify either the StreamName or the StreamARN . This operation requires permission for the KinesisVideo:UpdateDataRe- tention action. Changing the data retention period affects the data in the stream as follows: o If the data retention period is incr...
+/// Increases or decreases the stream's data retention period by the value that you specify. To indicate whether you want to increase or decrease the data retention period, specify the Operation parameter in the request body. In the request, you must specify either the StreamName or the StreamARN . This operation requires permission for the KinesisVideo:UpdateDataRetention action. Changing the data retention period affects the data in the stream as follows: • If the data retention period is increase...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsKinesisvideoUpdateDataRetentionOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Increases or decreases the stream's data retention period by the value that you specify. To indicate whether you want to increase or decrease the data retention period, specify the Operation parameter in the re- quest body. In the request, you must specify either the StreamName or the StreamARN . This operation requires permission for the KinesisVideo:UpdateDataRe- tention action. Changing the data retention period affects the data in the stream as follows: o If the data retention period is incr...
+    /// Increases or decreases the stream's data retention period by the value that you specify. To indicate whether you want to increase or decrease the data retention period, specify the Operation parameter in the request body. In the request, you must specify either the StreamName or the StreamARN . This operation requires permission for the KinesisVideo:UpdateDataRetention action. Changing the data retention period affects the data in the stream as follows: • If the data retention period is increase...
     /// </summary>
-    /// <param name="CurrentVersion">The version of the stream whose retention period you want to change. To get the version, call either the DescribeStream or the List- Streams API. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9]+</param>
-    /// <param name="Operation">Indicates whether you want to increase or decrease the retention pe- riod. Possible values: o INCREASE_DATA_RETENTION o DECREASE_DATA_RETENTION</param>
-    /// <param name="DataRetentionChangeInHours">The number of hours to adjust the current retention by. The value you specify is added to or subtracted from the current value, de- pending on the operation . The minimum value for data retention is 0 and the maximum value is 87600 (ten years). Constraints: o min: 1</param>
+    /// <param name="CurrentVersion">The version of the stream whose retention period you want to change. To get the version, call either the DescribeStream or the ListStreams API. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9]+</param>
+    /// <param name="Operation">Indicates whether you want to increase or decrease the retention period. Possible values: • INCREASE_DATA_RETENTION • DECREASE_DATA_RETENTION</param>
+    /// <param name="DataRetentionChangeInHours">The number of hours to adjust the current retention by. The value you specify is added to or subtracted from the current value, depending on the operation . The minimum value for data retention is 0 and the maximum value is 87600 (ten years). Constraints: • min: 1</param>
     public AwsKinesisvideoUpdateDataRetentionOptions(
         string CurrentVersion,
         AwsKinesisvideoUpdateDataRetentionOperation Operation,
@@ -63,31 +64,31 @@ public record AwsKinesisvideoUpdateDataRetentionOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The version of the stream whose retention period you want to change. To get the version, call either the DescribeStream or the List- Streams API. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9]+
+    /// The version of the stream whose retention period you want to change. To get the version, call either the DescribeStream or the ListStreams API. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9]+
     /// </summary>
     [CliOption("--current-version")]
     public string? CurrentVersion { get; private init; }
 
     /// <summary>
-    /// Indicates whether you want to increase or decrease the retention pe- riod. Possible values: o INCREASE_DATA_RETENTION o DECREASE_DATA_RETENTION
+    /// Indicates whether you want to increase or decrease the retention period. Possible values: • INCREASE_DATA_RETENTION • DECREASE_DATA_RETENTION
     /// </summary>
     [CliOption("--operation")]
     public AwsKinesisvideoUpdateDataRetentionOperation? Operation { get; private init; }
 
     /// <summary>
-    /// The number of hours to adjust the current retention by. The value you specify is added to or subtracted from the current value, de- pending on the operation . The minimum value for data retention is 0 and the maximum value is 87600 (ten years). Constraints: o min: 1
+    /// The number of hours to adjust the current retention by. The value you specify is added to or subtracted from the current value, depending on the operation . The minimum value for data retention is 0 and the maximum value is 87600 (ten years). Constraints: • min: 1
     /// </summary>
     [CliOption("--data-retention-change-in-hours")]
     public int? DataRetentionChangeInHours { get; private init; }
 
     /// <summary>
-    /// The name of the stream whose retention period you want to change. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_.-]+
+    /// The name of the stream whose retention period you want to change. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--stream-name")]
     public string? StreamName { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the stream whose retention period you want to change. Constraints: o min: 1 o max: 1024 o pattern: arn:[a-z\d-]+:kine- sisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+
+    /// The Amazon Resource Name (ARN) of the stream whose retention period you want to change. Constraints: • min: 1 • max: 1024 • pattern: arn:[a-z\d-]+:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+
     /// </summary>
     [CliOption("--stream-arn")]
     public string? StreamArn { get; set; }
@@ -113,6 +114,15 @@ public record AwsKinesisvideoUpdateDataRetentionOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

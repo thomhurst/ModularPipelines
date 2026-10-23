@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsSagemakerDeleteMlflowAppOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Deletes an MLflow App. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The ARN of the MLflow App to delete. Constraints: o min: 1 o max: 128 o pattern: arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:[0-9]{12}:mlflow-app/.*</param>
+    /// <param name="Arn">The ARN of the MLflow App to delete. Constraints: • min: 1 • max: 128 • pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:mlflow-app/.*</param>
     public AwsSagemakerDeleteMlflowAppOptions(
         string Arn
     )
@@ -56,7 +57,7 @@ public record AwsSagemakerDeleteMlflowAppOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the MLflow App to delete. Constraints: o min: 1 o max: 128 o pattern: arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:[0-9]{12}:mlflow-app/.*
+    /// The ARN of the MLflow App to delete. Constraints: • min: 1 • max: 128 • pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:mlflow-app/.*
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSagemakerDeleteMlflowAppOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

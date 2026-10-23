@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsBackupRevokeRestoreAccessBackupVaultOptions : AwsOptions, IVali
     /// <summary>
     /// Revokes access to a restore access backup vault, removing the ability to restore from its recovery points and permanently deleting the vault. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BackupVaultName">The name of the source backup vault associated with the restore ac- cess backup vault to be revoked. Constraints: o pattern: ^[a-zA-Z0-9\-\_]{2,50}$</param>
+    /// <param name="BackupVaultName">The name of the source backup vault associated with the restore access backup vault to be revoked. Constraints: • pattern: ^[a-zA-Z0-9\-\_]{2,50}$</param>
     /// <param name="RestoreAccessBackupVaultArn">The ARN of the restore access backup vault to revoke.</param>
     public AwsBackupRevokeRestoreAccessBackupVaultOptions(
         string BackupVaultName,
@@ -60,7 +61,7 @@ public record AwsBackupRevokeRestoreAccessBackupVaultOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the source backup vault associated with the restore ac- cess backup vault to be revoked. Constraints: o pattern: ^[a-zA-Z0-9\-\_]{2,50}$
+    /// The name of the source backup vault associated with the restore access backup vault to be revoked. Constraints: • pattern: ^[a-zA-Z0-9\-\_]{2,50}$
     /// </summary>
     [CliOption("--backup-vault-name")]
     public string? BackupVaultName { get; private init; }
@@ -98,6 +99,15 @@ public record AwsBackupRevokeRestoreAccessBackupVaultOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

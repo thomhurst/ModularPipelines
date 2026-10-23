@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsFinspaceGetKxVolumeOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Retrieves the information about the volume. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EnvironmentId">A unique identifier for the kdb environment, whose clusters can at- tach to the volume. Constraints: o min: 1 o max: 32 o pattern: ^[a-z0-9]+$</param>
-    /// <param name="VolumeName">A unique identifier for the volume. Constraints: o min: 3 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$</param>
+    /// <param name="EnvironmentId">A unique identifier for the kdb environment, whose clusters can attach to the volume. Constraints: • min: 1 • max: 32 • pattern: ^[a-z0-9]+$</param>
+    /// <param name="VolumeName">A unique identifier for the volume. Constraints: • min: 3 • max: 63 • pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$</param>
     public AwsFinspaceGetKxVolumeOptions(
         string EnvironmentId,
         string VolumeName
@@ -60,13 +61,13 @@ public record AwsFinspaceGetKxVolumeOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the kdb environment, whose clusters can at- tach to the volume. Constraints: o min: 1 o max: 32 o pattern: ^[a-z0-9]+$
+    /// A unique identifier for the kdb environment, whose clusters can attach to the volume. Constraints: • min: 1 • max: 32 • pattern: ^[a-z0-9]+$
     /// </summary>
     [CliOption("--environment-id")]
     public string? EnvironmentId { get; private init; }
 
     /// <summary>
-    /// A unique identifier for the volume. Constraints: o min: 3 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$
+    /// A unique identifier for the volume. Constraints: • min: 3 • max: 63 • pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$
     /// </summary>
     [CliOption("--volume-name")]
     public string? VolumeName { get; private init; }
@@ -92,6 +93,15 @@ public record AwsFinspaceGetKxVolumeOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets network performance data. See also: AWS API Documentation get-aws-network-performance-data is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: DataResponses
+/// Gets network performance data. See also: AWS API Documentation get-aws-network-performance-data is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: DataResponses
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsEc2GetAwsNetworkPerformanceDataOptions : AwsOptions
 {
     /// <summary>
-    /// A list of network performance data queries. (structure) A query used for retrieving network health data. Id -&gt; (string) A user-defined ID associated with a data query that's re- turned in the dataResponse identifying the query. For exam- ple, if you set the Id to MyQuery01 in the query, the dataRe- sponse identifies the query as MyQuery01 . Source -&gt; (string) The Region or Availability Zone that's the source for the data query. For example, us-east-1 . Destination -&gt; (string) The Region or Availability Zone that's the target for the data query. For example, eu-north-1 . Metric -&gt; (string) The metric used for the network performance request. Possible values: o aggregate-latency Statistic -&gt; (string) The metric data aggregation period, p50 , between the speci- fied startDate and endDate . For example, a metric of five_minutes is the median of all the data points gathered within those five minutes. p50 is the only supported metric. Possible values: o p50 Period -&gt; (string) The aggregation period used for the data query. Possible values: o five-minutes o fifteen-minutes o one-hour o three-hours o one-day o one-week Shorthand Syntax: Id=string,Source=string,Destination=string,Metric=string,Statistic=string,Period=string ... JSON Syntax: [ { "Id": "string", "Source": "string", "Destination": "string", "Metric": "aggregate-latency", "Statistic": "p50", "Period": "five-minutes"|"fifteen-minutes"|"one-hour"|"three-hours"|"one-day"|"one-week" } ... ]
+    /// A list of network performance data queries. (structure) A query used for retrieving network health data. Id -&gt; (string) A user-defined ID associated with a data query that's returned in the dataResponse identifying the query. For example, if you set the Id to MyQuery01 in the query, the dataResponse identifies the query as MyQuery01 . Source -&gt; (string) The Region or Availability Zone that's the source for the data query. For example, us-east-1 . Destination -&gt; (string) The Region or Availability Zone that's the target for the data query. For example, eu-north-1 . Metric -&gt; (string) The metric used for the network performance request. Possible values: • aggregate-latency Statistic -&gt; (string) The metric data aggregation period, p50 , between the specified startDate and endDate . For example, a metric of five_minutes is the median of all the data points gathered within those five minutes. p50 is the only supported metric. Possible values: • p50 Period -&gt; (string) The aggregation period used for the data query. Possible values: • five-minutes • fifteen-minutes • one-hour • three-hours • one-day • one-week Shorthand Syntax: Id=string,Source=string,Destination=string,Metric=string,Statistic=string,Period=string ... JSON Syntax: [ { "Id": "string", "Source": "string", "Destination": "string", "Metric": "aggregate-latency", "Statistic": "p50", "Period": "five-minutes"|"fifteen-minutes"|"one-hour"|"three-hours"|"one-day"|"one-week" } ... ]
     /// </summary>
     [CliOption("--data-queries", GroupValues = true)]
     public IEnumerable<string>? DataQueries { get; set; }
@@ -41,16 +41,13 @@ public record AwsEc2GetAwsNetworkPerformanceDataOptions : AwsOptions
     public string? EndTime { get; set; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -60,15 +57,27 @@ public record AwsEc2GetAwsNetworkPerformanceDataOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

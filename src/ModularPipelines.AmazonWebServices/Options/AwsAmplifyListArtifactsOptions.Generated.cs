@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,9 +29,9 @@ public record AwsAmplifyListArtifactsOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Returns a list of end-to-end testing artifacts for a specified app, branch, and job. To return the build artifacts, use the GetJob API. For more information about Amplify testing support, see Setting up end-to-end Cypress tests for your Amplify application in the Amplify Hosting User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="AppId">The unique ID for an Amplify app. Constraints: o min: 1 o max: 20 o pattern: d[a-z0-9]+</param>
-    /// <param name="BranchName">The name of a branch that is part of an Amplify app. Constraints: o min: 1 o max: 255 o pattern: (?s).+</param>
-    /// <param name="JobId">The unique ID for a job. Constraints: o max: 255 o pattern: [0-9]+</param>
+    /// <param name="AppId">The unique ID for an Amplify app. Constraints: • min: 1 • max: 20 • pattern: d[a-z0-9]+</param>
+    /// <param name="BranchName">The name of a branch that is part of an Amplify app. Constraints: • min: 1 • max: 255 • pattern: (?s).+</param>
+    /// <param name="JobId">The unique ID for a job. Constraints: • max: 255 • pattern: [0-9]+</param>
     public AwsAmplifyListArtifactsOptions(
         string AppId,
         string BranchName,
@@ -65,32 +66,32 @@ public record AwsAmplifyListArtifactsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique ID for an Amplify app. Constraints: o min: 1 o max: 20 o pattern: d[a-z0-9]+
+    /// The unique ID for an Amplify app. Constraints: • min: 1 • max: 20 • pattern: d[a-z0-9]+
     /// </summary>
     [CliOption("--app-id")]
     public string? AppId { get; private init; }
 
     /// <summary>
-    /// The name of a branch that is part of an Amplify app. Constraints: o min: 1 o max: 255 o pattern: (?s).+
+    /// The name of a branch that is part of an Amplify app. Constraints: • min: 1 • max: 255 • pattern: (?s).+
     /// </summary>
     [CliOption("--branch-name")]
     public string? BranchName { get; private init; }
 
     /// <summary>
-    /// The unique ID for a job. Constraints: o max: 255 o pattern: [0-9]+
+    /// The unique ID for a job. Constraints: • max: 255 • pattern: [0-9]+
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }
 
     /// <summary>
-    /// A pagination token. Set to null to start listing artifacts from start. If a non-null pagination token is returned in a result, pass its value in here to list more artifacts. Constraints: o max: 2000 o pattern: (?s).*
+    /// A pagination token. Set to null to start listing artifacts from start. If a non-null pagination token is returned in a result, pass its value in here to list more artifacts. Constraints: • max: 2000 • pattern: (?s).*
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of records to list in a single response. Constraints: o min: 0 o max: 50
+    /// The maximum number of records to list in a single response. Constraints: • min: 0 • max: 50
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -116,6 +117,15 @@ public record AwsAmplifyListArtifactsOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Stops a document classifier training job while in progress. If the training job state is TRAINING , the job is marked for termina- tion and put into the STOP_REQUESTED state. If the training job com- pletes before it can be stopped, it is put into the TRAINED ; otherwise the training job is stopped and put into the STOPPED state and the ser- vice sends back an HTTP 200 response with an empty HTTP body. See also: AWS API Documentation
+/// Stops a document classifier training job while in progress. If the training job state is TRAINING , the job is marked for termination and put into the STOP_REQUESTED state. If the training job completes before it can be stopped, it is put into the TRAINED ; otherwise the training job is stopped and put into the STOPPED state and the service sends back an HTTP 200 response with an empty HTTP body. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsComprehendStopTrainingDocumentClassifierOptions : AwsOptions, I
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Stops a document classifier training job while in progress. If the training job state is TRAINING , the job is marked for termina- tion and put into the STOP_REQUESTED state. If the training job com- pletes before it can be stopped, it is put into the TRAINED ; otherwise the training job is stopped and put into the STOPPED state and the ser- vice sends back an HTTP 200 response with an empty HTTP body. See also: AWS API Documentation
+    /// Stops a document classifier training job while in progress. If the training job state is TRAINING , the job is marked for termination and put into the STOP_REQUESTED state. If the training job completes before it can be stopped, it is put into the TRAINED ; otherwise the training job is stopped and put into the STOPPED state and the service sends back an HTTP 200 response with an empty HTTP body. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DocumentClassifierArn">The Amazon Resource Name (ARN) that identifies the document classi- fier currently being trained. Constraints: o max: 256 o pattern: arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:docu- ment-classifier/[a-zA-Z0-9](-*[a-zA-Z0-9])*(/ver- sion/[a-zA-Z0-9](-*[a-zA-Z0-9])*)?</param>
+    /// <param name="DocumentClassifierArn">The Amazon Resource Name (ARN) that identifies the document classifier currently being trained. Constraints: • max: 256 • pattern: arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:document-classifier/[a-zA-Z0-9](-*[a-zA-Z0-9])*(/version/[a-zA-Z0-9](-*[a-zA-Z0-9])*)?</param>
     public AwsComprehendStopTrainingDocumentClassifierOptions(
         string DocumentClassifierArn
     )
@@ -56,7 +57,7 @@ public record AwsComprehendStopTrainingDocumentClassifierOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) that identifies the document classi- fier currently being trained. Constraints: o max: 256 o pattern: arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:docu- ment-classifier/[a-zA-Z0-9](-*[a-zA-Z0-9])*(/ver- sion/[a-zA-Z0-9](-*[a-zA-Z0-9])*)?
+    /// The Amazon Resource Name (ARN) that identifies the document classifier currently being trained. Constraints: • max: 256 • pattern: arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:document-classifier/[a-zA-Z0-9](-*[a-zA-Z0-9])*(/version/[a-zA-Z0-9](-*[a-zA-Z0-9])*)?
     /// </summary>
     [CliOption("--document-classifier-arn")]
     public string? DocumentClassifierArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsComprehendStopTrainingDocumentClassifierOptions : AwsOptions, I
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

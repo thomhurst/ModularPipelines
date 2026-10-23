@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsDevicefarmCreateVpceConfigurationOptions : AwsOptions, IValidat
     /// <summary>
     /// Creates a configuration record in Device Farm for your Amazon Virtual Private Cloud (VPC) endpoint. See also: AWS API Documentation
     /// </summary>
-    /// <param name="VpceConfigurationName">The friendly name you give to your VPC endpoint configuration, to manage your configurations more easily. Constraints: o min: 0 o max: 1024</param>
-    /// <param name="VpceServiceName">The name of the VPC endpoint service running in your AWS account that you want Device Farm to test. Constraints: o min: 0 o max: 2048</param>
-    /// <param name="ServiceDnsName">The DNS name of the service running in your VPC that you want Device Farm to test. Constraints: o min: 0 o max: 2048</param>
+    /// <param name="VpceConfigurationName">The friendly name you give to your VPC endpoint configuration, to manage your configurations more easily. Constraints: • min: 0 • max: 1024</param>
+    /// <param name="VpceServiceName">The name of the VPC endpoint service running in your AWS account that you want Device Farm to test. Constraints: • min: 0 • max: 2048</param>
+    /// <param name="ServiceDnsName">The DNS name of the service running in your VPC that you want Device Farm to test. Constraints: • min: 0 • max: 2048</param>
     public AwsDevicefarmCreateVpceConfigurationOptions(
         string VpceConfigurationName,
         string VpceServiceName,
@@ -64,25 +65,25 @@ public record AwsDevicefarmCreateVpceConfigurationOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The friendly name you give to your VPC endpoint configuration, to manage your configurations more easily. Constraints: o min: 0 o max: 1024
+    /// The friendly name you give to your VPC endpoint configuration, to manage your configurations more easily. Constraints: • min: 0 • max: 1024
     /// </summary>
     [CliOption("--vpce-configuration-name")]
     public string? VpceConfigurationName { get; private init; }
 
     /// <summary>
-    /// The name of the VPC endpoint service running in your AWS account that you want Device Farm to test. Constraints: o min: 0 o max: 2048
+    /// The name of the VPC endpoint service running in your AWS account that you want Device Farm to test. Constraints: • min: 0 • max: 2048
     /// </summary>
     [CliOption("--vpce-service-name")]
     public string? VpceServiceName { get; private init; }
 
     /// <summary>
-    /// The DNS name of the service running in your VPC that you want Device Farm to test. Constraints: o min: 0 o max: 2048
+    /// The DNS name of the service running in your VPC that you want Device Farm to test. Constraints: • min: 0 • max: 2048
     /// </summary>
     [CliOption("--service-dns-name")]
     public string? ServiceDnsName { get; private init; }
 
     /// <summary>
-    /// An optional description that provides details about your VPC end- point configuration. Constraints: o min: 0 o max: 2048
+    /// An optional description that provides details about your VPC endpoint configuration. Constraints: • min: 0 • max: 2048
     /// </summary>
     [CliOption("--vpce-configuration-description")]
     public string? VpceConfigurationDescription { get; set; }
@@ -108,6 +109,15 @@ public record AwsDevicefarmCreateVpceConfigurationOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

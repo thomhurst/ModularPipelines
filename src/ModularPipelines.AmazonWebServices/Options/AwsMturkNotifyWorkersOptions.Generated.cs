@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// The NotifyWorkers operation sends an email to one or more Workers that you specify with the Worker ID. You can specify up to 100 Worker IDs to send the same message with a single call to the NotifyWorkers opera- tion. The NotifyWorkers operation will send a notification email to a Worker only if you have previously approved or rejected work from the Worker. See also: AWS API Documentation
+/// The NotifyWorkers operation sends an email to one or more Workers that you specify with the Worker ID. You can specify up to 100 Worker IDs to send the same message with a single call to the NotifyWorkers operation. The NotifyWorkers operation will send a notification email to a Worker only if you have previously approved or rejected work from the Worker. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsMturkNotifyWorkersOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// The NotifyWorkers operation sends an email to one or more Workers that you specify with the Worker ID. You can specify up to 100 Worker IDs to send the same message with a single call to the NotifyWorkers opera- tion. The NotifyWorkers operation will send a notification email to a Worker only if you have previously approved or rejected work from the Worker. See also: AWS API Documentation
+    /// The NotifyWorkers operation sends an email to one or more Workers that you specify with the Worker ID. You can specify up to 100 Worker IDs to send the same message with a single call to the NotifyWorkers operation. The NotifyWorkers operation will send a notification email to a Worker only if you have previously approved or rejected work from the Worker. See also: AWS API Documentation
     /// </summary>
     /// <param name="Subject">The subject line of the email message to send. Can include up to 200 characters.</param>
-    /// <param name="MessageText">The text of the email message to send. Can include up to 4,096 char- acters</param>
-    /// <param name="WorkerIds">A list of Worker IDs you wish to notify. You can notify upto 100 Workers at a time. (string) Constraints: o min: 1 o max: 64 o pattern: ^A[A-Z0-9]+$ Syntax: "string" "string" ...</param>
+    /// <param name="MessageText">The text of the email message to send. Can include up to 4,096 characters</param>
+    /// <param name="WorkerIds">A list of Worker IDs you wish to notify. You can notify upto 100 Workers at a time. (string) Constraints: • min: 1 • max: 64 • pattern: ^A[A-Z0-9]+$ Syntax: "string" "string" ...</param>
     public AwsMturkNotifyWorkersOptions(
         string Subject,
         string MessageText,
@@ -81,13 +82,13 @@ public record AwsMturkNotifyWorkersOptions : AwsOptions, IValidatableObject
     public string? Subject { get; private init; }
 
     /// <summary>
-    /// The text of the email message to send. Can include up to 4,096 char- acters
+    /// The text of the email message to send. Can include up to 4,096 characters
     /// </summary>
     [CliOption("--message-text")]
     public string? MessageText { get; private init; }
 
     /// <summary>
-    /// A list of Worker IDs you wish to notify. You can notify upto 100 Workers at a time. (string) Constraints: o min: 1 o max: 64 o pattern: ^A[A-Z0-9]+$ Syntax: "string" "string" ...
+    /// A list of Worker IDs you wish to notify. You can notify upto 100 Workers at a time. (string) Constraints: • min: 1 • max: 64 • pattern: ^A[A-Z0-9]+$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--worker-ids", GroupValues = true)]
     public IEnumerable<string>? WorkerIds { get; private init; }
@@ -113,6 +114,15 @@ public record AwsMturkNotifyWorkersOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

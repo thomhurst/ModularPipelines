@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the set of Amazon S3 objects that make up the specified gov- erned table. A transaction ID or timestamp can be specified for time-travel queries. See also: AWS API Documentation
+/// Returns the set of Amazon S3 objects that make up the specified governed table. A transaction ID or timestamp can be specified for time-travel queries. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsLakeformationGetTableObjectsOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the set of Amazon S3 objects that make up the specified gov- erned table. A transaction ID or timestamp can be specified for time-travel queries. See also: AWS API Documentation
+    /// Returns the set of Amazon S3 objects that make up the specified governed table. A transaction ID or timestamp can be specified for time-travel queries. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DatabaseName">The database containing the governed table. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
-    /// <param name="TableName">The governed table for which to retrieve objects. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="DatabaseName">The database containing the governed table. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="TableName">The governed table for which to retrieve objects. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
     public AwsLakeformationGetTableObjectsOptions(
         string DatabaseName,
         string TableName
@@ -61,25 +62,25 @@ public record AwsLakeformationGetTableObjectsOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The database containing the governed table. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The database containing the governed table. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--database-name")]
     public string? DatabaseName { get; private init; }
 
     /// <summary>
-    /// The governed table for which to retrieve objects. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The governed table for which to retrieve objects. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--table-name")]
     public string? TableName { get; private init; }
 
     /// <summary>
-    /// The catalog containing the governed table. Defaults to the callers account. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The catalog containing the governed table. Defaults to the callers account. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--catalog-id")]
     public string? CatalogId { get; set; }
 
     /// <summary>
-    /// The transaction ID at which to read the governed table contents. If this transaction has aborted, an error is returned. If not set, de- faults to the most recent committed transaction. Cannot be specified along with QueryAsOfTime . Constraints: o min: 1 o max: 255 o pattern: [\p{L}\p{N}\p{P}]*
+    /// The transaction ID at which to read the governed table contents. If this transaction has aborted, an error is returned. If not set, defaults to the most recent committed transaction. Cannot be specified along with QueryAsOfTime . Constraints: • min: 1 • max: 255 • pattern: [\p{L}\p{N}\p{P}]*
     /// </summary>
     [CliOption("--transaction-id")]
     public string? TransactionId { get; set; }
@@ -91,19 +92,19 @@ public record AwsLakeformationGetTableObjectsOptions : AwsOptions, IValidatableO
     public string? QueryAsOfTime { get; set; }
 
     /// <summary>
-    /// A predicate to filter the objects returned based on the partition keys defined in the governed table. o The comparison operators supported are: =, &gt;, &lt;, &gt;=, &lt;= o The logical operators supported are: AND o The data types supported are integer, long, date(yyyy-MM-dd), timestamp(yyyy-MM-dd HH:mm:ssXXX or yyyy-MM-dd HH:mm:ss"), string and decimal. Constraints: o min: 0 o max: 2048 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// A predicate to filter the objects returned based on the partition keys defined in the governed table. • The comparison operators supported are: =, &gt;, &lt;, &gt;=, &lt;= • The logical operators supported are: AND • The data types supported are integer, long, date(yyyy-MM-dd), timestamp(yyyy-MM-dd HH:mm:ssXXX or yyyy-MM-dd HH:mm:ss"), string and decimal. Constraints: • min: 0 • max: 2048 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
     [CliOption("--partition-predicate")]
     public string? PartitionPredicate { get; set; }
 
     /// <summary>
-    /// Specifies how many values to return in a page. Constraints: o min: 1 o max: 1000
+    /// Specifies how many values to return in a page. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// A continuation token if this is not the first call to retrieve these objects. Constraints: o max: 4096
+    /// A continuation token if this is not the first call to retrieve these objects. Constraints: • max: 4096
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -130,6 +131,15 @@ public record AwsLakeformationGetTableObjectsOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

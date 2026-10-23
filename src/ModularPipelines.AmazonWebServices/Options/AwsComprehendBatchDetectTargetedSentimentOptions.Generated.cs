@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +29,8 @@ public record AwsComprehendBatchDetectTargetedSentimentOptions : AwsOptions, IVa
     /// <summary>
     /// Inspects a batch of documents and returns a sentiment analysis for each entity identified in the documents. For more information about targeted sentiment, see Targeted sentiment in the Amazon Comprehend Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="TextList">A list containing the UTF-8 encoded text of the input documents. The list can contain a maximum of 25 documents. The maximum size of each document is 5 KB. Constraints: o min: 1 (string) Constraints: o min: 1 Syntax: "string" "string" ...</param>
-    /// <param name="LanguageCode">The language of the input documents. Currently, English is the only supported language. Possible values: o en o es o fr o de o it o pt o ar o hi o ja o ko o zh o zh-TW</param>
+    /// <param name="TextList">A list containing the UTF-8 encoded text of the input documents. The list can contain a maximum of 25 documents. The maximum size of each document is 5 KB. Constraints: • min: 1 (string) Constraints: • min: 1 Syntax: "string" "string" ...</param>
+    /// <param name="LanguageCode">The language of the input documents. Currently, English is the only supported language. Possible values: • en • es • fr • de • it • pt • ar • hi • ja • ko • zh • zh-TW</param>
     public AwsComprehendBatchDetectTargetedSentimentOptions(
         IEnumerable<string> TextList,
         AwsComprehendBatchDetectTargetedSentimentLanguageCode LanguageCode
@@ -71,13 +72,13 @@ public record AwsComprehendBatchDetectTargetedSentimentOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A list containing the UTF-8 encoded text of the input documents. The list can contain a maximum of 25 documents. The maximum size of each document is 5 KB. Constraints: o min: 1 (string) Constraints: o min: 1 Syntax: "string" "string" ...
+    /// A list containing the UTF-8 encoded text of the input documents. The list can contain a maximum of 25 documents. The maximum size of each document is 5 KB. Constraints: • min: 1 (string) Constraints: • min: 1 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--text-list", GroupValues = true)]
     public IEnumerable<string>? TextList { get; private init; }
 
     /// <summary>
-    /// The language of the input documents. Currently, English is the only supported language. Possible values: o en o es o fr o de o it o pt o ar o hi o ja o ko o zh o zh-TW
+    /// The language of the input documents. Currently, English is the only supported language. Possible values: • en • es • fr • de • it • pt • ar • hi • ja • ko • zh • zh-TW
     /// </summary>
     [CliOption("--language-code")]
     public AwsComprehendBatchDetectTargetedSentimentLanguageCode? LanguageCode { get; private init; }
@@ -103,6 +104,15 @@ public record AwsComprehendBatchDetectTargetedSentimentOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

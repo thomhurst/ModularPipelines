@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists the billing views available for a given time period. Every Amazon Web Services account has a unique PRIMARY billing view that represents the billing data available by default. Accounts that use Billing Conductor also have BILLING_GROUP billing views represent- ing pro forma costs associated with each created billing group. See also: AWS API Documentation list-billing-views is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You ca...
+/// Lists the billing views available for a given time period. Every Amazon Web Services account has a unique PRIMARY billing view that represents the billing data available by default. Accounts that use Billing Conductor also have BILLING_GROUP billing views representing pro forma costs associated with each created billing group. See also: AWS API Documentation list-billing-views is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,46 +23,43 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsBillingListBillingViewsOptions : AwsOptions
 {
     /// <summary>
-    /// The time range for the billing views listed. PRIMARY billing view is always listed. BILLING_GROUP billing views are listed for time ranges when the associated billing group resource in Billing Conduc- tor is active. The time range must be within one calendar month. activeAfterInclusive -&gt; (timestamp) [required] The inclusive time range start date. activeBeforeInclusive -&gt; (timestamp) [required] The inclusive time range end date. Shorthand Syntax: activeAfterInclusive=timestamp,activeBeforeInclusive=timestamp JSON Syntax: { "activeAfterInclusive": timestamp, "activeBeforeInclusive": timestamp }
+    /// The time range for the billing views listed. PRIMARY billing view is always listed. BILLING_GROUP billing views are listed for time ranges when the associated billing group resource in Billing Conductor is active. The time range must be within one calendar month. activeAfterInclusive -&gt; (timestamp) [required] The inclusive time range start date. activeBeforeInclusive -&gt; (timestamp) [required] The inclusive time range end date. Shorthand Syntax: activeAfterInclusive=timestamp,activeBeforeInclusive=timestamp JSON Syntax: { "activeAfterInclusive": timestamp, "activeBeforeInclusive": timestamp }
     /// </summary>
     [CliOption("--active-time-range")]
     public string? ActiveTimeRange { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) that can be used to uniquely identify the billing view. Constraints: o min: 0 o max: 10 (string) Constraints: o pattern: arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[a-zA-Z0-9/:_\+=\.\-@]{0,75}[a-zA-Z0-9] Syntax: "string" "string" ...
+    /// The Amazon Resource Name (ARN) that can be used to uniquely identify the billing view. Constraints: • min: 0 • max: 10 (string) Constraints: • pattern: arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[a-zA-Z0-9/:_\+=\.\-@]{0,75}[a-zA-Z0-9] Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--arns", GroupValues = true)]
     public IEnumerable<string>? Arns { get; set; }
 
     /// <summary>
-    /// The type of billing view. (string) Possible values: o PRIMARY o BILLING_GROUP o CUSTOM o BILLING_TRANSFER o BILLING_TRANSFER_SHOWBACK Syntax: "string" "string" ...
+    /// The type of billing view. (string) Possible values: • PRIMARY • BILLING_GROUP • CUSTOM • BILLING_TRANSFER • BILLING_TRANSFER_SHOWBACK Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--billing-view-types", GroupValues = true)]
     public IEnumerable<string>? BillingViewTypes { get; set; }
 
     /// <summary>
-    /// Filters the list of billing views by name. You can specify search criteria to match billing view names based on the search option pro- vided. Constraints: o min: 1 o max: 1 (structure) A structure that defines how to search for string values. You can specify a search option and the value to search for. searchOption -&gt; (string) [required] The type of search operation to perform on the string value. Determines how the search value is matched against the target field. Possible values: o STARTS_WITH searchValue -&gt; (string) [required] The string value to use in the search operation. This value is compared against the target field using the specified search option. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_\+=\.\-@ ]+ Shorthand Syntax: searchOption=string,searchValue=string ... JSON Syntax: [ { "searchOption": "STARTS_WITH", "searchValue": "string" } ... ]
+    /// Filters the list of billing views by name. You can specify search criteria to match billing view names based on the search option provided. Constraints: • min: 1 • max: 1 (structure) A structure that defines how to search for string values. You can specify a search option and the value to search for. searchOption -&gt; (string) [required] The type of search operation to perform on the string value. Determines how the search value is matched against the target field. Possible values: • STARTS_WITH searchValue -&gt; (string) [required] The string value to use in the search operation. This value is compared against the target field using the specified search option. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_\+=\.\-@ ]+ Shorthand Syntax: searchOption=string,searchValue=string ... JSON Syntax: [ { "searchOption": "STARTS_WITH", "searchValue": "string" } ... ]
     /// </summary>
     [CliOption("--names", GroupValues = true)]
     public IEnumerable<string>? Names { get; set; }
 
     /// <summary>
-    /// The list of owners of the billing view. Constraints: o pattern: [0-9]{12}
+    /// The list of owners of the billing view. Constraints: • pattern: [0-9]{12}
     /// </summary>
     [CliOption("--owner-account-id")]
     public string? OwnerAccountId { get; set; }
 
     /// <summary>
-    /// Filters the results to include only billing views that use the spec- ified account as a source. Constraints: o pattern: [0-9]{12}
+    /// Filters the results to include only billing views that use the specified account as a source. Constraints: • pattern: [0-9]{12}
     /// </summary>
     [CliOption("--source-account-id")]
     public string? SourceAccountId { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -72,15 +69,27 @@ public record AwsBillingListBillingViewsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

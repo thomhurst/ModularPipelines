@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -63,19 +64,19 @@ public record AwsSesv2PutConfigurationSetSuppressionOptionsOptions : AwsOptions,
     public string? ConfigurationSetName { get; private init; }
 
     /// <summary>
-    /// The suppression scope for the configuration set. This overrides the tenant or account suppression scope for emails sent using this con- figuration set. Can be one of the following: o TENANT Use the tenant's suppression list. o ACCOUNT Use the account-level suppression list. Possible values: o ACCOUNT o TENANT
+    /// The suppression scope for the configuration set. This overrides the tenant or account suppression scope for emails sent using this configuration set. Can be one of the following: • TENANT Use the tenant's suppression list. • ACCOUNT Use the account-level suppression list. Possible values: • ACCOUNT • TENANT
     /// </summary>
     [CliOption("--suppression-scope")]
     public AwsSesv2PutConfigurationSetSuppressionOptionsSuppressionScope? SuppressionScope { get; set; }
 
     /// <summary>
-    /// A list that contains the reasons that email addresses are automati- cally added to the suppression list for your account or for a spe- cific tenant. This list can contain any or all of the following: o COMPLAINT Amazon SES adds an email address to the suppression list for your account or for a specific tenant when a message sent to that address results in a complaint. o BOUNCE Amazon SES adds an email address to the suppression list for your account or for a specific tenant when a message sent to that address results in a hard bounce. (string) The reason that the address was added to the suppression list for your account or for a specific tenant. The value can be one of the following: o COMPLAINT Amazon SES added an email address to the suppres- sion list for your account or for a specific tenant because a message sent to that address results in a complaint. o BOUNCE Amazon SES added an email address to the suppression list for your account or for a specific tenant because a mes- sage sent to that address results in a hard bounce. Possible values: o BOUNCE o COMPLAINT Syntax: "string" "string" ...
+    /// A list that contains the reasons that email addresses are automatically added to the suppression list for your account or for a specific tenant. This list can contain any or all of the following: • COMPLAINT Amazon SES adds an email address to the suppression list for your account or for a specific tenant when a message sent to that address results in a complaint. • BOUNCE Amazon SES adds an email address to the suppression list for your account or for a specific tenant when a message sent to that address results in a hard bounce. (string) The reason that the address was added to the suppression list for your account or for a specific tenant. The value can be one of the following: • COMPLAINT Amazon SES added an email address to the suppression list for your account or for a specific tenant because a message sent to that address results in a complaint. • BOUNCE Amazon SES added an email address to the suppression list for your account or for a specific tenant because a message sent to that address results in a hard bounce. Possible values: • BOUNCE • COMPLAINT Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--suppressed-reasons", GroupValues = true)]
     public IEnumerable<string>? SuppressedReasons { get; set; }
 
     /// <summary>
-    /// An object that contains information about the email address suppres- sion preferences for the configuration set in the current Amazon Web Services Region. ConditionThreshold -&gt; (structure) [required] Specifies the condition threshold settings for suppression vali- dation. ConditionThresholdEnabled -&gt; (string) [required] Indicates whether Auto Validation is enabled for suppression. Set to ENABLED to enable the Auto Validation feature, or set to DISABLED to disable it. Possible values: o ENABLED o DISABLED OverallConfidenceThreshold -&gt; (structure) The overall confidence threshold used to determine suppres- sion decisions. ConfidenceVerdictThreshold -&gt; (string) [required] The confidence level threshold for suppression decisions. Possible values: o MEDIUM o HIGH o MANAGED Shorthand Syntax: ConditionThreshold={ConditionThresholdEnabled=string,OverallConfidenceThreshold={ConfidenceVerdictThreshold=string}} JSON Syntax: { "ConditionThreshold": { "ConditionThresholdEnabled": "ENABLED"|"DISABLED", "OverallConfidenceThreshold": { "ConfidenceVerdictThreshold": "MEDIUM"|"HIGH"|"MANAGED" } } }
+    /// An object that contains information about the email address suppression preferences for the configuration set in the current Amazon Web Services Region. ConditionThreshold -&gt; (structure) [required] Specifies the condition threshold settings for suppression validation. ConditionThresholdEnabled -&gt; (string) [required] Indicates whether Auto Validation is enabled for suppression. Set to ENABLED to enable the Auto Validation feature, or set to DISABLED to disable it. Possible values: • ENABLED • DISABLED OverallConfidenceThreshold -&gt; (structure) The overall confidence threshold used to determine suppression decisions. ConfidenceVerdictThreshold -&gt; (string) [required] The confidence level threshold for suppression decisions. Possible values: • MEDIUM • HIGH • MANAGED Shorthand Syntax: ConditionThreshold={ConditionThresholdEnabled=string,OverallConfidenceThreshold={ConfidenceVerdictThreshold=string}} JSON Syntax: { "ConditionThreshold": { "ConditionThresholdEnabled": "ENABLED"|"DISABLED", "OverallConfidenceThreshold": { "ConfidenceVerdictThreshold": "MEDIUM"|"HIGH"|"MANAGED" } } }
     /// </summary>
     [CliOption("--validation-options")]
     public string? ValidationOptions { get; set; }
@@ -101,6 +102,15 @@ public record AwsSesv2PutConfigurationSetSuppressionOptionsOptions : AwsOptions,
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

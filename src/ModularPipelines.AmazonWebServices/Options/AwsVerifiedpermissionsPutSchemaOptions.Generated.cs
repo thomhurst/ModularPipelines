@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates or updates the policy schema in the specified policy store. The schema is used to validate any Cedar policies and policy templates sub- mitted to the policy store. Any changes to the schema validate only policies and templates submitted after the schema change. Existing policies and templates are not re-evaluated against the changed schema. If you later update a policy, then it is evaluated against the new schema at that time. NOTE: Verified Permissions is * eventually consistent * . It ...
+/// Creates or updates the policy schema in the specified policy store. The schema is used to validate any Cedar policies and policy templates submitted to the policy store. Any changes to the schema validate only policies and templates submitted after the schema change. Existing policies and templates are not re-evaluated against the changed schema. If you later update a policy, then it is evaluated against the new schema at that time. NOTE: Verified Permissions is * eventually consistent * . It ca...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsVerifiedpermissionsPutSchemaOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates or updates the policy schema in the specified policy store. The schema is used to validate any Cedar policies and policy templates sub- mitted to the policy store. Any changes to the schema validate only policies and templates submitted after the schema change. Existing policies and templates are not re-evaluated against the changed schema. If you later update a policy, then it is evaluated against the new schema at that time. NOTE: Verified Permissions is * eventually consistent * . It ...
+    /// Creates or updates the policy schema in the specified policy store. The schema is used to validate any Cedar policies and policy templates submitted to the policy store. Any changes to the schema validate only policies and templates submitted after the schema change. Existing policies and templates are not re-evaluated against the changed schema. If you later update a policy, then it is evaluated against the new schema at that time. NOTE: Verified Permissions is * eventually consistent * . It ca...
     /// </summary>
-    /// <param name="PolicyStoreId">Specifies the ID of the policy store in which to place the schema. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/ . For example: o ID: PSEXAMPLEabcdefg111111 o Alias name: policy-store-alias/example-policy-store To view aliases, use ListPolicyStoreAliases . Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9-/_]*</param>
-    /// <param name="Definition">Specifies the definition of the schema to be stored. The schema def- inition must be written in Cedar schema JSON. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: cedarJson. cedarJson -&gt; (string) A JSON string representation of the schema supported by applica- tions that use this policy store. To delete the schema, run PutSchema with {} for this parameter. For more information, see Policy store schema in the Amazon Verified Permissions User Guide . Constraints: o min: 1 Shorthand Syntax: cedarJson=string JSON Syntax: { "cedarJson": "string" }</param>
+    /// <param name="PolicyStoreId">Specifies the ID of the policy store in which to place the schema. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/ . For example: • ID: PSEXAMPLEabcdefg111111 • Alias name: policy-store-alias/example-policy-store To view aliases, use ListPolicyStoreAliases . Constraints: • min: 1 • max: 200 • pattern: [a-zA-Z0-9-/_]*</param>
+    /// <param name="Definition">Specifies the definition of the schema to be stored. The schema definition must be written in Cedar schema JSON. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: cedarJson. cedarJson -&gt; (string) A JSON string representation of the schema supported by applications that use this policy store. To delete the schema, run PutSchema with {} for this parameter. For more information, see Policy store schema in the Amazon Verified Permissions User Guide . Constraints: • min: 1 Shorthand Syntax: cedarJson=string JSON Syntax: { "cedarJson": "string" }</param>
     public AwsVerifiedpermissionsPutSchemaOptions(
         string PolicyStoreId,
         string Definition
@@ -60,13 +61,13 @@ public record AwsVerifiedpermissionsPutSchemaOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the ID of the policy store in which to place the schema. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/ . For example: o ID: PSEXAMPLEabcdefg111111 o Alias name: policy-store-alias/example-policy-store To view aliases, use ListPolicyStoreAliases . Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9-/_]*
+    /// Specifies the ID of the policy store in which to place the schema. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/ . For example: • ID: PSEXAMPLEabcdefg111111 • Alias name: policy-store-alias/example-policy-store To view aliases, use ListPolicyStoreAliases . Constraints: • min: 1 • max: 200 • pattern: [a-zA-Z0-9-/_]*
     /// </summary>
     [CliOption("--policy-store-id")]
     public string? PolicyStoreId { get; private init; }
 
     /// <summary>
-    /// Specifies the definition of the schema to be stored. The schema def- inition must be written in Cedar schema JSON. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: cedarJson. cedarJson -&gt; (string) A JSON string representation of the schema supported by applica- tions that use this policy store. To delete the schema, run PutSchema with {} for this parameter. For more information, see Policy store schema in the Amazon Verified Permissions User Guide . Constraints: o min: 1 Shorthand Syntax: cedarJson=string JSON Syntax: { "cedarJson": "string" }
+    /// Specifies the definition of the schema to be stored. The schema definition must be written in Cedar schema JSON. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: cedarJson. cedarJson -&gt; (string) A JSON string representation of the schema supported by applications that use this policy store. To delete the schema, run PutSchema with {} for this parameter. For more information, see Policy store schema in the Amazon Verified Permissions User Guide . Constraints: • min: 1 Shorthand Syntax: cedarJson=string JSON Syntax: { "cedarJson": "string" }
     /// </summary>
     [CliOption("--definition")]
     public string? Definition { get; private init; }
@@ -92,6 +93,15 @@ public record AwsVerifiedpermissionsPutSchemaOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

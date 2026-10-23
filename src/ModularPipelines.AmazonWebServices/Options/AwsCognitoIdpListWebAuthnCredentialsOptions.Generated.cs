@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Generates a list of the currently signed-in user's registered passkey, or WebAuthn, credentials. Authorize this action with a signed-in user's access token. It must in- clude the scope aws.cognito.signin.user.admin . NOTE: Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authoriza- tio...
+/// Generates a list of the currently signed-in user's registered passkey, or WebAuthn, credentials. Authorize this action with a signed-in user's access token. It must include the scope aws.cognito.signin.user.admin . NOTE: Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization mo...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsCognitoIdpListWebAuthnCredentialsOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Generates a list of the currently signed-in user's registered passkey, or WebAuthn, credentials. Authorize this action with a signed-in user's access token. It must in- clude the scope aws.cognito.signin.user.admin . NOTE: Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authoriza- tio...
+    /// Generates a list of the currently signed-in user's registered passkey, or WebAuthn, credentials. Authorize this action with a signed-in user's access token. It must include the scope aws.cognito.signin.user.admin . NOTE: Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization mo...
     /// </summary>
-    /// <param name="AccessToken">A valid access token that Amazon Cognito issued to the currently signed-in user. Must include a scope claim for aws.cog- nito.signin.user.admin . Constraints: o pattern: [A-Za-z0-9-_=.]+</param>
+    /// <param name="AccessToken">A valid access token that Amazon Cognito issued to the currently signed-in user. Must include a scope claim for aws.cognito.signin.user.admin . Constraints: • pattern: [A-Za-z0-9-_=.]+</param>
     public AwsCognitoIdpListWebAuthnCredentialsOptions(
         string AccessToken
     )
@@ -57,21 +58,21 @@ public record AwsCognitoIdpListWebAuthnCredentialsOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A valid access token that Amazon Cognito issued to the currently signed-in user. Must include a scope claim for aws.cog- nito.signin.user.admin . Constraints: o pattern: [A-Za-z0-9-_=.]+
+    /// A valid access token that Amazon Cognito issued to the currently signed-in user. Must include a scope claim for aws.cognito.signin.user.admin . Constraints: • pattern: [A-Za-z0-9-_=.]+
     /// </summary>
     [SecretValue]
     [CliOption("--access-token")]
     public string? AccessToken { get; private init; }
 
     /// <summary>
-    /// This API operation returns a limited number of results. The pagina- tion token is an identifier that you can present in an additional API request with the same parameters. When you include the pagina- tion token, Amazon Cognito returns the next set of items after the current list. Subsequent requests return a new pagination token. By use of this token, you can paginate through the full list of items. Constraints: o min: 1 o max: 131072 o pattern: [\S]+
+    /// This API operation returns a limited number of results. The pagination token is an identifier that you can present in an additional API request with the same parameters. When you include the pagination token, Amazon Cognito returns the next set of items after the current list. Subsequent requests return a new pagination token. By use of this token, you can paginate through the full list of items. Constraints: • min: 1 • max: 131072 • pattern: [\S]+
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of the user's passkey credentials that you want to return. Constraints: o min: 0 o max: 20
+    /// The maximum number of the user's passkey credentials that you want to return. Constraints: • min: 0 • max: 20
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -97,6 +98,15 @@ public record AwsCognitoIdpListWebAuthnCredentialsOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

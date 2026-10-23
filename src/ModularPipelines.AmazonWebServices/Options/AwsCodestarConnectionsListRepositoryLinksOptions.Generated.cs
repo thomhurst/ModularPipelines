@@ -23,13 +23,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsCodestarConnectionsListRepositoryLinksOptions : AwsOptions
 {
     /// <summary>
-    /// A non-zero, non-negative integer used to limit the number of re- turned results. Constraints: o min: 0 o max: 100
+    /// A non-zero, non-negative integer used to limit the number of returned results. Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// An enumeration token that, when provided in a request, returns the next batch of the results. Constraints: o min: 1 o max: 2048 o pattern: ^.*$
+    /// An enumeration token that, when provided in a request, returns the next batch of the results. Constraints: • min: 1 • max: 2048 • pattern: ^.*$
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -40,5 +40,14 @@ public record AwsCodestarConnectionsListRepositoryLinksOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

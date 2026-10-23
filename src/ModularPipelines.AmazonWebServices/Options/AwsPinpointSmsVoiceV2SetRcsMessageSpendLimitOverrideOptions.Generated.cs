@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Sets an account level monthly spend limit override for sending RCS mes- sages. The requested spend limit must be less than or equal to the MaxLimit , which is set by Amazon Web Services. See also: AWS API Documentation
+/// Sets an account level monthly spend limit override for sending RCS messages. The requested spend limit must be less than or equal to the MaxLimit , which is set by Amazon Web Services. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsPinpointSmsVoiceV2SetRcsMessageSpendLimitOverrideOptions : AwsO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Sets an account level monthly spend limit override for sending RCS mes- sages. The requested spend limit must be less than or equal to the MaxLimit , which is set by Amazon Web Services. See also: AWS API Documentation
+    /// Sets an account level monthly spend limit override for sending RCS messages. The requested spend limit must be less than or equal to the MaxLimit , which is set by Amazon Web Services. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MonthlyLimit">The new monthly limit to enforce on RCS message spending. Constraints: o min: 0 o max: 1000000000</param>
+    /// <param name="MonthlyLimit">The new monthly limit to enforce on RCS message spending. Constraints: • min: 0 • max: 1000000000</param>
     public AwsPinpointSmsVoiceV2SetRcsMessageSpendLimitOverrideOptions(
-        int MonthlyLimit
+        long MonthlyLimit
     )
     {
         this.MonthlyLimit = MonthlyLimit;
@@ -55,10 +56,10 @@ public record AwsPinpointSmsVoiceV2SetRcsMessageSpendLimitOverrideOptions : AwsO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The new monthly limit to enforce on RCS message spending. Constraints: o min: 0 o max: 1000000000
+    /// The new monthly limit to enforce on RCS message spending. Constraints: • min: 0 • max: 1000000000
     /// </summary>
     [CliOption("--monthly-limit")]
-    public int? MonthlyLimit { get; private init; }
+    public long? MonthlyLimit { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -81,6 +82,15 @@ public record AwsPinpointSmsVoiceV2SetRcsMessageSpendLimitOverrideOptions : AwsO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

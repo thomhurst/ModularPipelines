@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsDynamodbDescribeTableOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Returns information about the table, including the current status of the table, when it was created, the primary key schema, and any indexes on the table. NOTE: If you issue a DescribeTable request immediately after a CreateTable request, DynamoDB might return a ResourceNotFoundException . This is because DescribeTable uses an eventually consistent query, and the metadata for your table might not be available at that moment. Wait for a few seconds, and then try the DescribeTable request again. S...
     /// </summary>
-    /// <param name="TableName">The name of the table to describe. You can also provide the Amazon Resource Name (ARN) of the table in this parameter. Constraints: o min: 1 o max: 1024</param>
+    /// <param name="TableName">The name of the table to describe. You can also provide the Amazon Resource Name (ARN) of the table in this parameter. Constraints: • min: 1 • max: 1024</param>
     public AwsDynamodbDescribeTableOptions(
         string TableName
     )
@@ -56,7 +57,7 @@ public record AwsDynamodbDescribeTableOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the table to describe. You can also provide the Amazon Resource Name (ARN) of the table in this parameter. Constraints: o min: 1 o max: 1024
+    /// The name of the table to describe. You can also provide the Amazon Resource Name (ARN) of the table in this parameter. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--table-name")]
     public string? TableName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsDynamodbDescribeTableOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

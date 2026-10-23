@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associates the specified tags to a resource with the specified re- sourceArn . If existing tags on a resource are not specified in the re- quest parameters, they are not changed. When a resource is deleted, the tags associated with that resource are also deleted. See also: AWS API Documentation
+/// Associates the specified tags to a resource with the specified resourceArn . If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are also deleted. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsDevicefarmTagResourceOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associates the specified tags to a resource with the specified re- sourceArn . If existing tags on a resource are not specified in the re- quest parameters, they are not changed. When a resource is deleted, the tags associated with that resource are also deleted. See also: AWS API Documentation
+    /// Associates the specified tags to a resource with the specified resourceArn . If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are also deleted. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource or resources to which to add tags. You can associate tags with the following Device Farm resources: PROJECT , TESTGRID_PROJECT , RUN , NETWORK_PROFILE , IN- STANCE_PROFILE , DEVICE_INSTANCE , SESSION , DEVICE_POOL , DEVICE , and VPCE_CONFIGURATION . Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+</param>
-    /// <param name="Tags">The tags to add to the resource. A tag is an array of key-value pairs. Tag keys can have a maximum character length of 128 charac- ters. Tag values can have a maximum length of 256 characters. Constraints: o max: 150 (structure) The metadata that you apply to a resource to help you categorize and organize it. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters. Tag values can have a maxi- mum length of 256 characters. Key -&gt; (string) [required] One part of a key-value pair that makes up a tag. A key is a general label that acts like a category for more specific tag values. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The optional part of a key-value pair that makes up a tag. A value acts as a descriptor in a tag category (key). Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource or resources to which to add tags. You can associate tags with the following Device Farm resources: PROJECT , TESTGRID_PROJECT , RUN , NETWORK_PROFILE , INSTANCE_PROFILE , DEVICE_INSTANCE , SESSION , DEVICE_POOL , DEVICE , and VPCE_CONFIGURATION . Constraints: • min: 32 • max: 1011 • pattern: ^arn:aws:devicefarm:.+</param>
+    /// <param name="Tags">The tags to add to the resource. A tag is an array of key-value pairs. Tag keys can have a maximum character length of 128 characters. Tag values can have a maximum length of 256 characters. Constraints: • max: 150 (structure) The metadata that you apply to a resource to help you categorize and organize it. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters. Tag values can have a maximum length of 256 characters. Key -&gt; (string) [required] One part of a key-value pair that makes up a tag. A key is a general label that acts like a category for more specific tag values. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] The optional part of a key-value pair that makes up a tag. A value acts as a descriptor in a tag category (key). Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
     public AwsDevicefarmTagResourceOptions(
         string ResourceArn,
         IEnumerable<string> Tags
@@ -71,13 +72,13 @@ public record AwsDevicefarmTagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource or resources to which to add tags. You can associate tags with the following Device Farm resources: PROJECT , TESTGRID_PROJECT , RUN , NETWORK_PROFILE , IN- STANCE_PROFILE , DEVICE_INSTANCE , SESSION , DEVICE_POOL , DEVICE , and VPCE_CONFIGURATION . Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+
+    /// The Amazon Resource Name (ARN) of the resource or resources to which to add tags. You can associate tags with the following Device Farm resources: PROJECT , TESTGRID_PROJECT , RUN , NETWORK_PROFILE , INSTANCE_PROFILE , DEVICE_INSTANCE , SESSION , DEVICE_POOL , DEVICE , and VPCE_CONFIGURATION . Constraints: • min: 32 • max: 1011 • pattern: ^arn:aws:devicefarm:.+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The tags to add to the resource. A tag is an array of key-value pairs. Tag keys can have a maximum character length of 128 charac- ters. Tag values can have a maximum length of 256 characters. Constraints: o max: 150 (structure) The metadata that you apply to a resource to help you categorize and organize it. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters. Tag values can have a maxi- mum length of 256 characters. Key -&gt; (string) [required] One part of a key-value pair that makes up a tag. A key is a general label that acts like a category for more specific tag values. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The optional part of a key-value pair that makes up a tag. A value acts as a descriptor in a tag category (key). Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tags to add to the resource. A tag is an array of key-value pairs. Tag keys can have a maximum character length of 128 characters. Tag values can have a maximum length of 256 characters. Constraints: • max: 150 (structure) The metadata that you apply to a resource to help you categorize and organize it. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters. Tag values can have a maximum length of 256 characters. Key -&gt; (string) [required] One part of a key-value pair that makes up a tag. A key is a general label that acts like a category for more specific tag values. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] The optional part of a key-value pair that makes up a tag. A value acts as a descriptor in a tag category (key). Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; private init; }
@@ -103,6 +104,15 @@ public record AwsDevicefarmTagResourceOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

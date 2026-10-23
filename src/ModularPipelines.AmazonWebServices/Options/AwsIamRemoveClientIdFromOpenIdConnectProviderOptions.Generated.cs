@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsIamRemoveClientIdFromOpenIdConnectProviderOptions : AwsOptions,
     /// <summary>
     /// Removes the specified client ID (also known as audience) from the list of client IDs registered for the specified IAM OpenID Connect (OIDC) provider resource object. This operation is idempotent; it does not fail or return an error if you try to remove a client ID that does not exist. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OpenIdConnectProviderArn">The Amazon Resource Name (ARN) of the IAM OIDC provider resource to remove the client ID from. You can get a list of OIDC provider ARNs by using the ListOpenIDConnectProviders operation. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference . Constraints: o min: 20 o max: 2048</param>
-    /// <param name="ClientId">The client ID (also known as audience) to remove from the IAM OIDC provider resource. For more information about client IDs, see CreateOpenIDConnectProvider . Constraints: o min: 1 o max: 255</param>
+    /// <param name="OpenIdConnectProviderArn">The Amazon Resource Name (ARN) of the IAM OIDC provider resource to remove the client ID from. You can get a list of OIDC provider ARNs by using the ListOpenIDConnectProviders operation. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference . Constraints: • min: 20 • max: 2048</param>
+    /// <param name="ClientId">The client ID (also known as audience) to remove from the IAM OIDC provider resource. For more information about client IDs, see CreateOpenIDConnectProvider . Constraints: • min: 1 • max: 255</param>
     public AwsIamRemoveClientIdFromOpenIdConnectProviderOptions(
         string OpenIdConnectProviderArn,
         string ClientId
@@ -60,13 +61,13 @@ public record AwsIamRemoveClientIdFromOpenIdConnectProviderOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the IAM OIDC provider resource to remove the client ID from. You can get a list of OIDC provider ARNs by using the ListOpenIDConnectProviders operation. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference . Constraints: o min: 20 o max: 2048
+    /// The Amazon Resource Name (ARN) of the IAM OIDC provider resource to remove the client ID from. You can get a list of OIDC provider ARNs by using the ListOpenIDConnectProviders operation. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference . Constraints: • min: 20 • max: 2048
     /// </summary>
     [CliOption("--open-id-connect-provider-arn")]
     public string? OpenIdConnectProviderArn { get; private init; }
 
     /// <summary>
-    /// The client ID (also known as audience) to remove from the IAM OIDC provider resource. For more information about client IDs, see CreateOpenIDConnectProvider . Constraints: o min: 1 o max: 255
+    /// The client ID (also known as audience) to remove from the IAM OIDC provider resource. For more information about client IDs, see CreateOpenIDConnectProvider . Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--client-id")]
     public string? ClientId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsIamRemoveClientIdFromOpenIdConnectProviderOptions : AwsOptions,
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

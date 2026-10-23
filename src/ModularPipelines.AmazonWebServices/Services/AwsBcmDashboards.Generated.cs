@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws bcmdashboards commands.
+/// aws bcm-dashboards commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsBcmDashboards : IAwsBcmDashboards
@@ -32,7 +32,7 @@ public class AwsBcmDashboards : IAwsBcmDashboards
     #region Commands
 
     /// <summary>
-    /// Creates a new dashboard that can contain multiple widgets displaying cost and usage data. You can add custom widgets or use predefined wid- gets, arranging them in your preferred layout. See also: AWS API Documentation
+    /// Creates a new dashboard that can contain multiple widgets displaying cost and usage data. You can add custom widgets or use predefined widgets, arranging them in your preferred layout. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsBcmDashboards : IAwsBcmDashboards
     }
 
     /// <summary>
-    /// Creates a new scheduled report for a dashboard. A scheduled report au- tomatically generates and delivers dashboard snapshots on a recurring schedule. Reports are delivered within 15 minutes of the scheduled de- livery time. See also: AWS API Documentation
+    /// Creates a new scheduled report for a dashboard. A scheduled report automatically generates and delivers dashboard snapshots on a recurring schedule. Reports are delivered within 15 minutes of the scheduled delivery time. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsBcmDashboards : IAwsBcmDashboards
     }
 
     /// <summary>
-    /// Deletes a specified scheduled report. This is an irreversible opera- tion. See also: AWS API Documentation
+    /// Deletes a specified scheduled report. This is an irreversible operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsBcmDashboards : IAwsBcmDashboards
     }
 
     /// <summary>
-    /// Triggers an immediate execution of a scheduled report, outside of its regular schedule. The scheduled report must be in ENABLED state. Call- ing this operation on a DISABLED scheduled report returns a Valida- tionException . NOTE: If a clientToken is provided, the service uses it for idempotency. Requests with the same client token will not trigger a new execution within the same minute. See also: AWS API Documentation
+    /// Triggers an immediate execution of a scheduled report, outside of its regular schedule. The scheduled report must be in ENABLED state. Calling this operation on a DISABLED scheduled report returns a ValidationException . NOTE: If a clientToken is provided, the service uses it for idempotency. Requests with the same client token will not trigger a new execution within the same minute. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsBcmDashboards : IAwsBcmDashboards
     }
 
     /// <summary>
-    /// Retrieves the configuration and metadata of a specified dashboard, in- cluding its widgets and layout settings. See also: AWS API Documentation
+    /// Retrieves the configuration and metadata of a specified dashboard, including its widgets and layout settings. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsBcmDashboards : IAwsBcmDashboards
     }
 
     /// <summary>
-    /// Retrieves the configuration and metadata of a specified scheduled re- port. See also: AWS API Documentation
+    /// Retrieves the configuration and metadata of a specified scheduled report. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsBcmDashboards : IAwsBcmDashboards
     }
 
     /// <summary>
-    /// Returns a list of all dashboards in your account. See also: AWS API Documentation list-dashboards is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: dashboards
+    /// Returns a list of all dashboards in your account. See also: AWS API Documentation list-dashboards is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: dashboards
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsBcmDashboards : IAwsBcmDashboards
     }
 
     /// <summary>
-    /// Returns a list of all tags associated with a specified dashboard re- source. See also: AWS API Documentation
+    /// Returns a list of all tags associated with a specified dashboard resource. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +227,7 @@ public class AwsBcmDashboards : IAwsBcmDashboards
     }
 
     /// <summary>
-    /// Updates an existing dashboard's properties, including its name, de- scription, and widget configurations. See also: AWS API Documentation
+    /// Updates an existing dashboard's properties, including its name, description, and widget configurations. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -242,7 +242,7 @@ public class AwsBcmDashboards : IAwsBcmDashboards
     }
 
     /// <summary>
-    /// Updates an existing scheduled report's properties, including its name, description, schedule configuration, and widget settings. Only the pa- rameters included in the request are updated; all other properties re- main unchanged. See also: AWS API Documentation
+    /// Updates an existing scheduled report's properties, including its name, description, schedule configuration, and widget settings. Only the parameters included in the request are updated; all other properties remain unchanged. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

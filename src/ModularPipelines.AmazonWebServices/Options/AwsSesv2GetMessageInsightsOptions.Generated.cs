@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Provides information about a specific message, including the from ad- dress, the subject, the recipient address, email tags, as well as events associated with the message. You can execute this operation no more than once per second. See also: AWS API Documentation
+/// Provides information about a specific message, including the from address, the subject, the recipient address, email tags, as well as events associated with the message. You can execute this operation no more than once per second. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsSesv2GetMessageInsightsOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Provides information about a specific message, including the from ad- dress, the subject, the recipient address, email tags, as well as events associated with the message. You can execute this operation no more than once per second. See also: AWS API Documentation
+    /// Provides information about a specific message, including the from address, the subject, the recipient address, email tags, as well as events associated with the message. You can execute this operation no more than once per second. See also: AWS API Documentation
     /// </summary>
     /// <param name="MessageId">A MessageId is a unique identifier for a message, and is returned when sending emails through Amazon SES.</param>
     public AwsSesv2GetMessageInsightsOptions(
@@ -82,6 +83,15 @@ public record AwsSesv2GetMessageInsightsOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

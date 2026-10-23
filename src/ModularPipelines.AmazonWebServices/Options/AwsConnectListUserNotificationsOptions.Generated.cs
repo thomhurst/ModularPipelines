@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves a paginated list of notifications for a specific user, in- cluding the notification status for that user. See also: AWS API Documentation
+/// Retrieves a paginated list of notifications for a specific user, including the notification status for that user. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsConnectListUserNotificationsOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves a paginated list of notifications for a specific user, in- cluding the notification status for that user. See also: AWS API Documentation
+    /// Retrieves a paginated list of notifications for a specific user, including the notification status for that user. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Amazon Connect instance. You can find the in- stance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="InstanceId">The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
     /// <param name="UserId">The identifier of the user.</param>
     public AwsConnectListUserNotificationsOptions(
         string InstanceId,
@@ -61,7 +62,7 @@ public record AwsConnectListUserNotificationsOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Amazon Connect instance. You can find the in- stance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
@@ -80,7 +81,7 @@ public record AwsConnectListUserNotificationsOptions : AwsOptions, IValidatableO
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return per page. Valid range is 1-1000. Constraints: o min: 1 o max: 1000
+    /// The maximum number of results to return per page. Valid range is 1-1000. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -106,6 +107,15 @@ public record AwsConnectListUserNotificationsOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +29,8 @@ public record AwsM2CreateDataSetExportTaskOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Starts a data set export task for a specific application. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The unique identifier of the application for which you want to ex- port data sets. Constraints: o pattern: ^\S{1,80}$</param>
-    /// <param name="ExportConfig">The data set export task configuration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: dataSets, s3Location. dataSets -&gt; (list) The data sets. Constraints: o min: 1 o max: 1024 (structure) Identifies a specific data set to export from an external lo- cation. datasetName -&gt; (string) [required] The data set. Constraints: o pattern: ^\S{1,200}$ externalLocation -&gt; (tagged union structure) [required] The location of the data set. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: s3Location. s3Location -&gt; (string) The URI of the Amazon S3 bucket. Constraints: o pattern: ^\S{1,2000}$ s3Location -&gt; (string) The Amazon S3 location of the data sets. JSON Syntax: { "dataSets": [ { "datasetName": "string", "externalLocation": { "s3Location": "string" } } ... ], "s3Location": "string" }</param>
+    /// <param name="ApplicationId">The unique identifier of the application for which you want to export data sets. Constraints: • pattern: ^\S{1,80}$</param>
+    /// <param name="ExportConfig">The data set export task configuration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: dataSets, s3Location. dataSets -&gt; (list) The data sets. Constraints: • min: 1 • max: 1024 (structure) Identifies a specific data set to export from an external location. datasetName -&gt; (string) [required] The data set. Constraints: • pattern: ^\S{1,200}$ externalLocation -&gt; (tagged union structure) [required] The location of the data set. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: s3Location. s3Location -&gt; (string) The URI of the Amazon S3 bucket. Constraints: • pattern: ^\S{1,2000}$ s3Location -&gt; (string) The Amazon S3 location of the data sets. JSON Syntax: { "dataSets": [ { "datasetName": "string", "externalLocation": { "s3Location": "string" } } ... ], "s3Location": "string" }</param>
     public AwsM2CreateDataSetExportTaskOptions(
         string ApplicationId,
         string ExportConfig
@@ -61,26 +62,26 @@ public record AwsM2CreateDataSetExportTaskOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the application for which you want to ex- port data sets. Constraints: o pattern: ^\S{1,80}$
+    /// The unique identifier of the application for which you want to export data sets. Constraints: • pattern: ^\S{1,80}$
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// The data set export task configuration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: dataSets, s3Location. dataSets -&gt; (list) The data sets. Constraints: o min: 1 o max: 1024 (structure) Identifies a specific data set to export from an external lo- cation. datasetName -&gt; (string) [required] The data set. Constraints: o pattern: ^\S{1,200}$ externalLocation -&gt; (tagged union structure) [required] The location of the data set. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: s3Location. s3Location -&gt; (string) The URI of the Amazon S3 bucket. Constraints: o pattern: ^\S{1,2000}$ s3Location -&gt; (string) The Amazon S3 location of the data sets. JSON Syntax: { "dataSets": [ { "datasetName": "string", "externalLocation": { "s3Location": "string" } } ... ], "s3Location": "string" }
+    /// The data set export task configuration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: dataSets, s3Location. dataSets -&gt; (list) The data sets. Constraints: • min: 1 • max: 1024 (structure) Identifies a specific data set to export from an external location. datasetName -&gt; (string) [required] The data set. Constraints: • pattern: ^\S{1,200}$ externalLocation -&gt; (tagged union structure) [required] The location of the data set. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: s3Location. s3Location -&gt; (string) The URI of the Amazon S3 bucket. Constraints: • pattern: ^\S{1,2000}$ s3Location -&gt; (string) The Amazon S3 location of the data sets. JSON Syntax: { "dataSets": [ { "datasetName": "string", "externalLocation": { "s3Location": "string" } } ... ], "s3Location": "string" }
     /// </summary>
     [CliOption("--export-config")]
     public string? ExportConfig { get; private init; }
 
     /// <summary>
-    /// Unique, case-sensitive identifier you provide to ensure the idempo- tency of the request to create a data set export. The service gener- ates the clientToken when the API call is triggered. The token ex- pires after one hour, so if you retry the API within this timeframe with the same clientToken, you will get the same response. The ser- vice also handles deleting the clientToken after it expires. Constraints: o min: 0 o max: 128 o pattern: ^[!-~]+$
+    /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request to create a data set export. The service generates the clientToken when the API call is triggered. The token expires after one hour, so if you retry the API within this timeframe with the same clientToken, you will get the same response. The service also handles deleting the clientToken after it expires. Constraints: • min: 0 • max: 128 • pattern: ^[!-~]+$
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The identifier of a customer managed key. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9:/_-]+$
+    /// The identifier of a customer managed key. Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z0-9:/_-]+$
     /// </summary>
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
@@ -106,6 +107,15 @@ public record AwsM2CreateDataSetExportTaskOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

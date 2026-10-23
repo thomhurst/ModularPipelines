@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsAppstreamDescribeImagePermissionsOptions : AwsOptions, IValidat
     /// <summary>
     /// Retrieves a list that describes the permissions for shared AWS account IDs on a private image that you own. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the private image for which to describe permissions. The image must be one that you own. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$</param>
+    /// <param name="Name">The name of the private image for which to describe permissions. The image must be one that you own. Constraints: • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$</param>
     public AwsAppstreamDescribeImagePermissionsOptions(
         string Name
     )
@@ -57,25 +58,25 @@ public record AwsAppstreamDescribeImagePermissionsOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the private image for which to describe permissions. The image must be one that you own. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
+    /// The name of the private image for which to describe permissions. The image must be one that you own. Constraints: • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The maximum size of each page of results. Constraints: o min: 0 o max: 500
+    /// The maximum size of each page of results. Constraints: • min: 0 • max: 500
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The 12-digit identifier of one or more AWS accounts with which the image is shared. Constraints: o min: 1 o max: 5 (string) Constraints: o pattern: ^\d+$ Syntax: "string" "string" ...
+    /// The 12-digit identifier of one or more AWS accounts with which the image is shared. Constraints: • min: 1 • max: 5 (string) Constraints: • pattern: ^\d+$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--shared-aws-account-ids", GroupValues = true)]
     public IEnumerable<string>? SharedAwsAccountIds { get; set; }
 
     /// <summary>
-    /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page. Constraints: o min: 1
+    /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page. Constraints: • min: 1
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -102,6 +103,15 @@ public record AwsAppstreamDescribeImagePermissionsOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

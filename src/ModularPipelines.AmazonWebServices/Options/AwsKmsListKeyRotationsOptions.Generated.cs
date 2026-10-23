@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns information about the key materials associated with the speci- fied KMS key. You can use the optional IncludeKeyMaterial parameter to control which key materials are included in the response. You must specify the KMS key in all requests. You can refine the key rotations list by limiting the number of rotations returned. For detailed information about automatic and on-demand key rotations, see Rotate KMS keys in the Key Management Service Developer Guide . Cross-account use : No. You cann...
+/// Returns information about the key materials associated with the specified KMS key. You can use the optional IncludeKeyMaterial parameter to control which key materials are included in the response. You must specify the KMS key in all requests. You can refine the key rotations list by limiting the number of rotations returned. For detailed information about automatic and on-demand key rotations, see Rotate KMS keys in the Key Management Service Developer Guide . Cross-account use : No. You cannot...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +28,9 @@ public record AwsKmsListKeyRotationsOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns information about the key materials associated with the speci- fied KMS key. You can use the optional IncludeKeyMaterial parameter to control which key materials are included in the response. You must specify the KMS key in all requests. You can refine the key rotations list by limiting the number of rotations returned. For detailed information about automatic and on-demand key rotations, see Rotate KMS keys in the Key Management Service Developer Guide . Cross-account use : No. You cann...
+    /// Returns information about the key materials associated with the specified KMS key. You can use the optional IncludeKeyMaterial parameter to control which key materials are included in the response. You must specify the KMS key in all requests. You can refine the key rotations list by limiting the number of rotations returned. For detailed information about automatic and on-demand key rotations, see Rotate KMS keys in the Key Management Service Developer Guide . Cross-account use : No. You cannot...
     /// </summary>
-    /// <param name="KeyId">Gets the key rotations for the specified KMS key. Specify the key ID or key ARN of the KMS key. For example: o Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab o Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab To get the key ID and key ARN for a KMS key, use ListKeys or De- scribeKey . Constraints: o min: 1 o max: 2048</param>
+    /// <param name="KeyId">Gets the key rotations for the specified KMS key. Specify the key ID or key ARN of the KMS key. For example: • Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab • Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey . Constraints: • min: 1 • max: 2048</param>
     public AwsKmsListKeyRotationsOptions(
         string KeyId
     )
@@ -58,22 +59,19 @@ public record AwsKmsListKeyRotationsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Gets the key rotations for the specified KMS key. Specify the key ID or key ARN of the KMS key. For example: o Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab o Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab To get the key ID and key ARN for a KMS key, use ListKeys or De- scribeKey . Constraints: o min: 1 o max: 2048
+    /// Gets the key rotations for the specified KMS key. Specify the key ID or key ARN of the KMS key. For example: • Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab • Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey . Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--key-id")]
     public string? KeyId { get; private init; }
 
     /// <summary>
-    /// Use this optional parameter to control which key materials associ- ated with this key are listed in the response. The default value of this parameter is ROTATIONS_ONLY . If you omit this parameter, KMS returns information on the key materials created by automatic or on-demand key rotation. When you specify a value of ALL_KEY_MATERIAL , KMS adds the first key material and any imported key material pending rotation to the response. This parameter can only be used with KMS keys that support automatic or on-demand key rotation. Possible values: o ALL_KEY_MATERIAL o ROTATIONS_ONLY
+    /// Use this optional parameter to control which key materials associated with this key are listed in the response. The default value of this parameter is ROTATIONS_ONLY . If you omit this parameter, KMS returns information on the key materials created by automatic or on-demand key rotation. When you specify a value of ALL_KEY_MATERIAL , KMS adds the first key material and any imported key material pending rotation to the response. This parameter can only be used with KMS keys that support automatic or on-demand key rotation. Possible values: • ALL_KEY_MATERIAL • ROTATIONS_ONLY
     /// </summary>
     [CliOption("--include-key-material")]
     public AwsKmsListKeyRotationsIncludeKeyMaterial? IncludeKeyMaterial { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -83,16 +81,19 @@ public record AwsKmsListKeyRotationsOptions : AwsOptions, IValidatableObject
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 1000
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -109,6 +110,15 @@ public record AwsKmsListKeyRotationsOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

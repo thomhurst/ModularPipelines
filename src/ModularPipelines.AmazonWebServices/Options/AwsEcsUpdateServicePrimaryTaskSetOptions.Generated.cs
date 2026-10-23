@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modifies which task set in a service is the primary task set. Any para- meters that are updated on the primary task set in a service will tran- sition to the service. This is used when a service uses the EXTERNAL deployment controller type. For more information, see Amazon ECS De- ployment Types in the Amazon Elastic Container Service Developer Guide . See also: AWS API Documentation
+/// Modifies which task set in a service is the primary task set. Any parameters that are updated on the primary task set in a service will transition to the service. This is used when a service uses the EXTERNAL deployment controller type. For more information, see Amazon ECS Deployment Types in the Amazon Elastic Container Service Developer Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsEcsUpdateServicePrimaryTaskSetOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Modifies which task set in a service is the primary task set. Any para- meters that are updated on the primary task set in a service will tran- sition to the service. This is used when a service uses the EXTERNAL deployment controller type. For more information, see Amazon ECS De- ployment Types in the Amazon Elastic Container Service Developer Guide . See also: AWS API Documentation
+    /// Modifies which task set in a service is the primary task set. Any parameters that are updated on the primary task set in a service will transition to the service. This is used when a service uses the EXTERNAL deployment controller type. For more information, see Amazon ECS Deployment Types in the Amazon Elastic Container Service Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="Cluster">The short name or full Amazon Resource Name (ARN) of the cluster that hosts the service that the task set exists in.</param>
     /// <param name="Service">The short name or full Amazon Resource Name (ARN) of the service that the task set exists in.</param>
@@ -102,6 +103,15 @@ public record AwsEcsUpdateServicePrimaryTaskSetOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

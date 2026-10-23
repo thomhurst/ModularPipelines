@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Waits for the function's State to be Active. This waiter uses GetFunc- tion API. This should be used after new function creation. It will poll every 1 seconds until a successful state has been reached. This will exit with a return code of 255 after 300 failed checks. See also: AWS API Documentation
+/// Waits for the function's State to be Active. This waiter uses GetFunction API. This should be used after new function creation. It will poll every 1 seconds until a successful state has been reached. This will exit with a return code of 255 after 300 failed checks. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsLambdaWaitFunctionActiveV2Options : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Waits for the function's State to be Active. This waiter uses GetFunc- tion API. This should be used after new function creation. It will poll every 1 seconds until a successful state has been reached. This will exit with a return code of 255 after 300 failed checks. See also: AWS API Documentation
+    /// Waits for the function's State to be Active. This waiter uses GetFunction API. This should be used after new function creation. It will poll every 1 seconds until a successful state has been reached. This will exit with a return code of 255 after 300 failed checks. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FunctionName">The name or ARN of the Lambda function, version, or alias. Name formats o Function name my-function (name-only), my-function:v1 (with alias). o Function ARN arn:aws:lambda:us-west-2:123456789012:func- tion:my-function . o Partial ARN 123456789012:function:my-function . You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length. Constraints: o min: 1 o max: 256 o pattern: (arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?(func- tion:)?([a-zA-Z0-9-_\.]+)(:(\$LATEST(\.PUB- LISHED)?|[a-zA-Z0-9-_]+))?</param>
+    /// <param name="FunctionName">The name or ARN of the Lambda function, version, or alias. Name formats • Function name my-function (name-only), my-function:v1 (with alias). • Function ARN arn:aws:lambda:us-west-2:123456789012:function:my-function . • Partial ARN 123456789012:function:my-function . You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length. Constraints: • min: 1 • max: 256 • pattern: (arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_\.]+)(:(\$LATEST(\.PUBLISHED)?|[a-zA-Z0-9-_]+))?</param>
     public AwsLambdaWaitFunctionActiveV2Options(
         string FunctionName
     )
@@ -56,13 +57,13 @@ public record AwsLambdaWaitFunctionActiveV2Options : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name or ARN of the Lambda function, version, or alias. Name formats o Function name my-function (name-only), my-function:v1 (with alias). o Function ARN arn:aws:lambda:us-west-2:123456789012:func- tion:my-function . o Partial ARN 123456789012:function:my-function . You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length. Constraints: o min: 1 o max: 256 o pattern: (arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?(func- tion:)?([a-zA-Z0-9-_\.]+)(:(\$LATEST(\.PUB- LISHED)?|[a-zA-Z0-9-_]+))?
+    /// The name or ARN of the Lambda function, version, or alias. Name formats • Function name my-function (name-only), my-function:v1 (with alias). • Function ARN arn:aws:lambda:us-west-2:123456789012:function:my-function . • Partial ARN 123456789012:function:my-function . You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length. Constraints: • min: 1 • max: 256 • pattern: (arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_\.]+)(:(\$LATEST(\.PUBLISHED)?|[a-zA-Z0-9-_]+))?
     /// </summary>
     [CliOption("--function-name")]
     public string? FunctionName { get; private init; }
 
     /// <summary>
-    /// Specify a version or alias to get details about a published version of the function. Constraints: o min: 1 o max: 128 o pattern: \$(LATEST(\.PUBLISHED)?)|[a-zA-Z0-9-_$]+
+    /// Specify a version or alias to get details about a published version of the function. Constraints: • min: 1 • max: 128 • pattern: \$(LATEST(\.PUBLISHED)?)|[a-zA-Z0-9-_$]+
     /// </summary>
     [CliOption("--qualifier")]
     public string? Qualifier { get; set; }
@@ -88,6 +89,15 @@ public record AwsLambdaWaitFunctionActiveV2Options : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

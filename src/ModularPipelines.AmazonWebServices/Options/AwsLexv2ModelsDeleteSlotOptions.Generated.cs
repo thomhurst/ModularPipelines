@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,11 +28,11 @@ public record AwsLexv2ModelsDeleteSlotOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes the specified slot from an intent. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SlotId">The identifier of the slot to delete. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
-    /// <param name="BotId">The identifier of the bot associated with the slot to delete. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
-    /// <param name="BotVersion">The version of the bot associated with the slot to delete. Constraints: o min: 5 o max: 5 o pattern: ^DRAFT$</param>
+    /// <param name="SlotId">The identifier of the slot to delete. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="BotId">The identifier of the bot associated with the slot to delete. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="BotVersion">The version of the bot associated with the slot to delete. Constraints: • min: 5 • max: 5 • pattern: ^DRAFT$</param>
     /// <param name="LocaleId">The identifier of the language and locale that the slot will be deleted from. The string must match one of the supported locales. For more information, see Supported languages .</param>
-    /// <param name="IntentId">The identifier of the intent associated with the slot. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="IntentId">The identifier of the intent associated with the slot. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$</param>
     public AwsLexv2ModelsDeleteSlotOptions(
         string SlotId,
         string BotId,
@@ -72,19 +73,19 @@ public record AwsLexv2ModelsDeleteSlotOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the slot to delete. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The identifier of the slot to delete. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--slot-id")]
     public string? SlotId { get; private init; }
 
     /// <summary>
-    /// The identifier of the bot associated with the slot to delete. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The identifier of the bot associated with the slot to delete. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--bot-id")]
     public string? BotId { get; private init; }
 
     /// <summary>
-    /// The version of the bot associated with the slot to delete. Constraints: o min: 5 o max: 5 o pattern: ^DRAFT$
+    /// The version of the bot associated with the slot to delete. Constraints: • min: 5 • max: 5 • pattern: ^DRAFT$
     /// </summary>
     [CliOption("--bot-version")]
     public string? BotVersion { get; private init; }
@@ -96,7 +97,7 @@ public record AwsLexv2ModelsDeleteSlotOptions : AwsOptions, IValidatableObject
     public string? LocaleId { get; private init; }
 
     /// <summary>
-    /// The identifier of the intent associated with the slot. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The identifier of the intent associated with the slot. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--intent-id")]
     public string? IntentId { get; private init; }
@@ -122,6 +123,15 @@ public record AwsLexv2ModelsDeleteSlotOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

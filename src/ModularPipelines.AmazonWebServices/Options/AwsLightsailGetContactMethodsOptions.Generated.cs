@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsLightsailGetContactMethodsOptions : AwsOptions
 {
     /// <summary>
-    /// The protocols used to send notifications, such as Email , or SMS (text messaging). Specify a protocol in your request to return information about a specific contact method protocol. (string) Possible values: o Email o SMS Syntax: "string" "string" ...
+    /// The protocols used to send notifications, such as Email , or SMS (text messaging). Specify a protocol in your request to return information about a specific contact method protocol. (string) Possible values: • Email • SMS Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--protocols", GroupValues = true)]
     public IEnumerable<string>? Protocols { get; set; }
@@ -32,5 +32,14 @@ public record AwsLightsailGetContactMethodsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

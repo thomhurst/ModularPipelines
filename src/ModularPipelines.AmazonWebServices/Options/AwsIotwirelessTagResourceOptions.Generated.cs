@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsIotwirelessTagResourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Adds a tag to a resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The ARN of the resource to add tags to. Constraints: o min: 1 o max: 1011</param>
-    /// <param name="Tags">Adds to or modifies the tags of the given resource. Tags are meta- data that you can use to manage a resource. Constraints: o min: 0 o max: 200 (structure) A simple label consisting of a customer-defined key-value pair Key -&gt; (string) [required] The tag's key value. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The tag's value. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
+    /// <param name="ResourceArn">The ARN of the resource to add tags to. Constraints: • min: 1 • max: 1011</param>
+    /// <param name="Tags">Adds to or modifies the tags of the given resource. Tags are metadata that you can use to manage a resource. Constraints: • min: 0 • max: 200 (structure) A simple label consisting of a customer-defined key-value pair Key -&gt; (string) [required] The tag's key value. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] The tag's value. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
     public AwsIotwirelessTagResourceOptions(
         string ResourceArn,
         IEnumerable<string> Tags
@@ -71,13 +72,13 @@ public record AwsIotwirelessTagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the resource to add tags to. Constraints: o min: 1 o max: 1011
+    /// The ARN of the resource to add tags to. Constraints: • min: 1 • max: 1011
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// Adds to or modifies the tags of the given resource. Tags are meta- data that you can use to manage a resource. Constraints: o min: 0 o max: 200 (structure) A simple label consisting of a customer-defined key-value pair Key -&gt; (string) [required] The tag's key value. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The tag's value. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Adds to or modifies the tags of the given resource. Tags are metadata that you can use to manage a resource. Constraints: • min: 0 • max: 200 (structure) A simple label consisting of a customer-defined key-value pair Key -&gt; (string) [required] The tag's key value. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] The tag's value. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; private init; }
@@ -103,6 +104,15 @@ public record AwsIotwirelessTagResourceOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

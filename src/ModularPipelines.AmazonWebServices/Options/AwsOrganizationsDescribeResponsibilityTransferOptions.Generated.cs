@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsOrganizationsDescribeResponsibilityTransferOptions : AwsOptions
     /// <summary>
     /// Returns details for a transfer. A transfer is an arrangement between two management accounts where one account designates the other with specified responsibilities for their organization. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">ID for the transfer. Constraints: o pattern: ^rt-[0-9a-z]{8,32}$</param>
+    /// <param name="Id">ID for the transfer. Constraints: • pattern: ^rt-[0-9a-z]{8,32}$</param>
     public AwsOrganizationsDescribeResponsibilityTransferOptions(
         string Id
     )
@@ -56,7 +57,7 @@ public record AwsOrganizationsDescribeResponsibilityTransferOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ID for the transfer. Constraints: o pattern: ^rt-[0-9a-z]{8,32}$
+    /// ID for the transfer. Constraints: • pattern: ^rt-[0-9a-z]{8,32}$
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
@@ -82,6 +83,15 @@ public record AwsOrganizationsDescribeResponsibilityTransferOptions : AwsOptions
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

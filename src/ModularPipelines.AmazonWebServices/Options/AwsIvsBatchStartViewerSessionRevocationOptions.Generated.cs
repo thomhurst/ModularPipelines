@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsIvsBatchStartViewerSessionRevocationOptions : AwsOptions, IVali
     /// <summary>
     /// Performs StartViewerSessionRevocation on multiple channel ARN and viewer ID pairs simultaneously. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ViewerSessions">Array of viewer sessions, one per channel-ARN and viewer-ID pair. Constraints: o min: 1 o max: 20 (structure) A viewer session to revoke in the call to BatchStartViewerSes- sionRevocation . channelArn -&gt; (string) [required] The ARN of the channel associated with the viewer session to revoke. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:chan- nel/[a-zA-Z0-9-]+ viewerId -&gt; (string) [required] The ID of the viewer associated with the viewer session to revoke. Do not use this field for personally identifying, confidential, or sensitive information. Constraints: o min: 1 o max: 40 viewerSessionVersionsLessThanOrEqualTo -&gt; (integer) An optional filter on which versions of the viewer session to revoke. All versions less than or equal to the specified ver- sion will be revoked. Default: 0. Constraints: o min: 0 Shorthand Syntax: channelArn=string,viewerId=string,viewerSessionVersionsLessThanOrEqualTo=integer ... JSON Syntax: [ { "channelArn": "string", "viewerId": "string", "viewerSessionVersionsLessThanOrEqualTo": integer } ... ]</param>
+    /// <param name="ViewerSessions">Array of viewer sessions, one per channel-ARN and viewer-ID pair. Constraints: • min: 1 • max: 20 (structure) A viewer session to revoke in the call to BatchStartViewerSessionRevocation . channelArn -&gt; (string) [required] The ARN of the channel associated with the viewer session to revoke. Constraints: • min: 1 • max: 128 • pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+ viewerId -&gt; (string) [required] The ID of the viewer associated with the viewer session to revoke. Do not use this field for personally identifying, confidential, or sensitive information. Constraints: • min: 1 • max: 40 viewerSessionVersionsLessThanOrEqualTo -&gt; (integer) An optional filter on which versions of the viewer session to revoke. All versions less than or equal to the specified version will be revoked. Default: 0. Constraints: • min: 0 Shorthand Syntax: channelArn=string,viewerId=string,viewerSessionVersionsLessThanOrEqualTo=integer ... JSON Syntax: [ { "channelArn": "string", "viewerId": "string", "viewerSessionVersionsLessThanOrEqualTo": integer } ... ]</param>
     public AwsIvsBatchStartViewerSessionRevocationOptions(
         IEnumerable<string> ViewerSessions
     )
@@ -67,7 +68,7 @@ public record AwsIvsBatchStartViewerSessionRevocationOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Array of viewer sessions, one per channel-ARN and viewer-ID pair. Constraints: o min: 1 o max: 20 (structure) A viewer session to revoke in the call to BatchStartViewerSes- sionRevocation . channelArn -&gt; (string) [required] The ARN of the channel associated with the viewer session to revoke. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:chan- nel/[a-zA-Z0-9-]+ viewerId -&gt; (string) [required] The ID of the viewer associated with the viewer session to revoke. Do not use this field for personally identifying, confidential, or sensitive information. Constraints: o min: 1 o max: 40 viewerSessionVersionsLessThanOrEqualTo -&gt; (integer) An optional filter on which versions of the viewer session to revoke. All versions less than or equal to the specified ver- sion will be revoked. Default: 0. Constraints: o min: 0 Shorthand Syntax: channelArn=string,viewerId=string,viewerSessionVersionsLessThanOrEqualTo=integer ... JSON Syntax: [ { "channelArn": "string", "viewerId": "string", "viewerSessionVersionsLessThanOrEqualTo": integer } ... ]
+    /// Array of viewer sessions, one per channel-ARN and viewer-ID pair. Constraints: • min: 1 • max: 20 (structure) A viewer session to revoke in the call to BatchStartViewerSessionRevocation . channelArn -&gt; (string) [required] The ARN of the channel associated with the viewer session to revoke. Constraints: • min: 1 • max: 128 • pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+ viewerId -&gt; (string) [required] The ID of the viewer associated with the viewer session to revoke. Do not use this field for personally identifying, confidential, or sensitive information. Constraints: • min: 1 • max: 40 viewerSessionVersionsLessThanOrEqualTo -&gt; (integer) An optional filter on which versions of the viewer session to revoke. All versions less than or equal to the specified version will be revoked. Default: 0. Constraints: • min: 0 Shorthand Syntax: channelArn=string,viewerId=string,viewerSessionVersionsLessThanOrEqualTo=integer ... JSON Syntax: [ { "channelArn": "string", "viewerId": "string", "viewerSessionVersionsLessThanOrEqualTo": integer } ... ]
     /// </summary>
     [CliOption("--viewer-sessions", GroupValues = true)]
     public IEnumerable<string>? ViewerSessions { get; private init; }
@@ -93,6 +94,15 @@ public record AwsIvsBatchStartViewerSessionRevocationOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsDrsUpdateLaunchConfigurationOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Updates a LaunchConfiguration by Source Server ID. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SourceServerId">The ID of the Source Server that we want to retrieve a Launch Con- figuration for. Constraints: o min: 19 o max: 19 o pattern: s-[0-9a-zA-Z]{17}</param>
+    /// <param name="SourceServerId">The ID of the Source Server that we want to retrieve a Launch Configuration for. Constraints: • min: 19 • max: 19 • pattern: s-[0-9a-zA-Z]{17}</param>
     public AwsDrsUpdateLaunchConfigurationOptions(
         string SourceServerId
     )
@@ -57,25 +58,25 @@ public record AwsDrsUpdateLaunchConfigurationOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Source Server that we want to retrieve a Launch Con- figuration for. Constraints: o min: 19 o max: 19 o pattern: s-[0-9a-zA-Z]{17}
+    /// The ID of the Source Server that we want to retrieve a Launch Configuration for. Constraints: • min: 19 • max: 19 • pattern: s-[0-9a-zA-Z]{17}
     /// </summary>
     [CliOption("--source-server-id")]
     public string? SourceServerId { get; private init; }
 
     /// <summary>
-    /// The name of the launch configuration. Constraints: o min: 0 o max: 128
+    /// The name of the launch configuration. Constraints: • min: 0 • max: 128
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The state of the Recovery Instance in EC2 after the recovery opera- tion. Possible values: o STOPPED o STARTED
+    /// The state of the Recovery Instance in EC2 after the recovery operation. Possible values: • STOPPED • STARTED
     /// </summary>
     [CliOption("--launch-disposition")]
     public AwsDrsUpdateLaunchConfigurationLaunchDisposition? LaunchDisposition { get; set; }
 
     /// <summary>
-    /// Whether Elastic Disaster Recovery should try to automatically choose the instance type that best matches the OS, CPU, and RAM of your Source Server. Possible values: o NONE o BASIC o IN_AWS
+    /// Whether Elastic Disaster Recovery should try to automatically choose the instance type that best matches the OS, CPU, and RAM of your Source Server. Possible values: • NONE • BASIC • IN_AWS
     /// </summary>
     [CliOption("--target-instance-type-right-sizing-method")]
     public AwsDrsUpdateLaunchConfigurationTargetInstanceTypeRightSizingMethod? TargetInstanceTypeRightSizingMethod { get; set; }
@@ -87,13 +88,13 @@ public record AwsDrsUpdateLaunchConfigurationOptions : AwsOptions, IValidatableO
     public bool? CopyPrivateIp { get; set; }
 
     /// <summary>
-    /// Whether we want to copy the tags of the Source Server to the EC2 ma- chine of the Recovery Instance.
+    /// Whether we want to copy the tags of the Source Server to the EC2 machine of the Recovery Instance.
     /// </summary>
     [CliFlag("--copy-tags", NegatedName = "--no-copy-tags")]
     public bool? CopyTags { get; set; }
 
     /// <summary>
-    /// The licensing configuration to be used for this launch configura- tion. osByol -&gt; (boolean) Whether to enable "Bring your own license" or not. Shorthand Syntax: osByol=boolean JSON Syntax: { "osByol": true|false }
+    /// The licensing configuration to be used for this launch configuration. osByol -&gt; (boolean) Whether to enable "Bring your own license" or not. Shorthand Syntax: osByol=boolean JSON Syntax: { "osByol": true|false }
     /// </summary>
     [CliOption("--licensing")]
     public string? Licensing { get; set; }
@@ -105,13 +106,13 @@ public record AwsDrsUpdateLaunchConfigurationOptions : AwsOptions, IValidatableO
     public bool? PostLaunchEnabled { get; set; }
 
     /// <summary>
-    /// Launch into existing instance properties. launchIntoEC2InstanceID -&gt; (string) Optionally holds EC2 instance ID of an instance to launch into, instead of launching a new instance during drill, recovery or failback. Constraints: o min: 0 o max: 255 o pattern: i-[0-9a-fA-F]{8,} Shorthand Syntax: launchIntoEC2InstanceID=string JSON Syntax: { "launchIntoEC2InstanceID": "string" }
+    /// Launch into existing instance properties. launchIntoEC2InstanceID -&gt; (string) Optionally holds EC2 instance ID of an instance to launch into, instead of launching a new instance during drill, recovery or failback. Constraints: • min: 0 • max: 255 • pattern: i-[0-9a-fA-F]{8,} Shorthand Syntax: launchIntoEC2InstanceID=string JSON Syntax: { "launchIntoEC2InstanceID": "string" }
     /// </summary>
     [CliOption("--launch-into-instance-properties")]
     public string? LaunchIntoInstanceProperties { get; set; }
 
     /// <summary>
-    /// Recovery mode. Possible values: o FAST o OPTIMAL
+    /// Recovery mode. Possible values: • FAST • OPTIMAL
     /// </summary>
     [CliOption("--recovery-mode")]
     public AwsDrsUpdateLaunchConfigurationRecoveryMode? RecoveryMode { get; set; }
@@ -137,6 +138,15 @@ public record AwsDrsUpdateLaunchConfigurationOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

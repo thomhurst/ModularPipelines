@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: This documentation is for version 1 of the Amazon Kinesis Data Ana- lytics API, which only supports SQL applications. Version 2 of the API supports SQL and Java applications. For more information about version 2, see Amazon Kinesis Data Analytics API V2 Documentation . Deletes a reference data source configuration from the specified appli- cation configuration. If the application is running, Amazon Kinesis Analytics immediately re- moves the in-application table that you created using the ...
+/// NOTE: This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only supports SQL applications. Version 2 of the API supports SQL and Java applications. For more information about version 2, see Amazon Kinesis Data Analytics API V2 Documentation . Deletes a reference data source configuration from the specified application configuration. If the application is running, Amazon Kinesis Analytics immediately removes the in-application table that you created using the AddApp...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,14 +26,14 @@ public record AwsKinesisanalyticsDeleteApplicationReferenceDataSourceOptions : A
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: This documentation is for version 1 of the Amazon Kinesis Data Ana- lytics API, which only supports SQL applications. Version 2 of the API supports SQL and Java applications. For more information about version 2, see Amazon Kinesis Data Analytics API V2 Documentation . Deletes a reference data source configuration from the specified appli- cation configuration. If the application is running, Amazon Kinesis Analytics immediately re- moves the in-application table that you created using the ...
+    /// NOTE: This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only supports SQL applications. Version 2 of the API supports SQL and Java applications. For more information about version 2, see Amazon Kinesis Data Analytics API V2 Documentation . Deletes a reference data source configuration from the specified application configuration. If the application is running, Amazon Kinesis Analytics immediately removes the in-application table that you created using the AddApp...
     /// </summary>
-    /// <param name="ApplicationName">Name of an existing application. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+</param>
-    /// <param name="CurrentApplicationVersionId">Version of the application. You can use the DescribeApplication op- eration to get the current application version. If the version spec- ified is not the current version, the ConcurrentModificationExcep- tion is returned. Constraints: o min: 1 o max: 999999999</param>
-    /// <param name="ReferenceId">ID of the reference data source. When you add a reference data source to your application using the AddApplicationReferenceDataSource , Amazon Kinesis Analytics assigns an ID. You can use the DescribeApplication operation to get the ref- erence ID. Constraints: o min: 1 o max: 50 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="ApplicationName">Name of an existing application. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="CurrentApplicationVersionId">Version of the application. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned. Constraints: • min: 1 • max: 999999999</param>
+    /// <param name="ReferenceId">ID of the reference data source. When you add a reference data source to your application using the AddApplicationReferenceDataSource , Amazon Kinesis Analytics assigns an ID. You can use the DescribeApplication operation to get the reference ID. Constraints: • min: 1 • max: 50 • pattern: [a-zA-Z0-9_.-]+</param>
     public AwsKinesisanalyticsDeleteApplicationReferenceDataSourceOptions(
         string ApplicationName,
-        int CurrentApplicationVersionId,
+        long CurrentApplicationVersionId,
         string ReferenceId
     )
     {
@@ -63,19 +64,19 @@ public record AwsKinesisanalyticsDeleteApplicationReferenceDataSourceOptions : A
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Name of an existing application. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
+    /// Name of an existing application. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--application-name")]
     public string? ApplicationName { get; private init; }
 
     /// <summary>
-    /// Version of the application. You can use the DescribeApplication op- eration to get the current application version. If the version spec- ified is not the current version, the ConcurrentModificationExcep- tion is returned. Constraints: o min: 1 o max: 999999999
+    /// Version of the application. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned. Constraints: • min: 1 • max: 999999999
     /// </summary>
     [CliOption("--current-application-version-id")]
-    public int? CurrentApplicationVersionId { get; private init; }
+    public long? CurrentApplicationVersionId { get; private init; }
 
     /// <summary>
-    /// ID of the reference data source. When you add a reference data source to your application using the AddApplicationReferenceDataSource , Amazon Kinesis Analytics assigns an ID. You can use the DescribeApplication operation to get the ref- erence ID. Constraints: o min: 1 o max: 50 o pattern: [a-zA-Z0-9_.-]+
+    /// ID of the reference data source. When you add a reference data source to your application using the AddApplicationReferenceDataSource , Amazon Kinesis Analytics assigns an ID. You can use the DescribeApplication operation to get the reference ID. Constraints: • min: 1 • max: 50 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--reference-id")]
     public string? ReferenceId { get; private init; }
@@ -101,6 +102,15 @@ public record AwsKinesisanalyticsDeleteApplicationReferenceDataSourceOptions : A
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

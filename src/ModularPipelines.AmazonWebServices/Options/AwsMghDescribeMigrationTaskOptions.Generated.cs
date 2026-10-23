@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsMghDescribeMigrationTaskOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Retrieves a list of all attributes associated with a specific migration task. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProgressUpdateStream">The name of the ProgressUpdateStream. Constraints: o min: 1 o max: 50 o pattern: [^/:|\000-\037]+</param>
-    /// <param name="MigrationTaskName">The identifier given to the MigrationTask. Do not store personal data in this field. Constraints: o min: 1 o max: 256 o pattern: [^:|]+</param>
+    /// <param name="ProgressUpdateStream">The name of the ProgressUpdateStream. Constraints: • min: 1 • max: 50 • pattern: [^/:|\000-\037]+</param>
+    /// <param name="MigrationTaskName">The identifier given to the MigrationTask. Do not store personal data in this field. Constraints: • min: 1 • max: 256 • pattern: [^:|]+</param>
     public AwsMghDescribeMigrationTaskOptions(
         string ProgressUpdateStream,
         string MigrationTaskName
@@ -60,13 +61,13 @@ public record AwsMghDescribeMigrationTaskOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the ProgressUpdateStream. Constraints: o min: 1 o max: 50 o pattern: [^/:|\000-\037]+
+    /// The name of the ProgressUpdateStream. Constraints: • min: 1 • max: 50 • pattern: [^/:|\000-\037]+
     /// </summary>
     [CliOption("--progress-update-stream")]
     public string? ProgressUpdateStream { get; private init; }
 
     /// <summary>
-    /// The identifier given to the MigrationTask. Do not store personal data in this field. Constraints: o min: 1 o max: 256 o pattern: [^:|]+
+    /// The identifier given to the MigrationTask. Do not store personal data in this field. Constraints: • min: 1 • max: 256 • pattern: [^:|]+
     /// </summary>
     [CliOption("--migration-task-name")]
     public string? MigrationTaskName { get; private init; }
@@ -92,6 +93,15 @@ public record AwsMghDescribeMigrationTaskOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

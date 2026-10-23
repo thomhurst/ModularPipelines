@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns complete information about the current rules and alerting log- ging configuration of the workspace. NOTE: These logging configurations are only for rules and alerting logs. See also: AWS API Documentation
+/// Returns complete information about the current rules and alerting logging configuration of the workspace. NOTE: These logging configurations are only for rules and alerting logs. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsAmpDescribeLoggingConfigurationOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns complete information about the current rules and alerting log- ging configuration of the workspace. NOTE: These logging configurations are only for rules and alerting logs. See also: AWS API Documentation
+    /// Returns complete information about the current rules and alerting logging configuration of the workspace. NOTE: These logging configurations are only for rules and alerting logs. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkspaceId">The ID of the workspace to describe the logging configuration for. Constraints: o min: 1 o max: 64 o pattern: .*[0-9A-Za-z][-.0-9A-Z_a-z]*.*</param>
+    /// <param name="WorkspaceId">The ID of the workspace to describe the logging configuration for. Constraints: • min: 1 • max: 64 • pattern: .*[0-9A-Za-z][-.0-9A-Z_a-z]*.*</param>
     public AwsAmpDescribeLoggingConfigurationOptions(
         string WorkspaceId
     )
@@ -56,7 +57,7 @@ public record AwsAmpDescribeLoggingConfigurationOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the workspace to describe the logging configuration for. Constraints: o min: 1 o max: 64 o pattern: .*[0-9A-Za-z][-.0-9A-Z_a-z]*.*
+    /// The ID of the workspace to describe the logging configuration for. Constraints: • min: 1 • max: 64 • pattern: .*[0-9A-Za-z][-.0-9A-Z_a-z]*.*
     /// </summary>
     [CliOption("--workspace-id")]
     public string? WorkspaceId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsAmpDescribeLoggingConfigurationOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

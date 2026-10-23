@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the identity information for the specified user. WARNING: We strongly recommend limiting who has the ability to invoke Upda- teUserIdentityInfo . Someone with that ability can change the login credentials of other users by changing their email address. This poses a security risk to your organization. They can change the email address of a user to the attacker's email address, and then reset the password through email. For more information, see Best Practices for Security Profiles in the ...
+/// Updates the identity information for the specified user. WARNING: We strongly recommend limiting who has the ability to invoke UpdateUserIdentityInfo . Someone with that ability can change the login credentials of other users by changing their email address. This poses a security risk to your organization. They can change the email address of a user to the attacker's email address, and then reset the password through email. For more information, see Best Practices for Security Profiles in the Co...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsConnectUpdateUserIdentityInfoOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the identity information for the specified user. WARNING: We strongly recommend limiting who has the ability to invoke Upda- teUserIdentityInfo . Someone with that ability can change the login credentials of other users by changing their email address. This poses a security risk to your organization. They can change the email address of a user to the attacker's email address, and then reset the password through email. For more information, see Best Practices for Security Profiles in the ...
+    /// Updates the identity information for the specified user. WARNING: We strongly recommend limiting who has the ability to invoke UpdateUserIdentityInfo . Someone with that ability can change the login credentials of other users by changing their email address. This poses a security risk to your organization. They can change the email address of a user to the attacker's email address, and then reset the password through email. For more information, see Best Practices for Security Profiles in the Co...
     /// </summary>
-    /// <param name="IdentityInfo">The identity information for the user. FirstName -&gt; (string) The first name. This is required if you are using Connect Cus- tomer or SAML for identity management. Inputs must be in Unicode Normalization Form C (NFC). Text containing characters in a non-NFC form (for example, decomposed characters or combining marks) are not accepted. Constraints: o min: 0 o max: 255 LastName -&gt; (string) The last name. This is required if you are using Connect Cus- tomer or SAML for identity management. Inputs must be in Unicode Normalization Form C (NFC). Text containing characters in a non-NFC form (for example, decomposed characters or combining marks) are not accepted. Constraints: o min: 0 o max: 300 Email -&gt; (string) The email address. If you are using SAML for identity management and include this parameter, an error is returned. SecondaryEmail -&gt; (string) The user's secondary email address. If you provide a secondary email, the user receives email notifications - other than pass- word reset notifications - to this email address instead of to their primary email address. Pattern: (?=^.{0,265}$)[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,63} Mobile -&gt; (string) The user's mobile number. Constraints: o pattern: \\+[1-9]\\d{1,14}$ Shorthand Syntax: FirstName=string,LastName=string,Email=string,SecondaryEmail=string,Mobile=string JSON Syntax: { "FirstName": "string", "LastName": "string", "Email": "string", "SecondaryEmail": "string", "Mobile": "string" }</param>
+    /// <param name="IdentityInfo">The identity information for the user. FirstName -&gt; (string) The first name. This is required if you are using Connect Customer or SAML for identity management. Inputs must be in Unicode Normalization Form C (NFC). Text containing characters in a non-NFC form (for example, decomposed characters or combining marks) are not accepted. Constraints: • min: 0 • max: 255 LastName -&gt; (string) The last name. This is required if you are using Connect Customer or SAML for identity management. Inputs must be in Unicode Normalization Form C (NFC). Text containing characters in a non-NFC form (for example, decomposed characters or combining marks) are not accepted. Constraints: • min: 0 • max: 300 Email -&gt; (string) The email address. If you are using SAML for identity management and include this parameter, an error is returned. SecondaryEmail -&gt; (string) The user's secondary email address. If you provide a secondary email, the user receives email notifications - other than password reset notifications - to this email address instead of to their primary email address. Pattern: (?=^.{0,265}$)[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,63} Mobile -&gt; (string) The user's mobile number. Constraints: • pattern: \\+[1-9]\\d{1,14}$ Shorthand Syntax: FirstName=string,LastName=string,Email=string,SecondaryEmail=string,Mobile=string JSON Syntax: { "FirstName": "string", "LastName": "string", "Email": "string", "SecondaryEmail": "string", "Mobile": "string" }</param>
     /// <param name="UserId">The identifier of the user account.</param>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
     public AwsConnectUpdateUserIdentityInfoOptions(
         string IdentityInfo,
         string UserId,
@@ -64,7 +65,7 @@ public record AwsConnectUpdateUserIdentityInfoOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identity information for the user. FirstName -&gt; (string) The first name. This is required if you are using Connect Cus- tomer or SAML for identity management. Inputs must be in Unicode Normalization Form C (NFC). Text containing characters in a non-NFC form (for example, decomposed characters or combining marks) are not accepted. Constraints: o min: 0 o max: 255 LastName -&gt; (string) The last name. This is required if you are using Connect Cus- tomer or SAML for identity management. Inputs must be in Unicode Normalization Form C (NFC). Text containing characters in a non-NFC form (for example, decomposed characters or combining marks) are not accepted. Constraints: o min: 0 o max: 300 Email -&gt; (string) The email address. If you are using SAML for identity management and include this parameter, an error is returned. SecondaryEmail -&gt; (string) The user's secondary email address. If you provide a secondary email, the user receives email notifications - other than pass- word reset notifications - to this email address instead of to their primary email address. Pattern: (?=^.{0,265}$)[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,63} Mobile -&gt; (string) The user's mobile number. Constraints: o pattern: \\+[1-9]\\d{1,14}$ Shorthand Syntax: FirstName=string,LastName=string,Email=string,SecondaryEmail=string,Mobile=string JSON Syntax: { "FirstName": "string", "LastName": "string", "Email": "string", "SecondaryEmail": "string", "Mobile": "string" }
+    /// The identity information for the user. FirstName -&gt; (string) The first name. This is required if you are using Connect Customer or SAML for identity management. Inputs must be in Unicode Normalization Form C (NFC). Text containing characters in a non-NFC form (for example, decomposed characters or combining marks) are not accepted. Constraints: • min: 0 • max: 255 LastName -&gt; (string) The last name. This is required if you are using Connect Customer or SAML for identity management. Inputs must be in Unicode Normalization Form C (NFC). Text containing characters in a non-NFC form (for example, decomposed characters or combining marks) are not accepted. Constraints: • min: 0 • max: 300 Email -&gt; (string) The email address. If you are using SAML for identity management and include this parameter, an error is returned. SecondaryEmail -&gt; (string) The user's secondary email address. If you provide a secondary email, the user receives email notifications - other than password reset notifications - to this email address instead of to their primary email address. Pattern: (?=^.{0,265}$)[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,63} Mobile -&gt; (string) The user's mobile number. Constraints: • pattern: \\+[1-9]\\d{1,14}$ Shorthand Syntax: FirstName=string,LastName=string,Email=string,SecondaryEmail=string,Mobile=string JSON Syntax: { "FirstName": "string", "LastName": "string", "Email": "string", "SecondaryEmail": "string", "Mobile": "string" }
     /// </summary>
     [CliOption("--identity-info")]
     public string? IdentityInfo { get; private init; }
@@ -76,7 +77,7 @@ public record AwsConnectUpdateUserIdentityInfoOptions : AwsOptions, IValidatable
     public string? UserId { get; private init; }
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
@@ -102,6 +103,15 @@ public record AwsConnectUpdateUserIdentityInfoOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

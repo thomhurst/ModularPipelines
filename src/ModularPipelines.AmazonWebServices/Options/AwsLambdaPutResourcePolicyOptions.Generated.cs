@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Adds a resource-based policy to a Lambda resource. Resource-based poli- cies grant access to other Amazon Web Services accounts , organizations , or services . Resource-based policies apply to a single Lambda re- source (for example, a function, function version, or function alias). WARNING: This operation replaces any existing policy on the Lambda resource. If you previously added permissions using the AddPermission opera- tion, the new policy overwrites those permissions. See also: AWS API Doc...
+/// Adds a resource-based policy to a Lambda resource. Resource-based policies grant access to other Amazon Web Services accounts , organizations , or services . Resource-based policies apply to a single Lambda resource (for example, a function, function version, or function alias). WARNING: This operation replaces any existing policy on the Lambda resource. If you previously added permissions using the AddPermission operation, the new policy overwrites those permissions. See also: AWS API Documenta...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsLambdaPutResourcePolicyOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Adds a resource-based policy to a Lambda resource. Resource-based poli- cies grant access to other Amazon Web Services accounts , organizations , or services . Resource-based policies apply to a single Lambda re- source (for example, a function, function version, or function alias). WARNING: This operation replaces any existing policy on the Lambda resource. If you previously added permissions using the AddPermission opera- tion, the new policy overwrites those permissions. See also: AWS API Doc...
+    /// Adds a resource-based policy to a Lambda resource. Resource-based policies grant access to other Amazon Web Services accounts , organizations , or services . Resource-based policies apply to a single Lambda resource (for example, a function, function version, or function alias). WARNING: This operation replaces any existing policy on the Lambda resource. If you previously added permissions using the AddPermission operation, the new policy overwrites those permissions. See also: AWS API Documenta...
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the Lambda resource you want to add the policy to. You can use a qualified or an unqualified ARN. The value must be a complete ARN, and the operation does not accept wildcard characters. Constraints: o min: 0 o max: 256 o pattern: arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:func- tion:[a-zA-Z0-9-_]+(:(\$LATEST(\.PUBLISHED)?|[a-zA-Z0-9-_])+)?</param>
-    /// <param name="Policy">The policy document you want to add to your Lambda resource. This is formatted as a JSON string. For more information, see Working with resource-based policies in Lambda in the Lambda Developer Guide . Constraints: o min: 1 o max: 20480 o pattern: [\s\S]+</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the Lambda resource you want to add the policy to. You can use a qualified or an unqualified ARN. The value must be a complete ARN, and the operation does not accept wildcard characters. Constraints: • min: 0 • max: 256 • pattern: arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:(runtime/|function:)[a-zA-Z0-9-_]+(:(\$LATEST(\.PUBLISHED)?|[a-zA-Z0-9-_])+)?</param>
+    /// <param name="Policy">The policy document you want to add to your Lambda resource. This is formatted as a JSON string. For more information, see Working with resource-based policies in Lambda in the Lambda Developer Guide . Constraints: • min: 1 • max: 20480 • pattern: [\s\S]+</param>
     public AwsLambdaPutResourcePolicyOptions(
         string ResourceArn,
         string Policy
@@ -60,19 +61,19 @@ public record AwsLambdaPutResourcePolicyOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Lambda resource you want to add the policy to. You can use a qualified or an unqualified ARN. The value must be a complete ARN, and the operation does not accept wildcard characters. Constraints: o min: 0 o max: 256 o pattern: arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:func- tion:[a-zA-Z0-9-_]+(:(\$LATEST(\.PUBLISHED)?|[a-zA-Z0-9-_])+)?
+    /// The Amazon Resource Name (ARN) of the Lambda resource you want to add the policy to. You can use a qualified or an unqualified ARN. The value must be a complete ARN, and the operation does not accept wildcard characters. Constraints: • min: 0 • max: 256 • pattern: arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:(runtime/|function:)[a-zA-Z0-9-_]+(:(\$LATEST(\.PUBLISHED)?|[a-zA-Z0-9-_])+)?
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The policy document you want to add to your Lambda resource. This is formatted as a JSON string. For more information, see Working with resource-based policies in Lambda in the Lambda Developer Guide . Constraints: o min: 1 o max: 20480 o pattern: [\s\S]+
+    /// The policy document you want to add to your Lambda resource. This is formatted as a JSON string. For more information, see Working with resource-based policies in Lambda in the Lambda Developer Guide . Constraints: • min: 1 • max: 20480 • pattern: [\s\S]+
     /// </summary>
     [CliOption("--policy")]
     public string? Policy { get; private init; }
 
     /// <summary>
-    /// The revision ID that the existing policy must match for the replace- ment to proceed. If the revision ID doesn't match, the operation fails with a PreconditionFailedException error. To retrieve the cur- rent revision ID, use the GetResourcePolicy operation. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The revision ID that the existing policy must match for the replacement to proceed. If the revision ID doesn't match, the operation fails with a PreconditionFailedException error. To retrieve the current revision ID, use the GetResourcePolicy operation. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--revision-id")]
     public string? RevisionId { get; set; }
@@ -98,6 +99,15 @@ public record AwsLambdaPutResourcePolicyOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

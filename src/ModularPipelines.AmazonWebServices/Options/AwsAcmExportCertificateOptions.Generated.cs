@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Exports a private certificate issued by a private certificate authority (CA) or a public certificate for use anywhere. The exported file con- tains the certificate, the certificate chain, and the encrypted private key associated with the public key that is embedded in the certificate. For security, you must assign a passphrase for the private key when ex- porting it. For information about exporting and formatting a certificate using the ACM console or CLI, see Export a private certificate and Ex...
+/// Exports a private certificate issued by a private certificate authority (CA) or a public certificate for use anywhere. The exported file contains the certificate, the certificate chain, and the encrypted private key associated with the public key that is embedded in the certificate. For security, you must assign a passphrase for the private key when exporting it. For information about exporting and formatting a certificate using the ACM console or CLI, see Export a private certificate and Export...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsAcmExportCertificateOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Exports a private certificate issued by a private certificate authority (CA) or a public certificate for use anywhere. The exported file con- tains the certificate, the certificate chain, and the encrypted private key associated with the public key that is embedded in the certificate. For security, you must assign a passphrase for the private key when ex- porting it. For information about exporting and formatting a certificate using the ACM console or CLI, see Export a private certificate and Ex...
+    /// Exports a private certificate issued by a private certificate authority (CA) or a public certificate for use anywhere. The exported file contains the certificate, the certificate chain, and the encrypted private key associated with the public key that is embedded in the certificate. For security, you must assign a passphrase for the private key when exporting it. For information about exporting and formatting a certificate using the ACM console or CLI, see Export a private certificate and Export...
     /// </summary>
-    /// <param name="CertificateArn">An Amazon Resource Name (ARN) of the issued certificate. This must be of the form: arn:aws:acm:region:account:certifi- cate/12345678-1234-1234-1234-123456789012 Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=/,.@-]+:acm:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*</param>
-    /// <param name="Passphrase">Passphrase to associate with the encrypted exported private key. NOTE: When creating your passphrase, you can use any ASCII character except #, $, or %. If you want to later decrypt the private key, you must have the passphrase. You can use the following OpenSSL command to decrypt a private key. After entering the command, you are prompted for the passphrase. openssl rsa -in encrypted_key.pem -out decrypted_key.pem Constraints: o min: 4 o max: 128</param>
+    /// <param name="CertificateArn">An Amazon Resource Name (ARN) of the issued certificate. This must be of the form: arn:aws:acm:region:account:certificate/12345678-1234-1234-1234-123456789012 Constraints: • min: 20 • max: 2048 • pattern: arn:[\w+=/,.@-]+:acm:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*</param>
+    /// <param name="Passphrase">Passphrase to associate with the encrypted exported private key. NOTE: When creating your passphrase, you can use any ASCII character except #, $, or %. If you want to later decrypt the private key, you must have the passphrase. You can use the following OpenSSL command to decrypt a private key. After entering the command, you are prompted for the passphrase. openssl rsa -in encrypted_key.pem -out decrypted_key.pem Constraints: • min: 4 • max: 128</param>
     public AwsAcmExportCertificateOptions(
         string CertificateArn,
         string Passphrase
@@ -61,13 +62,13 @@ public record AwsAcmExportCertificateOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// An Amazon Resource Name (ARN) of the issued certificate. This must be of the form: arn:aws:acm:region:account:certifi- cate/12345678-1234-1234-1234-123456789012 Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=/,.@-]+:acm:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*
+    /// An Amazon Resource Name (ARN) of the issued certificate. This must be of the form: arn:aws:acm:region:account:certificate/12345678-1234-1234-1234-123456789012 Constraints: • min: 20 • max: 2048 • pattern: arn:[\w+=/,.@-]+:acm:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*
     /// </summary>
     [CliOption("--certificate-arn")]
     public string? CertificateArn { get; private init; }
 
     /// <summary>
-    /// Passphrase to associate with the encrypted exported private key. NOTE: When creating your passphrase, you can use any ASCII character except #, $, or %. If you want to later decrypt the private key, you must have the passphrase. You can use the following OpenSSL command to decrypt a private key. After entering the command, you are prompted for the passphrase. openssl rsa -in encrypted_key.pem -out decrypted_key.pem Constraints: o min: 4 o max: 128
+    /// Passphrase to associate with the encrypted exported private key. NOTE: When creating your passphrase, you can use any ASCII character except #, $, or %. If you want to later decrypt the private key, you must have the passphrase. You can use the following OpenSSL command to decrypt a private key. After entering the command, you are prompted for the passphrase. openssl rsa -in encrypted_key.pem -out decrypted_key.pem Constraints: • min: 4 • max: 128
     /// </summary>
     [SecretValue]
     [CliOption("--passphrase")]
@@ -94,6 +95,15 @@ public record AwsAcmExportCertificateOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

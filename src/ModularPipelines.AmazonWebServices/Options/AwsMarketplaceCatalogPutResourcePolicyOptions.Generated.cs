@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsMarketplaceCatalogPutResourcePolicyOptions : AwsOptions, IValid
     /// <summary>
     /// Attaches a resource-based policy to an entity. Examples of an entity include: AmiProduct and ContainerProduct . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the entity resource you want to associate with a resource policy. Constraints: o min: 1 o max: 255 o pattern: ^arn:[\w+=/,.@-]+:aws-market- place:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*$</param>
-    /// <param name="Policy">The policy document to set; formatted in JSON. Constraints: o min: 1 o max: 10240 o pattern: ^[\u0009\u000A\u000D\u0020-\u00FF]+$</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the entity resource you want to associate with a resource policy. Constraints: • min: 1 • max: 255 • pattern: ^arn:[\w+=/,.@-]+:aws-marketplace:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*$</param>
+    /// <param name="Policy">The policy document to set; formatted in JSON. Constraints: • min: 1 • max: 10240 • pattern: ^[\u0009\u000A\u000D\u0020-\u00FF]+$</param>
     public AwsMarketplaceCatalogPutResourcePolicyOptions(
         string ResourceArn,
         string Policy
@@ -60,13 +61,13 @@ public record AwsMarketplaceCatalogPutResourcePolicyOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the entity resource you want to associate with a resource policy. Constraints: o min: 1 o max: 255 o pattern: ^arn:[\w+=/,.@-]+:aws-market- place:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*$
+    /// The Amazon Resource Name (ARN) of the entity resource you want to associate with a resource policy. Constraints: • min: 1 • max: 255 • pattern: ^arn:[\w+=/,.@-]+:aws-marketplace:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*$
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The policy document to set; formatted in JSON. Constraints: o min: 1 o max: 10240 o pattern: ^[\u0009\u000A\u000D\u0020-\u00FF]+$
+    /// The policy document to set; formatted in JSON. Constraints: • min: 1 • max: 10240 • pattern: ^[\u0009\u000A\u000D\u0020-\u00FF]+$
     /// </summary>
     [CliOption("--policy")]
     public string? Policy { get; private init; }
@@ -92,6 +93,15 @@ public record AwsMarketplaceCatalogPutResourcePolicyOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Extends an existing training plan by purchasing an extension offering. This allows you to add additional compute capacity time to your train- ing plan without creating a new plan or reconfiguring your workloads. To find available extension offerings, use the `` SearchTrainingPlanOfferings `` API with the TrainingPlanArn parameter. To view the history of extensions for a training plan, use the `` DescribeTrainingPlanExtensionHistory `` API. See also: AWS API Documentation
+/// Extends an existing training plan by purchasing an extension offering. This allows you to add additional compute capacity time to your training plan without creating a new plan or reconfiguring your workloads. To find available extension offerings, use the `` SearchTrainingPlanOfferings `` API with the TrainingPlanArn parameter. To view the history of extensions for a training plan, use the `` DescribeTrainingPlanExtensionHistory `` API. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsSagemakerExtendTrainingPlanOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Extends an existing training plan by purchasing an extension offering. This allows you to add additional compute capacity time to your train- ing plan without creating a new plan or reconfiguring your workloads. To find available extension offerings, use the `` SearchTrainingPlanOfferings `` API with the TrainingPlanArn parameter. To view the history of extensions for a training plan, use the `` DescribeTrainingPlanExtensionHistory `` API. See also: AWS API Documentation
+    /// Extends an existing training plan by purchasing an extension offering. This allows you to add additional compute capacity time to your training plan without creating a new plan or reconfiguring your workloads. To find available extension offerings, use the `` SearchTrainingPlanOfferings `` API with the TrainingPlanArn parameter. To view the history of extensions for a training plan, use the `` DescribeTrainingPlanExtensionHistory `` API. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TrainingPlanExtensionOfferingId">The unique identifier of the extension offering to purchase. You can retrieve this ID from the TrainingPlanExtensionOfferings in the re- sponse of the SearchTrainingPlanOfferings API.</param>
+    /// <param name="TrainingPlanExtensionOfferingId">The unique identifier of the extension offering to purchase. You can retrieve this ID from the TrainingPlanExtensionOfferings in the response of the SearchTrainingPlanOfferings API.</param>
     public AwsSagemakerExtendTrainingPlanOptions(
         string TrainingPlanExtensionOfferingId
     )
@@ -56,7 +57,7 @@ public record AwsSagemakerExtendTrainingPlanOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the extension offering to purchase. You can retrieve this ID from the TrainingPlanExtensionOfferings in the re- sponse of the SearchTrainingPlanOfferings API.
+    /// The unique identifier of the extension offering to purchase. You can retrieve this ID from the TrainingPlanExtensionOfferings in the response of the SearchTrainingPlanOfferings API.
     /// </summary>
     [CliOption("--training-plan-extension-offering-id")]
     public string? TrainingPlanExtensionOfferingId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSagemakerExtendTrainingPlanOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

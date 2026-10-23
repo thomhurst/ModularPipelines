@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Waits until the event bus reports ACTIVE. Use after CreateEventBus (bus starts in CREATING) or UpdateEventBus (bus moves to UPDATING) before invoking operations that require an ACTIVE bus. Fails fast on the ter- minal failure states CREATE_FAILED, UPDATE_FAILED, and DELETE_FAILED, surfacing StateReason. CREATING, UPDATING, and DELETING are intention- ally unmodeled intermediate states that fall through to the implicit retry. It will poll every 2 seconds until a successful state has been reached....
+/// Waits until the event bus reports ACTIVE. Use after CreateEventBus (bus starts in CREATING) or UpdateEventBus (bus moves to UPDATING) before invoking operations that require an ACTIVE bus. Fails fast on the terminal failure states CREATE_FAILED, UPDATE_FAILED, and DELETE_FAILED, surfacing StateReason. CREATING, UPDATING, and DELETING are intentionally unmodeled intermediate states that fall through to the implicit retry. It will poll every 2 seconds until a successful state has been reached. Thi...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsEventsv2WaitEventBusActiveOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Waits until the event bus reports ACTIVE. Use after CreateEventBus (bus starts in CREATING) or UpdateEventBus (bus moves to UPDATING) before invoking operations that require an ACTIVE bus. Fails fast on the ter- minal failure states CREATE_FAILED, UPDATE_FAILED, and DELETE_FAILED, surfacing StateReason. CREATING, UPDATING, and DELETING are intention- ally unmodeled intermediate states that fall through to the implicit retry. It will poll every 2 seconds until a successful state has been reached....
+    /// Waits until the event bus reports ACTIVE. Use after CreateEventBus (bus starts in CREATING) or UpdateEventBus (bus moves to UPDATING) before invoking operations that require an ACTIVE bus. Fails fast on the terminal failure states CREATE_FAILED, UPDATE_FAILED, and DELETE_FAILED, surfacing StateReason. CREATING, UPDATING, and DELETING are intentionally unmodeled intermediate states that fall through to the implicit retry. It will poll every 2 seconds until a successful state has been reached. Thi...
     /// </summary>
-    /// <param name="EventBusArn">The Amazon Resource Name (ARN) that uniquely identifies an event bus. Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[a-z0-9]+)*:events:[a-z][a-z0-9]*(-[a-z0-9]+)*:([0-9]{12}):event-busv2\/[A-Za-z0-9][\.\-_A-Za-z0-9]{0,255}\/[a-z0-9]{25}</param>
+    /// <param name="EventBusArn">The Amazon Resource Name (ARN) that uniquely identifies an event bus. Constraints: • min: 1 • max: 1011 • pattern: arn:aws(-[a-z0-9]+)*:events:[a-z][a-z0-9]*(-[a-z0-9]+)*:([0-9]{12}):event-busv2\/[A-Za-z0-9][\.\-_A-Za-z0-9]{0,255}\/[a-z0-9]{25}</param>
     public AwsEventsv2WaitEventBusActiveOptions(
         string EventBusArn
     )
@@ -56,7 +57,7 @@ public record AwsEventsv2WaitEventBusActiveOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) that uniquely identifies an event bus. Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[a-z0-9]+)*:events:[a-z][a-z0-9]*(-[a-z0-9]+)*:([0-9]{12}):event-busv2\/[A-Za-z0-9][\.\-_A-Za-z0-9]{0,255}\/[a-z0-9]{25}
+    /// The Amazon Resource Name (ARN) that uniquely identifies an event bus. Constraints: • min: 1 • max: 1011 • pattern: arn:aws(-[a-z0-9]+)*:events:[a-z][a-z0-9]*(-[a-z0-9]+)*:([0-9]{12}):event-busv2\/[A-Za-z0-9][\.\-_A-Za-z0-9]{0,255}\/[a-z0-9]{25}
     /// </summary>
     [CliOption("--event-bus-arn")]
     public string? EventBusArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsEventsv2WaitEventBusActiveOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

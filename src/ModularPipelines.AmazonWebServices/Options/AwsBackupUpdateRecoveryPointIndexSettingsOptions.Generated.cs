@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +29,9 @@ public record AwsBackupUpdateRecoveryPointIndexSettingsOptions : AwsOptions, IVa
     /// <summary>
     /// This operation updates the settings of a recovery point index. Required: BackupVaultName, RecoveryPointArn, and IAMRoleArn See also: AWS API Documentation
     /// </summary>
-    /// <param name="BackupVaultName">The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Region where they are created. Accepted characters include lowercase letters, numbers, and hyphens. Constraints: o pattern: ^[a-zA-Z0-9\-\_]{2,50}$</param>
-    /// <param name="RecoveryPointArn">An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recov- ery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45 .</param>
-    /// <param name="Index">Index can have 1 of 2 possible values, either ENABLED or DISABLED . To create a backup index for an eligible ACTIVE recovery point that does not yet have a backup index, set value to ENABLED . To delete a backup index, set value to DISABLED . Possible values: o ENABLED o DISABLED</param>
+    /// <param name="BackupVaultName">The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Region where they are created. Accepted characters include lowercase letters, numbers, and hyphens. Constraints: • pattern: ^[a-zA-Z0-9\-\_]{2,50}$</param>
+    /// <param name="RecoveryPointArn">An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45 .</param>
+    /// <param name="Index">Index can have 1 of 2 possible values, either ENABLED or DISABLED . To create a backup index for an eligible ACTIVE recovery point that does not yet have a backup index, set value to ENABLED . To delete a backup index, set value to DISABLED . Possible values: • ENABLED • DISABLED</param>
     public AwsBackupUpdateRecoveryPointIndexSettingsOptions(
         string BackupVaultName,
         string RecoveryPointArn,
@@ -64,19 +65,19 @@ public record AwsBackupUpdateRecoveryPointIndexSettingsOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Region where they are created. Accepted characters include lowercase letters, numbers, and hyphens. Constraints: o pattern: ^[a-zA-Z0-9\-\_]{2,50}$
+    /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Region where they are created. Accepted characters include lowercase letters, numbers, and hyphens. Constraints: • pattern: ^[a-zA-Z0-9\-\_]{2,50}$
     /// </summary>
     [CliOption("--backup-vault-name")]
     public string? BackupVaultName { get; private init; }
 
     /// <summary>
-    /// An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recov- ery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45 .
+    /// An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45 .
     /// </summary>
     [CliOption("--recovery-point-arn")]
     public string? RecoveryPointArn { get; private init; }
 
     /// <summary>
-    /// Index can have 1 of 2 possible values, either ENABLED or DISABLED . To create a backup index for an eligible ACTIVE recovery point that does not yet have a backup index, set value to ENABLED . To delete a backup index, set value to DISABLED . Possible values: o ENABLED o DISABLED
+    /// Index can have 1 of 2 possible values, either ENABLED or DISABLED . To create a backup index for an eligible ACTIVE recovery point that does not yet have a backup index, set value to ENABLED . To delete a backup index, set value to DISABLED . Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--index")]
     public AwsBackupUpdateRecoveryPointIndexSettingsIndex? Index { get; private init; }
@@ -108,6 +109,15 @@ public record AwsBackupUpdateRecoveryPointIndexSettingsOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,10 +29,10 @@ public record AwsOpensearchUpdateScheduledActionOptions : AwsOptions, IValidatab
     /// <summary>
     /// Reschedules a planned domain configuration change for a later time. This change can be a scheduled service software update or a blue/green Auto-Tune enhancement . See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">The name of the domain to reschedule an action for. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+</param>
+    /// <param name="DomainName">The name of the domain to reschedule an action for. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+</param>
     /// <param name="ActionId">The unique identifier of the action to reschedule. To retrieve this ID, send a ListScheduledActions request.</param>
-    /// <param name="ActionType">The type of action to reschedule. Can be one of SERVICE_SOFTWARE_UP- DATE , JVM_HEAP_SIZE_TUNING , or JVM_YOUNG_GEN_TUNING . To retrieve this value, send a ListScheduledActions request. Possible values: o SERVICE_SOFTWARE_UPDATE o JVM_HEAP_SIZE_TUNING o JVM_YOUNG_GEN_TUNING</param>
-    /// <param name="ScheduleAt">When to schedule the action. o NOW - Immediately schedules the update to happen in the current hour if there's capacity available. o TIMESTAMP - Lets you specify a custom date and time to apply the update. If you specify this value, you must also provide a value for DesiredStartTime . o OFF_PEAK_WINDOW - Marks the action to be picked up during an up- coming off-peak window. There's no guarantee that the change will be implemented during the next immediate window. Depending on ca- pacity, it might happen in subsequent days. Possible values: o NOW o TIMESTAMP o OFF_PEAK_WINDOW</param>
+    /// <param name="ActionType">The type of action to reschedule. Can be one of SERVICE_SOFTWARE_UPDATE , JVM_HEAP_SIZE_TUNING , or JVM_YOUNG_GEN_TUNING . To retrieve this value, send a ListScheduledActions request. Possible values: • SERVICE_SOFTWARE_UPDATE • JVM_HEAP_SIZE_TUNING • JVM_YOUNG_GEN_TUNING</param>
+    /// <param name="ScheduleAt">When to schedule the action. • NOW - Immediately schedules the update to happen in the current hour if there's capacity available. • TIMESTAMP - Lets you specify a custom date and time to apply the update. If you specify this value, you must also provide a value for DesiredStartTime . • OFF_PEAK_WINDOW - Marks the action to be picked up during an upcoming off-peak window. There's no guarantee that the change will be implemented during the next immediate window. Depending on capacity, it might happen in subsequent days. Possible values: • NOW • TIMESTAMP • OFF_PEAK_WINDOW</param>
     public AwsOpensearchUpdateScheduledActionOptions(
         string DomainName,
         string ActionId,
@@ -67,7 +68,7 @@ public record AwsOpensearchUpdateScheduledActionOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the domain to reschedule an action for. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+
+    /// The name of the domain to reschedule an action for. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
@@ -79,22 +80,22 @@ public record AwsOpensearchUpdateScheduledActionOptions : AwsOptions, IValidatab
     public string? ActionId { get; private init; }
 
     /// <summary>
-    /// The type of action to reschedule. Can be one of SERVICE_SOFTWARE_UP- DATE , JVM_HEAP_SIZE_TUNING , or JVM_YOUNG_GEN_TUNING . To retrieve this value, send a ListScheduledActions request. Possible values: o SERVICE_SOFTWARE_UPDATE o JVM_HEAP_SIZE_TUNING o JVM_YOUNG_GEN_TUNING
+    /// The type of action to reschedule. Can be one of SERVICE_SOFTWARE_UPDATE , JVM_HEAP_SIZE_TUNING , or JVM_YOUNG_GEN_TUNING . To retrieve this value, send a ListScheduledActions request. Possible values: • SERVICE_SOFTWARE_UPDATE • JVM_HEAP_SIZE_TUNING • JVM_YOUNG_GEN_TUNING
     /// </summary>
     [CliOption("--action-type")]
     public AwsOpensearchUpdateScheduledActionActionType? ActionType { get; private init; }
 
     /// <summary>
-    /// When to schedule the action. o NOW - Immediately schedules the update to happen in the current hour if there's capacity available. o TIMESTAMP - Lets you specify a custom date and time to apply the update. If you specify this value, you must also provide a value for DesiredStartTime . o OFF_PEAK_WINDOW - Marks the action to be picked up during an up- coming off-peak window. There's no guarantee that the change will be implemented during the next immediate window. Depending on ca- pacity, it might happen in subsequent days. Possible values: o NOW o TIMESTAMP o OFF_PEAK_WINDOW
+    /// When to schedule the action. • NOW - Immediately schedules the update to happen in the current hour if there's capacity available. • TIMESTAMP - Lets you specify a custom date and time to apply the update. If you specify this value, you must also provide a value for DesiredStartTime . • OFF_PEAK_WINDOW - Marks the action to be picked up during an upcoming off-peak window. There's no guarantee that the change will be implemented during the next immediate window. Depending on capacity, it might happen in subsequent days. Possible values: • NOW • TIMESTAMP • OFF_PEAK_WINDOW
     /// </summary>
     [CliOption("--schedule-at")]
     public AwsOpensearchUpdateScheduledActionScheduleAt? ScheduleAt { get; private init; }
 
     /// <summary>
-    /// The time to implement the change, in Coordinated Universal Time (UTC). Only specify this parameter if you set ScheduleAt to TIME- STAMP .
+    /// The time to implement the change, in Coordinated Universal Time (UTC). Only specify this parameter if you set ScheduleAt to TIMESTAMP .
     /// </summary>
     [CliOption("--desired-start-time")]
-    public int? DesiredStartTime { get; set; }
+    public long? DesiredStartTime { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -117,6 +118,15 @@ public record AwsOpensearchUpdateScheduledActionOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

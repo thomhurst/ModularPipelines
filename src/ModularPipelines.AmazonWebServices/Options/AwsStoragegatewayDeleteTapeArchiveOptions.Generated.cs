@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsStoragegatewayDeleteTapeArchiveOptions : AwsOptions, IValidatab
     /// <summary>
     /// Deletes the specified virtual tape from the virtual tape shelf (VTS). This operation is only supported in the tape gateway type. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TapeArn">The Amazon Resource Name (ARN) of the virtual tape to delete from the virtual tape shelf (VTS). Constraints: o min: 50 o max: 500 o pattern: arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):storage- gateway:[a-z\-0-9]+:[0-9]+:tape\/[0-9A-Z]{5,16}$</param>
+    /// <param name="TapeArn">The Amazon Resource Name (ARN) of the virtual tape to delete from the virtual tape shelf (VTS). Constraints: • min: 50 • max: 500 • pattern: arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):storagegateway:[a-z\-0-9]+:[0-9]+:tape\/[0-9A-Z]{5,16}$</param>
     public AwsStoragegatewayDeleteTapeArchiveOptions(
         string TapeArn
     )
@@ -56,13 +57,13 @@ public record AwsStoragegatewayDeleteTapeArchiveOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the virtual tape to delete from the virtual tape shelf (VTS). Constraints: o min: 50 o max: 500 o pattern: arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):storage- gateway:[a-z\-0-9]+:[0-9]+:tape\/[0-9A-Z]{5,16}$
+    /// The Amazon Resource Name (ARN) of the virtual tape to delete from the virtual tape shelf (VTS). Constraints: • min: 50 • max: 500 • pattern: arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):storagegateway:[a-z\-0-9]+:[0-9]+:tape\/[0-9A-Z]{5,16}$
     /// </summary>
     [CliOption("--tape-arn")]
     public string? TapeArn { get; private init; }
 
     /// <summary>
-    /// Set to TRUE to delete an archived tape that belongs to a custom pool with tape retention lock. Only archived tapes with tape retention lock set to governance can be deleted. Archived tapes with tape re- tention lock set to compliance can't be deleted.
+    /// Set to TRUE to delete an archived tape that belongs to a custom pool with tape retention lock. Only archived tapes with tape retention lock set to governance can be deleted. Archived tapes with tape retention lock set to compliance can't be deleted.
     /// </summary>
     [CliFlag("--bypass-governance-retention", NegatedName = "--no-bypass-governance-retention")]
     public bool? BypassGovernanceRetention { get; set; }
@@ -88,6 +89,15 @@ public record AwsStoragegatewayDeleteTapeArchiveOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

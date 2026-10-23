@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Evaluates device positions against the geofence geometries from a given geofence collection. This operation always returns an empty response because geofences are asynchronously evaluated. The evaluation determines if the device has entered or exited a geofenced area, and then publishes one of the fol- lowing events to Amazon EventBridge: o ENTER if Amazon Location determines that the tracked device has en- tered a geofenced area. o EXIT if Amazon Location determines that the tracked device has ...
+/// Evaluates device positions against the geofence geometries from a given geofence collection. This operation always returns an empty response because geofences are asynchronously evaluated. The evaluation determines if the device has entered or exited a geofenced area, and then publishes one of the following events to Amazon EventBridge: • ENTER if Amazon Location determines that the tracked device has entered a geofenced area. • EXIT if Amazon Location determines that the tracked device has exit...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsLocationBatchEvaluateGeofencesOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Evaluates device positions against the geofence geometries from a given geofence collection. This operation always returns an empty response because geofences are asynchronously evaluated. The evaluation determines if the device has entered or exited a geofenced area, and then publishes one of the fol- lowing events to Amazon EventBridge: o ENTER if Amazon Location determines that the tracked device has en- tered a geofenced area. o EXIT if Amazon Location determines that the tracked device has ...
+    /// Evaluates device positions against the geofence geometries from a given geofence collection. This operation always returns an empty response because geofences are asynchronously evaluated. The evaluation determines if the device has entered or exited a geofenced area, and then publishes one of the following events to Amazon EventBridge: • ENTER if Amazon Location determines that the tracked device has entered a geofenced area. • EXIT if Amazon Location determines that the tracked device has exit...
     /// </summary>
-    /// <param name="CollectionName">The geofence collection used in evaluating the position of devices against its geofences. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+</param>
-    /// <param name="DevicePositionUpdates">Contains device details for each device to be evaluated against the given geofence collection. Constraints: o min: 1 o max: 10 (structure) Contains the position update details for a device. DeviceId -&gt; (string) [required] The device associated to the position update. Constraints: o min: 1 o max: 100 o pattern: [-._\p{L}\p{N}]+ SampleTime -&gt; (timestamp) [required] The timestamp at which the device's position was determined. Uses ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ Position -&gt; (list) [required] The latest device position defined in WGS 84 format: [X or longitude, Y or latitude] . Constraints: o min: 2 o max: 2 (double) Accuracy -&gt; (structure) The accuracy of the device position. Horizontal -&gt; (double) [required] Estimated maximum distance, in meters, between the mea- sured position and the true position of a device, along the Earth's surface. Constraints: o min: 0 o max: 10000000 PositionProperties -&gt; (map) Associates one of more properties with the position update. A property is a key-value pair stored with the position update and added to any geofence event the update may trigger. Format: "key" : "value" Constraints: o min: 0 o max: 4 key -&gt; (string) Constraints: o min: 1 o max: 20 value -&gt; (string) Constraints: o min: 1 o max: 150 Shorthand Syntax: DeviceId=string,SampleTime=timestamp,Position=double,double,Accuracy={Horizontal=double},PositionProperties={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "DeviceId": "string", "SampleTime": timestamp, "Position": [double, ...], "Accuracy": { "Horizontal": double }, "PositionProperties": {"string": "string" ...} } ... ]</param>
+    /// <param name="CollectionName">The geofence collection used in evaluating the position of devices against its geofences. Constraints: • min: 1 • max: 100 • pattern: [-._\w]+</param>
+    /// <param name="DevicePositionUpdates">Contains device details for each device to be evaluated against the given geofence collection. Constraints: • min: 1 • max: 10 (structure) Contains the position update details for a device. DeviceId -&gt; (string) [required] The device associated to the position update. Constraints: • min: 1 • max: 100 • pattern: [-._\p{L}\p{N}]+ SampleTime -&gt; (timestamp) [required] The timestamp at which the device's position was determined. Uses ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ Position -&gt; (list) [required] The latest device position defined in WGS 84 format: [X or longitude, Y or latitude] . Constraints: • min: 2 • max: 2 (double) Accuracy -&gt; (structure) The accuracy of the device position. Horizontal -&gt; (double) [required] Estimated maximum distance, in meters, between the measured position and the true position of a device, along the Earth's surface. Constraints: • min: 0 • max: 10000000 PositionProperties -&gt; (map) Associates one of more properties with the position update. A property is a key-value pair stored with the position update and added to any geofence event the update may trigger. Format: "key" : "value" Constraints: • min: 0 • max: 4 key -&gt; (string) Constraints: • min: 1 • max: 20 value -&gt; (string) Constraints: • min: 1 • max: 150 Shorthand Syntax: DeviceId=string,SampleTime=timestamp,Position=double,double,Accuracy={Horizontal=double},PositionProperties={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "DeviceId": "string", "SampleTime": timestamp, "Position": [double, ...], "Accuracy": { "Horizontal": double }, "PositionProperties": {"string": "string" ...} } ... ]</param>
     public AwsLocationBatchEvaluateGeofencesOptions(
         string CollectionName,
         IEnumerable<string> DevicePositionUpdates
@@ -71,13 +72,13 @@ public record AwsLocationBatchEvaluateGeofencesOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The geofence collection used in evaluating the position of devices against its geofences. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+
+    /// The geofence collection used in evaluating the position of devices against its geofences. Constraints: • min: 1 • max: 100 • pattern: [-._\w]+
     /// </summary>
     [CliOption("--collection-name")]
     public string? CollectionName { get; private init; }
 
     /// <summary>
-    /// Contains device details for each device to be evaluated against the given geofence collection. Constraints: o min: 1 o max: 10 (structure) Contains the position update details for a device. DeviceId -&gt; (string) [required] The device associated to the position update. Constraints: o min: 1 o max: 100 o pattern: [-._\p{L}\p{N}]+ SampleTime -&gt; (timestamp) [required] The timestamp at which the device's position was determined. Uses ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ Position -&gt; (list) [required] The latest device position defined in WGS 84 format: [X or longitude, Y or latitude] . Constraints: o min: 2 o max: 2 (double) Accuracy -&gt; (structure) The accuracy of the device position. Horizontal -&gt; (double) [required] Estimated maximum distance, in meters, between the mea- sured position and the true position of a device, along the Earth's surface. Constraints: o min: 0 o max: 10000000 PositionProperties -&gt; (map) Associates one of more properties with the position update. A property is a key-value pair stored with the position update and added to any geofence event the update may trigger. Format: "key" : "value" Constraints: o min: 0 o max: 4 key -&gt; (string) Constraints: o min: 1 o max: 20 value -&gt; (string) Constraints: o min: 1 o max: 150 Shorthand Syntax: DeviceId=string,SampleTime=timestamp,Position=double,double,Accuracy={Horizontal=double},PositionProperties={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "DeviceId": "string", "SampleTime": timestamp, "Position": [double, ...], "Accuracy": { "Horizontal": double }, "PositionProperties": {"string": "string" ...} } ... ]
+    /// Contains device details for each device to be evaluated against the given geofence collection. Constraints: • min: 1 • max: 10 (structure) Contains the position update details for a device. DeviceId -&gt; (string) [required] The device associated to the position update. Constraints: • min: 1 • max: 100 • pattern: [-._\p{L}\p{N}]+ SampleTime -&gt; (timestamp) [required] The timestamp at which the device's position was determined. Uses ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ Position -&gt; (list) [required] The latest device position defined in WGS 84 format: [X or longitude, Y or latitude] . Constraints: • min: 2 • max: 2 (double) Accuracy -&gt; (structure) The accuracy of the device position. Horizontal -&gt; (double) [required] Estimated maximum distance, in meters, between the measured position and the true position of a device, along the Earth's surface. Constraints: • min: 0 • max: 10000000 PositionProperties -&gt; (map) Associates one of more properties with the position update. A property is a key-value pair stored with the position update and added to any geofence event the update may trigger. Format: "key" : "value" Constraints: • min: 0 • max: 4 key -&gt; (string) Constraints: • min: 1 • max: 20 value -&gt; (string) Constraints: • min: 1 • max: 150 Shorthand Syntax: DeviceId=string,SampleTime=timestamp,Position=double,double,Accuracy={Horizontal=double},PositionProperties={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "DeviceId": "string", "SampleTime": timestamp, "Position": [double, ...], "Accuracy": { "Horizontal": double }, "PositionProperties": {"string": "string" ...} } ... ]
     /// </summary>
     [CliOption("--device-position-updates", GroupValues = true)]
     public IEnumerable<string>? DevicePositionUpdates { get; private init; }
@@ -103,6 +104,15 @@ public record AwsLocationBatchEvaluateGeofencesOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

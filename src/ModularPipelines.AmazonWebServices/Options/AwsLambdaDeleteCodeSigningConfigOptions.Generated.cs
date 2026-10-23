@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsLambdaDeleteCodeSigningConfigOptions : AwsOptions, IValidatable
     /// <summary>
     /// Deletes the code signing configuration. You can delete the code signing configuration only if no function is using it. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CodeSigningConfigArn">The The Amazon Resource Name (ARN) of the code signing configura- tion. Constraints: o min: 0 o max: 200 o pattern: arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:code-sign- ing-config:csc-[a-z0-9]{17}</param>
+    /// <param name="CodeSigningConfigArn">The The Amazon Resource Name (ARN) of the code signing configuration. Constraints: • min: 0 • max: 200 • pattern: arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:code-signing-config:csc-[a-z0-9]{17}</param>
     public AwsLambdaDeleteCodeSigningConfigOptions(
         string CodeSigningConfigArn
     )
@@ -56,7 +57,7 @@ public record AwsLambdaDeleteCodeSigningConfigOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The The Amazon Resource Name (ARN) of the code signing configura- tion. Constraints: o min: 0 o max: 200 o pattern: arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:code-sign- ing-config:csc-[a-z0-9]{17}
+    /// The The Amazon Resource Name (ARN) of the code signing configuration. Constraints: • min: 0 • max: 200 • pattern: arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:code-signing-config:csc-[a-z0-9]{17}
     /// </summary>
     [CliOption("--code-signing-config-arn")]
     public string? CodeSigningConfigArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsLambdaDeleteCodeSigningConfigOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

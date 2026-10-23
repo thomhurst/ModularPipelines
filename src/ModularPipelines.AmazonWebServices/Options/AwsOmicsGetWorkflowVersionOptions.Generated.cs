@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +29,8 @@ public record AwsOmicsGetWorkflowVersionOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Gets information about a workflow version. For more information, see Workflow versioning in Amazon Web Services HealthOmics in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkflowId">The workflow's ID. The workflowId is not the UUID. Constraints: o min: 1 o max: 18 o pattern: [0-9]+</param>
-    /// <param name="VersionName">The workflow version name. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9][A-Za-z0-9\-\._]*</param>
+    /// <param name="WorkflowId">The workflow's ID. The workflowId is not the UUID. Constraints: • min: 1 • max: 18 • pattern: [0-9]+</param>
+    /// <param name="VersionName">The workflow version name. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9][A-Za-z0-9\-\._]*</param>
     public AwsOmicsGetWorkflowVersionOptions(
         string WorkflowId,
         string VersionName
@@ -61,31 +62,31 @@ public record AwsOmicsGetWorkflowVersionOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The workflow's ID. The workflowId is not the UUID. Constraints: o min: 1 o max: 18 o pattern: [0-9]+
+    /// The workflow's ID. The workflowId is not the UUID. Constraints: • min: 1 • max: 18 • pattern: [0-9]+
     /// </summary>
     [CliOption("--workflow-id")]
     public string? WorkflowId { get; private init; }
 
     /// <summary>
-    /// The workflow version name. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9][A-Za-z0-9\-\._]*
+    /// The workflow version name. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9][A-Za-z0-9\-\._]*
     /// </summary>
     [CliOption("--version-name")]
     public string? VersionName { get; private init; }
 
     /// <summary>
-    /// The workflow's type. Possible values: o PRIVATE o READY2RUN Constraints: o min: 1 o max: 64
+    /// The workflow's type. Possible values: • PRIVATE • READY2RUN Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--type")]
     public AwsOmicsGetWorkflowVersionType? Type { get; set; }
 
     /// <summary>
-    /// The export format for the workflow. Constraints: o min: 0 o max: 32 (string) Possible values: o DEFINITION o README Constraints: o min: 1 o max: 64 Syntax: "string" "string" ...
+    /// The export format for the workflow. Constraints: • min: 0 • max: 32 (string) Possible values: • DEFINITION • README Constraints: • min: 1 • max: 64 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--export", GroupValues = true)]
     public IEnumerable<string>? Export { get; set; }
 
     /// <summary>
-    /// The 12-digit account ID of the workflow owner. The workflow owner ID can be retrieved using the GetShare API operation. If you are the workflow owner, you do not need to include this ID. Constraints: o pattern: [0-9]{12}
+    /// The 12-digit account ID of the workflow owner. The workflow owner ID can be retrieved using the GetShare API operation. If you are the workflow owner, you do not need to include this ID. Constraints: • pattern: [0-9]{12}
     /// </summary>
     [CliOption("--workflow-owner-id")]
     public string? WorkflowOwnerId { get; set; }
@@ -111,6 +112,15 @@ public record AwsOmicsGetWorkflowVersionOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

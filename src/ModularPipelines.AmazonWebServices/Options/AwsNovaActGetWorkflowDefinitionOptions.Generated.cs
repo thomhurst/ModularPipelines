@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the details and configuration of a specific workflow defini- tion. See also: AWS API Documentation
+/// Retrieves the details and configuration of a specific workflow definition. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsNovaActGetWorkflowDefinitionOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves the details and configuration of a specific workflow defini- tion. See also: AWS API Documentation
+    /// Retrieves the details and configuration of a specific workflow definition. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkflowDefinitionName">The name of the workflow definition to retrieve. Constraints: o min: 1 o max: 40 o pattern: [a-zA-Z0-9_-]{1,40}</param>
+    /// <param name="WorkflowDefinitionName">The name of the workflow definition to retrieve. Constraints: • min: 1 • max: 40 • pattern: [a-zA-Z0-9_-]{1,40}</param>
     public AwsNovaActGetWorkflowDefinitionOptions(
         string WorkflowDefinitionName
     )
@@ -56,7 +57,7 @@ public record AwsNovaActGetWorkflowDefinitionOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the workflow definition to retrieve. Constraints: o min: 1 o max: 40 o pattern: [a-zA-Z0-9_-]{1,40}
+    /// The name of the workflow definition to retrieve. Constraints: • min: 1 • max: 40 • pattern: [a-zA-Z0-9_-]{1,40}
     /// </summary>
     [CliOption("--workflow-definition-name")]
     public string? WorkflowDefinitionName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsNovaActGetWorkflowDefinitionOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

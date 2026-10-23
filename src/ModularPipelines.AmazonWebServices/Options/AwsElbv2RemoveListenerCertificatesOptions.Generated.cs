@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsElbv2RemoveListenerCertificatesOptions : AwsOptions, IValidatab
     /// Removes the specified certificate from the certificate list for the specified HTTPS or TLS listener. See also: AWS API Documentation
     /// </summary>
     /// <param name="ListenerArn">The Amazon Resource Name (ARN) of the listener.</param>
-    /// <param name="Certificates">The certificate to remove. You can specify one certificate per call. Set CertificateArn to the certificate ARN but do not set IsDefault . (structure) Information about an SSL server certificate. CertificateArn -&gt; (string) The Amazon Resource Name (ARN) of the certificate. IsDefault -&gt; (boolean) Indicates whether the certificate is the default certificate. Do not set this value when specifying a certificate as an in- put. This value is not included in the output when describing a listener, but is included when describing listener certifi- cates. Shorthand Syntax: CertificateArn=string,IsDefault=boolean ... JSON Syntax: [ { "CertificateArn": "string", "IsDefault": true|false } ... ]</param>
+    /// <param name="Certificates">The certificate to remove. You can specify one certificate per call. Set CertificateArn to the certificate ARN but do not set IsDefault . (structure) Information about an SSL server certificate. CertificateArn -&gt; (string) The Amazon Resource Name (ARN) of the certificate. IsDefault -&gt; (boolean) Indicates whether the certificate is the default certificate. Do not set this value when specifying a certificate as an input. This value is not included in the output when describing a listener, but is included when describing listener certificates. Shorthand Syntax: CertificateArn=string,IsDefault=boolean ... JSON Syntax: [ { "CertificateArn": "string", "IsDefault": true|false } ... ]</param>
     public AwsElbv2RemoveListenerCertificatesOptions(
         string ListenerArn,
         IEnumerable<string> Certificates
@@ -77,7 +78,7 @@ public record AwsElbv2RemoveListenerCertificatesOptions : AwsOptions, IValidatab
     public string? ListenerArn { get; private init; }
 
     /// <summary>
-    /// The certificate to remove. You can specify one certificate per call. Set CertificateArn to the certificate ARN but do not set IsDefault . (structure) Information about an SSL server certificate. CertificateArn -&gt; (string) The Amazon Resource Name (ARN) of the certificate. IsDefault -&gt; (boolean) Indicates whether the certificate is the default certificate. Do not set this value when specifying a certificate as an in- put. This value is not included in the output when describing a listener, but is included when describing listener certifi- cates. Shorthand Syntax: CertificateArn=string,IsDefault=boolean ... JSON Syntax: [ { "CertificateArn": "string", "IsDefault": true|false } ... ]
+    /// The certificate to remove. You can specify one certificate per call. Set CertificateArn to the certificate ARN but do not set IsDefault . (structure) Information about an SSL server certificate. CertificateArn -&gt; (string) The Amazon Resource Name (ARN) of the certificate. IsDefault -&gt; (boolean) Indicates whether the certificate is the default certificate. Do not set this value when specifying a certificate as an input. This value is not included in the output when describing a listener, but is included when describing listener certificates. Shorthand Syntax: CertificateArn=string,IsDefault=boolean ... JSON Syntax: [ { "CertificateArn": "string", "IsDefault": true|false } ... ]
     /// </summary>
     [CliOption("--certificates", GroupValues = true)]
     public IEnumerable<string>? Certificates { get; private init; }
@@ -103,6 +104,15 @@ public record AwsElbv2RemoveListenerCertificatesOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

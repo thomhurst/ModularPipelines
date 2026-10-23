@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API works with the following fleet types: Container Retrieves the properties for a container fleet. When requesting attrib- utes for multiple fleets, use the pagination parameters to retrieve re- sults as a set of sequential pages. Request options o Get container fleet properties for a single fleet. Provide either the fleet ID or ARN value. Results If successful, a ContainerFleet object is returned. This object in- cludes the fleet properties, including information about the most re- cent d...
+/// This API works with the following fleet types: Container Retrieves the properties for a container fleet. When requesting attributes for multiple fleets, use the pagination parameters to retrieve results as a set of sequential pages. Request options • Get container fleet properties for a single fleet. Provide either the fleet ID or ARN value. Results If successful, a ContainerFleet object is returned. This object includes the fleet properties, including information about the most recent deploymen...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsGameliftDescribeContainerFleetOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API works with the following fleet types: Container Retrieves the properties for a container fleet. When requesting attrib- utes for multiple fleets, use the pagination parameters to retrieve re- sults as a set of sequential pages. Request options o Get container fleet properties for a single fleet. Provide either the fleet ID or ARN value. Results If successful, a ContainerFleet object is returned. This object in- cludes the fleet properties, including information about the most re- cent d...
+    /// This API works with the following fleet types: Container Retrieves the properties for a container fleet. When requesting attributes for multiple fleets, use the pagination parameters to retrieve results as a set of sequential pages. Request options • Get container fleet properties for a single fleet. Provide either the fleet ID or ARN value. Results If successful, a ContainerFleet object is returned. This object includes the fleet properties, including information about the most recent deploymen...
     /// </summary>
-    /// <param name="FleetId">A unique identifier for the container fleet to retrieve. You can use either the fleet ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$</param>
+    /// <param name="FleetId">A unique identifier for the container fleet to retrieve. You can use either the fleet ID or ARN value. Constraints: • min: 1 • max: 512 • pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$</param>
     public AwsGameliftDescribeContainerFleetOptions(
         string FleetId
     )
@@ -56,7 +57,7 @@ public record AwsGameliftDescribeContainerFleetOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the container fleet to retrieve. You can use either the fleet ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$
+    /// A unique identifier for the container fleet to retrieve. You can use either the fleet ID or ARN value. Constraints: • min: 1 • max: 512 • pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$
     /// </summary>
     [CliOption("--fleet-id")]
     public string? FleetId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsGameliftDescribeContainerFleetOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

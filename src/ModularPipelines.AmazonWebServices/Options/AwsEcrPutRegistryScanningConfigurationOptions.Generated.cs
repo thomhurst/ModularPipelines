@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates or updates the scanning configuration for your private reg- istry. See also: AWS API Documentation
+/// Creates or updates the scanning configuration for your private registry. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,13 +23,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsEcrPutRegistryScanningConfigurationOptions : AwsOptions
 {
     /// <summary>
-    /// The scanning type to set for the registry. When a registry scanning configuration is not defined, by default the BASIC scan type is used. When basic scanning is used, you may specify filters to determine which individual repositories, or all repositories, are scanned when new images are pushed to those repos- itories. Alternatively, you can do manual scans of images with basic scanning. When the ENHANCED scan type is set, Amazon Inspector provides auto- mated vulnerability scanning. You may choose between continuous scanning or scan on push and you may specify filters to determine which individual repositories, or all repositories, are scanned. Possible values: o BASIC o ENHANCED
+    /// The scanning type to set for the registry. When a registry scanning configuration is not defined, by default the BASIC scan type is used. When basic scanning is used, you may specify filters to determine which individual repositories, or all repositories, are scanned when new images are pushed to those repositories. Alternatively, you can do manual scans of images with basic scanning. When the ENHANCED scan type is set, Amazon Inspector provides automated vulnerability scanning. You may choose between continuous scanning or scan on push and you may specify filters to determine which individual repositories, or all repositories, are scanned. Possible values: • BASIC • ENHANCED
     /// </summary>
     [CliOption("--scan-type")]
     public AwsEcrPutRegistryScanningConfigurationScanType? ScanType { get; set; }
 
     /// <summary>
-    /// The scanning rules to use for the registry. A scanning rule is used to determine which repository filters are used and at what frequency scanning will occur. Constraints: o min: 0 o max: 2 (structure) The details of a scanning rule for a private registry. scanFrequency -&gt; (string) [required] The frequency that scans are performed at for a private reg- istry. When the ENHANCED scan type is specified, the sup- ported scan frequencies are CONTINUOUS_SCAN and SCAN_ON_PUSH . When the BASIC scan type is specified, the SCAN_ON_PUSH scan frequency is supported. If scan on push is not speci- fied, then the MANUAL scan frequency is set by default. Possible values: o SCAN_ON_PUSH o CONTINUOUS_SCAN o MANUAL repositoryFilters -&gt; (list) [required] The repository filters associated with the scanning configu- ration for a private registry. Constraints: o min: 0 o max: 100 (structure) The details of a scanning repository filter. For more in- formation on how to use filters, see Using filters in the Amazon Elastic Container Registry User Guide . filter -&gt; (string) [required] The filter to use when scanning. Constraints: o min: 1 o max: 255 o pattern: ^[a-z0-9*](?:[._\-/a-z0-9*]?[a-z0-9*]+)*$ filterType -&gt; (string) [required] The type associated with the filter. Possible values: o WILDCARD Shorthand Syntax: scanFrequency=string,repositoryFilters=[{filter=string,filterType=string},{filter=string,filterType=string}] ... JSON Syntax: [ { "scanFrequency": "SCAN_ON_PUSH"|"CONTINUOUS_SCAN"|"MANUAL", "repositoryFilters": [ { "filter": "string", "filterType": "WILDCARD" } ... ] } ... ]
+    /// The scanning rules to use for the registry. A scanning rule is used to determine which repository filters are used and at what frequency scanning will occur. Constraints: • min: 0 • max: 2 (structure) The details of a scanning rule for a private registry. scanFrequency -&gt; (string) [required] The frequency that scans are performed at for a private registry. When the ENHANCED scan type is specified, the supported scan frequencies are CONTINUOUS_SCAN and SCAN_ON_PUSH . When the BASIC scan type is specified, the SCAN_ON_PUSH scan frequency is supported. If scan on push is not specified, then the MANUAL scan frequency is set by default. Possible values: • SCAN_ON_PUSH • CONTINUOUS_SCAN • MANUAL repositoryFilters -&gt; (list) [required] The repository filters associated with the scanning configuration for a private registry. Constraints: • min: 0 • max: 100 (structure) The details of a scanning repository filter. For more information on how to use filters, see Using filters in the Amazon Elastic Container Registry User Guide . filter -&gt; (string) [required] The filter to use when scanning. Constraints: • min: 1 • max: 255 • pattern: ^[a-z0-9*](?:[._\-/a-z0-9*]?[a-z0-9*]+)*$ filterType -&gt; (string) [required] The type associated with the filter. Possible values: • WILDCARD Shorthand Syntax: scanFrequency=string,repositoryFilters=[{filter=string,filterType=string},{filter=string,filterType=string}] ... JSON Syntax: [ { "scanFrequency": "SCAN_ON_PUSH"|"CONTINUOUS_SCAN"|"MANUAL", "repositoryFilters": [ { "filter": "string", "filterType": "WILDCARD" } ... ] } ... ]
     /// </summary>
     [CliOption("--rules", GroupValues = true)]
     public IEnumerable<string>? Rules { get; set; }
@@ -39,5 +39,14 @@ public record AwsEcrPutRegistryScanningConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsDatabrewUpdateScheduleOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Modifies the definition of an existing DataBrew schedule. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CronExpression">The date or dates and time or times when the jobs are to be run. For more information, see Cron expressions in the Glue DataBrew Devel- oper Guide . Constraints: o min: 1 o max: 512</param>
-    /// <param name="Name">The name of the schedule to update. Constraints: o min: 1 o max: 255</param>
+    /// <param name="CronExpression">The date or dates and time or times when the jobs are to be run. For more information, see Cron expressions in the Glue DataBrew Developer Guide . Constraints: • min: 1 • max: 512</param>
+    /// <param name="Name">The name of the schedule to update. Constraints: • min: 1 • max: 255</param>
     public AwsDatabrewUpdateScheduleOptions(
         string CronExpression,
         string Name
@@ -60,19 +61,19 @@ public record AwsDatabrewUpdateScheduleOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The date or dates and time or times when the jobs are to be run. For more information, see Cron expressions in the Glue DataBrew Devel- oper Guide . Constraints: o min: 1 o max: 512
+    /// The date or dates and time or times when the jobs are to be run. For more information, see Cron expressions in the Glue DataBrew Developer Guide . Constraints: • min: 1 • max: 512
     /// </summary>
     [CliOption("--cron-expression")]
     public string? CronExpression { get; private init; }
 
     /// <summary>
-    /// The name of the schedule to update. Constraints: o min: 1 o max: 255
+    /// The name of the schedule to update. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The name or names of one or more jobs to be run for this schedule. Constraints: o max: 50 (string) Constraints: o min: 1 o max: 240 Syntax: "string" "string" ...
+    /// The name or names of one or more jobs to be run for this schedule. Constraints: • max: 50 (string) Constraints: • min: 1 • max: 240 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--job-names", GroupValues = true)]
     public IEnumerable<string>? JobNames { get; set; }
@@ -98,6 +99,15 @@ public record AwsDatabrewUpdateScheduleOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

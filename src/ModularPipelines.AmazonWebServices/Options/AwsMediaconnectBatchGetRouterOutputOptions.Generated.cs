@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsMediaconnectBatchGetRouterOutputOptions : AwsOptions, IValidata
     /// <summary>
     /// Retrieves information about multiple router outputs in AWS Elemental MediaConnect. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arns">The Amazon Resource Names (ARNs) of the router outputs you want to retrieve information about. Constraints: o min: 1 o max: 20 (string) Constraints: o pattern: arn:(aws[a-zA-Z-]*):mediacon- nect:[a-z0-9-]+:[0-9]{12}:routerOutput:[a-z0-9]{12} Syntax: "string" "string" ...</param>
+    /// <param name="Arns">The Amazon Resource Names (ARNs) of the router outputs you want to retrieve information about. Constraints: • min: 1 • max: 20 (string) Constraints: • pattern: arn:(aws[a-zA-Z-]*):mediaconnect:[a-z0-9-]+:[0-9]{12}:routerOutput:[a-z0-9]{12} Syntax: "string" "string" ...</param>
     public AwsMediaconnectBatchGetRouterOutputOptions(
         IEnumerable<string> Arns
     )
@@ -67,7 +68,7 @@ public record AwsMediaconnectBatchGetRouterOutputOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Names (ARNs) of the router outputs you want to retrieve information about. Constraints: o min: 1 o max: 20 (string) Constraints: o pattern: arn:(aws[a-zA-Z-]*):mediacon- nect:[a-z0-9-]+:[0-9]{12}:routerOutput:[a-z0-9]{12} Syntax: "string" "string" ...
+    /// The Amazon Resource Names (ARNs) of the router outputs you want to retrieve information about. Constraints: • min: 1 • max: 20 (string) Constraints: • pattern: arn:(aws[a-zA-Z-]*):mediaconnect:[a-z0-9-]+:[0-9]{12}:routerOutput:[a-z0-9]{12} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--arns", GroupValues = true)]
     public IEnumerable<string>? Arns { get; private init; }
@@ -93,6 +94,15 @@ public record AwsMediaconnectBatchGetRouterOutputOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

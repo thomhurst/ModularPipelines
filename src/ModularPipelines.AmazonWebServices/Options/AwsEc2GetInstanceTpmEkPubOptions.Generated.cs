@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets the public endorsement key associated with the Nitro Trusted Plat- form Module (NitroTPM) for the specified instance. See also: AWS API Documentation
+/// Gets the public endorsement key associated with the Nitro Trusted Platform Module (NitroTPM) for the specified instance. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsEc2GetInstanceTpmEkPubOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets the public endorsement key associated with the Nitro Trusted Plat- form Module (NitroTPM) for the specified instance. See also: AWS API Documentation
+    /// Gets the public endorsement key associated with the Nitro Trusted Platform Module (NitroTPM) for the specified instance. See also: AWS API Documentation
     /// </summary>
     /// <param name="InstanceId">The ID of the instance for which to get the public endorsement key.</param>
-    /// <param name="KeyType">The required public endorsement key type. Possible values: o rsa-2048 o ecc-sec-p384</param>
-    /// <param name="KeyFormat">The required public endorsement key format. Specify der for a DER-encoded public key that is compatible with OpenSSL. Specify tpmt for a TPM 2.0 format that is compatible with tpm2-tools. The re- turned key is base64 encoded. Possible values: o der o tpmt</param>
+    /// <param name="KeyType">The required public endorsement key type. Possible values: • rsa-2048 • ecc-sec-p384</param>
+    /// <param name="KeyFormat">The required public endorsement key format. Specify der for a DER-encoded public key that is compatible with OpenSSL. Specify tpmt for a TPM 2.0 format that is compatible with tpm2-tools. The returned key is base64 encoded. Possible values: • der • tpmt</param>
     public AwsEc2GetInstanceTpmEkPubOptions(
         string InstanceId,
         AwsEc2GetInstanceTpmEkPubKeyType KeyType,
@@ -69,19 +70,19 @@ public record AwsEc2GetInstanceTpmEkPubOptions : AwsOptions, IValidatableObject
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The required public endorsement key type. Possible values: o rsa-2048 o ecc-sec-p384
+    /// The required public endorsement key type. Possible values: • rsa-2048 • ecc-sec-p384
     /// </summary>
     [CliOption("--key-type")]
     public AwsEc2GetInstanceTpmEkPubKeyType? KeyType { get; private init; }
 
     /// <summary>
-    /// The required public endorsement key format. Specify der for a DER-encoded public key that is compatible with OpenSSL. Specify tpmt for a TPM 2.0 format that is compatible with tpm2-tools. The re- turned key is base64 encoded. Possible values: o der o tpmt
+    /// The required public endorsement key format. Specify der for a DER-encoded public key that is compatible with OpenSSL. Specify tpmt for a TPM 2.0 format that is compatible with tpm2-tools. The returned key is base64 encoded. Possible values: • der • tpmt
     /// </summary>
     [CliOption("--key-format")]
     public AwsEc2GetInstanceTpmEkPubKeyFormat? KeyFormat { get; private init; }
 
     /// <summary>
-    /// Specify this parameter to verify whether the request will succeed, without actually making the request. If the request will succeed, the response is DryRunOperation . Otherwise, the response is Unau- thorizedOperation .
+    /// Specify this parameter to verify whether the request will succeed, without actually making the request. If the request will succeed, the response is DryRunOperation . Otherwise, the response is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -107,6 +108,15 @@ public record AwsEc2GetInstanceTpmEkPubOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

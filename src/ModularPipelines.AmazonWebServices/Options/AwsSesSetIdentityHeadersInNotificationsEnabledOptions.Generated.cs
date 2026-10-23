@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Given an identity (an email address or a domain), sets whether Amazon SES includes the original email headers in the Amazon Simple Notifica- tion Service (Amazon SNS) notifications of a specified type. You can execute this operation no more than once per second. For more information about using notifications with Amazon SES, see the Amazon SES Developer Guide . See also: AWS API Documentation
+/// Given an identity (an email address or a domain), sets whether Amazon SES includes the original email headers in the Amazon Simple Notification Service (Amazon SNS) notifications of a specified type. You can execute this operation no more than once per second. For more information about using notifications with Amazon SES, see the Amazon SES Developer Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsSesSetIdentityHeadersInNotificationsEnabledOptions : AwsOptions
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Given an identity (an email address or a domain), sets whether Amazon SES includes the original email headers in the Amazon Simple Notifica- tion Service (Amazon SNS) notifications of a specified type. You can execute this operation no more than once per second. For more information about using notifications with Amazon SES, see the Amazon SES Developer Guide . See also: AWS API Documentation
+    /// Given an identity (an email address or a domain), sets whether Amazon SES includes the original email headers in the Amazon Simple Notification Service (Amazon SNS) notifications of a specified type. You can execute this operation no more than once per second. For more information about using notifications with Amazon SES, see the Amazon SES Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identity">The identity for which to enable or disable headers in notifica- tions. Examples: user@example.com , example.com .</param>
-    /// <param name="NotificationType">The notification type for which to enable or disable headers in no- tifications. Possible values: o Bounce o Complaint o Delivery</param>
-    /// <param name="Enabled">Sets whether Amazon SES includes the original email headers in Ama- zon SNS notifications of the specified notification type. A value of true specifies that Amazon SES includes headers in notifications, and a value of false specifies that Amazon SES does not include headers in notifications. This value can only be set when NotificationType is already set to use a particular Amazon SNS topic.</param>
+    /// <param name="Identity">The identity for which to enable or disable headers in notifications. Examples: user@example.com , example.com .</param>
+    /// <param name="NotificationType">The notification type for which to enable or disable headers in notifications. Possible values: • Bounce • Complaint • Delivery</param>
+    /// <param name="Enabled">Sets whether Amazon SES includes the original email headers in Amazon SNS notifications of the specified notification type. A value of true specifies that Amazon SES includes headers in notifications, and a value of false specifies that Amazon SES does not include headers in notifications. This value can only be set when NotificationType is already set to use a particular Amazon SNS topic.</param>
     public AwsSesSetIdentityHeadersInNotificationsEnabledOptions(
         string Identity,
         AwsSesSetIdentityHeadersInNotificationsEnabledNotificationType NotificationType,
@@ -63,19 +64,19 @@ public record AwsSesSetIdentityHeadersInNotificationsEnabledOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identity for which to enable or disable headers in notifica- tions. Examples: user@example.com , example.com .
+    /// The identity for which to enable or disable headers in notifications. Examples: user@example.com , example.com .
     /// </summary>
     [CliOption("--identity")]
     public string? Identity { get; private init; }
 
     /// <summary>
-    /// The notification type for which to enable or disable headers in no- tifications. Possible values: o Bounce o Complaint o Delivery
+    /// The notification type for which to enable or disable headers in notifications. Possible values: • Bounce • Complaint • Delivery
     /// </summary>
     [CliOption("--notification-type")]
     public AwsSesSetIdentityHeadersInNotificationsEnabledNotificationType? NotificationType { get; private init; }
 
     /// <summary>
-    /// Sets whether Amazon SES includes the original email headers in Ama- zon SNS notifications of the specified notification type. A value of true specifies that Amazon SES includes headers in notifications, and a value of false specifies that Amazon SES does not include headers in notifications. This value can only be set when NotificationType is already set to use a particular Amazon SNS topic.
+    /// Sets whether Amazon SES includes the original email headers in Amazon SNS notifications of the specified notification type. A value of true specifies that Amazon SES includes headers in notifications, and a value of false specifies that Amazon SES does not include headers in notifications. This value can only be set when NotificationType is already set to use a particular Amazon SNS topic.
     /// </summary>
     [CliFlag("--enabled", NegatedName = "--no-enabled")]
     public bool? Enabled { get; private init; }
@@ -101,6 +102,15 @@ public record AwsSesSetIdentityHeadersInNotificationsEnabledOptions : AwsOptions
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

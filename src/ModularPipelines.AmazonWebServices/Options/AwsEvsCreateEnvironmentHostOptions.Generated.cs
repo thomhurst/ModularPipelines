@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an ESX host and adds it to an Amazon EVS environment. This action can only be used after the Amazon EVS environment is de- ployed. You can use the dedicatedHostId parameter to specify an Amazon EC2 Ded- icated Host for ESX host creation. You can use the placementGroupId parameter to specify a cluster or par- tition placement group to launch EC2 instances into. NOTE: If you don't specify an ESX version when adding hosts using Cre- ateEnvironmentHost action, Amazon EVS automatically uses t...
+/// Creates an ESX host and adds it to an Amazon EVS environment. This action can only be used after the Amazon EVS environment is deployed. You can use the dedicatedHostId parameter to specify an Amazon EC2 Dedicated Host for ESX host creation. You can use the placementGroupId parameter to specify a cluster or partition placement group to launch EC2 instances into. NOTE: If you don't specify an ESX version when adding hosts using CreateEnvironmentHost action, Amazon EVS automatically uses the defau...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsEvsCreateEnvironmentHostOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an ESX host and adds it to an Amazon EVS environment. This action can only be used after the Amazon EVS environment is de- ployed. You can use the dedicatedHostId parameter to specify an Amazon EC2 Ded- icated Host for ESX host creation. You can use the placementGroupId parameter to specify a cluster or par- tition placement group to launch EC2 instances into. NOTE: If you don't specify an ESX version when adding hosts using Cre- ateEnvironmentHost action, Amazon EVS automatically uses t...
+    /// Creates an ESX host and adds it to an Amazon EVS environment. This action can only be used after the Amazon EVS environment is deployed. You can use the dedicatedHostId parameter to specify an Amazon EC2 Dedicated Host for ESX host creation. You can use the placementGroupId parameter to specify a cluster or partition placement group to launch EC2 instances into. NOTE: If you don't specify an ESX version when adding hosts using CreateEnvironmentHost action, Amazon EVS automatically uses the defau...
     /// </summary>
-    /// <param name="EnvironmentId">A unique ID for the environment that the host is added to. Constraints: o pattern: (env-[a-zA-Z0-9]{10})</param>
-    /// <param name="Host">The host that is created and added to the environment. hostName -&gt; (string) [required] The DNS hostname of the host. DNS hostnames for hosts must be unique across Amazon EVS environments and within VCF. Constraints: o pattern: ([a-zA-Z0-9\-]*) keyName -&gt; (string) [required] The name of the SSH key that is used to access the host. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_-]+ instanceType -&gt; (string) [required] The EC2 instance type that represents the host. Possible values: o i4i.metal o i7i.metal-24xl o i7i.metal-48xl placementGroupId -&gt; (string) The unique ID of the placement group where the host is placed. Constraints: o min: 1 o max: 25 o pattern: pg-[a-f0-9]{8}([a-f0-9]{9})? dedicatedHostId -&gt; (string) The unique ID of the Amazon EC2 Dedicated Host. Constraints: o min: 1 o max: 25 o pattern: h-[a-f0-9]{8}([a-f0-9]{9})? Shorthand Syntax: hostName=string,keyName=string,instanceType=string,placementGroupId=string,dedicatedHostId=string JSON Syntax: { "hostName": "string", "keyName": "string", "instanceType": "i4i.metal"|"i7i.metal-24xl"|"i7i.metal-48xl", "placementGroupId": "string", "dedicatedHostId": "string" }</param>
+    /// <param name="EnvironmentId">A unique ID for the environment that the host is added to. Constraints: • pattern: (env-[a-zA-Z0-9]{10})</param>
+    /// <param name="Host">The host that is created and added to the environment. hostName -&gt; (string) [required] The DNS hostname of the host. DNS hostnames for hosts must be unique across Amazon EVS environments and within VCF. Constraints: • pattern: ([a-zA-Z0-9\-]*) keyName -&gt; (string) [required] The name of the SSH key that is used to access the host. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9_-]+ instanceType -&gt; (string) [required] The EC2 instance type that represents the host. Possible values: • i4i.metal • i7i.metal-24xl • i7i.metal-48xl placementGroupId -&gt; (string) The unique ID of the placement group where the host is placed. Constraints: • min: 1 • max: 25 • pattern: pg-[a-f0-9]{8}([a-f0-9]{9})? dedicatedHostId -&gt; (string) The unique ID of the Amazon EC2 Dedicated Host. Constraints: • min: 1 • max: 25 • pattern: h-[a-f0-9]{8}([a-f0-9]{9})? Shorthand Syntax: hostName=string,keyName=string,instanceType=string,placementGroupId=string,dedicatedHostId=string JSON Syntax: { "hostName": "string", "keyName": "string", "instanceType": "i4i.metal"|"i7i.metal-24xl"|"i7i.metal-48xl", "placementGroupId": "string", "dedicatedHostId": "string" }</param>
     public AwsEvsCreateEnvironmentHostOptions(
         string EnvironmentId,
         string Host
@@ -61,26 +62,26 @@ public record AwsEvsCreateEnvironmentHostOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique ID for the environment that the host is added to. Constraints: o pattern: (env-[a-zA-Z0-9]{10})
+    /// A unique ID for the environment that the host is added to. Constraints: • pattern: (env-[a-zA-Z0-9]{10})
     /// </summary>
     [CliOption("--environment-id")]
     public string? EnvironmentId { get; private init; }
 
     /// <summary>
-    /// The host that is created and added to the environment. hostName -&gt; (string) [required] The DNS hostname of the host. DNS hostnames for hosts must be unique across Amazon EVS environments and within VCF. Constraints: o pattern: ([a-zA-Z0-9\-]*) keyName -&gt; (string) [required] The name of the SSH key that is used to access the host. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_-]+ instanceType -&gt; (string) [required] The EC2 instance type that represents the host. Possible values: o i4i.metal o i7i.metal-24xl o i7i.metal-48xl placementGroupId -&gt; (string) The unique ID of the placement group where the host is placed. Constraints: o min: 1 o max: 25 o pattern: pg-[a-f0-9]{8}([a-f0-9]{9})? dedicatedHostId -&gt; (string) The unique ID of the Amazon EC2 Dedicated Host. Constraints: o min: 1 o max: 25 o pattern: h-[a-f0-9]{8}([a-f0-9]{9})? Shorthand Syntax: hostName=string,keyName=string,instanceType=string,placementGroupId=string,dedicatedHostId=string JSON Syntax: { "hostName": "string", "keyName": "string", "instanceType": "i4i.metal"|"i7i.metal-24xl"|"i7i.metal-48xl", "placementGroupId": "string", "dedicatedHostId": "string" }
+    /// The host that is created and added to the environment. hostName -&gt; (string) [required] The DNS hostname of the host. DNS hostnames for hosts must be unique across Amazon EVS environments and within VCF. Constraints: • pattern: ([a-zA-Z0-9\-]*) keyName -&gt; (string) [required] The name of the SSH key that is used to access the host. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9_-]+ instanceType -&gt; (string) [required] The EC2 instance type that represents the host. Possible values: • i4i.metal • i7i.metal-24xl • i7i.metal-48xl placementGroupId -&gt; (string) The unique ID of the placement group where the host is placed. Constraints: • min: 1 • max: 25 • pattern: pg-[a-f0-9]{8}([a-f0-9]{9})? dedicatedHostId -&gt; (string) The unique ID of the Amazon EC2 Dedicated Host. Constraints: • min: 1 • max: 25 • pattern: h-[a-f0-9]{8}([a-f0-9]{9})? Shorthand Syntax: hostName=string,keyName=string,instanceType=string,placementGroupId=string,dedicatedHostId=string JSON Syntax: { "hostName": "string", "keyName": "string", "instanceType": "i4i.metal"|"i7i.metal-24xl"|"i7i.metal-48xl", "placementGroupId": "string", "dedicatedHostId": "string" }
     /// </summary>
     [CliOption("--host")]
     public string? Host { get; private init; }
 
     /// <summary>
-    /// NOTE: This parameter is not used in Amazon EVS currently. If you sup- ply input for this parameter, it will have no effect. A unique, case-sensitive identifier that you provide to ensure the idempotency of the host creation request. If you do not specify a client token, a randomly generated token is used for the request to ensure idempotency. Constraints: o min: 1 o max: 100 o pattern: [!-~]+
+    /// NOTE: This parameter is not used in Amazon EVS currently. If you supply input for this parameter, it will have no effect. A unique, case-sensitive identifier that you provide to ensure the idempotency of the host creation request. If you do not specify a client token, a randomly generated token is used for the request to ensure idempotency. Constraints: • min: 1 • max: 100 • pattern: [!-~]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The ESX version to use for the host. Constraints: o min: 0 o max: 128
+    /// The ESX version to use for the host. Constraints: • min: 0 • max: 128
     /// </summary>
     [CliOption("--esx-version")]
     public string? EsxVersion { get; set; }
@@ -106,6 +107,15 @@ public record AwsEvsCreateEnvironmentHostOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

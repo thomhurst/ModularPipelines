@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the name and scopes of a resource server. All other fields are read-only. For more information about resource servers, see Access con- trol with resource servers . WARNING: If you don't provide a value for an attribute, it is set to the de- fault value. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM p...
+/// Updates the name and scopes of a resource server. All other fields are read-only. For more information about resource servers, see Access control with resource servers . WARNING: If you don't provide a value for an attribute, it is set to the default value. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permiss...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsCognitoIdpUpdateResourceServerOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the name and scopes of a resource server. All other fields are read-only. For more information about resource servers, see Access con- trol with resource servers . WARNING: If you don't provide a value for an attribute, it is set to the de- fault value. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM p...
+    /// Updates the name and scopes of a resource server. All other fields are read-only. For more information about resource servers, see Access control with resource servers . WARNING: If you don't provide a value for an attribute, it is set to the default value. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permiss...
     /// </summary>
-    /// <param name="UserPoolId">The ID of the user pool that contains the resource server that you want to update. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+</param>
-    /// <param name="Identifier">A unique resource server identifier for the resource server. The identifier can be an API friendly name like solar-system-data . You can also set an API URL like https://solar-system-data-api.exam- ple.com as your identifier. Amazon Cognito represents scopes in the access token in the format $resource-server-identifier/$scope . Longer scope-identifier strings increase the size of your access tokens. Constraints: o min: 1 o max: 256 o pattern: [\x21\x23-\x5B\x5D-\x7E]+</param>
-    /// <param name="Name">The updated name of the resource server. Constraints: o min: 1 o max: 256 o pattern: [\w\s+=,.@-]+</param>
+    /// <param name="UserPoolId">The ID of the user pool that contains the resource server that you want to update. Constraints: • min: 1 • max: 55 • pattern: [\w-]+_[0-9a-zA-Z]+</param>
+    /// <param name="Identifier">A unique resource server identifier for the resource server. The identifier can be an API friendly name like solar-system-data . You can also set an API URL like https://solar-system-data-api.example.com as your identifier. Amazon Cognito represents scopes in the access token in the format $resource-server-identifier/$scope . Longer scope-identifier strings increase the size of your access tokens. Constraints: • min: 1 • max: 256 • pattern: [\x21\x23-\x5B\x5D-\x7E]+</param>
+    /// <param name="Name">The updated name of the resource server. Constraints: • min: 1 • max: 256 • pattern: [\w\s+=,.@-]+</param>
     public AwsCognitoIdpUpdateResourceServerOptions(
         string UserPoolId,
         string Identifier,
@@ -64,25 +65,25 @@ public record AwsCognitoIdpUpdateResourceServerOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the user pool that contains the resource server that you want to update. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+
+    /// The ID of the user pool that contains the resource server that you want to update. Constraints: • min: 1 • max: 55 • pattern: [\w-]+_[0-9a-zA-Z]+
     /// </summary>
     [CliOption("--user-pool-id")]
     public string? UserPoolId { get; private init; }
 
     /// <summary>
-    /// A unique resource server identifier for the resource server. The identifier can be an API friendly name like solar-system-data . You can also set an API URL like https://solar-system-data-api.exam- ple.com as your identifier. Amazon Cognito represents scopes in the access token in the format $resource-server-identifier/$scope . Longer scope-identifier strings increase the size of your access tokens. Constraints: o min: 1 o max: 256 o pattern: [\x21\x23-\x5B\x5D-\x7E]+
+    /// A unique resource server identifier for the resource server. The identifier can be an API friendly name like solar-system-data . You can also set an API URL like https://solar-system-data-api.example.com as your identifier. Amazon Cognito represents scopes in the access token in the format $resource-server-identifier/$scope . Longer scope-identifier strings increase the size of your access tokens. Constraints: • min: 1 • max: 256 • pattern: [\x21\x23-\x5B\x5D-\x7E]+
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// The updated name of the resource server. Constraints: o min: 1 o max: 256 o pattern: [\w\s+=,.@-]+
+    /// The updated name of the resource server. Constraints: • min: 1 • max: 256 • pattern: [\w\s+=,.@-]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// An array of updated custom scope names and descriptions that you want to associate with your resource server. Constraints: o max: 100 (structure) One custom scope associated with a user pool resource server. This data type is a member of ResourceServerScopeType . For more information, see Scopes, M2M, and API authorization with re- source servers . ScopeName -&gt; (string) [required] The name of the scope. Amazon Cognito renders custom scopes in the format resourceServerIdentifier/ScopeName . For exam- ple, if this parameter is exampleScope in the resource server with the identifier exampleResourceServer , you request and receive the scope exampleResourceServer/exampleScope . Constraints: o min: 1 o max: 256 o pattern: [\x21\x23-\x2E\x30-\x5B\x5D-\x7E]+ ScopeDescription -&gt; (string) [required] A friendly description of a custom scope. Constraints: o min: 1 o max: 256 Shorthand Syntax: ScopeName=string,ScopeDescription=string ... JSON Syntax: [ { "ScopeName": "string", "ScopeDescription": "string" } ... ]
+    /// An array of updated custom scope names and descriptions that you want to associate with your resource server. Constraints: • max: 100 (structure) One custom scope associated with a user pool resource server. This data type is a member of ResourceServerScopeType . For more information, see Scopes, M2M, and API authorization with resource servers . ScopeName -&gt; (string) [required] The name of the scope. Amazon Cognito renders custom scopes in the format resourceServerIdentifier/ScopeName . For example, if this parameter is exampleScope in the resource server with the identifier exampleResourceServer , you request and receive the scope exampleResourceServer/exampleScope . Constraints: • min: 1 • max: 256 • pattern: [\x21\x23-\x2E\x30-\x5B\x5D-\x7E]+ ScopeDescription -&gt; (string) [required] A friendly description of a custom scope. Constraints: • min: 1 • max: 256 Shorthand Syntax: ScopeName=string,ScopeDescription=string ... JSON Syntax: [ { "ScopeName": "string", "ScopeDescription": "string" } ... ]
     /// </summary>
     [CliOption("--scopes", GroupValues = true)]
     public IEnumerable<string>? Scopes { get; set; }
@@ -108,6 +109,15 @@ public record AwsCognitoIdpUpdateResourceServerOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

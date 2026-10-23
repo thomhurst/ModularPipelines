@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Update an existing endpoint. For more information about global end- points, see Making applications Regional-fault tolerant with global endpoints and event replication in the * Amazon EventBridge User Guide * . See also: AWS API Documentation
+/// Update an existing endpoint. For more information about global endpoints, see Making applications Regional-fault tolerant with global endpoints and event replication in the * Amazon EventBridge User Guide * . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsEventsUpdateEndpointOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Update an existing endpoint. For more information about global end- points, see Making applications Regional-fault tolerant with global endpoints and event replication in the * Amazon EventBridge User Guide * . See also: AWS API Documentation
+    /// Update an existing endpoint. For more information about global endpoints, see Making applications Regional-fault tolerant with global endpoints and event replication in the * Amazon EventBridge User Guide * . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the endpoint you want to update. Constraints: o min: 1 o max: 64 o pattern: [\.\-_A-Za-z0-9]+</param>
+    /// <param name="Name">The name of the endpoint you want to update. Constraints: • min: 1 • max: 64 • pattern: [\.\-_A-Za-z0-9]+</param>
     public AwsEventsUpdateEndpointOptions(
         string Name
     )
@@ -56,37 +57,37 @@ public record AwsEventsUpdateEndpointOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the endpoint you want to update. Constraints: o min: 1 o max: 64 o pattern: [\.\-_A-Za-z0-9]+
+    /// The name of the endpoint you want to update. Constraints: • min: 1 • max: 64 • pattern: [\.\-_A-Za-z0-9]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// A description for the endpoint. Constraints: o max: 512 o pattern: .*
+    /// A description for the endpoint. Constraints: • max: 512 • pattern: .*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Configure the routing policy, including the health check and sec- ondary Region. FailoverConfig -&gt; (structure) [required] The failover configuration for an endpoint. This includes what triggers failover and what happens when it's triggered. Primary -&gt; (structure) [required] The main Region of the endpoint. HealthCheck -&gt; (string) [required] The ARN of the health check used by the endpoint to de- termine whether failover is triggered. Constraints: o min: 1 o max: 1600 o pattern: ^arn:aws([a-z]|\-)*:route53:::healthcheck/[\-a-z0-9]+$ Secondary -&gt; (structure) [required] The Region that events are routed to when failover is trig- gered or event replication is enabled. Route -&gt; (string) [required] Defines the secondary Region. Constraints: o min: 9 o max: 20 o pattern: ^[\-a-z0-9]+$ Shorthand Syntax: FailoverConfig={Primary={HealthCheck=string},Secondary={Route=string}} JSON Syntax: { "FailoverConfig": { "Primary": { "HealthCheck": "string" }, "Secondary": { "Route": "string" } } }
+    /// Configure the routing policy, including the health check and secondary Region. FailoverConfig -&gt; (structure) [required] The failover configuration for an endpoint. This includes what triggers failover and what happens when it's triggered. Primary -&gt; (structure) [required] The main Region of the endpoint. HealthCheck -&gt; (string) [required] The ARN of the health check used by the endpoint to determine whether failover is triggered. Constraints: • min: 1 • max: 1600 • pattern: ^arn:aws([a-z]|\-)*:route53:::healthcheck/[\-a-z0-9]+$ Secondary -&gt; (structure) [required] The Region that events are routed to when failover is triggered or event replication is enabled. Route -&gt; (string) [required] Defines the secondary Region. Constraints: • min: 9 • max: 20 • pattern: ^[\-a-z0-9]+$ Shorthand Syntax: FailoverConfig={Primary={HealthCheck=string},Secondary={Route=string}} JSON Syntax: { "FailoverConfig": { "Primary": { "HealthCheck": "string" }, "Secondary": { "Route": "string" } } }
     /// </summary>
     [CliOption("--routing-config")]
     public string? RoutingConfig { get; set; }
 
     /// <summary>
-    /// Whether event replication was enabled or disabled by this request. State -&gt; (string) The state of event replication. Possible values: o ENABLED o DISABLED Shorthand Syntax: State=string JSON Syntax: { "State": "ENABLED"|"DISABLED" }
+    /// Whether event replication was enabled or disabled by this request. State -&gt; (string) The state of event replication. Possible values: • ENABLED • DISABLED Shorthand Syntax: State=string JSON Syntax: { "State": "ENABLED"|"DISABLED" }
     /// </summary>
     [CliOption("--replication-config")]
     public string? ReplicationConfig { get; set; }
 
     /// <summary>
-    /// Define event buses used for replication. Constraints: o min: 2 o max: 2 (structure) The event buses the endpoint is associated with. EventBusArn -&gt; (string) [required] The ARN of the event bus the endpoint is associated with. Constraints: o min: 1 o max: 512 o pattern: ^arn:aws[a-z-]*:events:[a-z]+-[a-z-]+-\d+:\d{12}:event-bus/[\w.-]+$ Shorthand Syntax: EventBusArn=string ... JSON Syntax: [ { "EventBusArn": "string" } ... ]
+    /// Define event buses used for replication. Constraints: • min: 2 • max: 2 (structure) The event buses the endpoint is associated with. EventBusArn -&gt; (string) [required] The ARN of the event bus the endpoint is associated with. Constraints: • min: 1 • max: 512 • pattern: ^arn:aws[a-z-]*:events:[a-z]+-[a-z-]+-\d+:\d{12}:event-bus/[\w.-]+$ Shorthand Syntax: EventBusArn=string ... JSON Syntax: [ { "EventBusArn": "string" } ... ]
     /// </summary>
     [CliOption("--event-buses", GroupValues = true)]
     public IEnumerable<string>? EventBuses { get; set; }
 
     /// <summary>
-    /// The ARN of the role used by event replication for this request. Constraints: o min: 1 o max: 256 o pattern: ^arn:aws[a-z-]*:iam::\d{12}:role\/[\w+=,.@/-]+$
+    /// The ARN of the role used by event replication for this request. Constraints: • min: 1 • max: 256 • pattern: ^arn:aws[a-z-]*:iam::\d{12}:role\/[\w+=,.@/-]+$
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
@@ -112,6 +113,15 @@ public record AwsEventsUpdateEndpointOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

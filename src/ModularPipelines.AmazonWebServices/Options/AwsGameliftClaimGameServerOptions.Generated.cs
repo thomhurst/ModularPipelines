@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API works with the following fleet types: EC2 (FleetIQ) Locates an available game server and temporarily reserves it to host gameplay and players. This operation is called from a game client or client service (such as a matchmaker) to request hosting resources for a new game session. In response, Amazon GameLift Servers FleetIQ lo- cates an available game server, places it in CLAIMED status for 60 sec- onds, and returns connection information that players can use to con- nect to the game se...
+/// This API works with the following fleet types: EC2 (FleetIQ) Locates an available game server and temporarily reserves it to host gameplay and players. This operation is called from a game client or client service (such as a matchmaker) to request hosting resources for a new game session. In response, Amazon GameLift Servers FleetIQ locates an available game server, places it in CLAIMED status for 60 seconds, and returns connection information that players can use to connect to the game server. ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsGameliftClaimGameServerOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API works with the following fleet types: EC2 (FleetIQ) Locates an available game server and temporarily reserves it to host gameplay and players. This operation is called from a game client or client service (such as a matchmaker) to request hosting resources for a new game session. In response, Amazon GameLift Servers FleetIQ lo- cates an available game server, places it in CLAIMED status for 60 sec- onds, and returns connection information that players can use to con- nect to the game se...
+    /// This API works with the following fleet types: EC2 (FleetIQ) Locates an available game server and temporarily reserves it to host gameplay and players. This operation is called from a game client or client service (such as a matchmaker) to request hosting resources for a new game session. In response, Amazon GameLift Servers FleetIQ locates an available game server, places it in CLAIMED status for 60 seconds, and returns connection information that players can use to connect to the game server. ...
     /// </summary>
-    /// <param name="GameServerGroupName">A unique identifier for the game server group where the game server is running. If you are not specifying a game server to claim, this value identifies where you want Amazon GameLift Servers FleetIQ to look for an available game server to claim. Constraints: o min: 1 o max: 256 o pattern: ^([a-zA-Z0-9-\.]+|arn:.*:gameserver- group\/[a-zA-Z0-9-\.]+)$</param>
+    /// <param name="GameServerGroupName">A unique identifier for the game server group where the game server is running. If you are not specifying a game server to claim, this value identifies where you want Amazon GameLift Servers FleetIQ to look for an available game server to claim. Constraints: • min: 1 • max: 256 • pattern: ^([a-zA-Z0-9-\.]+|arn:.*:gameservergroup\/[a-zA-Z0-9-\.]+)$</param>
     public AwsGameliftClaimGameServerOptions(
         string GameServerGroupName
     )
@@ -56,25 +57,25 @@ public record AwsGameliftClaimGameServerOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the game server group where the game server is running. If you are not specifying a game server to claim, this value identifies where you want Amazon GameLift Servers FleetIQ to look for an available game server to claim. Constraints: o min: 1 o max: 256 o pattern: ^([a-zA-Z0-9-\.]+|arn:.*:gameserver- group\/[a-zA-Z0-9-\.]+)$
+    /// A unique identifier for the game server group where the game server is running. If you are not specifying a game server to claim, this value identifies where you want Amazon GameLift Servers FleetIQ to look for an available game server to claim. Constraints: • min: 1 • max: 256 • pattern: ^([a-zA-Z0-9-\.]+|arn:.*:gameservergroup\/[a-zA-Z0-9-\.]+)$
     /// </summary>
     [CliOption("--game-server-group-name")]
     public string? GameServerGroupName { get; private init; }
 
     /// <summary>
-    /// A custom string that uniquely identifies the game server to claim. If this parameter is left empty, Amazon GameLift Servers FleetIQ searches for an available game server in the specified game server group. Constraints: o min: 3 o max: 128 o pattern: ^[a-zA-Z0-9-\.]+$
+    /// A custom string that uniquely identifies the game server to claim. If this parameter is left empty, Amazon GameLift Servers FleetIQ searches for an available game server in the specified game server group. Constraints: • min: 3 • max: 128 • pattern: ^[a-zA-Z0-9-\.]+$
     /// </summary>
     [CliOption("--game-server-id")]
     public string? GameServerId { get; set; }
 
     /// <summary>
-    /// A set of custom game server properties, formatted as a single string value. This data is passed to a game client or service when it re- quests information on game servers. Constraints: o min: 1 o max: 1024 o pattern: ^.*\S.*$
+    /// A set of custom game server properties, formatted as a single string value. This data is passed to a game client or service when it requests information on game servers. Constraints: • min: 1 • max: 1024 • pattern: ^.*\S.*$
     /// </summary>
     [CliOption("--game-server-data")]
     public string? GameServerData { get; set; }
 
     /// <summary>
-    /// Object that restricts how a claimed game server is chosen. InstanceStatuses -&gt; (list) List of instance statuses that game servers may be claimed on. If provided, the list must contain the ACTIVE status. (string) Possible values: o ACTIVE o DRAINING Shorthand Syntax: InstanceStatuses=string,string JSON Syntax: { "InstanceStatuses": ["ACTIVE"|"DRAINING", ...] }
+    /// Object that restricts how a claimed game server is chosen. InstanceStatuses -&gt; (list) List of instance statuses that game servers may be claimed on. If provided, the list must contain the ACTIVE status. (string) Possible values: • ACTIVE • DRAINING Shorthand Syntax: InstanceStatuses=string,string JSON Syntax: { "InstanceStatuses": ["ACTIVE"|"DRAINING", ...] }
     /// </summary>
     [CliOption("--filter-option")]
     public string? FilterOption { get; set; }
@@ -100,6 +101,15 @@ public record AwsGameliftClaimGameServerOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

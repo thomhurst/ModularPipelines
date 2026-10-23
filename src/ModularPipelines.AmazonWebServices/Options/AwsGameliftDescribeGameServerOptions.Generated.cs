@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API works with the following fleet types: EC2 (FleetIQ) Retrieves information for a registered game server. Information in- cludes game server status, health check info, and the instance that the game server is running on. To retrieve game server information, specify the game server ID. If successful, the requested game server object is returned. Learn more Amazon GameLift Servers FleetIQ Guide See also: AWS API Documentation
+/// This API works with the following fleet types: EC2 (FleetIQ) Retrieves information for a registered game server. Information includes game server status, health check info, and the instance that the game server is running on. To retrieve game server information, specify the game server ID. If successful, the requested game server object is returned. Learn more Amazon GameLift Servers FleetIQ Guide See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsGameliftDescribeGameServerOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API works with the following fleet types: EC2 (FleetIQ) Retrieves information for a registered game server. Information in- cludes game server status, health check info, and the instance that the game server is running on. To retrieve game server information, specify the game server ID. If successful, the requested game server object is returned. Learn more Amazon GameLift Servers FleetIQ Guide See also: AWS API Documentation
+    /// This API works with the following fleet types: EC2 (FleetIQ) Retrieves information for a registered game server. Information includes game server status, health check info, and the instance that the game server is running on. To retrieve game server information, specify the game server ID. If successful, the requested game server object is returned. Learn more Amazon GameLift Servers FleetIQ Guide See also: AWS API Documentation
     /// </summary>
-    /// <param name="GameServerGroupName">A unique identifier for the game server group where the game server is running. Constraints: o min: 1 o max: 256 o pattern: ^([a-zA-Z0-9-\.]+|arn:.*:gameserver- group\/[a-zA-Z0-9-\.]+)$</param>
-    /// <param name="GameServerId">A custom string that uniquely identifies the game server information to be retrieved. Constraints: o min: 3 o max: 128 o pattern: ^[a-zA-Z0-9-\.]+$</param>
+    /// <param name="GameServerGroupName">A unique identifier for the game server group where the game server is running. Constraints: • min: 1 • max: 256 • pattern: ^([a-zA-Z0-9-\.]+|arn:.*:gameservergroup\/[a-zA-Z0-9-\.]+)$</param>
+    /// <param name="GameServerId">A custom string that uniquely identifies the game server information to be retrieved. Constraints: • min: 3 • max: 128 • pattern: ^[a-zA-Z0-9-\.]+$</param>
     public AwsGameliftDescribeGameServerOptions(
         string GameServerGroupName,
         string GameServerId
@@ -60,13 +61,13 @@ public record AwsGameliftDescribeGameServerOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the game server group where the game server is running. Constraints: o min: 1 o max: 256 o pattern: ^([a-zA-Z0-9-\.]+|arn:.*:gameserver- group\/[a-zA-Z0-9-\.]+)$
+    /// A unique identifier for the game server group where the game server is running. Constraints: • min: 1 • max: 256 • pattern: ^([a-zA-Z0-9-\.]+|arn:.*:gameservergroup\/[a-zA-Z0-9-\.]+)$
     /// </summary>
     [CliOption("--game-server-group-name")]
     public string? GameServerGroupName { get; private init; }
 
     /// <summary>
-    /// A custom string that uniquely identifies the game server information to be retrieved. Constraints: o min: 3 o max: 128 o pattern: ^[a-zA-Z0-9-\.]+$
+    /// A custom string that uniquely identifies the game server information to be retrieved. Constraints: • min: 3 • max: 128 • pattern: ^[a-zA-Z0-9-\.]+$
     /// </summary>
     [CliOption("--game-server-id")]
     public string? GameServerId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsGameliftDescribeGameServerOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

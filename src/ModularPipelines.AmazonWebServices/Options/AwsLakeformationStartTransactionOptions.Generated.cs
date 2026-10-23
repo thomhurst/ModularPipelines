@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsLakeformationStartTransactionOptions : AwsOptions
 {
     /// <summary>
-    /// Indicates whether this transaction should be read only or read and write. Writes made using a read-only transaction ID will be re- jected. Read-only transactions do not need to be committed. Possible values: o READ_AND_WRITE o READ_ONLY
+    /// Indicates whether this transaction should be read only or read and write. Writes made using a read-only transaction ID will be rejected. Read-only transactions do not need to be committed. Possible values: • READ_AND_WRITE • READ_ONLY
     /// </summary>
     [CliOption("--transaction-type")]
     public AwsLakeformationStartTransactionTransactionType? TransactionType { get; set; }
@@ -33,5 +33,14 @@ public record AwsLakeformationStartTransactionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsEmrListSupportedInstanceTypesOptions : AwsOptions, IValidatable
     /// <summary>
     /// A list of the instance types that Amazon EMR supports. You can filter the list by Amazon Web Services Region and Amazon EMR release. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ReleaseLabel">The Amazon EMR release label determines the versions of open-source application packages that Amazon EMR has installed on the cluster. Release labels are in the format emr-x.x.x , where x.x.x is an Ama- zon EMR release number such as emr-6.10.0 . For more information about Amazon EMR releases and their included application versions and features, see the * Amazon EMR Release Guide * .</param>
+    /// <param name="ReleaseLabel">The Amazon EMR release label determines the versions of open-source application packages that Amazon EMR has installed on the cluster. Release labels are in the format emr-x.x.x , where x.x.x is an Amazon EMR release number such as emr-6.10.0 . For more information about Amazon EMR releases and their included application versions and features, see the * Amazon EMR Release Guide * .</param>
     public AwsEmrListSupportedInstanceTypesOptions(
         string ReleaseLabel
     )
@@ -56,7 +57,7 @@ public record AwsEmrListSupportedInstanceTypesOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon EMR release label determines the versions of open-source application packages that Amazon EMR has installed on the cluster. Release labels are in the format emr-x.x.x , where x.x.x is an Ama- zon EMR release number such as emr-6.10.0 . For more information about Amazon EMR releases and their included application versions and features, see the * Amazon EMR Release Guide * .
+    /// The Amazon EMR release label determines the versions of open-source application packages that Amazon EMR has installed on the cluster. Release labels are in the format emr-x.x.x , where x.x.x is an Amazon EMR release number such as emr-6.10.0 . For more information about Amazon EMR releases and their included application versions and features, see the * Amazon EMR Release Guide * .
     /// </summary>
     [CliOption("--release-label")]
     public string? ReleaseLabel { get; private init; }
@@ -88,6 +89,15 @@ public record AwsEmrListSupportedInstanceTypesOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

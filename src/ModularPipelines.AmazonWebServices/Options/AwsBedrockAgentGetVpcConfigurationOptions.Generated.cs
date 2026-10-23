@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsBedrockAgentGetVpcConfigurationOptions : AwsOptions, IValidatab
     /// <summary>
     /// Returns the details and current status of a single VPC configuration. Use this operation to poll for the outcome of an asynchronous create or delete. See also: AWS API Documentation
     /// </summary>
-    /// <param name="KnowledgeBaseId">The unique identifier of the knowledge base that owns the VPC con- figuration. Constraints: o pattern: [0-9a-zA-Z]{10}</param>
-    /// <param name="VpcConfigurationId">The unique identifier of the VPC configuration to retrieve. Constraints: o min: 32 o max: 32 o pattern: [a-z0-9](?:[a-z0-9-]{30}[a-z0-9])</param>
+    /// <param name="KnowledgeBaseId">The unique identifier of the knowledge base that owns the VPC configuration. Constraints: • pattern: [0-9a-zA-Z]{10}</param>
+    /// <param name="VpcConfigurationId">The unique identifier of the VPC configuration to retrieve. Constraints: • min: 32 • max: 32 • pattern: [a-z0-9](?:[a-z0-9-]{30}[a-z0-9])</param>
     public AwsBedrockAgentGetVpcConfigurationOptions(
         string KnowledgeBaseId,
         string VpcConfigurationId
@@ -60,13 +61,13 @@ public record AwsBedrockAgentGetVpcConfigurationOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the knowledge base that owns the VPC con- figuration. Constraints: o pattern: [0-9a-zA-Z]{10}
+    /// The unique identifier of the knowledge base that owns the VPC configuration. Constraints: • pattern: [0-9a-zA-Z]{10}
     /// </summary>
     [CliOption("--knowledge-base-id")]
     public string? KnowledgeBaseId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the VPC configuration to retrieve. Constraints: o min: 32 o max: 32 o pattern: [a-z0-9](?:[a-z0-9-]{30}[a-z0-9])
+    /// The unique identifier of the VPC configuration to retrieve. Constraints: • min: 32 • max: 32 • pattern: [a-z0-9](?:[a-z0-9-]{30}[a-z0-9])
     /// </summary>
     [CliOption("--vpc-configuration-id")]
     public string? VpcConfigurationId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsBedrockAgentGetVpcConfigurationOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

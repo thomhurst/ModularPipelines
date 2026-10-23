@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Generates a report that lists all tagged resources in the accounts across your organization and tells whether each resource is compliant with the effective tag policy. Compliance data is refreshed daily. The report is generated asynchronously. The generated report is saved to the following location: s3://amzn-s3-demo-bucket/AwsTagPolicies/o-example- orgid/YYYY-MM-ddTHH:mm:ssZ/report.csv For more information about evaluating resource compliance with tag policies, including the required permission...
+/// Generates a report that lists all tagged resources in the accounts across your organization and tells whether each resource is compliant with the effective tag policy. Compliance data is refreshed daily. The report is generated asynchronously. The generated report is saved to the following location: s3://amzn-s3-demo-bucket/AwsTagPolicies/o-exampleorgid/YYYY-MM-ddTHH:mm:ssZ/report.csv For more information about evaluating resource compliance with tag policies, including the required permissions,...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsResourcegroupstaggingapiStartReportCreationOptions : AwsOptions
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Generates a report that lists all tagged resources in the accounts across your organization and tells whether each resource is compliant with the effective tag policy. Compliance data is refreshed daily. The report is generated asynchronously. The generated report is saved to the following location: s3://amzn-s3-demo-bucket/AwsTagPolicies/o-example- orgid/YYYY-MM-ddTHH:mm:ssZ/report.csv For more information about evaluating resource compliance with tag policies, including the required permission...
+    /// Generates a report that lists all tagged resources in the accounts across your organization and tells whether each resource is compliant with the effective tag policy. Compliance data is refreshed daily. The report is generated asynchronously. The generated report is saved to the following location: s3://amzn-s3-demo-bucket/AwsTagPolicies/o-exampleorgid/YYYY-MM-ddTHH:mm:ssZ/report.csv For more information about evaluating resource compliance with tag policies, including the required permissions,...
     /// </summary>
-    /// <param name="S3Bucket">The name of the Amazon S3 bucket where the report will be stored; for example: amzn-s3-demo-bucket For more information on S3 bucket requirements, including an example bucket policy, see the example Amazon S3 bucket policy on this page. Constraints: o min: 3 o max: 63 o pattern: [a-z0-9.-]*</param>
+    /// <param name="S3Bucket">The name of the Amazon S3 bucket where the report will be stored; for example: amzn-s3-demo-bucket For more information on S3 bucket requirements, including an example bucket policy, see the example Amazon S3 bucket policy on this page. Constraints: • min: 3 • max: 63 • pattern: [a-z0-9.-]*</param>
     public AwsResourcegroupstaggingapiStartReportCreationOptions(
         string S3Bucket
     )
@@ -56,7 +57,7 @@ public record AwsResourcegroupstaggingapiStartReportCreationOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the Amazon S3 bucket where the report will be stored; for example: amzn-s3-demo-bucket For more information on S3 bucket requirements, including an example bucket policy, see the example Amazon S3 bucket policy on this page. Constraints: o min: 3 o max: 63 o pattern: [a-z0-9.-]*
+    /// The name of the Amazon S3 bucket where the report will be stored; for example: amzn-s3-demo-bucket For more information on S3 bucket requirements, including an example bucket policy, see the example Amazon S3 bucket policy on this page. Constraints: • min: 3 • max: 63 • pattern: [a-z0-9.-]*
     /// </summary>
     [CliOption("--s3-bucket")]
     public string? S3Bucket { get; private init; }
@@ -82,6 +83,15 @@ public record AwsResourcegroupstaggingapiStartReportCreationOptions : AwsOptions
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,7 +29,7 @@ public record AwsMgnUpdateNetworkMigrationDefinitionOptions : AwsOptions, IValid
     /// <summary>
     /// Updates an existing network migration definition with new source or target configurations. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NetworkMigrationDefinitionId">The unique identifier of the network migration definition to update. Constraints: o min: 21 o max: 21 o pattern: nmd-[0-9a-zA-Z]{17}</param>
+    /// <param name="NetworkMigrationDefinitionId">The unique identifier of the network migration definition to update. Constraints: • min: 21 • max: 21 • pattern: nmd-[0-9a-zA-Z]{17}</param>
     public AwsMgnUpdateNetworkMigrationDefinitionOptions(
         string NetworkMigrationDefinitionId
     )
@@ -58,61 +58,61 @@ public record AwsMgnUpdateNetworkMigrationDefinitionOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the network migration definition to update. Constraints: o min: 21 o max: 21 o pattern: nmd-[0-9a-zA-Z]{17}
+    /// The unique identifier of the network migration definition to update. Constraints: • min: 21 • max: 21 • pattern: nmd-[0-9a-zA-Z]{17}
     /// </summary>
     [CliOption("--network-migration-definition-id")]
     public string? NetworkMigrationDefinitionId { get; private init; }
 
     /// <summary>
-    /// The updated name of the network migration definition. Constraints: o min: 1 o max: 256 o pattern: [^\s\x00]( *[^\s\x00])*
+    /// The updated name of the network migration definition. Constraints: • min: 1 • max: 256 • pattern: [^\s\x00]( *[^\s\x00])*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The updated description of the network migration definition. Constraints: o min: 0 o max: 600 o pattern: [^\x00]*
+    /// The updated description of the network migration definition. Constraints: • min: 0 • max: 600 • pattern: [^\x00]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The updated list of source configurations. Constraints: o min: 0 o max: 2 (structure) Configuration for a migration source environment. sourceEnvironment -&gt; (string) [required] The source environment type. Possible values: o NSX o VSPHERE o FORTIGATE_FIREWALL o PALO_ALTO_FIREWALL o CISCO_ACI o LOGICAL_MODEL o MODELIZE_IT o AWS_DISCOVERY_COLLECTOR sourceS3Configuration -&gt; (structure) [required] The S3 configuration for the source data. s3Bucket -&gt; (string) [required] The name of the S3 bucket containing source data. Constraints: o pattern: [a-zA-Z0-9.\-_]{1,255} s3BucketOwner -&gt; (string) [required] The AWS account ID of the S3 bucket owner. Constraints: o min: 12 o max: 12 o pattern: .*[0-9]{12,}.* s3Key -&gt; (string) [required] The S3 key (path) for the source data. Constraints: o pattern: [^\x00]{1,1024} Shorthand Syntax: sourceEnvironment=string,sourceS3Configuration={s3Bucket=string,s3BucketOwner=string,s3Key=string} ... JSON Syntax: [ { "sourceEnvironment": "NSX"|"VSPHERE"|"FORTIGATE_FIREWALL"|"PALO_ALTO_FIREWALL"|"CISCO_ACI"|"LOGICAL_MODEL"|"MODELIZE_IT"|"AWS_DISCOVERY_COLLECTOR", "sourceS3Configuration": { "s3Bucket": "string", "s3BucketOwner": "string", "s3Key": "string" } } ... ]
+    /// The updated list of source configurations. Constraints: • min: 0 • max: 2 (structure) Configuration for a migration source environment. sourceEnvironment -&gt; (string) [required] The source environment type. Possible values: • NSX • VSPHERE • FORTIGATE_FIREWALL • PALO_ALTO_FIREWALL • CISCO_ACI • LOGICAL_MODEL • MODELIZE_IT • AWS_DISCOVERY_COLLECTOR sourceS3Configuration -&gt; (structure) [required] The S3 configuration for the source data. s3Bucket -&gt; (string) [required] The name of the S3 bucket containing source data. Constraints: • pattern: [a-zA-Z0-9.\-_]{1,255} s3BucketOwner -&gt; (string) [required] The AWS account ID of the S3 bucket owner. Constraints: • min: 12 • max: 12 • pattern: .*[0-9]{12,}.* s3Key -&gt; (string) [required] The S3 key (path) for the source data. Constraints: • pattern: [^\x00]{1,1024} Shorthand Syntax: sourceEnvironment=string,sourceS3Configuration={s3Bucket=string,s3BucketOwner=string,s3Key=string} ... JSON Syntax: [ { "sourceEnvironment": "NSX"|"VSPHERE"|"FORTIGATE_FIREWALL"|"PALO_ALTO_FIREWALL"|"CISCO_ACI"|"LOGICAL_MODEL"|"MODELIZE_IT"|"AWS_DISCOVERY_COLLECTOR", "sourceS3Configuration": { "s3Bucket": "string", "s3BucketOwner": "string", "s3Key": "string" } } ... ]
     /// </summary>
     [CliOption("--source-configurations", GroupValues = true)]
     public IEnumerable<string>? SourceConfigurations { get; set; }
 
     /// <summary>
-    /// The updated S3 configuration for storing the target network arti- facts. s3Bucket -&gt; (string) The updated name of the S3 bucket. Constraints: o pattern: [a-zA-Z0-9.\-_]{1,255} s3BucketOwner -&gt; (string) The updated AWS account ID of the S3 bucket owner. Constraints: o min: 12 o max: 12 o pattern: .*[0-9]{12,}.* Shorthand Syntax: s3Bucket=string,s3BucketOwner=string JSON Syntax: { "s3Bucket": "string", "s3BucketOwner": "string" }
+    /// The updated S3 configuration for storing the target network artifacts. s3Bucket -&gt; (string) The updated name of the S3 bucket. Constraints: • pattern: [a-zA-Z0-9.\-_]{1,255} s3BucketOwner -&gt; (string) The updated AWS account ID of the S3 bucket owner. Constraints: • min: 12 • max: 12 • pattern: .*[0-9]{12,}.* Shorthand Syntax: s3Bucket=string,s3BucketOwner=string JSON Syntax: { "s3Bucket": "string", "s3BucketOwner": "string" }
     /// </summary>
     [CliOption("--target-s3-configuration")]
     public string? TargetS3Configuration { get; set; }
 
     /// <summary>
-    /// The updated target network configuration. topology -&gt; (string) The updated network topology type. Possible values: o ISOLATED_VPC o HUB_AND_SPOKE inboundCidr -&gt; (string) The updated CIDR block for inbound traffic. Constraints: o min: 9 o max: 18 o pattern: ((25[0-4]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\.){3}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\/(1[6-9]|2[0-8]) outboundCidr -&gt; (string) The updated CIDR block for outbound traffic. Constraints: o min: 9 o max: 18 o pattern: ((25[0-4]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\.){3}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\/(1[6-9]|2[0-8]) inspectionCidr -&gt; (string) The updated CIDR block for inspection traffic. Constraints: o min: 9 o max: 18 o pattern: ((25[0-4]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\.){3}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\/(1[6-9]|2[0-8]) Shorthand Syntax: topology=string,inboundCidr=string,outboundCidr=string,inspectionCidr=string JSON Syntax: { "topology": "ISOLATED_VPC"|"HUB_AND_SPOKE", "inboundCidr": "string", "outboundCidr": "string", "inspectionCidr": "string" }
+    /// The updated target network configuration. topology -&gt; (string) The updated network topology type. Possible values: • ISOLATED_VPC • HUB_AND_SPOKE inboundCidr -&gt; (string) The updated CIDR block for inbound traffic. Constraints: • min: 9 • max: 18 • pattern: ((25[0-4]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\.){3}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\/(1[6-9]|2[0-8]) outboundCidr -&gt; (string) The updated CIDR block for outbound traffic. Constraints: • min: 9 • max: 18 • pattern: ((25[0-4]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\.){3}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\/(1[6-9]|2[0-8]) inspectionCidr -&gt; (string) The updated CIDR block for inspection traffic. Constraints: • min: 9 • max: 18 • pattern: ((25[0-4]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\.){3}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\/(1[6-9]|2[0-8]) Shorthand Syntax: topology=string,inboundCidr=string,outboundCidr=string,inspectionCidr=string JSON Syntax: { "topology": "ISOLATED_VPC"|"HUB_AND_SPOKE", "inboundCidr": "string", "outboundCidr": "string", "inspectionCidr": "string" }
     /// </summary>
     [CliOption("--target-network")]
     public string? TargetNetwork { get; set; }
 
     /// <summary>
-    /// The updated target deployment configuration. Possible values: o SINGLE_ACCOUNT o MULTI_ACCOUNT
+    /// The updated target deployment configuration. Possible values: • SINGLE_ACCOUNT • MULTI_ACCOUNT
     /// </summary>
     [CliOption("--target-deployment")]
     public AwsMgnUpdateNetworkMigrationDefinitionTargetDeployment? TargetDeployment { get; set; }
 
     /// <summary>
-    /// Updates whether the migration creates new target VPCs or uses exist- ing ones. Set to USE_EXISTING to migrate into existing VPCs in the target account, or to CREATE_NEW to provision new target VPCs. Possible values: o CREATE_NEW o USE_EXISTING
+    /// Updates whether the migration creates new target VPCs or uses existing ones. Set to USE_EXISTING to migrate into existing VPCs in the target account, or to CREATE_NEW to provision new target VPCs. Possible values: • CREATE_NEW • USE_EXISTING
     /// </summary>
     [CliOption("--vpc-provisioning-strategy")]
     public AwsMgnUpdateNetworkMigrationDefinitionVpcProvisioningStrategy? VpcProvisioningStrategy { get; set; }
 
     /// <summary>
-    /// The updated list of CIDR mappings that map original source CIDR ranges to updated target CIDR ranges. CIDR mappings can be provided only when vpcProvisioningStrategy is set to USE_EXISTING . Constraints: o min: 0 o max: 50 (structure) Maps a source CIDR range to the corresponding target CIDR range to use in the target network. originalCidr -&gt; (string) [required] The original CIDR range in the source network. Constraints: o min: 9 o max: 18 o pattern: ((25[0-4]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\.){3}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\/(1[6-9]|2[0-8]) updatedCidr -&gt; (string) [required] The updated CIDR range to use in the target network. Constraints: o min: 9 o max: 18 o pattern: ((25[0-4]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\.){3}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\/(1[6-9]|2[0-8]) Shorthand Syntax: originalCidr=string,updatedCidr=string ... JSON Syntax: [ { "originalCidr": "string", "updatedCidr": "string" } ... ]
+    /// The updated list of CIDR mappings that map original source CIDR ranges to updated target CIDR ranges. CIDR mappings can be provided only when vpcProvisioningStrategy is set to USE_EXISTING . Constraints: • min: 0 • max: 50 (structure) Maps a source CIDR range to the corresponding target CIDR range to use in the target network. originalCidr -&gt; (string) [required] The original CIDR range in the source network. Constraints: • min: 9 • max: 18 • pattern: ((25[0-4]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\.){3}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\/(1[6-9]|2[0-8]) updatedCidr -&gt; (string) [required] The updated CIDR range to use in the target network. Constraints: • min: 9 • max: 18 • pattern: ((25[0-4]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\.){3}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\/(1[6-9]|2[0-8]) Shorthand Syntax: originalCidr=string,updatedCidr=string ... JSON Syntax: [ { "originalCidr": "string", "updatedCidr": "string" } ... ]
     /// </summary>
     [CliOption("--cidr-mappings", GroupValues = true)]
     public IEnumerable<string>? CidrMappings { get; set; }
 
     /// <summary>
-    /// The updated scope tags for the network migration definition. Constraints: o min: 0 o max: 40 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: (?!aws:)[a-zA-Z0-9\s+\-=._:/@]* value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9\s+\-=._:/@]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The updated scope tags for the network migration definition. Constraints: • min: 0 • max: 40 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: (?!aws:)[a-zA-Z0-9\s+\-=._:/@]* value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: [a-zA-Z0-9\s+\-=._:/@]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--scope-tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ScopeTags { get; set; }
@@ -138,6 +138,15 @@ public record AwsMgnUpdateNetworkMigrationDefinitionOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

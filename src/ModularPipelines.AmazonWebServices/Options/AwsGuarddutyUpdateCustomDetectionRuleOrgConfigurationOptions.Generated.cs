@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsGuarddutyUpdateCustomDetectionRuleOrgConfigurationOptions : Aws
     /// <summary>
     /// Updates the organization-level configuration for a custom detection rule, including the mode and include/exclude account lists. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RuleId">The unique identifier for the custom detection rule. Constraints: o min: 1 o max: 100 o pattern: [a-z0-9]+(-[a-z0-9]+)*</param>
-    /// <param name="Mode">The execution mode of the organization configuration. Valid values: LIVE | DRY_RUN . Possible values: o LIVE o DRY_RUN</param>
+    /// <param name="RuleId">The unique identifier for the custom detection rule. Constraints: • min: 1 • max: 100 • pattern: [a-z0-9]+(-[a-z0-9]+)*</param>
+    /// <param name="Mode">The execution mode of the organization configuration. Valid values: LIVE | DRY_RUN . Possible values: • LIVE • DRY_RUN</param>
     public AwsGuarddutyUpdateCustomDetectionRuleOrgConfigurationOptions(
         string RuleId,
         string Mode
@@ -60,25 +61,25 @@ public record AwsGuarddutyUpdateCustomDetectionRuleOrgConfigurationOptions : Aws
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the custom detection rule. Constraints: o min: 1 o max: 100 o pattern: [a-z0-9]+(-[a-z0-9]+)*
+    /// The unique identifier for the custom detection rule. Constraints: • min: 1 • max: 100 • pattern: [a-z0-9]+(-[a-z0-9]+)*
     /// </summary>
     [CliOption("--rule-id")]
     public string? RuleId { get; private init; }
 
     /// <summary>
-    /// The execution mode of the organization configuration. Valid values: LIVE | DRY_RUN . Possible values: o LIVE o DRY_RUN
+    /// The execution mode of the organization configuration. Valid values: LIVE | DRY_RUN . Possible values: • LIVE • DRY_RUN
     /// </summary>
     [CliOption("--mode")]
     public string? Mode { get; private init; }
 
     /// <summary>
-    /// The account IDs to include in the organization configuration. Mutu- ally exclusive with ExcludeAccountIds . Constraints: o min: 0 o max: 50000 (string) Constraints: o min: 12 o max: 12 Syntax: "string" "string" ...
+    /// The account IDs to include in the organization configuration. Mutually exclusive with ExcludeAccountIds . Constraints: • min: 0 • max: 50000 (string) Constraints: • min: 12 • max: 12 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--include-account-ids", GroupValues = true)]
     public IEnumerable<string>? IncludeAccountIds { get; set; }
 
     /// <summary>
-    /// The account IDs to exclude from the organization configuration. Mu- tually exclusive with IncludeAccountIds . Constraints: o min: 0 o max: 50000 (string) Constraints: o min: 12 o max: 12 Syntax: "string" "string" ...
+    /// The account IDs to exclude from the organization configuration. Mutually exclusive with IncludeAccountIds . Constraints: • min: 0 • max: 50000 (string) Constraints: • min: 12 • max: 12 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--exclude-account-ids", GroupValues = true)]
     public IEnumerable<string>? ExcludeAccountIds { get; set; }
@@ -104,6 +105,15 @@ public record AwsGuarddutyUpdateCustomDetectionRuleOrgConfigurationOptions : Aws
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

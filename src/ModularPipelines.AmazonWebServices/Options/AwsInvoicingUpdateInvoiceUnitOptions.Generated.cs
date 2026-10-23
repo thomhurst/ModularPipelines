@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsInvoicingUpdateInvoiceUnitOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// You can update the invoice unit configuration at any time, and Amazon Web Services will use the latest configuration at the end of the month. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InvoiceUnitArn">The ARN to identify an invoice unit. This information can't be modi- fied or deleted. Constraints: o min: 1 o max: 256 o pattern: arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+</param>
+    /// <param name="InvoiceUnitArn">The ARN to identify an invoice unit. This information can't be modified or deleted. Constraints: • min: 1 • max: 256 • pattern: arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+</param>
     public AwsInvoicingUpdateInvoiceUnitOptions(
         string InvoiceUnitArn
     )
@@ -57,13 +58,13 @@ public record AwsInvoicingUpdateInvoiceUnitOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN to identify an invoice unit. This information can't be modi- fied or deleted. Constraints: o min: 1 o max: 256 o pattern: arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+
+    /// The ARN to identify an invoice unit. This information can't be modified or deleted. Constraints: • min: 1 • max: 256 • pattern: arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+
     /// </summary>
     [CliOption("--invoice-unit-arn")]
     public string? InvoiceUnitArn { get; private init; }
 
     /// <summary>
-    /// The assigned description for an invoice unit. This information can't be modified or deleted. Constraints: o min: 0 o max: 500 o pattern: [\S\s]*
+    /// The assigned description for an invoice unit. This information can't be modified or deleted. Constraints: • min: 0 • max: 500 • pattern: [\S\s]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
@@ -75,13 +76,13 @@ public record AwsInvoicingUpdateInvoiceUnitOptions : AwsOptions, IValidatableObj
     public bool? TaxInheritanceDisabled { get; set; }
 
     /// <summary>
-    /// The InvoiceUnitRule object used to update invoice units. LinkedAccounts -&gt; (list) The list of LINKED_ACCOUNT IDs where charges are included within the invoice unit. Constraints: o min: 0 o max: 1000 (string) Constraints: o pattern: \d{12} BillSourceAccounts -&gt; (list) A list of Amazon Web Services account IDs that have delegated their billing responsibility to the receiver account through transfer billing. Unlike linked accounts, these bill source ac- counts can be payer accounts from other organizations that have authorized billing transfer to this account. Constraints: o min: 0 o max: 1000 (string) Constraints: o pattern: \d{12} Shorthand Syntax: LinkedAccounts=string,string,BillSourceAccounts=string,string JSON Syntax: { "LinkedAccounts": ["string", ...], "BillSourceAccounts": ["string", ...] }
+    /// The InvoiceUnitRule object used to update invoice units. LinkedAccounts -&gt; (list) The list of LINKED_ACCOUNT IDs where charges are included within the invoice unit. Constraints: • min: 0 • max: 1000 (string) Constraints: • pattern: \d{12} BillSourceAccounts -&gt; (list) A list of Amazon Web Services account IDs that have delegated their billing responsibility to the receiver account through transfer billing. Unlike linked accounts, these bill source accounts can be payer accounts from other organizations that have authorized billing transfer to this account. Constraints: • min: 0 • max: 1000 (string) Constraints: • pattern: \d{12} Shorthand Syntax: LinkedAccounts=string,string,BillSourceAccounts=string,string JSON Syntax: { "LinkedAccounts": ["string", ...], "BillSourceAccounts": ["string", ...] }
     /// </summary>
     [CliOption("--rule")]
     public string? Rule { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure idem- potency of the request. Constraints: o min: 0 o max: 1024 o pattern: \S+
+    /// A unique, case-sensitive identifier that you provide to ensure idempotency of the request. Constraints: • min: 0 • max: 1024 • pattern: \S+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -108,6 +109,15 @@ public record AwsInvoicingUpdateInvoiceUnitOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

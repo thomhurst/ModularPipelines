@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsDeadlineGetQueueFleetAssociationOptions : AwsOptions, IValidata
     /// <summary>
     /// Gets a queue-fleet association. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FarmId">The farm ID of the farm that contains the queue-fleet association. Constraints: o pattern: farm-[0-9a-f]{32}</param>
-    /// <param name="QueueId">The queue ID for the queue-fleet association. Constraints: o pattern: queue-[0-9a-f]{32}</param>
-    /// <param name="FleetId">The fleet ID for the queue-fleet association. Constraints: o pattern: fleet-[0-9a-f]{32}</param>
+    /// <param name="FarmId">The farm ID of the farm that contains the queue-fleet association. Constraints: • pattern: farm-[0-9a-f]{32}</param>
+    /// <param name="QueueId">The queue ID for the queue-fleet association. Constraints: • pattern: queue-[0-9a-f]{32}</param>
+    /// <param name="FleetId">The fleet ID for the queue-fleet association. Constraints: • pattern: fleet-[0-9a-f]{32}</param>
     public AwsDeadlineGetQueueFleetAssociationOptions(
         string FarmId,
         string QueueId,
@@ -64,19 +65,19 @@ public record AwsDeadlineGetQueueFleetAssociationOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The farm ID of the farm that contains the queue-fleet association. Constraints: o pattern: farm-[0-9a-f]{32}
+    /// The farm ID of the farm that contains the queue-fleet association. Constraints: • pattern: farm-[0-9a-f]{32}
     /// </summary>
     [CliOption("--farm-id")]
     public string? FarmId { get; private init; }
 
     /// <summary>
-    /// The queue ID for the queue-fleet association. Constraints: o pattern: queue-[0-9a-f]{32}
+    /// The queue ID for the queue-fleet association. Constraints: • pattern: queue-[0-9a-f]{32}
     /// </summary>
     [CliOption("--queue-id")]
     public string? QueueId { get; private init; }
 
     /// <summary>
-    /// The fleet ID for the queue-fleet association. Constraints: o pattern: fleet-[0-9a-f]{32}
+    /// The fleet ID for the queue-fleet association. Constraints: • pattern: fleet-[0-9a-f]{32}
     /// </summary>
     [CliOption("--fleet-id")]
     public string? FleetId { get; private init; }
@@ -102,6 +103,15 @@ public record AwsDeadlineGetQueueFleetAssociationOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsDmsCreateFleetAdvisorCollectorOptions : AwsOptions, IValidatabl
     /// <summary>
     /// WARNING: End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support . Creates a Fleet Advisor collector using the specified parameters. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CollectorName">The name of your Fleet Advisor collector (for example, sample-col- lector ).</param>
+    /// <param name="CollectorName">The name of your Fleet Advisor collector (for example, sample-collector ).</param>
     /// <param name="ServiceAccessRoleArn">The IAM role that grants permissions to access the specified Amazon S3 bucket.</param>
     /// <param name="S3BucketName">The Amazon S3 bucket that the Fleet Advisor collector uses to store inventory metadata.</param>
     public AwsDmsCreateFleetAdvisorCollectorOptions(
@@ -64,7 +65,7 @@ public record AwsDmsCreateFleetAdvisorCollectorOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of your Fleet Advisor collector (for example, sample-col- lector ).
+    /// The name of your Fleet Advisor collector (for example, sample-collector ).
     /// </summary>
     [CliOption("--collector-name")]
     public string? CollectorName { get; private init; }
@@ -108,6 +109,15 @@ public record AwsDmsCreateFleetAdvisorCollectorOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

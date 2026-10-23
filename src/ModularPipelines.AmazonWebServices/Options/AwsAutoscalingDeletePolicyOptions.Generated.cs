@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsAutoscalingDeletePolicyOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes the specified scaling policy. Deleting either a step scaling policy or a simple scaling policy deletes the underlying alarm action, but does not delete the alarm, even if it no longer has an associated action. For more information, see Delete a scaling policy in the Amazon EC2 Auto Scaling User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="PolicyName">The name or Amazon Resource Name (ARN) of the policy. Constraints: o min: 1 o max: 1600 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
+    /// <param name="PolicyName">The name or Amazon Resource Name (ARN) of the policy. Constraints: • min: 1 • max: 1600 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
     public AwsAutoscalingDeletePolicyOptions(
         string PolicyName
     )
@@ -56,13 +57,13 @@ public record AwsAutoscalingDeletePolicyOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name or Amazon Resource Name (ARN) of the policy. Constraints: o min: 1 o max: 1600 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// The name or Amazon Resource Name (ARN) of the policy. Constraints: • min: 1 • max: 1600 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
     [CliOption("--policy-name")]
     public string? PolicyName { get; private init; }
 
     /// <summary>
-    /// The name of the Auto Scaling group. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// The name of the Auto Scaling group. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
     [CliOption("--auto-scaling-group-name")]
     public string? AutoScalingGroupName { get; set; }
@@ -88,6 +89,15 @@ public record AwsAutoscalingDeletePolicyOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

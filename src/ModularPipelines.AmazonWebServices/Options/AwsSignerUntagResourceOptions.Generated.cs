@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsSignerUntagResourceOptions : AwsOptions, IValidatableObject
     /// Removes one or more tags from a signing profile. To remove the tags, specify a list of tag keys. See also: AWS API Documentation
     /// </summary>
     /// <param name="ResourceArn">The Amazon Resource Name (ARN) for the signing profile.</param>
-    /// <param name="TagKeys">A list of tag keys to be removed from the signing profile. Constraints: o min: 1 o max: 200 (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ Syntax: "string" "string" ...</param>
+    /// <param name="TagKeys">A list of tag keys to be removed from the signing profile. Constraints: • min: 1 • max: 200 (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ Syntax: "string" "string" ...</param>
     public AwsSignerUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -77,7 +78,7 @@ public record AwsSignerUntagResourceOptions : AwsOptions, IValidatableObject
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// A list of tag keys to be removed from the signing profile. Constraints: o min: 1 o max: 200 (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ Syntax: "string" "string" ...
+    /// A list of tag keys to be removed from the signing profile. Constraints: • min: 1 • max: 200 (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }
@@ -103,6 +104,15 @@ public record AwsSignerUntagResourceOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

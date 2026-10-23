@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +29,9 @@ public record AwsCustomerProfilesCreateSegmentSnapshotOptions : AwsOptions, IVal
     /// <summary>
     /// Triggers a job to export a segment to a specified destination. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
-    /// <param name="SegmentDefinitionName">The name of the segment definition used in this snapshot request. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
-    /// <param name="DataFormat">The format in which the segment will be exported. Possible values: o CSV o JSONL o ORC</param>
+    /// <param name="DomainName">The unique name of the domain. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="SegmentDefinitionName">The name of the segment definition used in this snapshot request. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="DataFormat">The format in which the segment will be exported. Possible values: • CSV • JSONL • ORC</param>
     public AwsCustomerProfilesCreateSegmentSnapshotOptions(
         string DomainName,
         string SegmentDefinitionName,
@@ -64,37 +65,37 @@ public record AwsCustomerProfilesCreateSegmentSnapshotOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The unique name of the domain. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// The name of the segment definition used in this snapshot request. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The name of the segment definition used in this snapshot request. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--segment-definition-name")]
     public string? SegmentDefinitionName { get; private init; }
 
     /// <summary>
-    /// The format in which the segment will be exported. Possible values: o CSV o JSONL o ORC
+    /// The format in which the segment will be exported. Possible values: • CSV • JSONL • ORC
     /// </summary>
     [CliOption("--data-format")]
     public AwsCustomerProfilesCreateSegmentSnapshotDataFormat? DataFormat { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the exported segment. Constraints: o min: 0 o max: 255
+    /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the exported segment. Constraints: • min: 0 • max: 255
     /// </summary>
     [CliOption("--encryption-key")]
     public string? EncryptionKey { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the IAM role that allows Customer Profiles service principal to assume the role for conducting KMS and S3 operations. Constraints: o max: 512 o pattern: arn:aws:iam:.*:[0-9]+:.*
+    /// The Amazon Resource Name (ARN) of the IAM role that allows Customer Profiles service principal to assume the role for conducting KMS and S3 operations. Constraints: • max: 512 • pattern: arn:aws:iam:.*:[0-9]+:.*
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
     /// <summary>
-    /// The destination to which the segment will be exported. This field must be provided if the request is not submitted from the Connect Customer Admin Website. Constraints: o min: 1 o max: 255
+    /// The destination to which the segment will be exported. This field must be provided if the request is not submitted from the Connect Customer Admin Website. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--destination-uri")]
     public string? DestinationUri { get; set; }
@@ -120,6 +121,15 @@ public record AwsCustomerProfilesCreateSegmentSnapshotOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

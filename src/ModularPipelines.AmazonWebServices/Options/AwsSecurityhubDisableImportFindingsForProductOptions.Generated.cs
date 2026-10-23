@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsSecurityhubDisableImportFindingsForProductOptions : AwsOptions,
     /// <summary>
     /// Disables the integration of the specified product with Security Hub CSPM. After the integration is disabled, findings from that product are no longer sent to Security Hub CSPM. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProductSubscriptionArn">The ARN of the integrated product to disable the integration for. Constraints: o pattern: .*\S.*</param>
+    /// <param name="ProductSubscriptionArn">The ARN of the integrated product to disable the integration for. Constraints: • pattern: .*\S.*</param>
     public AwsSecurityhubDisableImportFindingsForProductOptions(
         string ProductSubscriptionArn
     )
@@ -56,7 +57,7 @@ public record AwsSecurityhubDisableImportFindingsForProductOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the integrated product to disable the integration for. Constraints: o pattern: .*\S.*
+    /// The ARN of the integrated product to disable the integration for. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--product-subscription-arn")]
     public string? ProductSubscriptionArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSecurityhubDisableImportFindingsForProductOptions : AwsOptions,
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

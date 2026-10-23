@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates or updates a service-linked configuration recorder that is linked to a third-party cloud service provider based on the Connec- torArn you specify. The configuration recorder's name , recordingGroup , recordingMode , and recordingScope is set by the service that is linked to the configu- ration recorder. If a service-linked configuration recorder already exists for the spec- ified service principal and connector, calling this operation again up- dates the ScopeConfiguration . NOTE: This o...
+/// Creates or updates a service-linked configuration recorder that is linked to a third-party cloud service provider based on the ConnectorArn you specify. The configuration recorder's name , recordingGroup , recordingMode , and recordingScope is set by the service that is linked to the configuration recorder. If a service-linked configuration recorder already exists for the specified service principal and connector, calling this operation again updates the ScopeConfiguration . NOTE: This operation...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsConfigservicePutThirdPartyServiceLinkedConfigurationRecorderOpt
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates or updates a service-linked configuration recorder that is linked to a third-party cloud service provider based on the Connec- torArn you specify. The configuration recorder's name , recordingGroup , recordingMode , and recordingScope is set by the service that is linked to the configu- ration recorder. If a service-linked configuration recorder already exists for the spec- ified service principal and connector, calling this operation again up- dates the ScopeConfiguration . NOTE: This o...
+    /// Creates or updates a service-linked configuration recorder that is linked to a third-party cloud service provider based on the ConnectorArn you specify. The configuration recorder's name , recordingGroup , recordingMode , and recordingScope is set by the service that is linked to the configuration recorder. If a service-linked configuration recorder already exists for the specified service principal and connector, calling this operation again updates the ScopeConfiguration . NOTE: This operation...
     /// </summary>
-    /// <param name="ServicePrincipal">The service principal of the Amazon Web Services service for the service-linked configuration recorder that you want to create. Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+</param>
-    /// <param name="ConnectorArn">The Amazon Resource Name (ARN) of the connector that specifies the connection between the third-party cloud service provider and Con- fig. The specified connector must exist. Constraints: o min: 1 o max: 1000</param>
-    /// <param name="ScopeConfiguration">Specifies the scope of resources to record from the third-party cloud service provider. scopeType -&gt; (string) [required] The type of scope for the third-party cloud resources. Valid values include tenant and subscription . Constraints: o min: 1 o max: 256 scopeValues -&gt; (list) The list of specific scope values for the third-party cloud re- sources. For example, a list of Azure subscriptions or manage- ment groups. (string) Constraints: o min: 1 o max: 256 allRegions -&gt; (boolean) [required] Specifies whether to record resources from all supported regions for the third-party cloud service provider. includedRegions -&gt; (list) The list of regions from the third-party cloud service provider to include when recording resources. Used when allRegions is set to false . Constraints: o min: 0 o max: 200 (string) Constraints: o min: 1 o max: 128 Shorthand Syntax: scopeType=string,scopeValues=string,string,allRegions=boolean,includedRegions=string,string JSON Syntax: { "scopeType": "string", "scopeValues": ["string", ...], "allRegions": true|false, "includedRegions": ["string", ...] }</param>
+    /// <param name="ServicePrincipal">The service principal of the Amazon Web Services service for the service-linked configuration recorder that you want to create. Constraints: • min: 1 • max: 128 • pattern: [\w+=,.@-]+</param>
+    /// <param name="ConnectorArn">The Amazon Resource Name (ARN) of the connector that specifies the connection between the third-party cloud service provider and Config. The specified connector must exist. Constraints: • min: 1 • max: 1000</param>
+    /// <param name="ScopeConfiguration">Specifies the scope of resources to record from the third-party cloud service provider. scopeType -&gt; (string) [required] The type of scope for the third-party cloud resources. Valid values include tenant and subscription . Constraints: • min: 1 • max: 256 scopeValues -&gt; (list) The list of specific scope values for the third-party cloud resources. For example, a list of Azure subscriptions or management groups. (string) Constraints: • min: 1 • max: 256 allRegions -&gt; (boolean) [required] Specifies whether to record resources from all supported regions for the third-party cloud service provider. includedRegions -&gt; (list) The list of regions from the third-party cloud service provider to include when recording resources. Used when allRegions is set to false . Constraints: • min: 0 • max: 200 (string) Constraints: • min: 1 • max: 128 Shorthand Syntax: scopeType=string,scopeValues=string,string,allRegions=boolean,includedRegions=string,string JSON Syntax: { "scopeType": "string", "scopeValues": ["string", ...], "allRegions": true|false, "includedRegions": ["string", ...] }</param>
     public AwsConfigservicePutThirdPartyServiceLinkedConfigurationRecorderOptions(
         string ServicePrincipal,
         string ConnectorArn,
@@ -64,25 +65,25 @@ public record AwsConfigservicePutThirdPartyServiceLinkedConfigurationRecorderOpt
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The service principal of the Amazon Web Services service for the service-linked configuration recorder that you want to create. Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+
+    /// The service principal of the Amazon Web Services service for the service-linked configuration recorder that you want to create. Constraints: • min: 1 • max: 128 • pattern: [\w+=,.@-]+
     /// </summary>
     [CliOption("--service-principal")]
     public string? ServicePrincipal { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the connector that specifies the connection between the third-party cloud service provider and Con- fig. The specified connector must exist. Constraints: o min: 1 o max: 1000
+    /// The Amazon Resource Name (ARN) of the connector that specifies the connection between the third-party cloud service provider and Config. The specified connector must exist. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--connector-arn")]
     public string? ConnectorArn { get; private init; }
 
     /// <summary>
-    /// Specifies the scope of resources to record from the third-party cloud service provider. scopeType -&gt; (string) [required] The type of scope for the third-party cloud resources. Valid values include tenant and subscription . Constraints: o min: 1 o max: 256 scopeValues -&gt; (list) The list of specific scope values for the third-party cloud re- sources. For example, a list of Azure subscriptions or manage- ment groups. (string) Constraints: o min: 1 o max: 256 allRegions -&gt; (boolean) [required] Specifies whether to record resources from all supported regions for the third-party cloud service provider. includedRegions -&gt; (list) The list of regions from the third-party cloud service provider to include when recording resources. Used when allRegions is set to false . Constraints: o min: 0 o max: 200 (string) Constraints: o min: 1 o max: 128 Shorthand Syntax: scopeType=string,scopeValues=string,string,allRegions=boolean,includedRegions=string,string JSON Syntax: { "scopeType": "string", "scopeValues": ["string", ...], "allRegions": true|false, "includedRegions": ["string", ...] }
+    /// Specifies the scope of resources to record from the third-party cloud service provider. scopeType -&gt; (string) [required] The type of scope for the third-party cloud resources. Valid values include tenant and subscription . Constraints: • min: 1 • max: 256 scopeValues -&gt; (list) The list of specific scope values for the third-party cloud resources. For example, a list of Azure subscriptions or management groups. (string) Constraints: • min: 1 • max: 256 allRegions -&gt; (boolean) [required] Specifies whether to record resources from all supported regions for the third-party cloud service provider. includedRegions -&gt; (list) The list of regions from the third-party cloud service provider to include when recording resources. Used when allRegions is set to false . Constraints: • min: 0 • max: 200 (string) Constraints: • min: 1 • max: 128 Shorthand Syntax: scopeType=string,scopeValues=string,string,allRegions=boolean,includedRegions=string,string JSON Syntax: { "scopeType": "string", "scopeValues": ["string", ...], "allRegions": true|false, "includedRegions": ["string", ...] }
     /// </summary>
     [CliOption("--scope-configuration")]
     public string? ScopeConfiguration { get; private init; }
 
     /// <summary>
-    /// The tags for a service-linked configuration recorder. Each tag con- sists of a key and an optional value, both of which you define. Constraints: o min: 0 o max: 50 (structure) The tags for the resource. The metadata that you apply to a re- source to help you categorize and organize them. Each tag con- sists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters. Key -&gt; (string) One part of a key-value pair that make up a tag. A key is a general label that acts like a category for more specific tag values. Constraints: o min: 1 o max: 128 Value -&gt; (string) The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key). Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tags for a service-linked configuration recorder. Each tag consists of a key and an optional value, both of which you define. Constraints: • min: 0 • max: 50 (structure) The tags for the resource. The metadata that you apply to a resource to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters. Key -&gt; (string) One part of a key-value pair that make up a tag. A key is a general label that acts like a category for more specific tag values. Constraints: • min: 1 • max: 128 Value -&gt; (string) The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key). Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -108,6 +109,15 @@ public record AwsConfigservicePutThirdPartyServiceLinkedConfigurationRecorderOpt
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

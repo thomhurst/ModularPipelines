@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsBedrockAgentDeleteAgentVersionOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Deletes a version of an agent. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AgentId">The unique identifier of the agent that the version belongs to. Constraints: o pattern: [0-9a-zA-Z]{10}</param>
-    /// <param name="AgentVersion">The version of the agent to delete. Constraints: o pattern: [0-9]{1,5}</param>
+    /// <param name="AgentId">The unique identifier of the agent that the version belongs to. Constraints: • pattern: [0-9a-zA-Z]{10}</param>
+    /// <param name="AgentVersion">The version of the agent to delete. Constraints: • pattern: [0-9]{1,5}</param>
     public AwsBedrockAgentDeleteAgentVersionOptions(
         string AgentId,
         string AgentVersion
@@ -60,19 +61,19 @@ public record AwsBedrockAgentDeleteAgentVersionOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the agent that the version belongs to. Constraints: o pattern: [0-9a-zA-Z]{10}
+    /// The unique identifier of the agent that the version belongs to. Constraints: • pattern: [0-9a-zA-Z]{10}
     /// </summary>
     [CliOption("--agent-id")]
     public string? AgentId { get; private init; }
 
     /// <summary>
-    /// The version of the agent to delete. Constraints: o pattern: [0-9]{1,5}
+    /// The version of the agent to delete. Constraints: • pattern: [0-9]{1,5}
     /// </summary>
     [CliOption("--agent-version")]
     public string? AgentVersion { get; private init; }
 
     /// <summary>
-    /// By default, this value is false and deletion is stopped if the re- source is in use. If you set it to true , the resource will be deleted even if the resource is in use.
+    /// By default, this value is false and deletion is stopped if the resource is in use. If you set it to true , the resource will be deleted even if the resource is in use.
     /// </summary>
     [CliFlag("--skip-resource-in-use-check", NegatedName = "--no-skip-resource-in-use-check")]
     public bool? SkipResourceInUseCheck { get; set; }
@@ -98,6 +99,15 @@ public record AwsBedrockAgentDeleteAgentVersionOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

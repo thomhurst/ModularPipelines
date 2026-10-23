@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the aggregationPeriod for a monitor. Monitors support an aggre- gationPeriod of either 30 or 60 seconds. This action requires the moni- torName and probeId parameter. Run ListMonitors to get a list of moni- tor names. See also: AWS API Documentation
+/// Updates the aggregationPeriod for a monitor. Monitors support an aggregationPeriod of either 30 or 60 seconds. This action requires the monitorName and probeId parameter. Run ListMonitors to get a list of monitor names. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,13 +26,13 @@ public record AwsNetworkmonitorUpdateMonitorOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the aggregationPeriod for a monitor. Monitors support an aggre- gationPeriod of either 30 or 60 seconds. This action requires the moni- torName and probeId parameter. Run ListMonitors to get a list of moni- tor names. See also: AWS API Documentation
+    /// Updates the aggregationPeriod for a monitor. Monitors support an aggregationPeriod of either 30 or 60 seconds. This action requires the monitorName and probeId parameter. Run ListMonitors to get a list of monitor names. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MonitorName">The name of the monitor to update. Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9_-]+</param>
-    /// <param name="AggregationPeriod">The aggregation time, in seconds, to change to. This must be either 30 or 60 . Constraints: o min: 30</param>
+    /// <param name="MonitorName">The name of the monitor to update. Constraints: • min: 1 • max: 200 • pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="AggregationPeriod">The aggregation time, in seconds, to change to. This must be either 30 or 60 . Constraints: • min: 30</param>
     public AwsNetworkmonitorUpdateMonitorOptions(
         string MonitorName,
-        int AggregationPeriod
+        long AggregationPeriod
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(MonitorName);
@@ -59,16 +60,16 @@ public record AwsNetworkmonitorUpdateMonitorOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the monitor to update. Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9_-]+
+    /// The name of the monitor to update. Constraints: • min: 1 • max: 200 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--monitor-name")]
     public string? MonitorName { get; private init; }
 
     /// <summary>
-    /// The aggregation time, in seconds, to change to. This must be either 30 or 60 . Constraints: o min: 30
+    /// The aggregation time, in seconds, to change to. This must be either 30 or 60 . Constraints: • min: 30
     /// </summary>
     [CliOption("--aggregation-period")]
-    public int? AggregationPeriod { get; private init; }
+    public long? AggregationPeriod { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -91,6 +92,15 @@ public record AwsNetworkmonitorUpdateMonitorOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

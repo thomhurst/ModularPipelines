@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsChimeSdkIdentityTagResourceOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Applies the specified tags to the specified Amazon Chime SDK identity resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The resource ARN. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
-    /// <param name="Tags">The tag key-value pairs. Constraints: o min: 1 o max: 50 (structure) A tag object containing a key-value pair. Key -&gt; (string) [required] The key in a tag. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value in a tag. Constraints: o min: 1 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
+    /// <param name="ResourceArn">The resource ARN. Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
+    /// <param name="Tags">The tag key-value pairs. Constraints: • min: 1 • max: 50 (structure) A tag object containing a key-value pair. Key -&gt; (string) [required] The key in a tag. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] The value in a tag. Constraints: • min: 1 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
     public AwsChimeSdkIdentityTagResourceOptions(
         string ResourceArn,
         IEnumerable<string> Tags
@@ -71,13 +72,13 @@ public record AwsChimeSdkIdentityTagResourceOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The resource ARN. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
+    /// The resource ARN. Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The tag key-value pairs. Constraints: o min: 1 o max: 50 (structure) A tag object containing a key-value pair. Key -&gt; (string) [required] The key in a tag. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value in a tag. Constraints: o min: 1 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tag key-value pairs. Constraints: • min: 1 • max: 50 (structure) A tag object containing a key-value pair. Key -&gt; (string) [required] The key in a tag. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] The value in a tag. Constraints: • min: 1 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; private init; }
@@ -103,6 +104,15 @@ public record AwsChimeSdkIdentityTagResourceOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

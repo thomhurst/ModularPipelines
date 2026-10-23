@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsSesv2PutAccountPricingAttributesOptions : AwsOptions, IValidata
     /// <summary>
     /// Set the pricing plan for your Amazon SES account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Plan">The pricing plan to apply to your Amazon SES account. For details about each plan, see Amazon SES Pricing . Can be one of the follow- ing: o NONE o ESSENTIALS o PRO o ENTERPRISE Possible values: o NONE o ESSENTIALS o PRO o ENTERPRISE</param>
+    /// <param name="Plan">The pricing plan to apply to your Amazon SES account. For details about each plan, see Amazon SES Pricing . Can be one of the following: • NONE • ESSENTIALS • PRO • ENTERPRISE Possible values: • NONE • ESSENTIALS • PRO • ENTERPRISE</param>
     public AwsSesv2PutAccountPricingAttributesOptions(
         AwsSesv2PutAccountPricingAttributesPlan Plan
     )
@@ -56,7 +57,7 @@ public record AwsSesv2PutAccountPricingAttributesOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The pricing plan to apply to your Amazon SES account. For details about each plan, see Amazon SES Pricing . Can be one of the follow- ing: o NONE o ESSENTIALS o PRO o ENTERPRISE Possible values: o NONE o ESSENTIALS o PRO o ENTERPRISE
+    /// The pricing plan to apply to your Amazon SES account. For details about each plan, see Amazon SES Pricing . Can be one of the following: • NONE • ESSENTIALS • PRO • ENTERPRISE Possible values: • NONE • ESSENTIALS • PRO • ENTERPRISE
     /// </summary>
     [CliOption("--plan")]
     public AwsSesv2PutAccountPricingAttributesPlan? Plan { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSesv2PutAccountPricingAttributesOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

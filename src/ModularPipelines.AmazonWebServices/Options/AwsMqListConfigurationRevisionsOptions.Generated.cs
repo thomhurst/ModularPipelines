@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -63,7 +64,7 @@ public record AwsMqListConfigurationRevisionsOptions : AwsOptions, IValidatableO
     public string? ConfigurationId { get; private init; }
 
     /// <summary>
-    /// The maximum number of brokers that Amazon MQ can return per page (20 by default). This value must be an integer from 5 to 100. Constraints: o min: 1 o max: 100
+    /// The maximum number of brokers that Amazon MQ can return per page (20 by default). This value must be an integer from 5 to 100. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -96,6 +97,15 @@ public record AwsMqListConfigurationRevisionsOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsBillingUntagResourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Removes one or more tags from a resource. Specify only tag keys in your request. Don't specify the value. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource. Constraints: o pattern: arn:aws[a-z-]*:(billing)::[0-9]{12}:[a-zA-Z0-9/:_\+=\.\@-]{0,70}[a-zA-Z0-9]</param>
-    /// <param name="ResourceTagKeys">A list of tag key value pairs that are associated with the resource. Constraints: o min: 0 o max: 200 (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource. Constraints: • pattern: arn:aws[a-z-]*:(billing)::[0-9]{12}:[a-zA-Z0-9/:_\+=\.\@-]{0,70}[a-zA-Z0-9]</param>
+    /// <param name="ResourceTagKeys">A list of tag key value pairs that are associated with the resource. Constraints: • min: 0 • max: 200 (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...</param>
     public AwsBillingUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> ResourceTagKeys
@@ -71,13 +72,13 @@ public record AwsBillingUntagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource. Constraints: o pattern: arn:aws[a-z-]*:(billing)::[0-9]{12}:[a-zA-Z0-9/:_\+=\.\@-]{0,70}[a-zA-Z0-9]
+    /// The Amazon Resource Name (ARN) of the resource. Constraints: • pattern: arn:aws[a-z-]*:(billing)::[0-9]{12}:[a-zA-Z0-9/:_\+=\.\@-]{0,70}[a-zA-Z0-9]
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// A list of tag key value pairs that are associated with the resource. Constraints: o min: 0 o max: 200 (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...
+    /// A list of tag key value pairs that are associated with the resource. Constraints: • min: 0 • max: 200 (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--resource-tag-keys", GroupValues = true)]
     public IEnumerable<string>? ResourceTagKeys { get; private init; }
@@ -103,6 +104,15 @@ public record AwsBillingUntagResourceOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

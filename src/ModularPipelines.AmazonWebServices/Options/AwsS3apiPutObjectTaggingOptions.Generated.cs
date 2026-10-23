@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: This operation is not supported for directory buckets. Sets the supplied tag-set to an object that already exists in a bucket. A tag is a key-value pair. For more information, see Object Tagging . You can associate tags with an object by sending a PUT request against the tagging subresource that is associated with the object. You can re- trieve tags by sending a GET request. For more information, see GetObjectTagging . For tagging-related restrictions related to characters and encodings, s...
+/// NOTE: This operation is not supported for directory buckets. Sets the supplied tag-set to an object that already exists in a bucket. A tag is a key-value pair. For more information, see Object Tagging . You can associate tags with an object by sending a PUT request against the tagging subresource that is associated with the object. You can retrieve tags by sending a GET request. For more information, see GetObjectTagging . For tagging-related restrictions related to characters and encodings, see...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsS3apiPutObjectTaggingOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: This operation is not supported for directory buckets. Sets the supplied tag-set to an object that already exists in a bucket. A tag is a key-value pair. For more information, see Object Tagging . You can associate tags with an object by sending a PUT request against the tagging subresource that is associated with the object. You can re- trieve tags by sending a GET request. For more information, see GetObjectTagging . For tagging-related restrictions related to characters and encodings, s...
+    /// NOTE: This operation is not supported for directory buckets. Sets the supplied tag-set to an object that already exists in a bucket. A tag is a key-value pair. For more information, see Object Tagging . You can associate tags with an object by sending a PUT request against the tagging subresource that is associated with the object. You can retrieve tags by sending a GET request. For more information, see GetObjectTagging . For tagging-related restrictions related to characters and encodings, see...
     /// </summary>
-    /// <param name="Bucket">The bucket name containing the object. Access points - When you use this action with an access point for general purpose buckets, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When you use this action with an access point for di- rectory buckets, you must provide the access point name in place of the bucket name. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName -AccountId .s3-access- point.*Region* .amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more in- formation about access point ARNs, see Using access points in the Amazon S3 User Guide . S3 on Outposts - When you use this action with S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form `` AccessPointName -Accoun- tId .*outpostID* .s3-outposts.*Region* .amazonaws.com`` . When you use this action with S3 on Outposts, the destination bucket must be the Outposts access point ARN or the access point alias. For more information about S3 on Outposts, see What is S3 on Outposts? in the Amazon S3 User Guide .</param>
-    /// <param name="Key">Name of the object key. Constraints: o min: 1</param>
-    /// <param name="Tagging">Container for the TagSet and Tag elements TagSet -&gt; (list) [required] A collection for a set of tags (structure) A container of a key value name pair. Key -&gt; (string) [required] Name of the object key. Constraints: o min: 1 Value -&gt; (string) [required] Value of the tag. Shorthand Syntax: TagSet=[{Key=string,Value=string},{Key=string,Value=string}] JSON Syntax: { "TagSet": [ { "Key": "string", "Value": "string" } ... ] }</param>
+    /// <param name="Bucket">The bucket name containing the object. Access points - When you use this action with an access point for general purpose buckets, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When you use this action with an access point for directory buckets, you must provide the access point name in place of the bucket name. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName -AccountId .s3-accesspoint.*Region* .amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide . S3 on Outposts - When you use this action with S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form `` AccessPointName -AccountId .*outpostID* .s3-outposts.*Region* .amazonaws.com`` . When you use this action with S3 on Outposts, the destination bucket must be the Outposts access point ARN or the access point alias. For more information about S3 on Outposts, see What is S3 on Outposts? in the Amazon S3 User Guide .</param>
+    /// <param name="Key">Name of the object key. Constraints: • min: 1</param>
+    /// <param name="Tagging">Container for the TagSet and Tag elements TagSet -&gt; (list) [required] A collection for a set of tags (structure) A container of a key value name pair. Key -&gt; (string) [required] Name of the object key. Constraints: • min: 1 Value -&gt; (string) [required] Value of the tag. Shorthand Syntax: TagSet=[{Key=string,Value=string},{Key=string,Value=string}] JSON Syntax: { "TagSet": [ { "Key": "string", "Value": "string" } ... ] }</param>
     public AwsS3apiPutObjectTaggingOptions(
         string Bucket,
         string Key,
@@ -65,19 +66,19 @@ public record AwsS3apiPutObjectTaggingOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The bucket name containing the object. Access points - When you use this action with an access point for general purpose buckets, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When you use this action with an access point for di- rectory buckets, you must provide the access point name in place of the bucket name. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName -AccountId .s3-access- point.*Region* .amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more in- formation about access point ARNs, see Using access points in the Amazon S3 User Guide . S3 on Outposts - When you use this action with S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form `` AccessPointName -Accoun- tId .*outpostID* .s3-outposts.*Region* .amazonaws.com`` . When you use this action with S3 on Outposts, the destination bucket must be the Outposts access point ARN or the access point alias. For more information about S3 on Outposts, see What is S3 on Outposts? in the Amazon S3 User Guide .
+    /// The bucket name containing the object. Access points - When you use this action with an access point for general purpose buckets, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When you use this action with an access point for directory buckets, you must provide the access point name in place of the bucket name. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName -AccountId .s3-accesspoint.*Region* .amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide . S3 on Outposts - When you use this action with S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form `` AccessPointName -AccountId .*outpostID* .s3-outposts.*Region* .amazonaws.com`` . When you use this action with S3 on Outposts, the destination bucket must be the Outposts access point ARN or the access point alias. For more information about S3 on Outposts, see What is S3 on Outposts? in the Amazon S3 User Guide .
     /// </summary>
     [CliOption("--bucket")]
     public string? Bucket { get; private init; }
 
     /// <summary>
-    /// Name of the object key. Constraints: o min: 1
+    /// Name of the object key. Constraints: • min: 1
     /// </summary>
     [CliOption("--key")]
     public string? Key { get; private init; }
 
     /// <summary>
-    /// Container for the TagSet and Tag elements TagSet -&gt; (list) [required] A collection for a set of tags (structure) A container of a key value name pair. Key -&gt; (string) [required] Name of the object key. Constraints: o min: 1 Value -&gt; (string) [required] Value of the tag. Shorthand Syntax: TagSet=[{Key=string,Value=string},{Key=string,Value=string}] JSON Syntax: { "TagSet": [ { "Key": "string", "Value": "string" } ... ] }
+    /// Container for the TagSet and Tag elements TagSet -&gt; (list) [required] A collection for a set of tags (structure) A container of a key value name pair. Key -&gt; (string) [required] Name of the object key. Constraints: • min: 1 Value -&gt; (string) [required] Value of the tag. Shorthand Syntax: TagSet=[{Key=string,Value=string},{Key=string,Value=string}] JSON Syntax: { "TagSet": [ { "Key": "string", "Value": "string" } ... ] }
     /// </summary>
     [CliOption("--tagging")]
     public string? Tagging { get; private init; }
@@ -89,25 +90,25 @@ public record AwsS3apiPutObjectTaggingOptions : AwsOptions, IValidatableObject
     public string? VersionId { get; set; }
 
     /// <summary>
-    /// The MD5 hash for the request body. For requests made using the Amazon Web Services Command Line Inter- face (CLI) or Amazon Web Services SDKs, this field is calculated au- tomatically.
+    /// The MD5 hash for the request body. For requests made using the Amazon Web Services Command Line Interface (CLI) or Amazon Web Services SDKs, this field is calculated automatically.
     /// </summary>
     [CliOption("--content-md5")]
     public string? ContentMd5 { get; set; }
 
     /// <summary>
-    /// Indicates the algorithm used to create the checksum for the object when you use the SDK. This header will not provide any additional functionality if you don't use the SDK. When you send this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request . For more information, see Checking object in- tegrity in the Amazon S3 User Guide . If you provide an individual checksum, Amazon S3 ignores any pro- vided ChecksumAlgorithm parameter. Possible values: o CRC32 o CRC32C o SHA1 o SHA256 o CRC64NVME o SHA512 o MD5 o XXHASH64 o XXHASH3 o XXHASH128
+    /// Indicates the algorithm used to create the checksum for the object when you use the SDK. This header will not provide any additional functionality if you don't use the SDK. When you send this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request . For more information, see Checking object integrity in the Amazon S3 User Guide . If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter. Possible values: • CRC32 • CRC32C • SHA1 • SHA256 • CRC64NVME • SHA512 • MD5 • XXHASH64 • XXHASH3 • XXHASH128
     /// </summary>
     [CliOption("--checksum-algorithm")]
     public AwsS3apiPutObjectTaggingChecksumAlgorithm? ChecksumAlgorithm { get; set; }
 
     /// <summary>
-    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the re- quest fails with the HTTP status code 403 Forbidden (access denied).
+    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
     /// </summary>
     [CliOption("--expected-bucket-owner")]
     public string? ExpectedBucketOwner { get; set; }
 
     /// <summary>
-    /// Confirms that the requester knows that she or he will be charged for the tagging object request. Bucket owners need not specify this pa- rameter in their requests. Possible values: o requester
+    /// Confirms that the requester knows that she or he will be charged for the tagging object request. Bucket owners need not specify this parameter in their requests. Possible values: • requester
     /// </summary>
     [CliOption("--request-payer")]
     public string? RequestPayer { get; set; }
@@ -133,6 +134,15 @@ public record AwsS3apiPutObjectTaggingOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

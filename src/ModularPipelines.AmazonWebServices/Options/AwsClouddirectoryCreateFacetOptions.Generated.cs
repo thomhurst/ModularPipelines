@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new Facet in a schema. Facet creation is allowed only in de- velopment or applied schemas. See also: AWS API Documentation
+/// Creates a new Facet in a schema. Facet creation is allowed only in development or applied schemas. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsClouddirectoryCreateFacetOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new Facet in a schema. Facet creation is allowed only in de- velopment or applied schemas. See also: AWS API Documentation
+    /// Creates a new Facet in a schema. Facet creation is allowed only in development or applied schemas. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SchemaArn">The schema ARN in which the new Facet will be created. For more in- formation, see arns .</param>
-    /// <param name="Name">The name of the Facet , which is unique for a given schema. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9._-]*$</param>
+    /// <param name="SchemaArn">The schema ARN in which the new Facet will be created. For more information, see arns .</param>
+    /// <param name="Name">The name of the Facet , which is unique for a given schema. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9._-]*$</param>
     public AwsClouddirectoryCreateFacetOptions(
         string SchemaArn,
         string Name
@@ -61,31 +62,31 @@ public record AwsClouddirectoryCreateFacetOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The schema ARN in which the new Facet will be created. For more in- formation, see arns .
+    /// The schema ARN in which the new Facet will be created. For more information, see arns .
     /// </summary>
     [CliOption("--schema-arn")]
     public string? SchemaArn { get; private init; }
 
     /// <summary>
-    /// The name of the Facet , which is unique for a given schema. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9._-]*$
+    /// The name of the Facet , which is unique for a given schema. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9._-]*$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The attributes that are associated with the Facet . (structure) An attribute that is associated with the Facet . Name -&gt; (string) [required] The name of the facet attribute. Constraints: o min: 1 o max: 230 o pattern: ^[a-zA-Z0-9._:-]*$ AttributeDefinition -&gt; (structure) A facet attribute consists of either a definition or a refer- ence. This structure contains the attribute definition. See Attribute References for more information. Type -&gt; (string) [required] The type of the attribute. Possible values: o STRING o BINARY o BOOLEAN o NUMBER o DATETIME o VARIANT DefaultValue -&gt; (structure) The default value of the attribute (if configured). StringValue -&gt; (string) A string data value. BinaryValue -&gt; (blob) A binary data value. BooleanValue -&gt; (boolean) A Boolean data value. NumberValue -&gt; (string) A number data value. DatetimeValue -&gt; (timestamp) A date and time value. IsImmutable -&gt; (boolean) Whether the attribute is mutable or not. Rules -&gt; (map) Validation rules attached to the attribute definition. key -&gt; (string) Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9._-]*$ value -&gt; (structure) Contains an Amazon Resource Name (ARN) and parameters that are associated with the rule. Type -&gt; (string) The type of attribute validation rule. Possible values: o BINARY_LENGTH o NUMBER_COMPARISON o STRING_FROM_SET o STRING_LENGTH Parameters -&gt; (map) The minimum and maximum parameters that are asso- ciated with the rule. key -&gt; (string) value -&gt; (string) AttributeReference -&gt; (structure) An attribute reference that is associated with the attribute. See Attribute References for more information. TargetFacetName -&gt; (string) [required] The target facet name that is associated with the facet reference. See Attribute References for more information. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9._-]*$ TargetAttributeName -&gt; (string) [required] The target attribute name that is associated with the facet reference. See Attribute References for more infor- mation. Constraints: o min: 1 o max: 230 o pattern: ^[a-zA-Z0-9._:-]*$ RequiredBehavior -&gt; (string) The required behavior of the FacetAttribute . Possible values: o REQUIRED_ALWAYS o NOT_REQUIRED JSON Syntax: [ { "Name": "string", "AttributeDefinition": { "Type": "STRING"|"BINARY"|"BOOLEAN"|"NUMBER"|"DATETIME"|"VARIANT", "DefaultValue": { "StringValue": "string", "BinaryValue": blob, "BooleanValue": true|false, "NumberValue": "string", "DatetimeValue": timestamp }, "IsImmutable": true|false, "Rules": {"string": { "Type": "BINARY_LENGTH"|"NUMBER_COMPARISON"|"STRING_FROM_SET"|"STRING_LENGTH", "Parameters": {"string": "string" ...} } ...} }, "AttributeReference": { "TargetFacetName": "string", "TargetAttributeName": "string" }, "RequiredBehavior": "REQUIRED_ALWAYS"|"NOT_REQUIRED" } ... ]
+    /// The attributes that are associated with the Facet . (structure) An attribute that is associated with the Facet . Name -&gt; (string) [required] The name of the facet attribute. Constraints: • min: 1 • max: 230 • pattern: ^[a-zA-Z0-9._:-]*$ AttributeDefinition -&gt; (structure) A facet attribute consists of either a definition or a reference. This structure contains the attribute definition. See Attribute References for more information. Type -&gt; (string) [required] The type of the attribute. Possible values: • STRING • BINARY • BOOLEAN • NUMBER • DATETIME • VARIANT DefaultValue -&gt; (structure) The default value of the attribute (if configured). StringValue -&gt; (string) A string data value. BinaryValue -&gt; (blob) A binary data value. BooleanValue -&gt; (boolean) A Boolean data value. NumberValue -&gt; (string) A number data value. DatetimeValue -&gt; (timestamp) A date and time value. IsImmutable -&gt; (boolean) Whether the attribute is mutable or not. Rules -&gt; (map) Validation rules attached to the attribute definition. key -&gt; (string) Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9._-]*$ value -&gt; (structure) Contains an Amazon Resource Name (ARN) and parameters that are associated with the rule. Type -&gt; (string) The type of attribute validation rule. Possible values: • BINARY_LENGTH • NUMBER_COMPARISON • STRING_FROM_SET • STRING_LENGTH Parameters -&gt; (map) The minimum and maximum parameters that are associated with the rule. key -&gt; (string) value -&gt; (string) AttributeReference -&gt; (structure) An attribute reference that is associated with the attribute. See Attribute References for more information. TargetFacetName -&gt; (string) [required] The target facet name that is associated with the facet reference. See Attribute References for more information. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9._-]*$ TargetAttributeName -&gt; (string) [required] The target attribute name that is associated with the facet reference. See Attribute References for more information. Constraints: • min: 1 • max: 230 • pattern: ^[a-zA-Z0-9._:-]*$ RequiredBehavior -&gt; (string) The required behavior of the FacetAttribute . Possible values: • REQUIRED_ALWAYS • NOT_REQUIRED JSON Syntax: [ { "Name": "string", "AttributeDefinition": { "Type": "STRING"|"BINARY"|"BOOLEAN"|"NUMBER"|"DATETIME"|"VARIANT", "DefaultValue": { "StringValue": "string", "BinaryValue": blob, "BooleanValue": true|false, "NumberValue": "string", "DatetimeValue": timestamp }, "IsImmutable": true|false, "Rules": {"string": { "Type": "BINARY_LENGTH"|"NUMBER_COMPARISON"|"STRING_FROM_SET"|"STRING_LENGTH", "Parameters": {"string": "string" ...} } ...} }, "AttributeReference": { "TargetFacetName": "string", "TargetAttributeName": "string" }, "RequiredBehavior": "REQUIRED_ALWAYS"|"NOT_REQUIRED" } ... ]
     /// </summary>
     [CliOption("--attributes", GroupValues = true)]
     public IEnumerable<string>? Attributes { get; set; }
 
     /// <summary>
-    /// Specifies whether a given object created from this facet is of type node, leaf node, policy or index. o Node: Can have multiple children but one parent. o Leaf node: Cannot have children but can have multiple parents. o Policy: Allows you to store a policy document and policy type. For more information, see Policies . o Index: Can be created with the Index API. Possible values: o NODE o LEAF_NODE o POLICY o INDEX
+    /// Specifies whether a given object created from this facet is of type node, leaf node, policy or index. • Node: Can have multiple children but one parent. • Leaf node: Cannot have children but can have multiple parents. • Policy: Allows you to store a policy document and policy type. For more information, see Policies . • Index: Can be created with the Index API. Possible values: • NODE • LEAF_NODE • POLICY • INDEX
     /// </summary>
     [CliOption("--object-type")]
     public AwsClouddirectoryCreateFacetObjectType? ObjectType { get; set; }
 
     /// <summary>
-    /// There are two different styles that you can define on any given facet, Static and Dynamic . For static facets, all attributes must be defined in the schema. For dynamic facets, attributes can be de- fined during data plane operations. Possible values: o STATIC o DYNAMIC
+    /// There are two different styles that you can define on any given facet, Static and Dynamic . For static facets, all attributes must be defined in the schema. For dynamic facets, attributes can be defined during data plane operations. Possible values: • STATIC • DYNAMIC
     /// </summary>
     [CliOption("--facet-style")]
     public AwsClouddirectoryCreateFacetFacetStyle? FacetStyle { get; set; }
@@ -111,6 +112,15 @@ public record AwsClouddirectoryCreateFacetOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

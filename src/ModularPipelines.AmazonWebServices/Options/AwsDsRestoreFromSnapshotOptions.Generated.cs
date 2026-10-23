@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Restores a directory using an existing directory snapshot. When you restore a directory from a snapshot, any changes made to the directory after the snapshot date are overwritten. This action returns as soon as the restore operation is initiated. You can monitor the progress of the restore operation by calling the De- scribeDirectories operation with the directory identifier. When the Di- rectoryDescription.Stage value changes to Active , the restore opera- tion is complete. See also: AWS API Do...
+/// Restores a directory using an existing directory snapshot. When you restore a directory from a snapshot, any changes made to the directory after the snapshot date are overwritten. This action returns as soon as the restore operation is initiated. You can monitor the progress of the restore operation by calling the DescribeDirectories operation with the directory identifier. When the DirectoryDescription.Stage value changes to Active , the restore operation is complete. See also: AWS API Document...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsDsRestoreFromSnapshotOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Restores a directory using an existing directory snapshot. When you restore a directory from a snapshot, any changes made to the directory after the snapshot date are overwritten. This action returns as soon as the restore operation is initiated. You can monitor the progress of the restore operation by calling the De- scribeDirectories operation with the directory identifier. When the Di- rectoryDescription.Stage value changes to Active , the restore opera- tion is complete. See also: AWS API Do...
+    /// Restores a directory using an existing directory snapshot. When you restore a directory from a snapshot, any changes made to the directory after the snapshot date are overwritten. This action returns as soon as the restore operation is initiated. You can monitor the progress of the restore operation by calling the DescribeDirectories operation with the directory identifier. When the DirectoryDescription.Stage value changes to Active , the restore operation is complete. See also: AWS API Document...
     /// </summary>
-    /// <param name="SnapshotId">The identifier of the snapshot to restore from. Constraints: o pattern: ^s-[0-9a-f]{10}$</param>
+    /// <param name="SnapshotId">The identifier of the snapshot to restore from. Constraints: • pattern: ^s-[0-9a-f]{10}$</param>
     public AwsDsRestoreFromSnapshotOptions(
         string SnapshotId
     )
@@ -56,7 +57,7 @@ public record AwsDsRestoreFromSnapshotOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the snapshot to restore from. Constraints: o pattern: ^s-[0-9a-f]{10}$
+    /// The identifier of the snapshot to restore from. Constraints: • pattern: ^s-[0-9a-f]{10}$
     /// </summary>
     [CliOption("--snapshot-id")]
     public string? SnapshotId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsDsRestoreFromSnapshotOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

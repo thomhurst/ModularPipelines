@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsDeadlineDeleteMonitorOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Removes a Deadline Cloud monitor. After you delete a monitor, you can create a new one and attach farms to the monitor. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MonitorId">The unique identifier of the monitor to delete. This ID is returned by the CreateMonitor operation, and is included in the response to the GetMonitor operation. Constraints: o pattern: monitor-[0-9a-f]{32}</param>
+    /// <param name="MonitorId">The unique identifier of the monitor to delete. This ID is returned by the CreateMonitor operation, and is included in the response to the GetMonitor operation. Constraints: • pattern: monitor-[0-9a-f]{32}</param>
     public AwsDeadlineDeleteMonitorOptions(
         string MonitorId
     )
@@ -56,7 +57,7 @@ public record AwsDeadlineDeleteMonitorOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the monitor to delete. This ID is returned by the CreateMonitor operation, and is included in the response to the GetMonitor operation. Constraints: o pattern: monitor-[0-9a-f]{32}
+    /// The unique identifier of the monitor to delete. This ID is returned by the CreateMonitor operation, and is included in the response to the GetMonitor operation. Constraints: • pattern: monitor-[0-9a-f]{32}
     /// </summary>
     [CliOption("--monitor-id")]
     public string? MonitorId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsDeadlineDeleteMonitorOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

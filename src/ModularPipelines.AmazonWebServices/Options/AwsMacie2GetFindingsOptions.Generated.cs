@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsMacie2GetFindingsOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Retrieves the details of one or more findings. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FindingIds">An array of strings that lists the unique identifiers for the find- ings to retrieve. You can specify as many as 50 unique identifiers in this array. (string) Syntax: "string" "string" ...</param>
+    /// <param name="FindingIds">An array of strings that lists the unique identifiers for the findings to retrieve. You can specify as many as 50 unique identifiers in this array. (string) Syntax: "string" "string" ...</param>
     public AwsMacie2GetFindingsOptions(
         IEnumerable<string> FindingIds
     )
@@ -67,13 +68,13 @@ public record AwsMacie2GetFindingsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// An array of strings that lists the unique identifiers for the find- ings to retrieve. You can specify as many as 50 unique identifiers in this array. (string) Syntax: "string" "string" ...
+    /// An array of strings that lists the unique identifiers for the findings to retrieve. You can specify as many as 50 unique identifiers in this array. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--finding-ids", GroupValues = true)]
     public IEnumerable<string>? FindingIds { get; private init; }
 
     /// <summary>
-    /// The criteria for sorting the results of the request. attributeName -&gt; (string) The name of the property to sort the results by. Valid values are: count, createdAt, policyDetails.action.apiCallDe- tails.firstSeen, policyDetails.action.apiCallDetails.lastSeen, resourcesAffected, severity.score, type, and updatedAt. orderBy -&gt; (string) The sort order to apply to the results, based on the value for the property specified by the attributeName property. Valid val- ues are: ASC, sort the results in ascending order; and, DESC, sort the results in descending order. Possible values: o ASC o DESC Shorthand Syntax: attributeName=string,orderBy=string JSON Syntax: { "attributeName": "string", "orderBy": "ASC"|"DESC" }
+    /// The criteria for sorting the results of the request. attributeName -&gt; (string) The name of the property to sort the results by. Valid values are: count, createdAt, policyDetails.action.apiCallDetails.firstSeen, policyDetails.action.apiCallDetails.lastSeen, resourcesAffected, severity.score, type, and updatedAt. orderBy -&gt; (string) The sort order to apply to the results, based on the value for the property specified by the attributeName property. Valid values are: ASC, sort the results in ascending order; and, DESC, sort the results in descending order. Possible values: • ASC • DESC Shorthand Syntax: attributeName=string,orderBy=string JSON Syntax: { "attributeName": "string", "orderBy": "ASC"|"DESC" }
     /// </summary>
     [CliOption("--sort-criteria")]
     public string? SortCriteria { get; set; }
@@ -99,6 +100,15 @@ public record AwsMacie2GetFindingsOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

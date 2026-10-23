@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -71,7 +72,7 @@ public record AwsDaxIncreaseReplicationFactorOptions : AwsOptions, IValidatableO
     public int? NewReplicationFactor { get; private init; }
 
     /// <summary>
-    /// The Availability Zones (AZs) in which the cluster nodes will be cre- ated. All nodes belonging to the cluster are placed in these Avail- ability Zones. Use this parameter if you want to distribute the nodes across multiple AZs. (string) Syntax: "string" "string" ...
+    /// The Availability Zones (AZs) in which the cluster nodes will be created. All nodes belonging to the cluster are placed in these Availability Zones. Use this parameter if you want to distribute the nodes across multiple AZs. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--availability-zones", GroupValues = true)]
     public IEnumerable<string>? AvailabilityZones { get; set; }
@@ -97,6 +98,15 @@ public record AwsDaxIncreaseReplicationFactorOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

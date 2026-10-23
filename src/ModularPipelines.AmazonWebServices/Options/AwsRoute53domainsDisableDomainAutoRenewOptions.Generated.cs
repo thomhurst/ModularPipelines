@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsRoute53domainsDisableDomainAutoRenewOptions : AwsOptions, IVali
     /// <summary>
     /// This operation disables automatic renewal of domain registration for the specified domain. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">The name of the domain that you want to disable automatic renewal for. Constraints: o max: 255</param>
+    /// <param name="DomainName">The name of the domain that you want to disable automatic renewal for. Constraints: • max: 255</param>
     public AwsRoute53domainsDisableDomainAutoRenewOptions(
         string DomainName
     )
@@ -56,7 +57,7 @@ public record AwsRoute53domainsDisableDomainAutoRenewOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the domain that you want to disable automatic renewal for. Constraints: o max: 255
+    /// The name of the domain that you want to disable automatic renewal for. Constraints: • max: 255
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsRoute53domainsDisableDomainAutoRenewOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

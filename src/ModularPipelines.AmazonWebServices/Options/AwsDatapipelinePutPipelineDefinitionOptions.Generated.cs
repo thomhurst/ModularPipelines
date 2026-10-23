@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Adds tasks, schedules, and preconditions to the specified pipeline. You can use PutPipelineDefinition to populate a new pipeline. PutPipelineDefinition also validates the configuration as it adds it to the pipeline. Changes to the pipeline are saved unless one of the following three validation errors exists in the pipeline. o An object is missing a name or identifier field. o A string or reference field is empty. o The number of objects in the pipeline exceeds the maximum allowed ob- jects. o Th...
+/// Adds tasks, schedules, and preconditions to the specified pipeline. You can use PutPipelineDefinition to populate a new pipeline. PutPipelineDefinition also validates the configuration as it adds it to the pipeline. Changes to the pipeline are saved unless one of the following three validation errors exists in the pipeline. • An object is missing a name or identifier field. • A string or reference field is empty. • The number of objects in the pipeline exceeds the maximum allowed objects. • The ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsDatapipelinePutPipelineDefinitionOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Adds tasks, schedules, and preconditions to the specified pipeline. You can use PutPipelineDefinition to populate a new pipeline. PutPipelineDefinition also validates the configuration as it adds it to the pipeline. Changes to the pipeline are saved unless one of the following three validation errors exists in the pipeline. o An object is missing a name or identifier field. o A string or reference field is empty. o The number of objects in the pipeline exceeds the maximum allowed ob- jects. o Th...
+    /// Adds tasks, schedules, and preconditions to the specified pipeline. You can use PutPipelineDefinition to populate a new pipeline. PutPipelineDefinition also validates the configuration as it adds it to the pipeline. Changes to the pipeline are saved unless one of the following three validation errors exists in the pipeline. • An object is missing a name or identifier field. • A string or reference field is empty. • The number of objects in the pipeline exceeds the maximum allowed objects. • The ...
     /// </summary>
-    /// <param name="PipelineId">The ID of the pipeline. Constraints: o min: 1 o max: 1024 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
+    /// <param name="PipelineId">The ID of the pipeline. Constraints: • min: 1 • max: 1024 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
     /// <param name="PipelineDefinition"></param>
     public AwsDatapipelinePutPipelineDefinitionOptions(
         string PipelineId,
@@ -60,7 +61,7 @@ public record AwsDatapipelinePutPipelineDefinitionOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the pipeline. Constraints: o min: 1 o max: 1024 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// The ID of the pipeline. Constraints: • min: 1 • max: 1024 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
     [CliOption("--pipeline-id")]
     public string? PipelineId { get; private init; }
@@ -98,6 +99,15 @@ public record AwsDatapipelinePutPipelineDefinitionOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

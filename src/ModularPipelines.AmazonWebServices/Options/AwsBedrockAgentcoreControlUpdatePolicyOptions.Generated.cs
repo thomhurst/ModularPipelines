@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates an existing policy within the AgentCore Policy system. This op- eration allows modification of the policy description and definition while maintaining the policy's identity. The updated policy is vali- dated against the Cedar schema before being applied. This is an asyn- chronous operation. Use the GetPolicy operation to poll the status field to track completion. If the updated policy is a temporal policy, the policy engine invali- dates all active temporal sessions. If the update adds o...
+/// Updates an existing policy within the AgentCore Policy system. This operation allows modification of the policy description and definition while maintaining the policy's identity. The updated policy is validated against the Cedar schema before being applied. This is an asynchronous operation. Use the GetPolicy operation to poll the status field to track completion. If the updated policy is a temporal policy, the policy engine invalidates all active temporal sessions. If the update adds or remove...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsBedrockAgentcoreControlUpdatePolicyOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates an existing policy within the AgentCore Policy system. This op- eration allows modification of the policy description and definition while maintaining the policy's identity. The updated policy is vali- dated against the Cedar schema before being applied. This is an asyn- chronous operation. Use the GetPolicy operation to poll the status field to track completion. If the updated policy is a temporal policy, the policy engine invali- dates all active temporal sessions. If the update adds o...
+    /// Updates an existing policy within the AgentCore Policy system. This operation allows modification of the policy description and definition while maintaining the policy's identity. The updated policy is validated against the Cedar schema before being applied. This is an asynchronous operation. Use the GetPolicy operation to poll the status field to track completion. If the updated policy is a temporal policy, the policy engine invalidates all active temporal sessions. If the update adds or remove...
     /// </summary>
-    /// <param name="PolicyEngineId">The identifier of the policy engine that manages the policy to be updated. This ensures the policy is updated within the correct pol- icy engine context. Constraints: o min: 12 o max: 59 o pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10}</param>
-    /// <param name="PolicyId">The unique identifier of the policy to be updated. This must be a valid policy ID that exists within the specified policy engine. Constraints: o min: 12 o max: 59 o pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10}</param>
+    /// <param name="PolicyEngineId">The identifier of the policy engine that manages the policy to be updated. This ensures the policy is updated within the correct policy engine context. Constraints: • min: 12 • max: 59 • pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10}</param>
+    /// <param name="PolicyId">The unique identifier of the policy to be updated. This must be a valid policy ID that exists within the specified policy engine. Constraints: • min: 12 • max: 59 • pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10}</param>
     public AwsBedrockAgentcoreControlUpdatePolicyOptions(
         string PolicyEngineId,
         string PolicyId
@@ -61,37 +62,37 @@ public record AwsBedrockAgentcoreControlUpdatePolicyOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the policy engine that manages the policy to be updated. This ensures the policy is updated within the correct pol- icy engine context. Constraints: o min: 12 o max: 59 o pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10}
+    /// The identifier of the policy engine that manages the policy to be updated. This ensures the policy is updated within the correct policy engine context. Constraints: • min: 12 • max: 59 • pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10}
     /// </summary>
     [CliOption("--policy-engine-id")]
     public string? PolicyEngineId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the policy to be updated. This must be a valid policy ID that exists within the specified policy engine. Constraints: o min: 12 o max: 59 o pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10}
+    /// The unique identifier of the policy to be updated. This must be a valid policy ID that exists within the specified policy engine. Constraints: • min: 12 • max: 59 • pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10}
     /// </summary>
     [CliOption("--policy-id")]
     public string? PolicyId { get; private init; }
 
     /// <summary>
-    /// The new human-readable description for the policy. This optional field allows updating the policy's documentation while keeping the same policy logic. optionalValue -&gt; (string) Represents an optional value that is used to update the hu- man-readable description of the resource. If not specified, it will clear the current description of the resource. Constraints: o min: 1 o max: 4096 Shorthand Syntax: optionalValue=string JSON Syntax: { "optionalValue": "string" }
+    /// The new human-readable description for the policy. This optional field allows updating the policy's documentation while keeping the same policy logic. optionalValue -&gt; (string) Represents an optional value that is used to update the human-readable description of the resource. If not specified, it will clear the current description of the resource. Constraints: • min: 1 • max: 4096 Shorthand Syntax: optionalValue=string JSON Syntax: { "optionalValue": "string" }
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The new Cedar or Dogwood policy statement that defines the access control rules. This replaces the existing policy definition with new logic while maintaining the policy's identity. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: cedar, policyGeneration, policy. cedar -&gt; (structure) The Cedar policy definition within the policy definition struc- ture. This contains the Cedar policy statement that defines the authorization logic using Cedar's human-readable, analyzable policy language. Cedar policies specify principals (who can ac- cess), actions (what operations are allowed), resources (what can be accessed), and optional conditions for fine-grained con- trol. Cedar provides a formal policy language designed for au- thorization with deterministic evaluation, making policies testable, reviewable, and auditable. All Cedar policies follow a default-deny model where actions are denied unless explicitly permitted, and forbid policies always override permit policies. statement -&gt; (string) [required] The Cedar policy statement that defines the authorization logic. This statement follows Cedar syntax and specifies principals, actions, resources, and conditions that determine when access should be allowed or denied. Constraints: o min: 35 o max: 10000 policyGeneration -&gt; (structure) The generated policy asset information within the policy defini- tion structure. This contains information identifying a gener- ated policy asset from the AI-powered policy generation process within the AgentCore Policy system. Each asset contains a Dog- wood policy statement generated from natural language input, along with associated metadata and analysis findings to help users evaluate and select the most appropriate policy option. policyGenerationId -&gt; (string) [required] The unique identifier for this policy generation request. Constraints: o min: 12 o max: 59 o pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10} policyGenerationAssetId -&gt; (string) [required] The unique identifier for this generated policy asset within the policy generation request. Constraints: o min: 12 o max: 59 o pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10} policy -&gt; (structure) The Dogwood policy statement that defines the access control rules. This policy definition can include Dogwood policies and supports temporal conditions and information providers such as guardrails. statement -&gt; (string) [required] The body of the AgentCore Cedar or Dogwood policy statement. Contains the policy logic, which can be a Cedar policy, a temporal policy, or a guardrails definition. Constraints: o min: 35 o max: 10000 Shorthand Syntax: cedar={statement=string},policyGeneration={policyGenerationId=string,policyGenerationAssetId=string},policy={statement=string} JSON Syntax: { "cedar": { "statement": "string" }, "policyGeneration": { "policyGenerationId": "string", "policyGenerationAssetId": "string" }, "policy": { "statement": "string" } }
+    /// The new Cedar or Dogwood policy statement that defines the access control rules. This replaces the existing policy definition with new logic while maintaining the policy's identity. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: cedar, policyGeneration, policy. cedar -&gt; (structure) The Cedar policy definition within the policy definition structure. This contains the Cedar policy statement that defines the authorization logic using Cedar's human-readable, analyzable policy language. Cedar policies specify principals (who can access), actions (what operations are allowed), resources (what can be accessed), and optional conditions for fine-grained control. Cedar provides a formal policy language designed for authorization with deterministic evaluation, making policies testable, reviewable, and auditable. All Cedar policies follow a default-deny model where actions are denied unless explicitly permitted, and forbid policies always override permit policies. statement -&gt; (string) [required] The Cedar policy statement that defines the authorization logic. This statement follows Cedar syntax and specifies principals, actions, resources, and conditions that determine when access should be allowed or denied. Constraints: • min: 35 • max: 10000 policyGeneration -&gt; (structure) The generated policy asset information within the policy definition structure. This contains information identifying a generated policy asset from the AI-powered policy generation process within the AgentCore Policy system. Each asset contains a Dogwood policy statement generated from natural language input, along with associated metadata and analysis findings to help users evaluate and select the most appropriate policy option. policyGenerationId -&gt; (string) [required] The unique identifier for this policy generation request. Constraints: • min: 12 • max: 59 • pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10} policyGenerationAssetId -&gt; (string) [required] The unique identifier for this generated policy asset within the policy generation request. Constraints: • min: 12 • max: 59 • pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10} policy -&gt; (structure) The Dogwood policy statement that defines the access control rules. This policy definition can include Dogwood policies and supports temporal conditions and information providers such as guardrails. statement -&gt; (string) [required] The body of the AgentCore Cedar or Dogwood policy statement. Contains the policy logic, which can be a Cedar policy, a temporal policy, or a guardrails definition. Constraints: • min: 35 • max: 10000 Shorthand Syntax: cedar={statement=string},policyGeneration={policyGenerationId=string,policyGenerationAssetId=string},policy={statement=string} JSON Syntax: { "cedar": { "statement": "string" }, "policyGeneration": { "policyGenerationId": "string", "policyGenerationAssetId": "string" }, "policy": { "statement": "string" } }
     /// </summary>
     [CliOption("--definition")]
     public string? Definition { get; set; }
 
     /// <summary>
-    /// The validation mode for the policy update. Determines how Cedar ana- lyzer validation results are handled during policy updates. FAIL_ON_ANY_FINDINGS runs the Cedar analyzer and fails the update if validation issues are detected, ensuring the policy conforms to the Cedar schema and tool context. IGNORE_ALL_FINDINGS runs the Cedar analyzer but allows updates despite validation warnings. Use FAIL_ON_ANY_FINDINGS to ensure policy correctness during updates, especially when modifying policy logic or conditions. Possible values: o FAIL_ON_ANY_FINDINGS o IGNORE_ALL_FINDINGS
+    /// The validation mode for the policy update. Determines how Cedar analyzer validation results are handled during policy updates. FAIL_ON_ANY_FINDINGS runs the Cedar analyzer and fails the update if validation issues are detected, ensuring the policy conforms to the Cedar schema and tool context. IGNORE_ALL_FINDINGS runs the Cedar analyzer but allows updates despite validation warnings. Use FAIL_ON_ANY_FINDINGS to ensure policy correctness during updates, especially when modifying policy logic or conditions. Possible values: • FAIL_ON_ANY_FINDINGS • IGNORE_ALL_FINDINGS
     /// </summary>
     [CliOption("--validation-mode")]
     public AwsBedrockAgentcoreControlUpdatePolicyValidationMode? ValidationMode { get; set; }
 
     /// <summary>
-    /// The enforcement mode for the policy. Run this policy in LOG_ONLY mode to collect data on how it affects your application. Once you are satisfied with the data gathered, switch the policy to ACTIVE . If you omit this field, the policy's existing enforcement mode is unchanged. Possible values: o ACTIVE o LOG_ONLY
+    /// The enforcement mode for the policy. Run this policy in LOG_ONLY mode to collect data on how it affects your application. Once you are satisfied with the data gathered, switch the policy to ACTIVE . If you omit this field, the policy's existing enforcement mode is unchanged. Possible values: • ACTIVE • LOG_ONLY
     /// </summary>
     [CliOption("--enforcement-mode")]
     public AwsBedrockAgentcoreControlUpdatePolicyEnforcementMode? EnforcementMode { get; set; }
@@ -117,6 +118,15 @@ public record AwsBedrockAgentcoreControlUpdatePolicyOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

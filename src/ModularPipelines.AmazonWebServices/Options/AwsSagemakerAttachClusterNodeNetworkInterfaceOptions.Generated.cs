@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Attaches an elastic network interface (ENI) to a node in a HyperPod cluster. To use this operation, you must have the sagemaker:AttachClusterN- odeNetworkInterface permission. See also: AWS API Documentation
+/// Attaches an elastic network interface (ENI) to a node in a HyperPod cluster. To use this operation, you must have the sagemaker:AttachClusterNodeNetworkInterface permission. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsSagemakerAttachClusterNodeNetworkInterfaceOptions : AwsOptions,
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Attaches an elastic network interface (ENI) to a node in a HyperPod cluster. To use this operation, you must have the sagemaker:AttachClusterN- odeNetworkInterface permission. See also: AWS API Documentation
+    /// Attaches an elastic network interface (ENI) to a node in a HyperPod cluster. To use this operation, you must have the sagemaker:AttachClusterNodeNetworkInterface permission. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClusterName">The name or Amazon Resource Name (ARN) of the SageMaker HyperPod cluster that contains the target node. Constraints: o min: 0 o max: 256 o pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:clus- ter/[a-z0-9]{12})|([a-zA-Z0-9](-*[a-zA-Z0-9]){0,62})</param>
-    /// <param name="NodeId">The unique identifier of the cluster node to which you want to at- tach the network interface. The node must belong to your specified HyperPod cluster and cannot be part of a Restricted Instance Group (RIG). Constraints: o min: 1 o max: 256 o pattern: i-[a-f0-9]{8}(?:[a-f0-9]{9})?</param>
-    /// <param name="NetworkInterfaceId">The unique identifier of the elastic network interface (ENI) to at- tach. Constraints: o min: 1 o max: 21 o pattern: eni-[0-9a-f]{8}(?:[0-9a-f]{9})?</param>
+    /// <param name="ClusterName">The name or Amazon Resource Name (ARN) of the SageMaker HyperPod cluster that contains the target node. Constraints: • min: 0 • max: 256 • pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:cluster/[a-z0-9]{12})|([a-zA-Z0-9](-*[a-zA-Z0-9]){0,62})</param>
+    /// <param name="NodeId">The unique identifier of the cluster node to which you want to attach the network interface. The node must belong to your specified HyperPod cluster and cannot be part of a Restricted Instance Group (RIG). Constraints: • min: 1 • max: 256 • pattern: i-[a-f0-9]{8}(?:[a-f0-9]{9})?</param>
+    /// <param name="NetworkInterfaceId">The unique identifier of the elastic network interface (ENI) to attach. Constraints: • min: 1 • max: 21 • pattern: eni-[0-9a-f]{8}(?:[0-9a-f]{9})?</param>
     public AwsSagemakerAttachClusterNodeNetworkInterfaceOptions(
         string ClusterName,
         string NodeId,
@@ -64,19 +65,19 @@ public record AwsSagemakerAttachClusterNodeNetworkInterfaceOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name or Amazon Resource Name (ARN) of the SageMaker HyperPod cluster that contains the target node. Constraints: o min: 0 o max: 256 o pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:clus- ter/[a-z0-9]{12})|([a-zA-Z0-9](-*[a-zA-Z0-9]){0,62})
+    /// The name or Amazon Resource Name (ARN) of the SageMaker HyperPod cluster that contains the target node. Constraints: • min: 0 • max: 256 • pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:cluster/[a-z0-9]{12})|([a-zA-Z0-9](-*[a-zA-Z0-9]){0,62})
     /// </summary>
     [CliOption("--cluster-name")]
     public string? ClusterName { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the cluster node to which you want to at- tach the network interface. The node must belong to your specified HyperPod cluster and cannot be part of a Restricted Instance Group (RIG). Constraints: o min: 1 o max: 256 o pattern: i-[a-f0-9]{8}(?:[a-f0-9]{9})?
+    /// The unique identifier of the cluster node to which you want to attach the network interface. The node must belong to your specified HyperPod cluster and cannot be part of a Restricted Instance Group (RIG). Constraints: • min: 1 • max: 256 • pattern: i-[a-f0-9]{8}(?:[a-f0-9]{9})?
     /// </summary>
     [CliOption("--node-id")]
     public string? NodeId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the elastic network interface (ENI) to at- tach. Constraints: o min: 1 o max: 21 o pattern: eni-[0-9a-f]{8}(?:[0-9a-f]{9})?
+    /// The unique identifier of the elastic network interface (ENI) to attach. Constraints: • min: 1 • max: 21 • pattern: eni-[0-9a-f]{8}(?:[0-9a-f]{9})?
     /// </summary>
     [CliOption("--network-interface-id")]
     public string? NetworkInterfaceId { get; private init; }
@@ -102,6 +103,15 @@ public record AwsSagemakerAttachClusterNodeNetworkInterfaceOptions : AwsOptions,
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

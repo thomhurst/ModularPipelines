@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// An asynchronous API that deletes a streams existing edge configuration, as well as the corresponding media from the Edge Agent. When you invoke this API, the sync status is set to DELETING . A dele- tion process starts, in which active edge jobs are stopped and all me- dia is deleted from the edge device. The time to delete varies, depend- ing on the total amount of stored media. If the deletion process fails, the sync status changes to DELETE_FAILED . You will need to re-try the deletion. When ...
+/// An asynchronous API that deletes a streams existing edge configuration, as well as the corresponding media from the Edge Agent. When you invoke this API, the sync status is set to DELETING . A deletion process starts, in which active edge jobs are stopped and all media is deleted from the edge device. The time to delete varies, depending on the total amount of stored media. If the deletion process fails, the sync status changes to DELETE_FAILED . You will need to re-try the deletion. When the de...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,13 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsKinesisvideoDeleteEdgeConfigurationOptions : AwsOptions
 {
     /// <summary>
-    /// The name of the stream from which to delete the edge configuration. Specify either the StreamName or the StreamARN . Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_.-]+
+    /// The name of the stream from which to delete the edge configuration. Specify either the StreamName or the StreamARN . Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--stream-name")]
     public string? StreamName { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the stream. Specify either the StreamName or the StreamARN . Constraints: o min: 1 o max: 1024 o pattern: arn:[a-z\d-]+:kine- sisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+
+    /// The Amazon Resource Name (ARN) of the stream. Specify either the StreamName or the StreamARN . Constraints: • min: 1 • max: 1024 • pattern: arn:[a-z\d-]+:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+
     /// </summary>
     [CliOption("--stream-arn")]
     public string? StreamArn { get; set; }
@@ -38,5 +38,14 @@ public record AwsKinesisvideoDeleteEdgeConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

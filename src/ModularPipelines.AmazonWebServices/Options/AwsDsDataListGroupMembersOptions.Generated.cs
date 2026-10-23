@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns member information for the specified group. This operation supports pagination with the use of the NextToken re- quest and response parameters. If more results are available, the List- GroupMembers.NextToken member contains a token that you pass in the next call to ListGroupMembers . This retrieves the next set of items. You can also specify a maximum number of return results with the MaxRe- sults parameter. See also: AWS API Documentation list-group-members is a paginated operation. Mul...
+/// Returns member information for the specified group. This operation supports pagination with the use of the NextToken request and response parameters. If more results are available, the ListGroupMembers.NextToken member contains a token that you pass in the next call to ListGroupMembers . This retrieves the next set of items. You can also specify a maximum number of return results with the MaxResults parameter. See also: AWS API Documentation list-group-members is a paginated operation. Multiple ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsDsDataListGroupMembersOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns member information for the specified group. This operation supports pagination with the use of the NextToken re- quest and response parameters. If more results are available, the List- GroupMembers.NextToken member contains a token that you pass in the next call to ListGroupMembers . This retrieves the next set of items. You can also specify a maximum number of return results with the MaxRe- sults parameter. See also: AWS API Documentation list-group-members is a paginated operation. Mul...
+    /// Returns member information for the specified group. This operation supports pagination with the use of the NextToken request and response parameters. If more results are available, the ListGroupMembers.NextToken member contains a token that you pass in the next call to ListGroupMembers . This retrieves the next set of items. You can also specify a maximum number of return results with the MaxResults parameter. See also: AWS API Documentation list-group-members is a paginated operation. Multiple ...
     /// </summary>
-    /// <param name="DirectoryId">The identifier (ID) of the directory that's associated with the group. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
-    /// <param name="SamAccountName">The name of the group. Constraints: o min: 1 o max: 64 o pattern: ^[^:;|=+"*?&lt;&gt;/\\,\[\]@]+$</param>
+    /// <param name="DirectoryId">The identifier (ID) of the directory that's associated with the group. Constraints: • pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="SamAccountName">The name of the group. Constraints: • min: 1 • max: 64 • pattern: ^[^:;|=+"*?&lt;&gt;/\\,\[\]@]+$</param>
     public AwsDsDataListGroupMembersOptions(
         string DirectoryId,
         string SamAccountName
@@ -61,34 +62,31 @@ public record AwsDsDataListGroupMembersOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier (ID) of the directory that's associated with the group. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// The identifier (ID) of the directory that's associated with the group. Constraints: • pattern: ^d-[0-9a-f]{10}$
     /// </summary>
     [CliOption("--directory-id")]
     public string? DirectoryId { get; private init; }
 
     /// <summary>
-    /// The name of the group. Constraints: o min: 1 o max: 64 o pattern: ^[^:;|=+"*?&lt;&gt;/\\,\[\]@]+$
+    /// The name of the group. Constraints: • min: 1 • max: 64 • pattern: ^[^:;|=+"*?&lt;&gt;/\\,\[\]@]+$
     /// </summary>
     [CliOption("--sam-account-name")]
     public string? SamAccountName { get; private init; }
 
     /// <summary>
-    /// The domain name that's associated with the group member. This para- meter defaults to the Managed Microsoft AD domain. NOTE: This parameter is optional and case insensitive. Constraints: o min: 1 o max: 255 o pattern: ^([a-zA-Z0-9]+[\\.-])+([a-zA-Z0-9])+[.]?$
+    /// The domain name that's associated with the group member. This parameter defaults to the Managed Microsoft AD domain. NOTE: This parameter is optional and case insensitive. Constraints: • min: 1 • max: 255 • pattern: ^([a-zA-Z0-9]+[\\.-])+([a-zA-Z0-9])+[.]?$
     /// </summary>
     [CliOption("--member-realm")]
     public string? MemberRealm { get; set; }
 
     /// <summary>
-    /// The domain name that's associated with the group. NOTE: This parameter is optional, so you can return members from a group outside of your Managed Microsoft AD domain. When no value is defined, only members of your Managed Microsoft AD groups are returned. This value is case insensitive. Constraints: o min: 1 o max: 255 o pattern: ^([a-zA-Z0-9]+[\\.-])+([a-zA-Z0-9])+[.]?$
+    /// The domain name that's associated with the group. NOTE: This parameter is optional, so you can return members from a group outside of your Managed Microsoft AD domain. When no value is defined, only members of your Managed Microsoft AD groups are returned. This value is case insensitive. Constraints: • min: 1 • max: 255 • pattern: ^([a-zA-Z0-9]+[\\.-])+([a-zA-Z0-9])+[.]?$
     /// </summary>
     [CliOption("--realm")]
     public string? Realm { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -98,16 +96,19 @@ public record AwsDsDataListGroupMembersOptions : AwsOptions, IValidatableObject
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 250
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 250
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -124,6 +125,15 @@ public record AwsDsDataListGroupMembersOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

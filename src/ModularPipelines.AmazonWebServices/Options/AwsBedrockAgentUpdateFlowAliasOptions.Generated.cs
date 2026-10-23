@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,10 +28,10 @@ public record AwsBedrockAgentUpdateFlowAliasOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Modifies the alias of a flow. Include both fields that you want to keep and ones that you want to change. For more information, see Deploy a flow in Amazon Bedrock in the Amazon Bedrock User Guide. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the alias. Constraints: o pattern: ([0-9a-zA-Z][_-]?){1,100}</param>
-    /// <param name="RoutingConfiguration">Contains information about the version to which to map the alias. Constraints: o min: 1 o max: 1 (structure) Contains information about a version that the alias maps to. flowVersion -&gt; (string) The version that the alias maps to. Constraints: o min: 1 o max: 5 o pattern: (DRAFT|[0-9]{0,4}[1-9][0-9]{0,4}) Shorthand Syntax: flowVersion=string ... JSON Syntax: [ { "flowVersion": "string" } ... ]</param>
-    /// <param name="FlowIdentifier">The unique identifier of the flow. Constraints: o pattern: (arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10})|([0-9a-zA-Z]{10})</param>
-    /// <param name="AliasIdentifier">The unique identifier of the alias. Constraints: o pattern: (arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10}/alias/[0-9a-zA-Z]{10})|(TSTAL- IASID|[0-9a-zA-Z]{10})</param>
+    /// <param name="Name">The name of the alias. Constraints: • pattern: ([0-9a-zA-Z][_-]?){1,100}</param>
+    /// <param name="RoutingConfiguration">Contains information about the version to which to map the alias. Constraints: • min: 1 • max: 1 (structure) Contains information about a version that the alias maps to. flowVersion -&gt; (string) The version that the alias maps to. Constraints: • min: 1 • max: 5 • pattern: (DRAFT|[0-9]{0,4}[1-9][0-9]{0,4}) Shorthand Syntax: flowVersion=string ... JSON Syntax: [ { "flowVersion": "string" } ... ]</param>
+    /// <param name="FlowIdentifier">The unique identifier of the flow. Constraints: • pattern: (arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10})|([0-9a-zA-Z]{10})</param>
+    /// <param name="AliasIdentifier">The unique identifier of the alias. Constraints: • pattern: (arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10}/alias/[0-9a-zA-Z]{10})|(TSTALIASID|[0-9a-zA-Z]{10})</param>
     public AwsBedrockAgentUpdateFlowAliasOptions(
         string Name,
         IEnumerable<string> RoutingConfiguration,
@@ -79,37 +80,37 @@ public record AwsBedrockAgentUpdateFlowAliasOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the alias. Constraints: o pattern: ([0-9a-zA-Z][_-]?){1,100}
+    /// The name of the alias. Constraints: • pattern: ([0-9a-zA-Z][_-]?){1,100}
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// Contains information about the version to which to map the alias. Constraints: o min: 1 o max: 1 (structure) Contains information about a version that the alias maps to. flowVersion -&gt; (string) The version that the alias maps to. Constraints: o min: 1 o max: 5 o pattern: (DRAFT|[0-9]{0,4}[1-9][0-9]{0,4}) Shorthand Syntax: flowVersion=string ... JSON Syntax: [ { "flowVersion": "string" } ... ]
+    /// Contains information about the version to which to map the alias. Constraints: • min: 1 • max: 1 (structure) Contains information about a version that the alias maps to. flowVersion -&gt; (string) The version that the alias maps to. Constraints: • min: 1 • max: 5 • pattern: (DRAFT|[0-9]{0,4}[1-9][0-9]{0,4}) Shorthand Syntax: flowVersion=string ... JSON Syntax: [ { "flowVersion": "string" } ... ]
     /// </summary>
     [CliOption("--routing-configuration", GroupValues = true)]
     public IEnumerable<string>? RoutingConfiguration { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the flow. Constraints: o pattern: (arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10})|([0-9a-zA-Z]{10})
+    /// The unique identifier of the flow. Constraints: • pattern: (arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10})|([0-9a-zA-Z]{10})
     /// </summary>
     [CliOption("--flow-identifier")]
     public string? FlowIdentifier { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the alias. Constraints: o pattern: (arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10}/alias/[0-9a-zA-Z]{10})|(TSTAL- IASID|[0-9a-zA-Z]{10})
+    /// The unique identifier of the alias. Constraints: • pattern: (arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10}/alias/[0-9a-zA-Z]{10})|(TSTALIASID|[0-9a-zA-Z]{10})
     /// </summary>
     [CliOption("--alias-identifier")]
     public string? AliasIdentifier { get; private init; }
 
     /// <summary>
-    /// A description for the alias. Constraints: o min: 1 o max: 200
+    /// A description for the alias. Constraints: • min: 1 • max: 200
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The configuration that specifies how nodes in the flow are executed in parallel. type -&gt; (string) [required] The type of concurrency to use for parallel node execution. Specify one of the following options: o Automatic - Amazon Bedrock determines which nodes can be exe- cuted in parallel based on the flow definition and its depen- dencies. o Manual - You specify which nodes can be executed in parallel. Possible values: o Automatic o Manual maxConcurrency -&gt; (integer) The maximum number of nodes that can be executed concurrently in the flow. Constraints: o min: 1 o max: 100 Shorthand Syntax: type=string,maxConcurrency=integer JSON Syntax: { "type": "Automatic"|"Manual", "maxConcurrency": integer }
+    /// The configuration that specifies how nodes in the flow are executed in parallel. type -&gt; (string) [required] The type of concurrency to use for parallel node execution. Specify one of the following options: • Automatic - Amazon Bedrock determines which nodes can be executed in parallel based on the flow definition and its dependencies. • Manual - You specify which nodes can be executed in parallel. Possible values: • Automatic • Manual maxConcurrency -&gt; (integer) The maximum number of nodes that can be executed concurrently in the flow. Constraints: • min: 1 • max: 100 Shorthand Syntax: type=string,maxConcurrency=integer JSON Syntax: { "type": "Automatic"|"Manual", "maxConcurrency": integer }
     /// </summary>
     [CliOption("--concurrency-configuration")]
     public string? ConcurrencyConfiguration { get; set; }
@@ -135,6 +136,15 @@ public record AwsBedrockAgentUpdateFlowAliasOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

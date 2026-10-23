@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an API destination, which is an HTTP invocation endpoint con- figured as a target for events. API destinations do not support private destinations, such as interface VPC endpoints. For more information, see API destinations in the EventBridge User Guide . See also: AWS API Documentation
+/// Creates an API destination, which is an HTTP invocation endpoint configured as a target for events. API destinations do not support private destinations, such as interface VPC endpoints. For more information, see API destinations in the EventBridge User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,12 +27,12 @@ public record AwsEventsCreateApiDestinationOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an API destination, which is an HTTP invocation endpoint con- figured as a target for events. API destinations do not support private destinations, such as interface VPC endpoints. For more information, see API destinations in the EventBridge User Guide . See also: AWS API Documentation
+    /// Creates an API destination, which is an HTTP invocation endpoint configured as a target for events. API destinations do not support private destinations, such as interface VPC endpoints. For more information, see API destinations in the EventBridge User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name for the API destination to create. Constraints: o min: 1 o max: 64 o pattern: [\.\-_A-Za-z0-9]+</param>
-    /// <param name="ConnectionArn">The ARN of the connection to use for the API destination. The desti- nation endpoint must support the authorization type specified for the connection. Constraints: o min: 1 o max: 1600 o pattern: ^arn:aws([a-z]|\-)*:events:([a-z]|\d|\-)*:([0-9]{12})?:connec- tion\/[\.\-_A-Za-z0-9]+\/[\-A-Za-z0-9]+$</param>
-    /// <param name="InvocationEndpoint">The URL to the HTTP invocation endpoint for the API destination. Constraints: o min: 1 o max: 2048 o pattern: ^((%[0-9A-Fa-f]{2}|[-()_.!~*';/?:@\x26=+$,A-Za-z0-9])+)([).!';/?:,])?$</param>
-    /// <param name="HttpMethod">The method to use for the request to the HTTP invocation endpoint. Possible values: o POST o GET o HEAD o OPTIONS o PUT o PATCH o DELETE</param>
+    /// <param name="Name">The name for the API destination to create. Constraints: • min: 1 • max: 64 • pattern: [\.\-_A-Za-z0-9]+</param>
+    /// <param name="ConnectionArn">The ARN of the connection to use for the API destination. The destination endpoint must support the authorization type specified for the connection. Constraints: • min: 1 • max: 1600 • pattern: ^arn:aws([a-z]|\-)*:events:([a-z]|\d|\-)*:([0-9]{12})?:connection\/[\.\-_A-Za-z0-9]+\/[\-A-Za-z0-9]+$</param>
+    /// <param name="InvocationEndpoint">The URL to the HTTP invocation endpoint for the API destination. Constraints: • min: 1 • max: 2048 • pattern: ^((%[0-9A-Fa-f]{2}|[-()_.!~*';/?:@\x26=+$,A-Za-z0-9])+)([).!';/?:,])?$</param>
+    /// <param name="HttpMethod">The method to use for the request to the HTTP invocation endpoint. Possible values: • POST • GET • HEAD • OPTIONS • PUT • PATCH • DELETE</param>
     public AwsEventsCreateApiDestinationOptions(
         string Name,
         string ConnectionArn,
@@ -68,37 +69,37 @@ public record AwsEventsCreateApiDestinationOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name for the API destination to create. Constraints: o min: 1 o max: 64 o pattern: [\.\-_A-Za-z0-9]+
+    /// The name for the API destination to create. Constraints: • min: 1 • max: 64 • pattern: [\.\-_A-Za-z0-9]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The ARN of the connection to use for the API destination. The desti- nation endpoint must support the authorization type specified for the connection. Constraints: o min: 1 o max: 1600 o pattern: ^arn:aws([a-z]|\-)*:events:([a-z]|\d|\-)*:([0-9]{12})?:connec- tion\/[\.\-_A-Za-z0-9]+\/[\-A-Za-z0-9]+$
+    /// The ARN of the connection to use for the API destination. The destination endpoint must support the authorization type specified for the connection. Constraints: • min: 1 • max: 1600 • pattern: ^arn:aws([a-z]|\-)*:events:([a-z]|\d|\-)*:([0-9]{12})?:connection\/[\.\-_A-Za-z0-9]+\/[\-A-Za-z0-9]+$
     /// </summary>
     [CliOption("--connection-arn")]
     public string? ConnectionArn { get; private init; }
 
     /// <summary>
-    /// The URL to the HTTP invocation endpoint for the API destination. Constraints: o min: 1 o max: 2048 o pattern: ^((%[0-9A-Fa-f]{2}|[-()_.!~*';/?:@\x26=+$,A-Za-z0-9])+)([).!';/?:,])?$
+    /// The URL to the HTTP invocation endpoint for the API destination. Constraints: • min: 1 • max: 2048 • pattern: ^((%[0-9A-Fa-f]{2}|[-()_.!~*';/?:@\x26=+$,A-Za-z0-9])+)([).!';/?:,])?$
     /// </summary>
     [CliOption("--invocation-endpoint")]
     public string? InvocationEndpoint { get; private init; }
 
     /// <summary>
-    /// The method to use for the request to the HTTP invocation endpoint. Possible values: o POST o GET o HEAD o OPTIONS o PUT o PATCH o DELETE
+    /// The method to use for the request to the HTTP invocation endpoint. Possible values: • POST • GET • HEAD • OPTIONS • PUT • PATCH • DELETE
     /// </summary>
     [CliOption("--http-method")]
     public AwsEventsCreateApiDestinationHttpMethod? HttpMethod { get; private init; }
 
     /// <summary>
-    /// A description for the API destination to create. Constraints: o max: 512 o pattern: .*
+    /// A description for the API destination to create. Constraints: • max: 512 • pattern: .*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The maximum number of requests per second to send to the HTTP invo- cation endpoint. Constraints: o min: 1
+    /// The maximum number of requests per second to send to the HTTP invocation endpoint. Constraints: • min: 1
     /// </summary>
     [CliOption("--invocation-rate-limit-per-second")]
     public int? InvocationRateLimitPerSecond { get; set; }
@@ -124,6 +125,15 @@ public record AwsEventsCreateApiDestinationOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

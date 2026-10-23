@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsCloudwatchDisassociateDataSetKmsKeyOptions : AwsOptions, IValid
     /// <summary>
     /// Removes the customer managed Amazon Web Services Key Management Service (Amazon Web Services KMS) key association from the specified dataset. After this operation completes, data that you publish to the dataset is encrypted at rest using an Amazon Web Services owned key managed by Amazon CloudWatch. Only the default dataset is supported. To call this operation, the dataset must currently have a customer managed KMS key associated with it. If the dataset has no associated KMS key, the operation f...
     /// </summary>
-    /// <param name="DataSetIdentifier">Specifies the identifier of the dataset from which to remove the KMS key association. For the default dataset, you can specify either de- fault or the full dataset Amazon Resource Name (ARN) in the format arn:aws:cloudwatch:*Region* :*account-id* :dataset/default . Constraints: o min: 1 o max: 2048 o pattern: (default|arn:[a-zA-Z0-9-]+:cloud- watch:[a-zA-Z0-9-]*:\d{12}:dataset/default)</param>
+    /// <param name="DataSetIdentifier">Specifies the identifier of the dataset from which to remove the KMS key association. For the default dataset, you can specify either default or the full dataset Amazon Resource Name (ARN) in the format arn:aws:cloudwatch:*Region* :*account-id* :dataset/default . Constraints: • min: 1 • max: 2048 • pattern: (default|arn:[a-zA-Z0-9-]+:cloudwatch:[a-zA-Z0-9-]*:\d{12}:dataset/default)</param>
     public AwsCloudwatchDisassociateDataSetKmsKeyOptions(
         string DataSetIdentifier
     )
@@ -56,7 +57,7 @@ public record AwsCloudwatchDisassociateDataSetKmsKeyOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the identifier of the dataset from which to remove the KMS key association. For the default dataset, you can specify either de- fault or the full dataset Amazon Resource Name (ARN) in the format arn:aws:cloudwatch:*Region* :*account-id* :dataset/default . Constraints: o min: 1 o max: 2048 o pattern: (default|arn:[a-zA-Z0-9-]+:cloud- watch:[a-zA-Z0-9-]*:\d{12}:dataset/default)
+    /// Specifies the identifier of the dataset from which to remove the KMS key association. For the default dataset, you can specify either default or the full dataset Amazon Resource Name (ARN) in the format arn:aws:cloudwatch:*Region* :*account-id* :dataset/default . Constraints: • min: 1 • max: 2048 • pattern: (default|arn:[a-zA-Z0-9-]+:cloudwatch:[a-zA-Z0-9-]*:\d{12}:dataset/default)
     /// </summary>
     [CliOption("--dataset-identifier")]
     public string? DataSetIdentifier { get; private init; }
@@ -82,6 +83,15 @@ public record AwsCloudwatchDisassociateDataSetKmsKeyOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

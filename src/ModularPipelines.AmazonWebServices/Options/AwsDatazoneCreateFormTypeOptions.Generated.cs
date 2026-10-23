@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a metadata form type. Prerequisites: o The domain must exist and be in an ENABLED state. o The owning project must exist and be accessible. o The name must be unique within the domain. For custom form types, to indicate that a field should be searchable, annotate it with @amazon.datazone#searchable . By default, searchable fields are indexed for semantic search, where related query terms will match the attribute value even if they are not stemmed or keyword matches. To indicate that a fi...
+/// Creates a metadata form type. Prerequisites: • The domain must exist and be in an ENABLED state. • The owning project must exist and be accessible. • The name must be unique within the domain. For custom form types, to indicate that a field should be searchable, annotate it with @amazon.datazone#searchable . By default, searchable fields are indexed for semantic search, where related query terms will match the attribute value even if they are not stemmed or keyword matches. To indicate that a fi...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,12 +27,12 @@ public record AwsDatazoneCreateFormTypeOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a metadata form type. Prerequisites: o The domain must exist and be in an ENABLED state. o The owning project must exist and be accessible. o The name must be unique within the domain. For custom form types, to indicate that a field should be searchable, annotate it with @amazon.datazone#searchable . By default, searchable fields are indexed for semantic search, where related query terms will match the attribute value even if they are not stemmed or keyword matches. To indicate that a fi...
+    /// Creates a metadata form type. Prerequisites: • The domain must exist and be in an ENABLED state. • The owning project must exist and be accessible. • The name must be unique within the domain. For custom form types, to indicate that a field should be searchable, annotate it with @amazon.datazone#searchable . By default, searchable fields are indexed for semantic search, where related query terms will match the attribute value even if they are not stemmed or keyword matches. To indicate that a fi...
     /// </summary>
-    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain in which this metadata form type is created. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="Name">The name of this Amazon DataZone metadata form type. Constraints: o min: 1 o max: 128 o pattern: (amazon.datazone.)?(?![0-9_])\w+$|^_\w*[a-zA-Z0-9]\w*</param>
-    /// <param name="Model">The model of this Amazon DataZone metadata form type. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: smithy. smithy -&gt; (string) Indicates the smithy model of the API. Constraints: o min: 1 o max: 100000 Shorthand Syntax: smithy=string JSON Syntax: { "smithy": "string" }</param>
-    /// <param name="OwningProjectIdentifier">The ID of the Amazon DataZone project that owns this metadata form type. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain in which this metadata form type is created. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="Name">The name of this Amazon DataZone metadata form type. Constraints: • min: 1 • max: 128 • pattern: (amazon.datazone.)?(?![0-9_])\w+$|^_\w*[a-zA-Z0-9]\w*</param>
+    /// <param name="Model">The model of this Amazon DataZone metadata form type. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: smithy. smithy -&gt; (string) Indicates the smithy model of the API. Constraints: • min: 1 • max: 100000 Shorthand Syntax: smithy=string JSON Syntax: { "smithy": "string" }</param>
+    /// <param name="OwningProjectIdentifier">The ID of the Amazon DataZone project that owns this metadata form type. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}</param>
     public AwsDatazoneCreateFormTypeOptions(
         string DomainIdentifier,
         string Name,
@@ -69,37 +70,37 @@ public record AwsDatazoneCreateFormTypeOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon DataZone domain in which this metadata form type is created. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The ID of the Amazon DataZone domain in which this metadata form type is created. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The name of this Amazon DataZone metadata form type. Constraints: o min: 1 o max: 128 o pattern: (amazon.datazone.)?(?![0-9_])\w+$|^_\w*[a-zA-Z0-9]\w*
+    /// The name of this Amazon DataZone metadata form type. Constraints: • min: 1 • max: 128 • pattern: (amazon.datazone.)?(?![0-9_])\w+$|^_\w*[a-zA-Z0-9]\w*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The model of this Amazon DataZone metadata form type. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: smithy. smithy -&gt; (string) Indicates the smithy model of the API. Constraints: o min: 1 o max: 100000 Shorthand Syntax: smithy=string JSON Syntax: { "smithy": "string" }
+    /// The model of this Amazon DataZone metadata form type. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: smithy. smithy -&gt; (string) Indicates the smithy model of the API. Constraints: • min: 1 • max: 100000 Shorthand Syntax: smithy=string JSON Syntax: { "smithy": "string" }
     /// </summary>
     [CliOption("--model")]
     public string? Model { get; private init; }
 
     /// <summary>
-    /// The ID of the Amazon DataZone project that owns this metadata form type. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The ID of the Amazon DataZone project that owns this metadata form type. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--owning-project-identifier")]
     public string? OwningProjectIdentifier { get; private init; }
 
     /// <summary>
-    /// The status of this Amazon DataZone metadata form type. Possible values: o ENABLED o DISABLED
+    /// The status of this Amazon DataZone metadata form type. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--status")]
     public AwsDatazoneCreateFormTypeStatus? Status { get; set; }
 
     /// <summary>
-    /// The description of this Amazon DataZone metadata form type. Constraints: o min: 0 o max: 2048
+    /// The description of this Amazon DataZone metadata form type. Constraints: • min: 0 • max: 2048
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
@@ -125,6 +126,15 @@ public record AwsDatazoneCreateFormTypeOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

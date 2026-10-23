@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,10 +28,10 @@ public record AwsBedrockAgentcoreControlCreateConsentPortalOptions : AwsOptions,
     /// <summary>
     /// Creates a new consent portal. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ExecutionRoleArn">The Amazon Resource Name (ARN) of the IAM role that the consent por- tal assumes to access the resources defined in its sources. Constraints: o pattern: arn:aws(-[a-z-]+)?:iam::[0-9]{12}:role/[a-zA-Z0-9+=,.@\-_/]+</param>
-    /// <param name="IdpConfig">The identity provider configuration that the consent portal uses to authenticate end users. credentialProviderArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the OAuth2 credential provider used to authenticate end users to the consent portal. Constraints: o pattern: arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b|aws-iso-e|aws-iso-f|aws-eusc):bedrock-agent- core:[a-z0-9-]{1,32}:[0-9]{12}:to- ken-vault/[a-zA-Z0-9_-]{1,64}/oauth2credential- provider/[a-zA-Z0-9_-]{1,128} scopes -&gt; (list) [required] The OAuth2 scopes that the consent portal requests when authen- ticating end users. Constraints: o min: 1 (string) Constraints: o min: 1 o max: 255 o pattern: [\x21\x23-\x5B\x5D-\x7E]+ audience -&gt; (string) The audience value that the consent portal includes when re- questing tokens from the identity provider. Shorthand Syntax: credentialProviderArn=string,scopes=string,string,audience=string JSON Syntax: { "credentialProviderArn": "string", "scopes": ["string", ...], "audience": "string" }</param>
-    /// <param name="Name">The name of the consent portal. The name must be unique within your account. Constraints: o min: 1 o max: 50 o pattern: [a-zA-Z0-9_-]{1,50}</param>
-    /// <param name="Sources">The resources served by the consent portal. Currently, we only sup- port type agentcore-gateway . Constraints: o min: 1 o max: 1 (structure) A resource served by the consent portal. identifier -&gt; (string) [required] The identifier of the source resource. For an agentcore-gate- way source, this is the gateway ID or its Amazon Resource Name (ARN). Constraints: o pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}$|^arn:aws(-[a-z-]+)?:bedrock-agent- core:[a-z0-9-]{1,20}:[0-9]{12}:gate- way/([0-9a-z][-]?){1,48}-[a-z0-9]{10} type -&gt; (string) [required] The type of the source resource. Possible values: o agentcore-gateway Shorthand Syntax: identifier=string,type=string ... JSON Syntax: [ { "identifier": "string", "type": "agentcore-gateway" } ... ]</param>
+    /// <param name="ExecutionRoleArn">The Amazon Resource Name (ARN) of the IAM role that the consent portal assumes to access the resources defined in its sources. Constraints: • pattern: arn:aws(-[a-z-]+)?:iam::[0-9]{12}:role/[a-zA-Z0-9+=,.@\-_/]+</param>
+    /// <param name="IdpConfig">The identity provider configuration that the consent portal uses to authenticate end users. credentialProviderArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the OAuth2 credential provider used to authenticate end users to the consent portal. Constraints: • pattern: arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b|aws-iso-e|aws-iso-f|aws-eusc):bedrock-agentcore:[a-z0-9-]{1,32}:[0-9]{12}:token-vault/[a-zA-Z0-9_-]{1,64}/oauth2credentialprovider/[a-zA-Z0-9_-]{1,128} scopes -&gt; (list) [required] The OAuth2 scopes that the consent portal requests when authenticating end users. Constraints: • min: 1 (string) Constraints: • min: 1 • max: 255 • pattern: [\x21\x23-\x5B\x5D-\x7E]+ audience -&gt; (string) The audience value that the consent portal includes when requesting tokens from the identity provider. Shorthand Syntax: credentialProviderArn=string,scopes=string,string,audience=string JSON Syntax: { "credentialProviderArn": "string", "scopes": ["string", ...], "audience": "string" }</param>
+    /// <param name="Name">The name of the consent portal. The name must be unique within your account. Constraints: • min: 1 • max: 50 • pattern: [a-zA-Z0-9_-]{1,50}</param>
+    /// <param name="Sources">The resources served by the consent portal. Currently, we only support type agentcore-gateway . Constraints: • min: 1 • max: 1 (structure) A resource served by the consent portal. identifier -&gt; (string) [required] The identifier of the source resource. For an agentcore-gateway source, this is the gateway ID or its Amazon Resource Name (ARN). Constraints: • pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}$|^arn:aws(-[a-z-]+)?:bedrock-agentcore:[a-z0-9-]{1,20}:[0-9]{12}:gateway/([0-9a-z][-]?){1,48}-[a-z0-9]{10} type -&gt; (string) [required] The type of the source resource. Possible values: • agentcore-gateway Shorthand Syntax: identifier=string,type=string ... JSON Syntax: [ { "identifier": "string", "type": "agentcore-gateway" } ... ]</param>
     public AwsBedrockAgentcoreControlCreateConsentPortalOptions(
         string ExecutionRoleArn,
         string IdpConfig,
@@ -80,37 +80,37 @@ public record AwsBedrockAgentcoreControlCreateConsentPortalOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the IAM role that the consent por- tal assumes to access the resources defined in its sources. Constraints: o pattern: arn:aws(-[a-z-]+)?:iam::[0-9]{12}:role/[a-zA-Z0-9+=,.@\-_/]+
+    /// The Amazon Resource Name (ARN) of the IAM role that the consent portal assumes to access the resources defined in its sources. Constraints: • pattern: arn:aws(-[a-z-]+)?:iam::[0-9]{12}:role/[a-zA-Z0-9+=,.@\-_/]+
     /// </summary>
     [CliOption("--execution-role-arn")]
     public string? ExecutionRoleArn { get; private init; }
 
     /// <summary>
-    /// The identity provider configuration that the consent portal uses to authenticate end users. credentialProviderArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the OAuth2 credential provider used to authenticate end users to the consent portal. Constraints: o pattern: arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b|aws-iso-e|aws-iso-f|aws-eusc):bedrock-agent- core:[a-z0-9-]{1,32}:[0-9]{12}:to- ken-vault/[a-zA-Z0-9_-]{1,64}/oauth2credential- provider/[a-zA-Z0-9_-]{1,128} scopes -&gt; (list) [required] The OAuth2 scopes that the consent portal requests when authen- ticating end users. Constraints: o min: 1 (string) Constraints: o min: 1 o max: 255 o pattern: [\x21\x23-\x5B\x5D-\x7E]+ audience -&gt; (string) The audience value that the consent portal includes when re- questing tokens from the identity provider. Shorthand Syntax: credentialProviderArn=string,scopes=string,string,audience=string JSON Syntax: { "credentialProviderArn": "string", "scopes": ["string", ...], "audience": "string" }
+    /// The identity provider configuration that the consent portal uses to authenticate end users. credentialProviderArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the OAuth2 credential provider used to authenticate end users to the consent portal. Constraints: • pattern: arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b|aws-iso-e|aws-iso-f|aws-eusc):bedrock-agentcore:[a-z0-9-]{1,32}:[0-9]{12}:token-vault/[a-zA-Z0-9_-]{1,64}/oauth2credentialprovider/[a-zA-Z0-9_-]{1,128} scopes -&gt; (list) [required] The OAuth2 scopes that the consent portal requests when authenticating end users. Constraints: • min: 1 (string) Constraints: • min: 1 • max: 255 • pattern: [\x21\x23-\x5B\x5D-\x7E]+ audience -&gt; (string) The audience value that the consent portal includes when requesting tokens from the identity provider. Shorthand Syntax: credentialProviderArn=string,scopes=string,string,audience=string JSON Syntax: { "credentialProviderArn": "string", "scopes": ["string", ...], "audience": "string" }
     /// </summary>
     [CliOption("--idp-config")]
     public string? IdpConfig { get; private init; }
 
     /// <summary>
-    /// The name of the consent portal. The name must be unique within your account. Constraints: o min: 1 o max: 50 o pattern: [a-zA-Z0-9_-]{1,50}
+    /// The name of the consent portal. The name must be unique within your account. Constraints: • min: 1 • max: 50 • pattern: [a-zA-Z0-9_-]{1,50}
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The resources served by the consent portal. Currently, we only sup- port type agentcore-gateway . Constraints: o min: 1 o max: 1 (structure) A resource served by the consent portal. identifier -&gt; (string) [required] The identifier of the source resource. For an agentcore-gate- way source, this is the gateway ID or its Amazon Resource Name (ARN). Constraints: o pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}$|^arn:aws(-[a-z-]+)?:bedrock-agent- core:[a-z0-9-]{1,20}:[0-9]{12}:gate- way/([0-9a-z][-]?){1,48}-[a-z0-9]{10} type -&gt; (string) [required] The type of the source resource. Possible values: o agentcore-gateway Shorthand Syntax: identifier=string,type=string ... JSON Syntax: [ { "identifier": "string", "type": "agentcore-gateway" } ... ]
+    /// The resources served by the consent portal. Currently, we only support type agentcore-gateway . Constraints: • min: 1 • max: 1 (structure) A resource served by the consent portal. identifier -&gt; (string) [required] The identifier of the source resource. For an agentcore-gateway source, this is the gateway ID or its Amazon Resource Name (ARN). Constraints: • pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}$|^arn:aws(-[a-z-]+)?:bedrock-agentcore:[a-z0-9-]{1,20}:[0-9]{12}:gateway/([0-9a-z][-]?){1,48}-[a-z0-9]{10} type -&gt; (string) [required] The type of the source resource. Possible values: • agentcore-gateway Shorthand Syntax: identifier=string,type=string ... JSON Syntax: [ { "identifier": "string", "type": "agentcore-gateway" } ... ]
     /// </summary>
     [CliOption("--sources", GroupValues = true)]
     public IEnumerable<string>? Sources { get; private init; }
 
     /// <summary>
-    /// The description of the consent portal. Constraints: o min: 0 o max: 512
+    /// The description of the consent portal. Constraints: • min: 0 • max: 512
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// A map of tag keys and values to assign to the consent portal. Tags enable you to categorize your resources in different ways, for exam- ple, by purpose, owner, or environment. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\s._:/=+@-]* value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9\s._:/=+@-]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A map of tag keys and values to assign to the consent portal. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9\s._:/=+@-]* value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: [a-zA-Z0-9\s._:/=+@-]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -136,6 +136,15 @@ public record AwsBedrockAgentcoreControlCreateConsentPortalOptions : AwsOptions,
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

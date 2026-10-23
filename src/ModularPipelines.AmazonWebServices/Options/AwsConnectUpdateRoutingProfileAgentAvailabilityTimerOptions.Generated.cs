@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +29,9 @@ public record AwsConnectUpdateRoutingProfileAgentAvailabilityTimerOptions : AwsO
     /// <summary>
     /// Whether agents with this routing profile will have their routing order calculated based on time since their last inbound contact or longest idle time . See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
     /// <param name="RoutingProfileId">The identifier of the routing profile.</param>
-    /// <param name="AgentAvailabilityTimer">Whether agents with this routing profile will have their routing or- der calculated based on time since their last inbound contact or longest idle time . Possible values: o TIME_SINCE_LAST_ACTIVITY o TIME_SINCE_LAST_INBOUND</param>
+    /// <param name="AgentAvailabilityTimer">Whether agents with this routing profile will have their routing order calculated based on time since their last inbound contact or longest idle time . Possible values: • TIME_SINCE_LAST_ACTIVITY • TIME_SINCE_LAST_INBOUND</param>
     public AwsConnectUpdateRoutingProfileAgentAvailabilityTimerOptions(
         string InstanceId,
         string RoutingProfileId,
@@ -64,7 +65,7 @@ public record AwsConnectUpdateRoutingProfileAgentAvailabilityTimerOptions : AwsO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
@@ -76,7 +77,7 @@ public record AwsConnectUpdateRoutingProfileAgentAvailabilityTimerOptions : AwsO
     public string? RoutingProfileId { get; private init; }
 
     /// <summary>
-    /// Whether agents with this routing profile will have their routing or- der calculated based on time since their last inbound contact or longest idle time . Possible values: o TIME_SINCE_LAST_ACTIVITY o TIME_SINCE_LAST_INBOUND
+    /// Whether agents with this routing profile will have their routing order calculated based on time since their last inbound contact or longest idle time . Possible values: • TIME_SINCE_LAST_ACTIVITY • TIME_SINCE_LAST_INBOUND
     /// </summary>
     [CliOption("--agent-availability-timer")]
     public AwsConnectUpdateRoutingProfileAgentAvailabilityTimerAgentAvailabilityTimer? AgentAvailabilityTimer { get; private init; }
@@ -102,6 +103,15 @@ public record AwsConnectUpdateRoutingProfileAgentAvailabilityTimerOptions : AwsO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

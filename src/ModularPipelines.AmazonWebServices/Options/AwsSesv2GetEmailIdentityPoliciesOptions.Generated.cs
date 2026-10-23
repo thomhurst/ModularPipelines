@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsSesv2GetEmailIdentityPoliciesOptions : AwsOptions, IValidatable
     /// <summary>
     /// Returns the requested sending authorization policies for the given identity (an email address or a domain). The policies are returned as a map of policy names to policy contents. You can retrieve a maximum of 20 policies at a time. NOTE: This API is for the identity owner only. If you have not verified the identity, this API will return an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending...
     /// </summary>
-    /// <param name="EmailIdentity">The email identity. Constraints: o min: 1</param>
+    /// <param name="EmailIdentity">The email identity. Constraints: • min: 1</param>
     public AwsSesv2GetEmailIdentityPoliciesOptions(
         string EmailIdentity
     )
@@ -56,7 +57,7 @@ public record AwsSesv2GetEmailIdentityPoliciesOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The email identity. Constraints: o min: 1
+    /// The email identity. Constraints: • min: 1
     /// </summary>
     [CliOption("--email-identity")]
     public string? EmailIdentity { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSesv2GetEmailIdentityPoliciesOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

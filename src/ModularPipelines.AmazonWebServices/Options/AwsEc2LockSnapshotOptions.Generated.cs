@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Locks an Amazon EBS snapshot in either governance or compliance mode to protect it against accidental or malicious deletions for a specific du- ration. A locked snapshot can't be deleted. You can also use this action to modify the lock settings for a snapshot that is already locked. The allowed modifications depend on the lock mode and lock state: o If the snapshot is locked in governance mode, you can modify the lock mode and the lock duration or lock expiration date. o If the snapshot is locke...
+/// Locks an Amazon EBS snapshot in either governance or compliance mode to protect it against accidental or malicious deletions for a specific duration. A locked snapshot can't be deleted. You can also use this action to modify the lock settings for a snapshot that is already locked. The allowed modifications depend on the lock mode and lock state: • If the snapshot is locked in governance mode, you can modify the lock mode and the lock duration or lock expiration date. • If the snapshot is locked ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsEc2LockSnapshotOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Locks an Amazon EBS snapshot in either governance or compliance mode to protect it against accidental or malicious deletions for a specific du- ration. A locked snapshot can't be deleted. You can also use this action to modify the lock settings for a snapshot that is already locked. The allowed modifications depend on the lock mode and lock state: o If the snapshot is locked in governance mode, you can modify the lock mode and the lock duration or lock expiration date. o If the snapshot is locke...
+    /// Locks an Amazon EBS snapshot in either governance or compliance mode to protect it against accidental or malicious deletions for a specific duration. A locked snapshot can't be deleted. You can also use this action to modify the lock settings for a snapshot that is already locked. The allowed modifications depend on the lock mode and lock state: • If the snapshot is locked in governance mode, you can modify the lock mode and the lock duration or lock expiration date. • If the snapshot is locked ...
     /// </summary>
     /// <param name="SnapshotId">The ID of the snapshot to lock.</param>
-    /// <param name="LockMode">The mode in which to lock the snapshot. Specify one of the follow- ing: o governance - Locks the snapshot in governance mode. Snapshots locked in governance mode can't be deleted until one of the fol- lowing conditions are met: o The lock duration expires. o The snapshot is unlocked by a user with the appropriate permis- sions. Users with the appropriate IAM permissions can unlock the snapshot, increase or decrease the lock duration, and change the lock mode to compliance at any time. If you lock a snapshot in governance mode, omit CoolOffPeriod . o compliance - Locks the snapshot in compliance mode. Snapshots locked in compliance mode can't be unlocked by any user. They can be deleted only after the lock duration expires. Users can't de- crease the lock duration or change the lock mode to governance . However, users with appropriate IAM permissions can increase the lock duration at any time. If you lock a snapshot in compliance mode, you can optionally specify CoolOffPeriod . Possible values: o compliance o governance</param>
+    /// <param name="LockMode">The mode in which to lock the snapshot. Specify one of the following: • governance - Locks the snapshot in governance mode. Snapshots locked in governance mode can't be deleted until one of the following conditions are met: • The lock duration expires. • The snapshot is unlocked by a user with the appropriate permissions. Users with the appropriate IAM permissions can unlock the snapshot, increase or decrease the lock duration, and change the lock mode to compliance at any time. If you lock a snapshot in governance mode, omit CoolOffPeriod . • compliance - Locks the snapshot in compliance mode. Snapshots locked in compliance mode can't be unlocked by any user. They can be deleted only after the lock duration expires. Users can't decrease the lock duration or change the lock mode to governance . However, users with appropriate IAM permissions can increase the lock duration at any time. If you lock a snapshot in compliance mode, you can optionally specify CoolOffPeriod . Possible values: • compliance • governance</param>
     public AwsEc2LockSnapshotOptions(
         string SnapshotId,
         AwsEc2LockSnapshotLockMode LockMode
@@ -66,31 +67,31 @@ public record AwsEc2LockSnapshotOptions : AwsOptions, IValidatableObject
     public string? SnapshotId { get; private init; }
 
     /// <summary>
-    /// The mode in which to lock the snapshot. Specify one of the follow- ing: o governance - Locks the snapshot in governance mode. Snapshots locked in governance mode can't be deleted until one of the fol- lowing conditions are met: o The lock duration expires. o The snapshot is unlocked by a user with the appropriate permis- sions. Users with the appropriate IAM permissions can unlock the snapshot, increase or decrease the lock duration, and change the lock mode to compliance at any time. If you lock a snapshot in governance mode, omit CoolOffPeriod . o compliance - Locks the snapshot in compliance mode. Snapshots locked in compliance mode can't be unlocked by any user. They can be deleted only after the lock duration expires. Users can't de- crease the lock duration or change the lock mode to governance . However, users with appropriate IAM permissions can increase the lock duration at any time. If you lock a snapshot in compliance mode, you can optionally specify CoolOffPeriod . Possible values: o compliance o governance
+    /// The mode in which to lock the snapshot. Specify one of the following: • governance - Locks the snapshot in governance mode. Snapshots locked in governance mode can't be deleted until one of the following conditions are met: • The lock duration expires. • The snapshot is unlocked by a user with the appropriate permissions. Users with the appropriate IAM permissions can unlock the snapshot, increase or decrease the lock duration, and change the lock mode to compliance at any time. If you lock a snapshot in governance mode, omit CoolOffPeriod . • compliance - Locks the snapshot in compliance mode. Snapshots locked in compliance mode can't be unlocked by any user. They can be deleted only after the lock duration expires. Users can't decrease the lock duration or change the lock mode to governance . However, users with appropriate IAM permissions can increase the lock duration at any time. If you lock a snapshot in compliance mode, you can optionally specify CoolOffPeriod . Possible values: • compliance • governance
     /// </summary>
     [CliOption("--lock-mode")]
     public AwsEc2LockSnapshotLockMode? LockMode { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// The cooling-off period during which you can unlock the snapshot or modify the lock settings after locking the snapshot in compliance mode, in hours. After the cooling-off period expires, you can't un- lock or delete the snapshot, decrease the lock duration, or change the lock mode. You can increase the lock duration after the cool- ing-off period expires. The cooling-off period is optional when locking a snapshot in com- pliance mode. If you are locking the snapshot in governance mode, omit this parameter. To lock the snapshot in compliance mode immediately without a cool- ing-off period, omit this parameter. If you are extending the lock duration for a snapshot that is locked in compliance mode after the cooling-off period has expired, omit this parameter. If you specify a cooling-period in a such a request, the request fails. Allowed values: Min 1, max 72. Constraints: o min: 1 o max: 72
+    /// The cooling-off period during which you can unlock the snapshot or modify the lock settings after locking the snapshot in compliance mode, in hours. After the cooling-off period expires, you can't unlock or delete the snapshot, decrease the lock duration, or change the lock mode. You can increase the lock duration after the cooling-off period expires. The cooling-off period is optional when locking a snapshot in compliance mode. If you are locking the snapshot in governance mode, omit this parameter. To lock the snapshot in compliance mode immediately without a cooling-off period, omit this parameter. If you are extending the lock duration for a snapshot that is locked in compliance mode after the cooling-off period has expired, omit this parameter. If you specify a cooling-period in a such a request, the request fails. Allowed values: Min 1, max 72. Constraints: • min: 1 • max: 72
     /// </summary>
     [CliOption("--cool-off-period")]
     public int? CoolOffPeriod { get; set; }
 
     /// <summary>
-    /// The period of time for which to lock the snapshot, in days. The snapshot lock will automatically expire after this period lapses. You must specify either this parameter or ExpirationDate , but not both. Allowed values: Min: 1, max 36500 Constraints: o min: 1 o max: 36500
+    /// The period of time for which to lock the snapshot, in days. The snapshot lock will automatically expire after this period lapses. You must specify either this parameter or ExpirationDate , but not both. Allowed values: Min: 1, max 36500 Constraints: • min: 1 • max: 36500
     /// </summary>
     [CliOption("--lock-duration")]
     public int? LockDuration { get; set; }
 
     /// <summary>
-    /// The date and time at which the snapshot lock is to automatically ex- pire, in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ ). You must specify either this parameter or LockDuration , but not both.
+    /// The date and time at which the snapshot lock is to automatically expire, in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ ). You must specify either this parameter or LockDuration , but not both.
     /// </summary>
     [CliOption("--expiration-date")]
     public string? ExpirationDate { get; set; }
@@ -116,6 +117,15 @@ public record AwsEc2LockSnapshotOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

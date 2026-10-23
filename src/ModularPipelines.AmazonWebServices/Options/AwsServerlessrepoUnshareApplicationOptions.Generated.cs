@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Unshares an application from an AWS Organization. This operation can be called only from the organization's master ac- count. See also: AWS API Documentation
+/// Unshares an application from an AWS Organization. This operation can be called only from the organization's master account. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsServerlessrepoUnshareApplicationOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Unshares an application from an AWS Organization. This operation can be called only from the organization's master ac- count. See also: AWS API Documentation
+    /// Unshares an application from an AWS Organization. This operation can be called only from the organization's master account. See also: AWS API Documentation
     /// </summary>
     /// <param name="ApplicationId">The Amazon Resource Name (ARN) of the application.</param>
     /// <param name="OrganizationId">The AWS Organization ID to unshare the application from.</param>
@@ -92,6 +93,15 @@ public record AwsServerlessrepoUnshareApplicationOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

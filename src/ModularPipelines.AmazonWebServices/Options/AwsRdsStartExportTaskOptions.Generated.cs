@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Starts an export of DB snapshot or DB cluster data to Amazon S3. The provided IAM role must have access to the S3 bucket. You can't export snapshot data from RDS Custom DB instances. For more information, see Supported Regions and DB engines for exporting snap- shots to S3 in Amazon RDS . For more information on exporting DB snapshot data, see Exporting DB snapshot data to Amazon S3 in the Amazon RDS User Guide or Exporting DB cluster snapshot data to Amazon S3 in the Amazon Aurora User Guide . ...
+/// Starts an export of DB snapshot or DB cluster data to Amazon S3. The provided IAM role must have access to the S3 bucket. You can't export snapshot data from RDS Custom DB instances. For more information, see Supported Regions and DB engines for exporting snapshots to S3 in Amazon RDS . For more information on exporting DB snapshot data, see Exporting DB snapshot data to Amazon S3 in the Amazon RDS User Guide or Exporting DB cluster snapshot data to Amazon S3 in the Amazon Aurora User Guide . Fo...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,13 +26,13 @@ public record AwsRdsStartExportTaskOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Starts an export of DB snapshot or DB cluster data to Amazon S3. The provided IAM role must have access to the S3 bucket. You can't export snapshot data from RDS Custom DB instances. For more information, see Supported Regions and DB engines for exporting snap- shots to S3 in Amazon RDS . For more information on exporting DB snapshot data, see Exporting DB snapshot data to Amazon S3 in the Amazon RDS User Guide or Exporting DB cluster snapshot data to Amazon S3 in the Amazon Aurora User Guide . ...
+    /// Starts an export of DB snapshot or DB cluster data to Amazon S3. The provided IAM role must have access to the S3 bucket. You can't export snapshot data from RDS Custom DB instances. For more information, see Supported Regions and DB engines for exporting snapshots to S3 in Amazon RDS . For more information on exporting DB snapshot data, see Exporting DB snapshot data to Amazon S3 in the Amazon RDS User Guide or Exporting DB cluster snapshot data to Amazon S3 in the Amazon Aurora User Guide . Fo...
     /// </summary>
     /// <param name="ExportTaskIdentifier">A unique identifier for the export task. This ID isn't an identifier for the Amazon S3 bucket where the data is to be exported.</param>
     /// <param name="SourceArn">The Amazon Resource Name (ARN) of the snapshot or cluster to export to Amazon S3.</param>
     /// <param name="S3BucketName">The name of the Amazon S3 bucket to export the snapshot or cluster data to.</param>
-    /// <param name="IamRoleArn">The name of the IAM role to use for writing to the Amazon S3 bucket when exporting a snapshot or cluster. In the IAM policy attached to your IAM role, include the following required actions to allow the transfer of files from Amazon RDS or Amazon Aurora to an S3 bucket: o s3:PutObject* o s3:GetObject* o s3:ListBucket o s3:DeleteObject* o s3:GetBucketLocation In the policy, include the resources to identify the S3 bucket and objects in the bucket. The following list of resources shows the Amazon Resource Name (ARN) format for accessing S3: o `` arn:aws:s3:::your-s3-bucket `` System Message: WARNING/2 (&lt;string&gt;:, line 134) Inline literal start-string without end-string. o arn:aws:s3:::*your-s3-bucket* /*</param>
-    /// <param name="KmsKeyId">The ID of the Amazon Web Services KMS key to use to encrypt the data exported to Amazon S3. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. The caller of this operation must be authorized to run the following op- erations. These can be set in the Amazon Web Services KMS key pol- icy: o kms:CreateGrant o kms:DescribeKey</param>
+    /// <param name="IamRoleArn">The name of the IAM role to use for writing to the Amazon S3 bucket when exporting a snapshot or cluster. In the IAM policy attached to your IAM role, include the following required actions to allow the transfer of files from Amazon RDS or Amazon Aurora to an S3 bucket: • s3:PutObject* • s3:GetObject* • s3:ListBucket • s3:DeleteObject* • s3:GetBucketLocation In the policy, include the resources to identify the S3 bucket and objects in the bucket. The following list of resources shows the Amazon Resource Name (ARN) format for accessing S3: o `` arn:aws:s3:::your-s3-bucket `` System Message: WARNING/2 (&lt;string&gt;:, line 134) Inline literal start-string without end-string. • arn:aws:s3:::*your-s3-bucket* /*</param>
+    /// <param name="KmsKeyId">The ID of the Amazon Web Services KMS key to use to encrypt the data exported to Amazon S3. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. The caller of this operation must be authorized to run the following operations. These can be set in the Amazon Web Services KMS key policy: • kms:CreateGrant • kms:DescribeKey</param>
     public AwsRdsStartExportTaskOptions(
         string ExportTaskIdentifier,
         string SourceArn,
@@ -90,13 +91,13 @@ public record AwsRdsStartExportTaskOptions : AwsOptions, IValidatableObject
     public string? S3BucketName { get; private init; }
 
     /// <summary>
-    /// The name of the IAM role to use for writing to the Amazon S3 bucket when exporting a snapshot or cluster. In the IAM policy attached to your IAM role, include the following required actions to allow the transfer of files from Amazon RDS or Amazon Aurora to an S3 bucket: o s3:PutObject* o s3:GetObject* o s3:ListBucket o s3:DeleteObject* o s3:GetBucketLocation In the policy, include the resources to identify the S3 bucket and objects in the bucket. The following list of resources shows the Amazon Resource Name (ARN) format for accessing S3: o `` arn:aws:s3:::your-s3-bucket `` System Message: WARNING/2 (&lt;string&gt;:, line 134) Inline literal start-string without end-string. o arn:aws:s3:::*your-s3-bucket* /*
+    /// The name of the IAM role to use for writing to the Amazon S3 bucket when exporting a snapshot or cluster. In the IAM policy attached to your IAM role, include the following required actions to allow the transfer of files from Amazon RDS or Amazon Aurora to an S3 bucket: • s3:PutObject* • s3:GetObject* • s3:ListBucket • s3:DeleteObject* • s3:GetBucketLocation In the policy, include the resources to identify the S3 bucket and objects in the bucket. The following list of resources shows the Amazon Resource Name (ARN) format for accessing S3: o `` arn:aws:s3:::your-s3-bucket `` System Message: WARNING/2 (&lt;string&gt;:, line 134) Inline literal start-string without end-string. • arn:aws:s3:::*your-s3-bucket* /*
     /// </summary>
     [CliOption("--iam-role-arn")]
     public string? IamRoleArn { get; private init; }
 
     /// <summary>
-    /// The ID of the Amazon Web Services KMS key to use to encrypt the data exported to Amazon S3. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. The caller of this operation must be authorized to run the following op- erations. These can be set in the Amazon Web Services KMS key pol- icy: o kms:CreateGrant o kms:DescribeKey
+    /// The ID of the Amazon Web Services KMS key to use to encrypt the data exported to Amazon S3. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. The caller of this operation must be authorized to run the following operations. These can be set in the Amazon Web Services KMS key policy: • kms:CreateGrant • kms:DescribeKey
     /// </summary>
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; private init; }
@@ -108,7 +109,7 @@ public record AwsRdsStartExportTaskOptions : AwsOptions, IValidatableObject
     public string? S3Prefix { get; set; }
 
     /// <summary>
-    /// The data to be exported from the snapshot or cluster. If this para- meter isn't provided, all of the data is exported. Valid Values: o database - Export all the data from a specified database. o database.table table-name - Export a table of the snapshot or cluster. This format is valid only for RDS for MySQL, RDS for MariaDB, and Aurora MySQL. o database.schema schema-name - Export a database schema of the snapshot or cluster. This format is valid only for RDS for Post- greSQL and Aurora PostgreSQL. o database.schema.table table-name - Export a table of the database schema. This format is valid only for RDS for PostgreSQL and Au- rora PostgreSQL. (string) Syntax: "string" "string" ...
+    /// The data to be exported from the snapshot or cluster. If this parameter isn't provided, all of the data is exported. Valid Values: • database - Export all the data from a specified database. • database.table table-name - Export a table of the snapshot or cluster. This format is valid only for RDS for MySQL, RDS for MariaDB, and Aurora MySQL. • database.schema schema-name - Export a database schema of the snapshot or cluster. This format is valid only for RDS for PostgreSQL and Aurora PostgreSQL. • database.schema.table table-name - Export a table of the database schema. This format is valid only for RDS for PostgreSQL and Aurora PostgreSQL. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--export-only", GroupValues = true)]
     public IEnumerable<string>? ExportOnly { get; set; }
@@ -134,6 +135,15 @@ public record AwsRdsStartExportTaskOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

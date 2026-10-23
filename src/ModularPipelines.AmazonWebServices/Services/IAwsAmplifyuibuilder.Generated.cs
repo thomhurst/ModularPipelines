@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Models;
+using ModularPipelines;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -28,8 +28,7 @@ public interface IAwsAmplifyuibuilder
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateComponentAsync(AwsAmplifyuibuilderCreateComponentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateComponentAsync(AwsAmplifyuibuilderCreateComponentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new form for an Amplify app. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsAmplifyuibuilder
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateFormAsync(AwsAmplifyuibuilderCreateFormOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateFormAsync(AwsAmplifyuibuilderCreateFormOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a theme to apply to the components in an Amplify app. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsAmplifyuibuilder
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateThemeAsync(AwsAmplifyuibuilderCreateThemeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateThemeAsync(AwsAmplifyuibuilderCreateThemeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a component from an Amplify app. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsAmplifyuibuilder
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteComponentAsync(AwsAmplifyuibuilderDeleteComponentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteComponentAsync(AwsAmplifyuibuilderDeleteComponentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a form from an Amplify app. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsAmplifyuibuilder
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteFormAsync(AwsAmplifyuibuilderDeleteFormOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteFormAsync(AwsAmplifyuibuilderDeleteFormOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a theme from an Amplify app. See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsAmplifyuibuilder
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteThemeAsync(AwsAmplifyuibuilderDeleteThemeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteThemeAsync(AwsAmplifyuibuilderDeleteThemeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This is for internal use. Amplify uses this action to exchange an access code for a token. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsAmplifyuibuilder
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExchangeCodeForTokenAsync(AwsAmplifyuibuilderExchangeCodeForTokenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExchangeCodeForTokenAsync(AwsAmplifyuibuilderExchangeCodeForTokenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Exports component configurations to code that is ready to integrate into an Amplify app. See also: AWS API Documentation export-components is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: entities
@@ -98,28 +91,25 @@ public interface IAwsAmplifyuibuilder
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExportComponentsAsync(AwsAmplifyuibuilderExportComponentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExportComponentsAsync(AwsAmplifyuibuilderExportComponentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Exports form configurations to code that is ready to integrate into an Amplify app. See also: AWS API Documentation export-forms is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: entities
+    /// Exports form configurations to code that is ready to integrate into an Amplify app. See also: AWS API Documentation export-forms is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: entities
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExportFormsAsync(AwsAmplifyuibuilderExportFormsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExportFormsAsync(AwsAmplifyuibuilderExportFormsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Exports theme configurations to code that is ready to integrate into an Amplify app. See also: AWS API Documentation export-themes is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: entities
+    /// Exports theme configurations to code that is ready to integrate into an Amplify app. See also: AWS API Documentation export-themes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: entities
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExportThemesAsync(AwsAmplifyuibuilderExportThemesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExportThemesAsync(AwsAmplifyuibuilderExportThemesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns an existing code generation job. See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsAmplifyuibuilder
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCodegenJobAsync(AwsAmplifyuibuilderGetCodegenJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCodegenJobAsync(AwsAmplifyuibuilderGetCodegenJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns an existing component for an Amplify app. See also: AWS API Documentation
@@ -138,8 +127,7 @@ public interface IAwsAmplifyuibuilder
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetComponentAsync(AwsAmplifyuibuilderGetComponentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetComponentAsync(AwsAmplifyuibuilderGetComponentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns an existing form for an Amplify app. See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsAmplifyuibuilder
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetFormAsync(AwsAmplifyuibuilderGetFormOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetFormAsync(AwsAmplifyuibuilderGetFormOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns existing metadata for an Amplify app. See also: AWS API Documentation
@@ -158,8 +145,7 @@ public interface IAwsAmplifyuibuilder
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMetadataAsync(AwsAmplifyuibuilderGetMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMetadataAsync(AwsAmplifyuibuilderGetMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns an existing theme for an Amplify app. See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsAmplifyuibuilder
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetThemeAsync(AwsAmplifyuibuilderGetThemeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetThemeAsync(AwsAmplifyuibuilderGetThemeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a list of code generation jobs for a specified Amplify app and backend environment. See also: AWS API Documentation list-codegen-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: entities
@@ -178,28 +163,25 @@ public interface IAwsAmplifyuibuilder
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListCodegenJobsAsync(AwsAmplifyuibuilderListCodegenJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListCodegenJobsAsync(AwsAmplifyuibuilderListCodegenJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves a list of components for a specified Amplify app and backend environment. See also: AWS API Documentation list-components is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: entities
+    /// Retrieves a list of components for a specified Amplify app and backend environment. See also: AWS API Documentation list-components is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: entities
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListComponentsAsync(AwsAmplifyuibuilderListComponentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListComponentsAsync(AwsAmplifyuibuilderListComponentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves a list of forms for a specified Amplify app and backend envi- ronment. See also: AWS API Documentation list-forms is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: entities
+    /// Retrieves a list of forms for a specified Amplify app and backend environment. See also: AWS API Documentation list-forms is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: entities
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListFormsAsync(AwsAmplifyuibuilderListFormsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListFormsAsync(AwsAmplifyuibuilderListFormsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of tags for a specified Amazon Resource Name (ARN). See also: AWS API Documentation
@@ -208,18 +190,16 @@ public interface IAwsAmplifyuibuilder
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsAmplifyuibuilderListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsAmplifyuibuilderListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves a list of themes for a specified Amplify app and backend en- vironment. See also: AWS API Documentation list-themes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: entities
+    /// Retrieves a list of themes for a specified Amplify app and backend environment. See also: AWS API Documentation list-themes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: entities
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListThemesAsync(AwsAmplifyuibuilderListThemesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListThemesAsync(AwsAmplifyuibuilderListThemesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stores the metadata information about a feature on a form. See also: AWS API Documentation
@@ -228,8 +208,7 @@ public interface IAwsAmplifyuibuilder
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutMetadataFlagAsync(AwsAmplifyuibuilderPutMetadataFlagOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutMetadataFlagAsync(AwsAmplifyuibuilderPutMetadataFlagOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This is for internal use. Amplify uses this action to refresh a previously issued access token that might have expired. See also: AWS API Documentation
@@ -238,8 +217,7 @@ public interface IAwsAmplifyuibuilder
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RefreshTokenAsync(AwsAmplifyuibuilderRefreshTokenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RefreshTokenAsync(AwsAmplifyuibuilderRefreshTokenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts a code generation job for a specified Amplify app and backend environment. See also: AWS API Documentation
@@ -248,8 +226,7 @@ public interface IAwsAmplifyuibuilder
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartCodegenJobAsync(AwsAmplifyuibuilderStartCodegenJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartCodegenJobAsync(AwsAmplifyuibuilderStartCodegenJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Tags the resource with a tag key and value. See also: AWS API Documentation
@@ -258,8 +235,7 @@ public interface IAwsAmplifyuibuilder
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsAmplifyuibuilderTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsAmplifyuibuilderTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Untags a resource with a specified Amazon Resource Name (ARN). See also: AWS API Documentation
@@ -268,8 +244,7 @@ public interface IAwsAmplifyuibuilder
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsAmplifyuibuilderUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsAmplifyuibuilderUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing component. See also: AWS API Documentation
@@ -278,8 +253,7 @@ public interface IAwsAmplifyuibuilder
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateComponentAsync(AwsAmplifyuibuilderUpdateComponentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateComponentAsync(AwsAmplifyuibuilderUpdateComponentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing form. See also: AWS API Documentation
@@ -288,8 +262,7 @@ public interface IAwsAmplifyuibuilder
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateFormAsync(AwsAmplifyuibuilderUpdateFormOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateFormAsync(AwsAmplifyuibuilderUpdateFormOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing theme. See also: AWS API Documentation
@@ -298,7 +271,6 @@ public interface IAwsAmplifyuibuilder
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateThemeAsync(AwsAmplifyuibuilderUpdateThemeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateThemeAsync(AwsAmplifyuibuilderUpdateThemeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

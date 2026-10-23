@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +29,9 @@ public record AwsCloudfrontTestConnectionFunctionOptions : AwsOptions, IValidata
     /// <summary>
     /// Tests a connection function. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The connection function ID. Constraints: o min: 1 o max: 64</param>
+    /// <param name="Id">The connection function ID. Constraints: • min: 1 • max: 64</param>
     /// <param name="IfMatch">The current version (ETag value) of the connection function.</param>
-    /// <param name="ConnectionObject">The connection object. Constraints: o min: 0 o max: 40960</param>
+    /// <param name="ConnectionObject">The connection object. Constraints: • min: 0 • max: 40960</param>
     public AwsCloudfrontTestConnectionFunctionOptions(
         string Id,
         string IfMatch,
@@ -65,7 +66,7 @@ public record AwsCloudfrontTestConnectionFunctionOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The connection function ID. Constraints: o min: 1 o max: 64
+    /// The connection function ID. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
@@ -77,13 +78,13 @@ public record AwsCloudfrontTestConnectionFunctionOptions : AwsOptions, IValidata
     public string? IfMatch { get; private init; }
 
     /// <summary>
-    /// The connection object. Constraints: o min: 0 o max: 40960
+    /// The connection object. Constraints: • min: 0 • max: 40960
     /// </summary>
     [CliOption("--connection-object")]
     public string? ConnectionObject { get; private init; }
 
     /// <summary>
-    /// The connection function stage. Possible values: o DEVELOPMENT o LIVE
+    /// The connection function stage. Possible values: • DEVELOPMENT • LIVE
     /// </summary>
     [CliOption("--stage")]
     public AwsCloudfrontTestConnectionFunctionStage? Stage { get; set; }
@@ -109,6 +110,15 @@ public record AwsCloudfrontTestConnectionFunctionOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

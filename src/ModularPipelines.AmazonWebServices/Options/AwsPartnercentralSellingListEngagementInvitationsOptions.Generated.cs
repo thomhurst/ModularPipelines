@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves a list of engagement invitations sent to the partner. This allows partners to view all pending or past engagement invitations, helping them track opportunities shared by AWS. See also: AWS API Documentation list-engagement-invitations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated respon...
+/// Retrieves a list of engagement invitations sent to the partner. This allows partners to view all pending or past engagement invitations, helping them track opportunities shared by AWS. See also: AWS API Documentation list-engagement-invitations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +28,10 @@ public record AwsPartnercentralSellingListEngagementInvitationsOptions : AwsOpti
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves a list of engagement invitations sent to the partner. This allows partners to view all pending or past engagement invitations, helping them track opportunities shared by AWS. See also: AWS API Documentation list-engagement-invitations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated respon...
+    /// Retrieves a list of engagement invitations sent to the partner. This allows partners to view all pending or past engagement invitations, helping them track opportunities shared by AWS. See also: AWS API Documentation list-engagement-invitations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, ...
     /// </summary>
-    /// <param name="Catalog">Specifies the catalog from which to list the engagement invitations. Use AWS for production invitations or Sandbox for testing environ- ments. Constraints: o pattern: [a-zA-Z]+</param>
-    /// <param name="ParticipantType">Specifies the type of participant for which to list engagement invi- tations. Identifies the role of the participant. Possible values: o SENDER o RECEIVER</param>
+    /// <param name="Catalog">Specifies the catalog from which to list the engagement invitations. Use AWS for production invitations or Sandbox for testing environments. Constraints: • pattern: [a-zA-Z]+</param>
+    /// <param name="ParticipantType">Specifies the type of participant for which to list engagement invitations. Identifies the role of the participant. Possible values: • SENDER • RECEIVER</param>
     public AwsPartnercentralSellingListEngagementInvitationsOptions(
         string Catalog,
         AwsPartnercentralSellingListEngagementInvitationsParticipantType ParticipantType
@@ -61,52 +62,49 @@ public record AwsPartnercentralSellingListEngagementInvitationsOptions : AwsOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the catalog from which to list the engagement invitations. Use AWS for production invitations or Sandbox for testing environ- ments. Constraints: o pattern: [a-zA-Z]+
+    /// Specifies the catalog from which to list the engagement invitations. Use AWS for production invitations or Sandbox for testing environments. Constraints: • pattern: [a-zA-Z]+
     /// </summary>
     [CliOption("--catalog")]
     public string? Catalog { get; private init; }
 
     /// <summary>
-    /// Specifies the type of participant for which to list engagement invi- tations. Identifies the role of the participant. Possible values: o SENDER o RECEIVER
+    /// Specifies the type of participant for which to list engagement invitations. Identifies the role of the participant. Possible values: • SENDER • RECEIVER
     /// </summary>
     [CliOption("--participant-type")]
     public AwsPartnercentralSellingListEngagementInvitationsParticipantType? ParticipantType { get; private init; }
 
     /// <summary>
-    /// Specifies the sorting options for listing engagement invitations. Invitations can be sorted by fields such as InvitationDate or Status to help partners view results in their preferred order. SortOrder -&gt; (string) [required] Defines the order in which the Engagement Invitations are sorted. The values can be ASC (ascending) or DESC (descending). Possible values: o ASCENDING o DESCENDING SortBy -&gt; (string) [required] Specifies the field by which the Engagement Invitations are sorted. Common values include InvitationDate and Status . Possible values: o InvitationDate Shorthand Syntax: SortOrder=string,SortBy=string JSON Syntax: { "SortOrder": "ASCENDING"|"DESCENDING", "SortBy": "InvitationDate" }
+    /// Specifies the sorting options for listing engagement invitations. Invitations can be sorted by fields such as InvitationDate or Status to help partners view results in their preferred order. SortOrder -&gt; (string) [required] Defines the order in which the Engagement Invitations are sorted. The values can be ASC (ascending) or DESC (descending). Possible values: • ASCENDING • DESCENDING SortBy -&gt; (string) [required] Specifies the field by which the Engagement Invitations are sorted. Common values include InvitationDate and Status . Possible values: • InvitationDate Shorthand Syntax: SortOrder=string,SortBy=string JSON Syntax: { "SortOrder": "ASCENDING"|"DESCENDING", "SortBy": "InvitationDate" }
     /// </summary>
     [CliOption("--sort")]
     public string? Sort { get; set; }
 
     /// <summary>
-    /// Defines the type of payload associated with the engagement invita- tions to be listed. The attributes in this payload help decide on acceptance or rejection of the invitation. (string) Possible values: o OpportunityInvitation o LeadInvitation Syntax: "string" "string" ...
+    /// Defines the type of payload associated with the engagement invitations to be listed. The attributes in this payload help decide on acceptance or rejection of the invitation. (string) Possible values: • OpportunityInvitation • LeadInvitation Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--payload-type", GroupValues = true)]
     public IEnumerable<string>? PayloadType { get; set; }
 
     /// <summary>
-    /// Status values to filter the invitations. Constraints: o min: 1 o max: 10 (string) Possible values: o ACCEPTED o PENDING o REJECTED o EXPIRED Syntax: "string" "string" ...
+    /// Status values to filter the invitations. Constraints: • min: 1 • max: 10 (string) Possible values: • ACCEPTED • PENDING • REJECTED • EXPIRED Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--status", GroupValues = true)]
     public IEnumerable<string>? Status { get; set; }
 
     /// <summary>
-    /// Retrieves a list of engagement invitation summaries based on speci- fied filters. The ListEngagementInvitations operation allows you to view all invitations that you have sent or received. You must spec- ify the ParticipantType to filter invitations where you are either the SENDER or the RECEIVER. Invitations will automatically expire if not accepted within 15 days. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: (arn:.*|eng-[0-9a-z]{14}) Syntax: "string" "string" ...
+    /// Retrieves a list of engagement invitation summaries based on specified filters. The ListEngagementInvitations operation allows you to view all invitations that you have sent or received. You must specify the ParticipantType to filter invitations where you are either the SENDER or the RECEIVER. Invitations will automatically expire if not accepted within 15 days. Constraints: • min: 1 • max: 10 (string) Constraints: • pattern: (arn:.*|eng-[0-9a-z]{14}) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--engagement-identifier", GroupValues = true)]
     public IEnumerable<string>? EngagementIdentifier { get; set; }
 
     /// <summary>
-    /// List of sender AWS account IDs to filter the invitations. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: ([0-9]{12}|\w{1,12}) Syntax: "string" "string" ...
+    /// List of sender AWS account IDs to filter the invitations. Constraints: • min: 1 • max: 10 (string) Constraints: • pattern: ([0-9]{12}|\w{1,12}) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--sender-aws-account-id", GroupValues = true)]
     public IEnumerable<string>? SenderAwsAccountId { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -116,16 +114,19 @@ public record AwsPartnercentralSellingListEngagementInvitationsOptions : AwsOpti
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -142,6 +143,15 @@ public record AwsPartnercentralSellingListEngagementInvitationsOptions : AwsOpti
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

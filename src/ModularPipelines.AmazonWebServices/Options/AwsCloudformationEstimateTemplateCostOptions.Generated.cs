@@ -22,19 +22,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsCloudformationEstimateTemplateCostOptions : AwsOptions
 {
     /// <summary>
-    /// Structure that contains the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes. Conditional: You must pass TemplateBody or TemplateURL . If both are passed, only TemplateBody is used. Constraints: o min: 1
+    /// Structure that contains the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes. Conditional: You must pass TemplateBody or TemplateURL . If both are passed, only TemplateBody is used. Constraints: • min: 1
     /// </summary>
     [CliOption("--template-body")]
     public string? TemplateBody { get; set; }
 
     /// <summary>
-    /// The URL of a file that contains the template body. The URL must point to a template that's located in an Amazon S3 bucket or a Sys- tems Manager document. The location for an Amazon S3 bucket must start with https:// . URLs from S3 static websites are not sup- ported. Conditional: You must pass TemplateURL or TemplateBody . If both are passed, only TemplateBody is used. Constraints: o min: 1 o max: 5120
+    /// The URL of a file that contains the template body. The URL must point to a template that's located in an Amazon S3 bucket or a Systems Manager document. The location for an Amazon S3 bucket must start with https:// . URLs from S3 static websites are not supported. Conditional: You must pass TemplateURL or TemplateBody . If both are passed, only TemplateBody is used. Constraints: • min: 1 • max: 5120
     /// </summary>
     [CliOption("--template-url")]
     public string? TemplateUrl { get; set; }
 
     /// <summary>
-    /// A list of Parameter structures that specify input parameters. (structure) The Parameter data type. ParameterKey -&gt; (string) The key associated with the parameter. If you don't specify a key and value for a particular parameter, CloudFormation uses the default value that's specified in your template. ParameterValue -&gt; (string) The input value associated with the parameter. UsePreviousValue -&gt; (boolean) During a stack update, use the existing parameter value that the stack is using for a given parameter key. If you specify true , do not specify a parameter value. ResolvedValue -&gt; (string) Read-only. The value that corresponds to a Systems Manager parameter key. This field is returned only for Systems Man- ager parameter types in the template. For more information, see Specify existing resources at runtime with CloudForma- tion-supplied parameter types in the CloudFormation User Guide . Shorthand Syntax: ParameterKey=string,ParameterValue=string,UsePreviousValue=boolean,ResolvedValue=string ... JSON Syntax: [ { "ParameterKey": "string", "ParameterValue": "string", "UsePreviousValue": true|false, "ResolvedValue": "string" } ... ]
+    /// A list of Parameter structures that specify input parameters. (structure) The Parameter data type. ParameterKey -&gt; (string) The key associated with the parameter. If you don't specify a key and value for a particular parameter, CloudFormation uses the default value that's specified in your template. ParameterValue -&gt; (string) The input value associated with the parameter. UsePreviousValue -&gt; (boolean) During a stack update, use the existing parameter value that the stack is using for a given parameter key. If you specify true , do not specify a parameter value. ResolvedValue -&gt; (string) Read-only. The value that corresponds to a Systems Manager parameter key. This field is returned only for Systems Manager parameter types in the template. For more information, see Specify existing resources at runtime with CloudFormation-supplied parameter types in the CloudFormation User Guide . Shorthand Syntax: ParameterKey=string,ParameterValue=string,UsePreviousValue=boolean,ResolvedValue=string ... JSON Syntax: [ { "ParameterKey": "string", "ParameterValue": "string", "UsePreviousValue": true|false, "ResolvedValue": "string" } ... ]
     /// </summary>
     [CliOption("--parameters", GroupValues = true)]
     public IEnumerable<string>? Parameters { get; set; }
@@ -44,5 +44,14 @@ public record AwsCloudformationEstimateTemplateCostOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

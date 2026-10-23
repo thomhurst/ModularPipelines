@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the specified daemon. When you update a daemon, a new deploy- ment is triggered that progressively rolls out the changes to the con- tainer instances associated with the daemon's capacity providers. For more information, see Daemon deployments in the Amazon Elastic Con- tainer Service Developer Guide . Amazon ECS drains existing container instances and provisions new in- stances with the updated daemon. Amazon ECS automatically launches re- placement tasks for your services. WARNING: Upd...
+/// Updates the specified daemon. When you update a daemon, a new deployment is triggered that progressively rolls out the changes to the container instances associated with the daemon's capacity providers. For more information, see Daemon deployments in the Amazon Elastic Container Service Developer Guide . Amazon ECS drains existing container instances and provisions new instances with the updated daemon. Amazon ECS automatically launches replacement tasks for your services. WARNING: Updating a da...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsEcsUpdateDaemonOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the specified daemon. When you update a daemon, a new deploy- ment is triggered that progressively rolls out the changes to the con- tainer instances associated with the daemon's capacity providers. For more information, see Daemon deployments in the Amazon Elastic Con- tainer Service Developer Guide . Amazon ECS drains existing container instances and provisions new in- stances with the updated daemon. Amazon ECS automatically launches re- placement tasks for your services. WARNING: Upd...
+    /// Updates the specified daemon. When you update a daemon, a new deployment is triggered that progressively rolls out the changes to the container instances associated with the daemon's capacity providers. For more information, see Daemon deployments in the Amazon Elastic Container Service Developer Guide . Amazon ECS drains existing container instances and provisions new instances with the updated daemon. Amazon ECS automatically launches replacement tasks for your services. WARNING: Updating a da...
     /// </summary>
     /// <param name="DaemonArn">The Amazon Resource Name (ARN) of the daemon to update.</param>
     /// <param name="DaemonTaskDefinitionArn">The Amazon Resource Name (ARN) of the daemon task definition to use for the updated daemon.</param>
-    /// <param name="CapacityProviderArns">The Amazon Resource Names (ARNs) of the capacity providers to asso- ciate with the daemon. (string) Syntax: "string" "string" ...</param>
+    /// <param name="CapacityProviderArns">The Amazon Resource Names (ARNs) of the capacity providers to associate with the daemon. (string) Syntax: "string" "string" ...</param>
     public AwsEcsUpdateDaemonOptions(
         string DaemonArn,
         string DaemonTaskDefinitionArn,
@@ -88,25 +89,25 @@ public record AwsEcsUpdateDaemonOptions : AwsOptions, IValidatableObject
     public string? DaemonTaskDefinitionArn { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Names (ARNs) of the capacity providers to asso- ciate with the daemon. (string) Syntax: "string" "string" ...
+    /// The Amazon Resource Names (ARNs) of the capacity providers to associate with the daemon. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--capacity-provider-arns", GroupValues = true)]
     public IEnumerable<string>? CapacityProviderArns { get; private init; }
 
     /// <summary>
-    /// Optional deployment parameters that control how the daemon rolls out updates, including the drain percentage, alarm-based rollback, and bake time. drainPercent -&gt; (double) The percentage of container instances to drain simultaneously during a daemon deployment. Valid values are between 0.0 and 100.0. Constraints: o min: 0.0 o max: 100.0 alarms -&gt; (structure) The CloudWatch alarm configuration for the daemon deployment. When alarms are triggered during a deployment, the deployment can be automatically rolled back. alarmNames -&gt; (list) The CloudWatch alarm names to monitor during a daemon deploy- ment. (string) enable -&gt; (boolean) Determines whether to use the CloudWatch alarm option in the daemon deployment process. The default value is false . bakeTimeInMinutes -&gt; (integer) The amount of time (in minutes) to wait after a successful de- ployment step before proceeding. This allows time to monitor for issues before continuing. The default value is 0. Shorthand Syntax: drainPercent=double,alarms={alarmNames=[string,string],enable=boolean},bakeTimeInMinutes=integer JSON Syntax: { "drainPercent": double, "alarms": { "alarmNames": ["string", ...], "enable": true|false }, "bakeTimeInMinutes": integer }
+    /// Optional deployment parameters that control how the daemon rolls out updates, including the drain percentage, alarm-based rollback, and bake time. drainPercent -&gt; (double) The percentage of container instances to drain simultaneously during a daemon deployment. Valid values are between 0.0 and 100.0. Constraints: • min: 0.0 • max: 100.0 alarms -&gt; (structure) The CloudWatch alarm configuration for the daemon deployment. When alarms are triggered during a deployment, the deployment can be automatically rolled back. alarmNames -&gt; (list) The CloudWatch alarm names to monitor during a daemon deployment. (string) enable -&gt; (boolean) Determines whether to use the CloudWatch alarm option in the daemon deployment process. The default value is false . bakeTimeInMinutes -&gt; (integer) The amount of time (in minutes) to wait after a successful deployment step before proceeding. This allows time to monitor for issues before continuing. The default value is 0. Shorthand Syntax: drainPercent=double,alarms={alarmNames=[string,string],enable=boolean},bakeTimeInMinutes=integer JSON Syntax: { "drainPercent": double, "alarms": { "alarmNames": ["string", ...], "enable": true|false }, "bakeTimeInMinutes": integer }
     /// </summary>
     [CliOption("--deployment-configuration")]
     public string? DeploymentConfiguration { get; set; }
 
     /// <summary>
-    /// Specifies whether to propagate the tags from the daemon to the dae- mon tasks. If you don't specify a value, the tags aren't propagated. You can only propagate tags to daemon tasks during task creation. Possible values: o DAEMON o NONE
+    /// Specifies whether to propagate the tags from the daemon to the daemon tasks. If you don't specify a value, the tags aren't propagated. You can only propagate tags to daemon tasks during task creation. Possible values: • DAEMON • NONE
     /// </summary>
     [CliOption("--propagate-tags")]
     public AwsEcsUpdateDaemonPropagateTags? PropagateTags { get; set; }
 
     /// <summary>
-    /// Specifies whether to turn on Amazon ECS managed tags for the tasks in the daemon. For more information, see Tagging your Amazon ECS re- sources in the Amazon Elastic Container Service Developer Guide .
+    /// Specifies whether to turn on Amazon ECS managed tags for the tasks in the daemon. For more information, see Tagging your Amazon ECS resources in the Amazon Elastic Container Service Developer Guide .
     /// </summary>
     [CliFlag("--enable-ecs-managed-tags", NegatedName = "--no-enable-ecs-managed-tags")]
     public bool? EnableEcsManagedTags { get; set; }
@@ -118,7 +119,7 @@ public record AwsEcsUpdateDaemonOptions : AwsOptions, IValidatableObject
     public bool? EnableExecuteCommand { get; set; }
 
     /// <summary>
-    /// If the critical parameter of a daemon is true , and the daemon task fails, stops, or becomes unhealthy, Amazon ECS drains the container instance and stops the other tasks running on it. If the critical parameter is false , the daemon task failure doesn't affect the other tasks on the instance. The default value is true . A non-critical daemon doesn't block instance registration. The con- tainer instance becomes active and continues to run your other tasks, whether the daemon task fails during scale-out or during a deployment. Amazon ECS emits an EventBridge event when a daemon task fails to start, for both critical and non-critical daemons. Daemon task launch failures during a deployment are still counted by the deployment circuit breaker. The circuit breaker can roll back an unstable target revision.
+    /// If the critical parameter of a daemon is true , and the daemon task fails, stops, or becomes unhealthy, Amazon ECS drains the container instance and stops the other tasks running on it. If the critical parameter is false , the daemon task failure doesn't affect the other tasks on the instance. The default value is true . A non-critical daemon doesn't block instance registration. The container instance becomes active and continues to run your other tasks, whether the daemon task fails during scale-out or during a deployment. Amazon ECS emits an EventBridge event when a daemon task fails to start, for both critical and non-critical daemons. Daemon task launch failures during a deployment are still counted by the deployment circuit breaker. The circuit breaker can roll back an unstable target revision.
     /// </summary>
     [CliFlag("--critical", NegatedName = "--no-critical")]
     public bool? Critical { get; set; }
@@ -144,6 +145,15 @@ public record AwsEcsUpdateDaemonOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

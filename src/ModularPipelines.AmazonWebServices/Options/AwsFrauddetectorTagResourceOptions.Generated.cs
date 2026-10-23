@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsFrauddetectorTagResourceOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Assigns tags to a resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The resource ARN. Constraints: o min: 1 o max: 256 o pattern: ^arn\:aws[a-z-]{0,15}\:frauddetec- tor\:[a-z0-9-]{3,20}\:[0-9]{12}\:[^\s]{2,128}$</param>
-    /// <param name="Tags">The tags to assign to the resource. Constraints: o min: 0 o max: 200 (structure) A key and value pair. key -&gt; (string) [required] A tag key. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) [required] A value assigned to a tag key. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]</param>
+    /// <param name="ResourceArn">The resource ARN. Constraints: • min: 1 • max: 256 • pattern: ^arn\:aws[a-z-]{0,15}\:frauddetector\:[a-z0-9-]{3,20}\:[0-9]{12}\:[^\s]{2,128}$</param>
+    /// <param name="Tags">The tags to assign to the resource. Constraints: • min: 0 • max: 200 (structure) A key and value pair. key -&gt; (string) [required] A tag key. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) [required] A value assigned to a tag key. Constraints: • min: 0 • max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]</param>
     public AwsFrauddetectorTagResourceOptions(
         string ResourceArn,
         IEnumerable<string> Tags
@@ -71,13 +72,13 @@ public record AwsFrauddetectorTagResourceOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The resource ARN. Constraints: o min: 1 o max: 256 o pattern: ^arn\:aws[a-z-]{0,15}\:frauddetec- tor\:[a-z0-9-]{3,20}\:[0-9]{12}\:[^\s]{2,128}$
+    /// The resource ARN. Constraints: • min: 1 • max: 256 • pattern: ^arn\:aws[a-z-]{0,15}\:frauddetector\:[a-z0-9-]{3,20}\:[0-9]{12}\:[^\s]{2,128}$
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The tags to assign to the resource. Constraints: o min: 0 o max: 200 (structure) A key and value pair. key -&gt; (string) [required] A tag key. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) [required] A value assigned to a tag key. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// The tags to assign to the resource. Constraints: • min: 0 • max: 200 (structure) A key and value pair. key -&gt; (string) [required] A tag key. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) [required] A value assigned to a tag key. Constraints: • min: 0 • max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; private init; }
@@ -103,6 +104,15 @@ public record AwsFrauddetectorTagResourceOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

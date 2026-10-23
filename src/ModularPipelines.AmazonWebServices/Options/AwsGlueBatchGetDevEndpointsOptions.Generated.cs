@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsGlueBatchGetDevEndpointsOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Returns a list of resource metadata for a given list of development endpoint names. After calling the ListDevEndpoints operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DevEndpointNames">The list of DevEndpoint names, which might be the names returned from the ListDevEndpoint operation. Constraints: o min: 1 o max: 25 (string) Syntax: "string" "string" ...</param>
+    /// <param name="DevEndpointNames">The list of DevEndpoint names, which might be the names returned from the ListDevEndpoint operation. Constraints: • min: 1 • max: 25 (string) Syntax: "string" "string" ...</param>
     public AwsGlueBatchGetDevEndpointsOptions(
         IEnumerable<string> DevEndpointNames
     )
@@ -67,7 +68,7 @@ public record AwsGlueBatchGetDevEndpointsOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The list of DevEndpoint names, which might be the names returned from the ListDevEndpoint operation. Constraints: o min: 1 o max: 25 (string) Syntax: "string" "string" ...
+    /// The list of DevEndpoint names, which might be the names returned from the ListDevEndpoint operation. Constraints: • min: 1 • max: 25 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--dev-endpoint-names", GroupValues = true)]
     public IEnumerable<string>? DevEndpointNames { get; private init; }
@@ -93,6 +94,15 @@ public record AwsGlueBatchGetDevEndpointsOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

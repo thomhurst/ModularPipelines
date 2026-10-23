@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Get the attributes of the specified dimension group for a DB instance or data source. For example, if you specify a SQL ID, GetDimensionKey- Details retrieves the full text of the dimension db.sql.statement asso- ciated with this ID. This operation is useful because GetResourceMet- rics and DescribeDimensionKeys don't support retrieval of large SQL statement text, lock snapshots, and execution plans. See also: AWS API Documentation
+/// Get the attributes of the specified dimension group for a DB instance or data source. For example, if you specify a SQL ID, GetDimensionKeyDetails retrieves the full text of the dimension db.sql.statement associated with this ID. This operation is useful because GetResourceMetrics and DescribeDimensionKeys don't support retrieval of large SQL statement text, lock snapshots, and execution plans. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,12 +27,12 @@ public record AwsPiGetDimensionKeyDetailsOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Get the attributes of the specified dimension group for a DB instance or data source. For example, if you specify a SQL ID, GetDimensionKey- Details retrieves the full text of the dimension db.sql.statement asso- ciated with this ID. This operation is useful because GetResourceMet- rics and DescribeDimensionKeys don't support retrieval of large SQL statement text, lock snapshots, and execution plans. See also: AWS API Documentation
+    /// Get the attributes of the specified dimension group for a DB instance or data source. For example, if you specify a SQL ID, GetDimensionKeyDetails retrieves the full text of the dimension db.sql.statement associated with this ID. This operation is useful because GetResourceMetrics and DescribeDimensionKeys don't support retrieval of large SQL statement text, lock snapshots, and execution plans. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ServiceType">The Amazon Web Services service for which Performance Insights re- turns data. The only valid value is RDS . Possible values: o RDS o DOCDB</param>
-    /// <param name="Identifier">The ID for a data source from which to gather dimension data. This ID must be immutable and unique within an Amazon Web Services Re- gion. When a DB instance is the data source, specify its DbiResour- ceId value. For example, specify db-ABCDEFGHIJKLMNOPQRSTU1VW2X . Constraints: o min: 0 o max: 256 o pattern: ^[a-zA-Z0-9-]+$</param>
-    /// <param name="Group">The name of the dimension group. Performance Insights searches the specified group for the dimension group ID. The following group name values are valid: o db.execution_plan (Amazon RDS and Aurora only) o db.lock_snapshot (Aurora only) o db.query (Amazon DocumentDB only) o db.sql (Amazon RDS and Aurora only) Constraints: o min: 0 o max: 256 o pattern: .*\S.*</param>
-    /// <param name="GroupIdentifier">The ID of the dimension group from which to retrieve dimension de- tails. For dimension group db.sql , the group ID is db.sql.id . The following group ID values are valid: o db.execution_plan.id for dimension group db.execution_plan (Aurora and RDS only) o db.sql.id for dimension group db.sql (Aurora and RDS only) o db.query.id for dimension group db.query (DocumentDB only) o For the dimension group db.lock_snapshot , the GroupIdentifier is the epoch timestamp when Performance Insights captured the snap- shot, in seconds. You can retrieve this value with the GetRe- sourceMetrics operation for a 1 second period. Constraints: o min: 0 o max: 256 o pattern: .*\S.*</param>
+    /// <param name="ServiceType">The Amazon Web Services service for which Performance Insights returns data. The only valid value is RDS . Possible values: • RDS • DOCDB</param>
+    /// <param name="Identifier">The ID for a data source from which to gather dimension data. This ID must be immutable and unique within an Amazon Web Services Region. When a DB instance is the data source, specify its DbiResourceId value. For example, specify db-ABCDEFGHIJKLMNOPQRSTU1VW2X . Constraints: • min: 0 • max: 256 • pattern: ^[a-zA-Z0-9-]+$</param>
+    /// <param name="Group">The name of the dimension group. Performance Insights searches the specified group for the dimension group ID. The following group name values are valid: • db.execution_plan (Amazon RDS and Aurora only) • db.lock_snapshot (Aurora only) • db.query (Amazon DocumentDB only) • db.sql (Amazon RDS and Aurora only) Constraints: • min: 0 • max: 256 • pattern: .*\S.*</param>
+    /// <param name="GroupIdentifier">The ID of the dimension group from which to retrieve dimension details. For dimension group db.sql , the group ID is db.sql.id . The following group ID values are valid: • db.execution_plan.id for dimension group db.execution_plan (Aurora and RDS only) • db.sql.id for dimension group db.sql (Aurora and RDS only) • db.query.id for dimension group db.query (DocumentDB only) • For the dimension group db.lock_snapshot , the GroupIdentifier is the epoch timestamp when Performance Insights captured the snapshot, in seconds. You can retrieve this value with the GetResourceMetrics operation for a 1 second period. Constraints: • min: 0 • max: 256 • pattern: .*\S.*</param>
     public AwsPiGetDimensionKeyDetailsOptions(
         AwsPiGetDimensionKeyDetailsServiceType ServiceType,
         string Identifier,
@@ -68,31 +69,31 @@ public record AwsPiGetDimensionKeyDetailsOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services service for which Performance Insights re- turns data. The only valid value is RDS . Possible values: o RDS o DOCDB
+    /// The Amazon Web Services service for which Performance Insights returns data. The only valid value is RDS . Possible values: • RDS • DOCDB
     /// </summary>
     [CliOption("--service-type")]
     public AwsPiGetDimensionKeyDetailsServiceType? ServiceType { get; private init; }
 
     /// <summary>
-    /// The ID for a data source from which to gather dimension data. This ID must be immutable and unique within an Amazon Web Services Re- gion. When a DB instance is the data source, specify its DbiResour- ceId value. For example, specify db-ABCDEFGHIJKLMNOPQRSTU1VW2X . Constraints: o min: 0 o max: 256 o pattern: ^[a-zA-Z0-9-]+$
+    /// The ID for a data source from which to gather dimension data. This ID must be immutable and unique within an Amazon Web Services Region. When a DB instance is the data source, specify its DbiResourceId value. For example, specify db-ABCDEFGHIJKLMNOPQRSTU1VW2X . Constraints: • min: 0 • max: 256 • pattern: ^[a-zA-Z0-9-]+$
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// The name of the dimension group. Performance Insights searches the specified group for the dimension group ID. The following group name values are valid: o db.execution_plan (Amazon RDS and Aurora only) o db.lock_snapshot (Aurora only) o db.query (Amazon DocumentDB only) o db.sql (Amazon RDS and Aurora only) Constraints: o min: 0 o max: 256 o pattern: .*\S.*
+    /// The name of the dimension group. Performance Insights searches the specified group for the dimension group ID. The following group name values are valid: • db.execution_plan (Amazon RDS and Aurora only) • db.lock_snapshot (Aurora only) • db.query (Amazon DocumentDB only) • db.sql (Amazon RDS and Aurora only) Constraints: • min: 0 • max: 256 • pattern: .*\S.*
     /// </summary>
     [CliOption("--group")]
     public string? Group { get; private init; }
 
     /// <summary>
-    /// The ID of the dimension group from which to retrieve dimension de- tails. For dimension group db.sql , the group ID is db.sql.id . The following group ID values are valid: o db.execution_plan.id for dimension group db.execution_plan (Aurora and RDS only) o db.sql.id for dimension group db.sql (Aurora and RDS only) o db.query.id for dimension group db.query (DocumentDB only) o For the dimension group db.lock_snapshot , the GroupIdentifier is the epoch timestamp when Performance Insights captured the snap- shot, in seconds. You can retrieve this value with the GetRe- sourceMetrics operation for a 1 second period. Constraints: o min: 0 o max: 256 o pattern: .*\S.*
+    /// The ID of the dimension group from which to retrieve dimension details. For dimension group db.sql , the group ID is db.sql.id . The following group ID values are valid: • db.execution_plan.id for dimension group db.execution_plan (Aurora and RDS only) • db.sql.id for dimension group db.sql (Aurora and RDS only) • db.query.id for dimension group db.query (DocumentDB only) • For the dimension group db.lock_snapshot , the GroupIdentifier is the epoch timestamp when Performance Insights captured the snapshot, in seconds. You can retrieve this value with the GetResourceMetrics operation for a 1 second period. Constraints: • min: 0 • max: 256 • pattern: .*\S.*
     /// </summary>
     [CliOption("--group-identifier")]
     public string? GroupIdentifier { get; private init; }
 
     /// <summary>
-    /// A list of dimensions to retrieve the detail data for within the given dimension group. If you don't specify this parameter, Perfor- mance Insights returns all dimension data within the specified di- mension group. Specify dimension names for the following dimension groups: o db.execution_plan - Specify the dimension name db.execu- tion_plan.raw_plan or the short dimension name raw_plan (Amazon RDS and Aurora only) o db.lock_snapshot - Specify the dimension name db.lock_snap- shot.lock_trees or the short dimension name lock_trees . (Aurora only) o db.sql - Specify either the full dimension name db.sql.statement or the short dimension name statement (Aurora and RDS only). o db.query - Specify either the full dimension name db.query.state- ment or the short dimension name statement (DocumentDB only). Constraints: o min: 1 o max: 10 (string) A generic string type that forbids characters that could expose our service (or services downstream) to security risks around injections. Constraints: o min: 0 o max: 256 o pattern: ^[a-zA-Z0-9-_\.:/*)( ]+$ Syntax: "string" "string" ...
+    /// A list of dimensions to retrieve the detail data for within the given dimension group. If you don't specify this parameter, Performance Insights returns all dimension data within the specified dimension group. Specify dimension names for the following dimension groups: • db.execution_plan - Specify the dimension name db.execution_plan.raw_plan or the short dimension name raw_plan (Amazon RDS and Aurora only) • db.lock_snapshot - Specify the dimension name db.lock_snapshot.lock_trees or the short dimension name lock_trees . (Aurora only) • db.sql - Specify either the full dimension name db.sql.statement or the short dimension name statement (Aurora and RDS only). • db.query - Specify either the full dimension name db.query.statement or the short dimension name statement (DocumentDB only). Constraints: • min: 1 • max: 10 (string) A generic string type that forbids characters that could expose our service (or services downstream) to security risks around injections. Constraints: • min: 0 • max: 256 • pattern: ^[a-zA-Z0-9-_\.:/*)( ]+$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--requested-dimensions", GroupValues = true)]
     public IEnumerable<string>? RequestedDimensions { get; set; }
@@ -118,6 +119,15 @@ public record AwsPiGetDimensionKeyDetailsOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

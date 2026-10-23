@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -33,7 +33,7 @@ public class AwsDeploy : IAwsDeploy
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws deploy wait sub-commands.
     /// </summary>
     public AwsDeployWait Wait => _wait ??= new AwsDeployWait(_command);
 
@@ -102,6 +102,21 @@ public class AwsDeploy : IAwsDeploy
     }
 
     /// <summary>
+    /// Returns an array of one or more targets associated with a deployment. This method works with all compute types and should be used instead of the deprecated BatchGetDeploymentInstances . The maximum number of targets that can be returned is 25. The type of targets returned depends on the deployment's compute platform or deployment method: • EC2/On-premises : Information about Amazon EC2 instance targets. • Lambda : Information about Lambda functions targets. • Amazon ECS : Information about Amazo...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> BatchGetDeploymentTargetsAsync(
+        AwsDeployBatchGetDeploymentTargetsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Gets information about one or more deployments. The maximum number of deployments that can be returned is 25. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -110,21 +125,6 @@ public class AwsDeploy : IAwsDeploy
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BatchGetDeploymentsAsync(
         AwsDeployBatchGetDeploymentsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Returns an array of one or more targets associated with a deployment. This method works with all compute types and should be used instead of the deprecated BatchGetDeploymentInstances . The maximum number of tar- gets that can be returned is 25. The type of targets returned depends on the deployment's compute plat- form or deployment method: o EC2/On-premises : Information about Amazon EC2 instance targets. o Lambda : Information about Lambda functions targets. o Amazon ECS : Information about A...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> BatchGetDeploymentTargetsAsync(
-        AwsDeployBatchGetDeploymentTargetsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -147,7 +147,7 @@ public class AwsDeploy : IAwsDeploy
     }
 
     /// <summary>
-    /// For a blue/green deployment, starts the process of rerouting traffic from instances in the original environment to instances in the replace- ment environment without waiting for a specified wait time to elapse. (Traffic rerouting, which is achieved by registering instances in the replacement environment with the load balancer, can start as soon as all instances have a status of Ready.) See also: AWS API Documentation
+    /// For a blue/green deployment, starts the process of rerouting traffic from instances in the original environment to instances in the replacement environment without waiting for a specified wait time to elapse. (Traffic rerouting, which is achieved by registering instances in the replacement environment with the load balancer, can start as soon as all instances have a status of Ready.) See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -282,7 +282,7 @@ public class AwsDeploy : IAwsDeploy
     }
 
     /// <summary>
-    /// Deletes resources linked to an external ID. This action only applies if you have configured blue/green deployments through CloudFormation. NOTE: It is not necessary to call this action directly. CloudFormation calls it on your behalf when it needs to delete stack resources. This action is offered publicly in case you need to delete resources to comply with General Data Protection Regulation (GDPR) require- ments. See also: AWS API Documentation
+    /// Deletes resources linked to an external ID. This action only applies if you have configured blue/green deployments through CloudFormation. NOTE: It is not necessary to call this action directly. CloudFormation calls it on your behalf when it needs to delete stack resources. This action is offered publicly in case you need to delete resources to comply with General Data Protection Regulation (GDPR) requirements. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -312,7 +312,7 @@ public class AwsDeploy : IAwsDeploy
     }
 
     /// <summary>
-    /// Removes any tags from the on-premises instance; deregisters the on-premises instance from AWS CodeDeploy; and, unless requested other- wise, deletes the IAM user for the on-premises instance.
+    /// Removes any tags from the on-premises instance; deregisters the on-premises instance from AWS CodeDeploy; and, unless requested otherwise, deletes the IAM user for the on-premises instance.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -432,7 +432,7 @@ public class AwsDeploy : IAwsDeploy
     }
 
     /// <summary>
-    /// Configures and installs the AWS CodeDeploy Agent on the on-premises in- stance.
+    /// Configures and installs the AWS CodeDeploy Agent on the on-premises instance.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -447,7 +447,7 @@ public class AwsDeploy : IAwsDeploy
     }
 
     /// <summary>
-    /// Lists information about revisions for an application. See also: AWS API Documentation list-application-revisions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: revisions
+    /// Lists information about revisions for an application. See also: AWS API Documentation list-application-revisions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: revisions
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -477,7 +477,7 @@ public class AwsDeploy : IAwsDeploy
     }
 
     /// <summary>
-    /// Lists the deployment configurations with the user or Amazon Web Ser- vices account. See also: AWS API Documentation list-deployment-configs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: deploymentC...
+    /// Lists the deployment configurations with the user or Amazon Web Services account. See also: AWS API Documentation list-deployment-configs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: deploymentConfi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -492,7 +492,7 @@ public class AwsDeploy : IAwsDeploy
     }
 
     /// <summary>
-    /// Lists the deployment groups for an application registered with the Ama- zon Web Services user or Amazon Web Services account. See also: AWS API Documentation list-deployment-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the f...
+    /// Lists the deployment groups for an application registered with the Amazon Web Services user or Amazon Web Services account. See also: AWS API Documentation list-deployment-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the fol...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -507,22 +507,7 @@ public class AwsDeploy : IAwsDeploy
     }
 
     /// <summary>
-    /// Lists the deployments in a deployment group for an application regis- tered with the user or Amazon Web Services account. See also: AWS API Documentation list-deployments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following q...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListDeploymentsAsync(
-        AwsDeployListDeploymentsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDeployListDeploymentsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Returns an array of target IDs that are associated a deployment. See also: AWS API Documentation list-deployment-targets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: targetIds
+    /// Returns an array of target IDs that are associated a deployment. See also: AWS API Documentation list-deployment-targets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: targetIds
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -537,7 +522,22 @@ public class AwsDeploy : IAwsDeploy
     }
 
     /// <summary>
-    /// Lists the names of stored connections to GitHub accounts. See also: AWS API Documentation list-git-hub-account-token-names is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: tokenNameList
+    /// Lists the deployments in a deployment group for an application registered with the user or Amazon Web Services account. See also: AWS API Documentation list-deployments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following que...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListDeploymentsAsync(
+        AwsDeployListDeploymentsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDeployListDeploymentsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists the names of stored connections to GitHub accounts. See also: AWS API Documentation list-git-hub-account-token-names is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: tokenNameList
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -567,7 +567,7 @@ public class AwsDeploy : IAwsDeploy
     }
 
     /// <summary>
-    /// Returns a list of tags for the resource identified by a specified Ama- zon Resource Name (ARN). Tags are used to organize and categorize your CodeDeploy resources. See also: AWS API Documentation
+    /// Returns a list of tags for the resource identified by a specified Amazon Resource Name (ARN). Tags are used to organize and categorize your CodeDeploy resources. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -582,7 +582,7 @@ public class AwsDeploy : IAwsDeploy
     }
 
     /// <summary>
-    /// Bundles and uploads to Amazon Simple Storage Service (Amazon S3) an ap- plication revision, which is a zip archive file that contains deploy- able content and an accompanying Application Specification file (App- Spec file). If the upload is successful, a message is returned that de- scribes how to call the create-deployment command to deploy the appli- cation revision from Amazon S3 to target Amazon Elastic Compute Cloud (Amazon EC2) instances.
+    /// Bundles and uploads to Amazon Simple Storage Service (Amazon S3) an application revision, which is a zip archive file that contains deployable content and an accompanying Application Specification file (AppSpec file). If the upload is successful, a message is returned that describes how to call the create-deployment command to deploy the application revision from Amazon S3 to target Amazon Elastic Compute Cloud (Amazon EC2) instances.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -597,7 +597,7 @@ public class AwsDeploy : IAwsDeploy
     }
 
     /// <summary>
-    /// Sets the result of a Lambda validation function. The function validates lifecycle hooks during a deployment that uses the Lambda or Amazon ECS compute platform. For Lambda deployments, the available lifecycle hooks are BeforeAllowTraffic and AfterAllowTraffic . For Amazon ECS deploy- ments, the available lifecycle hooks are BeforeInstall , AfterInstall , AfterAllowTestTraffic , BeforeAllowTraffic , and AfterAllowTraffic . Lambda validation functions return Succeeded or Failed . For more in- form...
+    /// Sets the result of a Lambda validation function. The function validates lifecycle hooks during a deployment that uses the Lambda or Amazon ECS compute platform. For Lambda deployments, the available lifecycle hooks are BeforeAllowTraffic and AfterAllowTraffic . For Amazon ECS deployments, the available lifecycle hooks are BeforeInstall , AfterInstall , AfterAllowTestTraffic , BeforeAllowTraffic , and AfterAllowTraffic . Lambda validation functions return Succeeded or Failed . For more informatio...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -642,7 +642,7 @@ public class AwsDeploy : IAwsDeploy
     }
 
     /// <summary>
-    /// Creates an IAM user for the on-premises instance, if not provided, and saves the user's credentials to an on-premises instance configuration file; registers the on-premises instance with AWS CodeDeploy; and op- tionally adds tags to the on-premises instance.
+    /// Creates an IAM user for the on-premises instance, if not provided, and saves the user's credentials to an on-premises instance configuration file; registers the on-premises instance with AWS CodeDeploy; and optionally adds tags to the on-premises instance.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -687,7 +687,7 @@ public class AwsDeploy : IAwsDeploy
     }
 
     /// <summary>
-    /// Associates the list of tags in the input Tags parameter with the re- source identified by the ResourceArn input parameter. See also: AWS API Documentation
+    /// Associates the list of tags in the input Tags parameter with the resource identified by the ResourceArn input parameter. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -717,7 +717,7 @@ public class AwsDeploy : IAwsDeploy
     }
 
     /// <summary>
-    /// Disassociates a resource from a list of tags. The resource is identi- fied by the ResourceArn input parameter. The tags are identified by the list of keys in the TagKeys input parameter. See also: AWS API Documentation
+    /// Disassociates a resource from a list of tags. The resource is identified by the ResourceArn input parameter. The tags are identified by the list of keys in the TagKeys input parameter. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

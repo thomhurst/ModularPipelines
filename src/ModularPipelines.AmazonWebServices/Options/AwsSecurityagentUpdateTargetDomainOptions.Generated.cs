@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,7 +30,7 @@ public record AwsSecurityagentUpdateTargetDomainOptions : AwsOptions, IValidatab
     /// Updates the verification method for a target domain. See also: AWS API Documentation
     /// </summary>
     /// <param name="TargetDomainId">The unique identifier of the target domain to update.</param>
-    /// <param name="VerificationMethod">The updated verification method for the target domain. Possible values: o DNS_TXT o HTTP_ROUTE o PRIVATE_VPC</param>
+    /// <param name="VerificationMethod">The updated verification method for the target domain. Possible values: • DNS_TXT • HTTP_ROUTE • PRIVATE_VPC</param>
     public AwsSecurityagentUpdateTargetDomainOptions(
         string TargetDomainId,
         AwsSecurityagentUpdateTargetDomainVerificationMethod VerificationMethod
@@ -66,7 +67,7 @@ public record AwsSecurityagentUpdateTargetDomainOptions : AwsOptions, IValidatab
     public string? TargetDomainId { get; private init; }
 
     /// <summary>
-    /// The updated verification method for the target domain. Possible values: o DNS_TXT o HTTP_ROUTE o PRIVATE_VPC
+    /// The updated verification method for the target domain. Possible values: • DNS_TXT • HTTP_ROUTE • PRIVATE_VPC
     /// </summary>
     [CliOption("--verification-method")]
     public AwsSecurityagentUpdateTargetDomainVerificationMethod? VerificationMethod { get; private init; }
@@ -92,6 +93,15 @@ public record AwsSecurityagentUpdateTargetDomainOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

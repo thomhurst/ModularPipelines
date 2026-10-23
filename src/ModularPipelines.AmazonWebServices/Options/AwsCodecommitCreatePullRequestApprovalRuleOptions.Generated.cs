@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +29,8 @@ public record AwsCodecommitCreatePullRequestApprovalRuleOptions : AwsOptions, IV
     /// Creates an approval rule for a pull request. See also: AWS API Documentation
     /// </summary>
     /// <param name="PullRequestId">The system-generated ID of the pull request for which you want to create the approval rule.</param>
-    /// <param name="ApprovalRuleName">The name for the approval rule. Constraints: o min: 1 o max: 100</param>
-    /// <param name="ApprovalRuleContent">The content of the approval rule, including the number of approvals needed and the structure of an approval pool defined for approvals, if any. For more information about approval pools, see the CodeCom- mit User Guide. NOTE: When you create the content of the approval rule, you can spec- ify approvers in an approval pool in one of two ways: o CodeCommitApprovers : This option only requires an Amazon Web Services account and a resource. It can be used for both IAM users and federated access users whose name matches the pro- vided resource name. This is a very powerful option that of- fers a great deal of flexibility. For example, if you specify the Amazon Web Services account 123456789012 and Mary_Major , all of the following would be counted as approvals coming from that user: o An IAM user in the account (arn:aws:iam::123456789012 :user/Mary_Major ) o A federated user identified in IAM as Mary_Major (arn:aws:sts::123456789012 :federated-user/Mary_Major ) This option does not recognize an active session of someone as- suming the role of CodeCommitReview with a role session name of Mary_Major (arn:aws:sts::123456789012 :assumed-role/CodeCom- mitReview/Mary_Major ) unless you include a wildcard ( * Mary_Major). System Message: WARNING/2 (&lt;string&gt;:, line 119) Inline emphasis start-string without end-string. o Fully qualified ARN : This option allows you to specify the fully qualified Amazon Resource Name (ARN) of the IAM user or role. For more information about IAM ARNs, wildcards, and formats, see IAM Identifiers in the IAM User Guide . Constraints: o min: 1 o max: 3000</param>
+    /// <param name="ApprovalRuleName">The name for the approval rule. Constraints: • min: 1 • max: 100</param>
+    /// <param name="ApprovalRuleContent">The content of the approval rule, including the number of approvals needed and the structure of an approval pool defined for approvals, if any. For more information about approval pools, see the CodeCommit User Guide. NOTE: When you create the content of the approval rule, you can specify approvers in an approval pool in one of two ways: • CodeCommitApprovers : This option only requires an Amazon Web Services account and a resource. It can be used for both IAM users and federated access users whose name matches the provided resource name. This is a very powerful option that offers a great deal of flexibility. For example, if you specify the Amazon Web Services account 123456789012 and Mary_Major , all of the following would be counted as approvals coming from that user: • An IAM user in the account (arn:aws:iam::123456789012 :user/Mary_Major ) • A federated user identified in IAM as Mary_Major (arn:aws:sts::123456789012 :federated-user/Mary_Major ) This option does not recognize an active session of someone assuming the role of CodeCommitReview with a role session name of Mary_Major (arn:aws:sts::123456789012 :assumed-role/CodeCommitReview/Mary_Major ) unless you include a wildcard ( * Mary_Major). System Message: WARNING/2 (&lt;string&gt;:, line 119) Inline emphasis start-string without end-string. • Fully qualified ARN : This option allows you to specify the fully qualified Amazon Resource Name (ARN) of the IAM user or role. For more information about IAM ARNs, wildcards, and formats, see IAM Identifiers in the IAM User Guide . Constraints: • min: 1 • max: 3000</param>
     public AwsCodecommitCreatePullRequestApprovalRuleOptions(
         string PullRequestId,
         string ApprovalRuleName,
@@ -70,13 +71,13 @@ public record AwsCodecommitCreatePullRequestApprovalRuleOptions : AwsOptions, IV
     public string? PullRequestId { get; private init; }
 
     /// <summary>
-    /// The name for the approval rule. Constraints: o min: 1 o max: 100
+    /// The name for the approval rule. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--approval-rule-name")]
     public string? ApprovalRuleName { get; private init; }
 
     /// <summary>
-    /// The content of the approval rule, including the number of approvals needed and the structure of an approval pool defined for approvals, if any. For more information about approval pools, see the CodeCom- mit User Guide. NOTE: When you create the content of the approval rule, you can spec- ify approvers in an approval pool in one of two ways: o CodeCommitApprovers : This option only requires an Amazon Web Services account and a resource. It can be used for both IAM users and federated access users whose name matches the pro- vided resource name. This is a very powerful option that of- fers a great deal of flexibility. For example, if you specify the Amazon Web Services account 123456789012 and Mary_Major , all of the following would be counted as approvals coming from that user: o An IAM user in the account (arn:aws:iam::123456789012 :user/Mary_Major ) o A federated user identified in IAM as Mary_Major (arn:aws:sts::123456789012 :federated-user/Mary_Major ) This option does not recognize an active session of someone as- suming the role of CodeCommitReview with a role session name of Mary_Major (arn:aws:sts::123456789012 :assumed-role/CodeCom- mitReview/Mary_Major ) unless you include a wildcard ( * Mary_Major). System Message: WARNING/2 (&lt;string&gt;:, line 119) Inline emphasis start-string without end-string. o Fully qualified ARN : This option allows you to specify the fully qualified Amazon Resource Name (ARN) of the IAM user or role. For more information about IAM ARNs, wildcards, and formats, see IAM Identifiers in the IAM User Guide . Constraints: o min: 1 o max: 3000
+    /// The content of the approval rule, including the number of approvals needed and the structure of an approval pool defined for approvals, if any. For more information about approval pools, see the CodeCommit User Guide. NOTE: When you create the content of the approval rule, you can specify approvers in an approval pool in one of two ways: • CodeCommitApprovers : This option only requires an Amazon Web Services account and a resource. It can be used for both IAM users and federated access users whose name matches the provided resource name. This is a very powerful option that offers a great deal of flexibility. For example, if you specify the Amazon Web Services account 123456789012 and Mary_Major , all of the following would be counted as approvals coming from that user: • An IAM user in the account (arn:aws:iam::123456789012 :user/Mary_Major ) • A federated user identified in IAM as Mary_Major (arn:aws:sts::123456789012 :federated-user/Mary_Major ) This option does not recognize an active session of someone assuming the role of CodeCommitReview with a role session name of Mary_Major (arn:aws:sts::123456789012 :assumed-role/CodeCommitReview/Mary_Major ) unless you include a wildcard ( * Mary_Major). System Message: WARNING/2 (&lt;string&gt;:, line 119) Inline emphasis start-string without end-string. • Fully qualified ARN : This option allows you to specify the fully qualified Amazon Resource Name (ARN) of the IAM user or role. For more information about IAM ARNs, wildcards, and formats, see IAM Identifiers in the IAM User Guide . Constraints: • min: 1 • max: 3000
     /// </summary>
     [CliOption("--approval-rule-content")]
     public string? ApprovalRuleContent { get; private init; }
@@ -102,6 +103,15 @@ public record AwsCodecommitCreatePullRequestApprovalRuleOptions : AwsOptions, IV
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

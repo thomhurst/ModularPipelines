@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets the details of a notebook export in Amazon SageMaker Unified Stu- dio. See also: AWS API Documentation
+/// Gets the details of a notebook export in Amazon SageMaker Unified Studio. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsDatazoneGetNotebookExportOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets the details of a notebook export in Amazon SageMaker Unified Stu- dio. See also: AWS API Documentation
+    /// Gets the details of a notebook export in Amazon SageMaker Unified Studio. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainIdentifier">The identifier of the Amazon SageMaker Unified Studio domain in which the notebook export exists. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="Identifier">The identifier of the notebook export. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="DomainIdentifier">The identifier of the Amazon SageMaker Unified Studio domain in which the notebook export exists. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="Identifier">The identifier of the notebook export. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}</param>
     public AwsDatazoneGetNotebookExportOptions(
         string DomainIdentifier,
         string Identifier
@@ -60,13 +61,13 @@ public record AwsDatazoneGetNotebookExportOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Amazon SageMaker Unified Studio domain in which the notebook export exists. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The identifier of the Amazon SageMaker Unified Studio domain in which the notebook export exists. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The identifier of the notebook export. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The identifier of the notebook export. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
@@ -92,6 +93,15 @@ public record AwsDatazoneGetNotebookExportOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

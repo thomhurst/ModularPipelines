@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists all the AppInstanceUserEndpoints created under a single AppIn- stanceUser . See also: AWS API Documentation
+/// Lists all the AppInstanceUserEndpoints created under a single AppInstanceUser . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsChimeSdkIdentityListAppInstanceUserEndpointsOptions : AwsOption
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists all the AppInstanceUserEndpoints created under a single AppIn- stanceUser . See also: AWS API Documentation
+    /// Lists all the AppInstanceUserEndpoints created under a single AppInstanceUser . See also: AWS API Documentation
     /// </summary>
-    /// <param name="AppInstanceUserArn">The ARN of the AppInstanceUser . Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
+    /// <param name="AppInstanceUserArn">The ARN of the AppInstanceUser . Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
     public AwsChimeSdkIdentityListAppInstanceUserEndpointsOptions(
         string AppInstanceUserArn
     )
@@ -57,19 +58,19 @@ public record AwsChimeSdkIdentityListAppInstanceUserEndpointsOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the AppInstanceUser . Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
+    /// The ARN of the AppInstanceUser . Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
     /// </summary>
     [CliOption("--app-instance-user-arn")]
     public string? AppInstanceUserArn { get; private init; }
 
     /// <summary>
-    /// The maximum number of endpoints that you want to return. Constraints: o min: 1 o max: 50
+    /// The maximum number of endpoints that you want to return. Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The token passed by previous API calls until all requested endpoints are returned. Constraints: o min: 0 o max: 2048 o pattern: .*
+    /// The token passed by previous API calls until all requested endpoints are returned. Constraints: • min: 0 • max: 2048 • pattern: .*
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -96,6 +97,15 @@ public record AwsChimeSdkIdentityListAppInstanceUserEndpointsOptions : AwsOption
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

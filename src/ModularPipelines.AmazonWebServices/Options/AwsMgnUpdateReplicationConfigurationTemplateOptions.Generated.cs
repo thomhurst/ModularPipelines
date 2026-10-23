@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,7 +29,7 @@ public record AwsMgnUpdateReplicationConfigurationTemplateOptions : AwsOptions, 
     /// <summary>
     /// Updates a ReplicationConfigurationTemplate by ID. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ReplicationConfigurationTemplateId">Update replication configuration template template ID request. Constraints: o min: 21 o max: 21 o pattern: rct-[0-9a-zA-Z]{17}</param>
+    /// <param name="ReplicationConfigurationTemplateId">Update replication configuration template template ID request. Constraints: • min: 21 • max: 21 • pattern: rct-[0-9a-zA-Z]{17}</param>
     public AwsMgnUpdateReplicationConfigurationTemplateOptions(
         string ReplicationConfigurationTemplateId
     )
@@ -58,73 +58,73 @@ public record AwsMgnUpdateReplicationConfigurationTemplateOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Update replication configuration template template ID request. Constraints: o min: 21 o max: 21 o pattern: rct-[0-9a-zA-Z]{17}
+    /// Update replication configuration template template ID request. Constraints: • min: 21 • max: 21 • pattern: rct-[0-9a-zA-Z]{17}
     /// </summary>
     [CliOption("--replication-configuration-template-id")]
     public string? ReplicationConfigurationTemplateId { get; private init; }
 
     /// <summary>
-    /// Update replication configuration template ARN request. Constraints: o min: 20 o max: 2048
+    /// Update replication configuration template ARN request. Constraints: • min: 20 • max: 2048
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; set; }
 
     /// <summary>
-    /// Update replication configuration template Staging Area subnet ID re- quest. Constraints: o min: 0 o max: 255 o pattern: subnet-[0-9a-fA-F]{8,}
+    /// Update replication configuration template Staging Area subnet ID request. Constraints: • min: 0 • max: 255 • pattern: subnet-[0-9a-fA-F]{8,}
     /// </summary>
     [CliOption("--staging-area-subnet-id")]
     public string? StagingAreaSubnetId { get; set; }
 
     /// <summary>
-    /// rity-group (boolean) Update replication configuration template associate default Applica- tion Migration Service Security group request.
+    /// Update replication configuration template associate default Application Migration Service Security group request.
     /// </summary>
     [CliFlag("--associate-default-security-group", NegatedName = "--no-associate-default-security-group")]
     public bool? AssociateDefaultSecurityGroup { get; set; }
 
     /// <summary>
-    /// Update replication configuration template Replication Server Secu- rity groups IDs request. Constraints: o min: 0 o max: 32 (string) Constraints: o min: 0 o max: 255 o pattern: sg-[0-9a-fA-F]{8,} Syntax: "string" "string" ...
+    /// Update replication configuration template Replication Server Security groups IDs request. Constraints: • min: 0 • max: 32 (string) Constraints: • min: 0 • max: 255 • pattern: sg-[0-9a-fA-F]{8,} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--replication-servers-security-groups-ids", GroupValues = true)]
     public IEnumerable<string>? ReplicationServersSecurityGroupsIds { get; set; }
 
     /// <summary>
-    /// Update replication configuration template Replication Server in- stance type request. Constraints: o min: 0 o max: 255
+    /// Update replication configuration template Replication Server instance type request. Constraints: • min: 0 • max: 255
     /// </summary>
     [CliOption("--replication-server-instance-type")]
     public string? ReplicationServerInstanceType { get; set; }
 
     /// <summary>
-    /// tion-server (boolean) Update replication configuration template use dedicated Replication Server request.
+    /// Update replication configuration template use dedicated Replication Server request.
     /// </summary>
     [CliFlag("--use-dedicated-replication-server", NegatedName = "--no-use-dedicated-replication-server")]
     public bool? UseDedicatedReplicationServer { get; set; }
 
     /// <summary>
-    /// Update replication configuration template use default large Staging Disk type request. Possible values: o GP2 o ST1 o GP3
+    /// Update replication configuration template use default large Staging Disk type request. Possible values: • GP2 • ST1 • GP3
     /// </summary>
     [CliOption("--default-large-staging-disk-type")]
     public AwsMgnUpdateReplicationConfigurationTemplateDefaultLargeStagingDiskType? DefaultLargeStagingDiskType { get; set; }
 
     /// <summary>
-    /// Update replication configuration template EBS encryption request. Possible values: o DEFAULT o CUSTOM
+    /// Update replication configuration template EBS encryption request. Possible values: • DEFAULT • CUSTOM
     /// </summary>
     [CliOption("--ebs-encryption")]
     public AwsMgnUpdateReplicationConfigurationTemplateEbsEncryption? EbsEncryption { get; set; }
 
     /// <summary>
-    /// Update replication configuration template EBS encryption key ARN re- quest. Constraints: o min: 20 o max: 2048
+    /// Update replication configuration template EBS encryption key ARN request. Constraints: • min: 20 • max: 2048
     /// </summary>
     [CliOption("--ebs-encryption-key-arn")]
     public string? EbsEncryptionKeyArn { get; set; }
 
     /// <summary>
-    /// Update replication configuration template bandwidth throttling re- quest. Constraints: o min: 0 o max: 10000
+    /// Update replication configuration template bandwidth throttling request. Constraints: • min: 0 • max: 10000
     /// </summary>
     [CliOption("--bandwidth-throttling")]
-    public int? BandwidthThrottling { get; set; }
+    public long? BandwidthThrottling { get; set; }
 
     /// <summary>
-    /// Update replication configuration template data plane routing re- quest. Possible values: o PRIVATE_IP o PUBLIC_IP
+    /// Update replication configuration template data plane routing request. Possible values: • PRIVATE_IP • PUBLIC_IP
     /// </summary>
     [CliOption("--data-plane-routing")]
     public AwsMgnUpdateReplicationConfigurationTemplateDataPlaneRouting? DataPlaneRouting { get; set; }
@@ -136,7 +136,7 @@ public record AwsMgnUpdateReplicationConfigurationTemplateOptions : AwsOptions, 
     public bool? CreatePublicIp { get; set; }
 
     /// <summary>
-    /// Update replication configuration template Staging Area Tags request. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 0 o max: 256 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Update replication configuration template Staging Area Tags request. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 0 • max: 256 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--staging-area-tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? StagingAreaTags { get; set; }
@@ -148,7 +148,7 @@ public record AwsMgnUpdateReplicationConfigurationTemplateOptions : AwsOptions, 
     public bool? UseFipsEndpoint { get; set; }
 
     /// <summary>
-    /// Update replication configuration template internet protocol request. Possible values: o IPV4 o IPV6
+    /// Update replication configuration template internet protocol request. Possible values: • IPV4 • IPV6
     /// </summary>
     [CliOption("--internet-protocol")]
     public AwsMgnUpdateReplicationConfigurationTemplateInternetProtocol? InternetProtocol { get; set; }
@@ -160,7 +160,7 @@ public record AwsMgnUpdateReplicationConfigurationTemplateOptions : AwsOptions, 
     public bool? StoreSnapshotOnLocalZone { get; set; }
 
     /// <summary>
-    /// Update replication configuration template storage configuration re- quest. storageType -&gt; (string) [required] Storage configuration storage type. Possible values: o EBS o FSX_ONTAP fsxOntapConfiguration -&gt; (structure) Storage configuration FSx ONTAP configuration. storageVirtualMachineId -&gt; (string) [required] FSx ONTAP configuration storage virtual machine ID. Constraints: o min: 21 o max: 21 o pattern: (svm-[0-9a-f]{17,}) credentialsSecretArn -&gt; (string) [required] FSx ONTAP configuration credentials secret ARN. Constraints: o min: 20 o max: 256 o pattern: arn:[\w-]+:secretsman- ager:([a-z]{2}-(gov-)?[a-z]+-\d{1})?:(\d{12})?:secret:(.+) Shorthand Syntax: storageType=string,fsxOntapConfiguration={storageVirtualMachineId=string,credentialsSecretArn=string} JSON Syntax: { "storageType": "EBS"|"FSX_ONTAP", "fsxOntapConfiguration": { "storageVirtualMachineId": "string", "credentialsSecretArn": "string" } }
+    /// Update replication configuration template storage configuration request. storageType -&gt; (string) [required] Storage configuration storage type. Possible values: • EBS • FSX_ONTAP fsxOntapConfiguration -&gt; (structure) Storage configuration FSx ONTAP configuration. storageVirtualMachineId -&gt; (string) [required] FSx ONTAP configuration storage virtual machine ID. Constraints: • min: 21 • max: 21 • pattern: (svm-[0-9a-f]{17,}) credentialsSecretArn -&gt; (string) [required] FSx ONTAP configuration credentials secret ARN. Constraints: • min: 20 • max: 256 • pattern: arn:[\w-]+:secretsmanager:([a-z]{2}-(gov-)?[a-z]+-\d{1})?:(\d{12})?:secret:(.+) Shorthand Syntax: storageType=string,fsxOntapConfiguration={storageVirtualMachineId=string,credentialsSecretArn=string} JSON Syntax: { "storageType": "EBS"|"FSX_ONTAP", "fsxOntapConfiguration": { "storageVirtualMachineId": "string", "credentialsSecretArn": "string" } }
     /// </summary>
     [CliOption("--storage-configuration")]
     public string? StorageConfiguration { get; set; }
@@ -186,6 +186,15 @@ public record AwsMgnUpdateReplicationConfigurationTemplateOptions : AwsOptions, 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

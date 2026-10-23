@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Directory Service for Microsoft Active Directory allows you to config- ure and verify trust relationships. This action verifies a trust relationship between your Managed Mi- crosoft AD directory and an external domain. See also: AWS API Documentation
+/// Directory Service for Microsoft Active Directory allows you to configure and verify trust relationships. This action verifies a trust relationship between your Managed Microsoft AD directory and an external domain. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsDsVerifyTrustOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Directory Service for Microsoft Active Directory allows you to config- ure and verify trust relationships. This action verifies a trust relationship between your Managed Mi- crosoft AD directory and an external domain. See also: AWS API Documentation
+    /// Directory Service for Microsoft Active Directory allows you to configure and verify trust relationships. This action verifies a trust relationship between your Managed Microsoft AD directory and an external domain. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TrustId">The unique Trust ID of the trust relationship to verify. Constraints: o pattern: ^t-[0-9a-f]{10}$</param>
+    /// <param name="TrustId">The unique Trust ID of the trust relationship to verify. Constraints: • pattern: ^t-[0-9a-f]{10}$</param>
     public AwsDsVerifyTrustOptions(
         string TrustId
     )
@@ -56,7 +57,7 @@ public record AwsDsVerifyTrustOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique Trust ID of the trust relationship to verify. Constraints: o pattern: ^t-[0-9a-f]{10}$
+    /// The unique Trust ID of the trust relationship to verify. Constraints: • pattern: ^t-[0-9a-f]{10}$
     /// </summary>
     [CliOption("--trust-id")]
     public string? TrustId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsDsVerifyTrustOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns information about an OpenSearch Serverless security configura- tion. For more information, see SAML authentication for Amazon OpenSearch Serverless . See also: AWS API Documentation
+/// Returns information about an OpenSearch Serverless security configuration. For more information, see SAML authentication for Amazon OpenSearch Serverless . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsOpensearchserverlessGetSecurityConfigOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns information about an OpenSearch Serverless security configura- tion. For more information, see SAML authentication for Amazon OpenSearch Serverless . See also: AWS API Documentation
+    /// Returns information about an OpenSearch Serverless security configuration. For more information, see SAML authentication for Amazon OpenSearch Serverless . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The unique identifier of the security configuration. Constraints: o min: 1 o max: 100</param>
+    /// <param name="Id">The unique identifier of the security configuration. Constraints: • min: 1 • max: 100</param>
     public AwsOpensearchserverlessGetSecurityConfigOptions(
         string Id
     )
@@ -56,7 +57,7 @@ public record AwsOpensearchserverlessGetSecurityConfigOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the security configuration. Constraints: o min: 1 o max: 100
+    /// The unique identifier of the security configuration. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
@@ -82,6 +83,15 @@ public record AwsOpensearchserverlessGetSecurityConfigOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes your account's Reserved Instance listings in the Reserved In- stance Marketplace. The Reserved Instance Marketplace matches sellers who want to resell Reserved Instance capacity that they no longer need with buyers who want to purchase additional capacity. Reserved Instances bought and sold through the Reserved Instance Marketplace work like any other Re- served Instances. As a seller, you choose to list some or all of your Reserved Instances, and you specify the upfront price to recei...
+/// Describes your account's Reserved Instance listings in the Reserved Instance Marketplace. The Reserved Instance Marketplace matches sellers who want to resell Reserved Instance capacity that they no longer need with buyers who want to purchase additional capacity. Reserved Instances bought and sold through the Reserved Instance Marketplace work like any other Reserved Instances. As a seller, you choose to list some or all of your Reserved Instances, and you specify the upfront price to receive f...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -34,7 +34,7 @@ public record AwsEc2DescribeReservedInstancesListingsOptions : AwsOptions
     public string? ReservedInstancesListingId { get; set; }
 
     /// <summary>
-    /// One or more filters. o reserved-instances-id - The ID of the Reserved Instances. o reserved-instances-listing-id - The ID of the Reserved Instances listing. o status - The status of the Reserved Instance listing (pending | active | cancelled | closed ). o status-message - The reason for the status. (structure) A filter name and value pair that is used to return a more spe- cific list of results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs. If you specify multiple filters, the filters are joined with an AND , and the request returns only results that match all of the specified filters. For more information, see List and filter using the CLI and API in the Amazon EC2 User Guide . Name -&gt; (string) The name of the filter. Filter names are case-sensitive. Values -&gt; (list) The filter values. Filter values are case-sensitive. If you specify multiple values for a filter, the values are joined with an OR , and the request returns all results that match any of the specified values. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
+    /// One or more filters. • reserved-instances-id - The ID of the Reserved Instances. • reserved-instances-listing-id - The ID of the Reserved Instances listing. • status - The status of the Reserved Instance listing (pending | active | cancelled | closed ). • status-message - The reason for the status. (structure) A filter name and value pair that is used to return a more specific list of results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs. If you specify multiple filters, the filters are joined with an AND , and the request returns only results that match all of the specified filters. For more information, see List and filter using the CLI and API in the Amazon EC2 User Guide . Name -&gt; (string) The name of the filter. Filter names are case-sensitive. Values -&gt; (list) The filter values. Filter values are case-sensitive. If you specify multiple values for a filter, the values are joined with an OR , and the request returns all results that match any of the specified values. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
@@ -44,5 +44,14 @@ public record AwsEc2DescribeReservedInstancesListingsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Attaches the specified managed policy to the specified IAM role. When you attach a managed policy to a role, the managed policy becomes part of the role's permission (access) policy. NOTE: You cannot use a managed policy as the role's trust policy. The role's trust policy is created at the same time as the role, using ` CreateRole https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html`__ . You can update a role's trust policy using ` UpdateAssumerolePol- icy https://docs.aws.ama...
+/// Attaches the specified managed policy to the specified IAM role. When you attach a managed policy to a role, the managed policy becomes part of the role's permission (access) policy. NOTE: You cannot use a managed policy as the role's trust policy. The role's trust policy is created at the same time as the role, using ` CreateRole https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html`__ . You can update a role's trust policy using ` UpdateAssumerolePolicy https://docs.aws.amazo...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsIamAttachRolePolicyOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Attaches the specified managed policy to the specified IAM role. When you attach a managed policy to a role, the managed policy becomes part of the role's permission (access) policy. NOTE: You cannot use a managed policy as the role's trust policy. The role's trust policy is created at the same time as the role, using ` CreateRole https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html`__ . You can update a role's trust policy using ` UpdateAssumerolePol- icy https://docs.aws.ama...
+    /// Attaches the specified managed policy to the specified IAM role. When you attach a managed policy to a role, the managed policy becomes part of the role's permission (access) policy. NOTE: You cannot use a managed policy as the role's trust policy. The role's trust policy is created at the same time as the role, using ` CreateRole https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html`__ . You can update a role's trust policy using ` UpdateAssumerolePolicy https://docs.aws.amazo...
     /// </summary>
-    /// <param name="RoleName">The name (friendly name, not ARN) of the role to attach the policy to. This parameter allows (through its regex pattern ) a string of char- acters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following charac- ters: _+=,.@- Constraints: o min: 1 o max: 64 o pattern: [\w+=,.@-]+</param>
-    /// <param name="PolicyArn">The Amazon Resource Name (ARN) of the IAM policy you want to attach. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference . Constraints: o min: 20 o max: 2048</param>
+    /// <param name="RoleName">The name (friendly name, not ARN) of the role to attach the policy to. This parameter allows (through its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@- Constraints: • min: 1 • max: 64 • pattern: [\w+=,.@-]+</param>
+    /// <param name="PolicyArn">The Amazon Resource Name (ARN) of the IAM policy you want to attach. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference . Constraints: • min: 20 • max: 2048</param>
     public AwsIamAttachRolePolicyOptions(
         string RoleName,
         string PolicyArn
@@ -60,13 +61,13 @@ public record AwsIamAttachRolePolicyOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name (friendly name, not ARN) of the role to attach the policy to. This parameter allows (through its regex pattern ) a string of char- acters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following charac- ters: _+=,.@- Constraints: o min: 1 o max: 64 o pattern: [\w+=,.@-]+
+    /// The name (friendly name, not ARN) of the role to attach the policy to. This parameter allows (through its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@- Constraints: • min: 1 • max: 64 • pattern: [\w+=,.@-]+
     /// </summary>
     [CliOption("--role-name")]
     public string? RoleName { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the IAM policy you want to attach. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference . Constraints: o min: 20 o max: 2048
+    /// The Amazon Resource Name (ARN) of the IAM policy you want to attach. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference . Constraints: • min: 20 • max: 2048
     /// </summary>
     [CliOption("--policy-arn")]
     public string? PolicyArn { get; private init; }
@@ -92,6 +93,15 @@ public record AwsIamAttachRolePolicyOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

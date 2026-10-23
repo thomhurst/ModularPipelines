@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsResiliencehubAcceptResourceGroupingRecommendationsOptions : Aws
     /// <summary>
     /// Accepts the resource grouping recommendations suggested by Resilience Hub for your application. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AppArn">Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition :resiliencehub:region :account :app/app-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: o pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$</param>
-    /// <param name="Entries">List of resource grouping recommendations you want to include in your application. Constraints: o min: 1 o max: 30 (structure) Indicates the grouping recommendation you have accepted to in- clude in your application. groupingRecommendationId -&gt; (string) [required] Indicates the identifier of the grouping recommendation. Constraints: o min: 1 o max: 255 Shorthand Syntax: groupingRecommendationId=string ... JSON Syntax: [ { "groupingRecommendationId": "string" } ... ]</param>
+    /// <param name="AppArn">Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition :resiliencehub:region :account :app/app-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: • pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$</param>
+    /// <param name="Entries">List of resource grouping recommendations you want to include in your application. Constraints: • min: 1 • max: 30 (structure) Indicates the grouping recommendation you have accepted to include in your application. groupingRecommendationId -&gt; (string) [required] Indicates the identifier of the grouping recommendation. Constraints: • min: 1 • max: 255 Shorthand Syntax: groupingRecommendationId=string ... JSON Syntax: [ { "groupingRecommendationId": "string" } ... ]</param>
     public AwsResiliencehubAcceptResourceGroupingRecommendationsOptions(
         string AppArn,
         IEnumerable<string> Entries
@@ -71,13 +72,13 @@ public record AwsResiliencehubAcceptResourceGroupingRecommendationsOptions : Aws
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition :resiliencehub:region :account :app/app-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: o pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition :resiliencehub:region :account :app/app-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: • pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$
     /// </summary>
     [CliOption("--app-arn")]
     public string? AppArn { get; private init; }
 
     /// <summary>
-    /// List of resource grouping recommendations you want to include in your application. Constraints: o min: 1 o max: 30 (structure) Indicates the grouping recommendation you have accepted to in- clude in your application. groupingRecommendationId -&gt; (string) [required] Indicates the identifier of the grouping recommendation. Constraints: o min: 1 o max: 255 Shorthand Syntax: groupingRecommendationId=string ... JSON Syntax: [ { "groupingRecommendationId": "string" } ... ]
+    /// List of resource grouping recommendations you want to include in your application. Constraints: • min: 1 • max: 30 (structure) Indicates the grouping recommendation you have accepted to include in your application. groupingRecommendationId -&gt; (string) [required] Indicates the identifier of the grouping recommendation. Constraints: • min: 1 • max: 255 Shorthand Syntax: groupingRecommendationId=string ... JSON Syntax: [ { "groupingRecommendationId": "string" } ... ]
     /// </summary>
     [CliOption("--entries", GroupValues = true)]
     public IEnumerable<string>? Entries { get; private init; }
@@ -103,6 +104,15 @@ public record AwsResiliencehubAcceptResourceGroupingRecommendationsOptions : Aws
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

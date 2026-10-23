@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsCloudwatchStopMetricStreamsOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Stops the streaming of metrics for one or more of your metric streams. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Names">The array of the names of metric streams to stop streaming. This is an "all or nothing" operation. If you do not have permission to access all of the metric streams that you list here, then none of the streams that you list in the operation will stop streaming. (string) Constraints: o min: 1 o max: 255 Syntax: "string" "string" ...</param>
+    /// <param name="Names">The array of the names of metric streams to stop streaming. This is an "all or nothing" operation. If you do not have permission to access all of the metric streams that you list here, then none of the streams that you list in the operation will stop streaming. (string) Constraints: • min: 1 • max: 255 Syntax: "string" "string" ...</param>
     public AwsCloudwatchStopMetricStreamsOptions(
         IEnumerable<string> Names
     )
@@ -67,7 +68,7 @@ public record AwsCloudwatchStopMetricStreamsOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The array of the names of metric streams to stop streaming. This is an "all or nothing" operation. If you do not have permission to access all of the metric streams that you list here, then none of the streams that you list in the operation will stop streaming. (string) Constraints: o min: 1 o max: 255 Syntax: "string" "string" ...
+    /// The array of the names of metric streams to stop streaming. This is an "all or nothing" operation. If you do not have permission to access all of the metric streams that you list here, then none of the streams that you list in the operation will stop streaming. (string) Constraints: • min: 1 • max: 255 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--names", GroupValues = true)]
     public IEnumerable<string>? Names { get; private init; }
@@ -93,6 +94,15 @@ public record AwsCloudwatchStopMetricStreamsOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

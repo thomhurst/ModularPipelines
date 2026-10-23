@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes a managed permission from a resource share. Permission changes take effect immediately. You can remove a managed permission from a re- source share only if there are currently no resources of the relevant resource type currently attached to the resource share. See also: AWS API Documentation
+/// Removes a managed permission from a resource share. Permission changes take effect immediately. You can remove a managed permission from a resource share only if there are currently no resources of the relevant resource type currently attached to the resource share. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsRamDisassociateResourceSharePermissionOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes a managed permission from a resource share. Permission changes take effect immediately. You can remove a managed permission from a re- source share only if there are currently no resources of the relevant resource type currently attached to the resource share. See also: AWS API Documentation
+    /// Removes a managed permission from a resource share. Permission changes take effect immediately. You can remove a managed permission from a resource share only if there are currently no resources of the relevant resource type currently attached to the resource share. See also: AWS API Documentation
     /// </summary>
     /// <param name="ResourceShareArn">The Amazon Resource Name (ARN) of the resource share that you want to remove the managed permission from.</param>
-    /// <param name="PermissionArn">The Amazon Resource Name (ARN) of the managed permission to disasso- ciate from the resource share. Changes to permissions take effect immediately.</param>
+    /// <param name="PermissionArn">The Amazon Resource Name (ARN) of the managed permission to disassociate from the resource share. Changes to permissions take effect immediately.</param>
     public AwsRamDisassociateResourceSharePermissionOptions(
         string ResourceShareArn,
         string PermissionArn
@@ -67,13 +68,13 @@ public record AwsRamDisassociateResourceSharePermissionOptions : AwsOptions, IVa
     public string? ResourceShareArn { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the managed permission to disasso- ciate from the resource share. Changes to permissions take effect immediately.
+    /// The Amazon Resource Name (ARN) of the managed permission to disassociate from the resource share. Changes to permissions take effect immediately.
     /// </summary>
     [CliOption("--permission-arn")]
     public string? PermissionArn { get; private init; }
 
     /// <summary>
-    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value. . If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken , but with dif- ferent parameters, the retry fails with an IdempotentParameterMis- match error.
+    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value. . If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken , but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -100,6 +101,15 @@ public record AwsRamDisassociateResourceSharePermissionOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

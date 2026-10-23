@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsWorkspacesCreateConnectClientAddInOptions : AwsOptions, IValida
     /// <summary>
     /// Creates a client-add-in for Connect Customer within a directory. You can create only one Connect Customer client add-in within a directory. This client add-in allows WorkSpaces users to seamlessly connect to Connect Customer. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceId">The directory identifier for which to configure the client add-in. Constraints: o min: 10 o max: 65 o pattern: ^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)</param>
-    /// <param name="Name">The name of the client add-in. Constraints: o min: 1 o max: 64 o pattern: ^.*$</param>
-    /// <param name="Url">The endpoint URL of the Connect Customer client add-in. Constraints: o min: 1 o max: 1024 o pattern: ^(http|https)\://\S+</param>
+    /// <param name="ResourceId">The directory identifier for which to configure the client add-in. Constraints: • min: 10 • max: 65 • pattern: ^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)</param>
+    /// <param name="Name">The name of the client add-in. Constraints: • min: 1 • max: 64 • pattern: ^.*$</param>
+    /// <param name="Url">The endpoint URL of the Connect Customer client add-in. Constraints: • min: 1 • max: 1024 • pattern: ^(http|https)\://\S+</param>
     public AwsWorkspacesCreateConnectClientAddInOptions(
         string ResourceId,
         string Name,
@@ -64,19 +65,19 @@ public record AwsWorkspacesCreateConnectClientAddInOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The directory identifier for which to configure the client add-in. Constraints: o min: 10 o max: 65 o pattern: ^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)
+    /// The directory identifier for which to configure the client add-in. Constraints: • min: 10 • max: 65 • pattern: ^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)
     /// </summary>
     [CliOption("--resource-id")]
     public string? ResourceId { get; private init; }
 
     /// <summary>
-    /// The name of the client add-in. Constraints: o min: 1 o max: 64 o pattern: ^.*$
+    /// The name of the client add-in. Constraints: • min: 1 • max: 64 • pattern: ^.*$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The endpoint URL of the Connect Customer client add-in. Constraints: o min: 1 o max: 1024 o pattern: ^(http|https)\://\S+
+    /// The endpoint URL of the Connect Customer client add-in. Constraints: • min: 1 • max: 1024 • pattern: ^(http|https)\://\S+
     /// </summary>
     [CliOption("--url")]
     public string? Url { get; private init; }
@@ -102,6 +103,15 @@ public record AwsWorkspacesCreateConnectClientAddInOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

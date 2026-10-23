@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Detaches an Amazon DocumentDB secondary cluster from a global cluster. The cluster becomes a standalone cluster with read-write capability in- stead of being read-only and receiving data from a primary in a differ- ent region. NOTE: This action only applies to Amazon DocumentDB clusters. See also: AWS API Documentation
+/// Detaches an Amazon DocumentDB secondary cluster from a global cluster. The cluster becomes a standalone cluster with read-write capability instead of being read-only and receiving data from a primary in a different region. NOTE: This action only applies to Amazon DocumentDB clusters. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsDocdbRemoveFromGlobalClusterOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Detaches an Amazon DocumentDB secondary cluster from a global cluster. The cluster becomes a standalone cluster with read-write capability in- stead of being read-only and receiving data from a primary in a differ- ent region. NOTE: This action only applies to Amazon DocumentDB clusters. See also: AWS API Documentation
+    /// Detaches an Amazon DocumentDB secondary cluster from a global cluster. The cluster becomes a standalone cluster with read-write capability instead of being read-only and receiving data from a primary in a different region. NOTE: This action only applies to Amazon DocumentDB clusters. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GlobalClusterIdentifier">The cluster identifier to detach from the Amazon DocumentDB global cluster. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][0-9A-Za-z-:._]*</param>
-    /// <param name="DbClusterIdentifier">The Amazon Resource Name (ARN) identifying the cluster that was de- tached from the Amazon DocumentDB global cluster.</param>
+    /// <param name="GlobalClusterIdentifier">The cluster identifier to detach from the Amazon DocumentDB global cluster. Constraints: • min: 1 • max: 255 • pattern: [A-Za-z][0-9A-Za-z-:._]*</param>
+    /// <param name="DbClusterIdentifier">The Amazon Resource Name (ARN) identifying the cluster that was detached from the Amazon DocumentDB global cluster.</param>
     public AwsDocdbRemoveFromGlobalClusterOptions(
         string GlobalClusterIdentifier,
         string DbClusterIdentifier
@@ -60,13 +61,13 @@ public record AwsDocdbRemoveFromGlobalClusterOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The cluster identifier to detach from the Amazon DocumentDB global cluster. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][0-9A-Za-z-:._]*
+    /// The cluster identifier to detach from the Amazon DocumentDB global cluster. Constraints: • min: 1 • max: 255 • pattern: [A-Za-z][0-9A-Za-z-:._]*
     /// </summary>
     [CliOption("--global-cluster-identifier")]
     public string? GlobalClusterIdentifier { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) identifying the cluster that was de- tached from the Amazon DocumentDB global cluster.
+    /// The Amazon Resource Name (ARN) identifying the cluster that was detached from the Amazon DocumentDB global cluster.
     /// </summary>
     [CliOption("--db-cluster-identifier")]
     public string? DbClusterIdentifier { get; private init; }
@@ -92,6 +93,15 @@ public record AwsDocdbRemoveFromGlobalClusterOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

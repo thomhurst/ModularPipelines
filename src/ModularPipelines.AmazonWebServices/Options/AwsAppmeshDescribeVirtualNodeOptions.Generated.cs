@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsAppmeshDescribeVirtualNodeOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Describes an existing virtual node. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MeshName">The name of the service mesh that the virtual node resides in. Constraints: o min: 1 o max: 255</param>
-    /// <param name="VirtualNodeName">The name of the virtual node to describe. Constraints: o min: 1 o max: 255</param>
+    /// <param name="MeshName">The name of the service mesh that the virtual node resides in. Constraints: • min: 1 • max: 255</param>
+    /// <param name="VirtualNodeName">The name of the virtual node to describe. Constraints: • min: 1 • max: 255</param>
     public AwsAppmeshDescribeVirtualNodeOptions(
         string MeshName,
         string VirtualNodeName
@@ -60,19 +61,19 @@ public record AwsAppmeshDescribeVirtualNodeOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the service mesh that the virtual node resides in. Constraints: o min: 1 o max: 255
+    /// The name of the service mesh that the virtual node resides in. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--mesh-name")]
     public string? MeshName { get; private init; }
 
     /// <summary>
-    /// The name of the virtual node to describe. Constraints: o min: 1 o max: 255
+    /// The name of the virtual node to describe. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--virtual-node-name")]
     public string? VirtualNodeName { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes . Constraints: o min: 12 o max: 12
+    /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes . Constraints: • min: 12 • max: 12
     /// </summary>
     [CliOption("--mesh-owner")]
     public string? MeshOwner { get; set; }
@@ -98,6 +99,15 @@ public record AwsAppmeshDescribeVirtualNodeOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

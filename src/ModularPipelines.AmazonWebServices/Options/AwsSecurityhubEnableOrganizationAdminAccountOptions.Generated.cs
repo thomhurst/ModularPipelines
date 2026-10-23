@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Designates the Security Hub CSPM administrator account for an organiza- tion. Can only be called by the organization management account. See also: AWS API Documentation
+/// Designates the Security Hub CSPM administrator account for an organization. Can only be called by the organization management account. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsSecurityhubEnableOrganizationAdminAccountOptions : AwsOptions, 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Designates the Security Hub CSPM administrator account for an organiza- tion. Can only be called by the organization management account. See also: AWS API Documentation
+    /// Designates the Security Hub CSPM administrator account for an organization. Can only be called by the organization management account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AdminAccountId">The Amazon Web Services account identifier of the account to desig- nate as the Security Hub CSPM administrator account. Constraints: o pattern: .*\S.*</param>
+    /// <param name="AdminAccountId">The Amazon Web Services account identifier of the account to designate as the Security Hub CSPM administrator account. Constraints: • pattern: .*\S.*</param>
     public AwsSecurityhubEnableOrganizationAdminAccountOptions(
         string AdminAccountId
     )
@@ -57,13 +58,13 @@ public record AwsSecurityhubEnableOrganizationAdminAccountOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services account identifier of the account to desig- nate as the Security Hub CSPM administrator account. Constraints: o pattern: .*\S.*
+    /// The Amazon Web Services account identifier of the account to designate as the Security Hub CSPM administrator account. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--admin-account-id")]
     public string? AdminAccountId { get; private init; }
 
     /// <summary>
-    /// The feature for which the delegated admin account is enabled. De- faults to Security Hub CSPM if not specified. Possible values: o SecurityHub o SecurityHubV2
+    /// The feature for which the delegated admin account is enabled. Defaults to Security Hub CSPM if not specified. Possible values: • SecurityHub • SecurityHubV2
     /// </summary>
     [CliOption("--feature")]
     public AwsSecurityhubEnableOrganizationAdminAccountFeature? Feature { get; set; }
@@ -89,6 +90,15 @@ public record AwsSecurityhubEnableOrganizationAdminAccountOptions : AwsOptions, 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

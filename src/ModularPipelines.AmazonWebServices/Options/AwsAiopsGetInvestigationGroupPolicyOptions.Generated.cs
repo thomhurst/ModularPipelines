@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the JSON of the IAM resource policy associated with the speci- fied investigation group in a string. For example, {\"Ver- sion\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Princi- pal\":{\"Service\":\"aiops.alarms.cloudwatch.amazonaws.com\"},\"Ac- tion\":[\"aiops:CreateInvestigation\",\"aiops:CreateInvestigation- Event\"],\"Resource\":\"*\",\"Condition\":{\"StringE- quals\":{\"aws:SourceAccount\":\"111122223333\"},\"Arn- Like\":{\"aws:SourceArn\":\"arn:aws:cloud- watch:us-east...
+/// Returns the JSON of the IAM resource policy associated with the specified investigation group in a string. For example, {\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"aiops.alarms.cloudwatch.amazonaws.com\"},\"Action\":[\"aiops:CreateInvestigation\",\"aiops:CreateInvestigationEvent\"],\"Resource\":\"*\",\"Condition\":{\"StringEquals\":{\"aws:SourceAccount\":\"111122223333\"},\"ArnLike\":{\"aws:SourceArn\":\"arn:aws:cloudwatch:us-east-1:111122223333:...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsAiopsGetInvestigationGroupPolicyOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the JSON of the IAM resource policy associated with the speci- fied investigation group in a string. For example, {\"Ver- sion\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Princi- pal\":{\"Service\":\"aiops.alarms.cloudwatch.amazonaws.com\"},\"Ac- tion\":[\"aiops:CreateInvestigation\",\"aiops:CreateInvestigation- Event\"],\"Resource\":\"*\",\"Condition\":{\"StringE- quals\":{\"aws:SourceAccount\":\"111122223333\"},\"Arn- Like\":{\"aws:SourceArn\":\"arn:aws:cloud- watch:us-east...
+    /// Returns the JSON of the IAM resource policy associated with the specified investigation group in a string. For example, {\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"aiops.alarms.cloudwatch.amazonaws.com\"},\"Action\":[\"aiops:CreateInvestigation\",\"aiops:CreateInvestigationEvent\"],\"Resource\":\"*\",\"Condition\":{\"StringEquals\":{\"aws:SourceAccount\":\"111122223333\"},\"ArnLike\":{\"aws:SourceArn\":\"arn:aws:cloudwatch:us-east-1:111122223333:...
     /// </summary>
-    /// <param name="Identifier">Specify either the name or the ARN of the investigation group that you want to view the policy of. Constraints: o pattern: (?:[\-_A-Za-z0-9]{1,512}|arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):aiops:[a-zA-Z0-9-]*:[0-9]{12}:in- vestigation-group\/[A-Za-z0-9]{16})</param>
+    /// <param name="Identifier">Specify either the name or the ARN of the investigation group that you want to view the policy of. Constraints: • pattern: (?:[\-_A-Za-z0-9]{1,512}|arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):aiops:[a-zA-Z0-9-]*:[0-9]{12}:investigation-group\/[A-Za-z0-9]{16})</param>
     public AwsAiopsGetInvestigationGroupPolicyOptions(
         string Identifier
     )
@@ -56,7 +57,7 @@ public record AwsAiopsGetInvestigationGroupPolicyOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specify either the name or the ARN of the investigation group that you want to view the policy of. Constraints: o pattern: (?:[\-_A-Za-z0-9]{1,512}|arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):aiops:[a-zA-Z0-9-]*:[0-9]{12}:in- vestigation-group\/[A-Za-z0-9]{16})
+    /// Specify either the name or the ARN of the investigation group that you want to view the policy of. Constraints: • pattern: (?:[\-_A-Za-z0-9]{1,512}|arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):aiops:[a-zA-Z0-9-]*:[0-9]{12}:investigation-group\/[A-Za-z0-9]{16})
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
@@ -82,6 +83,15 @@ public record AwsAiopsGetInvestigationGroupPolicyOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

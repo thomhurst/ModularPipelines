@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsCloudfrontTagResourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Add tags to a CloudFront resource. For more information, see Tagging a distribution in the Amazon CloudFront Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Resource">An ARN of a CloudFront resource. Constraints: o pattern: arn:aws(-cn)?:cloudfront::[0-9]+:.*</param>
-    /// <param name="Tags">A complex type that contains zero or more Tag elements. Items -&gt; (list) A complex type that contains Tag elements. (structure) A complex type that contains Tag key and Tag value. Key -&gt; (string) [required] A string that contains Tag key. The string length should be between 1 and 128 characters. Valid characters include a-z , A-Z , 0-9 , space, and the special characters _ - . : / = + @ . Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) A string that contains an optional Tag value. The string length should be between 0 and 256 characters. Valid characters include a-z , A-Z , 0-9 , space, and the special characters _ - . : / = + @ . Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Items=[{Key=string,Value=string},{Key=string,Value=string}] JSON Syntax: { "Items": [ { "Key": "string", "Value": "string" } ... ] }</param>
+    /// <param name="Resource">An ARN of a CloudFront resource. Constraints: • pattern: arn:aws(-cn)?:cloudfront::[0-9]+:.*</param>
+    /// <param name="Tags">A complex type that contains zero or more Tag elements. Items -&gt; (list) A complex type that contains Tag elements. (structure) A complex type that contains Tag key and Tag value. Key -&gt; (string) [required] A string that contains Tag key. The string length should be between 1 and 128 characters. Valid characters include a-z , A-Z , 0-9 , space, and the special characters _ - . : / = + @ . Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) A string that contains an optional Tag value. The string length should be between 0 and 256 characters. Valid characters include a-z , A-Z , 0-9 , space, and the special characters _ - . : / = + @ . Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Items=[{Key=string,Value=string},{Key=string,Value=string}] JSON Syntax: { "Items": [ { "Key": "string", "Value": "string" } ... ] }</param>
     public AwsCloudfrontTagResourceOptions(
         string Resource,
         string Tags
@@ -60,13 +61,13 @@ public record AwsCloudfrontTagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// An ARN of a CloudFront resource. Constraints: o pattern: arn:aws(-cn)?:cloudfront::[0-9]+:.*
+    /// An ARN of a CloudFront resource. Constraints: • pattern: arn:aws(-cn)?:cloudfront::[0-9]+:.*
     /// </summary>
     [CliOption("--resource")]
     public string? Resource { get; private init; }
 
     /// <summary>
-    /// A complex type that contains zero or more Tag elements. Items -&gt; (list) A complex type that contains Tag elements. (structure) A complex type that contains Tag key and Tag value. Key -&gt; (string) [required] A string that contains Tag key. The string length should be between 1 and 128 characters. Valid characters include a-z , A-Z , 0-9 , space, and the special characters _ - . : / = + @ . Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) A string that contains an optional Tag value. The string length should be between 0 and 256 characters. Valid characters include a-z , A-Z , 0-9 , space, and the special characters _ - . : / = + @ . Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Items=[{Key=string,Value=string},{Key=string,Value=string}] JSON Syntax: { "Items": [ { "Key": "string", "Value": "string" } ... ] }
+    /// A complex type that contains zero or more Tag elements. Items -&gt; (list) A complex type that contains Tag elements. (structure) A complex type that contains Tag key and Tag value. Key -&gt; (string) [required] A string that contains Tag key. The string length should be between 1 and 128 characters. Valid characters include a-z , A-Z , 0-9 , space, and the special characters _ - . : / = + @ . Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) A string that contains an optional Tag value. The string length should be between 0 and 256 characters. Valid characters include a-z , A-Z , 0-9 , space, and the special characters _ - . : / = + @ . Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Items=[{Key=string,Value=string},{Key=string,Value=string}] JSON Syntax: { "Items": [ { "Key": "string", "Value": "string" } ... ] }
     /// </summary>
     [CliOption("--tags")]
     public string? Tags { get; private init; }
@@ -92,6 +93,15 @@ public record AwsCloudfrontTagResourceOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

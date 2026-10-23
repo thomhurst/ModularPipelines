@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Registers a transit gateway in your global network. Not all Regions support transit gateways for global networks. For a list of the sup- ported Regions, see Region Availability in the Amazon Web Services Transit Gateways for Global Networks User Guide . The transit gateway can be in any of the supported Amazon Web Services Regions, but it must be owned by the same Amazon Web Services account that owns the global network. You cannot register a transit gateway in more than one global network. See ...
+/// Registers a transit gateway in your global network. Not all Regions support transit gateways for global networks. For a list of the supported Regions, see Region Availability in the Amazon Web Services Transit Gateways for Global Networks User Guide . The transit gateway can be in any of the supported Amazon Web Services Regions, but it must be owned by the same Amazon Web Services account that owns the global network. You cannot register a transit gateway in more than one global network. See al...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsNetworkmanagerRegisterTransitGatewayOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Registers a transit gateway in your global network. Not all Regions support transit gateways for global networks. For a list of the sup- ported Regions, see Region Availability in the Amazon Web Services Transit Gateways for Global Networks User Guide . The transit gateway can be in any of the supported Amazon Web Services Regions, but it must be owned by the same Amazon Web Services account that owns the global network. You cannot register a transit gateway in more than one global network. See ...
+    /// Registers a transit gateway in your global network. Not all Regions support transit gateways for global networks. For a list of the supported Regions, see Region Availability in the Amazon Web Services Transit Gateways for Global Networks User Guide . The transit gateway can be in any of the supported Amazon Web Services Regions, but it must be owned by the same Amazon Web Services account that owns the global network. You cannot register a transit gateway in more than one global network. See al...
     /// </summary>
-    /// <param name="GlobalNetworkId">The ID of the global network. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*</param>
-    /// <param name="TransitGatewayArn">The Amazon Resource Name (ARN) of the transit gateway. Constraints: o min: 0 o max: 500 o pattern: [\s\S]*</param>
+    /// <param name="GlobalNetworkId">The ID of the global network. Constraints: • min: 0 • max: 50 • pattern: [\s\S]*</param>
+    /// <param name="TransitGatewayArn">The Amazon Resource Name (ARN) of the transit gateway. Constraints: • min: 0 • max: 500 • pattern: [\s\S]*</param>
     public AwsNetworkmanagerRegisterTransitGatewayOptions(
         string GlobalNetworkId,
         string TransitGatewayArn
@@ -60,13 +61,13 @@ public record AwsNetworkmanagerRegisterTransitGatewayOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the global network. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*
+    /// The ID of the global network. Constraints: • min: 0 • max: 50 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--global-network-id")]
     public string? GlobalNetworkId { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the transit gateway. Constraints: o min: 0 o max: 500 o pattern: [\s\S]*
+    /// The Amazon Resource Name (ARN) of the transit gateway. Constraints: • min: 0 • max: 500 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--transit-gateway-arn")]
     public string? TransitGatewayArn { get; private init; }
@@ -92,6 +93,15 @@ public record AwsNetworkmanagerRegisterTransitGatewayOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

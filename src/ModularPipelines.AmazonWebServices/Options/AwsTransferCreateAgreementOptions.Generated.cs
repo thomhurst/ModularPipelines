@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an agreement. An agreement is a bilateral trading partner agreement, or partnership, between an Transfer Family server and an AS2 process. The agreement defines the file and message transfer relation- ship between the server and the AS2 process. To define an agreement, Transfer Family combines a server, local profile, partner profile, cer- tificate, and other attributes. The partner is identified with the PartnerProfileId , and the AS2 process is identified with the LocalProfileId . NOTE...
+/// Creates an agreement. An agreement is a bilateral trading partner agreement, or partnership, between an Transfer Family server and an AS2 process. The agreement defines the file and message transfer relationship between the server and the AS2 process. To define an agreement, Transfer Family combines a server, local profile, partner profile, certificate, and other attributes. The partner is identified with the PartnerProfileId , and the AS2 process is identified with the LocalProfileId . NOTE: Sp...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,12 +27,12 @@ public record AwsTransferCreateAgreementOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an agreement. An agreement is a bilateral trading partner agreement, or partnership, between an Transfer Family server and an AS2 process. The agreement defines the file and message transfer relation- ship between the server and the AS2 process. To define an agreement, Transfer Family combines a server, local profile, partner profile, cer- tificate, and other attributes. The partner is identified with the PartnerProfileId , and the AS2 process is identified with the LocalProfileId . NOTE...
+    /// Creates an agreement. An agreement is a bilateral trading partner agreement, or partnership, between an Transfer Family server and an AS2 process. The agreement defines the file and message transfer relationship between the server and the AS2 process. To define an agreement, Transfer Family combines a server, local profile, partner profile, certificate, and other attributes. The partner is identified with the PartnerProfileId , and the AS2 process is identified with the LocalProfileId . NOTE: Sp...
     /// </summary>
-    /// <param name="ServerId">A system-assigned unique identifier for a server instance. This is the specific server that the agreement uses. Constraints: o min: 19 o max: 19 o pattern: s-([0-9a-f]{17})</param>
-    /// <param name="LocalProfileId">A unique identifier for the AS2 local profile. Constraints: o min: 19 o max: 19 o pattern: p-([0-9a-f]{17})</param>
-    /// <param name="PartnerProfileId">A unique identifier for the partner profile used in the agreement. Constraints: o min: 19 o max: 19 o pattern: p-([0-9a-f]{17})</param>
-    /// <param name="AccessRole">Connectors are used to send files using either the AS2 or SFTP pro- tocol. For the access role, provide the Amazon Resource Name (ARN) of the Identity and Access Management role to use. For AS2 connectors With AS2, you can send files by calling StartFileTransfer and speci- fying the file paths in the request parameter, SendFilePaths . We use the files parent directory (for example, for --send-file-paths /bucket/dir/file.txt , parent directory is /bucket/dir/ ) to tem- porarily store a processed AS2 message file, store the MDN when we receive them from the partner, and write a final JSON file contain- ing relevant metadata of the transmission. So, the AccessRole needs to provide read and write access to the parent directory of the file location used in the StartFileTransfer request. Additionally, you need to provide read and write access to the parent directory of the files that you intend to send with StartFileTransfer . If you are using Basic authentication for your AS2 connector, the access role requires the secretsmanager:GetSecretValue permission for the secret. If the secret is encrypted using a customer-managed key instead of the Amazon Web Services managed key in Secrets Man- ager, then the role also needs the kms:Decrypt permission for that key. For SFTP connectors Make sure that the access role provides read and write access to the parent directory of the file location that's used in the StartFile- Transfer request. Additionally, make sure that the role provides se- cretsmanager:GetSecretValue permission to Secrets Manager. Constraints: o min: 20 o max: 2048 o pattern: arn:.*role/\S+</param>
+    /// <param name="ServerId">A system-assigned unique identifier for a server instance. This is the specific server that the agreement uses. Constraints: • min: 19 • max: 19 • pattern: s-([0-9a-f]{17})</param>
+    /// <param name="LocalProfileId">A unique identifier for the AS2 local profile. Constraints: • min: 19 • max: 19 • pattern: p-([0-9a-f]{17})</param>
+    /// <param name="PartnerProfileId">A unique identifier for the partner profile used in the agreement. Constraints: • min: 19 • max: 19 • pattern: p-([0-9a-f]{17})</param>
+    /// <param name="AccessRole">Connectors are used to send files using either the AS2 or SFTP protocol. For the access role, provide the Amazon Resource Name (ARN) of the Identity and Access Management role to use. For AS2 connectors With AS2, you can send files by calling StartFileTransfer and specifying the file paths in the request parameter, SendFilePaths . We use the files parent directory (for example, for --send-file-paths /bucket/dir/file.txt , parent directory is /bucket/dir/ ) to temporarily store a processed AS2 message file, store the MDN when we receive them from the partner, and write a final JSON file containing relevant metadata of the transmission. So, the AccessRole needs to provide read and write access to the parent directory of the file location used in the StartFileTransfer request. Additionally, you need to provide read and write access to the parent directory of the files that you intend to send with StartFileTransfer . If you are using Basic authentication for your AS2 connector, the access role requires the secretsmanager:GetSecretValue permission for the secret. If the secret is encrypted using a customer-managed key instead of the Amazon Web Services managed key in Secrets Manager, then the role also needs the kms:Decrypt permission for that key. For SFTP connectors Make sure that the access role provides read and write access to the parent directory of the file location that's used in the StartFileTransfer request. Additionally, make sure that the role provides secretsmanager:GetSecretValue permission to Secrets Manager. Constraints: • min: 20 • max: 2048 • pattern: arn:.*role/\S+</param>
     public AwsTransferCreateAgreementOptions(
         string ServerId,
         string LocalProfileId,
@@ -69,67 +70,67 @@ public record AwsTransferCreateAgreementOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A system-assigned unique identifier for a server instance. This is the specific server that the agreement uses. Constraints: o min: 19 o max: 19 o pattern: s-([0-9a-f]{17})
+    /// A system-assigned unique identifier for a server instance. This is the specific server that the agreement uses. Constraints: • min: 19 • max: 19 • pattern: s-([0-9a-f]{17})
     /// </summary>
     [CliOption("--server-id")]
     public string? ServerId { get; private init; }
 
     /// <summary>
-    /// A unique identifier for the AS2 local profile. Constraints: o min: 19 o max: 19 o pattern: p-([0-9a-f]{17})
+    /// A unique identifier for the AS2 local profile. Constraints: • min: 19 • max: 19 • pattern: p-([0-9a-f]{17})
     /// </summary>
     [CliOption("--local-profile-id")]
     public string? LocalProfileId { get; private init; }
 
     /// <summary>
-    /// A unique identifier for the partner profile used in the agreement. Constraints: o min: 19 o max: 19 o pattern: p-([0-9a-f]{17})
+    /// A unique identifier for the partner profile used in the agreement. Constraints: • min: 19 • max: 19 • pattern: p-([0-9a-f]{17})
     /// </summary>
     [CliOption("--partner-profile-id")]
     public string? PartnerProfileId { get; private init; }
 
     /// <summary>
-    /// Connectors are used to send files using either the AS2 or SFTP pro- tocol. For the access role, provide the Amazon Resource Name (ARN) of the Identity and Access Management role to use. For AS2 connectors With AS2, you can send files by calling StartFileTransfer and speci- fying the file paths in the request parameter, SendFilePaths . We use the files parent directory (for example, for --send-file-paths /bucket/dir/file.txt , parent directory is /bucket/dir/ ) to tem- porarily store a processed AS2 message file, store the MDN when we receive them from the partner, and write a final JSON file contain- ing relevant metadata of the transmission. So, the AccessRole needs to provide read and write access to the parent directory of the file location used in the StartFileTransfer request. Additionally, you need to provide read and write access to the parent directory of the files that you intend to send with StartFileTransfer . If you are using Basic authentication for your AS2 connector, the access role requires the secretsmanager:GetSecretValue permission for the secret. If the secret is encrypted using a customer-managed key instead of the Amazon Web Services managed key in Secrets Man- ager, then the role also needs the kms:Decrypt permission for that key. For SFTP connectors Make sure that the access role provides read and write access to the parent directory of the file location that's used in the StartFile- Transfer request. Additionally, make sure that the role provides se- cretsmanager:GetSecretValue permission to Secrets Manager. Constraints: o min: 20 o max: 2048 o pattern: arn:.*role/\S+
+    /// Connectors are used to send files using either the AS2 or SFTP protocol. For the access role, provide the Amazon Resource Name (ARN) of the Identity and Access Management role to use. For AS2 connectors With AS2, you can send files by calling StartFileTransfer and specifying the file paths in the request parameter, SendFilePaths . We use the files parent directory (for example, for --send-file-paths /bucket/dir/file.txt , parent directory is /bucket/dir/ ) to temporarily store a processed AS2 message file, store the MDN when we receive them from the partner, and write a final JSON file containing relevant metadata of the transmission. So, the AccessRole needs to provide read and write access to the parent directory of the file location used in the StartFileTransfer request. Additionally, you need to provide read and write access to the parent directory of the files that you intend to send with StartFileTransfer . If you are using Basic authentication for your AS2 connector, the access role requires the secretsmanager:GetSecretValue permission for the secret. If the secret is encrypted using a customer-managed key instead of the Amazon Web Services managed key in Secrets Manager, then the role also needs the kms:Decrypt permission for that key. For SFTP connectors Make sure that the access role provides read and write access to the parent directory of the file location that's used in the StartFileTransfer request. Additionally, make sure that the role provides secretsmanager:GetSecretValue permission to Secrets Manager. Constraints: • min: 20 • max: 2048 • pattern: arn:.*role/\S+
     /// </summary>
     [CliOption("--access-role")]
     public string? AccessRole { get; private init; }
 
     /// <summary>
-    /// A name or short description to identify the agreement. Constraints: o min: 1 o max: 200 o pattern: [\u0021-\u007E]+
+    /// A name or short description to identify the agreement. Constraints: • min: 1 • max: 200 • pattern: [\u0021-\u007E]+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The landing directory (folder) for files transferred by using the AS2 protocol. A BaseDirectory example is /*amzn-s3-demo-bucket* /home/mydirectory . Constraints: o min: 0 o max: 1024 o pattern: (|/.*)
+    /// The landing directory (folder) for files transferred by using the AS2 protocol. A BaseDirectory example is /*amzn-s3-demo-bucket* /home/mydirectory . Constraints: • min: 0 • max: 1024 • pattern: (|/.*)
     /// </summary>
     [CliOption("--base-directory")]
     public string? BaseDirectory { get; set; }
 
     /// <summary>
-    /// The status of the agreement. The agreement can be either ACTIVE or INACTIVE . Possible values: o ACTIVE o INACTIVE
+    /// The status of the agreement. The agreement can be either ACTIVE or INACTIVE . Possible values: • ACTIVE • INACTIVE
     /// </summary>
     [CliOption("--status")]
     public AwsTransferCreateAgreementStatus? Status { get; set; }
 
     /// <summary>
-    /// Key-value pairs that can be used to group and search for agreements. Constraints: o min: 1 o max: 50 (structure) Creates a key-value pair for a specific resource. Tags are meta- data that you can use to search for and group a resource for various purposes. You can apply tags to servers, users, and roles. A tag key can take more than one value. For example, to group servers for accounting purposes, you might create a tag called Group and assign the values Research and Accounting to that group. Key -&gt; (string) [required] The name assigned to the tag that you create. Constraints: o min: 0 o max: 128 Value -&gt; (string) [required] Contains one or more values that you assigned to the key name you create. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Key-value pairs that can be used to group and search for agreements. Constraints: • min: 1 • max: 50 (structure) Creates a key-value pair for a specific resource. Tags are metadata that you can use to search for and group a resource for various purposes. You can apply tags to servers, users, and roles. A tag key can take more than one value. For example, to group servers for accounting purposes, you might create a tag called Group and assign the values Research and Accounting to that group. Key -&gt; (string) [required] The name assigned to the tag that you create. Constraints: • min: 0 • max: 128 Value -&gt; (string) [required] Contains one or more values that you assigned to the key name you create. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Determines whether or not Transfer Family appends a unique string of characters to the end of the AS2 message payload filename when sav- ing it. o ENABLED : the filename provided by your trading parter is pre- served when the file is saved. o DISABLED (default value): when Transfer Family saves the file, the filename is adjusted, as described in File names and locations . Possible values: o ENABLED o DISABLED
+    /// Determines whether or not Transfer Family appends a unique string of characters to the end of the AS2 message payload filename when saving it. • ENABLED : the filename provided by your trading parter is preserved when the file is saved. • DISABLED (default value): when Transfer Family saves the file, the filename is adjusted, as described in File names and locations . Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--preserve-filename")]
     public AwsTransferCreateAgreementPreserveFilename? PreserveFilename { get; set; }
 
     /// <summary>
-    /// Determines whether or not unsigned messages from your trading part- ners will be accepted. o ENABLED : Transfer Family rejects unsigned messages from your trading partner. o DISABLED (default value): Transfer Family accepts unsigned mes- sages from your trading partner. Possible values: o ENABLED o DISABLED
+    /// Determines whether or not unsigned messages from your trading partners will be accepted. • ENABLED : Transfer Family rejects unsigned messages from your trading partner. • DISABLED (default value): Transfer Family accepts unsigned messages from your trading partner. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--enforce-message-signing")]
     public AwsTransferCreateAgreementEnforceMessageSigning? EnforceMessageSigning { get; set; }
 
     /// <summary>
-    /// A CustomDirectoriesType structure. This structure specifies custom directories for storing various AS2 message files. You can specify directories for the following types of files. o Failed files o MDN files o Payload files o Status files o Temporary files FailedFilesDirectory -&gt; (string) [required] Specifies a location to store failed AS2 message files. Constraints: o min: 0 o max: 1024 o pattern: (|/.*) MdnFilesDirectory -&gt; (string) [required] Specifies a location to store MDN files. Constraints: o min: 0 o max: 1024 o pattern: (|/.*) PayloadFilesDirectory -&gt; (string) [required] Specifies a location to store the payload for AS2 message files. Constraints: o min: 0 o max: 1024 o pattern: (|/.*) StatusFilesDirectory -&gt; (string) [required] Specifies a location to store AS2 status messages. Constraints: o min: 0 o max: 1024 o pattern: (|/.*) TemporaryFilesDirectory -&gt; (string) [required] Specifies a location to store temporary AS2 message files. Constraints: o min: 0 o max: 1024 o pattern: (|/.*) Shorthand Syntax: FailedFilesDirectory=string,MdnFilesDirectory=string,PayloadFilesDirectory=string,StatusFilesDirectory=string,TemporaryFilesDirectory=string JSON Syntax: { "FailedFilesDirectory": "string", "MdnFilesDirectory": "string", "PayloadFilesDirectory": "string", "StatusFilesDirectory": "string", "TemporaryFilesDirectory": "string" }
+    /// A CustomDirectoriesType structure. This structure specifies custom directories for storing various AS2 message files. You can specify directories for the following types of files. • Failed files • MDN files • Payload files • Status files • Temporary files FailedFilesDirectory -&gt; (string) [required] Specifies a location to store failed AS2 message files. Constraints: • min: 0 • max: 1024 • pattern: (|/.*) MdnFilesDirectory -&gt; (string) [required] Specifies a location to store MDN files. Constraints: • min: 0 • max: 1024 • pattern: (|/.*) PayloadFilesDirectory -&gt; (string) [required] Specifies a location to store the payload for AS2 message files. Constraints: • min: 0 • max: 1024 • pattern: (|/.*) StatusFilesDirectory -&gt; (string) [required] Specifies a location to store AS2 status messages. Constraints: • min: 0 • max: 1024 • pattern: (|/.*) TemporaryFilesDirectory -&gt; (string) [required] Specifies a location to store temporary AS2 message files. Constraints: • min: 0 • max: 1024 • pattern: (|/.*) Shorthand Syntax: FailedFilesDirectory=string,MdnFilesDirectory=string,PayloadFilesDirectory=string,StatusFilesDirectory=string,TemporaryFilesDirectory=string JSON Syntax: { "FailedFilesDirectory": "string", "MdnFilesDirectory": "string", "PayloadFilesDirectory": "string", "StatusFilesDirectory": "string", "TemporaryFilesDirectory": "string" }
     /// </summary>
     [CliOption("--custom-directories")]
     public string? CustomDirectories { get; set; }
@@ -155,6 +156,15 @@ public record AwsTransferCreateAgreementOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

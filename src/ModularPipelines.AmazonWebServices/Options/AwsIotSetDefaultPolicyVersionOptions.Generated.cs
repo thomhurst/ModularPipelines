@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Sets the specified version of the specified policy as the policy's de- fault (operative) version. This action affects all certificates to which the policy is attached. To list the principals the policy is at- tached to, use the ListPrincipalPolicies action. Requires permission to access the SetDefaultPolicyVersion action. See also: AWS API Documentation
+/// Sets the specified version of the specified policy as the policy's default (operative) version. This action affects all certificates to which the policy is attached. To list the principals the policy is attached to, use the ListPrincipalPolicies action. Requires permission to access the SetDefaultPolicyVersion action. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsIotSetDefaultPolicyVersionOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Sets the specified version of the specified policy as the policy's de- fault (operative) version. This action affects all certificates to which the policy is attached. To list the principals the policy is at- tached to, use the ListPrincipalPolicies action. Requires permission to access the SetDefaultPolicyVersion action. See also: AWS API Documentation
+    /// Sets the specified version of the specified policy as the policy's default (operative) version. This action affects all certificates to which the policy is attached. To list the principals the policy is attached to, use the ListPrincipalPolicies action. Requires permission to access the SetDefaultPolicyVersion action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PolicyName">The policy name. Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+</param>
-    /// <param name="PolicyVersionId">The policy version ID. Constraints: o pattern: [0-9]+</param>
+    /// <param name="PolicyName">The policy name. Constraints: • min: 1 • max: 128 • pattern: [\w+=,.@-]+</param>
+    /// <param name="PolicyVersionId">The policy version ID. Constraints: • pattern: [0-9]+</param>
     public AwsIotSetDefaultPolicyVersionOptions(
         string PolicyName,
         string PolicyVersionId
@@ -60,13 +61,13 @@ public record AwsIotSetDefaultPolicyVersionOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The policy name. Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+
+    /// The policy name. Constraints: • min: 1 • max: 128 • pattern: [\w+=,.@-]+
     /// </summary>
     [CliOption("--policy-name")]
     public string? PolicyName { get; private init; }
 
     /// <summary>
-    /// The policy version ID. Constraints: o pattern: [0-9]+
+    /// The policy version ID. Constraints: • pattern: [0-9]+
     /// </summary>
     [CliOption("--policy-version-id")]
     public string? PolicyVersionId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsIotSetDefaultPolicyVersionOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

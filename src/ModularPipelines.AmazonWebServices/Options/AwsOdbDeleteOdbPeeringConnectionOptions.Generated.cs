@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsOdbDeleteOdbPeeringConnectionOptions : AwsOptions, IValidatable
     /// <summary>
     /// Deletes an ODB peering connection. When you delete an ODB peering connection, the underlying VPC peering connection is also deleted. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OdbPeeringConnectionId">The unique identifier of the ODB peering connection to delete. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})</param>
+    /// <param name="OdbPeeringConnectionId">The unique identifier of the ODB peering connection to delete. Constraints: • min: 6 • max: 2048 • pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})</param>
     public AwsOdbDeleteOdbPeeringConnectionOptions(
         string OdbPeeringConnectionId
     )
@@ -56,7 +57,7 @@ public record AwsOdbDeleteOdbPeeringConnectionOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the ODB peering connection to delete. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})
+    /// The unique identifier of the ODB peering connection to delete. Constraints: • min: 6 • max: 2048 • pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})
     /// </summary>
     [CliOption("--odb-peering-connection-id")]
     public string? OdbPeeringConnectionId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsOdbDeleteOdbPeeringConnectionOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +28,7 @@ public record AwsGroundstationTagResourceOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Assigns a tag to a resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">ARN of a resource tag. Constraints: o min: 5 o max: 1024 o pattern: (arn:aws:)[\s\S]{0,1024}</param>
+    /// <param name="ResourceArn">ARN of a resource tag. Constraints: • min: 5 • max: 1024 • pattern: (arn:aws:)[\s\S]{0,1024}</param>
     /// <param name="Tags">Tags assigned to a resource. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
     public AwsGroundstationTagResourceOptions(
         string ResourceArn,
@@ -72,7 +72,7 @@ public record AwsGroundstationTagResourceOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ARN of a resource tag. Constraints: o min: 5 o max: 1024 o pattern: (arn:aws:)[\s\S]{0,1024}
+    /// ARN of a resource tag. Constraints: • min: 5 • max: 1024 • pattern: (arn:aws:)[\s\S]{0,1024}
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
@@ -104,6 +104,15 @@ public record AwsGroundstationTagResourceOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

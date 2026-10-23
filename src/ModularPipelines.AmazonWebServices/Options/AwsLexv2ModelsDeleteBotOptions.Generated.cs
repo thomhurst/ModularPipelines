@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes all versions of a bot, including the Draft version. To delete a specific version, use the DeleteBotVersion operation. When you delete a bot, all of the resources contained in the bot are also deleted. Deleting a bot removes all locales, intents, slot, and slot types defined for the bot. If a bot has an alias, the DeleteBot operation returns a ResourceInUse- Exception exception. If you want to delete the bot and the alias, set the skipResourceInUseCheck parameter to true . See also: AWS A...
+/// Deletes all versions of a bot, including the Draft version. To delete a specific version, use the DeleteBotVersion operation. When you delete a bot, all of the resources contained in the bot are also deleted. Deleting a bot removes all locales, intents, slot, and slot types defined for the bot. If a bot has an alias, the DeleteBot operation returns a ResourceInUseException exception. If you want to delete the bot and the alias, set the skipResourceInUseCheck parameter to true . See also: AWS API...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsLexv2ModelsDeleteBotOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes all versions of a bot, including the Draft version. To delete a specific version, use the DeleteBotVersion operation. When you delete a bot, all of the resources contained in the bot are also deleted. Deleting a bot removes all locales, intents, slot, and slot types defined for the bot. If a bot has an alias, the DeleteBot operation returns a ResourceInUse- Exception exception. If you want to delete the bot and the alias, set the skipResourceInUseCheck parameter to true . See also: AWS A...
+    /// Deletes all versions of a bot, including the Draft version. To delete a specific version, use the DeleteBotVersion operation. When you delete a bot, all of the resources contained in the bot are also deleted. Deleting a bot removes all locales, intents, slot, and slot types defined for the bot. If a bot has an alias, the DeleteBot operation returns a ResourceInUseException exception. If you want to delete the bot and the alias, set the skipResourceInUseCheck parameter to true . See also: AWS API...
     /// </summary>
-    /// <param name="BotId">The identifier of the bot to delete. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="BotId">The identifier of the bot to delete. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$</param>
     public AwsLexv2ModelsDeleteBotOptions(
         string BotId
     )
@@ -56,13 +57,13 @@ public record AwsLexv2ModelsDeleteBotOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the bot to delete. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The identifier of the bot to delete. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--bot-id")]
     public string? BotId { get; private init; }
 
     /// <summary>
-    /// By default, Amazon Lex checks if any other resource, such as an alias or bot network, is using the bot version before it is deleted and throws a ResourceInUseException exception if the bot is being used by another resource. Set this parameter to true to skip this check and remove the bot even if it is being used by another re- source.
+    /// By default, Amazon Lex checks if any other resource, such as an alias or bot network, is using the bot version before it is deleted and throws a ResourceInUseException exception if the bot is being used by another resource. Set this parameter to true to skip this check and remove the bot even if it is being used by another resource.
     /// </summary>
     [CliFlag("--skip-resource-in-use-check", NegatedName = "--no-skip-resource-in-use-check")]
     public bool? SkipResourceInUseCheck { get; set; }
@@ -88,6 +89,15 @@ public record AwsLexv2ModelsDeleteBotOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

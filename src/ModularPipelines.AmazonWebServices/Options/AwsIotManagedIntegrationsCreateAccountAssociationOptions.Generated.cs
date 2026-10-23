@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -29,7 +29,7 @@ public record AwsIotManagedIntegrationsCreateAccountAssociationOptions : AwsOpti
     /// <summary>
     /// Creates a new account association via the destination id. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConnectorDestinationId">The identifier of the connector destination. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9-_]+</param>
+    /// <param name="ConnectorDestinationId">The identifier of the connector destination. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9-_]+</param>
     public AwsIotManagedIntegrationsCreateAccountAssociationOptions(
         string ConnectorDestinationId
     )
@@ -58,38 +58,38 @@ public record AwsIotManagedIntegrationsCreateAccountAssociationOptions : AwsOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the connector destination. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9-_]+
+    /// The identifier of the connector destination. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9-_]+
     /// </summary>
     [CliOption("--connector-destination-id")]
     public string? ConnectorDestinationId { get; private init; }
 
     /// <summary>
-    /// An idempotency token. If you retry a request that completed success- fully initially using the same client token and parameters, then the retry attempt will succeed without performing any further actions. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9=_-]+
+    /// An idempotency token. If you retry a request that completed successfully initially using the same client token and parameters, then the retry attempt will succeed without performing any further actions. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9=_-]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The name of the destination for the new account association. Constraints: o min: 1 o max: 128 o pattern: [A-Za-z0-9-_ ]+
+    /// The name of the destination for the new account association. Constraints: • min: 1 • max: 128 • pattern: [A-Za-z0-9-_ ]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// A description of the account association request. Constraints: o min: 1 o max: 4096 o pattern: [A-Za-z0-9-_ ]+
+    /// A description of the account association request. Constraints: • min: 1 • max: 4096 • pattern: [A-Za-z0-9-_ ]+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// A set of key/value pairs that are used to manage the account associ- ation. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A set of key/value pairs that are used to manage the account association. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// The General Authorization reference by authorization material name. AuthMaterialName -&gt; (string) The name of the authorization material. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9=_+/-]+ Shorthand Syntax: AuthMaterialName=string JSON Syntax: { "AuthMaterialName": "string" }
+    /// The General Authorization reference by authorization material name. AuthMaterialName -&gt; (string) The name of the authorization material. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9=_+/-]+ Shorthand Syntax: AuthMaterialName=string JSON Syntax: { "AuthMaterialName": "string" }
     /// </summary>
     [CliOption("--general-authorization")]
     public string? GeneralAuthorization { get; set; }
@@ -115,6 +115,15 @@ public record AwsIotManagedIntegrationsCreateAccountAssociationOptions : AwsOpti
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

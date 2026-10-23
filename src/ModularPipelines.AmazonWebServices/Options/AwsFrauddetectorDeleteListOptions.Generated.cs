@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsFrauddetectorDeleteListOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes the list, provided it is not used in a rule. When you delete a list, Amazon Fraud Detector permanently deletes that list and the elements in the list. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the list to delete. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_]+$</param>
+    /// <param name="Name">The name of the list to delete. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_]+$</param>
     public AwsFrauddetectorDeleteListOptions(
         string Name
     )
@@ -56,7 +57,7 @@ public record AwsFrauddetectorDeleteListOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the list to delete. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_]+$
+    /// The name of the list to delete. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_]+$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
@@ -82,6 +83,15 @@ public record AwsFrauddetectorDeleteListOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

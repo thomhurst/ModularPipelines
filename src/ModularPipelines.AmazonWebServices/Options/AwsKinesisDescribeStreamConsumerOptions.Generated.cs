@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// To get the description of a registered consumer, provide the ARN of the consumer. Alternatively, you can provide the ARN of the data stream and the name you gave the consumer when you registered it. You may also provide all three parameters, as long as they don't conflict with each other. If you don't know the name or ARN of the consumer that you want to describe, you can use the ListStreamConsumers operation to get a list of the descriptions of all the consumers that are currently regis- tered ...
+/// To get the description of a registered consumer, provide the ARN of the consumer. Alternatively, you can provide the ARN of the data stream and the name you gave the consumer when you registered it. You may also provide all three parameters, as long as they don't conflict with each other. If you don't know the name or ARN of the consumer that you want to describe, you can use the ListStreamConsumers operation to get a list of the descriptions of all the consumers that are currently registered wi...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,25 +22,25 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsKinesisDescribeStreamConsumerOptions : AwsOptions
 {
     /// <summary>
-    /// The ARN of the Kinesis data stream that the consumer is registered with. For more information, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces . Constraints: o min: 1 o max: 2048 o pattern: arn:aws.*:kinesis:.*:\d{12}:stream/\S+
+    /// The ARN of the Kinesis data stream that the consumer is registered with. For more information, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces . Constraints: • min: 1 • max: 2048 • pattern: arn:aws.*:kinesis:.*:\d{12}:stream/\S+
     /// </summary>
     [CliOption("--stream-arn")]
     public string? StreamArn { get; set; }
 
     /// <summary>
-    /// The name that you gave to the consumer. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
+    /// The name that you gave to the consumer. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--consumer-name")]
     public string? ConsumerName { get; set; }
 
     /// <summary>
-    /// The ARN returned by Kinesis Data Streams when you registered the consumer. Constraints: o min: 1 o max: 2048 o pattern: ^(arn):aws.*:kine- sis:.*:\d{12}:.*stream\/[a-zA-Z0-9_.-]+\/con- sumer\/[a-zA-Z0-9_.-]+:[0-9]+
+    /// The ARN returned by Kinesis Data Streams when you registered the consumer. Constraints: • min: 1 • max: 2048 • pattern: ^(arn):aws.*:kinesis:.*:\d{12}:.*stream\/[a-zA-Z0-9_.-]+\/consumer\/[a-zA-Z0-9_.-]+:[0-9]+
     /// </summary>
     [CliOption("--consumer-arn")]
     public string? ConsumerArn { get; set; }
 
     /// <summary>
-    /// Not Implemented. Reserved for future use. Constraints: o min: 1 o max: 24 o pattern: [a-z0-9]{20}-[a-z0-9]{3}
+    /// Not Implemented. Reserved for future use. Constraints: • min: 1 • max: 24 • pattern: [a-z0-9]{20}-[a-z0-9]{3}
     /// </summary>
     [CliOption("--stream-id")]
     public string? StreamId { get; set; }
@@ -50,5 +50,14 @@ public record AwsKinesisDescribeStreamConsumerOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

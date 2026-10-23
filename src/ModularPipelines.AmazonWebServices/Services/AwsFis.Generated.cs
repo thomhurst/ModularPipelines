@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -32,7 +32,7 @@ public class AwsFis : IAwsFis
     #region Commands
 
     /// <summary>
-    /// Creates an experiment template. An experiment template includes the following components: o Targets : A target can be a specific resource in your Amazon Web Ser- vices environment, or one or more resources that match criteria that you specify, for example, resources that have specific tags. o Actions : The actions to carry out on the target. You can specify multiple actions, the duration of each action, and when to start each action during an experiment. o Stop conditions : If a stop condition i...
+    /// Creates an experiment template. An experiment template includes the following components: • Targets : A target can be a specific resource in your Amazon Web Services environment, or one or more resources that match criteria that you specify, for example, resources that have specific tags. • Actions : The actions to carry out on the target. You can specify multiple actions, the duration of each action, and when to start each action during an experiment. • Stop conditions : If a stop condition is ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsFis : IAwsFis
     }
 
     /// <summary>
-    /// Creates a target account configuration for the experiment template. A target account configuration is required when accountTargeting of ex- perimentOptions is set to multi-account . For more information, see experiment options in the Fault Injection Service User Guide . See also: AWS API Documentation
+    /// Creates a target account configuration for the experiment template. A target account configuration is required when accountTargeting of experimentOptions is set to multi-account . For more information, see experiment options in the Fault Injection Service User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsFis : IAwsFis
     }
 
     /// <summary>
-    /// Lists the available FIS actions. See also: AWS API Documentation list-actions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: actions
+    /// Lists the available FIS actions. See also: AWS API Documentation list-actions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: actions
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsFis : IAwsFis
     }
 
     /// <summary>
-    /// Lists the resolved targets information of the specified experiment. See also: AWS API Documentation list-experiment-resolved-targets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: resolvedTargets
+    /// Lists the resolved targets information of the specified experiment. See also: AWS API Documentation list-experiment-resolved-targets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: resolvedTargets
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -224,21 +224,6 @@ public class AwsFis : IAwsFis
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Lists your experiments. See also: AWS API Documentation list-experiments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: experiments
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListExperimentsAsync(
-        AwsFisListExperimentsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsFisListExperimentsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -257,7 +242,7 @@ public class AwsFis : IAwsFis
     }
 
     /// <summary>
-    /// Lists your experiment templates. See also: AWS API Documentation list-experiment-templates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: experimentTemplates
+    /// Lists your experiment templates. See also: AWS API Documentation list-experiment-templates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: experimentTemplates
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -269,6 +254,21 @@ public class AwsFis : IAwsFis
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsFisListExperimentTemplatesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists your experiments. See also: AWS API Documentation list-experiments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: experiments
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListExperimentsAsync(
+        AwsFisListExperimentsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsFisListExperimentsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -287,7 +287,7 @@ public class AwsFis : IAwsFis
     }
 
     /// <summary>
-    /// Lists the target account configurations of the specified experiment template. See also: AWS API Documentation list-target-account-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: targ...
+    /// Lists the target account configurations of the specified experiment template. See also: AWS API Documentation list-target-account-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: targetAc...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -302,7 +302,7 @@ public class AwsFis : IAwsFis
     }
 
     /// <summary>
-    /// Lists the target resource types. See also: AWS API Documentation list-target-resource-types is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: targetResourceTypes
+    /// Lists the target resource types. See also: AWS API Documentation list-target-resource-types is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: targetResourceTypes
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

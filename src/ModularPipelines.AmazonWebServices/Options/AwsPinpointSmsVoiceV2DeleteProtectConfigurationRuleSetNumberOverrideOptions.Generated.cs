@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsPinpointSmsVoiceV2DeleteProtectConfigurationRuleSetNumberOverri
     /// <summary>
     /// Permanently delete the protect configuration rule set number override. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProtectConfigurationId">The unique identifier for the protect configuration. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+</param>
-    /// <param name="DestinationPhoneNumber">The destination phone number in E.164 format. Constraints: o min: 1 o max: 20 o pattern: \+?[1-9][0-9]{1,18}</param>
+    /// <param name="ProtectConfigurationId">The unique identifier for the protect configuration. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+</param>
+    /// <param name="DestinationPhoneNumber">The destination phone number in E.164 format. Constraints: • min: 1 • max: 20 • pattern: \+?[1-9][0-9]{1,18}</param>
     public AwsPinpointSmsVoiceV2DeleteProtectConfigurationRuleSetNumberOverrideOptions(
         string ProtectConfigurationId,
         string DestinationPhoneNumber
@@ -60,13 +61,13 @@ public record AwsPinpointSmsVoiceV2DeleteProtectConfigurationRuleSetNumberOverri
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the protect configuration. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// The unique identifier for the protect configuration. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+
     /// </summary>
     [CliOption("--protect-configuration-id")]
     public string? ProtectConfigurationId { get; private init; }
 
     /// <summary>
-    /// The destination phone number in E.164 format. Constraints: o min: 1 o max: 20 o pattern: \+?[1-9][0-9]{1,18}
+    /// The destination phone number in E.164 format. Constraints: • min: 1 • max: 20 • pattern: \+?[1-9][0-9]{1,18}
     /// </summary>
     [CliOption("--destination-phone-number")]
     public string? DestinationPhoneNumber { get; private init; }
@@ -92,6 +93,15 @@ public record AwsPinpointSmsVoiceV2DeleteProtectConfigurationRuleSetNumberOverri
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

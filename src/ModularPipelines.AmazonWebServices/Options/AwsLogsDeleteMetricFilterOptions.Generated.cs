@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsLogsDeleteMetricFilterOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes the specified metric filter. See also: AWS API Documentation
     /// </summary>
-    /// <param name="LogGroupName">The name of the log group. Constraints: o min: 1 o max: 512 o pattern: [\.\-_/#A-Za-z0-9]+</param>
-    /// <param name="FilterName">The name of the metric filter. Constraints: o min: 1 o max: 512 o pattern: [^:*]*</param>
+    /// <param name="LogGroupName">The name of the log group. Constraints: • min: 1 • max: 512 • pattern: [\.\-_/#A-Za-z0-9]+</param>
+    /// <param name="FilterName">The name of the metric filter. Constraints: • min: 1 • max: 512 • pattern: [^:*]*</param>
     public AwsLogsDeleteMetricFilterOptions(
         string LogGroupName,
         string FilterName
@@ -60,13 +61,13 @@ public record AwsLogsDeleteMetricFilterOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the log group. Constraints: o min: 1 o max: 512 o pattern: [\.\-_/#A-Za-z0-9]+
+    /// The name of the log group. Constraints: • min: 1 • max: 512 • pattern: [\.\-_/#A-Za-z0-9]+
     /// </summary>
     [CliOption("--log-group-name")]
     public string? LogGroupName { get; private init; }
 
     /// <summary>
-    /// The name of the metric filter. Constraints: o min: 1 o max: 512 o pattern: [^:*]*
+    /// The name of the metric filter. Constraints: • min: 1 • max: 512 • pattern: [^:*]*
     /// </summary>
     [CliOption("--filter-name")]
     public string? FilterName { get; private init; }
@@ -92,6 +93,15 @@ public record AwsLogsDeleteMetricFilterOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

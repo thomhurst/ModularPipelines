@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsServicecatalogDisassociateTagOptionFromResourceOptions : AwsOpt
     /// Disassociates the specified TagOption from the specified resource. See also: AWS API Documentation
     /// </summary>
     /// <param name="ResourceId">The resource identifier.</param>
-    /// <param name="TagOptionId">The TagOption identifier. Constraints: o min: 1 o max: 100</param>
+    /// <param name="TagOptionId">The TagOption identifier. Constraints: • min: 1 • max: 100</param>
     public AwsServicecatalogDisassociateTagOptionFromResourceOptions(
         string ResourceId,
         string TagOptionId
@@ -66,7 +67,7 @@ public record AwsServicecatalogDisassociateTagOptionFromResourceOptions : AwsOpt
     public string? ResourceId { get; private init; }
 
     /// <summary>
-    /// The TagOption identifier. Constraints: o min: 1 o max: 100
+    /// The TagOption identifier. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--tag-option-id")]
     public string? TagOptionId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsServicecatalogDisassociateTagOptionFromResourceOptions : AwsOpt
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

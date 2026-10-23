@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsBedrockAgentRuntimeGetSessionOptions : AwsOptions, IValidatable
     /// <summary>
     /// Retrieves details about a specific session. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions . See also: AWS API Documentation
     /// </summary>
-    /// <param name="SessionIdentifier">A unique identifier for the session to retrieve. You can specify ei- ther the session's sessionId or its Amazon Resource Name (ARN). Constraints: o pattern: ^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]+:[0-9]{12}:ses- sion/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})|([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})$</param>
+    /// <param name="SessionIdentifier">A unique identifier for the session to retrieve. You can specify either the session's sessionId or its Amazon Resource Name (ARN). Constraints: • pattern: ^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]+:[0-9]{12}:session/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})|([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})$</param>
     public AwsBedrockAgentRuntimeGetSessionOptions(
         string SessionIdentifier
     )
@@ -56,7 +57,7 @@ public record AwsBedrockAgentRuntimeGetSessionOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the session to retrieve. You can specify ei- ther the session's sessionId or its Amazon Resource Name (ARN). Constraints: o pattern: ^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]+:[0-9]{12}:ses- sion/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})|([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})$
+    /// A unique identifier for the session to retrieve. You can specify either the session's sessionId or its Amazon Resource Name (ARN). Constraints: • pattern: ^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]+:[0-9]{12}:session/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})|([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})$
     /// </summary>
     [CliOption("--session-identifier")]
     public string? SessionIdentifier { get; private init; }
@@ -82,6 +83,15 @@ public record AwsBedrockAgentRuntimeGetSessionOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

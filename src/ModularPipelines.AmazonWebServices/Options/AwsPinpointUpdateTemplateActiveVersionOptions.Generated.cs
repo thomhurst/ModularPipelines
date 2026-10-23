@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Changes the status of a specific version of a message template to ac- tive . See also: AWS API Documentation
+/// Changes the status of a specific version of a message template to active . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsPinpointUpdateTemplateActiveVersionOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Changes the status of a specific version of a message template to ac- tive . See also: AWS API Documentation
+    /// Changes the status of a specific version of a message template to active . See also: AWS API Documentation
     /// </summary>
-    /// <param name="TemplateActiveVersionRequest">Specifies which version of a message template to use as the active version of the template. Version -&gt; (string) The version of the message template to use as the active version of the template. Valid values are: latest, for the most recent version of the template; or, the unique identifier for any ex- isting version of the template. If you specify an identifier, the value must match the identifier for an existing template version. To retrieve a list of versions and version identifiers for a template, use the Template Versionsresource. Shorthand Syntax: Version=string JSON Syntax: { "Version": "string" }</param>
+    /// <param name="TemplateActiveVersionRequest">Specifies which version of a message template to use as the active version of the template. Version -&gt; (string) The version of the message template to use as the active version of the template. Valid values are: latest, for the most recent version of the template; or, the unique identifier for any existing version of the template. If you specify an identifier, the value must match the identifier for an existing template version. To retrieve a list of versions and version identifiers for a template, use the Template Versionsresource. Shorthand Syntax: Version=string JSON Syntax: { "Version": "string" }</param>
     /// <param name="TemplateName">The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.</param>
     /// <param name="TemplateType">The type of channel that the message template is designed for. Valid values are: EMAIL, PUSH, SMS, and VOICE.</param>
     public AwsPinpointUpdateTemplateActiveVersionOptions(
@@ -64,7 +65,7 @@ public record AwsPinpointUpdateTemplateActiveVersionOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies which version of a message template to use as the active version of the template. Version -&gt; (string) The version of the message template to use as the active version of the template. Valid values are: latest, for the most recent version of the template; or, the unique identifier for any ex- isting version of the template. If you specify an identifier, the value must match the identifier for an existing template version. To retrieve a list of versions and version identifiers for a template, use the Template Versionsresource. Shorthand Syntax: Version=string JSON Syntax: { "Version": "string" }
+    /// Specifies which version of a message template to use as the active version of the template. Version -&gt; (string) The version of the message template to use as the active version of the template. Valid values are: latest, for the most recent version of the template; or, the unique identifier for any existing version of the template. If you specify an identifier, the value must match the identifier for an existing template version. To retrieve a list of versions and version identifiers for a template, use the Template Versionsresource. Shorthand Syntax: Version=string JSON Syntax: { "Version": "string" }
     /// </summary>
     [CliOption("--template-active-version-request")]
     public string? TemplateActiveVersionRequest { get; private init; }
@@ -102,6 +103,15 @@ public record AwsPinpointUpdateTemplateActiveVersionOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,10 +29,10 @@ public record AwsSagemakerDeleteHubContentOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Delete the contents of a hub. See also: AWS API Documentation
     /// </summary>
-    /// <param name="HubName">The name of the hub that you want to delete content in. Constraints: o pattern: (arn:[a-z0-9-\.]{1,63}:sage- maker:\w+(?:-\w+)+:(\d{12}|aws):hub\/)?[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
-    /// <param name="HubContentType">The type of content that you want to delete from a hub. Possible values: o Model o Notebook o ModelReference o DataSet o JsonDoc</param>
-    /// <param name="HubContentName">The name of the content that you want to delete from a hub. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
-    /// <param name="HubContentVersion">The version of the content that you want to delete from a hub. Constraints: o min: 5 o max: 14 o pattern: \d{1,4}.\d{1,4}.\d{1,4}</param>
+    /// <param name="HubName">The name of the hub that you want to delete content in. Constraints: • pattern: (arn:[a-z0-9-\.]{1,63}:sagemaker:\w+(?:-\w+)+:(\d{12}|aws):hub\/)?[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="HubContentType">The type of content that you want to delete from a hub. Possible values: • Model • Notebook • ModelReference • DataSet • JsonDoc</param>
+    /// <param name="HubContentName">The name of the content that you want to delete from a hub. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="HubContentVersion">The version of the content that you want to delete from a hub. Constraints: • min: 5 • max: 14 • pattern: \d{1,4}.\d{1,4}.\d{1,4}</param>
     public AwsSagemakerDeleteHubContentOptions(
         string HubName,
         AwsSagemakerDeleteHubContentHubContentType HubContentType,
@@ -68,25 +69,25 @@ public record AwsSagemakerDeleteHubContentOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the hub that you want to delete content in. Constraints: o pattern: (arn:[a-z0-9-\.]{1,63}:sage- maker:\w+(?:-\w+)+:(\d{12}|aws):hub\/)?[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// The name of the hub that you want to delete content in. Constraints: • pattern: (arn:[a-z0-9-\.]{1,63}:sagemaker:\w+(?:-\w+)+:(\d{12}|aws):hub\/)?[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--hub-name")]
     public string? HubName { get; private init; }
 
     /// <summary>
-    /// The type of content that you want to delete from a hub. Possible values: o Model o Notebook o ModelReference o DataSet o JsonDoc
+    /// The type of content that you want to delete from a hub. Possible values: • Model • Notebook • ModelReference • DataSet • JsonDoc
     /// </summary>
     [CliOption("--hub-content-type")]
     public AwsSagemakerDeleteHubContentHubContentType? HubContentType { get; private init; }
 
     /// <summary>
-    /// The name of the content that you want to delete from a hub. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// The name of the content that you want to delete from a hub. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--hub-content-name")]
     public string? HubContentName { get; private init; }
 
     /// <summary>
-    /// The version of the content that you want to delete from a hub. Constraints: o min: 5 o max: 14 o pattern: \d{1,4}.\d{1,4}.\d{1,4}
+    /// The version of the content that you want to delete from a hub. Constraints: • min: 5 • max: 14 • pattern: \d{1,4}.\d{1,4}.\d{1,4}
     /// </summary>
     [CliOption("--hub-content-version")]
     public string? HubContentVersion { get; private init; }
@@ -112,6 +113,15 @@ public record AwsSagemakerDeleteHubContentOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

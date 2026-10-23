@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsWorkdocsDescribeActivitiesOptions : AwsOptions
 {
     /// <summary>
-    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API. Constraints: o min: 1 o max: 8199
+    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API. Constraints: • min: 1 • max: 8199
     /// </summary>
     [SecretValue]
     [CliOption("--authentication-token")]
@@ -42,25 +42,25 @@ public record AwsWorkdocsDescribeActivitiesOptions : AwsOptions
     public string? EndTime { get; set; }
 
     /// <summary>
-    /// The ID of the organization. This is a mandatory parameter when using administrative API (SigV4) requests. Constraints: o min: 1 o max: 256 o pattern: [&amp;\w+-.@]+
+    /// The ID of the organization. This is a mandatory parameter when using administrative API (SigV4) requests. Constraints: • min: 1 • max: 256 • pattern: [&amp;\w+-.@]+
     /// </summary>
     [CliOption("--organization-id")]
     public string? OrganizationId { get; set; }
 
     /// <summary>
-    /// Specifies which activity types to include in the response. If this field is left empty, all activity types are returned. Constraints: o min: 1 o max: 1024 o pattern: [\w,]+
+    /// Specifies which activity types to include in the response. If this field is left empty, all activity types are returned. Constraints: • min: 1 • max: 1024 • pattern: [\w,]+
     /// </summary>
     [CliOption("--activity-types")]
     public string? ActivityTypes { get; set; }
 
     /// <summary>
-    /// The document or folder ID for which to describe activity types. Constraints: o min: 1 o max: 256 o pattern: [&amp;\w+-.@]+
+    /// The document or folder ID for which to describe activity types. Constraints: • min: 1 • max: 256 • pattern: [&amp;\w+-.@]+
     /// </summary>
     [CliOption("--resource-id")]
     public string? ResourceId { get; set; }
 
     /// <summary>
-    /// The ID of the user who performed the action. The response includes activities pertaining to this user. This is an optional parameter and is only applicable for administrative API (SigV4) requests. Constraints: o min: 1 o max: 256 o pattern: [&amp;\w+-.@]+
+    /// The ID of the user who performed the action. The response includes activities pertaining to this user. This is an optional parameter and is only applicable for administrative API (SigV4) requests. Constraints: • min: 1 • max: 256 • pattern: [&amp;\w+-.@]+
     /// </summary>
     [CliOption("--user-id")]
     public string? UserId { get; set; }
@@ -74,9 +74,6 @@ public record AwsWorkdocsDescribeActivitiesOptions : AwsOptions
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
-
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
@@ -85,15 +82,27 @@ public record AwsWorkdocsDescribeActivitiesOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 999
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 999
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

@@ -6,16 +6,18 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Instructs Connect Customer to resume the authentication process. The subsequent actions depend on the request body contents: o If a code is provided : Connect retrieves the identity information from Amazon Cognito and imports it into Connect Customer Profiles. o If an error is provided : The error branch of the Authenticate Cus- tomer block is executed. NOTE: The API returns a success response to acknowledge the request. How- ever, the interaction and exchange of identity information occur async...
+/// Instructs Connect Customer to resume the authentication process. The subsequent actions depend on the request body contents: • If a code is provided : Connect retrieves the identity information from Amazon Cognito and imports it into Connect Customer Profiles. • If an error is provided : The error branch of the Authenticate Customer block is executed. NOTE: The API returns a success response to acknowledge the request. However, the interaction and exchange of identity information occur asynchron...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsConnectUpdateParticipantAuthenticationOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Instructs Connect Customer to resume the authentication process. The subsequent actions depend on the request body contents: o If a code is provided : Connect retrieves the identity information from Amazon Cognito and imports it into Connect Customer Profiles. o If an error is provided : The error branch of the Authenticate Cus- tomer block is executed. NOTE: The API returns a success response to acknowledge the request. How- ever, the interaction and exchange of identity information occur async...
+    /// Instructs Connect Customer to resume the authentication process. The subsequent actions depend on the request body contents: • If a code is provided : Connect retrieves the identity information from Amazon Cognito and imports it into Connect Customer Profiles. • If an error is provided : The error branch of the Authenticate Customer block is executed. NOTE: The API returns a success response to acknowledge the request. However, the interaction and exchange of identity information occur asynchron...
     /// </summary>
-    /// <param name="State">The state query parameter that was provided by Cognito in the redi- rectUri . This will also match the state parameter provided in the AuthenticationUrl from the GetAuthenticationUrl response. Constraints: o min: 1 o max: 1000</param>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="State">The state query parameter that was provided by Cognito in the redirectUri . This will also match the state parameter provided in the AuthenticationUrl from the GetAuthenticationUrl response. Constraints: • min: 1 • max: 1000</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
     public AwsConnectUpdateParticipantAuthenticationOptions(
         string State,
         string InstanceId
@@ -60,31 +62,32 @@ public record AwsConnectUpdateParticipantAuthenticationOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The state query parameter that was provided by Cognito in the redi- rectUri . This will also match the state parameter provided in the AuthenticationUrl from the GetAuthenticationUrl response. Constraints: o min: 1 o max: 1000
+    /// The state query parameter that was provided by Cognito in the redirectUri . This will also match the state parameter provided in the AuthenticationUrl from the GetAuthenticationUrl response. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--state")]
     public string? State { get; private init; }
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The code query parameter provided by Cognito in the redirectUri . Constraints: o min: 1 o max: 2048
+    /// The code query parameter provided by Cognito in the redirectUri . Constraints: • min: 1 • max: 2048
     /// </summary>
+    [SecretValue]
     [CliOption("--code")]
     public string? Code { get; set; }
 
     /// <summary>
-    /// The error query parameter provided by Cognito in the redirectUri . Constraints: o min: 1 o max: 2048 o pattern: ^[\x20-\x21\x23-\x5B\x5D-\x7E]*$
+    /// The error query parameter provided by Cognito in the redirectUri . Constraints: • min: 1 • max: 2048 • pattern: ^[\x20-\x21\x23-\x5B\x5D-\x7E]*$
     /// </summary>
     [CliOption("--error")]
     public string? Error { get; set; }
 
     /// <summary>
-    /// The error_description parameter provided by Cognito in the redirec- tUri . Constraints: o min: 1 o max: 2048 o pattern: ^[\x20-\x21\x23-\x5B\x5D-\x7E]*$
+    /// The error_description parameter provided by Cognito in the redirectUri . Constraints: • min: 1 • max: 2048 • pattern: ^[\x20-\x21\x23-\x5B\x5D-\x7E]*$
     /// </summary>
     [CliOption("--error-description")]
     public string? ErrorDescription { get; set; }
@@ -110,6 +113,15 @@ public record AwsConnectUpdateParticipantAuthenticationOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

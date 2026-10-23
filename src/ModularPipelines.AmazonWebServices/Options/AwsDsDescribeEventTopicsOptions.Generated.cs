@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Obtains information about which Amazon SNS topics receive status mes- sages from the specified directory. If no input parameters are provided, such as DirectoryId or TopicName, this request describes all of the associations in the account. See also: AWS API Documentation
+/// Obtains information about which Amazon SNS topics receive status messages from the specified directory. If no input parameters are provided, such as DirectoryId or TopicName, this request describes all of the associations in the account. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,13 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsDsDescribeEventTopicsOptions : AwsOptions
 {
     /// <summary>
-    /// The Directory ID for which to get the list of associated Amazon SNS topics. If this member is null, associations for all Directory IDs are returned. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// The Directory ID for which to get the list of associated Amazon SNS topics. If this member is null, associations for all Directory IDs are returned. Constraints: • pattern: ^d-[0-9a-f]{10}$
     /// </summary>
     [CliOption("--directory-id")]
     public string? DirectoryId { get; set; }
 
     /// <summary>
-    /// A list of Amazon SNS topic names for which to obtain the informa- tion. If this member is null, all associations for the specified Di- rectory ID are returned. An empty list results in an InvalidParameterException being thrown. (string) Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+ Syntax: "string" "string" ...
+    /// A list of Amazon SNS topic names for which to obtain the information. If this member is null, all associations for the specified Directory ID are returned. An empty list results in an InvalidParameterException being thrown. (string) Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_-]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--topic-names", GroupValues = true)]
     public IEnumerable<string>? TopicNames { get; set; }
@@ -38,5 +38,14 @@ public record AwsDsDescribeEventTopicsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

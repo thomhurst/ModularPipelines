@@ -10,13 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new recording configuration, used to enable recording to Ama- zon S3. Known issue: In the us-east-1 region, if you use the Amazon Web Ser- vices CLI to create a recording configuration, it returns success even if the S3 bucket is in a different region. In this case, the state of the recording configuration is CREATE_FAILED (instead of ACTIVE ). (In other regions, the CLI correctly returns failure if the bucket is in a different region.) Workaround: Ensure that your S3 bucket is in the ...
+/// Creates a new recording configuration, used to enable recording to Amazon S3. Known issue: In the us-east-1 region, if you use the Amazon Web Services CLI to create a recording configuration, it returns success even if the S3 bucket is in a different region. In this case, the state of the recording configuration is CREATE_FAILED (instead of ACTIVE ). (In other regions, the CLI correctly returns failure if the bucket is in a different region.) Workaround: Ensure that your S3 bucket is in the same...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +26,9 @@ public record AwsIvsCreateRecordingConfigurationOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new recording configuration, used to enable recording to Ama- zon S3. Known issue: In the us-east-1 region, if you use the Amazon Web Ser- vices CLI to create a recording configuration, it returns success even if the S3 bucket is in a different region. In this case, the state of the recording configuration is CREATE_FAILED (instead of ACTIVE ). (In other regions, the CLI correctly returns failure if the bucket is in a different region.) Workaround: Ensure that your S3 bucket is in the ...
+    /// Creates a new recording configuration, used to enable recording to Amazon S3. Known issue: In the us-east-1 region, if you use the Amazon Web Services CLI to create a recording configuration, it returns success even if the S3 bucket is in a different region. In this case, the state of the recording configuration is CREATE_FAILED (instead of ACTIVE ). (In other regions, the CLI correctly returns failure if the bucket is in a different region.) Workaround: Ensure that your S3 bucket is in the same...
     /// </summary>
-    /// <param name="DestinationConfiguration">A complex type that contains a destination configuration for where recorded video will be stored. s3 -&gt; (structure) An S3 destination configuration where recorded videos will be stored. bucketName -&gt; (string) [required] Location (S3 bucket name) where recorded videos will be stored. Constraints: o min: 3 o max: 63 o pattern: [a-z0-9-.]+ Shorthand Syntax: s3={bucketName=string} JSON Syntax: { "s3": { "bucketName": "string" } }</param>
+    /// <param name="DestinationConfiguration">A complex type that contains a destination configuration for where recorded video will be stored. s3 -&gt; (structure) An S3 destination configuration where recorded videos will be stored. bucketName -&gt; (string) [required] Location (S3 bucket name) where recorded videos will be stored. Constraints: • min: 3 • max: 63 • pattern: [a-z0-9-.]+ Shorthand Syntax: s3={bucketName=string} JSON Syntax: { "s3": { "bucketName": "string" } }</param>
     public AwsIvsCreateRecordingConfigurationOptions(
         string DestinationConfiguration
     )
@@ -57,37 +57,37 @@ public record AwsIvsCreateRecordingConfigurationOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A complex type that contains a destination configuration for where recorded video will be stored. s3 -&gt; (structure) An S3 destination configuration where recorded videos will be stored. bucketName -&gt; (string) [required] Location (S3 bucket name) where recorded videos will be stored. Constraints: o min: 3 o max: 63 o pattern: [a-z0-9-.]+ Shorthand Syntax: s3={bucketName=string} JSON Syntax: { "s3": { "bucketName": "string" } }
+    /// A complex type that contains a destination configuration for where recorded video will be stored. s3 -&gt; (structure) An S3 destination configuration where recorded videos will be stored. bucketName -&gt; (string) [required] Location (S3 bucket name) where recorded videos will be stored. Constraints: • min: 3 • max: 63 • pattern: [a-z0-9-.]+ Shorthand Syntax: s3={bucketName=string} JSON Syntax: { "s3": { "bucketName": "string" } }
     /// </summary>
     [CliOption("--destination-configuration")]
     public string? DestinationConfiguration { get; private init; }
 
     /// <summary>
-    /// Recording-configuration name. The value does not need to be unique. Constraints: o min: 0 o max: 128 o pattern: [a-zA-Z0-9-_]*
+    /// Recording-configuration name. The value does not need to be unique. Constraints: • min: 0 • max: 128 • pattern: [a-zA-Z0-9-_]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// Array of 1-50 maps, each of the form string:string (key:value) . See Best practices and strategies in Tagging Amazon Web Services Re- sources and Tag Editor for details, including restrictions that ap- ply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]+) value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Array of 1-50 maps, each of the form string:string (key:value) . See Best practices and strategies in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]+) value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// A complex type that allows you to enable/disable the recording of thumbnails for a live session and modify the interval at which thumbnails are generated for the live session. recordingMode -&gt; (string) Thumbnail recording mode. Default: INTERVAL . Possible values: o DISABLED o INTERVAL targetIntervalSeconds -&gt; (long) The targeted thumbnail-generation interval in seconds. This is configurable (and required) only if recordingMode is INTERVAL . Default: 60. Important: For the BASIC channel type, or the STANDARD chan- nel type with multitrack input, setting a value for target- IntervalSeconds does not guarantee that thumbnails are gener- ated at the specified interval. For thumbnails to be gener- ated at the targetIntervalSeconds interval, the IDR/Keyframe value for the input video must be less than the targetInter- valSeconds value. See Amazon IVS Streaming Configuration for information on setting IDR/Keyframe to the recommended value in video-encoder settings. Constraints: o min: 1 o max: 60 resolution -&gt; (string) Indicates the desired resolution of recorded thumbnails. Thumb- nails are recorded at the selected resolution if the correspond- ing rendition is available during the stream; otherwise, they are recorded at source resolution. For more information about resolution values and their corresponding height and width di- mensions, see Auto-Record to Amazon S3 . Default: Null (source resolution is returned). Possible values: o SD o HD o FULL_HD o LOWEST_RESOLUTION storage -&gt; (list) Indicates the format in which thumbnails are recorded. SEQUEN- TIAL records all generated thumbnails in a serial manner, to the media/thumbnails directory. LATEST saves the latest thumbnail in media/latest_thumbnail/thumb.jpg and overwrites it at the inter- val specified by targetIntervalSeconds . You can enable both SE- QUENTIAL and LATEST . Default: SEQUENTIAL . (string) Possible values: o SEQUENTIAL o LATEST Shorthand Syntax: recordingMode=string,targetIntervalSeconds=long,resolution=string,storage=string,string JSON Syntax: { "recordingMode": "DISABLED"|"INTERVAL", "targetIntervalSeconds": long, "resolution": "SD"|"HD"|"FULL_HD"|"LOWEST_RESOLUTION", "storage": ["SEQUENTIAL"|"LATEST", ...] }
+    /// A complex type that allows you to enable/disable the recording of thumbnails for a live session and modify the interval at which thumbnails are generated for the live session. recordingMode -&gt; (string) Thumbnail recording mode. Default: INTERVAL . Possible values: • DISABLED • INTERVAL targetIntervalSeconds -&gt; (long) The targeted thumbnail-generation interval in seconds. This is configurable (and required) only if recordingMode is INTERVAL . Default: 60. Important: For the BASIC channel type, or the STANDARD channel type with multitrack input, setting a value for targetIntervalSeconds does not guarantee that thumbnails are generated at the specified interval. For thumbnails to be generated at the targetIntervalSeconds interval, the IDR/Keyframe value for the input video must be less than the targetIntervalSeconds value. See Amazon IVS Streaming Configuration for information on setting IDR/Keyframe to the recommended value in video-encoder settings. Constraints: • min: 1 • max: 60 resolution -&gt; (string) Indicates the desired resolution of recorded thumbnails. Thumbnails are recorded at the selected resolution if the corresponding rendition is available during the stream; otherwise, they are recorded at source resolution. For more information about resolution values and their corresponding height and width dimensions, see Auto-Record to Amazon S3 . Default: Null (source resolution is returned). Possible values: • SD • HD • FULL_HD • LOWEST_RESOLUTION storage -&gt; (list) Indicates the format in which thumbnails are recorded. SEQUENTIAL records all generated thumbnails in a serial manner, to the media/thumbnails directory. LATEST saves the latest thumbnail in media/latest_thumbnail/thumb.jpg and overwrites it at the interval specified by targetIntervalSeconds . You can enable both SEQUENTIAL and LATEST . Default: SEQUENTIAL . (string) Possible values: • SEQUENTIAL • LATEST Shorthand Syntax: recordingMode=string,targetIntervalSeconds=long,resolution=string,storage=string,string JSON Syntax: { "recordingMode": "DISABLED"|"INTERVAL", "targetIntervalSeconds": long, "resolution": "SD"|"HD"|"FULL_HD"|"LOWEST_RESOLUTION", "storage": ["SEQUENTIAL"|"LATEST", ...] }
     /// </summary>
     [CliOption("--thumbnail-configuration")]
     public string? ThumbnailConfiguration { get; set; }
 
     /// <summary>
-    /// If a broadcast disconnects and then reconnects within the specified interval, the multiple streams will be considered a single broadcast and merged together. Default: 0. Constraints: o min: 0 o max: 300
+    /// If a broadcast disconnects and then reconnects within the specified interval, the multiple streams will be considered a single broadcast and merged together. Default: 0. Constraints: • min: 0 • max: 300
     /// </summary>
     [CliOption("--recording-reconnect-window-seconds")]
     public int? RecordingReconnectWindowSeconds { get; set; }
 
     /// <summary>
-    /// Object that describes which renditions should be recorded for a stream. renditionSelection -&gt; (string) Indicates which set of renditions are recorded for a stream. For BASIC channels, the CUSTOM value has no effect. If CUSTOM is specified, a set of renditions must be specified in the rendi- tions field. Default: ALL . Possible values: o ALL o NONE o CUSTOM renditions -&gt; (list) Indicates which renditions are recorded for a stream, if rendi- tionSelection is CUSTOM ; otherwise, this field is irrelevant. The selected renditions are recorded if they are available dur- ing the stream. If a selected rendition is unavailable, the best available rendition is recorded. For details on the resolution dimensions of each rendition, see Auto-Record to Amazon S3 . (string) Possible values: o SD o HD o FULL_HD o LOWEST_RESOLUTION Shorthand Syntax: renditionSelection=string,renditions=string,string JSON Syntax: { "renditionSelection": "ALL"|"NONE"|"CUSTOM", "renditions": ["SD"|"HD"|"FULL_HD"|"LOWEST_RESOLUTION", ...] }
+    /// Object that describes which renditions should be recorded for a stream. renditionSelection -&gt; (string) Indicates which set of renditions are recorded for a stream. For BASIC channels, the CUSTOM value has no effect. If CUSTOM is specified, a set of renditions must be specified in the renditions field. Default: ALL . Possible values: • ALL • NONE • CUSTOM renditions -&gt; (list) Indicates which renditions are recorded for a stream, if renditionSelection is CUSTOM ; otherwise, this field is irrelevant. The selected renditions are recorded if they are available during the stream. If a selected rendition is unavailable, the best available rendition is recorded. For details on the resolution dimensions of each rendition, see Auto-Record to Amazon S3 . (string) Possible values: • SD • HD • FULL_HD • LOWEST_RESOLUTION Shorthand Syntax: renditionSelection=string,renditions=string,string JSON Syntax: { "renditionSelection": "ALL"|"NONE"|"CUSTOM", "renditions": ["SD"|"HD"|"FULL_HD"|"LOWEST_RESOLUTION", ...] }
     /// </summary>
     [CliOption("--rendition-configuration")]
     public string? RenditionConfiguration { get; set; }
@@ -113,6 +113,15 @@ public record AwsIvsCreateRecordingConfigurationOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

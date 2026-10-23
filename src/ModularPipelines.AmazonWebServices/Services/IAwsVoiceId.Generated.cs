@@ -6,14 +6,14 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Models;
+using ModularPipelines;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws voiceid commands.
+/// aws voice-id commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -22,14 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Services;
 public interface IAwsVoiceId
 {
     /// <summary>
-    /// Associates the fraudsters with the watchlist specified in the same do- main. See also: AWS API Documentation
+    /// Associates the fraudsters with the watchlist specified in the same domain. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateFraudsterAsync(AwsVoiceIdAssociateFraudsterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateFraudsterAsync(AwsVoiceIdAssociateFraudsterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a domain that contains all Amazon Connect Voice ID data, such as speakers, fraudsters, customer audio, and voiceprints. Every domain is created with a default watchlist that fraudsters can be a part of. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsVoiceId
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDomainAsync(AwsVoiceIdCreateDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateDomainAsync(AwsVoiceIdCreateDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a watchlist that fraudsters can be a part of. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsVoiceId
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateWatchlistAsync(AwsVoiceIdCreateWatchlistOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateWatchlistAsync(AwsVoiceIdCreateWatchlistOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified domain from Voice ID. See also: AWS API Documentation
@@ -58,18 +55,16 @@ public interface IAwsVoiceId
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDomainAsync(AwsVoiceIdDeleteDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteDomainAsync(AwsVoiceIdDeleteDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deletes the specified fraudster from Voice ID. This action disassoci- ates the fraudster from any watchlists it is a part of. See also: AWS API Documentation
+    /// Deletes the specified fraudster from Voice ID. This action disassociates the fraudster from any watchlists it is a part of. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteFraudsterAsync(AwsVoiceIdDeleteFraudsterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteFraudsterAsync(AwsVoiceIdDeleteFraudsterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified speaker from Voice ID. See also: AWS API Documentation
@@ -78,18 +73,16 @@ public interface IAwsVoiceId
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteSpeakerAsync(AwsVoiceIdDeleteSpeakerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteSpeakerAsync(AwsVoiceIdDeleteSpeakerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deletes the specified watchlist from Voice ID. This API throws an ex- ception when there are fraudsters in the watchlist that you are trying to delete. You must delete the fraudsters, and then delete the watch- list. Every domain has a default watchlist which cannot be deleted. See also: AWS API Documentation
+    /// Deletes the specified watchlist from Voice ID. This API throws an exception when there are fraudsters in the watchlist that you are trying to delete. You must delete the fraudsters, and then delete the watchlist. Every domain has a default watchlist which cannot be deleted. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteWatchlistAsync(AwsVoiceIdDeleteWatchlistOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteWatchlistAsync(AwsVoiceIdDeleteWatchlistOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the specified domain. See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsVoiceId
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeDomainAsync(AwsVoiceIdDescribeDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeDomainAsync(AwsVoiceIdDescribeDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the specified fraudster. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsVoiceId
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeFraudsterAsync(AwsVoiceIdDescribeFraudsterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeFraudsterAsync(AwsVoiceIdDescribeFraudsterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the specified fraudster registration job. See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsVoiceId
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeFraudsterRegistrationJobAsync(AwsVoiceIdDescribeFraudsterRegistrationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeFraudsterRegistrationJobAsync(AwsVoiceIdDescribeFraudsterRegistrationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the specified speaker enrollment job. See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsVoiceId
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeSpeakerEnrollmentJobAsync(AwsVoiceIdDescribeSpeakerEnrollmentJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeSpeakerEnrollmentJobAsync(AwsVoiceIdDescribeSpeakerEnrollmentJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the specified speaker. See also: AWS API Documentation
@@ -138,8 +127,7 @@ public interface IAwsVoiceId
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeSpeakerAsync(AwsVoiceIdDescribeSpeakerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeSpeakerAsync(AwsVoiceIdDescribeSpeakerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the specified watchlist. See also: AWS API Documentation
@@ -148,18 +136,16 @@ public interface IAwsVoiceId
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeWatchlistAsync(AwsVoiceIdDescribeWatchlistOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeWatchlistAsync(AwsVoiceIdDescribeWatchlistOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Disassociates the fraudsters from the watchlist specified. Voice ID al- ways expects a fraudster to be a part of at least one watchlist. If you try to disassociate a fraudster from its only watchlist, a Valida- tionException is thrown. See also: AWS API Documentation
+    /// Disassociates the fraudsters from the watchlist specified. Voice ID always expects a fraudster to be a part of at least one watchlist. If you try to disassociate a fraudster from its only watchlist, a ValidationException is thrown. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateFraudsterAsync(AwsVoiceIdDisassociateFraudsterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateFraudsterAsync(AwsVoiceIdDisassociateFraudsterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Evaluates a specified session based on audio data accumulated during a streaming Amazon Connect Voice ID call. See also: AWS API Documentation
@@ -168,58 +154,52 @@ public interface IAwsVoiceId
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> EvaluateSessionAsync(AwsVoiceIdEvaluateSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> EvaluateSessionAsync(AwsVoiceIdEvaluateSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists all the domains in the Amazon Web Services account. See also: AWS API Documentation list-domains is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: DomainSummaries
+    /// Lists all the domains in the Amazon Web Services account. See also: AWS API Documentation list-domains is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: DomainSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDomainsAsync(AwsVoiceIdListDomainsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDomainsAsync(AwsVoiceIdListDomainsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists all the fraudster registration jobs in the domain with the given JobStatus . If JobStatus is not provided, this lists all fraudster reg- istration jobs in the given domain. See also: AWS API Documentation list-fraudster-registration-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated respons...
+    /// Lists all the fraudster registration jobs in the domain with the given JobStatus . If JobStatus is not provided, this lists all fraudster registration jobs in the given domain. See also: AWS API Documentation list-fraudster-registration-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListFraudsterRegistrationJobsAsync(AwsVoiceIdListFraudsterRegistrationJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListFraudsterRegistrationJobsAsync(AwsVoiceIdListFraudsterRegistrationJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists all fraudsters in a specified watchlist or domain. See also: AWS API Documentation list-fraudsters is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: FraudsterSummaries
+    /// Lists all fraudsters in a specified watchlist or domain. See also: AWS API Documentation list-fraudsters is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: FraudsterSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListFraudstersAsync(AwsVoiceIdListFraudstersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListFraudstersAsync(AwsVoiceIdListFraudstersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists all the speaker enrollment jobs in the domain with the specified JobStatus . If JobStatus is not provided, this lists all jobs with all possible speaker enrollment job statuses. See also: AWS API Documentation list-speaker-enrollment-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated respon...
+    /// Lists all the speaker enrollment jobs in the domain with the specified JobStatus . If JobStatus is not provided, this lists all jobs with all possible speaker enrollment job statuses. See also: AWS API Documentation list-speaker-enrollment-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSpeakerEnrollmentJobsAsync(AwsVoiceIdListSpeakerEnrollmentJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSpeakerEnrollmentJobsAsync(AwsVoiceIdListSpeakerEnrollmentJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists all speakers in a specified domain. See also: AWS API Documentation list-speakers is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: SpeakerSummaries
+    /// Lists all speakers in a specified domain. See also: AWS API Documentation list-speakers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: SpeakerSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSpeakersAsync(AwsVoiceIdListSpeakersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSpeakersAsync(AwsVoiceIdListSpeakersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all tags associated with a specified Voice ID resource. See also: AWS API Documentation
@@ -228,28 +208,25 @@ public interface IAwsVoiceId
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsVoiceIdListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsVoiceIdListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists all watchlists in a specified domain. See also: AWS API Documentation list-watchlists is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: WatchlistSummaries
+    /// Lists all watchlists in a specified domain. See also: AWS API Documentation list-watchlists is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: WatchlistSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListWatchlistsAsync(AwsVoiceIdListWatchlistsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListWatchlistsAsync(AwsVoiceIdListWatchlistsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Opts out a speaker from Voice ID. A speaker can be opted out regardless of whether or not they already exist in Voice ID. If they don't yet ex- ist, a new speaker is created in an opted out state. If they already exist, their existing status is overridden and they are opted out. En- rollment and evaluation authentication requests are rejected for opted out speakers, and opted out speakers have no voice embeddings stored in Voice ID. See also: AWS API Documentation
+    /// Opts out a speaker from Voice ID. A speaker can be opted out regardless of whether or not they already exist in Voice ID. If they don't yet exist, a new speaker is created in an opted out state. If they already exist, their existing status is overridden and they are opted out. Enrollment and evaluation authentication requests are rejected for opted out speakers, and opted out speakers have no voice embeddings stored in Voice ID. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> OptOutSpeakerAsync(AwsVoiceIdOptOutSpeakerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> OptOutSpeakerAsync(AwsVoiceIdOptOutSpeakerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts a new batch fraudster registration job using provided details. See also: AWS API Documentation
@@ -258,8 +235,7 @@ public interface IAwsVoiceId
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartFraudsterRegistrationJobAsync(AwsVoiceIdStartFraudsterRegistrationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartFraudsterRegistrationJobAsync(AwsVoiceIdStartFraudsterRegistrationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts a new batch speaker enrollment job using specified details. See also: AWS API Documentation
@@ -268,8 +244,7 @@ public interface IAwsVoiceId
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartSpeakerEnrollmentJobAsync(AwsVoiceIdStartSpeakerEnrollmentJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartSpeakerEnrollmentJobAsync(AwsVoiceIdStartSpeakerEnrollmentJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Tags a Voice ID resource with the provided list of tags. See also: AWS API Documentation
@@ -278,28 +253,25 @@ public interface IAwsVoiceId
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsVoiceIdTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsVoiceIdTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Removes specified tags from a specified Amazon Connect Voice ID re- source. See also: AWS API Documentation
+    /// Removes specified tags from a specified Amazon Connect Voice ID resource. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsVoiceIdUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsVoiceIdUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Updates the specified domain. This API has clobber behavior, and clears and replaces all attributes. If an optional field, such as 'Descrip- tion' is not provided, it is removed from the domain. See also: AWS API Documentation
+    /// Updates the specified domain. This API has clobber behavior, and clears and replaces all attributes. If an optional field, such as 'Description' is not provided, it is removed from the domain. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateDomainAsync(AwsVoiceIdUpdateDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateDomainAsync(AwsVoiceIdUpdateDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the specified watchlist. Every domain has a default watchlist which cannot be updated. See also: AWS API Documentation
@@ -308,7 +280,6 @@ public interface IAwsVoiceId
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateWatchlistAsync(AwsVoiceIdUpdateWatchlistOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateWatchlistAsync(AwsVoiceIdUpdateWatchlistOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

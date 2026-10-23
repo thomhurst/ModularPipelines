@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists the resources from a resource scan. The results can be filtered by resource identifier, resource type prefix, tag key, and tag value. Only resources that match all specified filters are returned. The re- sponse indicates whether each returned resource is already managed by CloudFormation. See also: AWS API Documentation list-resource-scan-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by...
+/// Lists the resources from a resource scan. The results can be filtered by resource identifier, resource type prefix, tag key, and tag value. Only resources that match all specified filters are returned. The response indicates whether each returned resource is already managed by CloudFormation. See also: AWS API Documentation list-resource-scan-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by pro...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +27,7 @@ public record AwsCloudformationListResourceScanResourcesOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists the resources from a resource scan. The results can be filtered by resource identifier, resource type prefix, tag key, and tag value. Only resources that match all specified filters are returned. The re- sponse indicates whether each returned resource is already managed by CloudFormation. See also: AWS API Documentation list-resource-scan-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by...
+    /// Lists the resources from a resource scan. The results can be filtered by resource identifier, resource type prefix, tag key, and tag value. Only resources that match all specified filters are returned. The response indicates whether each returned resource is already managed by CloudFormation. See also: AWS API Documentation list-resource-scan-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by pro...
     /// </summary>
     /// <param name="ResourceScanId">The Amazon Resource Name (ARN) of the resource scan.</param>
     public AwsCloudformationListResourceScanResourcesOptions(
@@ -63,7 +64,7 @@ public record AwsCloudformationListResourceScanResourcesOptions : AwsOptions, IV
     public string? ResourceScanId { get; private init; }
 
     /// <summary>
-    /// If specified, the returned resources will have the specified re- source identifier (or one of them in the case where the resource has multiple identifiers).
+    /// If specified, the returned resources will have the specified resource identifier (or one of them in the case where the resource has multiple identifiers).
     /// </summary>
     [CliOption("--resource-identifier")]
     public string? ResourceIdentifier { get; set; }
@@ -75,22 +76,19 @@ public record AwsCloudformationListResourceScanResourcesOptions : AwsOptions, IV
     public string? ResourceTypePrefix { get; set; }
 
     /// <summary>
-    /// If specified, the returned resources will have a matching tag key. Constraints: o min: 1 o max: 128
+    /// If specified, the returned resources will have a matching tag key. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--tag-key")]
     public string? TagKey { get; set; }
 
     /// <summary>
-    /// If specified, the returned resources will have a matching tag value. Constraints: o min: 1 o max: 256
+    /// If specified, the returned resources will have a matching tag value. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--tag-value")]
     public string? TagValue { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -100,16 +98,19 @@ public record AwsCloudformationListResourceScanResourcesOptions : AwsOptions, IV
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -126,6 +127,15 @@ public record AwsCloudformationListResourceScanResourcesOptions : AwsOptions, IV
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

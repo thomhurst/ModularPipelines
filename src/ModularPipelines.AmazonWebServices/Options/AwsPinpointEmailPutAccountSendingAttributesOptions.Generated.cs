@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsPinpointEmailPutAccountSendingAttributesOptions : AwsOptions
 {
     /// <summary>
-    /// Enables or disables your account's ability to send email. Set to true to enable email sending, or set to false to disable email send- ing. NOTE: If AWS paused your account's ability to send email, you can't use this operation to resume your account's ability to send email.
+    /// Enables or disables your account's ability to send email. Set to true to enable email sending, or set to false to disable email sending. NOTE: If AWS paused your account's ability to send email, you can't use this operation to resume your account's ability to send email.
     /// </summary>
     [CliFlag("--sending-enabled", NegatedName = "--no-sending-enabled")]
     public bool? SendingEnabled { get; set; }
@@ -32,5 +32,14 @@ public record AwsPinpointEmailPutAccountSendingAttributesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

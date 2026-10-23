@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsRedshiftServerlessDeleteCustomDomainAssociationOptions : AwsOpt
     /// <summary>
     /// Deletes a custom domain association for Amazon Redshift Serverless. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CustomDomainName">The custom domain name associated with the workgroup. Constraints: o min: 1 o max: 253 o pattern: ^(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$</param>
-    /// <param name="WorkgroupName">The name of the workgroup associated with the database. Constraints: o min: 3 o max: 64 o pattern: ^[a-z0-9-]+$</param>
+    /// <param name="CustomDomainName">The custom domain name associated with the workgroup. Constraints: • min: 1 • max: 253 • pattern: ^(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$</param>
+    /// <param name="WorkgroupName">The name of the workgroup associated with the database. Constraints: • min: 3 • max: 64 • pattern: ^[a-z0-9-]+$</param>
     public AwsRedshiftServerlessDeleteCustomDomainAssociationOptions(
         string CustomDomainName,
         string WorkgroupName
@@ -60,13 +61,13 @@ public record AwsRedshiftServerlessDeleteCustomDomainAssociationOptions : AwsOpt
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The custom domain name associated with the workgroup. Constraints: o min: 1 o max: 253 o pattern: ^(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$
+    /// The custom domain name associated with the workgroup. Constraints: • min: 1 • max: 253 • pattern: ^(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$
     /// </summary>
     [CliOption("--custom-domain-name")]
     public string? CustomDomainName { get; private init; }
 
     /// <summary>
-    /// The name of the workgroup associated with the database. Constraints: o min: 3 o max: 64 o pattern: ^[a-z0-9-]+$
+    /// The name of the workgroup associated with the database. Constraints: • min: 3 • max: 64 • pattern: ^[a-z0-9-]+$
     /// </summary>
     [CliOption("--workgroup-name")]
     public string? WorkgroupName { get; private init; }
@@ -92,6 +93,15 @@ public record AwsRedshiftServerlessDeleteCustomDomainAssociationOptions : AwsOpt
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

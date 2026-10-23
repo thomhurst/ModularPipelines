@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,10 +28,10 @@ public record AwsDeadlineCopyJobTemplateOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Copies a job template to an Amazon S3 bucket. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FarmId">The farm ID to copy. Constraints: o pattern: farm-[0-9a-f]{32}</param>
-    /// <param name="QueueId">The queue ID to copy. Constraints: o pattern: queue-[0-9a-f]{32}</param>
-    /// <param name="JobId">The job ID to copy. Constraints: o pattern: job-[0-9a-f]{32}</param>
-    /// <param name="TargetS3Location">The Amazon S3 bucket name and key where you would like to add a copy of the job template. bucketName -&gt; (string) [required] The name of the Amazon S3 bucket. Constraints: o min: 1 o max: 255 key -&gt; (string) [required] The Amazon S3 object key that uniquely identifies the Amazon S3 bucket. Constraints: o min: 1 o max: 1024 Shorthand Syntax: bucketName=string,key=string JSON Syntax: { "bucketName": "string", "key": "string" }</param>
+    /// <param name="FarmId">The farm ID to copy. Constraints: • pattern: farm-[0-9a-f]{32}</param>
+    /// <param name="QueueId">The queue ID to copy. Constraints: • pattern: queue-[0-9a-f]{32}</param>
+    /// <param name="JobId">The job ID to copy. Constraints: • pattern: job-[0-9a-f]{32}</param>
+    /// <param name="TargetS3Location">The Amazon S3 bucket name and key where you would like to add a copy of the job template. bucketName -&gt; (string) [required] The name of the Amazon S3 bucket. Constraints: • min: 1 • max: 255 key -&gt; (string) [required] The Amazon S3 object key that uniquely identifies the Amazon S3 bucket. Constraints: • min: 1 • max: 1024 Shorthand Syntax: bucketName=string,key=string JSON Syntax: { "bucketName": "string", "key": "string" }</param>
     public AwsDeadlineCopyJobTemplateOptions(
         string FarmId,
         string QueueId,
@@ -68,25 +69,25 @@ public record AwsDeadlineCopyJobTemplateOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The farm ID to copy. Constraints: o pattern: farm-[0-9a-f]{32}
+    /// The farm ID to copy. Constraints: • pattern: farm-[0-9a-f]{32}
     /// </summary>
     [CliOption("--farm-id")]
     public string? FarmId { get; private init; }
 
     /// <summary>
-    /// The queue ID to copy. Constraints: o pattern: queue-[0-9a-f]{32}
+    /// The queue ID to copy. Constraints: • pattern: queue-[0-9a-f]{32}
     /// </summary>
     [CliOption("--queue-id")]
     public string? QueueId { get; private init; }
 
     /// <summary>
-    /// The job ID to copy. Constraints: o pattern: job-[0-9a-f]{32}
+    /// The job ID to copy. Constraints: • pattern: job-[0-9a-f]{32}
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }
 
     /// <summary>
-    /// The Amazon S3 bucket name and key where you would like to add a copy of the job template. bucketName -&gt; (string) [required] The name of the Amazon S3 bucket. Constraints: o min: 1 o max: 255 key -&gt; (string) [required] The Amazon S3 object key that uniquely identifies the Amazon S3 bucket. Constraints: o min: 1 o max: 1024 Shorthand Syntax: bucketName=string,key=string JSON Syntax: { "bucketName": "string", "key": "string" }
+    /// The Amazon S3 bucket name and key where you would like to add a copy of the job template. bucketName -&gt; (string) [required] The name of the Amazon S3 bucket. Constraints: • min: 1 • max: 255 key -&gt; (string) [required] The Amazon S3 object key that uniquely identifies the Amazon S3 bucket. Constraints: • min: 1 • max: 1024 Shorthand Syntax: bucketName=string,key=string JSON Syntax: { "bucketName": "string", "key": "string" }
     /// </summary>
     [CliOption("--target-s3-location")]
     public string? TargetS3Location { get; private init; }
@@ -112,6 +113,15 @@ public record AwsDeadlineCopyJobTemplateOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsChimeCreateBotOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a bot for an Amazon Chime Enterprise account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountId">The Amazon Chime account ID. Constraints: o pattern: .*\S.*</param>
+    /// <param name="AccountId">The Amazon Chime account ID. Constraints: • pattern: .*\S.*</param>
     /// <param name="DisplayName">The bot display name.</param>
     public AwsChimeCreateBotOptions(
         string AccountId,
@@ -60,7 +61,7 @@ public record AwsChimeCreateBotOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Chime account ID. Constraints: o pattern: .*\S.*
+    /// The Amazon Chime account ID. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
@@ -72,7 +73,7 @@ public record AwsChimeCreateBotOptions : AwsOptions, IValidatableObject
     public string? DisplayName { get; private init; }
 
     /// <summary>
-    /// The domain of the Amazon Chime Enterprise account. Constraints: o pattern: .*\S.*
+    /// The domain of the Amazon Chime Enterprise account. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--domain")]
     public string? Domain { get; set; }
@@ -98,6 +99,15 @@ public record AwsChimeCreateBotOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

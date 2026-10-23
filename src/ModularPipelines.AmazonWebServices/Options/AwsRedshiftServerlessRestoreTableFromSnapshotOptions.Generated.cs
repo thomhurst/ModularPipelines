@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Restores a table from a snapshot to your Amazon Redshift Serverless in- stance. You can't use this operation to restore tables with interleaved sort keys . See also: AWS API Documentation
+/// Restores a table from a snapshot to your Amazon Redshift Serverless instance. You can't use this operation to restore tables with interleaved sort keys . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,12 +26,12 @@ public record AwsRedshiftServerlessRestoreTableFromSnapshotOptions : AwsOptions,
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Restores a table from a snapshot to your Amazon Redshift Serverless in- stance. You can't use this operation to restore tables with interleaved sort keys . See also: AWS API Documentation
+    /// Restores a table from a snapshot to your Amazon Redshift Serverless instance. You can't use this operation to restore tables with interleaved sort keys . See also: AWS API Documentation
     /// </summary>
     /// <param name="NamespaceName">The namespace of the snapshot to restore from.</param>
     /// <param name="NewTableName">The name of the table to create from the restore operation.</param>
     /// <param name="SnapshotName">The name of the snapshot to restore the table from.</param>
-    /// <param name="SourceDatabaseName">The name of the source database that contains the table being re- stored.</param>
+    /// <param name="SourceDatabaseName">The name of the source database that contains the table being restored.</param>
     /// <param name="SourceTableName">The name of the source table being restored.</param>
     /// <param name="WorkgroupName">The workgroup to restore the table to.</param>
     public AwsRedshiftServerlessRestoreTableFromSnapshotOptions(
@@ -94,7 +95,7 @@ public record AwsRedshiftServerlessRestoreTableFromSnapshotOptions : AwsOptions,
     public string? SnapshotName { get; private init; }
 
     /// <summary>
-    /// The name of the source database that contains the table being re- stored.
+    /// The name of the source database that contains the table being restored.
     /// </summary>
     [CliOption("--source-database-name")]
     public string? SourceDatabaseName { get; private init; }
@@ -112,13 +113,13 @@ public record AwsRedshiftServerlessRestoreTableFromSnapshotOptions : AwsOptions,
     public string? WorkgroupName { get; private init; }
 
     /// <summary>
-    /// tive-identifier (boolean) Indicates whether name identifiers for database, schema, and table are case sensitive. If true, the names are case sensitive. If false, the names are not case sensitive. The default is false.
+    /// Indicates whether name identifiers for database, schema, and table are case sensitive. If true, the names are case sensitive. If false, the names are not case sensitive. The default is false.
     /// </summary>
     [CliFlag("--activate-case-sensitive-identifier", NegatedName = "--no-activate-case-sensitive-identifier")]
     public bool? ActivateCaseSensitiveIdentifier { get; set; }
 
     /// <summary>
-    /// The name of the source schema that contains the table being re- stored.
+    /// The name of the source schema that contains the table being restored.
     /// </summary>
     [CliOption("--source-schema-name")]
     public string? SourceSchemaName { get; set; }
@@ -156,6 +157,15 @@ public record AwsRedshiftServerlessRestoreTableFromSnapshotOptions : AwsOptions,
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,9 +29,9 @@ public record AwsEbsStartSnapshotOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a new Amazon EBS snapshot. The new snapshot enters the pending state after the request completes. After creating the snapshot, use PutSnapshotBlock to write blocks of data to the snapshot. NOTE: You should always retry requests that receive server (5xx ) error responses, and ThrottlingException and RequestThrottledException client error responses. For more information see Error retries in the Amazon Elastic Compute Cloud User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="VolumeSize">The size of the volume, in GiB. The maximum size is 65536 GiB (64 TiB). Constraints: o min: 1</param>
+    /// <param name="VolumeSize">The size of the volume, in GiB. The maximum size is 65536 GiB (64 TiB). Constraints: • min: 1</param>
     public AwsEbsStartSnapshotOptions(
-        int VolumeSize
+        long VolumeSize
     )
     {
         this.VolumeSize = VolumeSize;
@@ -56,50 +57,50 @@ public record AwsEbsStartSnapshotOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The size of the volume, in GiB. The maximum size is 65536 GiB (64 TiB). Constraints: o min: 1
+    /// The size of the volume, in GiB. The maximum size is 65536 GiB (64 TiB). Constraints: • min: 1
     /// </summary>
     [CliOption("--volume-size")]
-    public int? VolumeSize { get; private init; }
+    public long? VolumeSize { get; private init; }
 
     /// <summary>
-    /// The ID of the parent snapshot. If there is no parent snapshot, or if you are creating the first snapshot for an on-premises volume, omit this parameter. You can't specify ParentSnapshotId and Encrypted in the same re- quest. If you specify both parameters, the request fails with Vali- dationException . The encryption status of the snapshot depends on the values that you specify for Encrypted , KmsKeyArn , and ParentSnapshotId , and whether your Amazon Web Services account is enabled for encryption by default . For more information, see Using encryption in the Ama- zon Elastic Compute Cloud User Guide . WARNING: If you specify an encrypted parent snapshot, you must have per- mission to use the KMS key that was used to encrypt the parent snapshot. For more information, see Permissions to use Key Man- agement Service keys in the Amazon Elastic Compute Cloud User Guide . Constraints: o min: 1 o max: 64 o pattern: ^snap-[0-9a-f]+$
+    /// The ID of the parent snapshot. If there is no parent snapshot, or if you are creating the first snapshot for an on-premises volume, omit this parameter. You can't specify ParentSnapshotId and Encrypted in the same request. If you specify both parameters, the request fails with ValidationException . The encryption status of the snapshot depends on the values that you specify for Encrypted , KmsKeyArn , and ParentSnapshotId , and whether your Amazon Web Services account is enabled for encryption by default . For more information, see Using encryption in the Amazon Elastic Compute Cloud User Guide . WARNING: If you specify an encrypted parent snapshot, you must have permission to use the KMS key that was used to encrypt the parent snapshot. For more information, see Permissions to use Key Management Service keys in the Amazon Elastic Compute Cloud User Guide . Constraints: • min: 1 • max: 64 • pattern: ^snap-[0-9a-f]+$
     /// </summary>
     [CliOption("--parent-snapshot-id")]
     public string? ParentSnapshotId { get; set; }
 
     /// <summary>
-    /// The tags to apply to the snapshot. (structure) Describes a tag. Key -&gt; (string) The key of the tag. Constraints: o max: 127 o pattern: ^[\S\s]+$ Value -&gt; (string) The value of the tag. Constraints: o max: 255 o pattern: ^[\S\s]*$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tags to apply to the snapshot. (structure) Describes a tag. Key -&gt; (string) The key of the tag. Constraints: • max: 127 • pattern: ^[\S\s]+$ Value -&gt; (string) The value of the tag. Constraints: • max: 255 • pattern: ^[\S\s]*$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// A description for the snapshot. Constraints: o max: 255 o pattern: ^[\S\s]+$
+    /// A description for the snapshot. Constraints: • max: 255 • pattern: ^[\S\s]+$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original re- quest completes successfully. The subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you do not specify a client token, one is automatically generated by the Amazon Web Services SDK. For more information, see Idempotency for StartSnapshot API in the Amazon Elastic Compute Cloud User Guide . Constraints: o max: 255 o pattern: ^[\S]+$
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully. The subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you do not specify a client token, one is automatically generated by the Amazon Web Services SDK. For more information, see Idempotency for StartSnapshot API in the Amazon Elastic Compute Cloud User Guide . Constraints: • max: 255 • pattern: ^[\S]+$
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// Indicates whether to encrypt the snapshot. You can't specify Encrypted and ParentSnapshotId in the same re- quest. If you specify both parameters, the request fails with Vali- dationException . The encryption status of the snapshot depends on the values that you specify for Encrypted , KmsKeyArn , and ParentSnapshotId , and whether your Amazon Web Services account is enabled for encryption by default . For more information, see Using encryption in the Ama- zon Elastic Compute Cloud User Guide . WARNING: To create an encrypted snapshot, you must have permission to use the KMS key. For more information, see Permissions to use Key Management Service keys in the Amazon Elastic Compute Cloud User Guide .
+    /// Indicates whether to encrypt the snapshot. You can't specify Encrypted and ParentSnapshotId in the same request. If you specify both parameters, the request fails with ValidationException . The encryption status of the snapshot depends on the values that you specify for Encrypted , KmsKeyArn , and ParentSnapshotId , and whether your Amazon Web Services account is enabled for encryption by default . For more information, see Using encryption in the Amazon Elastic Compute Cloud User Guide . WARNING: To create an encrypted snapshot, you must have permission to use the KMS key. For more information, see Permissions to use Key Management Service keys in the Amazon Elastic Compute Cloud User Guide .
     /// </summary>
     [CliFlag("--encrypted", NegatedName = "--no-encrypted")]
     public bool? Encrypted { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Key Management Service (KMS) key to be used to encrypt the snapshot. The encryption status of the snapshot depends on the values that you specify for Encrypted , KmsKeyArn , and ParentSnapshotId , and whether your Amazon Web Services account is enabled for encryption by default . For more information, see Using encryption in the Ama- zon Elastic Compute Cloud User Guide . WARNING: To create an encrypted snapshot, you must have permission to use the KMS key. For more information, see Permissions to use Key Management Service keys in the Amazon Elastic Compute Cloud User Guide . Constraints: o min: 1 o max: 2048 o pattern: arn:aws[a-z\-]*:kms:.*:[0-9]{12}:key/.*
+    /// The Amazon Resource Name (ARN) of the Key Management Service (KMS) key to be used to encrypt the snapshot. The encryption status of the snapshot depends on the values that you specify for Encrypted , KmsKeyArn , and ParentSnapshotId , and whether your Amazon Web Services account is enabled for encryption by default . For more information, see Using encryption in the Amazon Elastic Compute Cloud User Guide . WARNING: To create an encrypted snapshot, you must have permission to use the KMS key. For more information, see Permissions to use Key Management Service keys in the Amazon Elastic Compute Cloud User Guide . Constraints: • min: 1 • max: 2048 • pattern: arn:aws[a-z\-]*:kms:.*:[0-9]{12}:key/.*
     /// </summary>
     [CliOption("--kms-key-arn")]
     public string? KmsKeyArn { get; set; }
 
     /// <summary>
-    /// The amount of time (in minutes) after which the snapshot is automat- ically cancelled if: o No blocks are written to the snapshot. o The snapshot is not completed after writing the last block of data. If no value is specified, the timeout defaults to 60 minutes. Constraints: o min: 10 o max: 4320
+    /// The amount of time (in minutes) after which the snapshot is automatically cancelled if: • No blocks are written to the snapshot. • The snapshot is not completed after writing the last block of data. If no value is specified, the timeout defaults to 60 minutes. Constraints: • min: 10 • max: 4320
     /// </summary>
     [CliOption("--timeout")]
     public int? Timeout { get; set; }
@@ -125,6 +126,15 @@ public record AwsEbsStartSnapshotOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

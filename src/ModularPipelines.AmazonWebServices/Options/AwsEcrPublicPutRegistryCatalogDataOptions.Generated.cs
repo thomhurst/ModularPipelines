@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsEcrPublicPutRegistryCatalogDataOptions : AwsOptions
 {
     /// <summary>
-    /// The display name for a public registry. The display name is shown as the repository author in the Amazon ECR Public Gallery. NOTE: The registry display name is only publicly visible in the Amazon ECR Public Gallery for verified accounts. Constraints: o min: 0 o max: 100
+    /// The display name for a public registry. The display name is shown as the repository author in the Amazon ECR Public Gallery. NOTE: The registry display name is only publicly visible in the Amazon ECR Public Gallery for verified accounts. Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--display-name")]
     public string? DisplayName { get; set; }
@@ -32,5 +32,14 @@ public record AwsEcrPublicPutRegistryCatalogDataOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

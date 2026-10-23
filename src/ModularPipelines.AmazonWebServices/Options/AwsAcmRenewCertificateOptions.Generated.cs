@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsAcmRenewCertificateOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Renews an eligible ACM certificate . In order to renew your Amazon Web Services Private CA certificates with ACM, you must first grant the ACM service principal permission to do so . For more information, see Testing Managed Renewal in the ACM User Guide. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CertificateArn">String that contains the ARN of the ACM certificate to be renewed. This must be of the form: arn:aws:acm:region:123456789012:certifi- cate/12345678-1234-1234-1234-123456789012 For more information about ARNs, see Amazon Resource Names (ARNs) . Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=/,.@-]+:acm:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*</param>
+    /// <param name="CertificateArn">String that contains the ARN of the ACM certificate to be renewed. This must be of the form: arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012 For more information about ARNs, see Amazon Resource Names (ARNs) . Constraints: • min: 20 • max: 2048 • pattern: arn:[\w+=/,.@-]+:acm:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*</param>
     public AwsAcmRenewCertificateOptions(
         string CertificateArn
     )
@@ -56,7 +57,7 @@ public record AwsAcmRenewCertificateOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// String that contains the ARN of the ACM certificate to be renewed. This must be of the form: arn:aws:acm:region:123456789012:certifi- cate/12345678-1234-1234-1234-123456789012 For more information about ARNs, see Amazon Resource Names (ARNs) . Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=/,.@-]+:acm:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*
+    /// String that contains the ARN of the ACM certificate to be renewed. This must be of the form: arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012 For more information about ARNs, see Amazon Resource Names (ARNs) . Constraints: • min: 20 • max: 2048 • pattern: arn:[\w+=/,.@-]+:acm:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*
     /// </summary>
     [CliOption("--certificate-arn")]
     public string? CertificateArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsAcmRenewCertificateOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

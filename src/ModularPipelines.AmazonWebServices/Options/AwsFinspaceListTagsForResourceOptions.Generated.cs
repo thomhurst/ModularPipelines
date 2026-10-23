@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsFinspaceListTagsForResourceOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// A list of all tags for a resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name of the resource. Constraints: o min: 20 o max: 2048 o pattern: ^arn:aws:finspace:[A-Za-z0-9_/.-]{0,63}:\d+:(environ- ment|kxEnvironment)/[0-9A-Za-z_-]{1,128}(/(kxCluster|kxUser|kxVol- ume|kxScalingGroup)/[a-zA-Z0-9_-]{1,255}|/(kxData- base/[a-zA-Z0-9_-]{1,255}(/kxDataview/[a-zA-Z0-9_-]{1,255})?))?$</param>
+    /// <param name="ResourceArn">The Amazon Resource Name of the resource. Constraints: • min: 20 • max: 2048 • pattern: ^arn:aws:finspace:[A-Za-z0-9_/.-]{0,63}:\d+:(environment|kxEnvironment)/[0-9A-Za-z_-]{1,128}(/(kxCluster|kxUser|kxVolume|kxScalingGroup)/[a-zA-Z0-9_-]{1,255}|/(kxDatabase/[a-zA-Z0-9_-]{1,255}(/kxDataview/[a-zA-Z0-9_-]{1,255})?))?$</param>
     public AwsFinspaceListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +57,7 @@ public record AwsFinspaceListTagsForResourceOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name of the resource. Constraints: o min: 20 o max: 2048 o pattern: ^arn:aws:finspace:[A-Za-z0-9_/.-]{0,63}:\d+:(environ- ment|kxEnvironment)/[0-9A-Za-z_-]{1,128}(/(kxCluster|kxUser|kxVol- ume|kxScalingGroup)/[a-zA-Z0-9_-]{1,255}|/(kxData- base/[a-zA-Z0-9_-]{1,255}(/kxDataview/[a-zA-Z0-9_-]{1,255})?))?$
+    /// The Amazon Resource Name of the resource. Constraints: • min: 20 • max: 2048 • pattern: ^arn:aws:finspace:[A-Za-z0-9_/.-]{0,63}:\d+:(environment|kxEnvironment)/[0-9A-Za-z_-]{1,128}(/(kxCluster|kxUser|kxVolume|kxScalingGroup)/[a-zA-Z0-9_-]{1,255}|/(kxDatabase/[a-zA-Z0-9_-]{1,255}(/kxDataview/[a-zA-Z0-9_-]{1,255})?))?$
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsFinspaceListTagsForResourceOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

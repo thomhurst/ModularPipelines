@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Enables the automatic copy of snapshots from one region to another re- gion for a specified cluster. See also: AWS API Documentation
+/// Enables the automatic copy of snapshots from one region to another region for a specified cluster. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsRedshiftEnableSnapshotCopyOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Enables the automatic copy of snapshots from one region to another re- gion for a specified cluster. See also: AWS API Documentation
+    /// Enables the automatic copy of snapshots from one region to another region for a specified cluster. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClusterIdentifier">The unique identifier of the source cluster to copy snapshots from. Constraints: Must be the valid name of an existing cluster that does not already have cross-region snapshot copy enabled. Constraints: o max: 2147483647</param>
-    /// <param name="DestinationRegion">The destination Amazon Web Services Region that you want to copy snapshots to. Constraints: Must be the name of a valid Amazon Web Services Region. For more information, see Regions and Endpoints in the Amazon Web Services General Reference. Constraints: o max: 2147483647</param>
+    /// <param name="ClusterIdentifier">The unique identifier of the source cluster to copy snapshots from. Constraints: Must be the valid name of an existing cluster that does not already have cross-region snapshot copy enabled. Constraints: • max: 2147483647</param>
+    /// <param name="DestinationRegion">The destination Amazon Web Services Region that you want to copy snapshots to. Constraints: Must be the name of a valid Amazon Web Services Region. For more information, see Regions and Endpoints in the Amazon Web Services General Reference. Constraints: • max: 2147483647</param>
     public AwsRedshiftEnableSnapshotCopyOptions(
         string ClusterIdentifier,
         string DestinationRegion
@@ -60,13 +61,13 @@ public record AwsRedshiftEnableSnapshotCopyOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the source cluster to copy snapshots from. Constraints: Must be the valid name of an existing cluster that does not already have cross-region snapshot copy enabled. Constraints: o max: 2147483647
+    /// The unique identifier of the source cluster to copy snapshots from. Constraints: Must be the valid name of an existing cluster that does not already have cross-region snapshot copy enabled. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--cluster-identifier")]
     public string? ClusterIdentifier { get; private init; }
 
     /// <summary>
-    /// The destination Amazon Web Services Region that you want to copy snapshots to. Constraints: Must be the name of a valid Amazon Web Services Region. For more information, see Regions and Endpoints in the Amazon Web Services General Reference. Constraints: o max: 2147483647
+    /// The destination Amazon Web Services Region that you want to copy snapshots to. Constraints: Must be the name of a valid Amazon Web Services Region. For more information, see Regions and Endpoints in the Amazon Web Services General Reference. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--destination-region")]
     public string? DestinationRegion { get; private init; }
@@ -78,13 +79,13 @@ public record AwsRedshiftEnableSnapshotCopyOptions : AwsOptions, IValidatableObj
     public int? RetentionPeriod { get; set; }
 
     /// <summary>
-    /// The name of the snapshot copy grant to use when snapshots of an Ama- zon Web Services KMS-encrypted cluster are copied to the destination region. Constraints: o max: 2147483647
+    /// The name of the snapshot copy grant to use when snapshots of an Amazon Web Services KMS-encrypted cluster are copied to the destination region. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--snapshot-copy-grant-name")]
     public string? SnapshotCopyGrantName { get; set; }
 
     /// <summary>
-    /// The number of days to retain newly copied snapshots in the destina- tion Amazon Web Services Region after they are copied from the source Amazon Web Services Region. If the value is -1, the manual snapshot is retained indefinitely. The value must be either -1 or an integer between 1 and 3,653.
+    /// The number of days to retain newly copied snapshots in the destination Amazon Web Services Region after they are copied from the source Amazon Web Services Region. If the value is -1, the manual snapshot is retained indefinitely. The value must be either -1 or an integer between 1 and 3,653.
     /// </summary>
     [CliOption("--manual-snapshot-retention-period")]
     public int? ManualSnapshotRetentionPeriod { get; set; }
@@ -110,6 +111,15 @@ public record AwsRedshiftEnableSnapshotCopyOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

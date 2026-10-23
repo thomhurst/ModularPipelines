@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsLambdaStopDurableExecutionOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Stops a running durable execution . The execution transitions to STOPPED status and cannot be resumed. Any in-progress operations are terminated. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DurableExecutionArn">The Amazon Resource Name (ARN) of the durable execution. Constraints: o min: 1 o max: 1024 o pattern: arn:([a-zA-Z0-9-]+):lambda:([a-zA-Z0-9-]+):(\d{12}):func- tion:([a-zA-Z0-9_-]+):(\$LATEST(?:\.PUB- LISHED)?|[0-9]+)/durable-execu- tion/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)</param>
+    /// <param name="DurableExecutionArn">The Amazon Resource Name (ARN) of the durable execution. Constraints: • min: 1 • max: 1024 • pattern: arn:([a-zA-Z0-9-]+):lambda:([a-zA-Z0-9-]+):(\d{12}):function:([a-zA-Z0-9_-]+):(\$LATEST(?:\.PUBLISHED)?|[0-9]+)/durable-execution/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)</param>
     public AwsLambdaStopDurableExecutionOptions(
         string DurableExecutionArn
     )
@@ -56,7 +57,7 @@ public record AwsLambdaStopDurableExecutionOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the durable execution. Constraints: o min: 1 o max: 1024 o pattern: arn:([a-zA-Z0-9-]+):lambda:([a-zA-Z0-9-]+):(\d{12}):func- tion:([a-zA-Z0-9_-]+):(\$LATEST(?:\.PUB- LISHED)?|[0-9]+)/durable-execu- tion/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)
+    /// The Amazon Resource Name (ARN) of the durable execution. Constraints: • min: 1 • max: 1024 • pattern: arn:([a-zA-Z0-9-]+):lambda:([a-zA-Z0-9-]+):(\d{12}):function:([a-zA-Z0-9_-]+):(\$LATEST(?:\.PUBLISHED)?|[0-9]+)/durable-execution/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)
     /// </summary>
     [CliOption("--durable-execution-arn")]
     public string? DurableExecutionArn { get; private init; }
@@ -88,6 +89,15 @@ public record AwsLambdaStopDurableExecutionOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

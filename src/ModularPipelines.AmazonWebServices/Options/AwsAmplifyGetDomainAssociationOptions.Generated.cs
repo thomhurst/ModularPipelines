@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsAmplifyGetDomainAssociationOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Returns the domain information for an Amplify app. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AppId">The unique id for an Amplify app. Constraints: o min: 1 o max: 20 o pattern: d[a-z0-9]+</param>
-    /// <param name="DomainName">The name of the domain. Constraints: o max: 64 o pattern: ^(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])(\.)?$</param>
+    /// <param name="AppId">The unique id for an Amplify app. Constraints: • min: 1 • max: 20 • pattern: d[a-z0-9]+</param>
+    /// <param name="DomainName">The name of the domain. Constraints: • max: 64 • pattern: ^(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])(\.)?$</param>
     public AwsAmplifyGetDomainAssociationOptions(
         string AppId,
         string DomainName
@@ -60,13 +61,13 @@ public record AwsAmplifyGetDomainAssociationOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique id for an Amplify app. Constraints: o min: 1 o max: 20 o pattern: d[a-z0-9]+
+    /// The unique id for an Amplify app. Constraints: • min: 1 • max: 20 • pattern: d[a-z0-9]+
     /// </summary>
     [CliOption("--app-id")]
     public string? AppId { get; private init; }
 
     /// <summary>
-    /// The name of the domain. Constraints: o max: 64 o pattern: ^(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])(\.)?$
+    /// The name of the domain. Constraints: • max: 64 • pattern: ^(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])(\.)?$
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
@@ -92,6 +93,15 @@ public record AwsAmplifyGetDomainAssociationOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

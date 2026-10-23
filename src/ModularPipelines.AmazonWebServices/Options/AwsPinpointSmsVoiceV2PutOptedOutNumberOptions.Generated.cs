@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsPinpointSmsVoiceV2PutOptedOutNumberOptions : AwsOptions, IValid
     /// <summary>
     /// Creates an opted out destination phone number in the opt-out list. If the destination phone number isn't valid or if the specified opt-out list doesn't exist, an error is returned. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OptOutListName">The OptOutListName or OptOutListArn to add the phone number to. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+</param>
-    /// <param name="OptedOutNumber">The phone number to add to the OptOutList in E.164 format. Constraints: o min: 1 o max: 20 o pattern: \+?[1-9][0-9]{1,18}</param>
+    /// <param name="OptOutListName">The OptOutListName or OptOutListArn to add the phone number to. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+</param>
+    /// <param name="OptedOutNumber">The phone number to add to the OptOutList in E.164 format. Constraints: • min: 1 • max: 20 • pattern: \+?[1-9][0-9]{1,18}</param>
     public AwsPinpointSmsVoiceV2PutOptedOutNumberOptions(
         string OptOutListName,
         string OptedOutNumber
@@ -60,13 +61,13 @@ public record AwsPinpointSmsVoiceV2PutOptedOutNumberOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The OptOutListName or OptOutListArn to add the phone number to. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// The OptOutListName or OptOutListArn to add the phone number to. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+
     /// </summary>
     [CliOption("--opt-out-list-name")]
     public string? OptOutListName { get; private init; }
 
     /// <summary>
-    /// The phone number to add to the OptOutList in E.164 format. Constraints: o min: 1 o max: 20 o pattern: \+?[1-9][0-9]{1,18}
+    /// The phone number to add to the OptOutList in E.164 format. Constraints: • min: 1 • max: 20 • pattern: \+?[1-9][0-9]{1,18}
     /// </summary>
     [CliOption("--opted-out-number")]
     public string? OptedOutNumber { get; private init; }
@@ -92,6 +93,15 @@ public record AwsPinpointSmsVoiceV2PutOptedOutNumberOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

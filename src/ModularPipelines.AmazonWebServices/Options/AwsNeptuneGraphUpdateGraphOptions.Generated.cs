@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsNeptuneGraphUpdateGraphOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates the configuration of a specified Neptune Analytics graph See also: AWS API Documentation
     /// </summary>
-    /// <param name="GraphIdentifier">The unique identifier of the Neptune Analytics graph. Constraints: o pattern: g-[a-z0-9]{10}</param>
+    /// <param name="GraphIdentifier">The unique identifier of the Neptune Analytics graph. Constraints: • pattern: g-[a-z0-9]{10}</param>
     public AwsNeptuneGraphUpdateGraphOptions(
         string GraphIdentifier
     )
@@ -56,25 +57,25 @@ public record AwsNeptuneGraphUpdateGraphOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the Neptune Analytics graph. Constraints: o pattern: g-[a-z0-9]{10}
+    /// The unique identifier of the Neptune Analytics graph. Constraints: • pattern: g-[a-z0-9]{10}
     /// </summary>
     [CliOption("--graph-identifier")]
     public string? GraphIdentifier { get; private init; }
 
     /// <summary>
-    /// Specifies whether or not the graph can be reachable over the inter- net. All access to graphs is IAM authenticated. (true to enable, or false to disable.
+    /// Specifies whether or not the graph can be reachable over the internet. All access to graphs is IAM authenticated. (true to enable, or false to disable.
     /// </summary>
     [CliFlag("--public-connectivity", NegatedName = "--no-public-connectivity")]
     public bool? PublicConnectivity { get; set; }
 
     /// <summary>
-    /// The provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Min = 16 Constraints: o min: 16 o max: 24576
+    /// The provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Min = 16 Constraints: • min: 16 • max: 24576
     /// </summary>
     [CliOption("--provisioned-memory")]
     public int? ProvisionedMemory { get; set; }
 
     /// <summary>
-    /// A value that indicates whether the graph has deletion protection en- abled. The graph can't be deleted when deletion protection is en- abled.
+    /// A value that indicates whether the graph has deletion protection enabled. The graph can't be deleted when deletion protection is enabled.
     /// </summary>
     [CliFlag("--deletion-protection", NegatedName = "--no-deletion-protection")]
     public bool? DeletionProtection { get; set; }
@@ -100,6 +101,15 @@ public record AwsNeptuneGraphUpdateGraphOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

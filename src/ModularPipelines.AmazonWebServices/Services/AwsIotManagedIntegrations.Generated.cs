@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws iotmanagedintegrations commands.
+/// aws iot-managed-integrations commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsIotManagedIntegrations : IAwsIotManagedIntegrations
@@ -77,7 +77,7 @@ public class AwsIotManagedIntegrations : IAwsIotManagedIntegrations
     }
 
     /// <summary>
-    /// Create a credential locker. NOTE: This operation will not trigger the creation of all the manufactur- ing resources. See also: AWS API Documentation
+    /// Create a credential locker. NOTE: This operation will not trigger the creation of all the manufacturing resources. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsIotManagedIntegrations : IAwsIotManagedIntegrations
     }
 
     /// <summary>
-    /// Create a notification destination such as Kinesis Data Streams that re- ceive events and notifications from Managed integrations. Managed inte- grations uses the destination to determine where to deliver notifica- tions. See also: AWS API Documentation
+    /// Create a notification destination such as Kinesis Data Streams that receive events and notifications from Managed integrations. Managed integrations uses the destination to determine where to deliver notifications. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsIotManagedIntegrations : IAwsIotManagedIntegrations
     }
 
     /// <summary>
-    /// Set the event log configuration for the account, resource type, or spe- cific resource. See also: AWS API Documentation
+    /// Set the event log configuration for the account, resource type, or specific resource. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsIotManagedIntegrations : IAwsIotManagedIntegrations
     }
 
     /// <summary>
-    /// Creates a managed thing. A managed thing contains the device identi- fier, protocol supported, and capabilities of the device in a data model format defined by Managed integrations. See also: AWS API Documentation create-managed-thing uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. ...
+    /// Creates a managed thing. A managed thing contains the device identifier, protocol supported, and capabilities of the device in a data model format defined by Managed integrations. See also: AWS API Documentation create-managed-thing uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shor...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsIotManagedIntegrations : IAwsIotManagedIntegrations
     }
 
     /// <summary>
-    /// Create a provisioning profile for executing device provisioning flows. The provisioning profile is a document that defines the set of re- sources and policies applied to a device during the provisioning process. See also: AWS API Documentation
+    /// Create a provisioning profile for executing device provisioning flows. The provisioning profile is a document that defines the set of resources and policies applied to a device during the provisioning process. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsIotManagedIntegrations : IAwsIotManagedIntegrations
     }
 
     /// <summary>
-    /// Remove a third-party account association for an end user. NOTE: You must first call the DeregisterAccountAssociation to remove the connection between the managed thing and the third-party account be- fore calling the DeleteAccountAssociation API. See also: AWS API Documentation
+    /// Remove a third-party account association for an end user. NOTE: You must first call the DeregisterAccountAssociation to remove the connection between the managed thing and the third-party account before calling the DeleteAccountAssociation API. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +227,7 @@ public class AwsIotManagedIntegrations : IAwsIotManagedIntegrations
     }
 
     /// <summary>
-    /// Delete a connector destination linked to a cloud-to-cloud (C2C) connec- tor. NOTE: Deletion can't be done if the account association has used this con- nector destination. See also: AWS API Documentation
+    /// Delete a connector destination linked to a cloud-to-cloud (C2C) connector. NOTE: Deletion can't be done if the account association has used this connector destination. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -287,7 +287,7 @@ public class AwsIotManagedIntegrations : IAwsIotManagedIntegrations
     }
 
     /// <summary>
-    /// Delete a managed thing. For direct-connected and hub-connected devices connecting with Managed integrations via a controller, all of the de- vices connected to it will have their status changed to PENDING . It is not possible to remove a cloud-to-cloud device. See also: AWS API Documentation
+    /// Delete a managed thing. For direct-connected and hub-connected devices connecting with Managed integrations via a controller, all of the devices connected to it will have their status changed to PENDING . It is not possible to remove a cloud-to-cloud device. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -407,7 +407,7 @@ public class AwsIotManagedIntegrations : IAwsIotManagedIntegrations
     }
 
     /// <summary>
-    /// Get connector destination details linked to a cloud-to-cloud (C2C) con- nector. See also: AWS API Documentation
+    /// Get connector destination details linked to a cloud-to-cloud (C2C) connector. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -572,7 +572,7 @@ public class AwsIotManagedIntegrations : IAwsIotManagedIntegrations
     }
 
     /// <summary>
-    /// Get the metadata information for a managed thing. NOTE: The managedThing metadata parameter is used for associating attrib- utes with a managedThing that can be used for grouping over-the-air (OTA) tasks. Name value pairs in metadata can be used in the OtaTar- getQueryString parameter for the CreateOtaTask API operation. See also: AWS API Documentation
+    /// Get the metadata information for a managed thing. NOTE: The managedThing metadata parameter is used for associating attributes with a managedThing that can be used for grouping over-the-air (OTA) tasks. Name value pairs in metadata can be used in the OtaTargetQueryString parameter for the CreateOtaTask API operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -587,7 +587,7 @@ public class AwsIotManagedIntegrations : IAwsIotManagedIntegrations
     }
 
     /// <summary>
-    /// Get details of a managed thing including its attributes and capabili- ties. See also: AWS API Documentation
+    /// Get details of a managed thing including its attributes and capabilities. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -602,7 +602,7 @@ public class AwsIotManagedIntegrations : IAwsIotManagedIntegrations
     }
 
     /// <summary>
-    /// Returns the managed thing state for the given device Id. See also: AWS API Documentation get-managed-thing-state uses document type values. Document types fol- low the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be pro- vided as JSON. Shorthand syntax does not support document types.
+    /// Returns the managed thing state for the given device Id. See also: AWS API Documentation get-managed-thing-state uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -692,7 +692,7 @@ public class AwsIotManagedIntegrations : IAwsIotManagedIntegrations
     }
 
     /// <summary>
-    /// Gets a schema version with the provided information. See also: AWS API Documentation get-schema-version uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Gets a schema version with the provided information. See also: AWS API Documentation get-schema-version uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -707,7 +707,7 @@ public class AwsIotManagedIntegrations : IAwsIotManagedIntegrations
     }
 
     /// <summary>
-    /// Lists all account associations, with optional filtering by connector destination ID. See also: AWS API Documentation list-account-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: Items
+    /// Lists all account associations, with optional filtering by connector destination ID. See also: AWS API Documentation list-account-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -737,7 +737,7 @@ public class AwsIotManagedIntegrations : IAwsIotManagedIntegrations
     }
 
     /// <summary>
-    /// Lists all connector destinations, with optional filtering by cloud con- nector ID. See also: AWS API Documentation list-connector-destinations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Connec...
+    /// Lists all connector destinations, with optional filtering by cloud connector ID. See also: AWS API Documentation list-connector-destinations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ConnectorDes...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -752,7 +752,7 @@ public class AwsIotManagedIntegrations : IAwsIotManagedIntegrations
     }
 
     /// <summary>
-    /// List information on an existing credential locker. See also: AWS API Documentation list-credential-lockers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: Items
+    /// List information on an existing credential locker. See also: AWS API Documentation list-credential-lockers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -782,7 +782,7 @@ public class AwsIotManagedIntegrations : IAwsIotManagedIntegrations
     }
 
     /// <summary>
-    /// Lists all device discovery tasks, with optional filtering by type and status. See also: AWS API Documentation list-device-discoveries is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: Items
+    /// Lists all device discovery tasks, with optional filtering by type and status. See also: AWS API Documentation list-device-discoveries is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -797,7 +797,7 @@ public class AwsIotManagedIntegrations : IAwsIotManagedIntegrations
     }
 
     /// <summary>
-    /// Lists all devices discovered during a specific device discovery task. See also: AWS API Documentation list-discovered-devices is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: Items
+    /// Lists all devices discovered during a specific device discovery task. See also: AWS API Documentation list-discovered-devices is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -812,7 +812,7 @@ public class AwsIotManagedIntegrations : IAwsIotManagedIntegrations
     }
 
     /// <summary>
-    /// List all event log configurations for an account. See also: AWS API Documentation list-event-log-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: EventLogConfigurationList
+    /// List all event log configurations for an account. See also: AWS API Documentation list-event-log-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: EventLogConfigurationList
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -827,7 +827,7 @@ public class AwsIotManagedIntegrations : IAwsIotManagedIntegrations
     }
 
     /// <summary>
-    /// Lists all account associations for a specific managed thing. See also: AWS API Documentation list-managed-thing-account-associations is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: Items
+    /// Lists all account associations for a specific managed thing. See also: AWS API Documentation list-managed-thing-account-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -842,7 +842,7 @@ public class AwsIotManagedIntegrations : IAwsIotManagedIntegrations
     }
 
     /// <summary>
-    /// List schemas associated with a managed thing. See also: AWS API Documentation list-managed-thing-schemas uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be pro- vided as JSON. Shorthand syntax does not support document types. list-managed-thing-schemas is a paginated operation. Multiple API calls may be i...
+    /// List schemas associated with a managed thing. See also: AWS API Documentation list-managed-thing-schemas uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types. list-managed-thing-schemas is a paginated operation. Multiple API calls may be iss...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -872,7 +872,7 @@ public class AwsIotManagedIntegrations : IAwsIotManagedIntegrations
     }
 
     /// <summary>
-    /// List all notification configurations. See also: AWS API Documentation list-notification-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: NotificationConfigurationList
+    /// List all notification configurations. See also: AWS API Documentation list-notification-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: NotificationConfigurationList
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -887,7 +887,7 @@ public class AwsIotManagedIntegrations : IAwsIotManagedIntegrations
     }
 
     /// <summary>
-    /// List all of the over-the-air (OTA) task configurations. See also: AWS API Documentation list-ota-task-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Items
+    /// List all of the over-the-air (OTA) task configurations. See also: AWS API Documentation list-ota-task-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -902,7 +902,7 @@ public class AwsIotManagedIntegrations : IAwsIotManagedIntegrations
     }
 
     /// <summary>
-    /// List all of the over-the-air (OTA) task executions. See also: AWS API Documentation list-ota-task-executions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: ExecutionSummaries
+    /// List all of the over-the-air (OTA) task executions. See also: AWS API Documentation list-ota-task-executions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ExecutionSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -917,7 +917,7 @@ public class AwsIotManagedIntegrations : IAwsIotManagedIntegrations
     }
 
     /// <summary>
-    /// List all of the over-the-air (OTA) tasks. See also: AWS API Documentation list-ota-tasks is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Tasks
+    /// List all of the over-the-air (OTA) tasks. See also: AWS API Documentation list-ota-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Tasks
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -932,7 +932,7 @@ public class AwsIotManagedIntegrations : IAwsIotManagedIntegrations
     }
 
     /// <summary>
-    /// List the provisioning profiles within the Amazon Web Services account. See also: AWS API Documentation list-provisioning-profiles is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: Items
+    /// List the provisioning profiles within the Amazon Web Services account. See also: AWS API Documentation list-provisioning-profiles is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -977,7 +977,7 @@ public class AwsIotManagedIntegrations : IAwsIotManagedIntegrations
     }
 
     /// <summary>
-    /// Sets the default encryption configuration for the Amazon Web Services account. For more information, see Key management in the AWS IoT Site- Wise User Guide. See also: AWS API Documentation
+    /// Sets the default encryption configuration for the Amazon Web Services account. For more information, see Key management in the AWS IoT SiteWise User Guide. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1067,7 +1067,7 @@ public class AwsIotManagedIntegrations : IAwsIotManagedIntegrations
     }
 
     /// <summary>
-    /// Relays third-party device events for a connector such as a new device or a device state change event. See also: AWS API Documentation send-connector-event uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Relays third-party device events for a connector such as a new device or a device state change event. See also: AWS API Documentation send-connector-event uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1082,7 +1082,7 @@ public class AwsIotManagedIntegrations : IAwsIotManagedIntegrations
     }
 
     /// <summary>
-    /// Send the command to the device represented by the managed thing. See also: AWS API Documentation send-managed-thing-command uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be pro- vided as JSON. Shorthand syntax does not support document types.
+    /// Send the command to the device represented by the managed thing. See also: AWS API Documentation send-managed-thing-command uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1232,7 +1232,7 @@ public class AwsIotManagedIntegrations : IAwsIotManagedIntegrations
     }
 
     /// <summary>
-    /// Update the attributes and capabilities associated with a managed thing. See also: AWS API Documentation update-managed-thing uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Update the attributes and capabilities associated with a managed thing. See also: AWS API Documentation update-managed-thing uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes one or more tags from an Amazon Rekognition collection, stream processor, or Custom Labels model. This operation requires permissions to perform the rekognition:UntagRe- source action. See also: AWS API Documentation
+/// Removes one or more tags from an Amazon Rekognition collection, stream processor, or Custom Labels model. This operation requires permissions to perform the rekognition:UntagResource action. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsRekognitionUntagResourceOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes one or more tags from an Amazon Rekognition collection, stream processor, or Custom Labels model. This operation requires permissions to perform the rekognition:UntagRe- source action. See also: AWS API Documentation
+    /// Removes one or more tags from an Amazon Rekognition collection, stream processor, or Custom Labels model. This operation requires permissions to perform the rekognition:UntagResource action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">Amazon Resource Name (ARN) of the model, collection, or stream processor that you want to remove the tags from. Constraints: o min: 20 o max: 2048</param>
-    /// <param name="TagKeys">A list of the tags that you want to remove. Constraints: o min: 0 o max: 200 (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArn">Amazon Resource Name (ARN) of the model, collection, or stream processor that you want to remove the tags from. Constraints: • min: 20 • max: 2048</param>
+    /// <param name="TagKeys">A list of the tags that you want to remove. Constraints: • min: 0 • max: 200 (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ Syntax: "string" "string" ...</param>
     public AwsRekognitionUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -71,13 +72,13 @@ public record AwsRekognitionUntagResourceOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Amazon Resource Name (ARN) of the model, collection, or stream processor that you want to remove the tags from. Constraints: o min: 20 o max: 2048
+    /// Amazon Resource Name (ARN) of the model, collection, or stream processor that you want to remove the tags from. Constraints: • min: 20 • max: 2048
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// A list of the tags that you want to remove. Constraints: o min: 0 o max: 200 (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ Syntax: "string" "string" ...
+    /// A list of the tags that you want to remove. Constraints: • min: 0 • max: 200 (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }
@@ -103,6 +104,15 @@ public record AwsRekognitionUntagResourceOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

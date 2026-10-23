@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsSagemakerDescribeStudioLifecycleConfigOptions : AwsOptions, IVa
     /// <summary>
     /// Describes the Amazon SageMaker AI Studio Lifecycle Configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="StudioLifecycleConfigName">The name of the Amazon SageMaker AI Studio Lifecycle Configuration to describe. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="StudioLifecycleConfigName">The name of the Amazon SageMaker AI Studio Lifecycle Configuration to describe. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
     public AwsSagemakerDescribeStudioLifecycleConfigOptions(
         string StudioLifecycleConfigName
     )
@@ -56,7 +57,7 @@ public record AwsSagemakerDescribeStudioLifecycleConfigOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the Amazon SageMaker AI Studio Lifecycle Configuration to describe. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// The name of the Amazon SageMaker AI Studio Lifecycle Configuration to describe. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--studio-lifecycle-config-name")]
     public string? StudioLifecycleConfigName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSagemakerDescribeStudioLifecycleConfigOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Adds examples to the dataset's DRAFT. All examples are validated against the dataset's schema type before any writes occur. If any exam- ple fails validation, the entire batch is rejected (all-or-nothing se- mantics). See also: AWS API Documentation add-dataset-examples uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type...
+/// Adds examples to the dataset's DRAFT. All examples are validated against the dataset's schema type before any writes occur. If any example fails validation, the entire batch is rejected (all-or-nothing semantics). See also: AWS API Documentation add-dataset-examples uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type docum...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsBedrockAgentcoreControlAddDataSetExamplesOptions : AwsOptions, 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Adds examples to the dataset's DRAFT. All examples are validated against the dataset's schema type before any writes occur. If any exam- ple fails validation, the entire batch is rejected (all-or-nothing se- mantics). See also: AWS API Documentation add-dataset-examples uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type...
+    /// Adds examples to the dataset's DRAFT. All examples are validated against the dataset's schema type before any writes occur. If any example fails validation, the entire batch is rejected (all-or-nothing semantics). See also: AWS API Documentation add-dataset-examples uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type docum...
     /// </summary>
-    /// <param name="DataSetId">The unique identifier of the dataset to add examples to. Constraints: o pattern: [a-zA-Z0-9_-]{1,110}</param>
-    /// <param name="Source">Source of examples to add. Provide either inline examples or an S3 URI pointing to a JSONL file. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: inlineExamples, s3Source. inlineExamples -&gt; (structure) Inline examples provided directly in the request body. examples -&gt; (list) [required] Examples to add. Each example is assigned an auto-generated UUID. Constraints: o min: 1 o max: 1000 (document) s3Source -&gt; (structure) Amazon S3 URI pointing to a JSONL file in the customer's bucket. s3Uri -&gt; (string) [required] Amazon S3 URI of the JSONL file (for example, s3://my-bucket/path/to/examples.jsonl ). Constraints: o pattern: s3://[a-z0-9][a-z0-9.\-]{1,61}[a-z0-9]/.{1,1024} Shorthand Syntax: inlineExamples={},s3Source={s3Uri=string} JSON Syntax: { "inlineExamples": { "examples": [ {...} ... ] }, "s3Source": { "s3Uri": "string" } }</param>
+    /// <param name="DataSetId">The unique identifier of the dataset to add examples to. Constraints: • pattern: [a-zA-Z0-9_-]{1,110}</param>
+    /// <param name="Source">Source of examples to add. Provide either inline examples or an S3 URI pointing to a JSONL file. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: inlineExamples, s3Source. inlineExamples -&gt; (structure) Inline examples provided directly in the request body. examples -&gt; (list) [required] Examples to add. Each example is assigned an auto-generated UUID. Constraints: • min: 1 • max: 1000 (document) s3Source -&gt; (structure) Amazon S3 URI pointing to a JSONL file in the customer's bucket. s3Uri -&gt; (string) [required] Amazon S3 URI of the JSONL file (for example, s3://my-bucket/path/to/examples.jsonl ). Constraints: • pattern: s3://[a-z0-9][a-z0-9.\-]{1,61}[a-z0-9]/.{1,1024} Shorthand Syntax: inlineExamples={},s3Source={s3Uri=string} JSON Syntax: { "inlineExamples": { "examples": [ {...} ... ] }, "s3Source": { "s3Uri": "string" } }</param>
     public AwsBedrockAgentcoreControlAddDataSetExamplesOptions(
         string DataSetId,
         string Source
@@ -61,19 +62,19 @@ public record AwsBedrockAgentcoreControlAddDataSetExamplesOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the dataset to add examples to. Constraints: o pattern: [a-zA-Z0-9_-]{1,110}
+    /// The unique identifier of the dataset to add examples to. Constraints: • pattern: [a-zA-Z0-9_-]{1,110}
     /// </summary>
     [CliOption("--dataset-id")]
     public string? DataSetId { get; private init; }
 
     /// <summary>
-    /// Source of examples to add. Provide either inline examples or an S3 URI pointing to a JSONL file. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: inlineExamples, s3Source. inlineExamples -&gt; (structure) Inline examples provided directly in the request body. examples -&gt; (list) [required] Examples to add. Each example is assigned an auto-generated UUID. Constraints: o min: 1 o max: 1000 (document) s3Source -&gt; (structure) Amazon S3 URI pointing to a JSONL file in the customer's bucket. s3Uri -&gt; (string) [required] Amazon S3 URI of the JSONL file (for example, s3://my-bucket/path/to/examples.jsonl ). Constraints: o pattern: s3://[a-z0-9][a-z0-9.\-]{1,61}[a-z0-9]/.{1,1024} Shorthand Syntax: inlineExamples={},s3Source={s3Uri=string} JSON Syntax: { "inlineExamples": { "examples": [ {...} ... ] }, "s3Source": { "s3Uri": "string" } }
+    /// Source of examples to add. Provide either inline examples or an S3 URI pointing to a JSONL file. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: inlineExamples, s3Source. inlineExamples -&gt; (structure) Inline examples provided directly in the request body. examples -&gt; (list) [required] Examples to add. Each example is assigned an auto-generated UUID. Constraints: • min: 1 • max: 1000 (document) s3Source -&gt; (structure) Amazon S3 URI pointing to a JSONL file in the customer's bucket. s3Uri -&gt; (string) [required] Amazon S3 URI of the JSONL file (for example, s3://my-bucket/path/to/examples.jsonl ). Constraints: • pattern: s3://[a-z0-9][a-z0-9.\-]{1,61}[a-z0-9]/.{1,1024} Shorthand Syntax: inlineExamples={},s3Source={s3Uri=string} JSON Syntax: { "inlineExamples": { "examples": [ {...} ... ] }, "s3Source": { "s3Uri": "string" } }
     /// </summary>
     [CliOption("--source")]
     public string? Source { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previ- ous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency . Constraints: o min: 33 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency . Constraints: • min: 33 • max: 256 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -100,6 +101,15 @@ public record AwsBedrockAgentcoreControlAddDataSetExamplesOptions : AwsOptions, 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

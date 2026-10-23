@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for regional and global use. Gets detailed information about a specified number of requests--a sam- ple--that AWS WAF randomly selects from among the first 5,000 requests that your AWS resource received during a time range that yo...
+/// NOTE: This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for regional and global use. Gets detailed information about a specified number of requests--a sample--that AWS WAF randomly selects from among the first 5,000 requests that your AWS resource received during a time range that you ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,17 +26,17 @@ public record AwsWafGetSampledRequestsOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for regional and global use. Gets detailed information about a specified number of requests--a sam- ple--that AWS WAF randomly selects from among the first 5,000 requests that your AWS resource received during a time range that yo...
+    /// NOTE: This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for regional and global use. Gets detailed information about a specified number of requests--a sample--that AWS WAF randomly selects from among the first 5,000 requests that your AWS resource received during a time range that you ...
     /// </summary>
-    /// <param name="WebAclId">The WebACLId of the WebACL for which you want GetSampledRequests to return a sample of requests. Constraints: o min: 1 o max: 128 o pattern: .*\S.*</param>
-    /// <param name="RuleId">RuleId is one of three values: o The RuleId of the Rule or the RuleGroupId of the RuleGroup for which you want GetSampledRequests to return a sample of requests. o Default_Action , which causes GetSampledRequests to return a sam- ple of the requests that didn't match any of the rules in the specified WebACL . Constraints: o min: 1 o max: 128 o pattern: .*\S.*</param>
-    /// <param name="TimeWindow">The start date and time and the end date and time of the range for which you want GetSampledRequests to return a sample of requests. You must specify the times in Coordinated Universal Time (UTC) for- mat. UTC format includes the special designator, Z . For example, "2016-09-27T14:50Z" . You can specify any time range in the previous three hours. StartTime -&gt; (timestamp) [required] The beginning of the time range from which you want GetSample- dRequests to return a sample of the requests that your AWS re- source received. You must specify the date and time in Coordi- nated Universal Time (UTC) format. UTC format includes the spe- cial designator, Z . For example, "2016-09-27T14:50Z" . You can specify any time range in the previous three hours. EndTime -&gt; (timestamp) [required] The end of the time range from which you want GetSampledRequests to return a sample of the requests that your AWS resource re- ceived. You must specify the date and time in Coordinated Uni- versal Time (UTC) format. UTC format includes the special desig- nator, Z . For example, "2016-09-27T14:50Z" . You can specify any time range in the previous three hours. Shorthand Syntax: StartTime=timestamp,EndTime=timestamp JSON Syntax: { "StartTime": timestamp, "EndTime": timestamp }</param>
-    /// <param name="MaxItems">The number of requests that you want AWS WAF to return from among the first 5,000 requests that your AWS resource received during the time range. If your resource received fewer requests than the value of MaxItems , GetSampledRequests returns information about all of them. Constraints: o min: 1 o max: 500</param>
+    /// <param name="WebAclId">The WebACLId of the WebACL for which you want GetSampledRequests to return a sample of requests. Constraints: • min: 1 • max: 128 • pattern: .*\S.*</param>
+    /// <param name="RuleId">RuleId is one of three values: • The RuleId of the Rule or the RuleGroupId of the RuleGroup for which you want GetSampledRequests to return a sample of requests. • Default_Action , which causes GetSampledRequests to return a sample of the requests that didn't match any of the rules in the specified WebACL . Constraints: • min: 1 • max: 128 • pattern: .*\S.*</param>
+    /// <param name="TimeWindow">The start date and time and the end date and time of the range for which you want GetSampledRequests to return a sample of requests. You must specify the times in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z . For example, "2016-09-27T14:50Z" . You can specify any time range in the previous three hours. StartTime -&gt; (timestamp) [required] The beginning of the time range from which you want GetSampledRequests to return a sample of the requests that your AWS resource received. You must specify the date and time in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z . For example, "2016-09-27T14:50Z" . You can specify any time range in the previous three hours. EndTime -&gt; (timestamp) [required] The end of the time range from which you want GetSampledRequests to return a sample of the requests that your AWS resource received. You must specify the date and time in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z . For example, "2016-09-27T14:50Z" . You can specify any time range in the previous three hours. Shorthand Syntax: StartTime=timestamp,EndTime=timestamp JSON Syntax: { "StartTime": timestamp, "EndTime": timestamp }</param>
+    /// <param name="MaxItems">The number of requests that you want AWS WAF to return from among the first 5,000 requests that your AWS resource received during the time range. If your resource received fewer requests than the value of MaxItems , GetSampledRequests returns information about all of them. Constraints: • min: 1 • max: 500</param>
     public AwsWafGetSampledRequestsOptions(
         string WebAclId,
         string RuleId,
         string TimeWindow,
-        int MaxItems
+        long MaxItems
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(WebAclId);
@@ -67,28 +68,28 @@ public record AwsWafGetSampledRequestsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The WebACLId of the WebACL for which you want GetSampledRequests to return a sample of requests. Constraints: o min: 1 o max: 128 o pattern: .*\S.*
+    /// The WebACLId of the WebACL for which you want GetSampledRequests to return a sample of requests. Constraints: • min: 1 • max: 128 • pattern: .*\S.*
     /// </summary>
     [CliOption("--web-acl-id")]
     public string? WebAclId { get; private init; }
 
     /// <summary>
-    /// RuleId is one of three values: o The RuleId of the Rule or the RuleGroupId of the RuleGroup for which you want GetSampledRequests to return a sample of requests. o Default_Action , which causes GetSampledRequests to return a sam- ple of the requests that didn't match any of the rules in the specified WebACL . Constraints: o min: 1 o max: 128 o pattern: .*\S.*
+    /// RuleId is one of three values: • The RuleId of the Rule or the RuleGroupId of the RuleGroup for which you want GetSampledRequests to return a sample of requests. • Default_Action , which causes GetSampledRequests to return a sample of the requests that didn't match any of the rules in the specified WebACL . Constraints: • min: 1 • max: 128 • pattern: .*\S.*
     /// </summary>
     [CliOption("--rule-id")]
     public string? RuleId { get; private init; }
 
     /// <summary>
-    /// The start date and time and the end date and time of the range for which you want GetSampledRequests to return a sample of requests. You must specify the times in Coordinated Universal Time (UTC) for- mat. UTC format includes the special designator, Z . For example, "2016-09-27T14:50Z" . You can specify any time range in the previous three hours. StartTime -&gt; (timestamp) [required] The beginning of the time range from which you want GetSample- dRequests to return a sample of the requests that your AWS re- source received. You must specify the date and time in Coordi- nated Universal Time (UTC) format. UTC format includes the spe- cial designator, Z . For example, "2016-09-27T14:50Z" . You can specify any time range in the previous three hours. EndTime -&gt; (timestamp) [required] The end of the time range from which you want GetSampledRequests to return a sample of the requests that your AWS resource re- ceived. You must specify the date and time in Coordinated Uni- versal Time (UTC) format. UTC format includes the special desig- nator, Z . For example, "2016-09-27T14:50Z" . You can specify any time range in the previous three hours. Shorthand Syntax: StartTime=timestamp,EndTime=timestamp JSON Syntax: { "StartTime": timestamp, "EndTime": timestamp }
+    /// The start date and time and the end date and time of the range for which you want GetSampledRequests to return a sample of requests. You must specify the times in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z . For example, "2016-09-27T14:50Z" . You can specify any time range in the previous three hours. StartTime -&gt; (timestamp) [required] The beginning of the time range from which you want GetSampledRequests to return a sample of the requests that your AWS resource received. You must specify the date and time in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z . For example, "2016-09-27T14:50Z" . You can specify any time range in the previous three hours. EndTime -&gt; (timestamp) [required] The end of the time range from which you want GetSampledRequests to return a sample of the requests that your AWS resource received. You must specify the date and time in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z . For example, "2016-09-27T14:50Z" . You can specify any time range in the previous three hours. Shorthand Syntax: StartTime=timestamp,EndTime=timestamp JSON Syntax: { "StartTime": timestamp, "EndTime": timestamp }
     /// </summary>
     [CliOption("--time-window")]
     public string? TimeWindow { get; private init; }
 
     /// <summary>
-    /// The number of requests that you want AWS WAF to return from among the first 5,000 requests that your AWS resource received during the time range. If your resource received fewer requests than the value of MaxItems , GetSampledRequests returns information about all of them. Constraints: o min: 1 o max: 500
+    /// The number of requests that you want AWS WAF to return from among the first 5,000 requests that your AWS resource received during the time range. If your resource received fewer requests than the value of MaxItems , GetSampledRequests returns information about all of them. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--max-items")]
-    public int? MaxItems { get; private init; }
+    public long? MaxItems { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -111,6 +112,15 @@ public record AwsWafGetSampledRequestsOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

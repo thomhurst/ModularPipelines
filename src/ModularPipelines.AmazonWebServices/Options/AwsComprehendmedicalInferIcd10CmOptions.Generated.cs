@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// InferICD10CM detects medical conditions as entities listed in a patient record and links those entities to normalized concept identifiers in the ICD-10-CM knowledge base from the Centers for Disease Control. Ama- zon Comprehend Medical only detects medical entities in English lan- guage texts. See also: AWS API Documentation
+/// InferICD10CM detects medical conditions as entities listed in a patient record and links those entities to normalized concept identifiers in the ICD-10-CM knowledge base from the Centers for Disease Control. Amazon Comprehend Medical only detects medical entities in English language texts. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsComprehendmedicalInferIcd10CmOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// InferICD10CM detects medical conditions as entities listed in a patient record and links those entities to normalized concept identifiers in the ICD-10-CM knowledge base from the Centers for Disease Control. Ama- zon Comprehend Medical only detects medical entities in English lan- guage texts. See also: AWS API Documentation
+    /// InferICD10CM detects medical conditions as entities listed in a patient record and links those entities to normalized concept identifiers in the ICD-10-CM knowledge base from the Centers for Disease Control. Amazon Comprehend Medical only detects medical entities in English language texts. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Text">The input text used for analysis. Constraints: o min: 1 o max: 10000</param>
+    /// <param name="Text">The input text used for analysis. Constraints: • min: 1 • max: 10000</param>
     public AwsComprehendmedicalInferIcd10CmOptions(
         string Text
     )
@@ -56,7 +57,7 @@ public record AwsComprehendmedicalInferIcd10CmOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The input text used for analysis. Constraints: o min: 1 o max: 10000
+    /// The input text used for analysis. Constraints: • min: 1 • max: 10000
     /// </summary>
     [CliOption("--text")]
     public string? Text { get; private init; }
@@ -82,6 +83,15 @@ public record AwsComprehendmedicalInferIcd10CmOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

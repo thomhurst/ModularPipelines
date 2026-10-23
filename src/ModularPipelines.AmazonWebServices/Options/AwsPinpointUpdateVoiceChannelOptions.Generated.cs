@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsPinpointUpdateVoiceChannelOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Enables the voice channel for an application or updates the status and settings of the voice channel for an application. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The unique identifier for the application. This identifier is dis- played as the Project ID on the Amazon Pinpoint console.</param>
-    /// <param name="VoiceChannelRequest">Specifies the status and settings of the voice channel for an appli- cation. Enabled -&gt; (boolean) Specifies whether to enable the voice channel for the applica- tion. Shorthand Syntax: Enabled=boolean JSON Syntax: { "Enabled": true|false }</param>
+    /// <param name="ApplicationId">The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.</param>
+    /// <param name="VoiceChannelRequest">Specifies the status and settings of the voice channel for an application. Enabled -&gt; (boolean) Specifies whether to enable the voice channel for the application. Shorthand Syntax: Enabled=boolean JSON Syntax: { "Enabled": true|false }</param>
     public AwsPinpointUpdateVoiceChannelOptions(
         string ApplicationId,
         string VoiceChannelRequest
@@ -60,13 +61,13 @@ public record AwsPinpointUpdateVoiceChannelOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the application. This identifier is dis- played as the Project ID on the Amazon Pinpoint console.
+    /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// Specifies the status and settings of the voice channel for an appli- cation. Enabled -&gt; (boolean) Specifies whether to enable the voice channel for the applica- tion. Shorthand Syntax: Enabled=boolean JSON Syntax: { "Enabled": true|false }
+    /// Specifies the status and settings of the voice channel for an application. Enabled -&gt; (boolean) Specifies whether to enable the voice channel for the application. Shorthand Syntax: Enabled=boolean JSON Syntax: { "Enabled": true|false }
     /// </summary>
     [CliOption("--voice-channel-request")]
     public string? VoiceChannelRequest { get; private init; }
@@ -92,6 +93,15 @@ public record AwsPinpointUpdateVoiceChannelOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

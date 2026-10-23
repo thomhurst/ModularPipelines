@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns information about a stack drift detection operation. A stack drift detection operation detects whether a stack's actual configura- tion differs, or has drifted , from its expected configuration, as de- fined in the stack template and any values specified as template para- meters. A stack is considered to have drifted if one or more of its re- sources have drifted. For more information about stack and resource drift, see Detect unmanaged configuration changes to stacks and re- sources wit...
+/// Returns information about a stack drift detection operation. A stack drift detection operation detects whether a stack's actual configuration differs, or has drifted , from its expected configuration, as defined in the stack template and any values specified as template parameters. A stack is considered to have drifted if one or more of its resources have drifted. For more information about stack and resource drift, see Detect unmanaged configuration changes to stacks and resources with drift de...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsCloudformationDescribeStackDriftDetectionStatusOptions : AwsOpt
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns information about a stack drift detection operation. A stack drift detection operation detects whether a stack's actual configura- tion differs, or has drifted , from its expected configuration, as de- fined in the stack template and any values specified as template para- meters. A stack is considered to have drifted if one or more of its re- sources have drifted. For more information about stack and resource drift, see Detect unmanaged configuration changes to stacks and re- sources wit...
+    /// Returns information about a stack drift detection operation. A stack drift detection operation detects whether a stack's actual configuration differs, or has drifted , from its expected configuration, as defined in the stack template and any values specified as template parameters. A stack is considered to have drifted if one or more of its resources have drifted. For more information about stack and resource drift, see Detect unmanaged configuration changes to stacks and resources with drift de...
     /// </summary>
-    /// <param name="StackDriftDetectionId">The ID of the drift detection results of this operation. CloudFormation generates new results, with a new drift detection ID, each time this operation is run. However, the number of drift re- sults CloudFormation retains for any given stack, and for how long, may vary. Constraints: o min: 1 o max: 36</param>
+    /// <param name="StackDriftDetectionId">The ID of the drift detection results of this operation. CloudFormation generates new results, with a new drift detection ID, each time this operation is run. However, the number of drift results CloudFormation retains for any given stack, and for how long, may vary. Constraints: • min: 1 • max: 36</param>
     public AwsCloudformationDescribeStackDriftDetectionStatusOptions(
         string StackDriftDetectionId
     )
@@ -56,7 +57,7 @@ public record AwsCloudformationDescribeStackDriftDetectionStatusOptions : AwsOpt
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the drift detection results of this operation. CloudFormation generates new results, with a new drift detection ID, each time this operation is run. However, the number of drift re- sults CloudFormation retains for any given stack, and for how long, may vary. Constraints: o min: 1 o max: 36
+    /// The ID of the drift detection results of this operation. CloudFormation generates new results, with a new drift detection ID, each time this operation is run. However, the number of drift results CloudFormation retains for any given stack, and for how long, may vary. Constraints: • min: 1 • max: 36
     /// </summary>
     [CliOption("--stack-drift-detection-id")]
     public string? StackDriftDetectionId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsCloudformationDescribeStackDriftDetectionStatusOptions : AwsOpt
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

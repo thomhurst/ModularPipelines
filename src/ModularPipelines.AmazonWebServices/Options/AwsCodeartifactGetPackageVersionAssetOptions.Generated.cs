@@ -25,12 +25,12 @@ public record AwsCodeartifactGetPackageVersionAssetOptions : AwsOptions
     /// <summary>
     /// Returns an asset (or file) that is in a package. For example, for a Maven package version, use GetPackageVersionAsset to download a JAR file, a POM file, or any other assets in the package version. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Domain">The name of the domain that contains the repository that contains the package version with the requested asset. Constraints: o min: 2 o max: 50 o pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]</param>
-    /// <param name="Repository">The repository that contains the package version with the requested asset. Constraints: o min: 2 o max: 100 o pattern: [A-Za-z0-9][A-Za-z0-9._\-]{1,99}</param>
-    /// <param name="Format">A format that specifies the type of the package version with the re- quested asset file. Possible values: o npm o pypi o maven o nuget o generic o ruby o swift o cargo</param>
-    /// <param name="Package">The name of the package that contains the requested asset. Constraints: o min: 1 o max: 255 o pattern: [^#/\s]+</param>
-    /// <param name="PackageVersion">A string that contains the package version (for example, 3.5.2 ). Constraints: o min: 1 o max: 255 o pattern: [^#/\s]+</param>
-    /// <param name="Asset">The name of the requested asset. Constraints: o min: 1 o max: 255 o pattern: \P{C}+</param>
+    /// <param name="Domain">The name of the domain that contains the repository that contains the package version with the requested asset. Constraints: • min: 2 • max: 50 • pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]</param>
+    /// <param name="Repository">The repository that contains the package version with the requested asset. Constraints: • min: 2 • max: 100 • pattern: [A-Za-z0-9][A-Za-z0-9._\-]{1,99}</param>
+    /// <param name="Format">A format that specifies the type of the package version with the requested asset file. Possible values: • npm • pypi • maven • nuget • generic • ruby • swift • cargo</param>
+    /// <param name="Package">The name of the package that contains the requested asset. Constraints: • min: 1 • max: 255 • pattern: [^#/\s]+</param>
+    /// <param name="PackageVersion">A string that contains the package version (for example, 3.5.2 ). Constraints: • min: 1 • max: 255 • pattern: [^#/\s]+</param>
+    /// <param name="Asset">The name of the requested asset. Constraints: • min: 1 • max: 255 • pattern: \P{C}+</param>
     /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
     public AwsCodeartifactGetPackageVersionAssetOptions(
         string Domain,
@@ -69,55 +69,55 @@ public record AwsCodeartifactGetPackageVersionAssetOptions : AwsOptions
     }
 
     /// <summary>
-    /// The name of the domain that contains the repository that contains the package version with the requested asset. Constraints: o min: 2 o max: 50 o pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]
+    /// The name of the domain that contains the repository that contains the package version with the requested asset. Constraints: • min: 2 • max: 50 • pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]
     /// </summary>
     [CliOption("--domain")]
     public string Domain { get; private init; }
 
     /// <summary>
-    /// The repository that contains the package version with the requested asset. Constraints: o min: 2 o max: 100 o pattern: [A-Za-z0-9][A-Za-z0-9._\-]{1,99}
+    /// The repository that contains the package version with the requested asset. Constraints: • min: 2 • max: 100 • pattern: [A-Za-z0-9][A-Za-z0-9._\-]{1,99}
     /// </summary>
     [CliOption("--repository")]
     public string Repository { get; private init; }
 
     /// <summary>
-    /// A format that specifies the type of the package version with the re- quested asset file. Possible values: o npm o pypi o maven o nuget o generic o ruby o swift o cargo
+    /// A format that specifies the type of the package version with the requested asset file. Possible values: • npm • pypi • maven • nuget • generic • ruby • swift • cargo
     /// </summary>
     [CliOption("--format")]
     public AwsCodeartifactGetPackageVersionAssetFormat Format { get; private init; }
 
     /// <summary>
-    /// The name of the package that contains the requested asset. Constraints: o min: 1 o max: 255 o pattern: [^#/\s]+
+    /// The name of the package that contains the requested asset. Constraints: • min: 1 • max: 255 • pattern: [^#/\s]+
     /// </summary>
     [CliOption("--package")]
     public string Package { get; private init; }
 
     /// <summary>
-    /// A string that contains the package version (for example, 3.5.2 ). Constraints: o min: 1 o max: 255 o pattern: [^#/\s]+
+    /// A string that contains the package version (for example, 3.5.2 ). Constraints: • min: 1 • max: 255 • pattern: [^#/\s]+
     /// </summary>
     [CliOption("--package-version")]
     public string PackageVersion { get; private init; }
 
     /// <summary>
-    /// The name of the requested asset. Constraints: o min: 1 o max: 255 o pattern: \P{C}+
+    /// The name of the requested asset. Constraints: • min: 1 • max: 255 • pattern: \P{C}+
     /// </summary>
     [CliOption("--asset")]
     public string Asset { get; private init; }
 
     /// <summary>
-    /// The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include dashes or spaces. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12}
+    /// The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include dashes or spaces. Constraints: • min: 12 • max: 12 • pattern: [0-9]{12}
     /// </summary>
     [CliOption("--domain-owner")]
     public string? DomainOwner { get; set; }
 
     /// <summary>
-    /// The namespace of the package version with the requested asset file. The package component that specifies its namespace depends on its type. For example: NOTE: The namespace is required when requesting assets from package versions of the following formats: o Maven o Swift o generic o The namespace of a Maven package version is its groupId . o The namespace of an npm or Swift package version is its scope . o The namespace of a generic package is its namespace . o Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding component, package versions of those formats do not have a namespace. Constraints: o min: 1 o max: 255 o pattern: [^#/\s]+
+    /// The namespace of the package version with the requested asset file. The package component that specifies its namespace depends on its type. For example: NOTE: The namespace is required when requesting assets from package versions of the following formats: • Maven • Swift • generic • The namespace of a Maven package version is its groupId . • The namespace of an npm or Swift package version is its scope . • The namespace of a generic package is its namespace . • Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding component, package versions of those formats do not have a namespace. Constraints: • min: 1 • max: 255 • pattern: [^#/\s]+
     /// </summary>
     [CliOption("--namespace")]
     public string? Namespace { get; set; }
 
     /// <summary>
-    /// The name of the package version revision that contains the requested asset. Constraints: o min: 1 o max: 50 o pattern: \S+ outfile (string) [required] Filename where the content will be saved
+    /// The name of the package version revision that contains the requested asset. Constraints: • min: 1 • max: 50 • pattern: \S+ outfile (string) [required] Filename where the content will be saved
     /// </summary>
     [CliOption("--package-version-revision")]
     public string? PackageVersionRevision { get; set; }
@@ -127,5 +127,14 @@ public record AwsCodeartifactGetPackageVersionAssetOptions : AwsOptions
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
     public string Outfile { get; private init; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

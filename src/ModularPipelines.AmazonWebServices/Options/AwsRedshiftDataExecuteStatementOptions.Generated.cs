@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Runs an SQL statement, which can be data manipulation language (DML) or data definition language (DDL). This statement must be a single SQL statement. Depending on the authorization method, use one of the fol- lowing combinations of request parameters: o Secrets Manager - when connecting to a cluster, provide the se- cret-arn of a secret stored in Secrets Manager which has username and password . The specified secret contains credentials to connect to the database you specify. When you are conne...
+/// Runs an SQL statement, which can be data manipulation language (DML) or data definition language (DDL). This statement must be a single SQL statement. Depending on the authorization method, use one of the following combinations of request parameters: • Secrets Manager - when connecting to a cluster, provide the secret-arn of a secret stored in Secrets Manager which has username and password . The specified secret contains credentials to connect to the database you specify. When you are connectin...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,7 +28,7 @@ public record AwsRedshiftDataExecuteStatementOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Runs an SQL statement, which can be data manipulation language (DML) or data definition language (DDL). This statement must be a single SQL statement. Depending on the authorization method, use one of the fol- lowing combinations of request parameters: o Secrets Manager - when connecting to a cluster, provide the se- cret-arn of a secret stored in Secrets Manager which has username and password . The specified secret contains credentials to connect to the database you specify. When you are conne...
+    /// Runs an SQL statement, which can be data manipulation language (DML) or data definition language (DDL). This statement must be a single SQL statement. Depending on the authorization method, use one of the following combinations of request parameters: • Secrets Manager - when connecting to a cluster, provide the secret-arn of a secret stored in Secrets Manager which has username and password . The specified secret contains credentials to connect to the database you specify. When you are connectin...
     /// </summary>
     /// <param name="Sql">The SQL statement text to run.</param>
     public AwsRedshiftDataExecuteStatementOptions(
@@ -64,13 +65,13 @@ public record AwsRedshiftDataExecuteStatementOptions : AwsOptions, IValidatableO
     public string? Sql { get; private init; }
 
     /// <summary>
-    /// The cluster identifier. This parameter is required when connecting to a cluster and authenticating using either Secrets Manager or tem- porary credentials. Constraints: o min: 1 o max: 63 o pattern: [a-z][a-z0-9]*(-[a-z0-9]+)*
+    /// The cluster identifier. This parameter is required when connecting to a cluster and authenticating using either Secrets Manager or temporary credentials. Constraints: • min: 1 • max: 63 • pattern: [a-z][a-z0-9]*(-[a-z0-9]+)*
     /// </summary>
     [CliOption("--cluster-identifier")]
     public string? ClusterIdentifier { get; set; }
 
     /// <summary>
-    /// The name or ARN of the secret that enables access to the database. This parameter is required when authenticating using Secrets Man- ager.
+    /// The name or ARN of the secret that enables access to the database. This parameter is required when authenticating using Secrets Manager.
     /// </summary>
     [CliOption("--secret-arn")]
     public string? SecretArn { get; set; }
@@ -82,62 +83,62 @@ public record AwsRedshiftDataExecuteStatementOptions : AwsOptions, IValidatableO
     public string? DbUser { get; set; }
 
     /// <summary>
-    /// The name of the database. This parameter is required when authenti- cating using either Secrets Manager or temporary credentials.
+    /// The name of the database. This parameter is required when authenticating using either Secrets Manager or temporary credentials.
     /// </summary>
     [CliOption("--database")]
     public string? Database { get; set; }
 
     /// <summary>
-    /// A value that indicates whether to send an event to the Amazon Event- Bridge event bus after the SQL statement runs.
+    /// A value that indicates whether to send an event to the Amazon EventBridge event bus after the SQL statement runs.
     /// </summary>
     [CliFlag("--with-event", NegatedName = "--no-with-event")]
     public bool? WithEvent { get; set; }
 
     /// <summary>
-    /// The name of the SQL statement. You can name the SQL statement when you create it to identify the query. Constraints: o min: 0 o max: 2048
+    /// The name of the SQL statement. You can name the SQL statement when you create it to identify the query. Constraints: • min: 0 • max: 2048
     /// </summary>
     [CliOption("--statement-name")]
     public string? StatementName { get; set; }
 
     /// <summary>
-    /// The parameters for the SQL statement. Constraints: o min: 1 (structure) A parameter used in a SQL statement. name -&gt; (string) [required] The name of the parameter. Constraints: o pattern: [0-9a-zA-Z_]+ value -&gt; (string) [required] The value of the parameter. Amazon Redshift implicitly con- verts to the proper data type. For more information, see Data types in the Amazon Redshift Database Developer Guide . Constraints: o min: 1 Shorthand Syntax: name=string,value=string ... JSON Syntax: [ { "name": "string", "value": "string" } ... ]
+    /// The parameters for the SQL statement. Constraints: • min: 1 (structure) A parameter used in a SQL statement. name -&gt; (string) [required] The name of the parameter. Constraints: • pattern: [0-9a-zA-Z_]+ value -&gt; (string) [required] The value of the parameter. Amazon Redshift implicitly converts to the proper data type. For more information, see Data types in the Amazon Redshift Database Developer Guide . Constraints: • min: 1 Shorthand Syntax: name=string,value=string ... JSON Syntax: [ { "name": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--parameters", GroupValues = true)]
     public IEnumerable<string>? Parameters { get; set; }
 
     /// <summary>
-    /// The serverless workgroup name or Amazon Resource Name (ARN). This parameter is required when connecting to a serverless workgroup and authenticating using either Secrets Manager or temporary creden- tials. Constraints: o min: 3 o max: 128 o pattern: ([a-z0-9-]{3,63}|arn:(aws(-[a-z]+)*):redshift-server- less:([a-z]{2}(-gov|(-iso[a-z]?))?|eusc-[a-z]+)-[a-z]+-\d{1}:\d{12}:work- group/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|[a-z0-9-]{1,63}/[a-z0-9-]{1,63}))
+    /// The serverless workgroup name or Amazon Resource Name (ARN). This parameter is required when connecting to a serverless workgroup and authenticating using either Secrets Manager or temporary credentials. Constraints: • min: 3 • max: 128 • pattern: ([a-z0-9-]{3,63}|arn:(aws(-[a-z]+)*):redshift-serverless:([a-z]{2}(-gov|(-iso[a-z]?))?|eusc-[a-z]+)-[a-z]+-\d{1}:\d{12}:workgroup/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|[a-z0-9-]{1,63}/[a-z0-9-]{1,63}))
     /// </summary>
     [CliOption("--workgroup-name")]
     public string? WorkgroupName { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 1 o max: 64
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: • min: 1 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The data format of the result of the SQL statement. If no format is specified, the default is JSON. Possible values: o JSON o CSV
+    /// The data format of the result of the SQL statement. If no format is specified, the default is JSON. Possible values: • JSON • CSV
     /// </summary>
     [CliOption("--result-format")]
     public AwsRedshiftDataExecuteStatementResultFormat? ResultFormat { get; set; }
 
     /// <summary>
-    /// The number of seconds to keep the session alive after the query fin- ishes. The maximum time a session can keep alive is 24 hours. After 24 hours, the session is forced closed and the query is terminated. Constraints: o min: 0 o max: 86400
+    /// The number of seconds to keep the session alive after the query finishes. The maximum time a session can keep alive is 24 hours. After 24 hours, the session is forced closed and the query is terminated. Constraints: • min: 0 • max: 86400
     /// </summary>
     [CliOption("--session-keep-alive-seconds")]
     public int? SessionKeepAliveSeconds { get; set; }
 
     /// <summary>
-    /// The session identifier of the query. Constraints: o pattern: [a-z0-9]{8}(-[a-z0-9]{4}){3}-[a-z0-9]{12}(:\d{0,2})?
+    /// The session identifier of the query. Constraints: • pattern: [a-z0-9]{8}(-[a-z0-9]{4}){3}-[a-z0-9]{12}(:\d{0,2})?
     /// </summary>
     [CliOption("--session-id")]
     public string? SessionId { get; set; }
 
     /// <summary>
-    /// The number of seconds to wait for the SQL statement to complete exe- cution before returning the response. If the SQL statement does not complete within the specified time, the response returns the current status. The maximum value is 30 seconds. Constraints: o min: 1 o max: 30
+    /// The number of seconds to wait for the SQL statement to complete execution before returning the response. If the SQL statement does not complete within the specified time, the response returns the current status. The maximum value is 30 seconds. Constraints: • min: 1 • max: 30
     /// </summary>
     [CliOption("--wait-time-seconds")]
     public int? WaitTimeSeconds { get; set; }
@@ -163,6 +164,15 @@ public record AwsRedshiftDataExecuteStatementOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

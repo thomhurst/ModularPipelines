@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsRdsModifyDbShardGroupOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Modifies the settings of an Aurora Limitless Database DB shard group. You can change one or more settings by specifying these parameters and the new values in the request. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DbShardGroupIdentifier">The name of the DB shard group to modify. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*</param>
+    /// <param name="DbShardGroupIdentifier">The name of the DB shard group to modify. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*</param>
     public AwsRdsModifyDbShardGroupOptions(
         string DbShardGroupIdentifier
     )
@@ -56,7 +57,7 @@ public record AwsRdsModifyDbShardGroupOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the DB shard group to modify. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*
+    /// The name of the DB shard group to modify. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*
     /// </summary>
     [CliOption("--db-shard-group-identifier")]
     public string? DbShardGroupIdentifier { get; private init; }
@@ -65,16 +66,16 @@ public record AwsRdsModifyDbShardGroupOptions : AwsOptions, IValidatableObject
     /// The maximum capacity of the DB shard group in Aurora capacity units (ACUs).
     /// </summary>
     [CliOption("--max-acu")]
-    public int? MaxAcu { get; set; }
+    public double? MaxAcu { get; set; }
 
     /// <summary>
     /// The minimum capacity of the DB shard group in Aurora capacity units (ACUs).
     /// </summary>
     [CliOption("--min-acu")]
-    public int? MinAcu { get; set; }
+    public double? MinAcu { get; set; }
 
     /// <summary>
-    /// Specifies whether to create standby DB shard groups for the DB shard group. Valid values are the following: o 0 - Creates a DB shard group without a standby DB shard group. This is the default value. o 1 - Creates a DB shard group with a standby DB shard group in a different Availability Zone (AZ). o 2 - Creates a DB shard group with two standby DB shard groups in two different AZs.
+    /// Specifies whether to create standby DB shard groups for the DB shard group. Valid values are the following: • 0 - Creates a DB shard group without a standby DB shard group. This is the default value. • 1 - Creates a DB shard group with a standby DB shard group in a different Availability Zone (AZ). • 2 - Creates a DB shard group with two standby DB shard groups in two different AZs.
     /// </summary>
     [CliOption("--compute-redundancy")]
     public int? ComputeRedundancy { get; set; }
@@ -100,6 +101,15 @@ public record AwsRdsModifyDbShardGroupOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

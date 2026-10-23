@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsLambdaMicrovmsCreateMicrovmShellAuthTokenOptions : AwsOptions, 
     /// <summary>
     /// Creates a shell authentication token for interactive shell access to a running MicroVM. The MicroVM must have been run with the SHELL_INGRESS network connector attached. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MicrovmIdentifier">The ID of the MicroVM to create a shell authentication token for. Constraints: o min: 1 o max: 256</param>
-    /// <param name="ExpirationInMinutes">The duration in minutes before the shell authentication token ex- pires. Constraints: o min: 1</param>
+    /// <param name="MicrovmIdentifier">The ID of the MicroVM to create a shell authentication token for. Constraints: • min: 1 • max: 256</param>
+    /// <param name="ExpirationInMinutes">The duration in minutes before the shell authentication token expires. Constraints: • min: 1</param>
     public AwsLambdaMicrovmsCreateMicrovmShellAuthTokenOptions(
         string MicrovmIdentifier,
         int ExpirationInMinutes
@@ -59,13 +60,13 @@ public record AwsLambdaMicrovmsCreateMicrovmShellAuthTokenOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the MicroVM to create a shell authentication token for. Constraints: o min: 1 o max: 256
+    /// The ID of the MicroVM to create a shell authentication token for. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--microvm-identifier")]
     public string? MicrovmIdentifier { get; private init; }
 
     /// <summary>
-    /// The duration in minutes before the shell authentication token ex- pires. Constraints: o min: 1
+    /// The duration in minutes before the shell authentication token expires. Constraints: • min: 1
     /// </summary>
     [CliOption("--expiration-in-minutes")]
     public int? ExpirationInMinutes { get; private init; }
@@ -91,6 +92,15 @@ public record AwsLambdaMicrovmsCreateMicrovmShellAuthTokenOptions : AwsOptions, 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

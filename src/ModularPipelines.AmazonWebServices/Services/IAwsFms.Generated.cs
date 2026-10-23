@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Models;
+using ModularPipelines;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -22,24 +22,22 @@ namespace ModularPipelines.AmazonWebServices.Services;
 public interface IAwsFms
 {
     /// <summary>
-    /// Sets a Firewall Manager default administrator account. The Firewall Manager default administrator account can manage third-party firewalls and has full administrative scope that allows administration of all policy types, accounts, organizational units, and Regions. This account must be a member account of the organization in Organizations whose re- sources you want to protect. For information about working with Firewall Manager administrator ac- counts, see Managing Firewall Manager administrato...
+    /// Sets a Firewall Manager default administrator account. The Firewall Manager default administrator account can manage third-party firewalls and has full administrative scope that allows administration of all policy types, accounts, organizational units, and Regions. This account must be a member account of the organization in Organizations whose resources you want to protect. For information about working with Firewall Manager administrator accounts, see Managing Firewall Manager administrators i...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateAdminAccountAsync(AwsFmsAssociateAdminAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateAdminAccountAsync(AwsFmsAssociateAdminAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Sets the Firewall Manager policy administrator as a tenant administra- tor of a third-party firewall service. A tenant is an instance of the third-party firewall service that's associated with your Amazon Web Services customer account. See also: AWS API Documentation
+    /// Sets the Firewall Manager policy administrator as a tenant administrator of a third-party firewall service. A tenant is an instance of the third-party firewall service that's associated with your Amazon Web Services customer account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateThirdPartyFirewallAsync(AwsFmsAssociateThirdPartyFirewallOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateThirdPartyFirewallAsync(AwsFmsAssociateThirdPartyFirewallOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associate resources to a Firewall Manager resource set. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsFms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchAssociateResourceAsync(AwsFmsBatchAssociateResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchAssociateResourceAsync(AwsFmsBatchAssociateResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates resources from a Firewall Manager resource set. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsFms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchDisassociateResourceAsync(AwsFmsBatchDisassociateResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchDisassociateResourceAsync(AwsFmsBatchDisassociateResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Permanently deletes an Firewall Manager applications list. See also: AWS API Documentation
@@ -68,18 +64,16 @@ public interface IAwsFms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAppsListAsync(AwsFmsDeleteAppsListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAppsListAsync(AwsFmsDeleteAppsListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deletes an Firewall Manager association with the IAM role and the Ama- zon Simple Notification Service (SNS) topic that is used to record Firewall Manager SNS logs. See also: AWS API Documentation
+    /// Deletes an Firewall Manager association with the IAM role and the Amazon Simple Notification Service (SNS) topic that is used to record Firewall Manager SNS logs. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteNotificationChannelAsync(AwsFmsDeleteNotificationChannelOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteNotificationChannelAsync(AwsFmsDeleteNotificationChannelOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Permanently deletes an Firewall Manager policy. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsFms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeletePolicyAsync(AwsFmsDeletePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeletePolicyAsync(AwsFmsDeletePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Permanently deletes an Firewall Manager protocols list. See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsFms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteProtocolsListAsync(AwsFmsDeleteProtocolsListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteProtocolsListAsync(AwsFmsDeleteProtocolsListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified ResourceSet . See also: AWS API Documentation
@@ -108,38 +100,34 @@ public interface IAwsFms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteResourceSetAsync(AwsFmsDeleteResourceSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteResourceSetAsync(AwsFmsDeleteResourceSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Disassociates an Firewall Manager administrator account. To set a dif- ferent account as an Firewall Manager administrator, submit a PutAdmi- nAccount request. To set an account as a default administrator account, you must submit an AssociateAdminAccount request. Disassociation of the default administrator account follows the first in, last out principle. If you are the default administrator, all Fire- wall Manager administrators within the organization must first disasso- ciate their accounts b...
+    /// Disassociates an Firewall Manager administrator account. To set a different account as an Firewall Manager administrator, submit a PutAdminAccount request. To set an account as a default administrator account, you must submit an AssociateAdminAccount request. Disassociation of the default administrator account follows the first in, last out principle. If you are the default administrator, all Firewall Manager administrators within the organization must first disassociate their accounts before yo...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateAdminAccountAsync(AwsFmsDisassociateAdminAccountOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateAdminAccountAsync(AwsFmsDisassociateAdminAccountOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Disassociates a Firewall Manager policy administrator from a third-party firewall tenant. When you call DisassociateThirdPartyFire- wall , the third-party firewall vendor deletes all of the firewalls that are associated with the account. See also: AWS API Documentation
+    /// Disassociates a Firewall Manager policy administrator from a third-party firewall tenant. When you call DisassociateThirdPartyFirewall , the third-party firewall vendor deletes all of the firewalls that are associated with the account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateThirdPartyFirewallAsync(AwsFmsDisassociateThirdPartyFirewallOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateThirdPartyFirewallAsync(AwsFmsDisassociateThirdPartyFirewallOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns the Organizations account that is associated with Firewall Man- ager as the Firewall Manager default administrator. See also: AWS API Documentation
+    /// Returns the Organizations account that is associated with Firewall Manager as the Firewall Manager default administrator. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAdminAccountAsync(AwsFmsGetAdminAccountOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAdminAccountAsync(AwsFmsGetAdminAccountOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about the specified account's administrative scope. The administrative scope defines the resources that an Firewall Manager administrator can manage. See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsFms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAdminScopeAsync(AwsFmsGetAdminScopeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAdminScopeAsync(AwsFmsGetAdminScopeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about the specified Firewall Manager applications list. See also: AWS API Documentation
@@ -158,18 +145,16 @@ public interface IAwsFms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAppsListAsync(AwsFmsGetAppsListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAppsListAsync(AwsFmsGetAppsListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns detailed compliance information about the specified member ac- count. Details include resources that are in and out of compliance with the specified policy. The reasons for resources being considered compliant depend on the Firewall Manager policy type. See also: AWS API Documentation
+    /// Returns detailed compliance information about the specified member account. Details include resources that are in and out of compliance with the specified policy. The reasons for resources being considered compliant depend on the Firewall Manager policy type. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetComplianceDetailAsync(AwsFmsGetComplianceDetailOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetComplianceDetailAsync(AwsFmsGetComplianceDetailOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Information about the Amazon Simple Notification Service (SNS) topic that is used to record Firewall Manager SNS logs. See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsFms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetNotificationChannelAsync(AwsFmsGetNotificationChannelOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetNotificationChannelAsync(AwsFmsGetNotificationChannelOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about the specified Firewall Manager policy. See also: AWS API Documentation
@@ -188,18 +172,16 @@ public interface IAwsFms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPolicyAsync(AwsFmsGetPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetPolicyAsync(AwsFmsGetPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// If you created a Shield Advanced policy, returns policy-level attack summary information in the event of a potential DDoS attack. Other pol- icy types are currently unsupported. See also: AWS API Documentation
+    /// If you created a Shield Advanced policy, returns policy-level attack summary information in the event of a potential DDoS attack. Other policy types are currently unsupported. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetProtectionStatusAsync(AwsFmsGetProtectionStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetProtectionStatusAsync(AwsFmsGetProtectionStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about the specified Firewall Manager protocols list. See also: AWS API Documentation
@@ -208,8 +190,7 @@ public interface IAwsFms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetProtocolsListAsync(AwsFmsGetProtocolsListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetProtocolsListAsync(AwsFmsGetProtocolsListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about a specific resource set. See also: AWS API Documentation
@@ -218,8 +199,7 @@ public interface IAwsFms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetResourceSetAsync(AwsFmsGetResourceSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetResourceSetAsync(AwsFmsGetResourceSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The onboarding status of a Firewall Manager admin account to third-party firewall vendor tenant. See also: AWS API Documentation
@@ -228,8 +208,7 @@ public interface IAwsFms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetThirdPartyFirewallAssociationStatusAsync(AwsFmsGetThirdPartyFirewallAssociationStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetThirdPartyFirewallAssociationStatusAsync(AwsFmsGetThirdPartyFirewallAssociationStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves violations for a resource based on the specified Firewall Manager policy and Amazon Web Services account. See also: AWS API Documentation
@@ -238,48 +217,43 @@ public interface IAwsFms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetViolationDetailsAsync(AwsFmsGetViolationDetailsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetViolationDetailsAsync(AwsFmsGetViolationDetailsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns a AdminAccounts object that lists the Firewall Manager adminis- trators within the organization that are onboarded to Firewall Manager by AssociateAdminAccount . This operation can be called only from the organization's management account. See also: AWS API Documentation list-admin-accounts-for-organization is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment....
+    /// Returns a AdminAccounts object that lists the Firewall Manager administrators within the organization that are onboarded to Firewall Manager by AssociateAdminAccount . This operation can be called only from the organization's management account. See also: AWS API Documentation list-admin-accounts-for-organization is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAdminAccountsForOrganizationAsync(AwsFmsListAdminAccountsForOrganizationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAdminAccountsForOrganizationAsync(AwsFmsListAdminAccountsForOrganizationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists the accounts that are managing the specified Organizations member account. This is useful for any member account so that they can view the accounts who are managing their account. This operation only re- turns the managing administrators that have the requested account within their AdminScope . See also: AWS API Documentation list-admins-managing-account is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable paginat...
+    /// Lists the accounts that are managing the specified Organizations member account. This is useful for any member account so that they can view the accounts who are managing their account. This operation only returns the managing administrators that have the requested account within their AdminScope . See also: AWS API Documentation list-admins-managing-account is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAdminsManagingAccountAsync(AwsFmsListAdminsManagingAccountOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAdminsManagingAccountAsync(AwsFmsListAdminsManagingAccountOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns an array of AppsListDataSummary objects. See also: AWS API Documentation list-apps-lists is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: AppsLists
+    /// Returns an array of AppsListDataSummary objects. See also: AWS API Documentation list-apps-lists is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: AppsLists
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAppsListsAsync(AwsFmsListAppsListsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAppsListsAsync(AwsFmsListAppsListsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns an array of PolicyComplianceStatus objects. Use PolicyCompli- anceStatus to get a summary of which member accounts are protected by the specified policy. See also: AWS API Documentation list-compliance-status is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must ex...
+    /// Returns an array of PolicyComplianceStatus objects. Use PolicyComplianceStatus to get a summary of which member accounts are protected by the specified policy. See also: AWS API Documentation list-compliance-status is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extr...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListComplianceStatusAsync(AwsFmsListComplianceStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListComplianceStatusAsync(AwsFmsListComplianceStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns an array of resources in the organization's accounts that are available to be associated with a resource set. See also: AWS API Documentation
@@ -288,28 +262,25 @@ public interface IAwsFms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDiscoveredResourcesAsync(AwsFmsListDiscoveredResourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDiscoveredResourcesAsync(AwsFmsListDiscoveredResourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns a MemberAccounts object that lists the member accounts in the administrator's Amazon Web Services organization. Either an Firewall Manager administrator or the organization's manage- ment account can make this request. See also: AWS API Documentation list-member-accounts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query...
+    /// Returns a MemberAccounts object that lists the member accounts in the administrator's Amazon Web Services organization. Either an Firewall Manager administrator or the organization's management account can make this request. See also: AWS API Documentation list-member-accounts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query a...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListMemberAccountsAsync(AwsFmsListMemberAccountsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListMemberAccountsAsync(AwsFmsListMemberAccountsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns an array of PolicySummary objects. See also: AWS API Documentation list-policies is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: PolicyList
+    /// Returns an array of PolicySummary objects. See also: AWS API Documentation list-policies is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: PolicyList
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPoliciesAsync(AwsFmsListPoliciesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPoliciesAsync(AwsFmsListPoliciesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns an array of ProtocolsListDataSummary objects. See also: AWS API Documentation list-protocols-lists is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ProtocolsLists
@@ -318,18 +289,16 @@ public interface IAwsFms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListProtocolsListsAsync(AwsFmsListProtocolsListsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListProtocolsListsAsync(AwsFmsListProtocolsListsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns an array of resources that are currently associated to a re- source set. See also: AWS API Documentation
+    /// Returns an array of resources that are currently associated to a resource set. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListResourceSetResourcesAsync(AwsFmsListResourceSetResourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListResourceSetResourcesAsync(AwsFmsListResourceSetResourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns an array of ResourceSetSummary objects. See also: AWS API Documentation
@@ -338,38 +307,34 @@ public interface IAwsFms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListResourceSetsAsync(AwsFmsListResourceSetsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListResourceSetsAsync(AwsFmsListResourceSetsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves the list of tags for the specified Amazon Web Services re- source. See also: AWS API Documentation
+    /// Retrieves the list of tags for the specified Amazon Web Services resource. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsFmsListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsFmsListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves a list of all of the third-party firewall policies that are associated with the third-party firewall administrator's account. See also: AWS API Documentation list-third-party-firewall-firewall-policies is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extra...
+    /// Retrieves a list of all of the third-party firewall policies that are associated with the third-party firewall administrator's account. See also: AWS API Documentation list-third-party-firewall-firewall-policies is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListThirdPartyFirewallFirewallPoliciesAsync(AwsFmsListThirdPartyFirewallFirewallPoliciesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListThirdPartyFirewallFirewallPoliciesAsync(AwsFmsListThirdPartyFirewallFirewallPoliciesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates or updates an Firewall Manager administrator account. The ac- count must be a member of the organization that was onboarded to Fire- wall Manager by AssociateAdminAccount . Only the organization's man- agement account can create an Firewall Manager administrator account. When you create an Firewall Manager administrator account, the service checks to see if the account is already a delegated administrator within Organizations. If the account isn't a delegated administrator, Firewall Mana...
+    /// Creates or updates an Firewall Manager administrator account. The account must be a member of the organization that was onboarded to Firewall Manager by AssociateAdminAccount . Only the organization's management account can create an Firewall Manager administrator account. When you create an Firewall Manager administrator account, the service checks to see if the account is already a delegated administrator within Organizations. If the account isn't a delegated administrator, Firewall Manager ca...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutAdminAccountAsync(AwsFmsPutAdminAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutAdminAccountAsync(AwsFmsPutAdminAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an Firewall Manager applications list. See also: AWS API Documentation
@@ -378,28 +343,25 @@ public interface IAwsFms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutAppsListAsync(AwsFmsPutAppsListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutAppsListAsync(AwsFmsPutAppsListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Designates the IAM role and Amazon Simple Notification Service (SNS) topic that Firewall Manager uses to record SNS logs. To perform this action outside of the console, you must first configure the SNS topic's access policy to allow the SnsRoleName to publish SNS logs. If the SnsRoleName provided is a role other than the AWSSer- viceRoleForFMS service-linked role, this role must have a trust rela- tionship configured to allow the Firewall Manager service principal fms.amazonaws.com to assume thi...
+    /// Designates the IAM role and Amazon Simple Notification Service (SNS) topic that Firewall Manager uses to record SNS logs. To perform this action outside of the console, you must first configure the SNS topic's access policy to allow the SnsRoleName to publish SNS logs. If the SnsRoleName provided is a role other than the AWSServiceRoleForFMS service-linked role, this role must have a trust relationship configured to allow the Firewall Manager service principal fms.amazonaws.com to assume this ro...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutNotificationChannelAsync(AwsFmsPutNotificationChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutNotificationChannelAsync(AwsFmsPutNotificationChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates an Firewall Manager policy. A Firewall Manager policy is specific to the individual policy type. If you want to enforce multiple policy types across accounts, you can cre- ate multiple policies. You can create more than one policy for each type. If you add a new account to an organization that you created with Orga- nizations, Firewall Manager automatically applies the policy to the re- sources in that account that are within scope of the policy. Firewall Manager provides the following t...
+    /// Creates an Firewall Manager policy. A Firewall Manager policy is specific to the individual policy type. If you want to enforce multiple policy types across accounts, you can create multiple policies. You can create more than one policy for each type. If you add a new account to an organization that you created with Organizations, Firewall Manager automatically applies the policy to the resources in that account that are within scope of the policy. Firewall Manager provides the following types o...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutPolicyAsync(AwsFmsPutPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutPolicyAsync(AwsFmsPutPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an Firewall Manager protocols list. See also: AWS API Documentation
@@ -408,8 +370,7 @@ public interface IAwsFms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutProtocolsListAsync(AwsFmsPutProtocolsListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutProtocolsListAsync(AwsFmsPutProtocolsListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates the resource set. An Firewall Manager resource set defines the resources to import into an Firewall Manager policy from another Amazon Web Services service. See also: AWS API Documentation
@@ -418,8 +379,7 @@ public interface IAwsFms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutResourceSetAsync(AwsFmsPutResourceSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutResourceSetAsync(AwsFmsPutResourceSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds one or more tags to an Amazon Web Services resource. See also: AWS API Documentation
@@ -428,8 +388,7 @@ public interface IAwsFms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsFmsTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsFmsTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes one or more tags from an Amazon Web Services resource. See also: AWS API Documentation
@@ -438,7 +397,6 @@ public interface IAwsFms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsFmsUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsFmsUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

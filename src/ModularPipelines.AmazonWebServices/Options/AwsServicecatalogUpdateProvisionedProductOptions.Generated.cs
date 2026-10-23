@@ -23,79 +23,79 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsServicecatalogUpdateProvisionedProductOptions : AwsOptions
 {
     /// <summary>
-    /// The language code. o jp - Japanese o zh - Chinese Constraints: o max: 100
+    /// The language code. • jp - Japanese • zh - Chinese Constraints: • max: 100
     /// </summary>
     [CliOption("--accept-language")]
     public string? AcceptLanguage { get; set; }
 
     /// <summary>
-    /// The name of the provisioned product. You cannot specify both Provi- sionedProductName and ProvisionedProductId . Constraints: o min: 1 o max: 1224 o pattern: [a-zA-Z0-9][a-zA-Z0-9._-]{0,127}|arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
+    /// The name of the provisioned product. You cannot specify both ProvisionedProductName and ProvisionedProductId . Constraints: • min: 1 • max: 1224 • pattern: [a-zA-Z0-9][a-zA-Z0-9._-]{0,127}|arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
     /// </summary>
     [CliOption("--provisioned-product-name")]
     public string? ProvisionedProductName { get; set; }
 
     /// <summary>
-    /// The identifier of the provisioned product. You must provide the name or ID, but not both. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// The identifier of the provisioned product. You must provide the name or ID, but not both. Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*
     /// </summary>
     [CliOption("--provisioned-product-id")]
     public string? ProvisionedProductId { get; set; }
 
     /// <summary>
-    /// The identifier of the product. You must provide the name or ID, but not both. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// The identifier of the product. You must provide the name or ID, but not both. Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*
     /// </summary>
     [CliOption("--product-id")]
     public string? ProductId { get; set; }
 
     /// <summary>
-    /// The name of the product. You must provide the name or ID, but not both. Constraints: o max: 8191
+    /// The name of the product. You must provide the name or ID, but not both. Constraints: • max: 8191
     /// </summary>
     [CliOption("--product-name")]
     public string? ProductName { get; set; }
 
     /// <summary>
-    /// The identifier of the provisioning artifact. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// The identifier of the provisioning artifact. Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*
     /// </summary>
     [CliOption("--provisioning-artifact-id")]
     public string? ProvisioningArtifactId { get; set; }
 
     /// <summary>
-    /// The name of the provisioning artifact. You must provide the name or ID, but not both. Constraints: o max: 8192
+    /// The name of the provisioning artifact. You must provide the name or ID, but not both. Constraints: • max: 8192
     /// </summary>
     [CliOption("--provisioning-artifact-name")]
     public string? ProvisioningArtifactName { get; set; }
 
     /// <summary>
-    /// The path identifier. This value is optional if the product has a de- fault path, and required if the product has more than one path. You must provide the name or ID, but not both. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// The path identifier. This value is optional if the product has a default path, and required if the product has more than one path. You must provide the name or ID, but not both. Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*
     /// </summary>
     [CliOption("--path-id")]
     public string? PathId { get; set; }
 
     /// <summary>
-    /// The name of the path. You must provide the name or ID, but not both. Constraints: o min: 1 o max: 100
+    /// The name of the path. You must provide the name or ID, but not both. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--path-name")]
     public string? PathName { get; set; }
 
     /// <summary>
-    /// The new parameters. (structure) The parameter key-value pair used to update a provisioned prod- uct. Key -&gt; (string) The parameter key. Constraints: o min: 1 o max: 1000 Value -&gt; (string) The parameter value. Constraints: o max: 4096 UsePreviousValue -&gt; (boolean) If set to true, Value is ignored and the previous parameter value is kept. Shorthand Syntax: Key=string,Value=string,UsePreviousValue=boolean ... JSON Syntax: [ { "Key": "string", "Value": "string", "UsePreviousValue": true|false } ... ]
+    /// The new parameters. (structure) The parameter key-value pair used to update a provisioned product. Key -&gt; (string) The parameter key. Constraints: • min: 1 • max: 1000 Value -&gt; (string) The parameter value. Constraints: • max: 4096 UsePreviousValue -&gt; (boolean) If set to true, Value is ignored and the previous parameter value is kept. Shorthand Syntax: Key=string,Value=string,UsePreviousValue=boolean ... JSON Syntax: [ { "Key": "string", "Value": "string", "UsePreviousValue": true|false } ... ]
     /// </summary>
     [CliOption("--provisioning-parameters", GroupValues = true)]
     public IEnumerable<string>? ProvisioningParameters { get; set; }
 
     /// <summary>
-    /// An object that contains information about the provisioning prefer- ences for a stack set. StackSetAccounts -&gt; (list) One or more Amazon Web Services accounts that will have access to the provisioned product. Applicable only to a CFN_STACKSET provisioned product type. The Amazon Web Services accounts specified should be within the list of accounts in the STACKSET constraint. To get the list of accounts in the STACKSET constraint, use the DescribeProvision- ingParameters operation. If no values are specified, the default value is all accounts from the STACKSET constraint. (string) Constraints: o pattern: ^[0-9]{12}$ StackSetRegions -&gt; (list) One or more Amazon Web Services Regions where the provisioned product will be available. Applicable only to a CFN_STACKSET provisioned product type. The specified Regions should be within the list of Regions from the STACKSET constraint. To get the list of Regions in the STACKSET constraint, use the DescribeProvisioningParameters op- eration. If no values are specified, the default value is all Regions from the STACKSET constraint. (string) StackSetFailureToleranceCount -&gt; (integer) The number of accounts, per Region, for which this operation can fail before Service Catalog stops the operation in that Region. If the operation is stopped in a Region, Service Catalog doesn't attempt the operation in any subsequent Regions. Applicable only to a CFN_STACKSET provisioned product type. Conditional: You must specify either StackSetFailureTolerance- Count or StackSetFailureTolerancePercentage , but not both. The default value is 0 if no value is specified. Constraints: o min: 0 StackSetFailureTolerancePercentage -&gt; (integer) The percentage of accounts, per Region, for which this stack op- eration can fail before Service Catalog stops the operation in that Region. If the operation is stopped in a Region, Service Catalog doesn't attempt the operation in any subsequent Regions. When calculating the number of accounts based on the specified percentage, Service Catalog rounds down to the next whole num- ber. Applicable only to a CFN_STACKSET provisioned product type. Conditional: You must specify either StackSetFailureTolerance- Count or StackSetFailureTolerancePercentage , but not both. Constraints: o min: 0 o max: 100 StackSetMaxConcurrencyCount -&gt; (integer) The maximum number of accounts in which to perform this opera- tion at one time. This is dependent on the value of StackSet- FailureToleranceCount . StackSetMaxConcurrentCount is at most one more than the StackSetFailureToleranceCount . Note that this setting lets you specify the maximum for opera- tions. For large deployments, under certain circumstances the actual number of accounts acted upon concurrently may be lower due to service throttling. Applicable only to a CFN_STACKSET provisioned product type. Conditional: You must specify either StackSetMaxConcurrentCount or StackSetMaxConcurrentPercentage , but not both. Constraints: o min: 1 StackSetMaxConcurrencyPercentage -&gt; (integer) The maximum percentage of accounts in which to perform this op- eration at one time. When calculating the number of accounts based on the specified percentage, Service Catalog rounds down to the next whole num- ber. This is true except in cases where rounding down would re- sult is zero. In this case, Service Catalog sets the number as 1 instead. Note that this setting lets you specify the maximum for opera- tions. For large deployments, under certain circumstances the actual number of accounts acted upon concurrently may be lower due to service throttling. Applicable only to a CFN_STACKSET provisioned product type. Conditional: You must specify either StackSetMaxConcurrentCount or StackSetMaxConcurrentPercentage , but not both. Constraints: o min: 1 o max: 100 StackSetOperationType -&gt; (string) Determines what action Service Catalog performs to a stack set or a stack instance represented by the provisioned product. The default value is UPDATE if nothing is specified. Applicable only to a CFN_STACKSET provisioned product type. CREATE Creates a new stack instance in the stack set represented by the provisioned product. In this case, only new stack instances are created based on accounts and Regions; if new ProductId or Pro- visioningArtifactID are passed, they will be ignored. UPDATE Updates the stack set represented by the provisioned product and also its stack instances. DELETE Deletes a stack instance in the stack set represented by the provisioned product. Possible values: o CREATE o UPDATE o DELETE Shorthand Syntax: StackSetAccounts=string,string,StackSetRegions=string,string,StackSetFailureToleranceCount=integer,StackSetFailureTolerancePercentage=integer,StackSetMaxConcurrencyCount=integer,StackSetMaxConcurrencyPercentage=integer,StackSetOperationType=string JSON Syntax: { "StackSetAccounts": ["string", ...], "StackSetRegions": ["string", ...], "StackSetFailureToleranceCount": integer, "StackSetFailureTolerancePercentage": integer, "StackSetMaxConcurrencyCount": integer, "StackSetMaxConcurrencyPercentage": integer, "StackSetOperationType": "CREATE"|"UPDATE"|"DELETE" }
+    /// An object that contains information about the provisioning preferences for a stack set. StackSetAccounts -&gt; (list) One or more Amazon Web Services accounts that will have access to the provisioned product. Applicable only to a CFN_STACKSET provisioned product type. The Amazon Web Services accounts specified should be within the list of accounts in the STACKSET constraint. To get the list of accounts in the STACKSET constraint, use the DescribeProvisioningParameters operation. If no values are specified, the default value is all accounts from the STACKSET constraint. (string) Constraints: • pattern: ^[0-9]{12}$ StackSetRegions -&gt; (list) One or more Amazon Web Services Regions where the provisioned product will be available. Applicable only to a CFN_STACKSET provisioned product type. The specified Regions should be within the list of Regions from the STACKSET constraint. To get the list of Regions in the STACKSET constraint, use the DescribeProvisioningParameters operation. If no values are specified, the default value is all Regions from the STACKSET constraint. (string) StackSetFailureToleranceCount -&gt; (integer) The number of accounts, per Region, for which this operation can fail before Service Catalog stops the operation in that Region. If the operation is stopped in a Region, Service Catalog doesn't attempt the operation in any subsequent Regions. Applicable only to a CFN_STACKSET provisioned product type. Conditional: You must specify either StackSetFailureToleranceCount or StackSetFailureTolerancePercentage , but not both. The default value is 0 if no value is specified. Constraints: • min: 0 StackSetFailureTolerancePercentage -&gt; (integer) The percentage of accounts, per Region, for which this stack operation can fail before Service Catalog stops the operation in that Region. If the operation is stopped in a Region, Service Catalog doesn't attempt the operation in any subsequent Regions. When calculating the number of accounts based on the specified percentage, Service Catalog rounds down to the next whole number. Applicable only to a CFN_STACKSET provisioned product type. Conditional: You must specify either StackSetFailureToleranceCount or StackSetFailureTolerancePercentage , but not both. Constraints: • min: 0 • max: 100 StackSetMaxConcurrencyCount -&gt; (integer) The maximum number of accounts in which to perform this operation at one time. This is dependent on the value of StackSetFailureToleranceCount . StackSetMaxConcurrentCount is at most one more than the StackSetFailureToleranceCount . Note that this setting lets you specify the maximum for operations. For large deployments, under certain circumstances the actual number of accounts acted upon concurrently may be lower due to service throttling. Applicable only to a CFN_STACKSET provisioned product type. Conditional: You must specify either StackSetMaxConcurrentCount or StackSetMaxConcurrentPercentage , but not both. Constraints: • min: 1 StackSetMaxConcurrencyPercentage -&gt; (integer) The maximum percentage of accounts in which to perform this operation at one time. When calculating the number of accounts based on the specified percentage, Service Catalog rounds down to the next whole number. This is true except in cases where rounding down would result is zero. In this case, Service Catalog sets the number as 1 instead. Note that this setting lets you specify the maximum for operations. For large deployments, under certain circumstances the actual number of accounts acted upon concurrently may be lower due to service throttling. Applicable only to a CFN_STACKSET provisioned product type. Conditional: You must specify either StackSetMaxConcurrentCount or StackSetMaxConcurrentPercentage , but not both. Constraints: • min: 1 • max: 100 StackSetOperationType -&gt; (string) Determines what action Service Catalog performs to a stack set or a stack instance represented by the provisioned product. The default value is UPDATE if nothing is specified. Applicable only to a CFN_STACKSET provisioned product type. CREATE Creates a new stack instance in the stack set represented by the provisioned product. In this case, only new stack instances are created based on accounts and Regions; if new ProductId or ProvisioningArtifactID are passed, they will be ignored. UPDATE Updates the stack set represented by the provisioned product and also its stack instances. DELETE Deletes a stack instance in the stack set represented by the provisioned product. Possible values: • CREATE • UPDATE • DELETE Shorthand Syntax: StackSetAccounts=string,string,StackSetRegions=string,string,StackSetFailureToleranceCount=integer,StackSetFailureTolerancePercentage=integer,StackSetMaxConcurrencyCount=integer,StackSetMaxConcurrencyPercentage=integer,StackSetOperationType=string JSON Syntax: { "StackSetAccounts": ["string", ...], "StackSetRegions": ["string", ...], "StackSetFailureToleranceCount": integer, "StackSetFailureTolerancePercentage": integer, "StackSetMaxConcurrencyCount": integer, "StackSetMaxConcurrencyPercentage": integer, "StackSetOperationType": "CREATE"|"UPDATE"|"DELETE" }
     /// </summary>
     [CliOption("--provisioning-preferences")]
     public string? ProvisioningPreferences { get; set; }
 
     /// <summary>
-    /// One or more tags. Requires the product to have RESOURCE_UPDATE con- straint with TagUpdatesOnProvisionedProduct set to ALLOWED to allow tag updates. Constraints: o max: 50 (structure) Information about a tag. A tag is a key-value pair. Tags are propagated to the resources created when provisioning a product. Key -&gt; (string) [required] The tag key. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The value for this key. Constraints: o min: 1 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// One or more tags. Requires the product to have RESOURCE_UPDATE constraint with TagUpdatesOnProvisionedProduct set to ALLOWED to allow tag updates. Constraints: • max: 50 (structure) Information about a tag. A tag is a key-value pair. Tags are propagated to the resources created when provisioning a product. Key -&gt; (string) [required] The tag key. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The value for this key. Constraints: • min: 1 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// The idempotency token that uniquely identifies the provisioning up- date request. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
+    /// The idempotency token that uniquely identifies the provisioning update request. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
     /// </summary>
     [SecretValue]
     [CliOption("--update-token")]
@@ -106,5 +106,14 @@ public record AwsServicecatalogUpdateProvisionedProductOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

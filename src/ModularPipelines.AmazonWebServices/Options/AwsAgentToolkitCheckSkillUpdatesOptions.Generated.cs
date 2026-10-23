@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Check installed AWS skills for available updates. Lists the version currently on disk alongside the latest version available. Only skills with an update available are listed, pass --all to list every installed skill. Nothing is downloaded or modified, run aws agent-toolkit up- date-skill to apply an update. By default it checks skills for all de- tected agents, use --agent to check only a specific tool.
+/// Check installed AWS skills for available updates. Lists the version currently on disk alongside the latest version available. Only skills with an update available are listed, pass --all to list every installed skill. Nothing is downloaded or modified, run aws agent-toolkit update-skill to apply an update. By default it checks skills for all detected agents, use --agent to check only a specific tool.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,5 +26,14 @@ public record AwsAgentToolkitCheckSkillUpdatesOptions : AwsOptions
 
     [CliOption("--agent")]
     public string? Agent { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

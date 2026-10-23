@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a model. You can delete models and model versions in Amazon Fraud Detector, pro- vided that they are not associated with a detector version. When you delete a model, Amazon Fraud Detector permanently deletes that model and the data is no longer stored in Amazon Fraud Detector. See also: AWS API Documentation
+/// Deletes a model. You can delete models and model versions in Amazon Fraud Detector, provided that they are not associated with a detector version. When you delete a model, Amazon Fraud Detector permanently deletes that model and the data is no longer stored in Amazon Fraud Detector. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsFrauddetectorDeleteModelOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a model. You can delete models and model versions in Amazon Fraud Detector, pro- vided that they are not associated with a detector version. When you delete a model, Amazon Fraud Detector permanently deletes that model and the data is no longer stored in Amazon Fraud Detector. See also: AWS API Documentation
+    /// Deletes a model. You can delete models and model versions in Amazon Fraud Detector, provided that they are not associated with a detector version. When you delete a model, Amazon Fraud Detector permanently deletes that model and the data is no longer stored in Amazon Fraud Detector. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ModelId">The model ID of the model to delete. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_]+$</param>
-    /// <param name="ModelType">The model type of the model to delete. Possible values: o ONLINE_FRAUD_INSIGHTS o TRANSACTION_FRAUD_INSIGHTS o ACCOUNT_TAKEOVER_INSIGHTS</param>
+    /// <param name="ModelId">The model ID of the model to delete. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_]+$</param>
+    /// <param name="ModelType">The model type of the model to delete. Possible values: • ONLINE_FRAUD_INSIGHTS • TRANSACTION_FRAUD_INSIGHTS • ACCOUNT_TAKEOVER_INSIGHTS</param>
     public AwsFrauddetectorDeleteModelOptions(
         string ModelId,
         AwsFrauddetectorDeleteModelModelType ModelType
@@ -60,13 +61,13 @@ public record AwsFrauddetectorDeleteModelOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The model ID of the model to delete. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_]+$
+    /// The model ID of the model to delete. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_]+$
     /// </summary>
     [CliOption("--model-id")]
     public string? ModelId { get; private init; }
 
     /// <summary>
-    /// The model type of the model to delete. Possible values: o ONLINE_FRAUD_INSIGHTS o TRANSACTION_FRAUD_INSIGHTS o ACCOUNT_TAKEOVER_INSIGHTS
+    /// The model type of the model to delete. Possible values: • ONLINE_FRAUD_INSIGHTS • TRANSACTION_FRAUD_INSIGHTS • ACCOUNT_TAKEOVER_INSIGHTS
     /// </summary>
     [CliOption("--model-type")]
     public AwsFrauddetectorDeleteModelModelType? ModelType { get; private init; }
@@ -92,6 +93,15 @@ public record AwsFrauddetectorDeleteModelOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

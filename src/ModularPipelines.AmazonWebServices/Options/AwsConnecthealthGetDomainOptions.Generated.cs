@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsConnecthealthGetDomainOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Retrieves information about a Domain. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainId">The id of the Domain to get Constraints: o min: 20 o max: 25 o pattern: (hai-|dom-)[a-z0-9]+</param>
+    /// <param name="DomainId">The id of the Domain to get Constraints: • min: 20 • max: 25 • pattern: (hai-|dom-)[a-z0-9]+</param>
     public AwsConnecthealthGetDomainOptions(
         string DomainId
     )
@@ -56,7 +57,7 @@ public record AwsConnecthealthGetDomainOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The id of the Domain to get Constraints: o min: 20 o max: 25 o pattern: (hai-|dom-)[a-z0-9]+
+    /// The id of the Domain to get Constraints: • min: 20 • max: 25 • pattern: (hai-|dom-)[a-z0-9]+
     /// </summary>
     [CliOption("--domain-id")]
     public string? DomainId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsConnecthealthGetDomainOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

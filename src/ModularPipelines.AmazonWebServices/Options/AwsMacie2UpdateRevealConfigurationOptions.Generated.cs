@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the status and configuration settings for retrieving occur- rences of sensitive data reported by findings. See also: AWS API Documentation
+/// Updates the status and configuration settings for retrieving occurrences of sensitive data reported by findings. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsMacie2UpdateRevealConfigurationOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the status and configuration settings for retrieving occur- rences of sensitive data reported by findings. See also: AWS API Documentation
+    /// Updates the status and configuration settings for retrieving occurrences of sensitive data reported by findings. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Configuration">The KMS key to use to encrypt the sensitive data, and the status of the configuration for the Amazon Macie account. kmsKeyId -&gt; (string) The Amazon Resource Name (ARN), ID, or alias of the KMS key to use to encrypt sensitive data that's retrieved. The key must be an existing, customer managed, symmetric encryption key that's enabled in the same Amazon Web Services Region as the Amazon Ma- cie account. If this value specifies an alias, it must include the following prefix: alias/. If this value specifies a key that's owned by another Amazon Web Services account, it must specify the ARN of the key or the ARN of the key's alias. Constraints: o min: 1 o max: 2048 status -&gt; (string) [required] The status of the configuration for the Amazon Macie account. In a response, possible values are: ENABLED, the configuration is currently enabled for the account; and, DISABLED, the configura- tion is currently disabled for the account. In a request, valid values are: ENABLED, enable the configuration for the account; and, DISABLED, disable the configuration for the account. WARNING: If you disable the configuration, you also permanently delete current settings that specify how to access affected S3 ob- jects. If your current access method is ASSUME_ROLE, Macie also deletes the external ID and role name currently speci- fied for the configuration. These settings can't be recovered after they're deleted. Possible values: o ENABLED o DISABLED Shorthand Syntax: kmsKeyId=string,status=string JSON Syntax: { "kmsKeyId": "string", "status": "ENABLED"|"DISABLED" }</param>
+    /// <param name="Configuration">The KMS key to use to encrypt the sensitive data, and the status of the configuration for the Amazon Macie account. kmsKeyId -&gt; (string) The Amazon Resource Name (ARN), ID, or alias of the KMS key to use to encrypt sensitive data that's retrieved. The key must be an existing, customer managed, symmetric encryption key that's enabled in the same Amazon Web Services Region as the Amazon Macie account. If this value specifies an alias, it must include the following prefix: alias/. If this value specifies a key that's owned by another Amazon Web Services account, it must specify the ARN of the key or the ARN of the key's alias. Constraints: • min: 1 • max: 2048 status -&gt; (string) [required] The status of the configuration for the Amazon Macie account. In a response, possible values are: ENABLED, the configuration is currently enabled for the account; and, DISABLED, the configuration is currently disabled for the account. In a request, valid values are: ENABLED, enable the configuration for the account; and, DISABLED, disable the configuration for the account. WARNING: If you disable the configuration, you also permanently delete current settings that specify how to access affected S3 objects. If your current access method is ASSUME_ROLE, Macie also deletes the external ID and role name currently specified for the configuration. These settings can't be recovered after they're deleted. Possible values: • ENABLED • DISABLED Shorthand Syntax: kmsKeyId=string,status=string JSON Syntax: { "kmsKeyId": "string", "status": "ENABLED"|"DISABLED" }</param>
     public AwsMacie2UpdateRevealConfigurationOptions(
         string Configuration
     )
@@ -56,13 +57,13 @@ public record AwsMacie2UpdateRevealConfigurationOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The KMS key to use to encrypt the sensitive data, and the status of the configuration for the Amazon Macie account. kmsKeyId -&gt; (string) The Amazon Resource Name (ARN), ID, or alias of the KMS key to use to encrypt sensitive data that's retrieved. The key must be an existing, customer managed, symmetric encryption key that's enabled in the same Amazon Web Services Region as the Amazon Ma- cie account. If this value specifies an alias, it must include the following prefix: alias/. If this value specifies a key that's owned by another Amazon Web Services account, it must specify the ARN of the key or the ARN of the key's alias. Constraints: o min: 1 o max: 2048 status -&gt; (string) [required] The status of the configuration for the Amazon Macie account. In a response, possible values are: ENABLED, the configuration is currently enabled for the account; and, DISABLED, the configura- tion is currently disabled for the account. In a request, valid values are: ENABLED, enable the configuration for the account; and, DISABLED, disable the configuration for the account. WARNING: If you disable the configuration, you also permanently delete current settings that specify how to access affected S3 ob- jects. If your current access method is ASSUME_ROLE, Macie also deletes the external ID and role name currently speci- fied for the configuration. These settings can't be recovered after they're deleted. Possible values: o ENABLED o DISABLED Shorthand Syntax: kmsKeyId=string,status=string JSON Syntax: { "kmsKeyId": "string", "status": "ENABLED"|"DISABLED" }
+    /// The KMS key to use to encrypt the sensitive data, and the status of the configuration for the Amazon Macie account. kmsKeyId -&gt; (string) The Amazon Resource Name (ARN), ID, or alias of the KMS key to use to encrypt sensitive data that's retrieved. The key must be an existing, customer managed, symmetric encryption key that's enabled in the same Amazon Web Services Region as the Amazon Macie account. If this value specifies an alias, it must include the following prefix: alias/. If this value specifies a key that's owned by another Amazon Web Services account, it must specify the ARN of the key or the ARN of the key's alias. Constraints: • min: 1 • max: 2048 status -&gt; (string) [required] The status of the configuration for the Amazon Macie account. In a response, possible values are: ENABLED, the configuration is currently enabled for the account; and, DISABLED, the configuration is currently disabled for the account. In a request, valid values are: ENABLED, enable the configuration for the account; and, DISABLED, disable the configuration for the account. WARNING: If you disable the configuration, you also permanently delete current settings that specify how to access affected S3 objects. If your current access method is ASSUME_ROLE, Macie also deletes the external ID and role name currently specified for the configuration. These settings can't be recovered after they're deleted. Possible values: • ENABLED • DISABLED Shorthand Syntax: kmsKeyId=string,status=string JSON Syntax: { "kmsKeyId": "string", "status": "ENABLED"|"DISABLED" }
     /// </summary>
     [CliOption("--configuration")]
     public string? Configuration { get; private init; }
 
     /// <summary>
-    /// The access method and settings to use when retrieving the sensitive data. retrievalMode -&gt; (string) [required] The access method to use when retrieving sensitive data from af- fected S3 objects. Valid values are: ASSUME_ROLE, assume an IAM role that is in the affected Amazon Web Services account and delegates access to Amazon Macie; and, CALLER_CREDENTIALS, use the credentials of the IAM user who requests the sensitive data. If you specify ASSUME_ROLE, also specify the name of an existing IAM role for Macie to assume (roleName). WARNING: If you change this value from ASSUME_ROLE to CALLER_CREDEN- TIALS for an existing configuration, Macie permanently deletes the external ID and role name currently specified for the configuration. These settings can't be recovered after they're deleted. Possible values: o CALLER_CREDENTIALS o ASSUME_ROLE roleName -&gt; (string) The name of the IAM role that is in the affected Amazon Web Ser- vices account and Amazon Macie is allowed to assume when re- trieving sensitive data from affected S3 objects for the ac- count. The trust and permissions policies for the role must meet all requirements for Macie to assume the role. Constraints: o min: 1 o max: 64 o pattern: ^[\w+=,.@-]*$ Shorthand Syntax: retrievalMode=string,roleName=string JSON Syntax: { "retrievalMode": "CALLER_CREDENTIALS"|"ASSUME_ROLE", "roleName": "string" }
+    /// The access method and settings to use when retrieving the sensitive data. retrievalMode -&gt; (string) [required] The access method to use when retrieving sensitive data from affected S3 objects. Valid values are: ASSUME_ROLE, assume an IAM role that is in the affected Amazon Web Services account and delegates access to Amazon Macie; and, CALLER_CREDENTIALS, use the credentials of the IAM user who requests the sensitive data. If you specify ASSUME_ROLE, also specify the name of an existing IAM role for Macie to assume (roleName). WARNING: If you change this value from ASSUME_ROLE to CALLER_CREDENTIALS for an existing configuration, Macie permanently deletes the external ID and role name currently specified for the configuration. These settings can't be recovered after they're deleted. Possible values: • CALLER_CREDENTIALS • ASSUME_ROLE roleName -&gt; (string) The name of the IAM role that is in the affected Amazon Web Services account and Amazon Macie is allowed to assume when retrieving sensitive data from affected S3 objects for the account. The trust and permissions policies for the role must meet all requirements for Macie to assume the role. Constraints: • min: 1 • max: 64 • pattern: ^[\w+=,.@-]*$ Shorthand Syntax: retrievalMode=string,roleName=string JSON Syntax: { "retrievalMode": "CALLER_CREDENTIALS"|"ASSUME_ROLE", "roleName": "string" }
     /// </summary>
     [CliOption("--retrieval-configuration")]
     public string? RetrievalConfiguration { get; set; }
@@ -88,6 +89,15 @@ public record AwsMacie2UpdateRevealConfigurationOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

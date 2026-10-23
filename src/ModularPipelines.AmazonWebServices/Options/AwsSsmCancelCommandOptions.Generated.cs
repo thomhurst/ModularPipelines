@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsSsmCancelCommandOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Attempts to cancel the command specified by the Command ID. There is no guarantee that the command will be terminated and the underlying process stopped. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CommandId">The ID of the command you want to cancel. Constraints: o min: 36 o max: 36</param>
+    /// <param name="CommandId">The ID of the command you want to cancel. Constraints: • min: 36 • max: 36</param>
     public AwsSsmCancelCommandOptions(
         string CommandId
     )
@@ -56,13 +57,13 @@ public record AwsSsmCancelCommandOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the command you want to cancel. Constraints: o min: 36 o max: 36
+    /// The ID of the command you want to cancel. Constraints: • min: 36 • max: 36
     /// </summary>
     [CliOption("--command-id")]
     public string? CommandId { get; private init; }
 
     /// <summary>
-    /// (Optional) A list of managed node IDs on which you want to cancel the command. If not provided, the command is canceled on every node on which it was requested. Constraints: o min: 0 o max: 50 (string) Constraints: o pattern: (^i-(\w{8}|\w{17})$)|(^mi-\w{17}$) Syntax: "string" "string" ...
+    /// (Optional) A list of managed node IDs on which you want to cancel the command. If not provided, the command is canceled on every node on which it was requested. Constraints: • min: 0 • max: 50 (string) Constraints: • pattern: (^i-(\w{8}|\w{17})$)|(^mi-\w{17}$) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--instance-ids", GroupValues = true)]
     public IEnumerable<string>? InstanceIds { get; set; }
@@ -88,6 +89,15 @@ public record AwsSsmCancelCommandOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

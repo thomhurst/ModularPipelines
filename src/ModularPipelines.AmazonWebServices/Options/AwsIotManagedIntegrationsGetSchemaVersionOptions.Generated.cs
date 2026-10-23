@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets a schema version with the provided information. See also: AWS API Documentation get-schema-version uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+/// Gets a schema version with the provided information. See also: AWS API Documentation get-schema-version uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsIotManagedIntegrationsGetSchemaVersionOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets a schema version with the provided information. See also: AWS API Documentation get-schema-version uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Gets a schema version with the provided information. See also: AWS API Documentation get-schema-version uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
-    /// <param name="Type">The type of schema version. Possible values: o capability o definition</param>
-    /// <param name="SchemaVersionedId">Schema id with a version specified. If the version is missing, it defaults to latest version. Constraints: o min: 7 o max: 128 o pattern: [a-zA-Z0-9.]+@(\d+\.\d+(\.\d+)?|\$latest)</param>
+    /// <param name="Type">The type of schema version. Possible values: • capability • definition</param>
+    /// <param name="SchemaVersionedId">Schema id with a version specified. If the version is missing, it defaults to latest version. Constraints: • min: 7 • max: 128 • pattern: [a-zA-Z0-9.]+@(\d+\.\d+(\.\d+)?|\$latest)</param>
     public AwsIotManagedIntegrationsGetSchemaVersionOptions(
         AwsIotManagedIntegrationsGetSchemaVersionType Type,
         string SchemaVersionedId
@@ -60,19 +61,19 @@ public record AwsIotManagedIntegrationsGetSchemaVersionOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The type of schema version. Possible values: o capability o definition
+    /// The type of schema version. Possible values: • capability • definition
     /// </summary>
     [CliOption("--type")]
     public AwsIotManagedIntegrationsGetSchemaVersionType? Type { get; private init; }
 
     /// <summary>
-    /// Schema id with a version specified. If the version is missing, it defaults to latest version. Constraints: o min: 7 o max: 128 o pattern: [a-zA-Z0-9.]+@(\d+\.\d+(\.\d+)?|\$latest)
+    /// Schema id with a version specified. If the version is missing, it defaults to latest version. Constraints: • min: 7 • max: 128 • pattern: [a-zA-Z0-9.]+@(\d+\.\d+(\.\d+)?|\$latest)
     /// </summary>
     [CliOption("--schema-versioned-id")]
     public string? SchemaVersionedId { get; private init; }
 
     /// <summary>
-    /// The format of the schema version. Possible values: o AWS o ZCL o CONNECTOR
+    /// The format of the schema version. Possible values: • AWS • ZCL • CONNECTOR
     /// </summary>
     [CliOption("--format")]
     public AwsIotManagedIntegrationsGetSchemaVersionFormat? Format { get; set; }
@@ -98,6 +99,15 @@ public record AwsIotManagedIntegrationsGetSchemaVersionOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Begins a data ingestion job. Data sources are ingested into your knowl- edge base so that Large Language Models (LLMs) can use your data. See also: AWS API Documentation
+/// Begins a data ingestion job. Data sources are ingested into your knowledge base so that Large Language Models (LLMs) can use your data. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsBedrockAgentStartIngestionJobOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Begins a data ingestion job. Data sources are ingested into your knowl- edge base so that Large Language Models (LLMs) can use your data. See also: AWS API Documentation
+    /// Begins a data ingestion job. Data sources are ingested into your knowledge base so that Large Language Models (LLMs) can use your data. See also: AWS API Documentation
     /// </summary>
-    /// <param name="KnowledgeBaseId">The unique identifier of the knowledge base for the data ingestion job. Constraints: o pattern: [0-9a-zA-Z]{10}</param>
-    /// <param name="DataSourceId">The unique identifier of the data source you want to ingest into your knowledge base. Constraints: o pattern: [0-9a-zA-Z]{10}</param>
+    /// <param name="KnowledgeBaseId">The unique identifier of the knowledge base for the data ingestion job. Constraints: • pattern: [0-9a-zA-Z]{10}</param>
+    /// <param name="DataSourceId">The unique identifier of the data source you want to ingest into your knowledge base. Constraints: • pattern: [0-9a-zA-Z]{10}</param>
     public AwsBedrockAgentStartIngestionJobOptions(
         string KnowledgeBaseId,
         string DataSourceId
@@ -61,26 +62,26 @@ public record AwsBedrockAgentStartIngestionJobOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the knowledge base for the data ingestion job. Constraints: o pattern: [0-9a-zA-Z]{10}
+    /// The unique identifier of the knowledge base for the data ingestion job. Constraints: • pattern: [0-9a-zA-Z]{10}
     /// </summary>
     [CliOption("--knowledge-base-id")]
     public string? KnowledgeBaseId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the data source you want to ingest into your knowledge base. Constraints: o pattern: [0-9a-zA-Z]{10}
+    /// The unique identifier of the data source you want to ingest into your knowledge base. Constraints: • pattern: [0-9a-zA-Z]{10}
     /// </summary>
     [CliOption("--data-source-id")]
     public string? DataSourceId { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency . Constraints: o min: 33 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency . Constraints: • min: 33 • max: 256 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// A description of the data ingestion job. Constraints: o min: 1 o max: 200
+    /// A description of the data ingestion job. Constraints: • min: 1 • max: 200
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
@@ -106,6 +107,15 @@ public record AwsBedrockAgentStartIngestionJobOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

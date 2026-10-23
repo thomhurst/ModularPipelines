@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsAthenaUntagResourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Removes one or more tags from an Athena resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">Specifies the ARN of the resource from which tags are to be removed. Constraints: o min: 1 o max: 1011</param>
-    /// <param name="TagKeys">A comma-separated list of one or more tag keys whose tags are to be removed from the specified resource. (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArn">Specifies the ARN of the resource from which tags are to be removed. Constraints: • min: 1 • max: 1011</param>
+    /// <param name="TagKeys">A comma-separated list of one or more tag keys whose tags are to be removed from the specified resource. (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...</param>
     public AwsAthenaUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -71,13 +72,13 @@ public record AwsAthenaUntagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the ARN of the resource from which tags are to be removed. Constraints: o min: 1 o max: 1011
+    /// Specifies the ARN of the resource from which tags are to be removed. Constraints: • min: 1 • max: 1011
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// A comma-separated list of one or more tag keys whose tags are to be removed from the specified resource. (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...
+    /// A comma-separated list of one or more tag keys whose tags are to be removed from the specified resource. (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }
@@ -103,6 +104,15 @@ public record AwsAthenaUntagResourceOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

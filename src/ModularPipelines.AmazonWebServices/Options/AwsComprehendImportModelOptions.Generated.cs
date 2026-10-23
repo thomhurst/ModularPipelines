@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new custom model that replicates a source custom model that you import. The source model can be in your Amazon Web Services account or another one. If the source model is in another Amazon Web Services account, then it must have a resource-based policy that authorizes you to import it. The source model must be in the same Amazon Web Services Region that you're using when you import. You can't import a model that's in a dif- ferent Region. See also: AWS API Documentation
+/// Creates a new custom model that replicates a source custom model that you import. The source model can be in your Amazon Web Services account or another one. If the source model is in another Amazon Web Services account, then it must have a resource-based policy that authorizes you to import it. The source model must be in the same Amazon Web Services Region that you're using when you import. You can't import a model that's in a different Region. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsComprehendImportModelOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new custom model that replicates a source custom model that you import. The source model can be in your Amazon Web Services account or another one. If the source model is in another Amazon Web Services account, then it must have a resource-based policy that authorizes you to import it. The source model must be in the same Amazon Web Services Region that you're using when you import. You can't import a model that's in a dif- ferent Region. See also: AWS API Documentation
+    /// Creates a new custom model that replicates a source custom model that you import. The source model can be in your Amazon Web Services account or another one. If the source model is in another Amazon Web Services account, then it must have a resource-based policy that authorizes you to import it. The source model must be in the same Amazon Web Services Region that you're using when you import. You can't import a model that's in a different Region. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SourceModelArn">The Amazon Resource Name (ARN) of the custom model to import. Constraints: o max: 256 o pattern: arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:(doc- ument-classifier|entity-recog- nizer)/[a-zA-Z0-9](-*[a-zA-Z0-9])*(/ver- sion/[a-zA-Z0-9](-*[a-zA-Z0-9])*)?</param>
+    /// <param name="SourceModelArn">The Amazon Resource Name (ARN) of the custom model to import. Constraints: • max: 256 • pattern: arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:(document-classifier|entity-recognizer)/[a-zA-Z0-9](-*[a-zA-Z0-9])*(/version/[a-zA-Z0-9](-*[a-zA-Z0-9])*)?</param>
     public AwsComprehendImportModelOptions(
         string SourceModelArn
     )
@@ -56,37 +57,37 @@ public record AwsComprehendImportModelOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the custom model to import. Constraints: o max: 256 o pattern: arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:(doc- ument-classifier|entity-recog- nizer)/[a-zA-Z0-9](-*[a-zA-Z0-9])*(/ver- sion/[a-zA-Z0-9](-*[a-zA-Z0-9])*)?
+    /// The Amazon Resource Name (ARN) of the custom model to import. Constraints: • max: 256 • pattern: arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:(document-classifier|entity-recognizer)/[a-zA-Z0-9](-*[a-zA-Z0-9])*(/version/[a-zA-Z0-9](-*[a-zA-Z0-9])*)?
     /// </summary>
     [CliOption("--source-model-arn")]
     public string? SourceModelArn { get; private init; }
 
     /// <summary>
-    /// The name to assign to the custom model that is created in Amazon Comprehend by this import. Constraints: o max: 63 o pattern: ^[a-zA-Z0-9](-*[a-zA-Z0-9])*$
+    /// The name to assign to the custom model that is created in Amazon Comprehend by this import. Constraints: • max: 63 • pattern: ^[a-zA-Z0-9](-*[a-zA-Z0-9])*$
     /// </summary>
     [CliOption("--model-name")]
     public string? ModelName { get; set; }
 
     /// <summary>
-    /// The version name given to the custom model that is created by this import. Version names can have a maximum of 256 characters. Alphanu- meric characters, hyphens (-) and underscores (_) are allowed. The version name must be unique among all models with the same classi- fier name in the account/Region. Constraints: o max: 63 o pattern: ^[a-zA-Z0-9](-*[a-zA-Z0-9])*$
+    /// The version name given to the custom model that is created by this import. Version names can have a maximum of 256 characters. Alphanumeric characters, hyphens (-) and underscores (_) are allowed. The version name must be unique among all models with the same classifier name in the account/Region. Constraints: • max: 63 • pattern: ^[a-zA-Z0-9](-*[a-zA-Z0-9])*$
     /// </summary>
     [CliOption("--version-name")]
     public string? VersionName { get; set; }
 
     /// <summary>
-    /// ID for the KMS key that Amazon Comprehend uses to encrypt trained custom models. The ModelKmsKeyId can be either of the following for- mats: o KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab" o Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab" Constraints: o max: 2048 o pattern: ^\p{ASCII}+$
+    /// ID for the KMS key that Amazon Comprehend uses to encrypt trained custom models. The ModelKmsKeyId can be either of the following formats: • KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab" • Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab" Constraints: • max: 2048 • pattern: ^\p{ASCII}+$
     /// </summary>
     [CliOption("--model-kms-key-id")]
     public string? ModelKmsKeyId { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend permission to use Amazon Key Management Service (KMS) to encrypt or decrypt the custom model. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+
+    /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend permission to use Amazon Key Management Service (KMS) to encrypt or decrypt the custom model. Constraints: • min: 20 • max: 2048 • pattern: arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+
     /// </summary>
     [CliOption("--data-access-role-arn")]
     public string? DataAccessRoleArn { get; set; }
 
     /// <summary>
-    /// Tags to associate with the custom model that is created by this im- port. A tag is a key-value pair that adds as a metadata to a re- source used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department. (structure) A key-value pair that adds as a metadata to a resource used by Amazon Comprehend. For example, a tag with the key-value pair Department:Sales might be added to a resource to indicate its use by a particular department. Key -&gt; (string) [required] The initial part of a key-value pair that forms a tag associ- ated with a given resource. For instance, if you want to show which resources are used by which departments, you might use Department as the key portion of the pair, with multiple pos- sible values such as sales, legal, and administration. Constraints: o min: 1 o max: 128 Value -&gt; (string) The second part of a key-value pair that forms a tag associ- ated with a given resource. For instance, if you want to show which resources are used by which departments, you might use Department as the initial (key) portion of the pair, with a value of sales to indicate the sales department. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Tags to associate with the custom model that is created by this import. A tag is a key-value pair that adds as a metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department. (structure) A key-value pair that adds as a metadata to a resource used by Amazon Comprehend. For example, a tag with the key-value pair Department:Sales might be added to a resource to indicate its use by a particular department. Key -&gt; (string) [required] The initial part of a key-value pair that forms a tag associated with a given resource. For instance, if you want to show which resources are used by which departments, you might use Department as the key portion of the pair, with multiple possible values such as sales, legal, and administration. Constraints: • min: 1 • max: 128 Value -&gt; (string) The second part of a key-value pair that forms a tag associated with a given resource. For instance, if you want to show which resources are used by which departments, you might use Department as the initial (key) portion of the pair, with a value of sales to indicate the sales department. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -112,6 +113,15 @@ public record AwsComprehendImportModelOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

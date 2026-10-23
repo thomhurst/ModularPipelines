@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Provides detailed information about the rotation status for a KMS key, including whether automatic rotation of the key material is enabled for the specified KMS key, the rotation period , and the next scheduled ro- tation date. Automatic key rotation is supported only on symmetric encryption KMS keys. You cannot enable automatic rotation of asymmetric KMS keys , HMAC KMS keys , KMS keys with imported key material , or KMS keys in a custom key store . To enable or disable automatic rotation of a ...
+/// Provides detailed information about the rotation status for a KMS key, including whether automatic rotation of the key material is enabled for the specified KMS key, the rotation period , and the next scheduled rotation date. Automatic key rotation is supported only on symmetric encryption KMS keys. You cannot enable automatic rotation of asymmetric KMS keys , HMAC KMS keys , KMS keys with imported key material , or KMS keys in a custom key store . To enable or disable automatic rotation of a se...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsKmsGetKeyRotationStatusOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Provides detailed information about the rotation status for a KMS key, including whether automatic rotation of the key material is enabled for the specified KMS key, the rotation period , and the next scheduled ro- tation date. Automatic key rotation is supported only on symmetric encryption KMS keys. You cannot enable automatic rotation of asymmetric KMS keys , HMAC KMS keys , KMS keys with imported key material , or KMS keys in a custom key store . To enable or disable automatic rotation of a ...
+    /// Provides detailed information about the rotation status for a KMS key, including whether automatic rotation of the key material is enabled for the specified KMS key, the rotation period , and the next scheduled rotation date. Automatic key rotation is supported only on symmetric encryption KMS keys. You cannot enable automatic rotation of asymmetric KMS keys , HMAC KMS keys , KMS keys with imported key material , or KMS keys in a custom key store . To enable or disable automatic rotation of a se...
     /// </summary>
-    /// <param name="KeyId">Gets the rotation status for the specified KMS key. Specify the key ID or key ARN of the KMS key. To specify a KMS key in a different Amazon Web Services account, you must use the key ARN. For example: o Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab o Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab To get the key ID and key ARN for a KMS key, use ListKeys or De- scribeKey . Constraints: o min: 1 o max: 2048</param>
+    /// <param name="KeyId">Gets the rotation status for the specified KMS key. Specify the key ID or key ARN of the KMS key. To specify a KMS key in a different Amazon Web Services account, you must use the key ARN. For example: • Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab • Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey . Constraints: • min: 1 • max: 2048</param>
     public AwsKmsGetKeyRotationStatusOptions(
         string KeyId
     )
@@ -56,7 +57,7 @@ public record AwsKmsGetKeyRotationStatusOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Gets the rotation status for the specified KMS key. Specify the key ID or key ARN of the KMS key. To specify a KMS key in a different Amazon Web Services account, you must use the key ARN. For example: o Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab o Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab To get the key ID and key ARN for a KMS key, use ListKeys or De- scribeKey . Constraints: o min: 1 o max: 2048
+    /// Gets the rotation status for the specified KMS key. Specify the key ID or key ARN of the KMS key. To specify a KMS key in a different Amazon Web Services account, you must use the key ARN. For example: • Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab • Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey . Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--key-id")]
     public string? KeyId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsKmsGetKeyRotationStatusOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

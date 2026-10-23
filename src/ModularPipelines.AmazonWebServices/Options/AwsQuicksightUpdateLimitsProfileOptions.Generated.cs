@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +28,8 @@ public record AwsQuicksightUpdateLimitsProfileOptions : AwsOptions, IValidatable
     /// <summary>
     /// Updates the properties of an existing limits profile. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProfileId">The unique identifier for the limits profile to update. Constraints: o min: 1 o max: 128 o pattern: lp-[a-f0-9-]+</param>
-    /// <param name="AccountId">The ID of the Amazon Web Services account that contains the limits profile. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="ProfileId">The unique identifier for the limits profile to update. Constraints: • min: 1 • max: 128 • pattern: lp-[a-f0-9-]+</param>
+    /// <param name="AccountId">The ID of the Amazon Web Services account that contains the limits profile. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
     public AwsQuicksightUpdateLimitsProfileOptions(
         string ProfileId,
         string AccountId
@@ -61,31 +61,31 @@ public record AwsQuicksightUpdateLimitsProfileOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the limits profile to update. Constraints: o min: 1 o max: 128 o pattern: lp-[a-f0-9-]+
+    /// The unique identifier for the limits profile to update. Constraints: • min: 1 • max: 128 • pattern: lp-[a-f0-9-]+
     /// </summary>
     [CliOption("--profile-id")]
     public string? ProfileId { get; private init; }
 
     /// <summary>
-    /// The ID of the Amazon Web Services account that contains the limits profile. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID of the Amazon Web Services account that contains the limits profile. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// A new display name for the limits profile. Constraints: o min: 1 o max: 256
+    /// A new display name for the limits profile. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--profile-name")]
     public string? ProfileName { get; set; }
 
     /// <summary>
-    /// A new description for the limits profile. Constraints: o min: 0 o max: 1024
+    /// A new description for the limits profile. Constraints: • min: 0 • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// A map of resource types to their updated limit values. key -&gt; (string) The type of resource that a limit applies to. Possible values: o INDEX_STORAGE o AGENT_HOURS value -&gt; (structure) A value that defines a resource usage limit, consisting of a maximum value and a unit of measurement. maxValue -&gt; (long) [required] The maximum allowed value for the resource. Constraints: o min: 0 unit -&gt; (string) [required] The unit of measurement for the limit value. Possible values: o MB o GB o HOURS o DAYS Shorthand Syntax: KeyName1={maxValue=long,unit=string},KeyName2={maxValue=long,unit=string} Where valid key names are: INDEX_STORAGE AGENT_HOURS JSON Syntax: {"INDEX_STORAGE"|"AGENT_HOURS": { "maxValue": long, "unit": "MB"|"GB"|"HOURS"|"DAYS" } ...}
+    /// A map of resource types to their updated limit values. key -&gt; (string) The type of resource that a limit applies to. Possible values: • INDEX_STORAGE • AGENT_HOURS value -&gt; (structure) A value that defines a resource usage limit, consisting of a maximum value and a unit of measurement. maxValue -&gt; (long) [required] The maximum allowed value for the resource. Constraints: • min: 0 unit -&gt; (string) [required] The unit of measurement for the limit value. Possible values: • MB • GB • HOURS • DAYS Shorthand Syntax: KeyName1={maxValue=long,unit=string},KeyName2={maxValue=long,unit=string} Where valid key names are: INDEX_STORAGE AGENT_HOURS JSON Syntax: {"INDEX_STORAGE"|"AGENT_HOURS": { "maxValue": long, "unit": "MB"|"GB"|"HOURS"|"DAYS" } ...}
     /// </summary>
     [CliOption("--resource-limits", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ResourceLimits { get; set; }
@@ -111,6 +111,15 @@ public record AwsQuicksightUpdateLimitsProfileOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

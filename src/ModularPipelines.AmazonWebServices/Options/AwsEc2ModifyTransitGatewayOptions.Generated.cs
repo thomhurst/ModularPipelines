@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modifies the specified transit gateway. When you modify a transit gate- way, the modified options are applied to new transit gateway attach- ments only. Your existing transit gateway attachments are not modified. See also: AWS API Documentation
+/// Modifies the specified transit gateway. When you modify a transit gateway, the modified options are applied to new transit gateway attachments only. Your existing transit gateway attachments are not modified. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsEc2ModifyTransitGatewayOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Modifies the specified transit gateway. When you modify a transit gate- way, the modified options are applied to new transit gateway attach- ments only. Your existing transit gateway attachments are not modified. See also: AWS API Documentation
+    /// Modifies the specified transit gateway. When you modify a transit gateway, the modified options are applied to new transit gateway attachments only. Your existing transit gateway attachments are not modified. See also: AWS API Documentation
     /// </summary>
     /// <param name="TransitGatewayId">The ID of the transit gateway.</param>
     public AwsEc2ModifyTransitGatewayOptions(
@@ -68,13 +69,13 @@ public record AwsEc2ModifyTransitGatewayOptions : AwsOptions, IValidatableObject
     public string? Description { get; set; }
 
     /// <summary>
-    /// The options to modify. AddTransitGatewayCidrBlocks -&gt; (list) Adds IPv4 or IPv6 CIDR blocks for the transit gateway. Must be a size /24 CIDR block or larger for IPv4, or a size /64 CIDR block or larger for IPv6. (string) RemoveTransitGatewayCidrBlocks -&gt; (list) Removes CIDR blocks for the transit gateway. (string) VpnEcmpSupport -&gt; (string) Enable or disable Equal Cost Multipath Protocol support. Possible values: o enable o disable DnsSupport -&gt; (string) Enable or disable DNS support. Possible values: o enable o disable SecurityGroupReferencingSupport -&gt; (string) Enables you to reference a security group across VPCs attached to a transit gateway to simplify security group management. This option is disabled by default. For more information about security group referencing, see Security group referencing in the Amazon Web Services Transit Gateways Guide . Possible values: o enable o disable AutoAcceptSharedAttachments -&gt; (string) Enable or disable automatic acceptance of attachment requests. Possible values: o enable o disable DefaultRouteTableAssociation -&gt; (string) Enable or disable automatic association with the default associ- ation route table. Possible values: o enable o disable AssociationDefaultRouteTableId -&gt; (string) The ID of the default association route table. DefaultRouteTablePropagation -&gt; (string) Indicates whether resource attachments automatically propagate routes to the default propagation route table. Enabled by de- fault. If defaultRouteTablePropagation is set to enable , Amazon Web Services Transit Gateway will create the default transit gateway route table. Possible values: o enable o disable PropagationDefaultRouteTableId -&gt; (string) The ID of the default propagation route table. AmazonSideAsn -&gt; (long) A private Autonomous System Number (ASN) for the Amazon side of a BGP session. The range is 64512 to 65534 for 16-bit ASNs and 4200000000 to 4294967294 for 32-bit ASNs. The modify ASN operation is not allowed on a transit gateway if it has the following attachments: o Dynamic VPN o Static VPN o Direct Connect Gateway o Connect o VPN Concentrator o Client VPN You must first delete all transit gateway attachments configured prior to modifying the ASN on the transit gateway. EncryptionSupport -&gt; (string) Enable or disable encryption support for VPC Encryption Control. Possible values: o enable o disable Shorthand Syntax: AddTransitGatewayCidrBlocks=string,string,RemoveTransitGatewayCidrBlocks=string,string,VpnEcmpSupport=string,DnsSupport=string,SecurityGroupReferencingSupport=string,AutoAcceptSharedAttachments=string,DefaultRouteTableAssociation=string,AssociationDefaultRouteTableId=string,DefaultRouteTablePropagation=string,PropagationDefaultRouteTableId=string,AmazonSideAsn=long,EncryptionSupport=string JSON Syntax: { "AddTransitGatewayCidrBlocks": ["string", ...], "RemoveTransitGatewayCidrBlocks": ["string", ...], "VpnEcmpSupport": "enable"|"disable", "DnsSupport": "enable"|"disable", "SecurityGroupReferencingSupport": "enable"|"disable", "AutoAcceptSharedAttachments": "enable"|"disable", "DefaultRouteTableAssociation": "enable"|"disable", "AssociationDefaultRouteTableId": "string", "DefaultRouteTablePropagation": "enable"|"disable", "PropagationDefaultRouteTableId": "string", "AmazonSideAsn": long, "EncryptionSupport": "enable"|"disable" }
+    /// The options to modify. AddTransitGatewayCidrBlocks -&gt; (list) Adds IPv4 or IPv6 CIDR blocks for the transit gateway. Must be a size /24 CIDR block or larger for IPv4, or a size /64 CIDR block or larger for IPv6. (string) RemoveTransitGatewayCidrBlocks -&gt; (list) Removes CIDR blocks for the transit gateway. (string) VpnEcmpSupport -&gt; (string) Enable or disable Equal Cost Multipath Protocol support. Possible values: • enable • disable DnsSupport -&gt; (string) Enable or disable DNS support. Possible values: • enable • disable SecurityGroupReferencingSupport -&gt; (string) Enables you to reference a security group across VPCs attached to a transit gateway to simplify security group management. This option is disabled by default. For more information about security group referencing, see Security group referencing in the Amazon Web Services Transit Gateways Guide . Possible values: • enable • disable AutoAcceptSharedAttachments -&gt; (string) Enable or disable automatic acceptance of attachment requests. Possible values: • enable • disable DefaultRouteTableAssociation -&gt; (string) Enable or disable automatic association with the default association route table. Possible values: • enable • disable AssociationDefaultRouteTableId -&gt; (string) The ID of the default association route table. DefaultRouteTablePropagation -&gt; (string) Indicates whether resource attachments automatically propagate routes to the default propagation route table. Enabled by default. If defaultRouteTablePropagation is set to enable , Amazon Web Services Transit Gateway will create the default transit gateway route table. Possible values: • enable • disable PropagationDefaultRouteTableId -&gt; (string) The ID of the default propagation route table. AmazonSideAsn -&gt; (long) A private Autonomous System Number (ASN) for the Amazon side of a BGP session. The range is 64512 to 65534 for 16-bit ASNs and 4200000000 to 4294967294 for 32-bit ASNs. The modify ASN operation is not allowed on a transit gateway if it has the following attachments: • Dynamic VPN • Static VPN • Direct Connect Gateway • Connect • VPN Concentrator • Client VPN You must first delete all transit gateway attachments configured prior to modifying the ASN on the transit gateway. EncryptionSupport -&gt; (string) Enable or disable encryption support for VPC Encryption Control. Possible values: • enable • disable Shorthand Syntax: AddTransitGatewayCidrBlocks=string,string,RemoveTransitGatewayCidrBlocks=string,string,VpnEcmpSupport=string,DnsSupport=string,SecurityGroupReferencingSupport=string,AutoAcceptSharedAttachments=string,DefaultRouteTableAssociation=string,AssociationDefaultRouteTableId=string,DefaultRouteTablePropagation=string,PropagationDefaultRouteTableId=string,AmazonSideAsn=long,EncryptionSupport=string JSON Syntax: { "AddTransitGatewayCidrBlocks": ["string", ...], "RemoveTransitGatewayCidrBlocks": ["string", ...], "VpnEcmpSupport": "enable"|"disable", "DnsSupport": "enable"|"disable", "SecurityGroupReferencingSupport": "enable"|"disable", "AutoAcceptSharedAttachments": "enable"|"disable", "DefaultRouteTableAssociation": "enable"|"disable", "AssociationDefaultRouteTableId": "string", "DefaultRouteTablePropagation": "enable"|"disable", "PropagationDefaultRouteTableId": "string", "AmazonSideAsn": long, "EncryptionSupport": "enable"|"disable" }
     /// </summary>
     [CliOption("--options")]
     public string? Options { get; set; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -100,6 +101,15 @@ public record AwsEc2ModifyTransitGatewayOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

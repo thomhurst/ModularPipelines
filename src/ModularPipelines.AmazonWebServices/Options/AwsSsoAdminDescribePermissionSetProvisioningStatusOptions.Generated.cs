@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsSsoAdminDescribePermissionSetProvisioningStatusOptions : AwsOpt
     /// <summary>
     /// Describes the status for the given permission set provisioning request. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceArn">The ARN of the IAM Identity Center instance under which the opera- tion will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference . Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}</param>
-    /// <param name="ProvisionPermissionSetRequestId">The identifier that is provided by the ProvisionPermissionSet call to retrieve the current status of the provisioning workflow. Constraints: o min: 36 o max: 36 o pattern: \b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b</param>
+    /// <param name="InstanceArn">The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference . Constraints: • min: 10 • max: 1224 • pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}</param>
+    /// <param name="ProvisionPermissionSetRequestId">The identifier that is provided by the ProvisionPermissionSet call to retrieve the current status of the provisioning workflow. Constraints: • min: 36 • max: 36 • pattern: \b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b</param>
     public AwsSsoAdminDescribePermissionSetProvisioningStatusOptions(
         string InstanceArn,
         string ProvisionPermissionSetRequestId
@@ -60,13 +61,13 @@ public record AwsSsoAdminDescribePermissionSetProvisioningStatusOptions : AwsOpt
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the IAM Identity Center instance under which the opera- tion will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference . Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}
+    /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference . Constraints: • min: 10 • max: 1224 • pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}
     /// </summary>
     [CliOption("--instance-arn")]
     public string? InstanceArn { get; private init; }
 
     /// <summary>
-    /// The identifier that is provided by the ProvisionPermissionSet call to retrieve the current status of the provisioning workflow. Constraints: o min: 36 o max: 36 o pattern: \b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b
+    /// The identifier that is provided by the ProvisionPermissionSet call to retrieve the current status of the provisioning workflow. Constraints: • min: 36 • max: 36 • pattern: \b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b
     /// </summary>
     [CliOption("--provision-permission-set-request-id")]
     public string? ProvisionPermissionSetRequestId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsSsoAdminDescribePermissionSetProvisioningStatusOptions : AwsOpt
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

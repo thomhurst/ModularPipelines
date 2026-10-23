@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the view entirely. It deletes the view and all associated qual- ifiers (versions and aliases). See also: AWS API Documentation
+/// Deletes the view entirely. It deletes the view and all associated qualifiers (versions and aliases). See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsConnectDeleteViewOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the view entirely. It deletes the view and all associated qual- ifiers (versions and aliases). See also: AWS API Documentation
+    /// Deletes the view entirely. It deletes the view and all associated qualifiers (versions and aliases). See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9\_\-:\/]+$</param>
-    /// <param name="ViewId">The identifier of the view. Both ViewArn and ViewId can be used. Constraints: o min: 1 o max: 500 o pattern: ^[a-zA-Z0-9\_\-:\/$]+$</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance. Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9\_\-:\/]+$</param>
+    /// <param name="ViewId">The identifier of the view. Both ViewArn and ViewId can be used. Constraints: • min: 1 • max: 500 • pattern: ^[a-zA-Z0-9\_\-:\/$]+$</param>
     public AwsConnectDeleteViewOptions(
         string InstanceId,
         string ViewId
@@ -60,13 +61,13 @@ public record AwsConnectDeleteViewOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9\_\-:\/]+$
+    /// The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance. Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9\_\-:\/]+$
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The identifier of the view. Both ViewArn and ViewId can be used. Constraints: o min: 1 o max: 500 o pattern: ^[a-zA-Z0-9\_\-:\/$]+$
+    /// The identifier of the view. Both ViewArn and ViewId can be used. Constraints: • min: 1 • max: 500 • pattern: ^[a-zA-Z0-9\_\-:\/$]+$
     /// </summary>
     [CliOption("--view-id")]
     public string? ViewId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsConnectDeleteViewOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

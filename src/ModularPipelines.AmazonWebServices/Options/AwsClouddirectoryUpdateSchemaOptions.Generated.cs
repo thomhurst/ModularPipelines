@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsClouddirectoryUpdateSchemaOptions : AwsOptions, IValidatableObj
     /// Updates the schema name with a new name. Only development schema names can be updated. See also: AWS API Documentation
     /// </summary>
     /// <param name="SchemaArn">The Amazon Resource Name (ARN) of the development schema. For more information, see arns .</param>
-    /// <param name="Name">The name of the schema. Constraints: o min: 1 o max: 32 o pattern: ^[a-zA-Z0-9._-]*$</param>
+    /// <param name="Name">The name of the schema. Constraints: • min: 1 • max: 32 • pattern: ^[a-zA-Z0-9._-]*$</param>
     public AwsClouddirectoryUpdateSchemaOptions(
         string SchemaArn,
         string Name
@@ -66,7 +67,7 @@ public record AwsClouddirectoryUpdateSchemaOptions : AwsOptions, IValidatableObj
     public string? SchemaArn { get; private init; }
 
     /// <summary>
-    /// The name of the schema. Constraints: o min: 1 o max: 32 o pattern: ^[a-zA-Z0-9._-]*$
+    /// The name of the schema. Constraints: • min: 1 • max: 32 • pattern: ^[a-zA-Z0-9._-]*$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
@@ -92,6 +93,15 @@ public record AwsClouddirectoryUpdateSchemaOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

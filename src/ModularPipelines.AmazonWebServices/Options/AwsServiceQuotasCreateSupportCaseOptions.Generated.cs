@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsServiceQuotasCreateSupportCaseOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Creates a Support case for an existing quota increase request. This call only creates a Support case if the request has a Pending status. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RequestId">The ID of the pending quota increase request for which you want to open a Support case. Constraints: o min: 1 o max: 128 o pattern: [0-9a-zA-Z][a-zA-Z0-9-]{1,128}</param>
+    /// <param name="RequestId">The ID of the pending quota increase request for which you want to open a Support case. Constraints: • min: 1 • max: 128 • pattern: [0-9a-zA-Z][a-zA-Z0-9-]{1,128}</param>
     public AwsServiceQuotasCreateSupportCaseOptions(
         string RequestId
     )
@@ -56,7 +57,7 @@ public record AwsServiceQuotasCreateSupportCaseOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the pending quota increase request for which you want to open a Support case. Constraints: o min: 1 o max: 128 o pattern: [0-9a-zA-Z][a-zA-Z0-9-]{1,128}
+    /// The ID of the pending quota increase request for which you want to open a Support case. Constraints: • min: 1 • max: 128 • pattern: [0-9a-zA-Z][a-zA-Z0-9-]{1,128}
     /// </summary>
     [CliOption("--request-id")]
     public string? RequestId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsServiceQuotasCreateSupportCaseOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

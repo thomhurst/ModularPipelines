@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +29,8 @@ public record AwsDatazoneAcceptPredictionsOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Accepts automatically generated business-friendly metadata for your Amazon DataZone assets. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainIdentifier">The identifier of the Amazon DataZone domain. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="Identifier">The identifier of the asset. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="DomainIdentifier">The identifier of the Amazon DataZone domain. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="Identifier">The identifier of the asset. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}</param>
     public AwsDatazoneAcceptPredictionsOptions(
         string DomainIdentifier,
         string Identifier
@@ -61,37 +62,37 @@ public record AwsDatazoneAcceptPredictionsOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Amazon DataZone domain. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The identifier of the Amazon DataZone domain. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The identifier of the asset. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The identifier of the asset. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// The revision that is to be made to the asset. Constraints: o min: 1 o max: 64
+    /// The revision that is to be made to the asset. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--revision")]
     public string? Revision { get; set; }
 
     /// <summary>
-    /// Specifies the rule (or the conditions) under which a prediction can be accepted. rule -&gt; (string) Specifies whether you want to accept the top prediction for all targets or none. Possible values: o ALL o NONE threshold -&gt; (float) The confidence score that specifies the condition at which a prediction can be accepted. Shorthand Syntax: rule=string,threshold=float JSON Syntax: { "rule": "ALL"|"NONE", "threshold": float }
+    /// Specifies the rule (or the conditions) under which a prediction can be accepted. rule -&gt; (string) Specifies whether you want to accept the top prediction for all targets or none. Possible values: • ALL • NONE threshold -&gt; (float) The confidence score that specifies the condition at which a prediction can be accepted. Shorthand Syntax: rule=string,threshold=float JSON Syntax: { "rule": "ALL"|"NONE", "threshold": float }
     /// </summary>
     [CliOption("--accept-rule")]
     public string? AcceptRule { get; set; }
 
     /// <summary>
-    /// Specifies the prediction (aka, the automatically generated piece of metadata) and the target (for example, a column name) that can be accepted. (structure) Specifies the prediction (aka, the automatically generated piece of metadata) and the target (for example, a column name) that can be accepted. predictionTarget -&gt; (string) [required] Specifies the target (for example, a column name) where a prediction can be accepted. predictionChoice -&gt; (integer) Specifies the prediction (aka, the automatically generated piece of metadata) that can be accepted. editedValue -&gt; (string) The edit of the prediction. Constraints: o min: 1 o max: 5000 Shorthand Syntax: predictionTarget=string,predictionChoice=integer,editedValue=string ... JSON Syntax: [ { "predictionTarget": "string", "predictionChoice": integer, "editedValue": "string" } ... ]
+    /// Specifies the prediction (aka, the automatically generated piece of metadata) and the target (for example, a column name) that can be accepted. (structure) Specifies the prediction (aka, the automatically generated piece of metadata) and the target (for example, a column name) that can be accepted. predictionTarget -&gt; (string) [required] Specifies the target (for example, a column name) where a prediction can be accepted. predictionChoice -&gt; (integer) Specifies the prediction (aka, the automatically generated piece of metadata) that can be accepted. editedValue -&gt; (string) The edit of the prediction. Constraints: • min: 1 • max: 5000 Shorthand Syntax: predictionTarget=string,predictionChoice=integer,editedValue=string ... JSON Syntax: [ { "predictionTarget": "string", "predictionChoice": integer, "editedValue": "string" } ... ]
     /// </summary>
     [CliOption("--accept-choices", GroupValues = true)]
     public IEnumerable<string>? AcceptChoices { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure idempotency of the re- quest. This field is automatically populated if not provided. Constraints: o min: 1 o max: 128 o pattern: [\x21-\x7E]+
+    /// A unique, case-sensitive identifier to ensure idempotency of the request. This field is automatically populated if not provided. Constraints: • min: 1 • max: 128 • pattern: [\x21-\x7E]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -118,6 +119,15 @@ public record AwsDatazoneAcceptPredictionsOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

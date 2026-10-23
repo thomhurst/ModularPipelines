@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a provisioning artifact (also known as a version) for the spec- ified product. You cannot create a provisioning artifact for a product that was shared with you. The user or role that performs this operation must have the cloudforma- tion:GetTemplate IAM policy permission. This policy permission is re- quired when using the ImportFromPhysicalId template source in the in- formation data section. See also: AWS API Documentation
+/// Creates a provisioning artifact (also known as a version) for the specified product. You cannot create a provisioning artifact for a product that was shared with you. The user or role that performs this operation must have the cloudformation:GetTemplate IAM policy permission. This policy permission is required when using the ImportFromPhysicalId template source in the information data section. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsServicecatalogCreateProvisioningArtifactOptions : AwsOptions, I
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a provisioning artifact (also known as a version) for the spec- ified product. You cannot create a provisioning artifact for a product that was shared with you. The user or role that performs this operation must have the cloudforma- tion:GetTemplate IAM policy permission. This policy permission is re- quired when using the ImportFromPhysicalId template source in the in- formation data section. See also: AWS API Documentation
+    /// Creates a provisioning artifact (also known as a version) for the specified product. You cannot create a provisioning artifact for a product that was shared with you. The user or role that performs this operation must have the cloudformation:GetTemplate IAM policy permission. This policy permission is required when using the ImportFromPhysicalId template source in the information data section. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProductId">The product identifier. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*</param>
-    /// <param name="Parameters">The configuration for the provisioning artifact. Name -&gt; (string) The name of the provisioning artifact (for example, v1 v2beta). No spaces are allowed. Constraints: o max: 8192 Description -&gt; (string) The description of the provisioning artifact, including how it differs from the previous provisioning artifact. Constraints: o max: 8192 Info -&gt; (map) Specify the template source with one of the following options, but not both. Keys accepted: [ LoadTemplateFromURL , Import- FromPhysicalId ] The URL of the CloudFormation template in Amazon S3 or GitHub in JSON format. Specify the URL in JSON format as follows: "LoadTemplateFromURL": "https://s3.amazonaws.com/cf-tem- plates-ozkq9d3hgiq2-us-east-1/..." ImportFromPhysicalId : The physical id of the resource that contains the template. Currently only supports CloudFormation stack arn. Specify the physical id in JSON format as follows: ImportFromPhysicalId: arn:aws:cloudformation:[us-east-1]:[ac- countId]:stack/[StackName]/[resourceId] Constraints: o min: 1 o max: 100 key -&gt; (string) value -&gt; (string) Type -&gt; (string) The type of provisioning artifact. o CLOUD_FORMATION_TEMPLATE - CloudFormation template o TERRAFORM_OPEN_SOURCE - Terraform Open Source configuration file o TERRAFORM_CLOUD - Terraform Cloud configuration file o EXTERNAL - External configuration file Possible values: o CLOUD_FORMATION_TEMPLATE o MARKETPLACE_AMI o MARKETPLACE_CAR o TERRAFORM_OPEN_SOURCE o TERRAFORM_CLOUD o EXTERNAL DisableTemplateValidation -&gt; (boolean) If set to true, Service Catalog stops validating the specified provisioning artifact even if it is invalid. Service Catalog does not support template validation for the TERRAFORM_OS product type. Shorthand Syntax: Name=string,Description=string,Info={KeyName1=string,KeyName2=string},Type=string,DisableTemplateValidation=boolean JSON Syntax: { "Name": "string", "Description": "string", "Info": {"string": "string" ...}, "Type": "CLOUD_FORMATION_TEMPLATE"|"MARKETPLACE_AMI"|"MARKETPLACE_CAR"|"TERRAFORM_OPEN_SOURCE"|"TERRAFORM_CLOUD"|"EXTERNAL", "DisableTemplateValidation": true|false }</param>
+    /// <param name="ProductId">The product identifier. Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*</param>
+    /// <param name="Parameters">The configuration for the provisioning artifact. Name -&gt; (string) The name of the provisioning artifact (for example, v1 v2beta). No spaces are allowed. Constraints: • max: 8192 Description -&gt; (string) The description of the provisioning artifact, including how it differs from the previous provisioning artifact. Constraints: • max: 8192 Info -&gt; (map) Specify the template source with one of the following options, but not both. Keys accepted: [ LoadTemplateFromURL , ImportFromPhysicalId ] The URL of the CloudFormation template in Amazon S3 or GitHub in JSON format. Specify the URL in JSON format as follows: "LoadTemplateFromURL": "https://s3.amazonaws.com/cf-templates-ozkq9d3hgiq2-us-east-1/..." ImportFromPhysicalId : The physical id of the resource that contains the template. Currently only supports CloudFormation stack arn. Specify the physical id in JSON format as follows: ImportFromPhysicalId: arn:aws:cloudformation:[us-east-1]:[accountId]:stack/[StackName]/[resourceId] Constraints: • min: 1 • max: 100 key -&gt; (string) value -&gt; (string) Type -&gt; (string) The type of provisioning artifact. • CLOUD_FORMATION_TEMPLATE - CloudFormation template • TERRAFORM_OPEN_SOURCE - Terraform Open Source configuration file • TERRAFORM_CLOUD - Terraform Cloud configuration file • EXTERNAL - External configuration file Possible values: • CLOUD_FORMATION_TEMPLATE • MARKETPLACE_AMI • MARKETPLACE_CAR • TERRAFORM_OPEN_SOURCE • TERRAFORM_CLOUD • EXTERNAL DisableTemplateValidation -&gt; (boolean) If set to true, Service Catalog stops validating the specified provisioning artifact even if it is invalid. Service Catalog does not support template validation for the TERRAFORM_OS product type. Shorthand Syntax: Name=string,Description=string,Info={KeyName1=string,KeyName2=string},Type=string,DisableTemplateValidation=boolean JSON Syntax: { "Name": "string", "Description": "string", "Info": {"string": "string" ...}, "Type": "CLOUD_FORMATION_TEMPLATE"|"MARKETPLACE_AMI"|"MARKETPLACE_CAR"|"TERRAFORM_OPEN_SOURCE"|"TERRAFORM_CLOUD"|"EXTERNAL", "DisableTemplateValidation": true|false }</param>
     public AwsServicecatalogCreateProvisioningArtifactOptions(
         string ProductId,
         string Parameters
@@ -61,25 +62,25 @@ public record AwsServicecatalogCreateProvisioningArtifactOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The product identifier. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// The product identifier. Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*
     /// </summary>
     [CliOption("--product-id")]
     public string? ProductId { get; private init; }
 
     /// <summary>
-    /// The configuration for the provisioning artifact. Name -&gt; (string) The name of the provisioning artifact (for example, v1 v2beta). No spaces are allowed. Constraints: o max: 8192 Description -&gt; (string) The description of the provisioning artifact, including how it differs from the previous provisioning artifact. Constraints: o max: 8192 Info -&gt; (map) Specify the template source with one of the following options, but not both. Keys accepted: [ LoadTemplateFromURL , Import- FromPhysicalId ] The URL of the CloudFormation template in Amazon S3 or GitHub in JSON format. Specify the URL in JSON format as follows: "LoadTemplateFromURL": "https://s3.amazonaws.com/cf-tem- plates-ozkq9d3hgiq2-us-east-1/..." ImportFromPhysicalId : The physical id of the resource that contains the template. Currently only supports CloudFormation stack arn. Specify the physical id in JSON format as follows: ImportFromPhysicalId: arn:aws:cloudformation:[us-east-1]:[ac- countId]:stack/[StackName]/[resourceId] Constraints: o min: 1 o max: 100 key -&gt; (string) value -&gt; (string) Type -&gt; (string) The type of provisioning artifact. o CLOUD_FORMATION_TEMPLATE - CloudFormation template o TERRAFORM_OPEN_SOURCE - Terraform Open Source configuration file o TERRAFORM_CLOUD - Terraform Cloud configuration file o EXTERNAL - External configuration file Possible values: o CLOUD_FORMATION_TEMPLATE o MARKETPLACE_AMI o MARKETPLACE_CAR o TERRAFORM_OPEN_SOURCE o TERRAFORM_CLOUD o EXTERNAL DisableTemplateValidation -&gt; (boolean) If set to true, Service Catalog stops validating the specified provisioning artifact even if it is invalid. Service Catalog does not support template validation for the TERRAFORM_OS product type. Shorthand Syntax: Name=string,Description=string,Info={KeyName1=string,KeyName2=string},Type=string,DisableTemplateValidation=boolean JSON Syntax: { "Name": "string", "Description": "string", "Info": {"string": "string" ...}, "Type": "CLOUD_FORMATION_TEMPLATE"|"MARKETPLACE_AMI"|"MARKETPLACE_CAR"|"TERRAFORM_OPEN_SOURCE"|"TERRAFORM_CLOUD"|"EXTERNAL", "DisableTemplateValidation": true|false }
+    /// The configuration for the provisioning artifact. Name -&gt; (string) The name of the provisioning artifact (for example, v1 v2beta). No spaces are allowed. Constraints: • max: 8192 Description -&gt; (string) The description of the provisioning artifact, including how it differs from the previous provisioning artifact. Constraints: • max: 8192 Info -&gt; (map) Specify the template source with one of the following options, but not both. Keys accepted: [ LoadTemplateFromURL , ImportFromPhysicalId ] The URL of the CloudFormation template in Amazon S3 or GitHub in JSON format. Specify the URL in JSON format as follows: "LoadTemplateFromURL": "https://s3.amazonaws.com/cf-templates-ozkq9d3hgiq2-us-east-1/..." ImportFromPhysicalId : The physical id of the resource that contains the template. Currently only supports CloudFormation stack arn. Specify the physical id in JSON format as follows: ImportFromPhysicalId: arn:aws:cloudformation:[us-east-1]:[accountId]:stack/[StackName]/[resourceId] Constraints: • min: 1 • max: 100 key -&gt; (string) value -&gt; (string) Type -&gt; (string) The type of provisioning artifact. • CLOUD_FORMATION_TEMPLATE - CloudFormation template • TERRAFORM_OPEN_SOURCE - Terraform Open Source configuration file • TERRAFORM_CLOUD - Terraform Cloud configuration file • EXTERNAL - External configuration file Possible values: • CLOUD_FORMATION_TEMPLATE • MARKETPLACE_AMI • MARKETPLACE_CAR • TERRAFORM_OPEN_SOURCE • TERRAFORM_CLOUD • EXTERNAL DisableTemplateValidation -&gt; (boolean) If set to true, Service Catalog stops validating the specified provisioning artifact even if it is invalid. Service Catalog does not support template validation for the TERRAFORM_OS product type. Shorthand Syntax: Name=string,Description=string,Info={KeyName1=string,KeyName2=string},Type=string,DisableTemplateValidation=boolean JSON Syntax: { "Name": "string", "Description": "string", "Info": {"string": "string" ...}, "Type": "CLOUD_FORMATION_TEMPLATE"|"MARKETPLACE_AMI"|"MARKETPLACE_CAR"|"TERRAFORM_OPEN_SOURCE"|"TERRAFORM_CLOUD"|"EXTERNAL", "DisableTemplateValidation": true|false }
     /// </summary>
     [CliOption("--parameters")]
     public string? Parameters { get; private init; }
 
     /// <summary>
-    /// The language code. o jp - Japanese o zh - Chinese Constraints: o max: 100
+    /// The language code. • jp - Japanese • zh - Chinese Constraints: • max: 100
     /// </summary>
     [CliOption("--accept-language")]
     public string? AcceptLanguage { get; set; }
 
     /// <summary>
-    /// A unique identifier that you provide to ensure idempotency. If mul- tiple requests differ only by the idempotency token, the same re- sponse is returned for each repeated request. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
+    /// A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the idempotency token, the same response is returned for each repeated request. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
     /// </summary>
     [SecretValue]
     [CliOption("--idempotency-token")]
@@ -106,6 +107,15 @@ public record AwsServicecatalogCreateProvisioningArtifactOptions : AwsOptions, I
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

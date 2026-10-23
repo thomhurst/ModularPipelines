@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsIamUntagServerCertificateOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Removes the specified tags from the IAM server certificate. For more information about tagging, see Tagging IAM resources in the IAM User Guide . NOTE: For certificates in a Region supported by Certificate Manager (ACM), we recommend that you don't use IAM server certificates. Instead, use ACM to provision, manage, and deploy your server certificates. For more information about IAM server certificates, Working with server certificates in the IAM User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ServerCertificateName">The name of the IAM server certificate from which you want to remove tags. This parameter allows (through its regex pattern ) a string of char- acters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following charac- ters: _+=,.@- Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+</param>
-    /// <param name="TagKeys">A list of key names as a simple array of strings. The tags with matching keys are removed from the specified IAM server certificate. Constraints: o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]+ Syntax: "string" "string" ...</param>
+    /// <param name="ServerCertificateName">The name of the IAM server certificate from which you want to remove tags. This parameter allows (through its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@- Constraints: • min: 1 • max: 128 • pattern: [\w+=,.@-]+</param>
+    /// <param name="TagKeys">A list of key names as a simple array of strings. The tags with matching keys are removed from the specified IAM server certificate. Constraints: • max: 50 (string) Constraints: • min: 1 • max: 128 • pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]+ Syntax: "string" "string" ...</param>
     public AwsIamUntagServerCertificateOptions(
         string ServerCertificateName,
         IEnumerable<string> TagKeys
@@ -71,13 +72,13 @@ public record AwsIamUntagServerCertificateOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the IAM server certificate from which you want to remove tags. This parameter allows (through its regex pattern ) a string of char- acters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following charac- ters: _+=,.@- Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+
+    /// The name of the IAM server certificate from which you want to remove tags. This parameter allows (through its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@- Constraints: • min: 1 • max: 128 • pattern: [\w+=,.@-]+
     /// </summary>
     [CliOption("--server-certificate-name")]
     public string? ServerCertificateName { get; private init; }
 
     /// <summary>
-    /// A list of key names as a simple array of strings. The tags with matching keys are removed from the specified IAM server certificate. Constraints: o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]+ Syntax: "string" "string" ...
+    /// A list of key names as a simple array of strings. The tags with matching keys are removed from the specified IAM server certificate. Constraints: • max: 50 (string) Constraints: • min: 1 • max: 128 • pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }
@@ -103,6 +104,15 @@ public record AwsIamUntagServerCertificateOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associates a list of evidence to an assessment report in an Audit Man- ager assessment. See also: AWS API Documentation
+/// Associates a list of evidence to an assessment report in an Audit Manager assessment. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsAuditManagerBatchAssociateAssessmentReportEvidenceOptions : Aws
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associates a list of evidence to an assessment report in an Audit Man- ager assessment. See also: AWS API Documentation
+    /// Associates a list of evidence to an assessment report in an Audit Manager assessment. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AssessmentId">The identifier for the assessment. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
-    /// <param name="EvidenceFolderId">The identifier for the folder that the evidence is stored in. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
-    /// <param name="EvidenceIds">The list of evidence identifiers. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$ Syntax: "string" "string" ...</param>
+    /// <param name="AssessmentId">The identifier for the assessment. Constraints: • min: 36 • max: 36 • pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
+    /// <param name="EvidenceFolderId">The identifier for the folder that the evidence is stored in. Constraints: • min: 36 • max: 36 • pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
+    /// <param name="EvidenceIds">The list of evidence identifiers. Constraints: • min: 0 • max: 50 (string) Constraints: • min: 36 • max: 36 • pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$ Syntax: "string" "string" ...</param>
     public AwsAuditManagerBatchAssociateAssessmentReportEvidenceOptions(
         string AssessmentId,
         string EvidenceFolderId,
@@ -75,19 +76,19 @@ public record AwsAuditManagerBatchAssociateAssessmentReportEvidenceOptions : Aws
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier for the assessment. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
+    /// The identifier for the assessment. Constraints: • min: 36 • max: 36 • pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
     /// </summary>
     [CliOption("--assessment-id")]
     public string? AssessmentId { get; private init; }
 
     /// <summary>
-    /// The identifier for the folder that the evidence is stored in. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
+    /// The identifier for the folder that the evidence is stored in. Constraints: • min: 36 • max: 36 • pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
     /// </summary>
     [CliOption("--evidence-folder-id")]
     public string? EvidenceFolderId { get; private init; }
 
     /// <summary>
-    /// The list of evidence identifiers. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$ Syntax: "string" "string" ...
+    /// The list of evidence identifiers. Constraints: • min: 0 • max: 50 (string) Constraints: • min: 36 • max: 36 • pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--evidence-ids", GroupValues = true)]
     public IEnumerable<string>? EvidenceIds { get; private init; }
@@ -113,6 +114,15 @@ public record AwsAuditManagerBatchAssociateAssessmentReportEvidenceOptions : Aws
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

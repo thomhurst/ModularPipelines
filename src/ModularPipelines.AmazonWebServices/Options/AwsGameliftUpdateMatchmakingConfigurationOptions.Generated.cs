@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API works with the following fleet types: EC2, Anywhere, Con- tainer Updates settings for a FlexMatch matchmaking configuration. These changes affect all matches and game sessions that are created after the update. To update settings, specify the configuration name to be up- dated and provide the new settings. Learn more Design a FlexMatch matchmaker See also: AWS API Documentation
+/// This API works with the following fleet types: EC2, Anywhere, Container Updates settings for a FlexMatch matchmaking configuration. These changes affect all matches and game sessions that are created after the update. To update settings, specify the configuration name to be updated and provide the new settings. Learn more Design a FlexMatch matchmaker See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsGameliftUpdateMatchmakingConfigurationOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Updates settings for a FlexMatch matchmaking configuration. These changes affect all matches and game sessions that are created after the update. To update settings, specify the configuration name to be up- dated and provide the new settings. Learn more Design a FlexMatch matchmaker See also: AWS API Documentation
+    /// This API works with the following fleet types: EC2, Anywhere, Container Updates settings for a FlexMatch matchmaking configuration. These changes affect all matches and game sessions that are created after the update. To update settings, specify the configuration name to be updated and provide the new settings. Learn more Design a FlexMatch matchmaker See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">A unique identifier for the matchmaking configuration to update. You can use either the configuration name or ARN value. Constraints: o min: 1 o max: 256 o pattern: ^([a-zA-Z0-9-\.]*|arn:.*:matchmakingconfigura- tion\/[a-zA-Z0-9-\.]*)$</param>
+    /// <param name="Name">A unique identifier for the matchmaking configuration to update. You can use either the configuration name or ARN value. Constraints: • min: 1 • max: 256 • pattern: ^([a-zA-Z0-9-\.]*|arn:.*:matchmakingconfiguration\/[a-zA-Z0-9-\.]*)$</param>
     public AwsGameliftUpdateMatchmakingConfigurationOptions(
         string Name
     )
@@ -57,85 +58,85 @@ public record AwsGameliftUpdateMatchmakingConfigurationOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the matchmaking configuration to update. You can use either the configuration name or ARN value. Constraints: o min: 1 o max: 256 o pattern: ^([a-zA-Z0-9-\.]*|arn:.*:matchmakingconfigura- tion\/[a-zA-Z0-9-\.]*)$
+    /// A unique identifier for the matchmaking configuration to update. You can use either the configuration name or ARN value. Constraints: • min: 1 • max: 256 • pattern: ^([a-zA-Z0-9-\.]*|arn:.*:matchmakingconfiguration\/[a-zA-Z0-9-\.]*)$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// A description for the matchmaking configuration. Constraints: o min: 1 o max: 1024
+    /// A description for the matchmaking configuration. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN ) that is assigned to a Amazon GameLift Servers game session queue resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:&lt;region&gt;::gamesessionqueue/&lt;queue name&gt; . Queues can be located in any Region. Queues are used to start new Amazon GameLift Servers-hosted game sessions for matches that are created with this matchmaking configuration. If FlexMatchMode is set to STANDALONE , do not set this parameter. (string) Constraints: o min: 1 o max: 512 o pattern: ^[a-zA-Z0-9:/-]+$ Syntax: "string" "string" ...
+    /// The Amazon Resource Name (ARN ) that is assigned to a Amazon GameLift Servers game session queue resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:&lt;region&gt;::gamesessionqueue/&lt;queue name&gt; . Queues can be located in any Region. Queues are used to start new Amazon GameLift Servers-hosted game sessions for matches that are created with this matchmaking configuration. A matchmaking configuration supports only one queue; if you specify more than one ARN, the request fails with an InvalidRequestException . If FlexMatchMode is set to STANDALONE , do not set this parameter. (string) Constraints: • min: 1 • max: 512 • pattern: ^[a-zA-Z0-9:/-]+$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--game-session-queue-arns", GroupValues = true)]
     public IEnumerable<string>? GameSessionQueueArns { get; set; }
 
     /// <summary>
-    /// The maximum duration, in seconds, that a matchmaking ticket can re- main in process before timing out. Requests that fail due to timing out can be resubmitted as needed. Constraints: o min: 1 o max: 43200
+    /// The maximum duration, in seconds, that a matchmaking ticket can remain in process before timing out. Requests that fail due to timing out can be resubmitted as needed. Constraints: • min: 1 • max: 43200
     /// </summary>
     [CliOption("--request-timeout-seconds")]
     public int? RequestTimeoutSeconds { get; set; }
 
     /// <summary>
-    /// The length of time (in seconds) to wait for players to accept a pro- posed match, if acceptance is required. Constraints: o min: 1 o max: 600
+    /// The length of time (in seconds) to wait for players to accept a proposed match, if acceptance is required. Constraints: • min: 1 • max: 600
     /// </summary>
     [CliOption("--acceptance-timeout-seconds")]
     public int? AcceptanceTimeoutSeconds { get; set; }
 
     /// <summary>
-    /// A flag that indicates whether a match that was created with this configuration must be accepted by the matched players. To require acceptance, set to TRUE. With this option enabled, matchmaking tick- ets use the status REQUIRES_ACCEPTANCE to indicate when a completed potential match is waiting for player acceptance.
+    /// A flag that indicates whether a match that was created with this configuration must be accepted by the matched players. To require acceptance, set to TRUE. With this option enabled, matchmaking tickets use the status REQUIRES_ACCEPTANCE to indicate when a completed potential match is waiting for player acceptance.
     /// </summary>
     [CliFlag("--acceptance-required", NegatedName = "--no-acceptance-required")]
     public bool? AcceptanceRequired { get; set; }
 
     /// <summary>
-    /// A unique identifier for the matchmaking rule set to use with this configuration. You can use either the rule set name or ARN value. A matchmaking configuration can only use rule sets that are defined in the same Region. Constraints: o min: 1 o max: 256 o pattern: ^([a-zA-Z0-9-\.]*|arn:.*:matchmakingrule- set\/[a-zA-Z0-9-\.]*)$
+    /// A unique identifier for the matchmaking rule set to use with this configuration. You can use either the rule set name or ARN value. A matchmaking configuration can only use rule sets that are defined in the same Region. Constraints: • min: 1 • max: 256 • pattern: ^([a-zA-Z0-9-\.]*|arn:.*:matchmakingruleset\/[a-zA-Z0-9-\.]*)$
     /// </summary>
     [CliOption("--rule-set-name")]
     public string? RuleSetName { get; set; }
 
     /// <summary>
-    /// An SNS topic ARN that is set up to receive matchmaking notifica- tions. See Setting up notifications for matchmaking for more infor- mation. Constraints: o min: 0 o max: 300 o pattern: ^[a-zA-Z0-9:_/-]*(\.fifo)?$
+    /// An SNS topic ARN that is set up to receive matchmaking notifications. See Setting up notifications for matchmaking for more information. Constraints: • min: 0 • max: 300 • pattern: ^[a-zA-Z0-9:_/-]*(\.fifo)?$
     /// </summary>
     [CliOption("--notification-target")]
     public string? NotificationTarget { get; set; }
 
     /// <summary>
-    /// The number of player slots in a match to keep open for future play- ers. For example, if the configuration's rule set specifies a match for a single 12-person team, and the additional player count is set to 2, only 10 players are selected for the match. This parameter is not used if FlexMatchMode is set to STANDALONE . Constraints: o min: 0
+    /// The number of player slots in a match to keep open for future players. For example, if the configuration's rule set specifies a match for a single 12-person team, and the additional player count is set to 2, only 10 players are selected for the match. This parameter is not used if FlexMatchMode is set to STANDALONE . Constraints: • min: 0
     /// </summary>
     [CliOption("--additional-player-count")]
     public int? AdditionalPlayerCount { get; set; }
 
     /// <summary>
-    /// Information to add to all events related to the matchmaking configu- ration. Constraints: o min: 0 o max: 256
+    /// Information to add to all events related to the matchmaking configuration. Constraints: • min: 0 • max: 256
     /// </summary>
     [CliOption("--custom-event-data")]
     public string? CustomEventData { get; set; }
 
     /// <summary>
-    /// A set of key-value pairs that can store custom data in a game ses- sion. For example: {"Key": "difficulty", "Value": "novice"} . This information is added to the new GameSession object that is created for a successful match. This parameter is not used if FlexMatchMode is set to STANDALONE . NOTE: o Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys contain- ing periods cannot be searched and will be filtered out from search results due to search index limitations. o If you use SearchGameSessions API, there is a limit of 500 game property keys across all game sessions and all fleets per region. If the limit is exceeded, there will potentially be game session entries missing from SearchGameSessions API re- sults. Constraints: o max: 16 (structure) This key-value pair can store custom data about a game session. For example, you might use a GameProperty to track a game ses- sion's map, level of difficulty, or remaining time. The diffi- culty level could be specified like this: {"Key": "difficulty", "Value":"Novice"} . You can set game properties when creating a game session. You can also modify game properties of an active game session. When searching for game sessions, you can filter on game property keys and values. You can't delete game properties from a game session. For examples of working with game properties, see Create a game session with properties . Key -&gt; (string) [required] The game property identifier. NOTE: o Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations. o If you use SearchGameSessions API, there is a limit of 500 game property keys across all game sessions and all fleets per region. If the limit is exceeded, there will potentially be game session entries missing from SearchGameSessions API results. Constraints: o max: 32 Value -&gt; (string) [required] The game property value. Constraints: o max: 96 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"} . This information is added to the new GameSession object that is created for a successful match. This parameter is not used if FlexMatchMode is set to STANDALONE . NOTE: • Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations. • If you use SearchGameSessions API, there is a limit of 500 game property keys across all game sessions and all fleets per region. If the limit is exceeded, there will potentially be game session entries missing from SearchGameSessions API results. Constraints: • max: 16 (structure) This key-value pair can store custom data about a game session. For example, you might use a GameProperty to track a game session's map, level of difficulty, or remaining time. The difficulty level could be specified like this: {"Key": "difficulty", "Value":"Novice"} . You can set game properties when creating a game session. You can also modify game properties of an active game session. When searching for game sessions, you can filter on game property keys and values. You can't delete game properties from a game session. For examples of working with game properties, see Create a game session with properties . Key -&gt; (string) [required] The game property identifier. NOTE: • Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations. • If you use SearchGameSessions API, there is a limit of 500 game property keys across all game sessions and all fleets per region. If the limit is exceeded, there will potentially be game session entries missing from SearchGameSessions API results. Constraints: • max: 32 Value -&gt; (string) [required] The game property value. Constraints: • max: 96 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--game-properties", GroupValues = true)]
     public IEnumerable<string>? GameProperties { get; set; }
 
     /// <summary>
-    /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process with a request to start a new game session. For more information, see Start a game session . This information is added to the game session that is created for a successful match. This parameter is not used if FlexMatchMode is set to STANDALONE . Constraints: o min: 1 o max: 4096
+    /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process with a request to start a new game session. For more information, see Start a game session . This information is added to the game session that is created for a successful match. This parameter is not used if FlexMatchMode is set to STANDALONE . Constraints: • min: 1 • max: 4096
     /// </summary>
     [CliOption("--game-session-data")]
     public string? GameSessionData { get; set; }
 
     /// <summary>
-    /// The method that is used to backfill game sessions created with this matchmaking configuration. Specify MANUAL when your game manages backfill requests manually or does not use the match backfill fea- ture. Specify AUTOMATIC to have GameLift create a match backfill re- quest whenever a game session has one or more open slots. Learn more about manual and automatic backfill in Backfill Existing Games with FlexMatch . Automatic backfill is not available when FlexMatchMode is set to STANDALONE . Possible values: o AUTOMATIC o MANUAL
+    /// The method that is used to backfill game sessions created with this matchmaking configuration. Specify MANUAL when your game manages backfill requests manually or does not use the match backfill feature. Specify AUTOMATIC to have GameLift create a match backfill request whenever a game session has one or more open slots. Learn more about manual and automatic backfill in Backfill Existing Games with FlexMatch . Automatic backfill is not available when FlexMatchMode is set to STANDALONE . Possible values: • AUTOMATIC • MANUAL
     /// </summary>
     [CliOption("--backfill-mode")]
     public AwsGameliftUpdateMatchmakingConfigurationBackfillMode? BackfillMode { get; set; }
 
     /// <summary>
-    /// Indicates whether this matchmaking configuration is being used with Amazon GameLift Servers hosting or as a standalone matchmaking solu- tion. o STANDALONE - FlexMatch forms matches and returns match informa- tion, including players and team assignments, in a MatchmakingSucceeded event. o WITH_QUEUE - FlexMatch forms matches and uses the specified Amazon GameLift Servers queue to start a game session for the match. Possible values: o STANDALONE o WITH_QUEUE
+    /// Indicates whether this matchmaking configuration is being used with Amazon GameLift Servers hosting or as a standalone matchmaking solution. • STANDALONE - FlexMatch forms matches and returns match information, including players and team assignments, in a MatchmakingSucceeded event. • WITH_QUEUE - FlexMatch forms matches and uses the specified Amazon GameLift Servers queue to start a game session for the match. Possible values: • STANDALONE • WITH_QUEUE
     /// </summary>
     [CliOption("--flex-match-mode")]
     public AwsGameliftUpdateMatchmakingConfigurationFlexMatchMode? FlexMatchMode { get; set; }
@@ -161,6 +162,15 @@ public record AwsGameliftUpdateMatchmakingConfigurationOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

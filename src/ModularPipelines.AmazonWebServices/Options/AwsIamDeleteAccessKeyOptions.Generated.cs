@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the access key pair associated with the specified IAM user. If you do not specify a user name, IAM determines the user name implic- itly based on the Amazon Web Services access key ID signing the re- quest. This operation works for access keys under the Amazon Web Ser- vices account. Consequently, you can use this operation to manage Ama- zon Web Services account root user credentials even if the Amazon Web Services account has no associated users. See also: AWS API Documentation
+/// Deletes the access key pair associated with the specified IAM user. If you do not specify a user name, IAM determines the user name implicitly based on the Amazon Web Services access key ID signing the request. This operation works for access keys under the Amazon Web Services account. Consequently, you can use this operation to manage Amazon Web Services account root user credentials even if the Amazon Web Services account has no associated users. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsIamDeleteAccessKeyOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the access key pair associated with the specified IAM user. If you do not specify a user name, IAM determines the user name implic- itly based on the Amazon Web Services access key ID signing the re- quest. This operation works for access keys under the Amazon Web Ser- vices account. Consequently, you can use this operation to manage Ama- zon Web Services account root user credentials even if the Amazon Web Services account has no associated users. See also: AWS API Documentation
+    /// Deletes the access key pair associated with the specified IAM user. If you do not specify a user name, IAM determines the user name implicitly based on the Amazon Web Services access key ID signing the request. This operation works for access keys under the Amazon Web Services account. Consequently, you can use this operation to manage Amazon Web Services account root user credentials even if the Amazon Web Services account has no associated users. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccessKeyId">The access key ID for the access key ID and secret access key you want to delete. This parameter allows (through its regex pattern ) a string of char- acters that can consist of any upper or lowercased letter or digit. Constraints: o min: 16 o max: 128 o pattern: [\w]+</param>
+    /// <param name="AccessKeyId">The access key ID for the access key ID and secret access key you want to delete. This parameter allows (through its regex pattern ) a string of characters that can consist of any upper or lowercased letter or digit. Constraints: • min: 16 • max: 128 • pattern: [\w]+</param>
     public AwsIamDeleteAccessKeyOptions(
         string AccessKeyId
     )
@@ -56,13 +57,13 @@ public record AwsIamDeleteAccessKeyOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The access key ID for the access key ID and secret access key you want to delete. This parameter allows (through its regex pattern ) a string of char- acters that can consist of any upper or lowercased letter or digit. Constraints: o min: 16 o max: 128 o pattern: [\w]+
+    /// The access key ID for the access key ID and secret access key you want to delete. This parameter allows (through its regex pattern ) a string of characters that can consist of any upper or lowercased letter or digit. Constraints: • min: 16 • max: 128 • pattern: [\w]+
     /// </summary>
     [CliOption("--access-key-id")]
     public string? AccessKeyId { get; private init; }
 
     /// <summary>
-    /// The name of the user whose access key pair you want to delete. This parameter allows (through its regex pattern ) a string of char- acters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following charac- ters: _+=,.@- Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+
+    /// The name of the user whose access key pair you want to delete. This parameter allows (through its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@- Constraints: • min: 1 • max: 128 • pattern: [\w+=,.@-]+
     /// </summary>
     [CliOption("--user-name")]
     public string? UserName { get; set; }
@@ -88,6 +89,15 @@ public record AwsIamDeleteAccessKeyOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

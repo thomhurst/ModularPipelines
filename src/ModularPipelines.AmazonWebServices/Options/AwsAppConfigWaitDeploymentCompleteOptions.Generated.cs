@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsAppConfigWaitDeploymentCompleteOptions : AwsOptions, IValidatab
     /// <summary>
     /// Wait until JMESPath query State returns COMPLETE when polling with get-deployment. It will poll every 30 seconds until a successful state has been reached. This will exit with a return code of 255 after 999 failed checks. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The ID of the application that includes the deployment you want to get. Constraints: o min: 1 o max: 64</param>
-    /// <param name="EnvironmentId">The ID of the environment that includes the deployment you want to get. Constraints: o min: 1 o max: 64</param>
+    /// <param name="ApplicationId">The ID of the application that includes the deployment you want to get. Constraints: • min: 1 • max: 64</param>
+    /// <param name="EnvironmentId">The ID of the environment that includes the deployment you want to get. Constraints: • min: 1 • max: 64</param>
     /// <param name="DeploymentNumber">The sequence number of the deployment.</param>
     public AwsAppConfigWaitDeploymentCompleteOptions(
         string ApplicationId,
@@ -63,13 +64,13 @@ public record AwsAppConfigWaitDeploymentCompleteOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the application that includes the deployment you want to get. Constraints: o min: 1 o max: 64
+    /// The ID of the application that includes the deployment you want to get. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// The ID of the environment that includes the deployment you want to get. Constraints: o min: 1 o max: 64
+    /// The ID of the environment that includes the deployment you want to get. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--environment-id")]
     public string? EnvironmentId { get; private init; }
@@ -101,6 +102,15 @@ public record AwsAppConfigWaitDeploymentCompleteOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

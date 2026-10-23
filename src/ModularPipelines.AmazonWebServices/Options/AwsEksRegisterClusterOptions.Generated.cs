@@ -11,13 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Connects a Kubernetes cluster to the Amazon EKS control plane. Any Kubernetes cluster can be connected to the Amazon EKS control plane to view current information about the cluster and its nodes. Cluster connection requires two steps. First, send a ` RegisterCluster- Request https://docs.aws.amazon.com/eks/latest/APIReference/API_RegisterClusterRequest.html`__ to add it to the Amazon EKS control plane. Second, a Manifest containing the activationID and activationCode must be applied to the Kuber...
+/// Connects a Kubernetes cluster to the Amazon EKS control plane. Any Kubernetes cluster can be connected to the Amazon EKS control plane to view current information about the cluster and its nodes. Cluster connection requires two steps. First, send a ` RegisterClusterRequest https://docs.aws.amazon.com/eks/latest/APIReference/API_RegisterClusterRequest.html`__ to add it to the Amazon EKS control plane. Second, a Manifest containing the activationID and activationCode must be applied to the Kuberne...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +27,10 @@ public record AwsEksRegisterClusterOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Connects a Kubernetes cluster to the Amazon EKS control plane. Any Kubernetes cluster can be connected to the Amazon EKS control plane to view current information about the cluster and its nodes. Cluster connection requires two steps. First, send a ` RegisterCluster- Request https://docs.aws.amazon.com/eks/latest/APIReference/API_RegisterClusterRequest.html`__ to add it to the Amazon EKS control plane. Second, a Manifest containing the activationID and activationCode must be applied to the Kuber...
+    /// Connects a Kubernetes cluster to the Amazon EKS control plane. Any Kubernetes cluster can be connected to the Amazon EKS control plane to view current information about the cluster and its nodes. Cluster connection requires two steps. First, send a ` RegisterClusterRequest https://docs.aws.amazon.com/eks/latest/APIReference/API_RegisterClusterRequest.html`__ to add it to the Amazon EKS control plane. Second, a Manifest containing the activationID and activationCode must be applied to the Kuberne...
     /// </summary>
-    /// <param name="Name">A unique name for this cluster in your Amazon Web Services Region. Constraints: o min: 1 o max: 100 o pattern: ^[0-9A-Za-z][A-Za-z0-9\-_]*</param>
-    /// <param name="ConnectorConfig">The configuration settings required to connect the Kubernetes clus- ter to the Amazon EKS control plane. roleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the role that is authorized to request the connector configuration. provider -&gt; (string) [required] The cloud provider for the target cluster to connect. Possible values: o EKS_ANYWHERE o ANTHOS o GKE o AKS o OPENSHIFT o TANZU o RANCHER o EC2 o OTHER Shorthand Syntax: roleArn=string,provider=string JSON Syntax: { "roleArn": "string", "provider": "EKS_ANYWHERE"|"ANTHOS"|"GKE"|"AKS"|"OPENSHIFT"|"TANZU"|"RANCHER"|"EC2"|"OTHER" }</param>
+    /// <param name="Name">A unique name for this cluster in your Amazon Web Services Region. Constraints: • min: 1 • max: 100 • pattern: ^[0-9A-Za-z][A-Za-z0-9\-_]*</param>
+    /// <param name="ConnectorConfig">The configuration settings required to connect the Kubernetes cluster to the Amazon EKS control plane. roleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the role that is authorized to request the connector configuration. provider -&gt; (string) [required] The cloud provider for the target cluster to connect. Possible values: • EKS_ANYWHERE • ANTHOS • GKE • AKS • OPENSHIFT • TANZU • RANCHER • EC2 • OTHER Shorthand Syntax: roleArn=string,provider=string JSON Syntax: { "roleArn": "string", "provider": "EKS_ANYWHERE"|"ANTHOS"|"GKE"|"AKS"|"OPENSHIFT"|"TANZU"|"RANCHER"|"EC2"|"OTHER" }</param>
     public AwsEksRegisterClusterOptions(
         string Name,
         string ConnectorConfig
@@ -62,13 +62,13 @@ public record AwsEksRegisterClusterOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique name for this cluster in your Amazon Web Services Region. Constraints: o min: 1 o max: 100 o pattern: ^[0-9A-Za-z][A-Za-z0-9\-_]*
+    /// A unique name for this cluster in your Amazon Web Services Region. Constraints: • min: 1 • max: 100 • pattern: ^[0-9A-Za-z][A-Za-z0-9\-_]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The configuration settings required to connect the Kubernetes clus- ter to the Amazon EKS control plane. roleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the role that is authorized to request the connector configuration. provider -&gt; (string) [required] The cloud provider for the target cluster to connect. Possible values: o EKS_ANYWHERE o ANTHOS o GKE o AKS o OPENSHIFT o TANZU o RANCHER o EC2 o OTHER Shorthand Syntax: roleArn=string,provider=string JSON Syntax: { "roleArn": "string", "provider": "EKS_ANYWHERE"|"ANTHOS"|"GKE"|"AKS"|"OPENSHIFT"|"TANZU"|"RANCHER"|"EC2"|"OTHER" }
+    /// The configuration settings required to connect the Kubernetes cluster to the Amazon EKS control plane. roleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the role that is authorized to request the connector configuration. provider -&gt; (string) [required] The cloud provider for the target cluster to connect. Possible values: • EKS_ANYWHERE • ANTHOS • GKE • AKS • OPENSHIFT • TANZU • RANCHER • EC2 • OTHER Shorthand Syntax: roleArn=string,provider=string JSON Syntax: { "roleArn": "string", "provider": "EKS_ANYWHERE"|"ANTHOS"|"GKE"|"AKS"|"OPENSHIFT"|"TANZU"|"RANCHER"|"EC2"|"OTHER" }
     /// </summary>
     [CliOption("--connector-config")]
     public string? ConnectorConfig { get; private init; }
@@ -81,7 +81,7 @@ public record AwsEksRegisterClusterOptions : AwsOptions, IValidatableObject
     public string? ClientRequestToken { get; set; }
 
     /// <summary>
-    /// Metadata that assists with categorization and organization. Each tag consists of a key and an optional value. You define both. Tags don't propagate to any other cluster or Amazon Web Services resources. Constraints: o min: 1 o max: 50 key -&gt; (string) One part of a key-value pair that make up a tag. A key is a gen- eral label that acts like a category for more specific tag val- ues. Constraints: o min: 1 o max: 128 value -&gt; (string) The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key). Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Metadata that assists with categorization and organization. Each tag consists of a key and an optional value. You define both. Tags don't propagate to any other cluster or Amazon Web Services resources. Constraints: • min: 1 • max: 50 key -&gt; (string) One part of a key-value pair that make up a tag. A key is a general label that acts like a category for more specific tag values. Constraints: • min: 1 • max: 128 value -&gt; (string) The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key). Constraints: • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -107,6 +107,15 @@ public record AwsEksRegisterClusterOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

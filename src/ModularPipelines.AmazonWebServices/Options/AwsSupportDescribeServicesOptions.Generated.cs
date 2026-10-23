@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the current list of Amazon Web Services services and a list of service categories for each service. You then use service names and categories in your CreateCase requests. Each Amazon Web Services ser- vice has its own set of categories. The service codes and category codes correspond to the values that ap- pear in the Service and Category lists on the Amazon Web Services Sup- port Center Create Case page. The values in those fields don't neces- sarily match the service codes and categori...
+/// Returns the current list of Amazon Web Services services and a list of service categories for each service. You then use service names and categories in your CreateCase requests. Each Amazon Web Services service has its own set of categories. The service codes and category codes correspond to the values that appear in the Service and Category lists on the Amazon Web Services Support Center Create Case page. The values in those fields don't necessarily match the service codes and categories retur...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSupportDescribeServicesOptions : AwsOptions
 {
     /// <summary>
-    /// A JSON-formatted list of service codes available for Amazon Web Ser- vices services. Constraints: o min: 0 o max: 100 (string) Syntax: "string" "string" ...
+    /// A JSON-formatted list of service codes available for Amazon Web Services services. Constraints: • min: 0 • max: 100 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--service-code-list", GroupValues = true)]
     public IEnumerable<string>? ServiceCodeList { get; set; }
@@ -34,7 +34,7 @@ public record AwsSupportDescribeServicesOptions : AwsOptions
     public string? Language { get; set; }
 
     /// <summary>
-    /// Specifies whether to validate the request without actually returning the list of services. When set to true , the request is validated but no services are returned, and the operation returns a DryRunOp- erationException . When omitted or set to false , the request runs normally.
+    /// Specifies whether to validate the request without actually returning the list of services. When set to true , the request is validated but no services are returned, and the operation returns a DryRunOperationException . When omitted or set to false , the request runs normally.
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -44,5 +44,14 @@ public record AwsSupportDescribeServicesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

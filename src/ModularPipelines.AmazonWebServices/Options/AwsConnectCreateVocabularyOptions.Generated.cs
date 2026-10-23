@@ -11,13 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a custom vocabulary associated with your Connect Customer in- stance. You can set a custom vocabulary to be your default vocabulary for a given language. Contact Lens for Connect Customer uses the de- fault vocabulary in post-call and real-time contact analysis sessions for that language. See also: AWS API Documentation
+/// Creates a custom vocabulary associated with your Connect Customer instance. You can set a custom vocabulary to be your default vocabulary for a given language. Contact Lens for Connect Customer uses the default vocabulary in post-call and real-time contact analysis sessions for that language. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,12 +27,12 @@ public record AwsConnectCreateVocabularyOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a custom vocabulary associated with your Connect Customer in- stance. You can set a custom vocabulary to be your default vocabulary for a given language. Contact Lens for Connect Customer uses the de- fault vocabulary in post-call and real-time contact analysis sessions for that language. See also: AWS API Documentation
+    /// Creates a custom vocabulary associated with your Connect Customer instance. You can set a custom vocabulary to be your default vocabulary for a given language. Contact Lens for Connect Customer uses the default vocabulary in post-call and real-time contact analysis sessions for that language. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="VocabularyName">A unique name of the custom vocabulary. Constraints: o min: 1 o max: 140 o pattern: ^[0-9a-zA-Z._-]+</param>
-    /// <param name="LanguageCode">The language code of the vocabulary entries. For a list of languages and their corresponding language codes, see What is Amazon Tran- scribe? Possible values: o ar-AE o de-CH o de-DE o en-AB o en-AU o en-GB o en-IE o en-IN o en-US o en-WL o es-ES o es-US o fr-CA o fr-FR o hi-IN o it-IT o ja-JP o ko-KR o pt-BR o pt-PT o zh-CN o en-NZ o en-ZA o ca-ES o da-DK o fi-FI o id-ID o ms-MY o nl-NL o no-NO o pl-PL o sv-SE o tl-PH</param>
-    /// <param name="Content">The content of the custom vocabulary in plain-text format with a ta- ble of values. Each row in the table represents a word or a phrase, described with Phrase , IPA , SoundsLike , and DisplayAs fields. Separate the fields with TAB characters. The size limit is 50KB. For more information, see Create a custom vocabulary using a table . Constraints: o min: 1 o max: 60000</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="VocabularyName">A unique name of the custom vocabulary. Constraints: • min: 1 • max: 140 • pattern: ^[0-9a-zA-Z._-]+</param>
+    /// <param name="LanguageCode">The language code of the vocabulary entries. For a list of languages and their corresponding language codes, see What is Amazon Transcribe? Possible values: • ar-AE • de-CH • de-DE • en-AB • en-AU • en-GB • en-IE • en-IN • en-US • en-WL • es-ES • es-US • fr-CA • fr-FR • hi-IN • it-IT • ja-JP • ko-KR • pt-BR • pt-PT • zh-CN • en-NZ • en-ZA • ca-ES • da-DK • fi-FI • id-ID • ms-MY • nl-NL • no-NO • pl-PL • sv-SE • tl-PH</param>
+    /// <param name="Content">The content of the custom vocabulary in plain-text format with a table of values. Each row in the table represents a word or a phrase, described with Phrase , IPA , SoundsLike , and DisplayAs fields. Separate the fields with TAB characters. The size limit is 50KB. For more information, see Create a custom vocabulary using a table . Constraints: • min: 1 • max: 60000</param>
     public AwsConnectCreateVocabularyOptions(
         string InstanceId,
         string VocabularyName,
@@ -70,38 +70,38 @@ public record AwsConnectCreateVocabularyOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// A unique name of the custom vocabulary. Constraints: o min: 1 o max: 140 o pattern: ^[0-9a-zA-Z._-]+
+    /// A unique name of the custom vocabulary. Constraints: • min: 1 • max: 140 • pattern: ^[0-9a-zA-Z._-]+
     /// </summary>
     [CliOption("--vocabulary-name")]
     public string? VocabularyName { get; private init; }
 
     /// <summary>
-    /// The language code of the vocabulary entries. For a list of languages and their corresponding language codes, see What is Amazon Tran- scribe? Possible values: o ar-AE o de-CH o de-DE o en-AB o en-AU o en-GB o en-IE o en-IN o en-US o en-WL o es-ES o es-US o fr-CA o fr-FR o hi-IN o it-IT o ja-JP o ko-KR o pt-BR o pt-PT o zh-CN o en-NZ o en-ZA o ca-ES o da-DK o fi-FI o id-ID o ms-MY o nl-NL o no-NO o pl-PL o sv-SE o tl-PH
+    /// The language code of the vocabulary entries. For a list of languages and their corresponding language codes, see What is Amazon Transcribe? Possible values: • ar-AE • de-CH • de-DE • en-AB • en-AU • en-GB • en-IE • en-IN • en-US • en-WL • es-ES • es-US • fr-CA • fr-FR • hi-IN • it-IT • ja-JP • ko-KR • pt-BR • pt-PT • zh-CN • en-NZ • en-ZA • ca-ES • da-DK • fi-FI • id-ID • ms-MY • nl-NL • no-NO • pl-PL • sv-SE • tl-PH
     /// </summary>
     [CliOption("--language-code")]
     public string? LanguageCode { get; private init; }
 
     /// <summary>
-    /// The content of the custom vocabulary in plain-text format with a ta- ble of values. Each row in the table represents a word or a phrase, described with Phrase , IPA , SoundsLike , and DisplayAs fields. Separate the fields with TAB characters. The size limit is 50KB. For more information, see Create a custom vocabulary using a table . Constraints: o min: 1 o max: 60000
+    /// The content of the custom vocabulary in plain-text format with a table of values. Each row in the table represents a word or a phrase, described with Phrase , IPA , SoundsLike , and DisplayAs fields. Separate the fields with TAB characters. The size limit is 50KB. For more information, see Create a custom vocabulary using a table . Constraints: • min: 1 • max: 60000
     /// </summary>
     [CliOption("--content")]
     public string? Content { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . If a create request is received more than once with same client token, subsequent re- quests return the previous response without creating a vocabulary again. Constraints: o max: 500
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . If a create request is received more than once with same client token, subsequent requests return the previous response without creating a vocabulary again. Constraints: • max: 500
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The tags used to organize, track, or control access for this re- source. For example, { "Tags": {"key1":"value1", "key2":"value2"} }. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -127,6 +127,15 @@ public record AwsConnectCreateVocabularyOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

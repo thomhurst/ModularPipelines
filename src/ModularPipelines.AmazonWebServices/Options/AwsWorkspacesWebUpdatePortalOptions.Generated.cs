@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsWorkspacesWebUpdatePortalOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Updates a web portal. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PortalArn">The ARN of the web portal. Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=\/,.@-]+:[a-zA-Z0-9\-]+:[a-zA-Z0-9\-]*:[a-zA-Z0-9]{1,12}:[a-zA-Z]+(\/[a-fA-F0-9\-]{36})+</param>
+    /// <param name="PortalArn">The ARN of the web portal. Constraints: • min: 20 • max: 2048 • pattern: arn:[\w+=\/,.@-]+:[a-zA-Z0-9\-]+:[a-zA-Z0-9\-]*:[a-zA-Z0-9]{1,12}:[a-zA-Z]+(\/[a-fA-F0-9\-]{36})+</param>
     public AwsWorkspacesWebUpdatePortalOptions(
         string PortalArn
     )
@@ -57,37 +58,37 @@ public record AwsWorkspacesWebUpdatePortalOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the web portal. Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=\/,.@-]+:[a-zA-Z0-9\-]+:[a-zA-Z0-9\-]*:[a-zA-Z0-9]{1,12}:[a-zA-Z]+(\/[a-fA-F0-9\-]{36})+
+    /// The ARN of the web portal. Constraints: • min: 20 • max: 2048 • pattern: arn:[\w+=\/,.@-]+:[a-zA-Z0-9\-]+:[a-zA-Z0-9\-]*:[a-zA-Z0-9]{1,12}:[a-zA-Z]+(\/[a-fA-F0-9\-]{36})+
     /// </summary>
     [CliOption("--portal-arn")]
     public string? PortalArn { get; private init; }
 
     /// <summary>
-    /// The name of the web portal. This is not visible to users who log into the web portal. Constraints: o min: 1 o max: 64 o pattern: .+
+    /// The name of the web portal. This is not visible to users who log into the web portal. Constraints: • min: 1 • max: 64 • pattern: .+
     /// </summary>
     [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// The type of authentication integration points used when signing into the web portal. Defaults to Standard . Standard web portals are authenticated directly through your identity provider. You need to call CreateIdentityProvider to integrate your identity provider with your web portal. User and group access to your web portal is controlled through your iden- tity provider. IAM Identity Center web portals are authenticated through IAM Identity Center. Identity sources (including external identity provider integration), plus user and group access to your web portal, can be configured in the IAM Identity Center. Possible values: o Standard o IAM_Identity_Center
+    /// The type of authentication integration points used when signing into the web portal. Defaults to Standard . Standard web portals are authenticated directly through your identity provider. You need to call CreateIdentityProvider to integrate your identity provider with your web portal. User and group access to your web portal is controlled through your identity provider. IAM Identity Center web portals are authenticated through IAM Identity Center. Identity sources (including external identity provider integration), plus user and group access to your web portal, can be configured in the IAM Identity Center. Possible values: • Standard • IAM_Identity_Center
     /// </summary>
     [CliOption("--authentication-type")]
     public AwsWorkspacesWebUpdatePortalAuthenticationType? AuthenticationType { get; set; }
 
     /// <summary>
-    /// The type and resources of the underlying instance. Possible values: o standard.regular o standard.large o standard.xlarge
+    /// The type and resources of the underlying instance. Possible values: • standard.regular • standard.large • standard.xlarge
     /// </summary>
     [CliOption("--instance-type")]
     public AwsWorkspacesWebUpdatePortalInstanceType? InstanceType { get; set; }
 
     /// <summary>
-    /// The maximum number of concurrent sessions for the portal. Constraints: o min: 1 o max: 5000
+    /// The maximum number of concurrent sessions for the portal. Constraints: • min: 1 • max: 5000
     /// </summary>
     [CliOption("--max-concurrent-sessions")]
     public int? MaxConcurrentSessions { get; set; }
 
     /// <summary>
-    /// The custom domain of the web portal that users access in order to start streaming sessions. Constraints: o min: 0 o max: 128 o pattern: (|[a-zA-Z0-9]?((?!-)([A-Za-z0-9-]*[A-Za-z0-9])\.)+[a-zA-Z0-9]+)
+    /// The custom domain of the web portal that users access in order to start streaming sessions. Constraints: • min: 0 • max: 128 • pattern: (|[a-zA-Z0-9]?((?!-)([A-Za-z0-9-]*[A-Za-z0-9])\.)+[a-zA-Z0-9]+)
     /// </summary>
     [CliOption("--portal-custom-domain")]
     public string? PortalCustomDomain { get; set; }
@@ -113,6 +114,15 @@ public record AwsWorkspacesWebUpdatePortalOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

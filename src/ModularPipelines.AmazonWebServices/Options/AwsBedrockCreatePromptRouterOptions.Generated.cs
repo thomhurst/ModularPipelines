@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,10 +29,10 @@ public record AwsBedrockCreatePromptRouterOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Creates a prompt router that manages the routing of requests between multiple foundation models based on the routing criteria. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PromptRouterName">The name of the prompt router. The name must be unique within your Amazon Web Services account in the current region. Constraints: o min: 1 o max: 64 o pattern: ([0-9a-zA-Z][ _-]?)+</param>
-    /// <param name="Models">A list of foundation models that the prompt router can route re- quests to. At least one model must be specified. (structure) The target model for a prompt router. modelArn -&gt; (string) [required] The target model's ARN. Constraints: o min: 1 o max: 2048 o pattern: .*(^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}::founda- tion-model/[a-z0-9-]{1,63}[.]{1}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2})|(^arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:(|[0-9a-z-]{0,20}):(|[0-9]{12}):(in- ference-profile|application-inference-pro- file)/[a-zA-Z0-9-:.]+) Shorthand Syntax: modelArn=string ... JSON Syntax: [ { "modelArn": "string" } ... ]</param>
-    /// <param name="RoutingCriteria">The criteria, which is the response quality difference, used to de- termine how incoming requests are routed to different models. responseQualityDifference -&gt; (double) [required] The criteria's response quality difference. Constraints: o min: 0 o max: 100 Shorthand Syntax: responseQualityDifference=double JSON Syntax: { "responseQualityDifference": double }</param>
-    /// <param name="FallbackModel">The default model to use when the routing criteria is not met. modelArn -&gt; (string) [required] The target model's ARN. Constraints: o min: 1 o max: 2048 o pattern: .*(^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}::founda- tion-model/[a-z0-9-]{1,63}[.]{1}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2})|(^arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:(|[0-9a-z-]{0,20}):(|[0-9]{12}):(in- ference-profile|application-inference-pro- file)/[a-zA-Z0-9-:.]+) Shorthand Syntax: modelArn=string JSON Syntax: { "modelArn": "string" }</param>
+    /// <param name="PromptRouterName">The name of the prompt router. The name must be unique within your Amazon Web Services account in the current region. Constraints: • min: 1 • max: 64 • pattern: ([0-9a-zA-Z][ _-]?)+</param>
+    /// <param name="Models">A list of foundation models that the prompt router can route requests to. At least one model must be specified. (structure) The target model for a prompt router. modelArn -&gt; (string) [required] The target model's ARN. Constraints: • min: 1 • max: 2048 • pattern: .*(^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}::foundation-model/[a-z0-9-]{1,63}[.]{1}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2})|(^arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:(|[0-9a-z-]{0,20}):(|[0-9]{12}):(inference-profile|application-inference-profile)/[a-zA-Z0-9-:.]+) Shorthand Syntax: modelArn=string ... JSON Syntax: [ { "modelArn": "string" } ... ]</param>
+    /// <param name="RoutingCriteria">The criteria, which is the response quality difference, used to determine how incoming requests are routed to different models. responseQualityDifference -&gt; (double) [required] The criteria's response quality difference. Constraints: • min: 0 • max: 100 Shorthand Syntax: responseQualityDifference=double JSON Syntax: { "responseQualityDifference": double }</param>
+    /// <param name="FallbackModel">The default model to use when the routing criteria is not met. modelArn -&gt; (string) [required] The target model's ARN. Constraints: • min: 1 • max: 2048 • pattern: .*(^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}::foundation-model/[a-z0-9-]{1,63}[.]{1}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2})|(^arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:(|[0-9a-z-]{0,20}):(|[0-9]{12}):(inference-profile|application-inference-profile)/[a-zA-Z0-9-:.]+) Shorthand Syntax: modelArn=string JSON Syntax: { "modelArn": "string" }</param>
     public AwsBedrockCreatePromptRouterOptions(
         string PromptRouterName,
         IEnumerable<string> Models,
@@ -80,44 +81,44 @@ public record AwsBedrockCreatePromptRouterOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the prompt router. The name must be unique within your Amazon Web Services account in the current region. Constraints: o min: 1 o max: 64 o pattern: ([0-9a-zA-Z][ _-]?)+
+    /// The name of the prompt router. The name must be unique within your Amazon Web Services account in the current region. Constraints: • min: 1 • max: 64 • pattern: ([0-9a-zA-Z][ _-]?)+
     /// </summary>
     [CliOption("--prompt-router-name")]
     public string? PromptRouterName { get; private init; }
 
     /// <summary>
-    /// A list of foundation models that the prompt router can route re- quests to. At least one model must be specified. (structure) The target model for a prompt router. modelArn -&gt; (string) [required] The target model's ARN. Constraints: o min: 1 o max: 2048 o pattern: .*(^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}::founda- tion-model/[a-z0-9-]{1,63}[.]{1}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2})|(^arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:(|[0-9a-z-]{0,20}):(|[0-9]{12}):(in- ference-profile|application-inference-pro- file)/[a-zA-Z0-9-:.]+) Shorthand Syntax: modelArn=string ... JSON Syntax: [ { "modelArn": "string" } ... ]
+    /// A list of foundation models that the prompt router can route requests to. At least one model must be specified. (structure) The target model for a prompt router. modelArn -&gt; (string) [required] The target model's ARN. Constraints: • min: 1 • max: 2048 • pattern: .*(^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}::foundation-model/[a-z0-9-]{1,63}[.]{1}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2})|(^arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:(|[0-9a-z-]{0,20}):(|[0-9]{12}):(inference-profile|application-inference-profile)/[a-zA-Z0-9-:.]+) Shorthand Syntax: modelArn=string ... JSON Syntax: [ { "modelArn": "string" } ... ]
     /// </summary>
     [CliOption("--models", GroupValues = true)]
     public IEnumerable<string>? Models { get; private init; }
 
     /// <summary>
-    /// The criteria, which is the response quality difference, used to de- termine how incoming requests are routed to different models. responseQualityDifference -&gt; (double) [required] The criteria's response quality difference. Constraints: o min: 0 o max: 100 Shorthand Syntax: responseQualityDifference=double JSON Syntax: { "responseQualityDifference": double }
+    /// The criteria, which is the response quality difference, used to determine how incoming requests are routed to different models. responseQualityDifference -&gt; (double) [required] The criteria's response quality difference. Constraints: • min: 0 • max: 100 Shorthand Syntax: responseQualityDifference=double JSON Syntax: { "responseQualityDifference": double }
     /// </summary>
     [CliOption("--routing-criteria")]
     public string? RoutingCriteria { get; private init; }
 
     /// <summary>
-    /// The default model to use when the routing criteria is not met. modelArn -&gt; (string) [required] The target model's ARN. Constraints: o min: 1 o max: 2048 o pattern: .*(^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}::founda- tion-model/[a-z0-9-]{1,63}[.]{1}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2})|(^arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:(|[0-9a-z-]{0,20}):(|[0-9]{12}):(in- ference-profile|application-inference-pro- file)/[a-zA-Z0-9-:.]+) Shorthand Syntax: modelArn=string JSON Syntax: { "modelArn": "string" }
+    /// The default model to use when the routing criteria is not met. modelArn -&gt; (string) [required] The target model's ARN. Constraints: • min: 1 • max: 2048 • pattern: .*(^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}::foundation-model/[a-z0-9-]{1,63}[.]{1}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2})|(^arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:(|[0-9a-z-]{0,20}):(|[0-9]{12}):(inference-profile|application-inference-profile)/[a-zA-Z0-9-:.]+) Shorthand Syntax: modelArn=string JSON Syntax: { "modelArn": "string" }
     /// </summary>
     [CliOption("--fallback-model")]
     public string? FallbackModel { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure idem- potency of your requests. If not specified, the Amazon Web Services SDK automatically generates one for you. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9]([-a-zA-Z0-9]{0,254}[a-zA-Z0-9])?
+    /// A unique, case-sensitive identifier that you provide to ensure idempotency of your requests. If not specified, the Amazon Web Services SDK automatically generates one for you. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9]([-a-zA-Z0-9]{0,254}[a-zA-Z0-9])?
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
     /// <summary>
-    /// An optional description of the prompt router to help identify its purpose. Constraints: o min: 1 o max: 200 o pattern: ([0-9a-zA-Z:.][ _-]?)+
+    /// An optional description of the prompt router to help identify its purpose. Constraints: • min: 1 • max: 200 • pattern: ([0-9a-zA-Z:.][ _-]?)+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// An array of key-value pairs to apply to this resource as tags. You can use tags to categorize and manage your Amazon Web Services re- sources. Constraints: o min: 0 o max: 200 (structure) Definition of the key/value pair for a tag. key -&gt; (string) [required] Key for the tag. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\s._:/=+@-]* value -&gt; (string) [required] Value for the tag. Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9\s._:/=+@-]* Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// An array of key-value pairs to apply to this resource as tags. You can use tags to categorize and manage your Amazon Web Services resources. Constraints: • min: 0 • max: 200 (structure) Definition of the key/value pair for a tag. key -&gt; (string) [required] Key for the tag. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9\s._:/=+@-]* value -&gt; (string) [required] Value for the tag. Constraints: • min: 0 • max: 256 • pattern: [a-zA-Z0-9\s._:/=+@-]* Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -143,6 +144,15 @@ public record AwsBedrockCreatePromptRouterOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

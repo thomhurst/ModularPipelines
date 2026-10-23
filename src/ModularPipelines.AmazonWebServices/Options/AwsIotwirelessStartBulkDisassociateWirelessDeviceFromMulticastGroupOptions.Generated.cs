@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsIotwirelessStartBulkDisassociateWirelessDeviceFromMulticastGrou
     /// <summary>
     /// Starts a bulk disassociatin of all qualifying wireless devices from a multicast group. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the multicast group. Constraints: o max: 256</param>
+    /// <param name="Id">The ID of the multicast group. Constraints: • max: 256</param>
     public AwsIotwirelessStartBulkDisassociateWirelessDeviceFromMulticastGroupOptions(
         string Id
     )
@@ -56,19 +57,19 @@ public record AwsIotwirelessStartBulkDisassociateWirelessDeviceFromMulticastGrou
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the multicast group. Constraints: o max: 256
+    /// The ID of the multicast group. Constraints: • max: 256
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// Query string used to search for wireless devices as part of the bulk associate and disassociate process. Constraints: o max: 4096
+    /// Query string used to search for wireless devices as part of the bulk associate and disassociate process. Constraints: • max: 4096
     /// </summary>
     [CliOption("--query-string")]
     public string? QueryString { get; set; }
 
     /// <summary>
-    /// The tag to attach to the specified resource. Tags are metadata that you can use to manage a resource. Constraints: o min: 0 o max: 200 (structure) A simple label consisting of a customer-defined key-value pair Key -&gt; (string) [required] The tag's key value. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The tag's value. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tag to attach to the specified resource. Tags are metadata that you can use to manage a resource. Constraints: • min: 0 • max: 200 (structure) A simple label consisting of a customer-defined key-value pair Key -&gt; (string) [required] The tag's key value. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] The tag's value. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -94,6 +95,15 @@ public record AwsIotwirelessStartBulkDisassociateWirelessDeviceFromMulticastGrou
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

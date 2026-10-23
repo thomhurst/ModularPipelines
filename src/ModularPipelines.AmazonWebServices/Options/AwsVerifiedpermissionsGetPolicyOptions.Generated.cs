@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsVerifiedpermissionsGetPolicyOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Retrieves information about the specified policy. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PolicyStoreId">Specifies the ID of the policy store that contains the policy that you want information about. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/ . For example: o ID: PSEXAMPLEabcdefg111111 o Alias name: policy-store-alias/example-policy-store To view aliases, use ListPolicyStoreAliases . Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9-/_]*</param>
-    /// <param name="PolicyId">Specifies the ID of the policy you want information about. You can use the policy name in place of the policy ID. When using a name, prefix it with name/ . For example: o ID: SPEXAMPLEabcdefg111111 o Name: name/example-policy Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9-/_]*</param>
+    /// <param name="PolicyStoreId">Specifies the ID of the policy store that contains the policy that you want information about. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/ . For example: • ID: PSEXAMPLEabcdefg111111 • Alias name: policy-store-alias/example-policy-store To view aliases, use ListPolicyStoreAliases . Constraints: • min: 1 • max: 200 • pattern: [a-zA-Z0-9-/_]*</param>
+    /// <param name="PolicyId">Specifies the ID of the policy you want information about. You can use the policy name in place of the policy ID. When using a name, prefix it with name/ . For example: • ID: SPEXAMPLEabcdefg111111 • Name: name/example-policy Constraints: • min: 1 • max: 200 • pattern: [a-zA-Z0-9-/_]*</param>
     public AwsVerifiedpermissionsGetPolicyOptions(
         string PolicyStoreId,
         string PolicyId
@@ -60,13 +61,13 @@ public record AwsVerifiedpermissionsGetPolicyOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the ID of the policy store that contains the policy that you want information about. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/ . For example: o ID: PSEXAMPLEabcdefg111111 o Alias name: policy-store-alias/example-policy-store To view aliases, use ListPolicyStoreAliases . Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9-/_]*
+    /// Specifies the ID of the policy store that contains the policy that you want information about. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/ . For example: • ID: PSEXAMPLEabcdefg111111 • Alias name: policy-store-alias/example-policy-store To view aliases, use ListPolicyStoreAliases . Constraints: • min: 1 • max: 200 • pattern: [a-zA-Z0-9-/_]*
     /// </summary>
     [CliOption("--policy-store-id")]
     public string? PolicyStoreId { get; private init; }
 
     /// <summary>
-    /// Specifies the ID of the policy you want information about. You can use the policy name in place of the policy ID. When using a name, prefix it with name/ . For example: o ID: SPEXAMPLEabcdefg111111 o Name: name/example-policy Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9-/_]*
+    /// Specifies the ID of the policy you want information about. You can use the policy name in place of the policy ID. When using a name, prefix it with name/ . For example: • ID: SPEXAMPLEabcdefg111111 • Name: name/example-policy Constraints: • min: 1 • max: 200 • pattern: [a-zA-Z0-9-/_]*
     /// </summary>
     [CliOption("--policy-id")]
     public string? PolicyId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsVerifiedpermissionsGetPolicyOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

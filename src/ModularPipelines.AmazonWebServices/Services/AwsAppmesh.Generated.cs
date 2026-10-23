@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -32,7 +32,7 @@ public class AwsAppmesh : IAwsAppmesh
     #region Commands
 
     /// <summary>
-    /// Creates a gateway route. A gateway route is attached to a virtual gateway and routes traffic to an existing virtual service. If a route matches a request, it can dis- tribute traffic to a target virtual service. For more information about gateway routes, see Gateway routes . See also: AWS API Documentation
+    /// Creates a gateway route. A gateway route is attached to a virtual gateway and routes traffic to an existing virtual service. If a route matches a request, it can distribute traffic to a target virtual service. For more information about gateway routes, see Gateway routes . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsAppmesh : IAwsAppmesh
     }
 
     /// <summary>
-    /// Creates a service mesh. A service mesh is a logical boundary for network traffic between ser- vices that are represented by resources within the mesh. After you cre- ate your service mesh, you can create virtual services, virtual nodes, virtual routers, and routes to distribute traffic between the applica- tions in your mesh. For more information about service meshes, see Service meshes . See also: AWS API Documentation
+    /// Creates a service mesh. A service mesh is a logical boundary for network traffic between services that are represented by resources within the mesh. After you create your service mesh, you can create virtual services, virtual nodes, virtual routers, and routes to distribute traffic between the applications in your mesh. For more information about service meshes, see Service meshes . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsAppmesh : IAwsAppmesh
     }
 
     /// <summary>
-    /// Creates a virtual node within a service mesh. A virtual node acts as a logical pointer to a particular task group, such as an Amazon ECS service or a Kubernetes deployment. When you cre- ate a virtual node, you can specify the service discovery information for your task group, and whether the proxy running in a task group will communicate with other proxies using Transport Layer Security (TLS). You define a listener for any inbound traffic that your virtual node expects. Any virtual service that...
+    /// Creates a virtual node within a service mesh. A virtual node acts as a logical pointer to a particular task group, such as an Amazon ECS service or a Kubernetes deployment. When you create a virtual node, you can specify the service discovery information for your task group, and whether the proxy running in a task group will communicate with other proxies using Transport Layer Security (TLS). You define a listener for any inbound traffic that your virtual node expects. Any virtual service that y...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsAppmesh : IAwsAppmesh
     }
 
     /// <summary>
-    /// Creates a virtual router within a service mesh. Specify a listener for any inbound traffic that your virtual router re- ceives. Create a virtual router for each protocol and port that you need to route. Virtual routers handle traffic for one or more virtual services within your mesh. After you create your virtual router, create and associate routes for your virtual router that direct incoming re- quests to different virtual nodes. For more information about virtual routers, see Virtual routers ....
+    /// Creates a virtual router within a service mesh. Specify a listener for any inbound traffic that your virtual router receives. Create a virtual router for each protocol and port that you need to route. Virtual routers handle traffic for one or more virtual services within your mesh. After you create your virtual router, create and associate routes for your virtual router that direct incoming requests to different virtual nodes. For more information about virtual routers, see Virtual routers . See...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsAppmesh : IAwsAppmesh
     }
 
     /// <summary>
-    /// Deletes an existing virtual gateway. You cannot delete a virtual gate- way if any gateway routes are associated to it. See also: AWS API Documentation
+    /// Deletes an existing virtual gateway. You cannot delete a virtual gateway if any gateway routes are associated to it. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsAppmesh : IAwsAppmesh
     }
 
     /// <summary>
-    /// Deletes an existing virtual node. You must delete any virtual services that list a virtual node as a ser- vice provider before you can delete the virtual node itself. See also: AWS API Documentation
+    /// Deletes an existing virtual node. You must delete any virtual services that list a virtual node as a service provider before you can delete the virtual node itself. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -347,7 +347,7 @@ public class AwsAppmesh : IAwsAppmesh
     }
 
     /// <summary>
-    /// Returns a list of existing gateway routes that are associated to a vir- tual gateway. See also: AWS API Documentation list-gateway-routes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: gatewayRoutes
+    /// Returns a list of existing gateway routes that are associated to a virtual gateway. See also: AWS API Documentation list-gateway-routes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: gatewayRoutes
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public class AwsAppmesh : IAwsAppmesh
     }
 
     /// <summary>
-    /// Returns a list of existing service meshes. See also: AWS API Documentation list-meshes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: meshes
+    /// Returns a list of existing service meshes. See also: AWS API Documentation list-meshes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: meshes
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -377,7 +377,7 @@ public class AwsAppmesh : IAwsAppmesh
     }
 
     /// <summary>
-    /// Returns a list of existing routes in a service mesh. See also: AWS API Documentation list-routes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: routes
+    /// Returns a list of existing routes in a service mesh. See also: AWS API Documentation list-routes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: routes
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -467,7 +467,7 @@ public class AwsAppmesh : IAwsAppmesh
     }
 
     /// <summary>
-    /// Associates the specified tags to a resource with the specified re- sourceArn . If existing tags on a resource aren't specified in the re- quest parameters, they aren't changed. When a resource is deleted, the tags associated with that resource are also deleted. See also: AWS API Documentation
+    /// Associates the specified tags to a resource with the specified resourceArn . If existing tags on a resource aren't specified in the request parameters, they aren't changed. When a resource is deleted, the tags associated with that resource are also deleted. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

@@ -23,14 +23,14 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsCloudformationStartResourceScanOptions : AwsOptions
 {
     /// <summary>
-    /// A unique identifier for this StartResourceScan request. Specify this token if you plan to retry requests so that CloudFormation knows that you're not attempting to start a new resource scan. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9][-a-zA-Z0-9]*
+    /// A unique identifier for this StartResourceScan request. Specify this token if you plan to retry requests so that CloudFormation knows that you're not attempting to start a new resource scan. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9][-a-zA-Z0-9]*
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
     /// <summary>
-    /// The scan filters to use. Constraints: o min: 1 o max: 1 (structure) A filter that is used to specify which resource types to scan. Types -&gt; (list) An array of strings where each string represents an Amazon Web Services resource type you want to scan. Each string de- fines the resource type using the format AWS::Service- Name::ResourceType , for example, AWS::DynamoDB::Table . For the full list of supported resource types, see the Resource type support table in the CloudFormation User Guide . To scan all resource types within a service, you can use a wildcard, represented by an asterisk (* ). You can place an asterisk at only the end of the string, for example, AWS::S3::* . Constraints: o max: 100 (string) Constraints: o min: 1 o max: 100 Shorthand Syntax: Types=string,string ... JSON Syntax: [ { "Types": ["string", ...] } ... ]
+    /// The scan filters to use. Constraints: • min: 1 • max: 1 (structure) A filter that is used to specify which resource types to scan. Types -&gt; (list) An array of strings where each string represents an Amazon Web Services resource type you want to scan. Each string defines the resource type using the format AWS::ServiceName::ResourceType , for example, AWS::DynamoDB::Table . For the full list of supported resource types, see the Resource type support table in the CloudFormation User Guide . To scan all resource types within a service, you can use a wildcard, represented by an asterisk (* ). You can place an asterisk at only the end of the string, for example, AWS::S3::* . Constraints: • max: 100 (string) Constraints: • min: 1 • max: 100 Shorthand Syntax: Types=string,string ... JSON Syntax: [ { "Types": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--scan-filters", GroupValues = true)]
     public IEnumerable<string>? ScanFilters { get; set; }
@@ -40,5 +40,14 @@ public record AwsCloudformationStartResourceScanOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

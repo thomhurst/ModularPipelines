@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Models;
+using ModularPipelines;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -28,8 +28,7 @@ public interface IAwsAmplifybackend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CloneBackendAsync(AwsAmplifybackendCloneBackendOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CloneBackendAsync(AwsAmplifybackendCloneBackendOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new backend API resource. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsAmplifybackend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateBackendApiAsync(AwsAmplifybackendCreateBackendApiOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateBackendApiAsync(AwsAmplifybackendCreateBackendApiOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new backend authentication resource. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsAmplifybackend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateBackendAuthAsync(AwsAmplifybackendCreateBackendAuthOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateBackendAuthAsync(AwsAmplifybackendCreateBackendAuthOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a config object for a backend. See also: AWS API Documentation
@@ -58,18 +55,16 @@ public interface IAwsAmplifybackend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateBackendConfigAsync(AwsAmplifybackendCreateBackendConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateBackendConfigAsync(AwsAmplifybackendCreateBackendConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// This operation creates a backend for an Amplify app. Backends are auto- matically created at the time of app creation. See also: AWS API Documentation
+    /// This operation creates a backend for an Amplify app. Backends are automatically created at the time of app creation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateBackendAsync(AwsAmplifybackendCreateBackendOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateBackendAsync(AwsAmplifybackendCreateBackendOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a backend storage resource. See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsAmplifybackend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateBackendStorageAsync(AwsAmplifybackendCreateBackendStorageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateBackendStorageAsync(AwsAmplifybackendCreateBackendStorageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Generates a one-time challenge code to authenticate a user into your Amplify Admin UI. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsAmplifybackend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateTokenAsync(AwsAmplifybackendCreateTokenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateTokenAsync(AwsAmplifybackendCreateTokenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an existing backend API resource. See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsAmplifybackend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteBackendApiAsync(AwsAmplifybackendDeleteBackendApiOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteBackendApiAsync(AwsAmplifybackendDeleteBackendApiOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an existing backend authentication resource. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsAmplifybackend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteBackendAuthAsync(AwsAmplifybackendDeleteBackendAuthOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteBackendAuthAsync(AwsAmplifybackendDeleteBackendAuthOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes an existing environment from your Amplify project. See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsAmplifybackend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteBackendAsync(AwsAmplifybackendDeleteBackendOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteBackendAsync(AwsAmplifybackendDeleteBackendOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes the specified backend storage resource. See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsAmplifybackend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteBackendStorageAsync(AwsAmplifybackendDeleteBackendStorageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteBackendStorageAsync(AwsAmplifybackendDeleteBackendStorageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the challenge token based on the given appId and sessionId. See also: AWS API Documentation
@@ -138,8 +127,7 @@ public interface IAwsAmplifybackend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTokenAsync(AwsAmplifybackendDeleteTokenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTokenAsync(AwsAmplifybackendDeleteTokenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Generates a model schema for an existing backend API resource. See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsAmplifybackend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GenerateBackendApiModelsAsync(AwsAmplifybackendGenerateBackendApiModelsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GenerateBackendApiModelsAsync(AwsAmplifybackendGenerateBackendApiModelsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a model introspection schema for an existing backend API resource. See also: AWS API Documentation
@@ -158,8 +145,7 @@ public interface IAwsAmplifybackend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBackendApiModelsAsync(AwsAmplifybackendGetBackendApiModelsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetBackendApiModelsAsync(AwsAmplifybackendGetBackendApiModelsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the details for a backend API. See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsAmplifybackend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBackendApiAsync(AwsAmplifybackendGetBackendApiOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetBackendApiAsync(AwsAmplifybackendGetBackendApiOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a backend auth details. See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsAmplifybackend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBackendAuthAsync(AwsAmplifybackendGetBackendAuthOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetBackendAuthAsync(AwsAmplifybackendGetBackendAuthOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about a specific job. See also: AWS API Documentation
@@ -188,8 +172,7 @@ public interface IAwsAmplifybackend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBackendJobAsync(AwsAmplifybackendGetBackendJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetBackendJobAsync(AwsAmplifybackendGetBackendJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides project-level details for your Amplify UI project. See also: AWS API Documentation
@@ -198,8 +181,7 @@ public interface IAwsAmplifybackend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBackendAsync(AwsAmplifybackendGetBackendOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetBackendAsync(AwsAmplifybackendGetBackendOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets details for a backend storage resource. See also: AWS API Documentation
@@ -208,8 +190,7 @@ public interface IAwsAmplifybackend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBackendStorageAsync(AwsAmplifybackendGetBackendStorageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetBackendStorageAsync(AwsAmplifybackendGetBackendStorageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the challenge token based on the given appId and sessionId. See also: AWS API Documentation
@@ -218,8 +199,7 @@ public interface IAwsAmplifybackend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTokenAsync(AwsAmplifybackendGetTokenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTokenAsync(AwsAmplifybackendGetTokenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Imports an existing backend authentication resource. See also: AWS API Documentation
@@ -228,8 +208,7 @@ public interface IAwsAmplifybackend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ImportBackendAuthAsync(AwsAmplifybackendImportBackendAuthOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ImportBackendAuthAsync(AwsAmplifybackendImportBackendAuthOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Imports an existing backend storage resource. See also: AWS API Documentation
@@ -238,8 +217,7 @@ public interface IAwsAmplifybackend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ImportBackendStorageAsync(AwsAmplifybackendImportBackendStorageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ImportBackendStorageAsync(AwsAmplifybackendImportBackendStorageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the jobs for the backend of an Amplify app. See also: AWS API Documentation list-backend-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Jobs
@@ -248,8 +226,7 @@ public interface IAwsAmplifybackend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListBackendJobsAsync(AwsAmplifybackendListBackendJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListBackendJobsAsync(AwsAmplifybackendListBackendJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The list of S3 buckets in your account. See also: AWS API Documentation
@@ -258,8 +235,7 @@ public interface IAwsAmplifybackend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListS3BucketsAsync(AwsAmplifybackendListS3BucketsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListS3BucketsAsync(AwsAmplifybackendListS3BucketsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes all backend environments from your Amplify project. See also: AWS API Documentation
@@ -268,8 +244,7 @@ public interface IAwsAmplifybackend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RemoveAllBackendsAsync(AwsAmplifybackendRemoveAllBackendsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RemoveAllBackendsAsync(AwsAmplifybackendRemoveAllBackendsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes the AWS resources required to access the Amplify Admin UI. See also: AWS API Documentation
@@ -278,8 +253,7 @@ public interface IAwsAmplifybackend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RemoveBackendConfigAsync(AwsAmplifybackendRemoveBackendConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RemoveBackendConfigAsync(AwsAmplifybackendRemoveBackendConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing backend API resource. See also: AWS API Documentation
@@ -288,8 +262,7 @@ public interface IAwsAmplifybackend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateBackendApiAsync(AwsAmplifybackendUpdateBackendApiOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateBackendApiAsync(AwsAmplifybackendUpdateBackendApiOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing backend authentication resource. See also: AWS API Documentation
@@ -298,8 +271,7 @@ public interface IAwsAmplifybackend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateBackendAuthAsync(AwsAmplifybackendUpdateBackendAuthOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateBackendAuthAsync(AwsAmplifybackendUpdateBackendAuthOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the AWS resources required to access the Amplify Admin UI. See also: AWS API Documentation
@@ -308,8 +280,7 @@ public interface IAwsAmplifybackend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateBackendConfigAsync(AwsAmplifybackendUpdateBackendConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateBackendConfigAsync(AwsAmplifybackendUpdateBackendConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a specific job. See also: AWS API Documentation
@@ -318,8 +289,7 @@ public interface IAwsAmplifybackend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateBackendJobAsync(AwsAmplifybackendUpdateBackendJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateBackendJobAsync(AwsAmplifybackendUpdateBackendJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing backend storage resource. See also: AWS API Documentation
@@ -328,7 +298,6 @@ public interface IAwsAmplifybackend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateBackendStorageAsync(AwsAmplifybackendUpdateBackendStorageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateBackendStorageAsync(AwsAmplifybackendUpdateBackendStorageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

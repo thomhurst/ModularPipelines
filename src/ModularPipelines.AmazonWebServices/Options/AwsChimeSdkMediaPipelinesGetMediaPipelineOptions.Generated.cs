@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsChimeSdkMediaPipelinesGetMediaPipelineOptions : AwsOptions, IVa
     /// <summary>
     /// Gets an existing media pipeline. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MediaPipelineId">The ID of the pipeline that you want to get. Constraints: o min: 36 o max: 36 o pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}</param>
+    /// <param name="MediaPipelineId">The ID of the pipeline that you want to get. Constraints: • min: 36 • max: 36 • pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}</param>
     public AwsChimeSdkMediaPipelinesGetMediaPipelineOptions(
         string MediaPipelineId
     )
@@ -56,7 +57,7 @@ public record AwsChimeSdkMediaPipelinesGetMediaPipelineOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the pipeline that you want to get. Constraints: o min: 36 o max: 36 o pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}
+    /// The ID of the pipeline that you want to get. Constraints: • min: 36 • max: 36 • pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}
     /// </summary>
     [CliOption("--media-pipeline-id")]
     public string? MediaPipelineId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsChimeSdkMediaPipelinesGetMediaPipelineOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

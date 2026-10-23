@@ -11,13 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Requests updates to the properties of the specified provisioned prod- uct. See also: AWS API Documentation
+/// Requests updates to the properties of the specified provisioned product. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +27,10 @@ public record AwsServicecatalogUpdateProvisionedProductPropertiesOptions : AwsOp
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Requests updates to the properties of the specified provisioned prod- uct. See also: AWS API Documentation
+    /// Requests updates to the properties of the specified provisioned product. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProvisionedProductId">The identifier of the provisioned product. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*</param>
-    /// <param name="ProvisionedProductProperties">A map that contains the provisioned product properties to be up- dated. The LAUNCH_ROLE key accepts role ARNs. This key allows an adminis- trator to call UpdateProvisionedProductProperties to update the launch role that is associated with a provisioned product. This role is used when an end user calls a provisioning operation such as Up- dateProvisionedProduct , TerminateProvisionedProduct , or Exe- cuteProvisionedProductServiceAction . Only a role ARN is valid. A user ARN is invalid. The OWNER key accepts user ARNs, IAM role ARNs, and STS assumed-role ARNs. The owner is the user that has permission to see, update, ter- minate, and execute service actions in the provisioned product. The administrator can change the owner of a provisioned product to another IAM or STS entity within the same account. Both end user owners and administrators can see ownership history of the provi- sioned product using the ListRecordHistory API. The new owner can describe all past records for the provisioned product using the De- scribeRecord API. The previous owner can no longer use DescribeRe- cord , but can still see the product's history from when he was an owner using ListRecordHistory . If a provisioned product ownership is assigned to an end user, they can see and perform any action through the API or Service Catalog console such as update, terminate, and execute service actions. If an end user provisions a product and the owner is updated to someone else, they will no longer be able to see or perform any actions through API or the Service Catalog console on that provisioned prod- uct. Constraints: o min: 1 o max: 100 key -&gt; (string) Possible values: o OWNER o LAUNCH_ROLE Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 1024 Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: OWNER LAUNCH_ROLE JSON Syntax: {"OWNER"|"LAUNCH_ROLE": "string" ...}</param>
+    /// <param name="ProvisionedProductId">The identifier of the provisioned product. Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*</param>
+    /// <param name="ProvisionedProductProperties">A map that contains the provisioned product properties to be updated. The LAUNCH_ROLE key accepts role ARNs. This key allows an administrator to call UpdateProvisionedProductProperties to update the launch role that is associated with a provisioned product. This role is used when an end user calls a provisioning operation such as UpdateProvisionedProduct , TerminateProvisionedProduct , or ExecuteProvisionedProductServiceAction . Only a role ARN is valid. A user ARN is invalid. The OWNER key accepts user ARNs, IAM role ARNs, and STS assumed-role ARNs. The owner is the user that has permission to see, update, terminate, and execute service actions in the provisioned product. The administrator can change the owner of a provisioned product to another IAM or STS entity within the same account. Both end user owners and administrators can see ownership history of the provisioned product using the ListRecordHistory API. The new owner can describe all past records for the provisioned product using the DescribeRecord API. The previous owner can no longer use DescribeRecord , but can still see the product's history from when he was an owner using ListRecordHistory . If a provisioned product ownership is assigned to an end user, they can see and perform any action through the API or Service Catalog console such as update, terminate, and execute service actions. If an end user provisions a product and the owner is updated to someone else, they will no longer be able to see or perform any actions through API or the Service Catalog console on that provisioned product. Constraints: • min: 1 • max: 100 key -&gt; (string) Possible values: • OWNER • LAUNCH_ROLE Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 1024 Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: OWNER LAUNCH_ROLE JSON Syntax: {"OWNER"|"LAUNCH_ROLE": "string" ...}</param>
     public AwsServicecatalogUpdateProvisionedProductPropertiesOptions(
         string ProvisionedProductId,
         IReadOnlyList<KeyValue> ProvisionedProductProperties
@@ -73,25 +73,25 @@ public record AwsServicecatalogUpdateProvisionedProductPropertiesOptions : AwsOp
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the provisioned product. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// The identifier of the provisioned product. Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*
     /// </summary>
     [CliOption("--provisioned-product-id")]
     public string? ProvisionedProductId { get; private init; }
 
     /// <summary>
-    /// A map that contains the provisioned product properties to be up- dated. The LAUNCH_ROLE key accepts role ARNs. This key allows an adminis- trator to call UpdateProvisionedProductProperties to update the launch role that is associated with a provisioned product. This role is used when an end user calls a provisioning operation such as Up- dateProvisionedProduct , TerminateProvisionedProduct , or Exe- cuteProvisionedProductServiceAction . Only a role ARN is valid. A user ARN is invalid. The OWNER key accepts user ARNs, IAM role ARNs, and STS assumed-role ARNs. The owner is the user that has permission to see, update, ter- minate, and execute service actions in the provisioned product. The administrator can change the owner of a provisioned product to another IAM or STS entity within the same account. Both end user owners and administrators can see ownership history of the provi- sioned product using the ListRecordHistory API. The new owner can describe all past records for the provisioned product using the De- scribeRecord API. The previous owner can no longer use DescribeRe- cord , but can still see the product's history from when he was an owner using ListRecordHistory . If a provisioned product ownership is assigned to an end user, they can see and perform any action through the API or Service Catalog console such as update, terminate, and execute service actions. If an end user provisions a product and the owner is updated to someone else, they will no longer be able to see or perform any actions through API or the Service Catalog console on that provisioned prod- uct. Constraints: o min: 1 o max: 100 key -&gt; (string) Possible values: o OWNER o LAUNCH_ROLE Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 1024 Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: OWNER LAUNCH_ROLE JSON Syntax: {"OWNER"|"LAUNCH_ROLE": "string" ...}
+    /// A map that contains the provisioned product properties to be updated. The LAUNCH_ROLE key accepts role ARNs. This key allows an administrator to call UpdateProvisionedProductProperties to update the launch role that is associated with a provisioned product. This role is used when an end user calls a provisioning operation such as UpdateProvisionedProduct , TerminateProvisionedProduct , or ExecuteProvisionedProductServiceAction . Only a role ARN is valid. A user ARN is invalid. The OWNER key accepts user ARNs, IAM role ARNs, and STS assumed-role ARNs. The owner is the user that has permission to see, update, terminate, and execute service actions in the provisioned product. The administrator can change the owner of a provisioned product to another IAM or STS entity within the same account. Both end user owners and administrators can see ownership history of the provisioned product using the ListRecordHistory API. The new owner can describe all past records for the provisioned product using the DescribeRecord API. The previous owner can no longer use DescribeRecord , but can still see the product's history from when he was an owner using ListRecordHistory . If a provisioned product ownership is assigned to an end user, they can see and perform any action through the API or Service Catalog console such as update, terminate, and execute service actions. If an end user provisions a product and the owner is updated to someone else, they will no longer be able to see or perform any actions through API or the Service Catalog console on that provisioned product. Constraints: • min: 1 • max: 100 key -&gt; (string) Possible values: • OWNER • LAUNCH_ROLE Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 1024 Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: OWNER LAUNCH_ROLE JSON Syntax: {"OWNER"|"LAUNCH_ROLE": "string" ...}
     /// </summary>
     [CliOption("--provisioned-product-properties", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ProvisionedProductProperties { get; private init; }
 
     /// <summary>
-    /// The language code. o jp - Japanese o zh - Chinese Constraints: o max: 100
+    /// The language code. • jp - Japanese • zh - Chinese Constraints: • max: 100
     /// </summary>
     [CliOption("--accept-language")]
     public string? AcceptLanguage { get; set; }
 
     /// <summary>
-    /// The idempotency token that uniquely identifies the provisioning product update request. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
+    /// The idempotency token that uniquely identifies the provisioning product update request. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
     /// </summary>
     [SecretValue]
     [CliOption("--idempotency-token")]
@@ -118,6 +118,15 @@ public record AwsServicecatalogUpdateProvisionedProductPropertiesOptions : AwsOp
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

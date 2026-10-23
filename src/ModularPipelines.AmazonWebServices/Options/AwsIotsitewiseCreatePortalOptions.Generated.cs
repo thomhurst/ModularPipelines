@@ -11,14 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// WARNING: The IoT SiteWise Monitor feature will no longer be open to new cus- tomers starting November 7, 2025. If you would like to use the IoT SiteWise Monitor feature, sign up prior to that date. Existing cus- tomers can continue to use the service as normal. For more informa- tion, see IoT SiteWise Monitor availability change . Creates a portal, which can contain projects and dashboards. IoT Site- Wise Monitor uses IAM Identity Center or IAM to authenticate portal users and manage user permis...
+/// WARNING: The IoT SiteWise Monitor feature will no longer be open to new customers starting November 7, 2025. If you would like to use the IoT SiteWise Monitor feature, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see IoT SiteWise Monitor availability change . Creates a portal, which can contain projects and dashboards. IoT SiteWise Monitor uses IAM Identity Center or IAM to authenticate portal users and manage user permissions. N...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -28,11 +28,11 @@ public record AwsIotsitewiseCreatePortalOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// WARNING: The IoT SiteWise Monitor feature will no longer be open to new cus- tomers starting November 7, 2025. If you would like to use the IoT SiteWise Monitor feature, sign up prior to that date. Existing cus- tomers can continue to use the service as normal. For more informa- tion, see IoT SiteWise Monitor availability change . Creates a portal, which can contain projects and dashboards. IoT Site- Wise Monitor uses IAM Identity Center or IAM to authenticate portal users and manage user permis...
+    /// WARNING: The IoT SiteWise Monitor feature will no longer be open to new customers starting November 7, 2025. If you would like to use the IoT SiteWise Monitor feature, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see IoT SiteWise Monitor availability change . Creates a portal, which can contain projects and dashboards. IoT SiteWise Monitor uses IAM Identity Center or IAM to authenticate portal users and manage user permissions. N...
     /// </summary>
-    /// <param name="PortalName">A friendly name for the portal. Constraints: o min: 1 o max: 256 o pattern: [^\u0000-\u001F\u007F]+</param>
-    /// <param name="PortalContactEmail">The Amazon Web Services administrator's contact email address. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9_\-\.\+]+@[a-zA-Z0-9_\-\.\+]+\.[a-zA-Z]{2,}$</param>
-    /// <param name="RoleArn">The ARN of a service role that allows the portal's users to access your IoT SiteWise resources on your behalf. For more information, see Using service roles for IoT SiteWise Monitor in the IoT SiteWise User Guide . Constraints: o min: 1 o max: 1600 o pattern: ^arn:aws(-cn|-us-gov)?:[a-zA-Z0-9-:\/_\.\+=,@]+$</param>
+    /// <param name="PortalName">A friendly name for the portal. Constraints: • min: 1 • max: 256 • pattern: [^\u0000-\u001F\u007F]+</param>
+    /// <param name="PortalContactEmail">The Amazon Web Services administrator's contact email address. Constraints: • min: 1 • max: 255 • pattern: ^[a-zA-Z0-9_\-\.\+]+@[a-zA-Z0-9_\-\.\+]+\.[a-zA-Z]{2,}$</param>
+    /// <param name="RoleArn">The ARN of a service role that allows the portal's users to access your IoT SiteWise resources on your behalf. For more information, see Using service roles for IoT SiteWise Monitor in the IoT SiteWise User Guide . Constraints: • min: 1 • max: 1600 • pattern: ^arn:aws(-cn|-us-gov)?:[a-zA-Z0-9-:\/_\.\+=,@]+$</param>
     public AwsIotsitewiseCreatePortalOptions(
         string PortalName,
         string PortalContactEmail,
@@ -67,74 +67,74 @@ public record AwsIotsitewiseCreatePortalOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A friendly name for the portal. Constraints: o min: 1 o max: 256 o pattern: [^\u0000-\u001F\u007F]+
+    /// A friendly name for the portal. Constraints: • min: 1 • max: 256 • pattern: [^\u0000-\u001F\u007F]+
     /// </summary>
     [CliOption("--portal-name")]
     public string? PortalName { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services administrator's contact email address. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9_\-\.\+]+@[a-zA-Z0-9_\-\.\+]+\.[a-zA-Z]{2,}$
+    /// The Amazon Web Services administrator's contact email address. Constraints: • min: 1 • max: 255 • pattern: ^[a-zA-Z0-9_\-\.\+]+@[a-zA-Z0-9_\-\.\+]+\.[a-zA-Z]{2,}$
     /// </summary>
     [CliOption("--portal-contact-email")]
     public string? PortalContactEmail { get; private init; }
 
     /// <summary>
-    /// The ARN of a service role that allows the portal's users to access your IoT SiteWise resources on your behalf. For more information, see Using service roles for IoT SiteWise Monitor in the IoT SiteWise User Guide . Constraints: o min: 1 o max: 1600 o pattern: ^arn:aws(-cn|-us-gov)?:[a-zA-Z0-9-:\/_\.\+=,@]+$
+    /// The ARN of a service role that allows the portal's users to access your IoT SiteWise resources on your behalf. For more information, see Using service roles for IoT SiteWise Monitor in the IoT SiteWise User Guide . Constraints: • min: 1 • max: 1600 • pattern: ^arn:aws(-cn|-us-gov)?:[a-zA-Z0-9-:\/_\.\+=,@]+$
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; private init; }
 
     /// <summary>
-    /// A description for the portal. Constraints: o min: 1 o max: 2048 o pattern: [^\u0000-\u001F\u007F]+
+    /// A description for the portal. Constraints: • min: 1 • max: 2048 • pattern: [^\u0000-\u001F\u007F]+
     /// </summary>
     [CliOption("--portal-description")]
     public string? PortalDescription { get; set; }
 
     /// <summary>
-    /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required. Constraints: o min: 36 o max: 64 o pattern: \S{36,64}
+    /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required. Constraints: • min: 36 • max: 64 • pattern: \S{36,64}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// A logo image to display in the portal. Upload a square, high-resolu- tion image. The image is displayed on a dark background. data -&gt; (blob) [required] The image file contents, represented as a base64-encoded string. The file size must be less than 1 MB. Constraints: o min: 1 o max: 1500000 type -&gt; (string) [required] The file type of the image. Possible values: o PNG Shorthand Syntax: data=blob,type=string JSON Syntax: { "data": blob, "type": "PNG" }
+    /// A logo image to display in the portal. Upload a square, high-resolution image. The image is displayed on a dark background. data -&gt; (blob) [required] The image file contents, represented as a base64-encoded string. The file size must be less than 1 MB. Constraints: • min: 1 • max: 1500000 type -&gt; (string) [required] The file type of the image. Possible values: • PNG Shorthand Syntax: data=blob,type=string JSON Syntax: { "data": blob, "type": "PNG" }
     /// </summary>
     [CliOption("--portal-logo-image-file")]
     public string? PortalLogoImageFile { get; set; }
 
     /// <summary>
-    /// A list of key-value pairs that contain metadata for the portal. For more information, see Tagging your IoT SiteWise resources in the IoT SiteWise User Guide . Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A list of key-value pairs that contain metadata for the portal. For more information, see Tagging your IoT SiteWise resources in the IoT SiteWise User Guide . Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// The service to use to authenticate users to the portal. Choose from the following options: o SSO The portal uses IAM Identity Center to authenticate users and manage user permissions. Before you can create a portal that uses IAM Identity Center, you must enable IAM Identity Center. For more information, see Enabling IAM Identity Center in the IoT SiteWise User Guide . This option is only available in Amazon Web Services Regions other than the China Regions. o IAM The portal uses Identity and Access Management to authenti- cate users and manage user permissions. You can't change this value after you create a portal. Default: SSO Possible values: o IAM o SSO
+    /// The service to use to authenticate users to the portal. Choose from the following options: • SSO The portal uses IAM Identity Center to authenticate users and manage user permissions. Before you can create a portal that uses IAM Identity Center, you must enable IAM Identity Center. For more information, see Enabling IAM Identity Center in the IoT SiteWise User Guide . This option is only available in Amazon Web Services Regions other than the China Regions. • IAM The portal uses Identity and Access Management to authenticate users and manage user permissions. You can't change this value after you create a portal. Default: SSO Possible values: • IAM • SSO
     /// </summary>
     [CliOption("--portal-auth-mode")]
     public AwsIotsitewiseCreatePortalPortalAuthMode? PortalAuthMode { get; set; }
 
     /// <summary>
-    /// The email address that sends alarm notifications. WARNING: If you use the IoT Events managed Lambda function to manage your emails, you must verify the sender email address in Amazon SES . Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9_\-\.\+]+@[a-zA-Z0-9_\-\.\+]+\.[a-zA-Z]{2,}$
+    /// The email address that sends alarm notifications. WARNING: If you use the IoT Events managed Lambda function to manage your emails, you must verify the sender email address in Amazon SES . Constraints: • min: 1 • max: 255 • pattern: ^[a-zA-Z0-9_\-\.\+]+@[a-zA-Z0-9_\-\.\+]+\.[a-zA-Z]{2,}$
     /// </summary>
     [CliOption("--notification-sender-email")]
     public string? NotificationSenderEmail { get; set; }
 
     /// <summary>
-    /// Contains the configuration information of an alarm created in an IoT SiteWise Monitor portal. You can use the alarm to monitor an asset property and get notified when the asset property value is outside a specified range. For more information, see Monitoring with alarms in the IoT SiteWise Application Guide . alarmRoleArn -&gt; (string) [required] The ARN of the IAM role that allows the alarm to perform actions and access Amazon Web Services resources and services, such as IoT Events. Constraints: o min: 1 o max: 1600 o pattern: ^arn:aws(-cn|-us-gov)?:[a-zA-Z0-9-:\/_\.\+=,@]+$ notificationLambdaArn -&gt; (string) The ARN of the Lambda function that manages alarm notifications. For more information, see Managing alarm notifications in the IoT Events Developer Guide . Constraints: o min: 1 o max: 1600 o pattern: ^arn:aws(-cn|-us-gov)?:[a-zA-Z0-9-:\/_\.]+$ Shorthand Syntax: alarmRoleArn=string,notificationLambdaArn=string JSON Syntax: { "alarmRoleArn": "string", "notificationLambdaArn": "string" }
+    /// Contains the configuration information of an alarm created in an IoT SiteWise Monitor portal. You can use the alarm to monitor an asset property and get notified when the asset property value is outside a specified range. For more information, see Monitoring with alarms in the IoT SiteWise Application Guide . alarmRoleArn -&gt; (string) [required] The ARN of the IAM role that allows the alarm to perform actions and access Amazon Web Services resources and services, such as IoT Events. Constraints: • min: 1 • max: 1600 • pattern: ^arn:aws(-cn|-us-gov)?:[a-zA-Z0-9-:\/_\.\+=,@]+$ notificationLambdaArn -&gt; (string) The ARN of the Lambda function that manages alarm notifications. For more information, see Managing alarm notifications in the IoT Events Developer Guide . Constraints: • min: 1 • max: 1600 • pattern: ^arn:aws(-cn|-us-gov)?:[a-zA-Z0-9-:\/_\.]+$ Shorthand Syntax: alarmRoleArn=string,notificationLambdaArn=string JSON Syntax: { "alarmRoleArn": "string", "notificationLambdaArn": "string" }
     /// </summary>
     [CliOption("--alarms")]
     public string? Alarms { get; set; }
 
     /// <summary>
-    /// Define the type of portal. The value for IoT SiteWise Monitor (Clas- sic) is SITEWISE_PORTAL_V1 . The value for IoT SiteWise Monitor (AI-aware) is SITEWISE_PORTAL_V2 . Possible values: o SITEWISE_PORTAL_V1 o SITEWISE_PORTAL_V2
+    /// Define the type of portal. The value for IoT SiteWise Monitor (Classic) is SITEWISE_PORTAL_V1 . The value for IoT SiteWise Monitor (AI-aware) is SITEWISE_PORTAL_V2 . Possible values: • SITEWISE_PORTAL_V1 • SITEWISE_PORTAL_V2
     /// </summary>
     [CliOption("--portal-type")]
     public AwsIotsitewiseCreatePortalPortalType? PortalType { get; set; }
 
     /// <summary>
-    /// The configuration entry associated with the specific portal type. The value for IoT SiteWise Monitor (Classic) is SITEWISE_PORTAL_V1 . The value for IoT SiteWise Monitor (AI-aware) is SITEWISE_PORTAL_V2 . key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (structure) The configuration entry associated with the specific portal type. The portalTypeConfiguration is a map of the portalTypeKey to the PortalTypeEntry . portalTools -&gt; (list) The array of tools associated with the specified portal type. The possible values are ASSISTANT and DASHBOARD . (string) Constraints: o min: 1 o max: 256 o pattern: [^\u0000-\u001F\u007F]+ Shorthand Syntax: KeyName1={portalTools=[string,string]},KeyName2={portalTools=[string,string]} JSON Syntax: {"string": { "portalTools": ["string", ...] } ...}
+    /// The configuration entry associated with the specific portal type. The value for IoT SiteWise Monitor (Classic) is SITEWISE_PORTAL_V1 . The value for IoT SiteWise Monitor (AI-aware) is SITEWISE_PORTAL_V2 . key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (structure) The configuration entry associated with the specific portal type. The portalTypeConfiguration is a map of the portalTypeKey to the PortalTypeEntry . portalTools -&gt; (list) The array of tools associated with the specified portal type. The possible values are ASSISTANT and DASHBOARD . (string) Constraints: • min: 1 • max: 256 • pattern: [^\u0000-\u001F\u007F]+ Shorthand Syntax: KeyName1={portalTools=[string,string]},KeyName2={portalTools=[string,string]} JSON Syntax: {"string": { "portalTools": ["string", ...] } ...}
     /// </summary>
     [CliOption("--portal-type-configuration", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? PortalTypeConfiguration { get; set; }
@@ -160,6 +160,15 @@ public record AwsIotsitewiseCreatePortalOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Defines the settings you will use for the human review workflow user interface. Reviewers will see a three-panel interface with an instruc- tion area, the item to review, and an input area. See also: AWS API Documentation
+/// Defines the settings you will use for the human review workflow user interface. Reviewers will see a three-panel interface with an instruction area, the item to review, and an input area. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsSagemakerCreateHumanTaskUiOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Defines the settings you will use for the human review workflow user interface. Reviewers will see a three-panel interface with an instruc- tion area, the item to review, and an input area. See also: AWS API Documentation
+    /// Defines the settings you will use for the human review workflow user interface. Reviewers will see a three-panel interface with an instruction area, the item to review, and an input area. See also: AWS API Documentation
     /// </summary>
-    /// <param name="HumanTaskUiName">The name of the user interface you are creating. Constraints: o min: 1 o max: 63 o pattern: [a-z0-9](-*[a-z0-9])*</param>
-    /// <param name="UiTemplate">The Liquid template for the worker user interface. Content -&gt; (string) [required] The content of the Liquid template for the worker user inter- face. Constraints: o min: 1 o max: 128000 o pattern: [\S\s]+ Shorthand Syntax: Content=string JSON Syntax: { "Content": "string" }</param>
+    /// <param name="HumanTaskUiName">The name of the user interface you are creating. Constraints: • min: 1 • max: 63 • pattern: [a-z0-9](-*[a-z0-9])*</param>
+    /// <param name="UiTemplate">The Liquid template for the worker user interface. Content -&gt; (string) [required] The content of the Liquid template for the worker user interface. Constraints: • min: 1 • max: 128000 • pattern: [\S\s]+ Shorthand Syntax: Content=string JSON Syntax: { "Content": "string" }</param>
     public AwsSagemakerCreateHumanTaskUiOptions(
         string HumanTaskUiName,
         string UiTemplate
@@ -60,19 +61,19 @@ public record AwsSagemakerCreateHumanTaskUiOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the user interface you are creating. Constraints: o min: 1 o max: 63 o pattern: [a-z0-9](-*[a-z0-9])*
+    /// The name of the user interface you are creating. Constraints: • min: 1 • max: 63 • pattern: [a-z0-9](-*[a-z0-9])*
     /// </summary>
     [CliOption("--human-task-ui-name")]
     public string? HumanTaskUiName { get; private init; }
 
     /// <summary>
-    /// The Liquid template for the worker user interface. Content -&gt; (string) [required] The content of the Liquid template for the worker user inter- face. Constraints: o min: 1 o max: 128000 o pattern: [\S\s]+ Shorthand Syntax: Content=string JSON Syntax: { "Content": "string" }
+    /// The Liquid template for the worker user interface. Content -&gt; (string) [required] The content of the Liquid template for the worker user interface. Constraints: • min: 1 • max: 128000 • pattern: [\S\s]+ Shorthand Syntax: Content=string JSON Syntax: { "Content": "string" }
     /// </summary>
     [CliOption("--ui-template")]
     public string? UiTemplate { get; private init; }
 
     /// <summary>
-    /// An array of key-value pairs that contain metadata to help you cate- gorize and organize a human review workflow user interface. Each tag consists of a key and a value, both of which you define. Constraints: o min: 0 o max: 50 (structure) A tag object that consists of a key and an optional value, used to manage metadata for SageMaker Amazon Web Services resources. You can add tags to notebook instances, training jobs, hyperpa- rameter tuning jobs, batch transform jobs, models, labeling jobs, work teams, endpoint configurations, and endpoints. For more information on adding tags to SageMaker resources, see AddTags . For more information on adding metadata to your Amazon Web Ser- vices resources with tagging, see Tagging Amazon Web Services resources . For advice on best practices for managing Amazon Web Services resources with tagging, see Tagging Best Practices: Im- plement an Effective Amazon Web Services Resource Tagging Strat- egy . Key -&gt; (string) [required] The tag key. Tag keys must be unique per resource. Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The tag value. Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// An array of key-value pairs that contain metadata to help you categorize and organize a human review workflow user interface. Each tag consists of a key and a value, both of which you define. Constraints: • min: 0 • max: 50 (structure) A tag object that consists of a key and an optional value, used to manage metadata for SageMaker Amazon Web Services resources. You can add tags to notebook instances, training jobs, hyperparameter tuning jobs, batch transform jobs, models, labeling jobs, work teams, endpoint configurations, and endpoints. For more information on adding tags to SageMaker resources, see AddTags . For more information on adding metadata to your Amazon Web Services resources with tagging, see Tagging Amazon Web Services resources . For advice on best practices for managing Amazon Web Services resources with tagging, see Tagging Best Practices: Implement an Effective Amazon Web Services Resource Tagging Strategy . Key -&gt; (string) [required] The tag key. Tag keys must be unique per resource. Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The tag value. Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -98,6 +99,15 @@ public record AwsSagemakerCreateHumanTaskUiOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

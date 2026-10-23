@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsChimeUpdateAccountSettingsOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Updates the settings for the specified Amazon Chime account. You can update settings for remote control of shared screens, or for the dial-out option. For more information about these settings, see Use the Policies Page in the Amazon Chime Administration Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountId">The Amazon Chime account ID. Constraints: o pattern: .*\S.*</param>
-    /// <param name="AccountSettings">The Amazon Chime account settings to update. DisableRemoteControl -&gt; (boolean) Setting that stops or starts remote control of shared screens during meetings. EnableDialOut -&gt; (boolean) Setting that allows meeting participants to choose the Call me at a phone number option. For more information, see Join a Meet- ing without the Amazon Chime App . Shorthand Syntax: DisableRemoteControl=boolean,EnableDialOut=boolean JSON Syntax: { "DisableRemoteControl": true|false, "EnableDialOut": true|false }</param>
+    /// <param name="AccountId">The Amazon Chime account ID. Constraints: • pattern: .*\S.*</param>
+    /// <param name="AccountSettings">The Amazon Chime account settings to update. DisableRemoteControl -&gt; (boolean) Setting that stops or starts remote control of shared screens during meetings. EnableDialOut -&gt; (boolean) Setting that allows meeting participants to choose the Call me at a phone number option. For more information, see Join a Meeting without the Amazon Chime App . Shorthand Syntax: DisableRemoteControl=boolean,EnableDialOut=boolean JSON Syntax: { "DisableRemoteControl": true|false, "EnableDialOut": true|false }</param>
     public AwsChimeUpdateAccountSettingsOptions(
         string AccountId,
         string AccountSettings
@@ -60,13 +61,13 @@ public record AwsChimeUpdateAccountSettingsOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Chime account ID. Constraints: o pattern: .*\S.*
+    /// The Amazon Chime account ID. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// The Amazon Chime account settings to update. DisableRemoteControl -&gt; (boolean) Setting that stops or starts remote control of shared screens during meetings. EnableDialOut -&gt; (boolean) Setting that allows meeting participants to choose the Call me at a phone number option. For more information, see Join a Meet- ing without the Amazon Chime App . Shorthand Syntax: DisableRemoteControl=boolean,EnableDialOut=boolean JSON Syntax: { "DisableRemoteControl": true|false, "EnableDialOut": true|false }
+    /// The Amazon Chime account settings to update. DisableRemoteControl -&gt; (boolean) Setting that stops or starts remote control of shared screens during meetings. EnableDialOut -&gt; (boolean) Setting that allows meeting participants to choose the Call me at a phone number option. For more information, see Join a Meeting without the Amazon Chime App . Shorthand Syntax: DisableRemoteControl=boolean,EnableDialOut=boolean JSON Syntax: { "DisableRemoteControl": true|false, "EnableDialOut": true|false }
     /// </summary>
     [CliOption("--account-settings")]
     public string? AccountSettings { get; private init; }
@@ -92,6 +93,15 @@ public record AwsChimeUpdateAccountSettingsOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

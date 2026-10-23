@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Assigns the DELETED status to a BatchPrediction , rendering it unus- able. After using the DeleteBatchPrediction operation, you can use the Get- BatchPrediction operation to verify that the status of the BatchPredic- tion changed to DELETED. Caution: The result of the DeleteBatchPrediction operation is irre- versible. See also: AWS API Documentation
+/// Assigns the DELETED status to a BatchPrediction , rendering it unusable. After using the DeleteBatchPrediction operation, you can use the GetBatchPrediction operation to verify that the status of the BatchPrediction changed to DELETED. Caution: The result of the DeleteBatchPrediction operation is irreversible. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsMachinelearningDeleteBatchPredictionOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Assigns the DELETED status to a BatchPrediction , rendering it unus- able. After using the DeleteBatchPrediction operation, you can use the Get- BatchPrediction operation to verify that the status of the BatchPredic- tion changed to DELETED. Caution: The result of the DeleteBatchPrediction operation is irre- versible. See also: AWS API Documentation
+    /// Assigns the DELETED status to a BatchPrediction , rendering it unusable. After using the DeleteBatchPrediction operation, you can use the GetBatchPrediction operation to verify that the status of the BatchPrediction changed to DELETED. Caution: The result of the DeleteBatchPrediction operation is irreversible. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BatchPredictionId">A user-supplied ID that uniquely identifies the BatchPrediction . Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="BatchPredictionId">A user-supplied ID that uniquely identifies the BatchPrediction . Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_.-]+</param>
     public AwsMachinelearningDeleteBatchPredictionOptions(
         string BatchPredictionId
     )
@@ -56,7 +57,7 @@ public record AwsMachinelearningDeleteBatchPredictionOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A user-supplied ID that uniquely identifies the BatchPrediction . Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+
+    /// A user-supplied ID that uniquely identifies the BatchPrediction . Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--batch-prediction-id")]
     public string? BatchPredictionId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsMachinelearningDeleteBatchPredictionOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

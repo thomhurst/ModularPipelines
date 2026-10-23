@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsSocialmessagingCreateWhatsappDataSetOptions : AwsOptions, IVali
     /// <summary>
     /// Creates a Meta Conversions API dataset for a WhatsApp Business Account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the WhatsApp Business Account to create a dataset for, formatted as waba-01234567890123456789012345678901 . Constraints: o min: 1 o max: 115 o pattern: .*(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$).*</param>
+    /// <param name="Id">The ID of the WhatsApp Business Account to create a dataset for, formatted as waba-01234567890123456789012345678901 . Constraints: • min: 1 • max: 115 • pattern: .*(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$).*</param>
     public AwsSocialmessagingCreateWhatsappDataSetOptions(
         string Id
     )
@@ -56,7 +57,7 @@ public record AwsSocialmessagingCreateWhatsappDataSetOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the WhatsApp Business Account to create a dataset for, formatted as waba-01234567890123456789012345678901 . Constraints: o min: 1 o max: 115 o pattern: .*(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$).*
+    /// The ID of the WhatsApp Business Account to create a dataset for, formatted as waba-01234567890123456789012345678901 . Constraints: • min: 1 • max: 115 • pattern: .*(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$).*
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSocialmessagingCreateWhatsappDataSetOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

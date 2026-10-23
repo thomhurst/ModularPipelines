@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsIotDescribeThingRegistrationTaskOptions : AwsOptions, IValidata
     /// <summary>
     /// Describes a bulk thing provisioning task. Requires permission to access the DescribeThingRegistrationTask action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TaskId">The task ID. Constraints: o max: 40</param>
+    /// <param name="TaskId">The task ID. Constraints: • max: 40</param>
     public AwsIotDescribeThingRegistrationTaskOptions(
         string TaskId
     )
@@ -56,7 +57,7 @@ public record AwsIotDescribeThingRegistrationTaskOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The task ID. Constraints: o max: 40
+    /// The task ID. Constraints: • max: 40
     /// </summary>
     [CliOption("--task-id")]
     public string? TaskId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsIotDescribeThingRegistrationTaskOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

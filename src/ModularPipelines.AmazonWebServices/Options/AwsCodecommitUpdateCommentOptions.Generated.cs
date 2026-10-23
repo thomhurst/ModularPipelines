@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsCodecommitUpdateCommentOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Replaces the contents of a comment. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CommentId">The system-generated ID of the comment you want to update. To get this ID, use GetCommentsForComparedCommit or GetCommentsForPullRe- quest .</param>
+    /// <param name="CommentId">The system-generated ID of the comment you want to update. To get this ID, use GetCommentsForComparedCommit or GetCommentsForPullRequest .</param>
     /// <param name="Content">The updated content to replace the existing content of the comment.</param>
     public AwsCodecommitUpdateCommentOptions(
         string CommentId,
@@ -60,7 +61,7 @@ public record AwsCodecommitUpdateCommentOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The system-generated ID of the comment you want to update. To get this ID, use GetCommentsForComparedCommit or GetCommentsForPullRe- quest .
+    /// The system-generated ID of the comment you want to update. To get this ID, use GetCommentsForComparedCommit or GetCommentsForPullRequest .
     /// </summary>
     [CliOption("--comment-id")]
     public string? CommentId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsCodecommitUpdateCommentOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

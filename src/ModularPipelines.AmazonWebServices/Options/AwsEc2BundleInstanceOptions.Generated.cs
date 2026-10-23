@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -62,13 +63,13 @@ public record AwsEc2BundleInstanceOptions : AwsOptions, IValidatableObject
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The bucket in which to store the AMI. You can specify a bucket that you already own or a new bucket that Amazon EC2 creates on your be- half. If you specify a bucket that belongs to someone else, Amazon EC2 returns an error. S3 -&gt; (structure) An Amazon S3 storage location. AWSAccessKeyId -&gt; (string) The access key ID of the owner of the bucket. Before you specify a value for your access key ID, review and follow the guidance in Best Practices for Amazon Web Services accounts in the Account ManagementReference Guide . Bucket -&gt; (string) The bucket in which to store the AMI. You can specify a bucket that you already own or a new bucket that Amazon EC2 creates on your behalf. If you specify a bucket that belongs to someone else, Amazon EC2 returns an error. Prefix -&gt; (string) The beginning of the file name of the AMI. UploadPolicy -&gt; (blob) An Amazon S3 upload policy that gives Amazon EC2 permission to upload items into Amazon S3 on your behalf. UploadPolicySignature -&gt; (string) The signature of the JSON document. Shorthand Syntax: S3={AWSAccessKeyId=string,Bucket=string,Prefix=string,UploadPolicy=blob,UploadPolicySignature=string} JSON Syntax: { "S3": { "AWSAccessKeyId": "string", "Bucket": "string", "Prefix": "string", "UploadPolicy": blob, "UploadPolicySignature": "string" } }
+    /// The bucket in which to store the AMI. You can specify a bucket that you already own or a new bucket that Amazon EC2 creates on your behalf. If you specify a bucket that belongs to someone else, Amazon EC2 returns an error. S3 -&gt; (structure) An Amazon S3 storage location. AWSAccessKeyId -&gt; (string) The access key ID of the owner of the bucket. Before you specify a value for your access key ID, review and follow the guidance in Best Practices for Amazon Web Services accounts in the Account ManagementReference Guide . Bucket -&gt; (string) The bucket in which to store the AMI. You can specify a bucket that you already own or a new bucket that Amazon EC2 creates on your behalf. If you specify a bucket that belongs to someone else, Amazon EC2 returns an error. Prefix -&gt; (string) The beginning of the file name of the AMI. UploadPolicy -&gt; (blob) An Amazon S3 upload policy that gives Amazon EC2 permission to upload items into Amazon S3 on your behalf. UploadPolicySignature -&gt; (string) The signature of the JSON document. Shorthand Syntax: S3={AWSAccessKeyId=string,Bucket=string,Prefix=string,UploadPolicy=blob,UploadPolicySignature=string} JSON Syntax: { "S3": { "AWSAccessKeyId": "string", "Bucket": "string", "Prefix": "string", "UploadPolicy": blob, "UploadPolicySignature": "string" } }
     /// </summary>
     [CliOption("--storage")]
     public string? Storage { get; set; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -109,6 +110,15 @@ public record AwsEc2BundleInstanceOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

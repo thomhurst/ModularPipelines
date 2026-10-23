@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,16 +30,16 @@ public record AwsLicenseManagerCreateLicenseVersionOptions : AwsOptions, IValida
     /// <summary>
     /// Creates a new version of the specified license. See also: AWS API Documentation
     /// </summary>
-    /// <param name="LicenseArn">Amazon Resource Name (ARN) of the license. Constraints: o max: 2048 o pattern: ^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$</param>
+    /// <param name="LicenseArn">Amazon Resource Name (ARN) of the license. Constraints: • max: 2048 • pattern: ^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$</param>
     /// <param name="LicenseName">License name.</param>
     /// <param name="ProductName">Product name.</param>
     /// <param name="Issuer">License issuer. Name -&gt; (string) [required] Issuer name. SignKey -&gt; (string) Asymmetric KMS key from Key Management Service. The KMS key must have a key usage of sign and verify, and support the RSASSA-PSS SHA-256 signing algorithm. Shorthand Syntax: Name=string,SignKey=string JSON Syntax: { "Name": "string", "SignKey": "string" }</param>
     /// <param name="HomeRegion">Home Region of the license.</param>
-    /// <param name="Validity">Date and time range during which the license is valid, in ISO8601-UTC format. Begin -&gt; (string) [required] Start of the time range. Constraints: o max: 50 o pattern: ^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[0-1]|0[1-9]|[1-2][0-9])T(2[0-3]|[0-1][0-9]):([0-5][0-9]):([0-5][0-9])(\.[0-9]+)?(Z|[+-](?:2[ 0-3]|[0-1][0-9]):[0-5][0-9])+$ End -&gt; (string) End of the time range. Constraints: o max: 50 o pattern: ^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[0-1]|0[1-9]|[1-2][0-9])T(2[0-3]|[0-1][0-9]):([0-5][0-9]):([0-5][0-9])(\.[0-9]+)?(Z|[+-](?:2[ 0-3]|[0-1][0-9]):[0-5][0-9])+$ Shorthand Syntax: Begin=string,End=string JSON Syntax: { "Begin": "string", "End": "string" }</param>
-    /// <param name="Entitlements">License entitlements. (structure) Describes a resource entitled for use with a license. Name -&gt; (string) [required] Entitlement name. Value -&gt; (string) Entitlement resource. Use only if the unit is None. MaxCount -&gt; (long) Maximum entitlement count. Use if the unit is not None. Overage -&gt; (boolean) Indicates whether overages are allowed. Unit -&gt; (string) [required] Entitlement unit. Possible values: o Count o None o Seconds o Microseconds o Milliseconds o Bytes o Kilobytes o Megabytes o Gigabytes o Terabytes o Bits o Kilobits o Megabits o Gigabits o Terabits o Percent o Bytes/Second o Kilobytes/Second o Megabytes/Second o Gigabytes/Second o Terabytes/Second o Bits/Second o Kilobits/Second o Megabits/Second o Gigabits/Second o Terabits/Second o Count/Second AllowCheckIn -&gt; (boolean) Indicates whether check-ins are allowed. Shorthand Syntax: Name=string,Value=string,MaxCount=long,Overage=boolean,Unit=string,AllowCheckIn=boolean ... JSON Syntax: [ { "Name": "string", "Value": "string", "MaxCount": long, "Overage": true|false, "Unit": "Count"|"None"|"Seconds"|"Microseconds"|"Milliseconds"|"Bytes"|"Kilobytes"|"Megabytes"|"Gigabytes"|"Terabytes"|"Bits"|"Kilobits"|"Megabits"|"Gigabits"|"Terabits"|"Percent"|"Bytes/Second"|"Kilobytes/Second"|"Megabytes/Second"|"Gigabytes/Second"|"Terabytes/Second"|"Bits/Second"|"Kilobits/Second"|"Megabits/Second"|"Gigabits/Second"|"Terabits/Second"|"Count/Second", "AllowCheckIn": true|false } ... ]</param>
-    /// <param name="ConsumptionConfiguration">Configuration for consumption of the license. Choose a provisional configuration for workloads running with continuous connectivity. Choose a borrow configuration for workloads with offline usage. RenewType -&gt; (string) Renewal frequency. Possible values: o None o Weekly o Monthly ProvisionalConfiguration -&gt; (structure) Details about a provisional configuration. MaxTimeToLiveInMinutes -&gt; (integer) [required] Maximum time for the provisional configuration, in minutes. BorrowConfiguration -&gt; (structure) Details about a borrow configuration. AllowEarlyCheckIn -&gt; (boolean) [required] Indicates whether early check-ins are allowed. MaxTimeToLiveInMinutes -&gt; (integer) [required] Maximum time for the borrow configuration, in minutes. Shorthand Syntax: RenewType=string,ProvisionalConfiguration={MaxTimeToLiveInMinutes=integer},BorrowConfiguration={AllowEarlyCheckIn=boolean,MaxTimeToLiveInMinutes=integer} JSON Syntax: { "RenewType": "None"|"Weekly"|"Monthly", "ProvisionalConfiguration": { "MaxTimeToLiveInMinutes": integer }, "BorrowConfiguration": { "AllowEarlyCheckIn": true|false, "MaxTimeToLiveInMinutes": integer } }</param>
-    /// <param name="Status">License status. Possible values: o AVAILABLE o PENDING_AVAILABLE o DEACTIVATED o SUSPENDED o EXPIRED o PENDING_DELETE o DELETED</param>
-    /// <param name="ClientToken">Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o max: 2048 o pattern: \S+</param>
+    /// <param name="Validity">Date and time range during which the license is valid, in ISO8601-UTC format. Begin -&gt; (string) [required] Start of the time range. Constraints: • max: 50 • pattern: ^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[0-1]|0[1-9]|[1-2][0-9])T(2[0-3]|[0-1][0-9]):([0-5][0-9]):([0-5][0-9])(\.[0-9]+)?(Z|[+-](?:2[ 0-3]|[0-1][0-9]):[0-5][0-9])+$ End -&gt; (string) End of the time range. Constraints: • max: 50 • pattern: ^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[0-1]|0[1-9]|[1-2][0-9])T(2[0-3]|[0-1][0-9]):([0-5][0-9]):([0-5][0-9])(\.[0-9]+)?(Z|[+-](?:2[ 0-3]|[0-1][0-9]):[0-5][0-9])+$ Shorthand Syntax: Begin=string,End=string JSON Syntax: { "Begin": "string", "End": "string" }</param>
+    /// <param name="Entitlements">License entitlements. (structure) Describes a resource entitled for use with a license. Name -&gt; (string) [required] Entitlement name. Value -&gt; (string) Entitlement resource. Use only if the unit is None. MaxCount -&gt; (long) Maximum entitlement count. Use if the unit is not None. Overage -&gt; (boolean) Indicates whether overages are allowed. Unit -&gt; (string) [required] Entitlement unit. Possible values: • Count • None • Seconds • Microseconds • Milliseconds • Bytes • Kilobytes • Megabytes • Gigabytes • Terabytes • Bits • Kilobits • Megabits • Gigabits • Terabits • Percent • Bytes/Second • Kilobytes/Second • Megabytes/Second • Gigabytes/Second • Terabytes/Second • Bits/Second • Kilobits/Second • Megabits/Second • Gigabits/Second • Terabits/Second • Count/Second AllowCheckIn -&gt; (boolean) Indicates whether check-ins are allowed. Shorthand Syntax: Name=string,Value=string,MaxCount=long,Overage=boolean,Unit=string,AllowCheckIn=boolean ... JSON Syntax: [ { "Name": "string", "Value": "string", "MaxCount": long, "Overage": true|false, "Unit": "Count"|"None"|"Seconds"|"Microseconds"|"Milliseconds"|"Bytes"|"Kilobytes"|"Megabytes"|"Gigabytes"|"Terabytes"|"Bits"|"Kilobits"|"Megabits"|"Gigabits"|"Terabits"|"Percent"|"Bytes/Second"|"Kilobytes/Second"|"Megabytes/Second"|"Gigabytes/Second"|"Terabytes/Second"|"Bits/Second"|"Kilobits/Second"|"Megabits/Second"|"Gigabits/Second"|"Terabits/Second"|"Count/Second", "AllowCheckIn": true|false } ... ]</param>
+    /// <param name="ConsumptionConfiguration">Configuration for consumption of the license. Choose a provisional configuration for workloads running with continuous connectivity. Choose a borrow configuration for workloads with offline usage. RenewType -&gt; (string) Renewal frequency. Possible values: • None • Weekly • Monthly ProvisionalConfiguration -&gt; (structure) Details about a provisional configuration. MaxTimeToLiveInMinutes -&gt; (integer) [required] Maximum time for the provisional configuration, in minutes. BorrowConfiguration -&gt; (structure) Details about a borrow configuration. AllowEarlyCheckIn -&gt; (boolean) [required] Indicates whether early check-ins are allowed. MaxTimeToLiveInMinutes -&gt; (integer) [required] Maximum time for the borrow configuration, in minutes. Shorthand Syntax: RenewType=string,ProvisionalConfiguration={MaxTimeToLiveInMinutes=integer},BorrowConfiguration={AllowEarlyCheckIn=boolean,MaxTimeToLiveInMinutes=integer} JSON Syntax: { "RenewType": "None"|"Weekly"|"Monthly", "ProvisionalConfiguration": { "MaxTimeToLiveInMinutes": integer }, "BorrowConfiguration": { "AllowEarlyCheckIn": true|false, "MaxTimeToLiveInMinutes": integer } }</param>
+    /// <param name="Status">License status. Possible values: • AVAILABLE • PENDING_AVAILABLE • DEACTIVATED • SUSPENDED • EXPIRED • PENDING_DELETE • DELETED</param>
+    /// <param name="ClientToken">Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: • max: 2048 • pattern: \S+</param>
     public AwsLicenseManagerCreateLicenseVersionOptions(
         string LicenseArn,
         string LicenseName,
@@ -104,7 +105,7 @@ public record AwsLicenseManagerCreateLicenseVersionOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Amazon Resource Name (ARN) of the license. Constraints: o max: 2048 o pattern: ^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$
+    /// Amazon Resource Name (ARN) of the license. Constraints: • max: 2048 • pattern: ^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$
     /// </summary>
     [CliOption("--license-arn")]
     public string? LicenseArn { get; private init; }
@@ -134,31 +135,31 @@ public record AwsLicenseManagerCreateLicenseVersionOptions : AwsOptions, IValida
     public string? HomeRegion { get; private init; }
 
     /// <summary>
-    /// Date and time range during which the license is valid, in ISO8601-UTC format. Begin -&gt; (string) [required] Start of the time range. Constraints: o max: 50 o pattern: ^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[0-1]|0[1-9]|[1-2][0-9])T(2[0-3]|[0-1][0-9]):([0-5][0-9]):([0-5][0-9])(\.[0-9]+)?(Z|[+-](?:2[ 0-3]|[0-1][0-9]):[0-5][0-9])+$ End -&gt; (string) End of the time range. Constraints: o max: 50 o pattern: ^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[0-1]|0[1-9]|[1-2][0-9])T(2[0-3]|[0-1][0-9]):([0-5][0-9]):([0-5][0-9])(\.[0-9]+)?(Z|[+-](?:2[ 0-3]|[0-1][0-9]):[0-5][0-9])+$ Shorthand Syntax: Begin=string,End=string JSON Syntax: { "Begin": "string", "End": "string" }
+    /// Date and time range during which the license is valid, in ISO8601-UTC format. Begin -&gt; (string) [required] Start of the time range. Constraints: • max: 50 • pattern: ^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[0-1]|0[1-9]|[1-2][0-9])T(2[0-3]|[0-1][0-9]):([0-5][0-9]):([0-5][0-9])(\.[0-9]+)?(Z|[+-](?:2[ 0-3]|[0-1][0-9]):[0-5][0-9])+$ End -&gt; (string) End of the time range. Constraints: • max: 50 • pattern: ^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[0-1]|0[1-9]|[1-2][0-9])T(2[0-3]|[0-1][0-9]):([0-5][0-9]):([0-5][0-9])(\.[0-9]+)?(Z|[+-](?:2[ 0-3]|[0-1][0-9]):[0-5][0-9])+$ Shorthand Syntax: Begin=string,End=string JSON Syntax: { "Begin": "string", "End": "string" }
     /// </summary>
     [CliOption("--validity")]
     public string? Validity { get; private init; }
 
     /// <summary>
-    /// License entitlements. (structure) Describes a resource entitled for use with a license. Name -&gt; (string) [required] Entitlement name. Value -&gt; (string) Entitlement resource. Use only if the unit is None. MaxCount -&gt; (long) Maximum entitlement count. Use if the unit is not None. Overage -&gt; (boolean) Indicates whether overages are allowed. Unit -&gt; (string) [required] Entitlement unit. Possible values: o Count o None o Seconds o Microseconds o Milliseconds o Bytes o Kilobytes o Megabytes o Gigabytes o Terabytes o Bits o Kilobits o Megabits o Gigabits o Terabits o Percent o Bytes/Second o Kilobytes/Second o Megabytes/Second o Gigabytes/Second o Terabytes/Second o Bits/Second o Kilobits/Second o Megabits/Second o Gigabits/Second o Terabits/Second o Count/Second AllowCheckIn -&gt; (boolean) Indicates whether check-ins are allowed. Shorthand Syntax: Name=string,Value=string,MaxCount=long,Overage=boolean,Unit=string,AllowCheckIn=boolean ... JSON Syntax: [ { "Name": "string", "Value": "string", "MaxCount": long, "Overage": true|false, "Unit": "Count"|"None"|"Seconds"|"Microseconds"|"Milliseconds"|"Bytes"|"Kilobytes"|"Megabytes"|"Gigabytes"|"Terabytes"|"Bits"|"Kilobits"|"Megabits"|"Gigabits"|"Terabits"|"Percent"|"Bytes/Second"|"Kilobytes/Second"|"Megabytes/Second"|"Gigabytes/Second"|"Terabytes/Second"|"Bits/Second"|"Kilobits/Second"|"Megabits/Second"|"Gigabits/Second"|"Terabits/Second"|"Count/Second", "AllowCheckIn": true|false } ... ]
+    /// License entitlements. (structure) Describes a resource entitled for use with a license. Name -&gt; (string) [required] Entitlement name. Value -&gt; (string) Entitlement resource. Use only if the unit is None. MaxCount -&gt; (long) Maximum entitlement count. Use if the unit is not None. Overage -&gt; (boolean) Indicates whether overages are allowed. Unit -&gt; (string) [required] Entitlement unit. Possible values: • Count • None • Seconds • Microseconds • Milliseconds • Bytes • Kilobytes • Megabytes • Gigabytes • Terabytes • Bits • Kilobits • Megabits • Gigabits • Terabits • Percent • Bytes/Second • Kilobytes/Second • Megabytes/Second • Gigabytes/Second • Terabytes/Second • Bits/Second • Kilobits/Second • Megabits/Second • Gigabits/Second • Terabits/Second • Count/Second AllowCheckIn -&gt; (boolean) Indicates whether check-ins are allowed. Shorthand Syntax: Name=string,Value=string,MaxCount=long,Overage=boolean,Unit=string,AllowCheckIn=boolean ... JSON Syntax: [ { "Name": "string", "Value": "string", "MaxCount": long, "Overage": true|false, "Unit": "Count"|"None"|"Seconds"|"Microseconds"|"Milliseconds"|"Bytes"|"Kilobytes"|"Megabytes"|"Gigabytes"|"Terabytes"|"Bits"|"Kilobits"|"Megabits"|"Gigabits"|"Terabits"|"Percent"|"Bytes/Second"|"Kilobytes/Second"|"Megabytes/Second"|"Gigabytes/Second"|"Terabytes/Second"|"Bits/Second"|"Kilobits/Second"|"Megabits/Second"|"Gigabits/Second"|"Terabits/Second"|"Count/Second", "AllowCheckIn": true|false } ... ]
     /// </summary>
     [CliOption("--entitlements", GroupValues = true)]
     public IEnumerable<string>? Entitlements { get; private init; }
 
     /// <summary>
-    /// Configuration for consumption of the license. Choose a provisional configuration for workloads running with continuous connectivity. Choose a borrow configuration for workloads with offline usage. RenewType -&gt; (string) Renewal frequency. Possible values: o None o Weekly o Monthly ProvisionalConfiguration -&gt; (structure) Details about a provisional configuration. MaxTimeToLiveInMinutes -&gt; (integer) [required] Maximum time for the provisional configuration, in minutes. BorrowConfiguration -&gt; (structure) Details about a borrow configuration. AllowEarlyCheckIn -&gt; (boolean) [required] Indicates whether early check-ins are allowed. MaxTimeToLiveInMinutes -&gt; (integer) [required] Maximum time for the borrow configuration, in minutes. Shorthand Syntax: RenewType=string,ProvisionalConfiguration={MaxTimeToLiveInMinutes=integer},BorrowConfiguration={AllowEarlyCheckIn=boolean,MaxTimeToLiveInMinutes=integer} JSON Syntax: { "RenewType": "None"|"Weekly"|"Monthly", "ProvisionalConfiguration": { "MaxTimeToLiveInMinutes": integer }, "BorrowConfiguration": { "AllowEarlyCheckIn": true|false, "MaxTimeToLiveInMinutes": integer } }
+    /// Configuration for consumption of the license. Choose a provisional configuration for workloads running with continuous connectivity. Choose a borrow configuration for workloads with offline usage. RenewType -&gt; (string) Renewal frequency. Possible values: • None • Weekly • Monthly ProvisionalConfiguration -&gt; (structure) Details about a provisional configuration. MaxTimeToLiveInMinutes -&gt; (integer) [required] Maximum time for the provisional configuration, in minutes. BorrowConfiguration -&gt; (structure) Details about a borrow configuration. AllowEarlyCheckIn -&gt; (boolean) [required] Indicates whether early check-ins are allowed. MaxTimeToLiveInMinutes -&gt; (integer) [required] Maximum time for the borrow configuration, in minutes. Shorthand Syntax: RenewType=string,ProvisionalConfiguration={MaxTimeToLiveInMinutes=integer},BorrowConfiguration={AllowEarlyCheckIn=boolean,MaxTimeToLiveInMinutes=integer} JSON Syntax: { "RenewType": "None"|"Weekly"|"Monthly", "ProvisionalConfiguration": { "MaxTimeToLiveInMinutes": integer }, "BorrowConfiguration": { "AllowEarlyCheckIn": true|false, "MaxTimeToLiveInMinutes": integer } }
     /// </summary>
     [CliOption("--consumption-configuration")]
     public string? ConsumptionConfiguration { get; private init; }
 
     /// <summary>
-    /// License status. Possible values: o AVAILABLE o PENDING_AVAILABLE o DEACTIVATED o SUSPENDED o EXPIRED o PENDING_DELETE o DELETED
+    /// License status. Possible values: • AVAILABLE • PENDING_AVAILABLE • DEACTIVATED • SUSPENDED • EXPIRED • PENDING_DELETE • DELETED
     /// </summary>
     [CliOption("--status")]
     public AwsLicenseManagerCreateLicenseVersionStatus? Status { get; private init; }
 
     /// <summary>
-    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o max: 2048 o pattern: \S+
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: • max: 2048 • pattern: \S+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -177,7 +178,7 @@ public record AwsLicenseManagerCreateLicenseVersionOptions : AwsOptions, IValida
     public string? SourceVersion { get; set; }
 
     /// <summary>
-    /// Specifies whether to reset the license usage for the new license version. If you don't specify a value, the license usage is not re- set.
+    /// Specifies whether to reset the license usage for the new license version. If you don't specify a value, the license usage is not reset.
     /// </summary>
     [CliFlag("--reset-usage", NegatedName = "--no-reset-usage")]
     public bool? ResetUsage { get; set; }
@@ -203,6 +204,15 @@ public record AwsLicenseManagerCreateLicenseVersionOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

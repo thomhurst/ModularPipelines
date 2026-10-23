@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the queue specified by the QueueUrl , regardless of the queue's contents. WARNING: Be careful with the DeleteQueue action: When you delete a queue, any messages in the queue are no longer available. When you delete a queue, the deletion process takes up to 60 seconds. Requests you send involving that queue during the 60 seconds might suc- ceed. For example, a `` SendMessage `` request might succeed, but af- ter 60 seconds the queue and the message you sent no longer exist. When you delet...
+/// Deletes the queue specified by the QueueUrl , regardless of the queue's contents. WARNING: Be careful with the DeleteQueue action: When you delete a queue, any messages in the queue are no longer available. When you delete a queue, the deletion process takes up to 60 seconds. Requests you send involving that queue during the 60 seconds might succeed. For example, a `` SendMessage `` request might succeed, but after 60 seconds the queue and the message you sent no longer exist. When you delete a ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsSqsDeleteQueueOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the queue specified by the QueueUrl , regardless of the queue's contents. WARNING: Be careful with the DeleteQueue action: When you delete a queue, any messages in the queue are no longer available. When you delete a queue, the deletion process takes up to 60 seconds. Requests you send involving that queue during the 60 seconds might suc- ceed. For example, a `` SendMessage `` request might succeed, but af- ter 60 seconds the queue and the message you sent no longer exist. When you delet...
+    /// Deletes the queue specified by the QueueUrl , regardless of the queue's contents. WARNING: Be careful with the DeleteQueue action: When you delete a queue, any messages in the queue are no longer available. When you delete a queue, the deletion process takes up to 60 seconds. Requests you send involving that queue during the 60 seconds might succeed. For example, a `` SendMessage `` request might succeed, but after 60 seconds the queue and the message you sent no longer exist. When you delete a ...
     /// </summary>
     /// <param name="QueueUrl">The URL of the Amazon SQS queue to delete. Queue URLs and names are case-sensitive.</param>
     public AwsSqsDeleteQueueOptions(
@@ -82,6 +83,15 @@ public record AwsSqsDeleteQueueOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

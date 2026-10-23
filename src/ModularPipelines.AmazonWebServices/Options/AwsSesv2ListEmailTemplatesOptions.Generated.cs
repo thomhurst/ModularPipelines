@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSesv2ListEmailTemplatesOptions : AwsOptions
 {
     /// <summary>
-    /// A token returned from a previous call to ListEmailTemplates to indi- cate the position in the list of email templates.
+    /// A token returned from a previous call to ListEmailTemplates to indicate the position in the list of email templates.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -40,5 +40,14 @@ public record AwsSesv2ListEmailTemplatesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

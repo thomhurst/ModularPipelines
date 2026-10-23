@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Use this action to associate one or more Domain Name Server (DNS) aliases with an existing Amazon FSx for Windows File Server file sys- tem. A file system can have a maximum of 50 DNS aliases associated with it at any one time. If you try to associate a DNS alias that is already associated with the file system, FSx takes no action on that alias in the request. For more information, see Working with DNS Aliases and Walkthrough 5: Using DNS aliases to access your file system , including additional...
+/// Use this action to associate one or more Domain Name Server (DNS) aliases with an existing Amazon FSx for Windows File Server file system. A file system can have a maximum of 50 DNS aliases associated with it at any one time. If you try to associate a DNS alias that is already associated with the file system, FSx takes no action on that alias in the request. For more information, see Working with DNS Aliases and Walkthrough 5: Using DNS aliases to access your file system , including additional s...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsFsxAssociateFileSystemAliasesOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Use this action to associate one or more Domain Name Server (DNS) aliases with an existing Amazon FSx for Windows File Server file sys- tem. A file system can have a maximum of 50 DNS aliases associated with it at any one time. If you try to associate a DNS alias that is already associated with the file system, FSx takes no action on that alias in the request. For more information, see Working with DNS Aliases and Walkthrough 5: Using DNS aliases to access your file system , including additional...
+    /// Use this action to associate one or more Domain Name Server (DNS) aliases with an existing Amazon FSx for Windows File Server file system. A file system can have a maximum of 50 DNS aliases associated with it at any one time. If you try to associate a DNS alias that is already associated with the file system, FSx takes no action on that alias in the request. For more information, see Working with DNS Aliases and Walkthrough 5: Using DNS aliases to access your file system , including additional s...
     /// </summary>
-    /// <param name="FileSystemId">Specifies the file system with which you want to associate one or more DNS aliases. Constraints: o min: 11 o max: 21 o pattern: ^(fs-[0-9a-f]{8,})$</param>
-    /// <param name="Aliases">An array of one or more DNS alias names to associate with the file system. The alias name has to comply with the following formatting requirements: o Formatted as a fully-qualified domain name (FQDN), * hostname.do- main * , for example, accounting.corp.example.com . o Can contain alphanumeric characters and the hyphen (-). o Cannot start or end with a hyphen. o Can start with a numeric. For DNS alias names, Amazon FSx stores alphabetic characters as low- ercase letters (a-z), regardless of how you specify them: as upper- case letters, lowercase letters, or the corresponding letters in es- cape codes. Constraints: o max: 50 (string) Constraints: o min: 4 o max: 253 o pattern: ^[^\u0000\u0085\u2028\u2029\r\n]{4,253}$ Syntax: "string" "string" ...</param>
+    /// <param name="FileSystemId">Specifies the file system with which you want to associate one or more DNS aliases. Constraints: • min: 11 • max: 21 • pattern: ^(fs-[0-9a-f]{8,})$</param>
+    /// <param name="Aliases">An array of one or more DNS alias names to associate with the file system. The alias name has to comply with the following formatting requirements: • Formatted as a fully-qualified domain name (FQDN), * hostname.domain * , for example, accounting.corp.example.com . • Can contain alphanumeric characters and the hyphen (-). • Cannot start or end with a hyphen. • Can start with a numeric. For DNS alias names, Amazon FSx stores alphabetic characters as lowercase letters (a-z), regardless of how you specify them: as uppercase letters, lowercase letters, or the corresponding letters in escape codes. Constraints: • max: 50 (string) Constraints: • min: 4 • max: 253 • pattern: ^[^\u0000\u0085\u2028\u2029\r\n]{4,253}$ Syntax: "string" "string" ...</param>
     public AwsFsxAssociateFileSystemAliasesOptions(
         string FileSystemId,
         IEnumerable<string> Aliases
@@ -72,19 +73,19 @@ public record AwsFsxAssociateFileSystemAliasesOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the file system with which you want to associate one or more DNS aliases. Constraints: o min: 11 o max: 21 o pattern: ^(fs-[0-9a-f]{8,})$
+    /// Specifies the file system with which you want to associate one or more DNS aliases. Constraints: • min: 11 • max: 21 • pattern: ^(fs-[0-9a-f]{8,})$
     /// </summary>
     [CliOption("--file-system-id")]
     public string? FileSystemId { get; private init; }
 
     /// <summary>
-    /// An array of one or more DNS alias names to associate with the file system. The alias name has to comply with the following formatting requirements: o Formatted as a fully-qualified domain name (FQDN), * hostname.do- main * , for example, accounting.corp.example.com . o Can contain alphanumeric characters and the hyphen (-). o Cannot start or end with a hyphen. o Can start with a numeric. For DNS alias names, Amazon FSx stores alphabetic characters as low- ercase letters (a-z), regardless of how you specify them: as upper- case letters, lowercase letters, or the corresponding letters in es- cape codes. Constraints: o max: 50 (string) Constraints: o min: 4 o max: 253 o pattern: ^[^\u0000\u0085\u2028\u2029\r\n]{4,253}$ Syntax: "string" "string" ...
+    /// An array of one or more DNS alias names to associate with the file system. The alias name has to comply with the following formatting requirements: • Formatted as a fully-qualified domain name (FQDN), * hostname.domain * , for example, accounting.corp.example.com . • Can contain alphanumeric characters and the hyphen (-). • Cannot start or end with a hyphen. • Can start with a numeric. For DNS alias names, Amazon FSx stores alphabetic characters as lowercase letters (a-z), regardless of how you specify them: as uppercase letters, lowercase letters, or the corresponding letters in escape codes. Constraints: • max: 50 (string) Constraints: • min: 4 • max: 253 • pattern: ^[^\u0000\u0085\u2028\u2029\r\n]{4,253}$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--aliases", GroupValues = true)]
     public IEnumerable<string>? Aliases { get; private init; }
 
     /// <summary>
-    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Ama- zon Web Services SDK. Constraints: o min: 1 o max: 63 o pattern: [A-za-z0-9_.-]{0,63}$
+    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK. Constraints: • min: 1 • max: 63 • pattern: [A-za-z0-9_.-]{0,63}$
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
@@ -111,6 +112,15 @@ public record AwsFsxAssociateFileSystemAliasesOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the status, metrics, and errors (if there are any) that are as- sociated with a job. See also: AWS API Documentation
+/// Returns the status, metrics, and errors (if there are any) that are associated with a job. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsEntityresolutionGetMatchingJobOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the status, metrics, and errors (if there are any) that are as- sociated with a job. See also: AWS API Documentation
+    /// Returns the status, metrics, and errors (if there are any) that are associated with a job. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkflowName">The name of the workflow. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z_0-9-]*</param>
-    /// <param name="JobId">The ID of the job. Constraints: o pattern: [a-f0-9]{32}</param>
+    /// <param name="WorkflowName">The name of the workflow. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z_0-9-]*</param>
+    /// <param name="JobId">The ID of the job. Constraints: • pattern: [a-f0-9]{32}</param>
     public AwsEntityresolutionGetMatchingJobOptions(
         string WorkflowName,
         string JobId
@@ -60,13 +61,13 @@ public record AwsEntityresolutionGetMatchingJobOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the workflow. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z_0-9-]*
+    /// The name of the workflow. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z_0-9-]*
     /// </summary>
     [CliOption("--workflow-name")]
     public string? WorkflowName { get; private init; }
 
     /// <summary>
-    /// The ID of the job. Constraints: o pattern: [a-f0-9]{32}
+    /// The ID of the job. Constraints: • pattern: [a-f0-9]{32}
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsEntityresolutionGetMatchingJobOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

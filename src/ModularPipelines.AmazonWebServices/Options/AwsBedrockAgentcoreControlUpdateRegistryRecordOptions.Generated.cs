@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates an existing registry record. This operation uses PATCH seman- tics, so you only need to specify the fields you want to change. The update is processed asynchronously and returns HTTP 202 Accepted. See also: AWS API Documentation
+/// Updates an existing registry record. This operation uses PATCH semantics, so you only need to specify the fields you want to change. The update is processed asynchronously and returns HTTP 202 Accepted. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsBedrockAgentcoreControlUpdateRegistryRecordOptions : AwsOptions
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates an existing registry record. This operation uses PATCH seman- tics, so you only need to specify the fields you want to change. The update is processed asynchronously and returns HTTP 202 Accepted. See also: AWS API Documentation
+    /// Updates an existing registry record. This operation uses PATCH semantics, so you only need to specify the fields you want to change. The update is processed asynchronously and returns HTTP 202 Accepted. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RegistryId">The identifier of the registry containing the record. You can spec- ify either the Amazon Resource Name (ARN) or the ID of the registry. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws(-[^:]+)?:bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:registry/)?[a-zA-Z0-9]{12,16}</param>
-    /// <param name="RecordId">The identifier of the registry record to update. You can specify ei- ther the Amazon Resource Name (ARN) or the ID of the record. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws(-[^:]+)?:bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:reg- istry/[a-zA-Z0-9]{12,16}/record/)?[a-zA-Z0-9]{12}</param>
+    /// <param name="RegistryId">The identifier of the registry containing the record. You can specify either the Amazon Resource Name (ARN) or the ID of the registry. Constraints: • min: 1 • max: 2048 • pattern: (arn:aws(-[^:]+)?:bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:registry/)?[a-zA-Z0-9]{12,16}</param>
+    /// <param name="RecordId">The identifier of the registry record to update. You can specify either the Amazon Resource Name (ARN) or the ID of the record. Constraints: • min: 1 • max: 2048 • pattern: (arn:aws(-[^:]+)?:bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:registry/[a-zA-Z0-9]{12,16}/record/)?[a-zA-Z0-9]{12}</param>
     public AwsBedrockAgentcoreControlUpdateRegistryRecordOptions(
         string RegistryId,
         string RecordId
@@ -61,61 +62,61 @@ public record AwsBedrockAgentcoreControlUpdateRegistryRecordOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the registry containing the record. You can spec- ify either the Amazon Resource Name (ARN) or the ID of the registry. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws(-[^:]+)?:bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:registry/)?[a-zA-Z0-9]{12,16}
+    /// The identifier of the registry containing the record. You can specify either the Amazon Resource Name (ARN) or the ID of the registry. Constraints: • min: 1 • max: 2048 • pattern: (arn:aws(-[^:]+)?:bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:registry/)?[a-zA-Z0-9]{12,16}
     /// </summary>
     [CliOption("--registry-id")]
     public string? RegistryId { get; private init; }
 
     /// <summary>
-    /// The identifier of the registry record to update. You can specify ei- ther the Amazon Resource Name (ARN) or the ID of the record. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws(-[^:]+)?:bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:reg- istry/[a-zA-Z0-9]{12,16}/record/)?[a-zA-Z0-9]{12}
+    /// The identifier of the registry record to update. You can specify either the Amazon Resource Name (ARN) or the ID of the record. Constraints: • min: 1 • max: 2048 • pattern: (arn:aws(-[^:]+)?:bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:registry/[a-zA-Z0-9]{12,16}/record/)?[a-zA-Z0-9]{12}
     /// </summary>
     [CliOption("--record-id")]
     public string? RecordId { get; private init; }
 
     /// <summary>
-    /// The updated name for the registry record. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9][a-zA-Z0-9_\-\.\/]*
+    /// The updated name for the registry record. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9][a-zA-Z0-9_\-\.\/]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The updated description for the registry record. To clear the de- scription, include the UpdatedDescription wrapper with optionalValue not specified. optionalValue -&gt; (string) Represents an optional value that is used to update the hu- man-readable description of the resource. If not specified, it will clear the current description of the resource. Constraints: o min: 1 o max: 4096 Shorthand Syntax: optionalValue=string JSON Syntax: { "optionalValue": "string" }
+    /// The updated description for the registry record. To clear the description, include the UpdatedDescription wrapper with optionalValue not specified. optionalValue -&gt; (string) Represents an optional value that is used to update the human-readable description of the resource. If not specified, it will clear the current description of the resource. Constraints: • min: 1 • max: 4096 Shorthand Syntax: optionalValue=string JSON Syntax: { "optionalValue": "string" }
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The updated descriptor type for the registry record. Changing the descriptor type may require updating the descriptors field to match the new type's schema requirements. Possible values: o MCP o A2A o CUSTOM o AGENT_SKILLS
+    /// The updated descriptor type for the registry record. Changing the descriptor type may require updating the descriptors field to match the new type's schema requirements. Possible values: • MCP • A2A • CUSTOM • AGENT_SKILLS
     /// </summary>
     [CliOption("--descriptor-type")]
     public AwsBedrockAgentcoreControlUpdateRegistryRecordDescriptorType? DescriptorType { get; set; }
 
     /// <summary>
-    /// The updated descriptor-type-specific configuration containing the resource schema and metadata. Uses PATCH semantics where individual descriptor fields can be updated independently. optionalValue -&gt; (structure) The updated descriptors value. Contains per-descriptor-type wrappers that are each independently updatable. mcp -&gt; (structure) The updated MCP descriptor. optionalValue -&gt; (structure) The updated MCP descriptor fields. server -&gt; (structure) The updated server definition for the MCP descriptor. optionalValue -&gt; (structure) The updated server definition value. schemaVersion -&gt; (string) The schema version of the server definition based on the MCP protocol specification. If not specified, the version is auto-detected from the content. Constraints: o min: 1 o max: 255 inlineContent -&gt; (string) The JSON content containing the MCP server def- inition, conforming to the MCP protocol speci- fication. Constraints: o min: 1 o max: 102400 tools -&gt; (structure) The updated tools definition for the MCP descriptor. optionalValue -&gt; (structure) The updated tools definition value. protocolVersion -&gt; (string) The protocol version of the tools definition based on the MCP protocol specification. If not specified, the version is auto-detected from the content. Constraints: o min: 1 o max: 255 inlineContent -&gt; (string) The JSON content containing the MCP tools defi- nition, conforming to the MCP protocol specifi- cation. Constraints: o min: 1 o max: 102400 a2a -&gt; (structure) The updated A2A descriptor. optionalValue -&gt; (structure) The updated A2A descriptor value. agentCard -&gt; (structure) The agent card definition for the A2A agent, as de- fined by the A2A protocol specification. schemaVersion -&gt; (string) The schema version of the agent card based on the A2A protocol specification. Constraints: o min: 1 o max: 255 inlineContent -&gt; (string) The JSON content containing the A2A agent card de- finition, conforming to the A2A protocol specifi- cation. Constraints: o min: 1 o max: 102400 custom -&gt; (structure) The updated custom descriptor. optionalValue -&gt; (structure) The updated custom descriptor value. inlineContent -&gt; (string) The custom descriptor content as a valid JSON docu- ment. You can define any custom schema that describes your resource. Constraints: o min: 1 o max: 102400 agentSkills -&gt; (structure) The updated agent skills descriptor. optionalValue -&gt; (structure) The updated agent skills descriptor fields. skillMd -&gt; (structure) The updated skill markdown definition. optionalValue -&gt; (structure) The updated skill markdown definition value. inlineContent -&gt; (string) The markdown content describing the agent's skills in a human-readable format. Constraints: o min: 1 o max: 102400 skillDefinition -&gt; (structure) The updated skill definition. optionalValue -&gt; (structure) The updated skill definition value. schemaVersion -&gt; (string) The version of the skill definition schema. Constraints: o min: 1 o max: 255 inlineContent -&gt; (string) The JSON content containing the structured skill definition. Constraints: o min: 1 o max: 102400 JSON Syntax: { "optionalValue": { "mcp": { "optionalValue": { "server": { "optionalValue": { "schemaVersion": "string", "inlineContent": "string" } }, "tools": { "optionalValue": { "protocolVersion": "string", "inlineContent": "string" } } } }, "a2a": { "optionalValue": { "agentCard": { "schemaVersion": "string", "inlineContent": "string" } } }, "custom": { "optionalValue": { "inlineContent": "string" } }, "agentSkills": { "optionalValue": { "skillMd": { "optionalValue": { "inlineContent": "string" } }, "skillDefinition": { "optionalValue": { "schemaVersion": "string", "inlineContent": "string" } } } } } }
+    /// The updated descriptor-type-specific configuration containing the resource schema and metadata. Uses PATCH semantics where individual descriptor fields can be updated independently. optionalValue -&gt; (structure) The updated descriptors value. Contains per-descriptor-type wrappers that are each independently updatable. mcp -&gt; (structure) The updated MCP descriptor. optionalValue -&gt; (structure) The updated MCP descriptor fields. server -&gt; (structure) The updated server definition for the MCP descriptor. optionalValue -&gt; (structure) The updated server definition value. schemaVersion -&gt; (string) The schema version of the server definition based on the MCP protocol specification. If not specified, the version is auto-detected from the content. Constraints: • min: 1 • max: 255 inlineContent -&gt; (string) The JSON content containing the MCP server definition, conforming to the MCP protocol specification. Constraints: • min: 1 • max: 102400 tools -&gt; (structure) The updated tools definition for the MCP descriptor. optionalValue -&gt; (structure) The updated tools definition value. protocolVersion -&gt; (string) The protocol version of the tools definition based on the MCP protocol specification. If not specified, the version is auto-detected from the content. Constraints: • min: 1 • max: 255 inlineContent -&gt; (string) The JSON content containing the MCP tools definition, conforming to the MCP protocol specification. Constraints: • min: 1 • max: 102400 a2a -&gt; (structure) The updated A2A descriptor. optionalValue -&gt; (structure) The updated A2A descriptor value. agentCard -&gt; (structure) The agent card definition for the A2A agent, as defined by the A2A protocol specification. schemaVersion -&gt; (string) The schema version of the agent card based on the A2A protocol specification. Constraints: • min: 1 • max: 255 inlineContent -&gt; (string) The JSON content containing the A2A agent card definition, conforming to the A2A protocol specification. Constraints: • min: 1 • max: 102400 custom -&gt; (structure) The updated custom descriptor. optionalValue -&gt; (structure) The updated custom descriptor value. inlineContent -&gt; (string) The custom descriptor content as a valid JSON document. You can define any custom schema that describes your resource. Constraints: • min: 1 • max: 102400 agentSkills -&gt; (structure) The updated agent skills descriptor. optionalValue -&gt; (structure) The updated agent skills descriptor fields. skillMd -&gt; (structure) The updated skill markdown definition. optionalValue -&gt; (structure) The updated skill markdown definition value. inlineContent -&gt; (string) The markdown content describing the agent's skills in a human-readable format. Constraints: • min: 1 • max: 102400 skillDefinition -&gt; (structure) The updated skill definition. optionalValue -&gt; (structure) The updated skill definition value. schemaVersion -&gt; (string) The version of the skill definition schema. Constraints: • min: 1 • max: 255 inlineContent -&gt; (string) The JSON content containing the structured skill definition. Constraints: • min: 1 • max: 102400 JSON Syntax: { "optionalValue": { "mcp": { "optionalValue": { "server": { "optionalValue": { "schemaVersion": "string", "inlineContent": "string" } }, "tools": { "optionalValue": { "protocolVersion": "string", "inlineContent": "string" } } } }, "a2a": { "optionalValue": { "agentCard": { "schemaVersion": "string", "inlineContent": "string" } } }, "custom": { "optionalValue": { "inlineContent": "string" } }, "agentSkills": { "optionalValue": { "skillMd": { "optionalValue": { "inlineContent": "string" } }, "skillDefinition": { "optionalValue": { "schemaVersion": "string", "inlineContent": "string" } } } } } }
     /// </summary>
     [CliOption("--descriptors")]
     public string? Descriptors { get; set; }
 
     /// <summary>
-    /// The version of the registry record for optimistic locking. If pro- vided, it must match the current version of the record. The service automatically increments the version after a successful update. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9.-]+
+    /// The version of the registry record for optimistic locking. If provided, it must match the current version of the record. The service automatically increments the version after a successful update. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9.-]+
     /// </summary>
     [CliOption("--record-version")]
     public string? RecordVersion { get; set; }
 
     /// <summary>
-    /// The updated synchronization type for the registry record. optionalValue -&gt; (string) The updated synchronization type value. Possible values: o URL Shorthand Syntax: optionalValue=string JSON Syntax: { "optionalValue": "URL" }
+    /// The updated synchronization type for the registry record. optionalValue -&gt; (string) The updated synchronization type value. Possible values: • URL Shorthand Syntax: optionalValue=string JSON Syntax: { "optionalValue": "URL" }
     /// </summary>
     [CliOption("--synchronization-type")]
     public string? SynchronizationType { get; set; }
 
     /// <summary>
-    /// The updated synchronization configuration for the registry record. optionalValue -&gt; (structure) The updated synchronization configuration value. fromUrl -&gt; (structure) Configuration for synchronizing from a URL-based source. url -&gt; (string) [required] The HTTPS URL of the MCP server to synchronize from. Constraints: o min: 1 o max: 2048 o pattern: https://.* credentialProviderConfigurations -&gt; (list) Optional list of credential provider configurations for authenticating with the MCP server. At most one creden- tial provider configuration can be specified. Constraints: o min: 0 o max: 1 (structure) A pairing of a credential provider type with its cor- responding provider details for authenticating with external sources. credentialProviderType -&gt; (string) [required] The type of credential provider. o OAUTH - OAuth-based authentication. o IAM - Amazon Web Services IAM-based authentica- tion using SigV4 signing. Possible values: o OAUTH o IAM credentialProvider -&gt; (tagged union structure) [re- quired] The credential provider configuration details. The structure depends on the credentialProviderType . NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: oauth- CredentialProvider, iamCredentialProvider. oauthCredentialProvider -&gt; (structure) The OAuth credential provider configuration for authenticating with the external source. providerArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the OAuth credential provider resource. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(-[^:]+)?:bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:.* grantType -&gt; (string) The OAuth grant type. Currently only CLIENT_CREDENTIALS is supported. Possible values: o CLIENT_CREDENTIALS scopes -&gt; (list) The OAuth scopes to request during authen- tication. (string) customParameters -&gt; (map) Additional custom parameters for the OAuth flow. key -&gt; (string) value -&gt; (string) iamCredentialProvider -&gt; (structure) The IAM credential provider configuration for authenticating with the external source using SigV4 signing. roleArn -&gt; (string) The Amazon Resource Name (ARN) of the IAM role to assume for SigV4 signing. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+ service -&gt; (string) The SigV4 signing service name (for exam- ple, execute-api or bedrock-agentcore ). Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_-]+ region -&gt; (string) The Amazon Web Services region for SigV4 signing (for example, us-west-2 ). If not specified, the region is extracted from the MCP server URL hostname, with fallback to the service's own region. Constraints: o min: 1 o max: 64 o pattern: [a-z0-9-]+ JSON Syntax: { "optionalValue": { "fromUrl": { "url": "string", "credentialProviderConfigurations": [ { "credentialProviderType": "OAUTH"|"IAM", "credentialProvider": { "oauthCredentialProvider": { "providerArn": "string", "grantType": "CLIENT_CREDENTIALS", "scopes": ["string", ...], "customParameters": {"string": "string" ...} }, "iamCredentialProvider": { "roleArn": "string", "service": "string", "region": "string" } } } ... ] } } }
+    /// The updated synchronization configuration for the registry record. optionalValue -&gt; (structure) The updated synchronization configuration value. fromUrl -&gt; (structure) Configuration for synchronizing from a URL-based source. url -&gt; (string) [required] The HTTPS URL of the MCP server to synchronize from. Constraints: • min: 1 • max: 2048 • pattern: https://.* credentialProviderConfigurations -&gt; (list) Optional list of credential provider configurations for authenticating with the MCP server. At most one credential provider configuration can be specified. Constraints: • min: 0 • max: 1 (structure) A pairing of a credential provider type with its corresponding provider details for authenticating with external sources. credentialProviderType -&gt; (string) [required] The type of credential provider. • OAUTH - OAuth-based authentication. • IAM - Amazon Web Services IAM-based authentication using SigV4 signing. Possible values: • OAUTH • IAM credentialProvider -&gt; (tagged union structure) [required] The credential provider configuration details. The structure depends on the credentialProviderType . NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: oauthCredentialProvider, iamCredentialProvider. oauthCredentialProvider -&gt; (structure) The OAuth credential provider configuration for authenticating with the external source. providerArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the OAuth credential provider resource. Constraints: • min: 1 • max: 2048 • pattern: arn:aws(-[^:]+)?:bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:.* grantType -&gt; (string) The OAuth grant type. Currently only CLIENT_CREDENTIALS is supported. Possible values: • CLIENT_CREDENTIALS scopes -&gt; (list) The OAuth scopes to request during authentication. (string) customParameters -&gt; (map) Additional custom parameters for the OAuth flow. key -&gt; (string) value -&gt; (string) iamCredentialProvider -&gt; (structure) The IAM credential provider configuration for authenticating with the external source using SigV4 signing. roleArn -&gt; (string) The Amazon Resource Name (ARN) of the IAM role to assume for SigV4 signing. Constraints: • min: 20 • max: 2048 • pattern: arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+ service -&gt; (string) The SigV4 signing service name (for example, execute-api or bedrock-agentcore ). Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_-]+ region -&gt; (string) The Amazon Web Services region for SigV4 signing (for example, us-west-2 ). If not specified, the region is extracted from the MCP server URL hostname, with fallback to the service's own region. Constraints: • min: 1 • max: 64 • pattern: [a-z0-9-]+ JSON Syntax: { "optionalValue": { "fromUrl": { "url": "string", "credentialProviderConfigurations": [ { "credentialProviderType": "OAUTH"|"IAM", "credentialProvider": { "oauthCredentialProvider": { "providerArn": "string", "grantType": "CLIENT_CREDENTIALS", "scopes": ["string", ...], "customParameters": {"string": "string" ...} }, "iamCredentialProvider": { "roleArn": "string", "service": "string", "region": "string" } } } ... ] } } }
     /// </summary>
     [CliOption("--synchronization-configuration")]
     public string? SynchronizationConfiguration { get; set; }
 
     /// <summary>
-    /// Whether to trigger synchronization using the stored or provided con- figuration. When set to true , the service will synchronize the record metadata from the configured external source.
+    /// Whether to trigger synchronization using the stored or provided configuration. When set to true , the service will synchronize the record metadata from the configured external source.
     /// </summary>
     [CliFlag("--trigger-synchronization", NegatedName = "--no-trigger-synchronization")]
     public bool? TriggerSynchronization { get; set; }
@@ -141,6 +142,15 @@ public record AwsBedrockAgentcoreControlUpdateRegistryRecordOptions : AwsOptions
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

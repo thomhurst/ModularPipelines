@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a service account for the workspace. A service account can be used to call Grafana HTTP APIs, and run automated workloads. After cre- ating the service account with the correct GrafanaRole for your use case, use CreateWorkspaceServiceAccountToken to create a token that can be used to authenticate and authorize Grafana HTTP API calls. You can only create service accounts for workspaces that are compatible with Grafana version 9 and above. NOTE: For more information about service accounts,...
+/// Creates a service account for the workspace. A service account can be used to call Grafana HTTP APIs, and run automated workloads. After creating the service account with the correct GrafanaRole for your use case, use CreateWorkspaceServiceAccountToken to create a token that can be used to authenticate and authorize Grafana HTTP API calls. You can only create service accounts for workspaces that are compatible with Grafana version 9 and above. NOTE: For more information about service accounts, s...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsGrafanaCreateWorkspaceServiceAccountOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a service account for the workspace. A service account can be used to call Grafana HTTP APIs, and run automated workloads. After cre- ating the service account with the correct GrafanaRole for your use case, use CreateWorkspaceServiceAccountToken to create a token that can be used to authenticate and authorize Grafana HTTP API calls. You can only create service accounts for workspaces that are compatible with Grafana version 9 and above. NOTE: For more information about service accounts,...
+    /// Creates a service account for the workspace. A service account can be used to call Grafana HTTP APIs, and run automated workloads. After creating the service account with the correct GrafanaRole for your use case, use CreateWorkspaceServiceAccountToken to create a token that can be used to authenticate and authorize Grafana HTTP API calls. You can only create service accounts for workspaces that are compatible with Grafana version 9 and above. NOTE: For more information about service accounts, s...
     /// </summary>
-    /// <param name="Name">A name for the service account. The name must be unique within the workspace, as it determines the ID associated with the service ac- count. Constraints: o min: 1 o max: 128</param>
-    /// <param name="GrafanaRole">The permission level to use for this service account. NOTE: For more information about the roles and the permissions each has, see User roles in the Amazon Managed Grafana User Guide . Possible values: o ADMIN o EDITOR o VIEWER</param>
-    /// <param name="WorkspaceId">The ID of the workspace within which to create the service account. Constraints: o pattern: g-[0-9a-f]{10}</param>
+    /// <param name="Name">A name for the service account. The name must be unique within the workspace, as it determines the ID associated with the service account. Constraints: • min: 1 • max: 128</param>
+    /// <param name="GrafanaRole">The permission level to use for this service account. NOTE: For more information about the roles and the permissions each has, see User roles in the Amazon Managed Grafana User Guide . Possible values: • ADMIN • EDITOR • VIEWER</param>
+    /// <param name="WorkspaceId">The ID of the workspace within which to create the service account. Constraints: • pattern: g-[0-9a-f]{10}</param>
     public AwsGrafanaCreateWorkspaceServiceAccountOptions(
         string Name,
         AwsGrafanaCreateWorkspaceServiceAccountGrafanaRole GrafanaRole,
@@ -64,19 +65,19 @@ public record AwsGrafanaCreateWorkspaceServiceAccountOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A name for the service account. The name must be unique within the workspace, as it determines the ID associated with the service ac- count. Constraints: o min: 1 o max: 128
+    /// A name for the service account. The name must be unique within the workspace, as it determines the ID associated with the service account. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The permission level to use for this service account. NOTE: For more information about the roles and the permissions each has, see User roles in the Amazon Managed Grafana User Guide . Possible values: o ADMIN o EDITOR o VIEWER
+    /// The permission level to use for this service account. NOTE: For more information about the roles and the permissions each has, see User roles in the Amazon Managed Grafana User Guide . Possible values: • ADMIN • EDITOR • VIEWER
     /// </summary>
     [CliOption("--grafana-role")]
     public AwsGrafanaCreateWorkspaceServiceAccountGrafanaRole? GrafanaRole { get; private init; }
 
     /// <summary>
-    /// The ID of the workspace within which to create the service account. Constraints: o pattern: g-[0-9a-f]{10}
+    /// The ID of the workspace within which to create the service account. Constraints: • pattern: g-[0-9a-f]{10}
     /// </summary>
     [CliOption("--workspace-id")]
     public string? WorkspaceId { get; private init; }
@@ -102,6 +103,15 @@ public record AwsGrafanaCreateWorkspaceServiceAccountOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

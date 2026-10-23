@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsNetworkmanagerRestoreCoreNetworkPolicyVersionOptions : AwsOptio
     /// <summary>
     /// Restores a previous policy version as a new, immutable version of a core network policy. A subsequent change set is created showing the differences between the LIVE policy and restored policy. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CoreNetworkId">The ID of a core network. Constraints: o min: 0 o max: 50 o pattern: ^core-network-([0-9a-f]{8,17})$</param>
+    /// <param name="CoreNetworkId">The ID of a core network. Constraints: • min: 0 • max: 50 • pattern: ^core-network-([0-9a-f]{8,17})$</param>
     /// <param name="PolicyVersionId">The ID of the policy version to restore.</param>
     public AwsNetworkmanagerRestoreCoreNetworkPolicyVersionOptions(
         string CoreNetworkId,
@@ -59,7 +60,7 @@ public record AwsNetworkmanagerRestoreCoreNetworkPolicyVersionOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of a core network. Constraints: o min: 0 o max: 50 o pattern: ^core-network-([0-9a-f]{8,17})$
+    /// The ID of a core network. Constraints: • min: 0 • max: 50 • pattern: ^core-network-([0-9a-f]{8,17})$
     /// </summary>
     [CliOption("--core-network-id")]
     public string? CoreNetworkId { get; private init; }
@@ -91,6 +92,15 @@ public record AwsNetworkmanagerRestoreCoreNetworkPolicyVersionOptions : AwsOptio
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

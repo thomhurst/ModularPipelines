@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modifies the capacity reservation of the specified load balancer. When modifying capacity reservation, you must include at least one Min- imumLoadBalancerCapacity or ResetCapacityReservation . See also: AWS API Documentation
+/// Modifies the capacity reservation of the specified load balancer. When modifying capacity reservation, you must include at least one MinimumLoadBalancerCapacity or ResetCapacityReservation . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsElbv2ModifyCapacityReservationOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Modifies the capacity reservation of the specified load balancer. When modifying capacity reservation, you must include at least one Min- imumLoadBalancerCapacity or ResetCapacityReservation . See also: AWS API Documentation
+    /// Modifies the capacity reservation of the specified load balancer. When modifying capacity reservation, you must include at least one MinimumLoadBalancerCapacity or ResetCapacityReservation . See also: AWS API Documentation
     /// </summary>
     /// <param name="LoadBalancerArn">The Amazon Resource Name (ARN) of the load balancer.</param>
     public AwsElbv2ModifyCapacityReservationOptions(
@@ -94,6 +95,15 @@ public record AwsElbv2ModifyCapacityReservationOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,13 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a domain name access association resource between an access as- sociation source and a private custom domain name. See also: AWS API Documentation
+/// Creates a domain name access association resource between an access association source and a private custom domain name. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +26,10 @@ public record AwsApigatewayCreateDomainNameAccessAssociationOptions : AwsOptions
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a domain name access association resource between an access as- sociation source and a private custom domain name. See also: AWS API Documentation
+    /// Creates a domain name access association resource between an access association source and a private custom domain name. See also: AWS API Documentation
     /// </summary>
     /// <param name="DomainNameArn">The ARN of the domain name.</param>
-    /// <param name="AccessAssociationSourceType">The type of the domain name access association source. Possible values: o VPCE</param>
+    /// <param name="AccessAssociationSourceType">The type of the domain name access association source. Possible values: • VPCE</param>
     /// <param name="AccessAssociationSource">The identifier of the domain name access association source. For a VPCE, the value is the VPC endpoint ID.</param>
     public AwsApigatewayCreateDomainNameAccessAssociationOptions(
         string DomainNameArn,
@@ -71,7 +71,7 @@ public record AwsApigatewayCreateDomainNameAccessAssociationOptions : AwsOptions
     public string? DomainNameArn { get; private init; }
 
     /// <summary>
-    /// The type of the domain name access association source. Possible values: o VPCE
+    /// The type of the domain name access association source. Possible values: • VPCE
     /// </summary>
     [CliOption("--access-association-source-type")]
     public string? AccessAssociationSourceType { get; private init; }
@@ -109,6 +109,15 @@ public record AwsApigatewayCreateDomainNameAccessAssociationOptions : AwsOptions
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a domain, which is a container for all case data, such as cases, fields, templates and layouts. Each Amazon Connect instance can be associated with only one Cases domain. WARNING: This will not associate your connect instance to Cases domain. In- stead, use the Amazon Connect CreateIntegrationAssociation API. You need specific IAM permissions to successfully associate the Cases domain. For more information, see Onboard to Cases . See also: AWS API Documentation
+/// Creates a domain, which is a container for all case data, such as cases, fields, templates and layouts. Each Amazon Connect instance can be associated with only one Cases domain. WARNING: This will not associate your connect instance to Cases domain. Instead, use the Amazon Connect CreateIntegrationAssociation API. You need specific IAM permissions to successfully associate the Cases domain. For more information, see Onboard to Cases . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsConnectcasesCreateDomainOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a domain, which is a container for all case data, such as cases, fields, templates and layouts. Each Amazon Connect instance can be associated with only one Cases domain. WARNING: This will not associate your connect instance to Cases domain. In- stead, use the Amazon Connect CreateIntegrationAssociation API. You need specific IAM permissions to successfully associate the Cases domain. For more information, see Onboard to Cases . See also: AWS API Documentation
+    /// Creates a domain, which is a container for all case data, such as cases, fields, templates and layouts. Each Amazon Connect instance can be associated with only one Cases domain. WARNING: This will not associate your connect instance to Cases domain. Instead, use the Amazon Connect CreateIntegrationAssociation API. You need specific IAM permissions to successfully associate the Cases domain. For more information, see Onboard to Cases . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name for your Cases domain. It must be unique for your Amazon Web Services account. Constraints: o min: 1 o max: 100 o pattern: .*[\S]</param>
+    /// <param name="Name">The name for your Cases domain. It must be unique for your Amazon Web Services account. Constraints: • min: 1 • max: 100 • pattern: .*[\S]</param>
     public AwsConnectcasesCreateDomainOptions(
         string Name
     )
@@ -56,7 +57,7 @@ public record AwsConnectcasesCreateDomainOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name for your Cases domain. It must be unique for your Amazon Web Services account. Constraints: o min: 1 o max: 100 o pattern: .*[\S]
+    /// The name for your Cases domain. It must be unique for your Amazon Web Services account. Constraints: • min: 1 • max: 100 • pattern: .*[\S]
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
@@ -82,6 +83,15 @@ public record AwsConnectcasesCreateDomainOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

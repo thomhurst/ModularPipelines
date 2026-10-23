@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates a EKS Pod Identity association. In an update, you can change the IAM role, the target IAM role, or disableSessionTags . You must change at least one of these in an update. An association can't be moved between clusters, namespaces, or service accounts. If you need to edit the namespace or service account, you need to delete the associa- tion and then create a new association with your desired settings. Similar to Amazon Web Services IAM behavior, EKS Pod Identity associa- tions are event...
+/// Updates a EKS Pod Identity association. In an update, you can change the IAM role, the target IAM role, or disableSessionTags . You must change at least one of these in an update. An association can't be moved between clusters, namespaces, or service accounts. If you need to edit the namespace or service account, you need to delete the association and then create a new association with your desired settings. Similar to Amazon Web Services IAM behavior, EKS Pod Identity associations are eventuall...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +27,7 @@ public record AwsEksUpdatePodIdentityAssociationOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates a EKS Pod Identity association. In an update, you can change the IAM role, the target IAM role, or disableSessionTags . You must change at least one of these in an update. An association can't be moved between clusters, namespaces, or service accounts. If you need to edit the namespace or service account, you need to delete the associa- tion and then create a new association with your desired settings. Similar to Amazon Web Services IAM behavior, EKS Pod Identity associa- tions are event...
+    /// Updates a EKS Pod Identity association. In an update, you can change the IAM role, the target IAM role, or disableSessionTags . You must change at least one of these in an update. An association can't be moved between clusters, namespaces, or service accounts. If you need to edit the namespace or service account, you need to delete the association and then create a new association with your desired settings. Similar to Amazon Web Services IAM behavior, EKS Pod Identity associations are eventuall...
     /// </summary>
     /// <param name="ClusterName">The name of the cluster that you want to update the association in.</param>
     /// <param name="AssociationId">The ID of the association to be updated.</param>
@@ -86,19 +87,19 @@ public record AwsEksUpdatePodIdentityAssociationOptions : AwsOptions, IValidatab
     public string? ClientRequestToken { get; set; }
 
     /// <summary>
-    /// Disable the automatic sessions tags that are appended by EKS Pod Identity. EKS Pod Identity adds a pre-defined set of session tags when it as- sumes the role. You can use these tags to author a single role that can work across resources by allowing access to Amazon Web Services resources based on matching tags. By default, EKS Pod Identity at- taches six tags, including tags for cluster name, namespace, and service account name. For the list of tags added by EKS Pod Iden- tity, see List of session tags added by EKS Pod Identity in the Ama- zon EKS User Guide . Amazon Web Services compresses inline session policies, managed pol- icy ARNs, and session tags into a packed binary format that has a separate limit. If you receive a PackedPolicyTooLarge error indicat- ing the packed binary format has exceeded the size limit, you can attempt to reduce the size by disabling the session tags added by EKS Pod Identity.
+    /// Disable the automatic sessions tags that are appended by EKS Pod Identity. EKS Pod Identity adds a pre-defined set of session tags when it assumes the role. You can use these tags to author a single role that can work across resources by allowing access to Amazon Web Services resources based on matching tags. By default, EKS Pod Identity attaches six tags, including tags for cluster name, namespace, and service account name. For the list of tags added by EKS Pod Identity, see List of session tags added by EKS Pod Identity in the Amazon EKS User Guide . Amazon Web Services compresses inline session policies, managed policy ARNs, and session tags into a packed binary format that has a separate limit. If you receive a PackedPolicyTooLarge error indicating the packed binary format has exceeded the size limit, you can attempt to reduce the size by disabling the session tags added by EKS Pod Identity.
     /// </summary>
     [CliFlag("--disable-session-tags", NegatedName = "--no-disable-session-tags")]
     public bool? DisableSessionTags { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the target IAM role to associate with the service account. This role is assumed by using the EKS Pod Identity association role, then the credentials for this role are injected into the Pod. When you run applications on Amazon EKS, your application might need to access Amazon Web Services resources from a different role that exists in the same or different Amazon Web Services account. For ex- ample, your application running in Account A might need to access resources, such as buckets in Account B or within Account A itself. You can create a association to access Amazon Web Services resources in Account B by creating two IAM roles: a role in Account A and a role in Account B (which can be the same or different account), each with the necessary trust and permission policies. After you provide these roles in the IAM role and Target IAM role fields, EKS will perform role chaining to ensure your application gets the required permissions. This means Role A will assume Role B, allowing your Pods to securely access resources like S3 buckets in the target ac- count.
+    /// The Amazon Resource Name (ARN) of the target IAM role to associate with the service account. This role is assumed by using the EKS Pod Identity association role, then the credentials for this role are injected into the Pod. When you run applications on Amazon EKS, your application might need to access Amazon Web Services resources from a different role that exists in the same or different Amazon Web Services account. For example, your application running in Account A might need to access resources, such as buckets in Account B or within Account A itself. You can create a association to access Amazon Web Services resources in Account B by creating two IAM roles: a role in Account A and a role in Account B (which can be the same or different account), each with the necessary trust and permission policies. After you provide these roles in the IAM role and Target IAM role fields, EKS will perform role chaining to ensure your application gets the required permissions. This means Role A will assume Role B, allowing your Pods to securely access resources like S3 buckets in the target account.
     /// </summary>
     [CliOption("--target-role-arn")]
     public string? TargetRoleArn { get; set; }
 
     /// <summary>
-    /// An optional IAM policy in JSON format (as an escaped string) that applies additional restrictions to this pod identity association be- yond the IAM policies attached to the IAM role. This policy is ap- plied as the intersection of the role's policies and this policy, allowing you to reduce the permissions that applications in the pods can use. Use this policy to enforce least privilege access while still leveraging a shared IAM role across multiple applications. Important considerations o Session tags: When using this policy, disableSessionTags must be set to true . o Target role permissions: If you specify both a TargetRoleArn and a policy, the policy restrictions apply only to the target role's permissions, not to the initial role used for assuming the target role.
+    /// An optional IAM policy in JSON format (as an escaped string) that applies additional restrictions to this pod identity association beyond the IAM policies attached to the IAM role. This policy is applied as the intersection of the role's policies and this policy, allowing you to reduce the permissions that applications in the pods can use. Use this policy to enforce least privilege access while still leveraging a shared IAM role across multiple applications. Important considerations • Session tags: When using this policy, disableSessionTags must be set to true . • Target role permissions: If you specify both a TargetRoleArn and a policy, the policy restrictions apply only to the target role's permissions, not to the initial role used for assuming the target role.
     /// </summary>
     [CliOption("--policy")]
     public string? Policy { get; set; }
@@ -124,6 +125,15 @@ public record AwsEksUpdatePodIdentityAssociationOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

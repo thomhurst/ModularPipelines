@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsMemorydbUpdateParameterGroupOptions : AwsOptions, IValidatableO
     /// Updates the parameters of a parameter group. You can modify up to 20 parameters in a single request by submitting a list parameter name and value pairs. See also: AWS API Documentation
     /// </summary>
     /// <param name="ParameterGroupName">The name of the parameter group to update.</param>
-    /// <param name="ParameterNameValues">An array of parameter names and values for the parameter update. You must supply at least one parameter name and value; subsequent argu- ments are optional. A maximum of 20 parameters may be updated per request. (structure) Describes a name-value pair that is used to update the value of a parameter. ParameterName -&gt; (string) The name of the parameter ParameterValue -&gt; (string) The value of the parameter Shorthand Syntax: ParameterName=string,ParameterValue=string ... JSON Syntax: [ { "ParameterName": "string", "ParameterValue": "string" } ... ]</param>
+    /// <param name="ParameterNameValues">An array of parameter names and values for the parameter update. You must supply at least one parameter name and value; subsequent arguments are optional. A maximum of 20 parameters may be updated per request. (structure) Describes a name-value pair that is used to update the value of a parameter. ParameterName -&gt; (string) The name of the parameter ParameterValue -&gt; (string) The value of the parameter Shorthand Syntax: ParameterName=string,ParameterValue=string ... JSON Syntax: [ { "ParameterName": "string", "ParameterValue": "string" } ... ]</param>
     public AwsMemorydbUpdateParameterGroupOptions(
         string ParameterGroupName,
         IEnumerable<string> ParameterNameValues
@@ -77,7 +78,7 @@ public record AwsMemorydbUpdateParameterGroupOptions : AwsOptions, IValidatableO
     public string? ParameterGroupName { get; private init; }
 
     /// <summary>
-    /// An array of parameter names and values for the parameter update. You must supply at least one parameter name and value; subsequent argu- ments are optional. A maximum of 20 parameters may be updated per request. (structure) Describes a name-value pair that is used to update the value of a parameter. ParameterName -&gt; (string) The name of the parameter ParameterValue -&gt; (string) The value of the parameter Shorthand Syntax: ParameterName=string,ParameterValue=string ... JSON Syntax: [ { "ParameterName": "string", "ParameterValue": "string" } ... ]
+    /// An array of parameter names and values for the parameter update. You must supply at least one parameter name and value; subsequent arguments are optional. A maximum of 20 parameters may be updated per request. (structure) Describes a name-value pair that is used to update the value of a parameter. ParameterName -&gt; (string) The name of the parameter ParameterValue -&gt; (string) The value of the parameter Shorthand Syntax: ParameterName=string,ParameterValue=string ... JSON Syntax: [ { "ParameterName": "string", "ParameterValue": "string" } ... ]
     /// </summary>
     [CliOption("--parameter-name-values", GroupValues = true)]
     public IEnumerable<string>? ParameterNameValues { get; private init; }
@@ -103,6 +104,15 @@ public record AwsMemorydbUpdateParameterGroupOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

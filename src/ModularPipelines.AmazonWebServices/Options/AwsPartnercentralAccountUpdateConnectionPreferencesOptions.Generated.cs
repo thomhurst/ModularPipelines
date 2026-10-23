@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the connection preferences for a partner account, modifying ac- cess settings and exclusions. See also: AWS API Documentation
+/// Updates the connection preferences for a partner account, modifying access settings and exclusions. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,14 +27,14 @@ public record AwsPartnercentralAccountUpdateConnectionPreferencesOptions : AwsOp
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the connection preferences for a partner account, modifying ac- cess settings and exclusions. See also: AWS API Documentation
+    /// Updates the connection preferences for a partner account, modifying access settings and exclusions. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Catalog">The catalog identifier for the partner account. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-]+</param>
+    /// <param name="Catalog">The catalog identifier for the partner account. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-]+</param>
     /// <param name="Revision">The revision number of the connection preferences for optimistic locking.</param>
-    /// <param name="AccessType">The access type setting for connections (e.g., open, restricted, in- vitation-only). Possible values: o ALLOW_ALL o DENY_ALL o ALLOW_BY_DEFAULT_DENY_SOME</param>
+    /// <param name="AccessType">The access type setting for connections (e.g., open, restricted, invitation-only). Possible values: • ALLOW_ALL • DENY_ALL • ALLOW_BY_DEFAULT_DENY_SOME</param>
     public AwsPartnercentralAccountUpdateConnectionPreferencesOptions(
         string Catalog,
-        int Revision,
+        long Revision,
         AwsPartnercentralAccountUpdateConnectionPreferencesAccessType AccessType
     )
     {
@@ -63,7 +64,7 @@ public record AwsPartnercentralAccountUpdateConnectionPreferencesOptions : AwsOp
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The catalog identifier for the partner account. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-]+
+    /// The catalog identifier for the partner account. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--catalog")]
     public string? Catalog { get; private init; }
@@ -72,16 +73,16 @@ public record AwsPartnercentralAccountUpdateConnectionPreferencesOptions : AwsOp
     /// The revision number of the connection preferences for optimistic locking.
     /// </summary>
     [CliOption("--revision")]
-    public int? Revision { get; private init; }
+    public long? Revision { get; private init; }
 
     /// <summary>
-    /// The access type setting for connections (e.g., open, restricted, in- vitation-only). Possible values: o ALLOW_ALL o DENY_ALL o ALLOW_BY_DEFAULT_DENY_SOME
+    /// The access type setting for connections (e.g., open, restricted, invitation-only). Possible values: • ALLOW_ALL • DENY_ALL • ALLOW_BY_DEFAULT_DENY_SOME
     /// </summary>
     [CliOption("--access-type")]
     public AwsPartnercentralAccountUpdateConnectionPreferencesAccessType? AccessType { get; private init; }
 
     /// <summary>
-    /// The updated list of participant identifiers to exclude from connec- tions. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]+ Syntax: "string" "string" ...
+    /// The updated list of participant identifiers to exclude from connections. Constraints: • min: 0 • max: 100 (string) Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9-]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--excluded-participant-identifiers", GroupValues = true)]
     public IEnumerable<string>? ExcludedParticipantIdentifiers { get; set; }
@@ -107,6 +108,15 @@ public record AwsPartnercentralAccountUpdateConnectionPreferencesOptions : AwsOp
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

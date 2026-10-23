@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Sets the resource policy to grant one or more Amazon Web Services ser- vices and accounts permissions to access X-Ray. Each resource policy will be associated with a specific Amazon Web Services account. Each Amazon Web Services account can have a maximum of 5 resource policies, and each policy name must be unique within that account. The maximum size of each resource policy is 5KB. See also: AWS API Documentation
+/// Sets the resource policy to grant one or more Amazon Web Services services and accounts permissions to access X-Ray. Each resource policy will be associated with a specific Amazon Web Services account. Each Amazon Web Services account can have a maximum of 5 resource policies, and each policy name must be unique within that account. The maximum size of each resource policy is 5KB. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsXrayPutResourcePolicyOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Sets the resource policy to grant one or more Amazon Web Services ser- vices and accounts permissions to access X-Ray. Each resource policy will be associated with a specific Amazon Web Services account. Each Amazon Web Services account can have a maximum of 5 resource policies, and each policy name must be unique within that account. The maximum size of each resource policy is 5KB. See also: AWS API Documentation
+    /// Sets the resource policy to grant one or more Amazon Web Services services and accounts permissions to access X-Ray. Each resource policy will be associated with a specific Amazon Web Services account. Each Amazon Web Services account can have a maximum of 5 resource policies, and each policy name must be unique within that account. The maximum size of each resource policy is 5KB. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PolicyName">The name of the resource policy. Must be unique within a specific Amazon Web Services account. Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+</param>
+    /// <param name="PolicyName">The name of the resource policy. Must be unique within a specific Amazon Web Services account. Constraints: • min: 1 • max: 128 • pattern: [\w+=,.@-]+</param>
     /// <param name="PolicyDocument">The resource policy document, which can be up to 5kb in size.</param>
     public AwsXrayPutResourcePolicyOptions(
         string PolicyName,
@@ -60,7 +61,7 @@ public record AwsXrayPutResourcePolicyOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the resource policy. Must be unique within a specific Amazon Web Services account. Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+
+    /// The name of the resource policy. Must be unique within a specific Amazon Web Services account. Constraints: • min: 1 • max: 128 • pattern: [\w+=,.@-]+
     /// </summary>
     [CliOption("--policy-name")]
     public string? PolicyName { get; private init; }
@@ -72,13 +73,13 @@ public record AwsXrayPutResourcePolicyOptions : AwsOptions, IValidatableObject
     public string? PolicyDocument { get; private init; }
 
     /// <summary>
-    /// Specifies a specific policy revision, to ensure an atomic create op- eration. By default the resource policy is created if it does not exist, or updated with an incremented revision id. The revision id is unique to each policy in the account. If the policy revision id does not match the latest revision id, the operation will fail with an InvalidPolicyRevisionIdException excep- tion. You can also provide a PolicyRevisionId of 0. In this case, the operation will fail with an InvalidPolicyRevisionIdException ex- ception if a resource policy with the same name already exists.
+    /// Specifies a specific policy revision, to ensure an atomic create operation. By default the resource policy is created if it does not exist, or updated with an incremented revision id. The revision id is unique to each policy in the account. If the policy revision id does not match the latest revision id, the operation will fail with an InvalidPolicyRevisionIdException exception. You can also provide a PolicyRevisionId of 0. In this case, the operation will fail with an InvalidPolicyRevisionIdException exception if a resource policy with the same name already exists.
     /// </summary>
     [CliOption("--policy-revision-id")]
     public string? PolicyRevisionId { get; set; }
 
     /// <summary>
-    /// A flag to indicate whether to bypass the resource policy lockout safety check. WARNING: Setting this value to true increases the risk that the policy becomes unmanageable. Do not set this value to true indiscrimi- nately. Use this parameter only when you include a policy in the request and you intend to prevent the principal that is making the request from making a subsequent PutResourcePolicy request. The default value is false.
+    /// A flag to indicate whether to bypass the resource policy lockout safety check. WARNING: Setting this value to true increases the risk that the policy becomes unmanageable. Do not set this value to true indiscriminately. Use this parameter only when you include a policy in the request and you intend to prevent the principal that is making the request from making a subsequent PutResourcePolicy request. The default value is false.
     /// </summary>
     [CliFlag("--bypass-policy-lockout-check", NegatedName = "--no-bypass-policy-lockout-check")]
     public bool? BypassPolicyLockoutCheck { get; set; }
@@ -104,6 +105,15 @@ public record AwsXrayPutResourcePolicyOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

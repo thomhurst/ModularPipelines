@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -78,7 +79,7 @@ public record AwsKafkaCreateConfigurationOptions : AwsOptions, IValidatableObjec
     public string? Description { get; set; }
 
     /// <summary>
-    /// The versions of Apache Kafka with which you can use this MSK config- uration. (string) Syntax: "string" "string" ...
+    /// The versions of Apache Kafka with which you can use this MSK configuration. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--kafka-versions", GroupValues = true)]
     public IEnumerable<string>? KafkaVersions { get; set; }
@@ -104,6 +105,15 @@ public record AwsKafkaCreateConfigurationOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

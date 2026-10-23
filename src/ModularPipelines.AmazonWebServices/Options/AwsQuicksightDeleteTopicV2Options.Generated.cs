@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsQuicksightDeleteTopicV2Options : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes a Q topic. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the topic that you want to delete. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="TopicId">The ID of the topic that you want to delete. This ID is unique per Amazon Web Services Region for each Amazon Web Services account. Constraints: o max: 256 o pattern: ^[A-Za-z0-9-_.\\+]*$</param>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the topic that you want to delete. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="TopicId">The ID of the topic that you want to delete. This ID is unique per Amazon Web Services Region for each Amazon Web Services account. Constraints: • max: 256 • pattern: ^[A-Za-z0-9-_.\\+]*$</param>
     public AwsQuicksightDeleteTopicV2Options(
         string AwsAccountId,
         string TopicId
@@ -60,13 +61,13 @@ public record AwsQuicksightDeleteTopicV2Options : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon Web Services account that contains the topic that you want to delete. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID of the Amazon Web Services account that contains the topic that you want to delete. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The ID of the topic that you want to delete. This ID is unique per Amazon Web Services Region for each Amazon Web Services account. Constraints: o max: 256 o pattern: ^[A-Za-z0-9-_.\\+]*$
+    /// The ID of the topic that you want to delete. This ID is unique per Amazon Web Services Region for each Amazon Web Services account. Constraints: • max: 256 • pattern: ^[A-Za-z0-9-_.\\+]*$
     /// </summary>
     [CliOption("--topic-id")]
     public string? TopicId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsQuicksightDeleteTopicV2Options : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

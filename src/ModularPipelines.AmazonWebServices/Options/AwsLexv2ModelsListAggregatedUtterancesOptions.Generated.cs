@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Provides a list of utterances that users have sent to the bot. Utterances are aggregated by the text of the utterance. For example, all instances where customers used the phrase "I want to order pizza" are aggregated into the same line in the response. You can see both detected utterances and missed utterances. A detected utterance is where the bot properly recognized the utterance and acti- vated the associated intent. A missed utterance was not recognized by the bot and didn't activate an inte...
+/// Provides a list of utterances that users have sent to the bot. Utterances are aggregated by the text of the utterance. For example, all instances where customers used the phrase "I want to order pizza" are aggregated into the same line in the response. You can see both detected utterances and missed utterances. A detected utterance is where the bot properly recognized the utterance and activated the associated intent. A missed utterance was not recognized by the bot and didn't activate an intent...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsLexv2ModelsListAggregatedUtterancesOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Provides a list of utterances that users have sent to the bot. Utterances are aggregated by the text of the utterance. For example, all instances where customers used the phrase "I want to order pizza" are aggregated into the same line in the response. You can see both detected utterances and missed utterances. A detected utterance is where the bot properly recognized the utterance and acti- vated the associated intent. A missed utterance was not recognized by the bot and didn't activate an inte...
+    /// Provides a list of utterances that users have sent to the bot. Utterances are aggregated by the text of the utterance. For example, all instances where customers used the phrase "I want to order pizza" are aggregated into the same line in the response. You can see both detected utterances and missed utterances. A detected utterance is where the bot properly recognized the utterance and activated the associated intent. A missed utterance was not recognized by the bot and didn't activate an intent...
     /// </summary>
-    /// <param name="BotId">The unique identifier of the bot associated with this request. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="BotId">The unique identifier of the bot associated with this request. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$</param>
     /// <param name="LocaleId">The identifier of the language and locale where the utterances were collected. For more information, see Supported languages .</param>
-    /// <param name="AggregationDuration">The time window for aggregating the utterance information. You can specify a time between one hour and two weeks. relativeAggregationDuration -&gt; (structure) [required] The desired time window for aggregating utterances. timeDimension -&gt; (string) [required] The type of time period that the timeValue field represents. Possible values: o Hours o Days o Weeks timeValue -&gt; (integer) [required] The period of the time window to gather statistics for. The valid value depends on the setting of the timeDimension field. o Hours - 1/3/6/12/24 o Days - 3 o Weeks - 1/2 Constraints: o min: 1 o max: 24 Shorthand Syntax: relativeAggregationDuration={timeDimension=string,timeValue=integer} JSON Syntax: { "relativeAggregationDuration": { "timeDimension": "Hours"|"Days"|"Weeks", "timeValue": integer } }</param>
+    /// <param name="AggregationDuration">The time window for aggregating the utterance information. You can specify a time between one hour and two weeks. relativeAggregationDuration -&gt; (structure) [required] The desired time window for aggregating utterances. timeDimension -&gt; (string) [required] The type of time period that the timeValue field represents. Possible values: • Hours • Days • Weeks timeValue -&gt; (integer) [required] The period of the time window to gather statistics for. The valid value depends on the setting of the timeDimension field. • Hours - 1/3/6/12/24 • Days - 3 • Weeks - 1/2 Constraints: • min: 1 • max: 24 Shorthand Syntax: relativeAggregationDuration={timeDimension=string,timeValue=integer} JSON Syntax: { "relativeAggregationDuration": { "timeDimension": "Hours"|"Days"|"Weeks", "timeValue": integer } }</param>
     public AwsLexv2ModelsListAggregatedUtterancesOptions(
         string BotId,
         string LocaleId,
@@ -65,7 +66,7 @@ public record AwsLexv2ModelsListAggregatedUtterancesOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the bot associated with this request. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The unique identifier of the bot associated with this request. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--bot-id")]
     public string? BotId { get; private init; }
@@ -77,37 +78,37 @@ public record AwsLexv2ModelsListAggregatedUtterancesOptions : AwsOptions, IValid
     public string? LocaleId { get; private init; }
 
     /// <summary>
-    /// The time window for aggregating the utterance information. You can specify a time between one hour and two weeks. relativeAggregationDuration -&gt; (structure) [required] The desired time window for aggregating utterances. timeDimension -&gt; (string) [required] The type of time period that the timeValue field represents. Possible values: o Hours o Days o Weeks timeValue -&gt; (integer) [required] The period of the time window to gather statistics for. The valid value depends on the setting of the timeDimension field. o Hours - 1/3/6/12/24 o Days - 3 o Weeks - 1/2 Constraints: o min: 1 o max: 24 Shorthand Syntax: relativeAggregationDuration={timeDimension=string,timeValue=integer} JSON Syntax: { "relativeAggregationDuration": { "timeDimension": "Hours"|"Days"|"Weeks", "timeValue": integer } }
+    /// The time window for aggregating the utterance information. You can specify a time between one hour and two weeks. relativeAggregationDuration -&gt; (structure) [required] The desired time window for aggregating utterances. timeDimension -&gt; (string) [required] The type of time period that the timeValue field represents. Possible values: • Hours • Days • Weeks timeValue -&gt; (integer) [required] The period of the time window to gather statistics for. The valid value depends on the setting of the timeDimension field. • Hours - 1/3/6/12/24 • Days - 3 • Weeks - 1/2 Constraints: • min: 1 • max: 24 Shorthand Syntax: relativeAggregationDuration={timeDimension=string,timeValue=integer} JSON Syntax: { "relativeAggregationDuration": { "timeDimension": "Hours"|"Days"|"Weeks", "timeValue": integer } }
     /// </summary>
     [CliOption("--aggregation-duration")]
     public string? AggregationDuration { get; private init; }
 
     /// <summary>
-    /// The identifier of the bot alias associated with this request. If you specify the bot alias, you can't specify the bot version. Constraints: o min: 10 o max: 10 o pattern: ^(\bTSTALIASID\b|[0-9a-zA-Z]+)$
+    /// The identifier of the bot alias associated with this request. If you specify the bot alias, you can't specify the bot version. Constraints: • min: 10 • max: 10 • pattern: ^(\bTSTALIASID\b|[0-9a-zA-Z]+)$
     /// </summary>
     [CliOption("--bot-alias-id")]
     public string? BotAliasId { get; set; }
 
     /// <summary>
-    /// The identifier of the bot version associated with this request. If you specify the bot version, you can't specify the bot alias. Constraints: o min: 1 o max: 5 o pattern: ^(DRAFT|[0-9]+)$
+    /// The identifier of the bot version associated with this request. If you specify the bot version, you can't specify the bot alias. Constraints: • min: 1 • max: 5 • pattern: ^(DRAFT|[0-9]+)$
     /// </summary>
     [CliOption("--bot-version")]
     public string? BotVersion { get; set; }
 
     /// <summary>
-    /// Specifies sorting parameters for the list of utterances. You can sort by the hit count, the missed count, or the number of distinct sessions the utterance appeared in. attribute -&gt; (string) [required] The utterance attribute to sort by. Possible values: o HitCount o MissedCount order -&gt; (string) [required] Specifies whether to sort the aggregated utterances in ascending or descending order. Possible values: o Ascending o Descending Shorthand Syntax: attribute=string,order=string JSON Syntax: { "attribute": "HitCount"|"MissedCount", "order": "Ascending"|"Descending" }
+    /// Specifies sorting parameters for the list of utterances. You can sort by the hit count, the missed count, or the number of distinct sessions the utterance appeared in. attribute -&gt; (string) [required] The utterance attribute to sort by. Possible values: • HitCount • MissedCount order -&gt; (string) [required] Specifies whether to sort the aggregated utterances in ascending or descending order. Possible values: • Ascending • Descending Shorthand Syntax: attribute=string,order=string JSON Syntax: { "attribute": "HitCount"|"MissedCount", "order": "Ascending"|"Descending" }
     /// </summary>
     [CliOption("--sort-by")]
     public string? SortBy { get; set; }
 
     /// <summary>
-    /// Provides the specification of a filter used to limit the utterances in the response to only those that match the filter specification. You can only specify one filter and one string to filter on. Constraints: o min: 1 o max: 1 (structure) Filters responses returned by the ListAggregatedUtterances oper- ation. name -&gt; (string) [required] The name of the field to filter the utterance list. Possible values: o Utterance values -&gt; (list) [required] The value to use for filtering the list of bots. Constraints: o min: 1 o max: 1 (string) Constraints: o min: 1 o max: 100 o pattern: ^[0-9a-zA-Z_()\s-]+$ operator -&gt; (string) [required] The operator to use for the filter. Specify EQ when the ListAggregatedUtterances operation should return only utter- ances that equal the specified value. Specify CO when the ListAggregatedUtterances operation should return utterances that contain the specified value. Possible values: o CO o EQ Shorthand Syntax: name=string,values=string,string,operator=string ... JSON Syntax: [ { "name": "Utterance", "values": ["string", ...], "operator": "CO"|"EQ" } ... ]
+    /// Provides the specification of a filter used to limit the utterances in the response to only those that match the filter specification. You can only specify one filter and one string to filter on. Constraints: • min: 1 • max: 1 (structure) Filters responses returned by the ListAggregatedUtterances operation. name -&gt; (string) [required] The name of the field to filter the utterance list. Possible values: • Utterance values -&gt; (list) [required] The value to use for filtering the list of bots. Constraints: • min: 1 • max: 1 (string) Constraints: • min: 1 • max: 100 • pattern: ^[0-9a-zA-Z_()\s-]+$ operator -&gt; (string) [required] The operator to use for the filter. Specify EQ when the ListAggregatedUtterances operation should return only utterances that equal the specified value. Specify CO when the ListAggregatedUtterances operation should return utterances that contain the specified value. Possible values: • CO • EQ Shorthand Syntax: name=string,values=string,string,operator=string ... JSON Syntax: [ { "name": "Utterance", "values": ["string", ...], "operator": "CO"|"EQ" } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
-    /// The maximum number of utterances to return in each page of results. If there are fewer results than the maximum page size, only the ac- tual number of results are returned. If you don't specify the maxRe- sults parameter, 1,000 results are returned. Constraints: o min: 1 o max: 1000
+    /// The maximum number of utterances to return in each page of results. If there are fewer results than the maximum page size, only the actual number of results are returned. If you don't specify the maxResults parameter, 1,000 results are returned. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -140,6 +141,15 @@ public record AwsLexv2ModelsListAggregatedUtterancesOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

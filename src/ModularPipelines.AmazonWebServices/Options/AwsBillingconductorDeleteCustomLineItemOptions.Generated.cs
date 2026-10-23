@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the custom line item identified by the given ARN in the cur- rent, or previous billing period. See also: AWS API Documentation
+/// Deletes the custom line item identified by the given ARN in the current, or previous billing period. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsBillingconductorDeleteCustomLineItemOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the custom line item identified by the given ARN in the cur- rent, or previous billing period. See also: AWS API Documentation
+    /// Deletes the custom line item identified by the given ARN in the current, or previous billing period. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The ARN of the custom line item to be deleted. Constraints: o pattern: (arn:aws(-cn)?:billingconductor::[0-9]{12}:custom- lineitem/)?[a-zA-Z0-9]{10}</param>
+    /// <param name="Arn">The ARN of the custom line item to be deleted. Constraints: • pattern: (arn:aws(-cn)?:billingconductor::[0-9]{12}:customlineitem/)?[a-zA-Z0-9]{10}</param>
     public AwsBillingconductorDeleteCustomLineItemOptions(
         string Arn
     )
@@ -56,13 +57,13 @@ public record AwsBillingconductorDeleteCustomLineItemOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the custom line item to be deleted. Constraints: o pattern: (arn:aws(-cn)?:billingconductor::[0-9]{12}:custom- lineitem/)?[a-zA-Z0-9]{10}
+    /// The ARN of the custom line item to be deleted. Constraints: • pattern: (arn:aws(-cn)?:billingconductor::[0-9]{12}:customlineitem/)?[a-zA-Z0-9]{10}
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// The billing period range in which the custom line item request will be applied. InclusiveStartBillingPeriod -&gt; (string) [required] The inclusive start billing period that defines a billing period range where a custom line is applied. Constraints: o pattern: \d{4}-(0?[1-9]|1[012]) ExclusiveEndBillingPeriod -&gt; (string) The inclusive end billing period that defines a billing period range where a custom line is applied. Constraints: o pattern: \d{4}-(0?[1-9]|1[012]) Shorthand Syntax: InclusiveStartBillingPeriod=string,ExclusiveEndBillingPeriod=string JSON Syntax: { "InclusiveStartBillingPeriod": "string", "ExclusiveEndBillingPeriod": "string" }
+    /// The billing period range in which the custom line item request will be applied. InclusiveStartBillingPeriod -&gt; (string) [required] The inclusive start billing period that defines a billing period range where a custom line is applied. Constraints: • pattern: \d{4}-(0?[1-9]|1[012]) ExclusiveEndBillingPeriod -&gt; (string) The inclusive end billing period that defines a billing period range where a custom line is applied. Constraints: • pattern: \d{4}-(0?[1-9]|1[012]) Shorthand Syntax: InclusiveStartBillingPeriod=string,ExclusiveEndBillingPeriod=string JSON Syntax: { "InclusiveStartBillingPeriod": "string", "ExclusiveEndBillingPeriod": "string" }
     /// </summary>
     [CliOption("--billing-period-range")]
     public string? BillingPeriodRange { get; set; }
@@ -88,6 +89,15 @@ public record AwsBillingconductorDeleteCustomLineItemOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

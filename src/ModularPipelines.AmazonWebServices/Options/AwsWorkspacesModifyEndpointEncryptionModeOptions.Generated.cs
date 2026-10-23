@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +29,8 @@ public record AwsWorkspacesModifyEndpointEncryptionModeOptions : AwsOptions, IVa
     /// <summary>
     /// Modifies the endpoint encryption mode that allows you to configure the specified directory between Standard TLS and FIPS 140-2 validated mode. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DirectoryId">The identifier of the directory. Constraints: o min: 10 o max: 65 o pattern: ^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)</param>
-    /// <param name="EndpointEncryptionMode">The encryption mode used for endpoint connections when streaming to WorkSpaces Personal or WorkSpace Pools. Possible values: o STANDARD_TLS o FIPS_VALIDATED</param>
+    /// <param name="DirectoryId">The identifier of the directory. Constraints: • min: 10 • max: 65 • pattern: ^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)</param>
+    /// <param name="EndpointEncryptionMode">The encryption mode used for endpoint connections when streaming to WorkSpaces Personal or WorkSpace Pools. Possible values: • STANDARD_TLS • FIPS_VALIDATED</param>
     public AwsWorkspacesModifyEndpointEncryptionModeOptions(
         string DirectoryId,
         AwsWorkspacesModifyEndpointEncryptionModeEndpointEncryptionMode EndpointEncryptionMode
@@ -60,13 +61,13 @@ public record AwsWorkspacesModifyEndpointEncryptionModeOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the directory. Constraints: o min: 10 o max: 65 o pattern: ^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)
+    /// The identifier of the directory. Constraints: • min: 10 • max: 65 • pattern: ^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)
     /// </summary>
     [CliOption("--directory-id")]
     public string? DirectoryId { get; private init; }
 
     /// <summary>
-    /// The encryption mode used for endpoint connections when streaming to WorkSpaces Personal or WorkSpace Pools. Possible values: o STANDARD_TLS o FIPS_VALIDATED
+    /// The encryption mode used for endpoint connections when streaming to WorkSpaces Personal or WorkSpace Pools. Possible values: • STANDARD_TLS • FIPS_VALIDATED
     /// </summary>
     [CliOption("--endpoint-encryption-mode")]
     public AwsWorkspacesModifyEndpointEncryptionModeEndpointEncryptionMode? EndpointEncryptionMode { get; private init; }
@@ -92,6 +93,15 @@ public record AwsWorkspacesModifyEndpointEncryptionModeOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

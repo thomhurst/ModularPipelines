@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Preview a reservation purchase with configurations that match those of your Dedicated Host. You must have active Dedicated Hosts in your ac- count before you purchase a reservation. This is a preview of the PurchaseHostReservation action and does not result in the offering being purchased. See also: AWS API Documentation
+/// Preview a reservation purchase with configurations that match those of your Dedicated Host. You must have active Dedicated Hosts in your account before you purchase a reservation. This is a preview of the PurchaseHostReservation action and does not result in the offering being purchased. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsEc2GetHostReservationPurchasePreviewOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Preview a reservation purchase with configurations that match those of your Dedicated Host. You must have active Dedicated Hosts in your ac- count before you purchase a reservation. This is a preview of the PurchaseHostReservation action and does not result in the offering being purchased. See also: AWS API Documentation
+    /// Preview a reservation purchase with configurations that match those of your Dedicated Host. You must have active Dedicated Hosts in your account before you purchase a reservation. This is a preview of the PurchaseHostReservation action and does not result in the offering being purchased. See also: AWS API Documentation
     /// </summary>
-    /// <param name="HostIdSet">The IDs of the Dedicated Hosts with which the reservation is associ- ated. (string) Syntax: "string" "string" ...</param>
+    /// <param name="HostIdSet">The IDs of the Dedicated Hosts with which the reservation is associated. (string) Syntax: "string" "string" ...</param>
     /// <param name="OfferingId">The offering ID of the reservation.</param>
     public AwsEc2GetHostReservationPurchasePreviewOptions(
         IEnumerable<string> HostIdSet,
@@ -71,7 +72,7 @@ public record AwsEc2GetHostReservationPurchasePreviewOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The IDs of the Dedicated Hosts with which the reservation is associ- ated. (string) Syntax: "string" "string" ...
+    /// The IDs of the Dedicated Hosts with which the reservation is associated. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--host-id-set", GroupValues = true)]
     public IEnumerable<string>? HostIdSet { get; private init; }
@@ -103,6 +104,15 @@ public record AwsEc2GetHostReservationPurchasePreviewOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

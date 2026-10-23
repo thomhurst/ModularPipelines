@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,9 +29,9 @@ public record AwsChimeSdkVoiceStartVoiceToneAnalysisTaskOptions : AwsOptions, IV
     /// <summary>
     /// Starts a voice tone analysis task. For more information about voice tone analysis, see Using Amazon Chime SDK voice analytics in the Amazon Chime SDK Developer Guide . WARNING: Before starting any voice tone analysis tasks, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the AWS service terms for the Amazon Chime SDK. See also: AWS API Documentation
     /// </summary>
-    /// <param name="VoiceConnectorId">The Voice Connector ID. Constraints: o pattern: ([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})</param>
-    /// <param name="TransactionId">The transaction ID. Constraints: o min: 1 o max: 256 o pattern: .*\S.*</param>
-    /// <param name="LanguageCode">The language code. Possible values: o en-US</param>
+    /// <param name="VoiceConnectorId">The Voice Connector ID. Constraints: • pattern: ([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})</param>
+    /// <param name="TransactionId">The transaction ID. Constraints: • min: 1 • max: 256 • pattern: .*\S.*</param>
+    /// <param name="LanguageCode">The language code. Possible values: • en-US</param>
     public AwsChimeSdkVoiceStartVoiceToneAnalysisTaskOptions(
         string VoiceConnectorId,
         string TransactionId,
@@ -65,25 +66,25 @@ public record AwsChimeSdkVoiceStartVoiceToneAnalysisTaskOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Voice Connector ID. Constraints: o pattern: ([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})
+    /// The Voice Connector ID. Constraints: • pattern: ([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})
     /// </summary>
     [CliOption("--voice-connector-id")]
     public string? VoiceConnectorId { get; private init; }
 
     /// <summary>
-    /// The transaction ID. Constraints: o min: 1 o max: 256 o pattern: .*\S.*
+    /// The transaction ID. Constraints: • min: 1 • max: 256 • pattern: .*\S.*
     /// </summary>
     [CliOption("--transaction-id")]
     public string? TransactionId { get; private init; }
 
     /// <summary>
-    /// The language code. Possible values: o en-US
+    /// The language code. Possible values: • en-US
     /// </summary>
     [CliOption("--language-code")]
     public string? LanguageCode { get; private init; }
 
     /// <summary>
-    /// The unique identifier for the client request. Use a different token for different voice tone analysis tasks. Constraints: o pattern: ^[-_a-zA-Z0-9]*${2,64}$
+    /// The unique identifier for the client request. Use a different token for different voice tone analysis tasks. Constraints: • pattern: ^[-_a-zA-Z0-9]*${2,64}$
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
@@ -110,6 +111,15 @@ public record AwsChimeSdkVoiceStartVoiceToneAnalysisTaskOptions : AwsOptions, IV
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

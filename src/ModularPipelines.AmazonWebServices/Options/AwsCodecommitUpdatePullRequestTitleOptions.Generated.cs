@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsCodecommitUpdatePullRequestTitleOptions : AwsOptions, IValidata
     /// Replaces the title of a pull request. See also: AWS API Documentation
     /// </summary>
     /// <param name="PullRequestId">The system-generated ID of the pull request. To get this ID, use ListPullRequests .</param>
-    /// <param name="Title">The updated title of the pull request. This replaces the existing title. Constraints: o max: 150</param>
+    /// <param name="Title">The updated title of the pull request. This replaces the existing title. Constraints: • max: 150</param>
     public AwsCodecommitUpdatePullRequestTitleOptions(
         string PullRequestId,
         string Title
@@ -66,7 +67,7 @@ public record AwsCodecommitUpdatePullRequestTitleOptions : AwsOptions, IValidata
     public string? PullRequestId { get; private init; }
 
     /// <summary>
-    /// The updated title of the pull request. This replaces the existing title. Constraints: o max: 150
+    /// The updated title of the pull request. This replaces the existing title. Constraints: • max: 150
     /// </summary>
     [CliOption("--title")]
     public string? Title { get; private init; }
@@ -92,6 +93,15 @@ public record AwsCodecommitUpdatePullRequestTitleOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

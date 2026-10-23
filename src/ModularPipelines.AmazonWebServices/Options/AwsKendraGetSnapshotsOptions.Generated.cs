@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves search metrics data. The data provides a snapshot of how your users interact with your search application and how effective the ap- plication is. See also: AWS API Documentation
+/// Retrieves search metrics data. The data provides a snapshot of how your users interact with your search application and how effective the application is. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +28,11 @@ public record AwsKendraGetSnapshotsOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves search metrics data. The data provides a snapshot of how your users interact with your search application and how effective the ap- plication is. See also: AWS API Documentation
+    /// Retrieves search metrics data. The data provides a snapshot of how your users interact with your search application and how effective the application is. See also: AWS API Documentation
     /// </summary>
-    /// <param name="IndexId">The identifier of the index to get search metrics data. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*</param>
-    /// <param name="Interval">The time interval or time window to get search metrics data. The time interval uses the time zone of your index. You can view data in the following time windows: o THIS_WEEK : The current week, starting on the Sunday and ending on the day before the current date. o ONE_WEEK_AGO : The previous week, starting on the Sunday and end- ing on the following Saturday. o TWO_WEEKS_AGO : The week before the previous week, starting on the Sunday and ending on the following Saturday. o THIS_MONTH : The current month, starting on the first day of the month and ending on the day before the current date. o ONE_MONTH_AGO : The previous month, starting on the first day of the month and ending on the last day of the month. o TWO_MONTHS_AGO : The month before the previous month, starting on the first day of the month and ending on last day of the month. Possible values: o THIS_MONTH o THIS_WEEK o ONE_WEEK_AGO o TWO_WEEKS_AGO o ONE_MONTH_AGO o TWO_MONTHS_AGO</param>
-    /// <param name="MetricType">The metric you want to retrieve. You can specify only one metric per call. For more information about the metrics you can view, see Gaining in- sights with search analytics . Possible values: o QUERIES_BY_COUNT o QUERIES_BY_ZERO_CLICK_RATE o QUERIES_BY_ZERO_RESULT_RATE o DOCS_BY_CLICK_COUNT o AGG_QUERY_DOC_METRICS o TREND_QUERY_DOC_METRICS</param>
+    /// <param name="IndexId">The identifier of the index to get search metrics data. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]*</param>
+    /// <param name="Interval">The time interval or time window to get search metrics data. The time interval uses the time zone of your index. You can view data in the following time windows: • THIS_WEEK : The current week, starting on the Sunday and ending on the day before the current date. • ONE_WEEK_AGO : The previous week, starting on the Sunday and ending on the following Saturday. • TWO_WEEKS_AGO : The week before the previous week, starting on the Sunday and ending on the following Saturday. • THIS_MONTH : The current month, starting on the first day of the month and ending on the day before the current date. • ONE_MONTH_AGO : The previous month, starting on the first day of the month and ending on the last day of the month. • TWO_MONTHS_AGO : The month before the previous month, starting on the first day of the month and ending on last day of the month. Possible values: • THIS_MONTH • THIS_WEEK • ONE_WEEK_AGO • TWO_WEEKS_AGO • ONE_MONTH_AGO • TWO_MONTHS_AGO</param>
+    /// <param name="MetricType">The metric you want to retrieve. You can specify only one metric per call. For more information about the metrics you can view, see Gaining insights with search analytics . Possible values: • QUERIES_BY_COUNT • QUERIES_BY_ZERO_CLICK_RATE • QUERIES_BY_ZERO_RESULT_RATE • DOCS_BY_CLICK_COUNT • AGG_QUERY_DOC_METRICS • TREND_QUERY_DOC_METRICS</param>
     public AwsKendraGetSnapshotsOptions(
         string IndexId,
         AwsKendraGetSnapshotsInterval Interval,
@@ -64,25 +65,25 @@ public record AwsKendraGetSnapshotsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the index to get search metrics data. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*
+    /// The identifier of the index to get search metrics data. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]*
     /// </summary>
     [CliOption("--index-id")]
     public string? IndexId { get; private init; }
 
     /// <summary>
-    /// The time interval or time window to get search metrics data. The time interval uses the time zone of your index. You can view data in the following time windows: o THIS_WEEK : The current week, starting on the Sunday and ending on the day before the current date. o ONE_WEEK_AGO : The previous week, starting on the Sunday and end- ing on the following Saturday. o TWO_WEEKS_AGO : The week before the previous week, starting on the Sunday and ending on the following Saturday. o THIS_MONTH : The current month, starting on the first day of the month and ending on the day before the current date. o ONE_MONTH_AGO : The previous month, starting on the first day of the month and ending on the last day of the month. o TWO_MONTHS_AGO : The month before the previous month, starting on the first day of the month and ending on last day of the month. Possible values: o THIS_MONTH o THIS_WEEK o ONE_WEEK_AGO o TWO_WEEKS_AGO o ONE_MONTH_AGO o TWO_MONTHS_AGO
+    /// The time interval or time window to get search metrics data. The time interval uses the time zone of your index. You can view data in the following time windows: • THIS_WEEK : The current week, starting on the Sunday and ending on the day before the current date. • ONE_WEEK_AGO : The previous week, starting on the Sunday and ending on the following Saturday. • TWO_WEEKS_AGO : The week before the previous week, starting on the Sunday and ending on the following Saturday. • THIS_MONTH : The current month, starting on the first day of the month and ending on the day before the current date. • ONE_MONTH_AGO : The previous month, starting on the first day of the month and ending on the last day of the month. • TWO_MONTHS_AGO : The month before the previous month, starting on the first day of the month and ending on last day of the month. Possible values: • THIS_MONTH • THIS_WEEK • ONE_WEEK_AGO • TWO_WEEKS_AGO • ONE_MONTH_AGO • TWO_MONTHS_AGO
     /// </summary>
     [CliOption("--interval")]
     public AwsKendraGetSnapshotsInterval? Interval { get; private init; }
 
     /// <summary>
-    /// The metric you want to retrieve. You can specify only one metric per call. For more information about the metrics you can view, see Gaining in- sights with search analytics . Possible values: o QUERIES_BY_COUNT o QUERIES_BY_ZERO_CLICK_RATE o QUERIES_BY_ZERO_RESULT_RATE o DOCS_BY_CLICK_COUNT o AGG_QUERY_DOC_METRICS o TREND_QUERY_DOC_METRICS
+    /// The metric you want to retrieve. You can specify only one metric per call. For more information about the metrics you can view, see Gaining insights with search analytics . Possible values: • QUERIES_BY_COUNT • QUERIES_BY_ZERO_CLICK_RATE • QUERIES_BY_ZERO_RESULT_RATE • DOCS_BY_CLICK_COUNT • AGG_QUERY_DOC_METRICS • TREND_QUERY_DOC_METRICS
     /// </summary>
     [CliOption("--metric-type")]
     public AwsKendraGetSnapshotsMetricType? MetricType { get; private init; }
 
     /// <summary>
-    /// If the previous response was incomplete (because there is more data to retrieve), Amazon Kendra returns a pagination token in the re- sponse. You can use this pagination token to retrieve the next set of search metrics data. Constraints: o min: 1 o max: 800
+    /// If the previous response was incomplete (because there is more data to retrieve), Amazon Kendra returns a pagination token in the response. You can use this pagination token to retrieve the next set of search metrics data. Constraints: • min: 1 • max: 800
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -115,6 +116,15 @@ public record AwsKendraGetSnapshotsOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

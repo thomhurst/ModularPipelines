@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: This operation is not supported by directory buckets. Indicates whether the specified Multi-Region Access Point has an access control policy that allows public access. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Re- gion Access Points, see Multi-Region Access Point restrictions and lim- itations in the Amazon S3 User Guide . The following actions are related to GetMultiRegionAccessPointPolicyS- tatu...
+/// NOTE: This operation is not supported by directory buckets. Indicates whether the specified Multi-Region Access Point has an access control policy that allows public access. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Region Access Points, see Multi-Region Access Point restrictions and limitations in the Amazon S3 User Guide . The following actions are related to GetMultiRegionAccessPointPolicyStatus : • ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsS3controlGetMultiRegionAccessPointPolicyStatusOptions : AwsOpti
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: This operation is not supported by directory buckets. Indicates whether the specified Multi-Region Access Point has an access control policy that allows public access. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Re- gion Access Points, see Multi-Region Access Point restrictions and lim- itations in the Amazon S3 User Guide . The following actions are related to GetMultiRegionAccessPointPolicyS- tatu...
+    /// NOTE: This operation is not supported by directory buckets. Indicates whether the specified Multi-Region Access Point has an access control policy that allows public access. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Region Access Points, see Multi-Region Access Point restrictions and limitations in the Amazon S3 User Guide . The following actions are related to GetMultiRegionAccessPointPolicyStatus : • ...
     /// </summary>
-    /// <param name="AccountId">The Amazon Web Services account ID for the owner of the Multi-Region Access Point. Constraints: o max: 64 o pattern: ^\d{12}$</param>
-    /// <param name="Name">Specifies the Multi-Region Access Point. The name of the Multi-Re- gion Access Point is different from the alias. For more information about the distinction between the name and the alias of an Multi-Re- gion Access Point, see Rules for naming Amazon S3 Multi-Region Ac- cess Points in the Amazon S3 User Guide . Constraints: o max: 50 o pattern: ^[a-z0-9][-a-z0-9]{1,48}[a-z0-9]$</param>
+    /// <param name="AccountId">The Amazon Web Services account ID for the owner of the Multi-Region Access Point. Constraints: • max: 64 • pattern: ^\d{12}$</param>
+    /// <param name="Name">Specifies the Multi-Region Access Point. The name of the Multi-Region Access Point is different from the alias. For more information about the distinction between the name and the alias of an Multi-Region Access Point, see Rules for naming Amazon S3 Multi-Region Access Points in the Amazon S3 User Guide . Constraints: • max: 50 • pattern: ^[a-z0-9][-a-z0-9]{1,48}[a-z0-9]$</param>
     public AwsS3controlGetMultiRegionAccessPointPolicyStatusOptions(
         string AccountId,
         string Name
@@ -60,13 +61,13 @@ public record AwsS3controlGetMultiRegionAccessPointPolicyStatusOptions : AwsOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services account ID for the owner of the Multi-Region Access Point. Constraints: o max: 64 o pattern: ^\d{12}$
+    /// The Amazon Web Services account ID for the owner of the Multi-Region Access Point. Constraints: • max: 64 • pattern: ^\d{12}$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// Specifies the Multi-Region Access Point. The name of the Multi-Re- gion Access Point is different from the alias. For more information about the distinction between the name and the alias of an Multi-Re- gion Access Point, see Rules for naming Amazon S3 Multi-Region Ac- cess Points in the Amazon S3 User Guide . Constraints: o max: 50 o pattern: ^[a-z0-9][-a-z0-9]{1,48}[a-z0-9]$
+    /// Specifies the Multi-Region Access Point. The name of the Multi-Region Access Point is different from the alias. For more information about the distinction between the name and the alias of an Multi-Region Access Point, see Rules for naming Amazon S3 Multi-Region Access Points in the Amazon S3 User Guide . Constraints: • max: 50 • pattern: ^[a-z0-9][-a-z0-9]{1,48}[a-z0-9]$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
@@ -92,6 +93,15 @@ public record AwsS3controlGetMultiRegionAccessPointPolicyStatusOptions : AwsOpti
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

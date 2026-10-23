@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Sets the user's multi-factor authentication (MFA) preference, including which MFA options are activated, and if any are preferred. Only one factor can be set as preferred. The preferred MFA factor will be used to authenticate a user if multiple factors are activated. If multiple options are activated and no preference is set, a challenge to choose an MFA option will be returned during sign-in. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API...
+/// Sets the user's multi-factor authentication (MFA) preference, including which MFA options are activated, and if any are preferred. Only one factor can be set as preferred. The preferred MFA factor will be used to authenticate a user if multiple factors are activated. If multiple options are activated and no preference is set, a challenge to choose an MFA option will be returned during sign-in. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API o...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsCognitoIdpAdminSetUserMfaPreferenceOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Sets the user's multi-factor authentication (MFA) preference, including which MFA options are activated, and if any are preferred. Only one factor can be set as preferred. The preferred MFA factor will be used to authenticate a user if multiple factors are activated. If multiple options are activated and no preference is set, a challenge to choose an MFA option will be returned during sign-in. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API...
+    /// Sets the user's multi-factor authentication (MFA) preference, including which MFA options are activated, and if any are preferred. Only one factor can be set as preferred. The preferred MFA factor will be used to authenticate a user if multiple factors are activated. If multiple options are activated and no preference is set, a challenge to choose an MFA option will be returned during sign-in. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API o...
     /// </summary>
-    /// <param name="Username">The name of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP. Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+</param>
-    /// <param name="UserPoolId">The ID of the user pool where you want to set a user's MFA prefer- ences. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+</param>
+    /// <param name="Username">The name of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP. Constraints: • min: 1 • max: 128 • pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+</param>
+    /// <param name="UserPoolId">The ID of the user pool where you want to set a user's MFA preferences. Constraints: • min: 1 • max: 55 • pattern: [\w-]+_[0-9a-zA-Z]+</param>
     public AwsCognitoIdpAdminSetUserMfaPreferenceOptions(
         string Username,
         string UserPoolId
@@ -61,25 +62,25 @@ public record AwsCognitoIdpAdminSetUserMfaPreferenceOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP. Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+
+    /// The name of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP. Constraints: • min: 1 • max: 128 • pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+
     /// </summary>
     [CliOption("--username")]
     public string? Username { get; private init; }
 
     /// <summary>
-    /// The ID of the user pool where you want to set a user's MFA prefer- ences. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+
+    /// The ID of the user pool where you want to set a user's MFA preferences. Constraints: • min: 1 • max: 55 • pattern: [\w-]+_[0-9a-zA-Z]+
     /// </summary>
     [CliOption("--user-pool-id")]
     public string? UserPoolId { get; private init; }
 
     /// <summary>
-    /// User preferences for SMS message MFA. Activates or deactivates SMS MFA and sets it as the preferred MFA method when multiple methods are available. Enabled -&gt; (boolean) Specifies whether SMS message MFA is activated. If an MFA type is activated for a user, the user will be prompted for MFA dur- ing all sign-in attempts, unless device tracking is turned on and the device has been trusted. PreferredMfa -&gt; (boolean) Specifies whether SMS is the preferred MFA method. If true, your user pool prompts the specified user for a code delivered by SMS message after username-password sign-in succeeds. Shorthand Syntax: Enabled=boolean,PreferredMfa=boolean JSON Syntax: { "Enabled": true|false, "PreferredMfa": true|false }
+    /// User preferences for SMS message MFA. Activates or deactivates SMS MFA and sets it as the preferred MFA method when multiple methods are available. Enabled -&gt; (boolean) Specifies whether SMS message MFA is activated. If an MFA type is activated for a user, the user will be prompted for MFA during all sign-in attempts, unless device tracking is turned on and the device has been trusted. PreferredMfa -&gt; (boolean) Specifies whether SMS is the preferred MFA method. If true, your user pool prompts the specified user for a code delivered by SMS message after username-password sign-in succeeds. Shorthand Syntax: Enabled=boolean,PreferredMfa=boolean JSON Syntax: { "Enabled": true|false, "PreferredMfa": true|false }
     /// </summary>
     [CliOption("--sms-mfa-settings")]
     public string? SmsMfaSettings { get; set; }
 
     /// <summary>
-    /// User preferences for time-based one-time password (TOTP) MFA. Acti- vates or deactivates TOTP MFA and sets it as the preferred MFA method when multiple methods are available. Enabled -&gt; (boolean) Specifies whether software token MFA is activated. If an MFA type is activated for a user, the user will be prompted for MFA during all sign-in attempts, unless device tracking is turned on and the device has been trusted. PreferredMfa -&gt; (boolean) Specifies whether software token MFA is the preferred MFA method. Shorthand Syntax: Enabled=boolean,PreferredMfa=boolean JSON Syntax: { "Enabled": true|false, "PreferredMfa": true|false }
+    /// User preferences for time-based one-time password (TOTP) MFA. Activates or deactivates TOTP MFA and sets it as the preferred MFA method when multiple methods are available. Enabled -&gt; (boolean) Specifies whether software token MFA is activated. If an MFA type is activated for a user, the user will be prompted for MFA during all sign-in attempts, unless device tracking is turned on and the device has been trusted. PreferredMfa -&gt; (boolean) Specifies whether software token MFA is the preferred MFA method. Shorthand Syntax: Enabled=boolean,PreferredMfa=boolean JSON Syntax: { "Enabled": true|false, "PreferredMfa": true|false }
     /// </summary>
     [SecretValue]
     [CliOption("--software-token-mfa-settings")]
@@ -92,7 +93,7 @@ public record AwsCognitoIdpAdminSetUserMfaPreferenceOptions : AwsOptions, IValid
     public string? EmailMfaSettings { get; set; }
 
     /// <summary>
-    /// User preferences for passkey MFA. Activates or deactivates passkey MFA for the user. When activated, passkey authentication requires user verification, and passkey sign-in is available when MFA is re- quired. To activate this setting, the FactorConfiguration of your user pool WebAuthnConfiguration must be MULTI_FACTOR_WITH_USER_VERI- FICATION . To activate this setting, your user pool must be in the Essentials tier or higher. Enabled -&gt; (boolean) Specifies whether passkey MFA is activated for a user. When ac- tivated, the user's passkey authentication requires user verifi- cation, and passkey sign-in is available when MFA is required. The user must also have at least one other MFA method such as SMS, TOTP, or email activated to prevent account lockout. Shorthand Syntax: Enabled=boolean JSON Syntax: { "Enabled": true|false }
+    /// User preferences for passkey MFA. Activates or deactivates passkey MFA for the user. When activated, passkey authentication requires user verification, and passkey sign-in is available when MFA is required. To activate this setting, the FactorConfiguration of your user pool WebAuthnConfiguration must be MULTI_FACTOR_WITH_USER_VERIFICATION . To activate this setting, your user pool must be in the Essentials tier or higher. Enabled -&gt; (boolean) Specifies whether passkey MFA is activated for a user. When activated, the user's passkey authentication requires user verification, and passkey sign-in is available when MFA is required. The user must also have at least one other MFA method such as SMS, TOTP, or email activated to prevent account lockout. Shorthand Syntax: Enabled=boolean JSON Syntax: { "Enabled": true|false }
     /// </summary>
     [CliOption("--web-authn-mfa-settings")]
     public string? WebAuthnMfaSettings { get; set; }
@@ -118,6 +119,15 @@ public record AwsCognitoIdpAdminSetUserMfaPreferenceOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

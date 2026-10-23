@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associates an Identity and Access Management (IAM) role with an Cer- tificate Manager (ACM) certificate. This enables the certificate to be used by the ACM for Nitro Enclaves application inside an enclave. For more information, see Certificate Manager for Nitro Enclaves in the Amazon Web Services Nitro Enclaves User Guide . When the IAM role is associated with the ACM certificate, the certifi- cate, certificate chain, and encrypted private key are placed in an Amazon S3 location that only the as...
+/// Associates an Identity and Access Management (IAM) role with an Certificate Manager (ACM) certificate. This enables the certificate to be used by the ACM for Nitro Enclaves application inside an enclave. For more information, see Certificate Manager for Nitro Enclaves in the Amazon Web Services Nitro Enclaves User Guide . When the IAM role is associated with the ACM certificate, the certificate, certificate chain, and encrypted private key are placed in an Amazon S3 location that only the associ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsEc2AssociateEnclaveCertificateIamRoleOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associates an Identity and Access Management (IAM) role with an Cer- tificate Manager (ACM) certificate. This enables the certificate to be used by the ACM for Nitro Enclaves application inside an enclave. For more information, see Certificate Manager for Nitro Enclaves in the Amazon Web Services Nitro Enclaves User Guide . When the IAM role is associated with the ACM certificate, the certifi- cate, certificate chain, and encrypted private key are placed in an Amazon S3 location that only the as...
+    /// Associates an Identity and Access Management (IAM) role with an Certificate Manager (ACM) certificate. This enables the certificate to be used by the ACM for Nitro Enclaves application inside an enclave. For more information, see Certificate Manager for Nitro Enclaves in the Amazon Web Services Nitro Enclaves User Guide . When the IAM role is associated with the ACM certificate, the certificate, certificate chain, and encrypted private key are placed in an Amazon S3 location that only the associ...
     /// </summary>
     /// <param name="CertificateArn">The ARN of the ACM certificate with which to associate the IAM role.</param>
     /// <param name="RoleArn">The ARN of the IAM role to associate with the ACM certificate. You can associate up to 16 IAM roles with an ACM certificate.</param>
@@ -72,7 +73,7 @@ public record AwsEc2AssociateEnclaveCertificateIamRoleOptions : AwsOptions, IVal
     public string? RoleArn { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -98,6 +99,15 @@ public record AwsEc2AssociateEnclaveCertificateIamRoleOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

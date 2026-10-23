@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the outbound caller ID name, number, and outbound whisper flow for a specified queue. WARNING: o If the phone number is claimed to a traffic distribution group that was created in the same Region as the Connect Customer in- stance where you are calling this API, then you can use a full phone number ARN or a UUID for OutboundCallerIdNumberId . However, if the phone number is claimed to a traffic distribution group that is in one Region, and you are calling this API from an in- stance in a...
+/// Updates the outbound caller ID name, number, and outbound whisper flow for a specified queue. WARNING: • If the phone number is claimed to a traffic distribution group that was created in the same Region as the Connect Customer instance where you are calling this API, then you can use a full phone number ARN or a UUID for OutboundCallerIdNumberId . However, if the phone number is claimed to a traffic distribution group that is in one Region, and you are calling this API from an instance in anoth...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsConnectUpdateQueueOutboundCallerConfigOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the outbound caller ID name, number, and outbound whisper flow for a specified queue. WARNING: o If the phone number is claimed to a traffic distribution group that was created in the same Region as the Connect Customer in- stance where you are calling this API, then you can use a full phone number ARN or a UUID for OutboundCallerIdNumberId . However, if the phone number is claimed to a traffic distribution group that is in one Region, and you are calling this API from an in- stance in a...
+    /// Updates the outbound caller ID name, number, and outbound whisper flow for a specified queue. WARNING: • If the phone number is claimed to a traffic distribution group that was created in the same Region as the Connect Customer instance where you are calling this API, then you can use a full phone number ARN or a UUID for OutboundCallerIdNumberId . However, if the phone number is claimed to a traffic distribution group that is in one Region, and you are calling this API from an instance in anoth...
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
     /// <param name="QueueId">The identifier for the queue.</param>
-    /// <param name="OutboundCallerConfig">The outbound caller ID name, number, and outbound whisper flow. OutboundCallerIdName -&gt; (string) The caller ID name. Constraints: o min: 1 o max: 255 OutboundCallerIdNumberId -&gt; (string) The caller ID number. OutboundFlowId -&gt; (string) The outbound whisper flow to be used during an outbound call. Constraints: o max: 500 Shorthand Syntax: OutboundCallerIdName=string,OutboundCallerIdNumberId=string,OutboundFlowId=string JSON Syntax: { "OutboundCallerIdName": "string", "OutboundCallerIdNumberId": "string", "OutboundFlowId": "string" }</param>
+    /// <param name="OutboundCallerConfig">The outbound caller ID name, number, and outbound whisper flow. OutboundCallerIdName -&gt; (string) The caller ID name. Constraints: • min: 1 • max: 255 OutboundCallerIdNumberId -&gt; (string) The caller ID number. OutboundFlowId -&gt; (string) The outbound whisper flow to be used during an outbound call. Constraints: • max: 500 Shorthand Syntax: OutboundCallerIdName=string,OutboundCallerIdNumberId=string,OutboundFlowId=string JSON Syntax: { "OutboundCallerIdName": "string", "OutboundCallerIdNumberId": "string", "OutboundFlowId": "string" }</param>
     public AwsConnectUpdateQueueOutboundCallerConfigOptions(
         string InstanceId,
         string QueueId,
@@ -64,7 +65,7 @@ public record AwsConnectUpdateQueueOutboundCallerConfigOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
@@ -76,7 +77,7 @@ public record AwsConnectUpdateQueueOutboundCallerConfigOptions : AwsOptions, IVa
     public string? QueueId { get; private init; }
 
     /// <summary>
-    /// The outbound caller ID name, number, and outbound whisper flow. OutboundCallerIdName -&gt; (string) The caller ID name. Constraints: o min: 1 o max: 255 OutboundCallerIdNumberId -&gt; (string) The caller ID number. OutboundFlowId -&gt; (string) The outbound whisper flow to be used during an outbound call. Constraints: o max: 500 Shorthand Syntax: OutboundCallerIdName=string,OutboundCallerIdNumberId=string,OutboundFlowId=string JSON Syntax: { "OutboundCallerIdName": "string", "OutboundCallerIdNumberId": "string", "OutboundFlowId": "string" }
+    /// The outbound caller ID name, number, and outbound whisper flow. OutboundCallerIdName -&gt; (string) The caller ID name. Constraints: • min: 1 • max: 255 OutboundCallerIdNumberId -&gt; (string) The caller ID number. OutboundFlowId -&gt; (string) The outbound whisper flow to be used during an outbound call. Constraints: • max: 500 Shorthand Syntax: OutboundCallerIdName=string,OutboundCallerIdNumberId=string,OutboundFlowId=string JSON Syntax: { "OutboundCallerIdName": "string", "OutboundCallerIdNumberId": "string", "OutboundFlowId": "string" }
     /// </summary>
     [CliOption("--outbound-caller-config")]
     public string? OutboundCallerConfig { get; private init; }
@@ -102,6 +103,15 @@ public record AwsConnectUpdateQueueOutboundCallerConfigOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

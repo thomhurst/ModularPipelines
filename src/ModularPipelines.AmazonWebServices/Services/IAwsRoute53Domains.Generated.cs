@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Models;
+using ModularPipelines;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -22,24 +22,22 @@ namespace ModularPipelines.AmazonWebServices.Services;
 public interface IAwsRoute53Domains
 {
     /// <summary>
-    /// Accepts the transfer of a domain from another Amazon Web Services ac- count to the currentAmazon Web Services account. You initiate a trans- fer between Amazon Web Services accounts using TransferDomainToAnotherAwsAccount . If you use the CLI command at accept-domain-transfer-from-another-aws-account , use JSON format as input instead of text because otherwise CLI will throw an error from domain transfer input that includes single quotes. Use either ListOperations or GetOperationDetail to determ...
+    /// Accepts the transfer of a domain from another Amazon Web Services account to the currentAmazon Web Services account. You initiate a transfer between Amazon Web Services accounts using TransferDomainToAnotherAwsAccount . If you use the CLI command at accept-domain-transfer-from-another-aws-account , use JSON format as input instead of text because otherwise CLI will throw an error from domain transfer input that includes single quotes. Use either ListOperations or GetOperationDetail to determine ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AcceptDomainTransferFromAnotherAwsAccountAsync(AwsRoute53domainsAcceptDomainTransferFromAnotherAwsAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AcceptDomainTransferFromAnotherAwsAccountAsync(AwsRoute53domainsAcceptDomainTransferFromAnotherAwsAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates a delegation signer (DS) record in the registry zone for this domain name. Note that creating DS record at the registry impacts DNSSEC validation of your DNS records. This action may render your domain name unavail- able on the internet if the steps are completed in the wrong order, or with incorrect timing. For more information about DNSSEC signing, see Configuring DNSSEC signing in the Route 53 developer guide . See also: AWS API Documentation
+    /// Creates a delegation signer (DS) record in the registry zone for this domain name. Note that creating DS record at the registry impacts DNSSEC validation of your DNS records. This action may render your domain name unavailable on the internet if the steps are completed in the wrong order, or with incorrect timing. For more information about DNSSEC signing, see Configuring DNSSEC signing in the Route 53 developer guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateDelegationSignerToDomainAsync(AwsRoute53domainsAssociateDelegationSignerToDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateDelegationSignerToDomainAsync(AwsRoute53domainsAssociateDelegationSignerToDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Cancels the transfer of a domain from the current Amazon Web Services account to another Amazon Web Services account. You initiate a transfer betweenAmazon Web Services accounts using TransferDomainToAnotherAwsAccount . WARNING: You must cancel the transfer before the other Amazon Web Services account accepts the transfer using AcceptDomainTransferFromAnotherAwsAccount . Use either ListOperations or GetOperationDetail to determine whether the operation succeeded. GetOperationDetail provides addi...
@@ -48,8 +46,7 @@ public interface IAwsRoute53Domains
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelDomainTransferToAnotherAwsAccountAsync(AwsRoute53domainsCancelDomainTransferToAnotherAwsAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CancelDomainTransferToAnotherAwsAccountAsync(AwsRoute53domainsCancelDomainTransferToAnotherAwsAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This operation checks the availability of one domain name. Note that if the availability status of a domain is pending, you must submit another request to determine the availability of the domain name. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsRoute53Domains
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CheckDomainAvailabilityAsync(AwsRoute53domainsCheckDomainAvailabilityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CheckDomainAvailabilityAsync(AwsRoute53domainsCheckDomainAvailabilityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Checks whether a domain name can be transferred to Amazon Route 53. See also: AWS API Documentation
@@ -68,18 +64,16 @@ public interface IAwsRoute53Domains
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CheckDomainTransferabilityAsync(AwsRoute53domainsCheckDomainTransferabilityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CheckDomainTransferabilityAsync(AwsRoute53domainsCheckDomainTransferabilityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// This operation deletes the specified domain. This action is permanent. For more information, see Deleting a domain name registration . To transfer the domain registration to another registrar, use the transfer process thats provided by the registrar to which you want to transfer the registration. Otherwise, the following apply: o You cant get a refund for the cost of a deleted domain registration. o The registry for the top-level domain might hold the domain name for a brief time before releasin...
+    /// This operation deletes the specified domain. This action is permanent. For more information, see Deleting a domain name registration . To transfer the domain registration to another registrar, use the transfer process thats provided by the registrar to which you want to transfer the registration. Otherwise, the following apply: • You cant get a refund for the cost of a deleted domain registration. • The registry for the top-level domain might hold the domain name for a brief time before releasin...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDomainAsync(AwsRoute53domainsDeleteDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteDomainAsync(AwsRoute53domainsDeleteDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This operation deletes the specified tags for a domain. All tag operations are eventually consistent; subsequent operations might not immediately represent all issued operations. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsRoute53Domains
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTagsForDomainAsync(AwsRoute53domainsDeleteTagsForDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTagsForDomainAsync(AwsRoute53domainsDeleteTagsForDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This operation disables automatic renewal of domain registration for the specified domain. See also: AWS API Documentation
@@ -98,18 +91,16 @@ public interface IAwsRoute53Domains
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisableDomainAutoRenewAsync(AwsRoute53domainsDisableDomainAutoRenewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisableDomainAutoRenewAsync(AwsRoute53domainsDisableDomainAutoRenewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// This operation removes the transfer lock on the domain (specifically the clientTransferProhibited status) to allow domain transfers. We rec- ommend you refrain from performing this action unless you intend to transfer the domain to a different registrar. Successful submission re- turns an operation ID that you can use to track the progress and com- pletion of the action. If the request is not completed successfully, the domain registrant will be notified by email. See also: AWS API Documentation
+    /// This operation removes the transfer lock on the domain (specifically the clientTransferProhibited status) to allow domain transfers. We recommend you refrain from performing this action unless you intend to transfer the domain to a different registrar. Successful submission returns an operation ID that you can use to track the progress and completion of the action. If the request is not completed successfully, the domain registrant will be notified by email. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisableDomainTransferLockAsync(AwsRoute53domainsDisableDomainTransferLockOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisableDomainTransferLockAsync(AwsRoute53domainsDisableDomainTransferLockOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a delegation signer (DS) record in the registry zone for this domain name. See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsRoute53Domains
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateDelegationSignerFromDomainAsync(AwsRoute53domainsDisassociateDelegationSignerFromDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateDelegationSignerFromDomainAsync(AwsRoute53domainsDisassociateDelegationSignerFromDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This operation configures Amazon Route 53 to automatically renew the specified domain before the domain registration expires. The cost of renewing your domain registration is billed to your Amazon Web Services account. The period during which you can renew a domain name varies by TLD. For a list of TLDs and their renewal policies, see Domains That You Can Register with Amazon Route 53 in the Amazon Route 53 Developer Guide . Route 53 requires that you renew before the end of the renewal period s...
@@ -128,38 +118,43 @@ public interface IAwsRoute53Domains
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> EnableDomainAutoRenewAsync(AwsRoute53domainsEnableDomainAutoRenewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> EnableDomainAutoRenewAsync(AwsRoute53domainsEnableDomainAutoRenewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// This operation sets the transfer lock on the domain (specifically the clientTransferProhibited status) to prevent domain transfers. Success- ful submission returns an operation ID that you can use to track the progress and completion of the action. If the request is not completed successfully, the domain registrant will be notified by email. See also: AWS API Documentation
+    /// This operation sets the transfer lock on the domain (specifically the clientTransferProhibited status) to prevent domain transfers. Successful submission returns an operation ID that you can use to track the progress and completion of the action. If the request is not completed successfully, the domain registrant will be notified by email. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> EnableDomainTransferLockAsync(AwsRoute53domainsEnableDomainTransferLockOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> EnableDomainTransferLockAsync(AwsRoute53domainsEnableDomainTransferLockOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// For operations that require confirmation that the email address for the registrant contact is valid, such as registering a new domain, this op- eration returns information about whether the registrant contact has responded. If you want us to resend the email, use the ResendContactReachabilityE- mail operation. See also: AWS API Documentation
+    /// For operations that require confirmation that the email address for the registrant contact is valid, such as registering a new domain, this operation returns information about whether the registrant contact has responded. If you want us to resend the email, use the ResendContactReachabilityEmail operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetContactReachabilityStatusAsync(AwsRoute53domainsGetContactReachabilityStatusOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetContactReachabilityStatusAsync(AwsRoute53domainsGetContactReachabilityStatusOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// This operation returns detailed information about a specified domain that is associated with the current Amazon Web Services account. Con- tact information for the domain is also returned as part of the output. See also: AWS API Documentation
+    /// This operation returns detailed information about a specified domain that is associated with the current Amazon Web Services account. Contact information for the domain is also returned as part of the output. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDomainDetailAsync(AwsRoute53domainsGetDomainDetailOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDomainDetailAsync(AwsRoute53domainsGetDomainDetailOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Returns the following prices for the specified domain: • Registration • Transfer • Owner change • Renewal • Restoration For most domains, the prices match the standard prices for the TLD that the ListPrices operation returns. For a premium domain, the registry sets the price individually. Premium prices might differ from the standard prices and can change over time. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> GetDomainPricesAsync(AwsRoute53domainsGetDomainPricesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The GetDomainSuggestions operation returns a list of suggested domain names. See also: AWS API Documentation
@@ -168,8 +163,7 @@ public interface IAwsRoute53Domains
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDomainSuggestionsAsync(AwsRoute53domainsGetDomainSuggestionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDomainSuggestionsAsync(AwsRoute53domainsGetDomainSuggestionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This operation returns the current status of an operation that is not completed. See also: AWS API Documentation
@@ -178,38 +172,34 @@ public interface IAwsRoute53Domains
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetOperationDetailAsync(AwsRoute53domainsGetOperationDetailOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetOperationDetailAsync(AwsRoute53domainsGetOperationDetailOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// This operation returns all the domain names registered with Amazon Route 53 for the current Amazon Web Services account if no filtering conditions are used. See also: AWS API Documentation list-domains is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data fr...
+    /// This operation returns all the domain names registered with Amazon Route 53 for the current Amazon Web Services account if no filtering conditions are used. See also: AWS API Documentation list-domains is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDomainsAsync(AwsRoute53domainsListDomainsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDomainsAsync(AwsRoute53domainsListDomainsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns information about all of the operations that return an opera- tion ID and that have ever been performed on domains that were regis- tered by the current account. This command runs only in the us-east-1 Region. See also: AWS API Documentation list-operations is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument ...
+    /// Returns information about all of the operations that return an operation ID and that have ever been performed on domains that were registered by the current account. This command runs only in the us-east-1 Region. See also: AWS API Documentation list-operations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pag...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListOperationsAsync(AwsRoute53domainsListOperationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListOperationsAsync(AwsRoute53domainsListOperationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists the following prices for either all the TLDs supported by Route 53, or the specified TLD: o Registration o Transfer o Owner change o Domain renewal o Domain restoration See also: AWS API Documentation list-prices is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument mus...
+    /// Lists the following prices for either all the TLDs supported by Route 53, or the specified TLD: • Registration • Transfer • Owner change • Renewal • Restoration NOTE: The prices that ListPrices returns are the standard rates for a TLD. ListPrices doesn't return registry premium prices, which apply to individual domain names rather than to a TLD. To get accurate pricing for a specific domain name, including premium prices, call GetDomainPrices . See also: AWS API Documentation list-prices is a pa...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPricesAsync(AwsRoute53domainsListPricesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPricesAsync(AwsRoute53domainsListPricesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This operation returns all of the tags that are associated with the specified domain. All tag operations are eventually consistent; subsequent operations might not immediately represent all issued operations. See also: AWS API Documentation
@@ -218,58 +208,52 @@ public interface IAwsRoute53Domains
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForDomainAsync(AwsRoute53domainsListTagsForDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForDomainAsync(AwsRoute53domainsListTagsForDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Moves a domain from Amazon Web Services to another registrar. Supported actions: o Changes the IPS tags of a .uk domain, and pushes it to transit. Tran- sit means that the domain is ready to be transferred to another reg- istrar. See also: AWS API Documentation
+    /// Moves a domain from Amazon Web Services to another registrar. Supported actions: • Changes the IPS tags of a .uk domain, and pushes it to transit. Transit means that the domain is ready to be transferred to another registrar. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PushDomainAsync(AwsRoute53domainsPushDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PushDomainAsync(AwsRoute53domainsPushDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// This operation registers a domain. For some top-level domains (TLDs), this operation requires extra parameters. When you register a domain, Amazon Route 53 does the following: o Creates a Route 53 hosted zone that has the same name as the domain. Route 53 assigns four name servers to your hosted zone and automati- cally updates your domain registration with the names of these name servers. o Enables auto renew, so your domain registration will renew automati- cally each year. We'll notify you in...
+    /// This operation registers a domain. For some top-level domains (TLDs), this operation requires extra parameters. When you register a domain, Amazon Route 53 does the following: • Creates a Route 53 hosted zone that has the same name as the domain. Route 53 assigns four name servers to your hosted zone and automatically updates your domain registration with the names of these name servers. • Enables auto renew, so your domain registration will renew automatically each year. We'll notify you in adv...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RegisterDomainAsync(AwsRoute53domainsRegisterDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RegisterDomainAsync(AwsRoute53domainsRegisterDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Rejects the transfer of a domain from another Amazon Web Services ac- count to the current Amazon Web Services account. You initiate a trans- fer betweenAmazon Web Services accounts using TransferDomainToAnotherAwsAccount . Use either ListOperations or GetOperationDetail to determine whether the operation succeeded. GetOperationDetail provides additional infor- mation, for example, Domain Transfer from Aws Account 111122223333 has been cancelled . See also: AWS API Documentation
+    /// Rejects the transfer of a domain from another Amazon Web Services account to the current Amazon Web Services account. You initiate a transfer betweenAmazon Web Services accounts using TransferDomainToAnotherAwsAccount . Use either ListOperations or GetOperationDetail to determine whether the operation succeeded. GetOperationDetail provides additional information, for example, Domain Transfer from Aws Account 111122223333 has been cancelled . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RejectDomainTransferFromAnotherAwsAccountAsync(AwsRoute53domainsRejectDomainTransferFromAnotherAwsAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RejectDomainTransferFromAnotherAwsAccountAsync(AwsRoute53domainsRejectDomainTransferFromAnotherAwsAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// This operation renews a domain for the specified number of years. The cost of renewing your domain is billed to your Amazon Web Services ac- count. We recommend that you renew your domain several weeks before the expi- ration date. Some TLD registries delete domains before the expiration date if you haven't renewed far enough in advance. For more information about renewing domain registration, see Renewing Registration for a Do- main in the Amazon Route 53 Developer Guide . See also: AWS API Doc...
+    /// This operation renews a domain for the specified number of years. The cost of renewing your domain is billed to your Amazon Web Services account. We recommend that you renew your domain several weeks before the expiration date. Some TLD registries delete domains before the expiration date if you haven't renewed far enough in advance. For more information about renewing domain registration, see Renewing Registration for a Domain in the Amazon Route 53 Developer Guide . See also: AWS API Documenta...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RenewDomainAsync(AwsRoute53domainsRenewDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RenewDomainAsync(AwsRoute53domainsRenewDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// For operations that require confirmation that the email address for the registrant contact is valid, such as registering a new domain, this op- eration resends the confirmation email to the current email address for the registrant contact. See also: AWS API Documentation
+    /// For operations that require confirmation that the email address for the registrant contact is valid, such as registering a new domain, this operation resends the confirmation email to the current email address for the registrant contact. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ResendContactReachabilityEmailAsync(AwsRoute53domainsResendContactReachabilityEmailOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ResendContactReachabilityEmailAsync(AwsRoute53domainsResendContactReachabilityEmailOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Resend the form of authorization email for this operation. See also: AWS API Documentation
@@ -278,58 +262,52 @@ public interface IAwsRoute53Domains
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ResendOperationAuthorizationAsync(AwsRoute53domainsResendOperationAuthorizationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ResendOperationAuthorizationAsync(AwsRoute53domainsResendOperationAuthorizationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// This operation returns the authorization code for the domain. To trans- fer a domain to another registrar, you provide this value to the new registrar. See also: AWS API Documentation
+    /// This operation returns the authorization code for the domain. To transfer a domain to another registrar, you provide this value to the new registrar. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RetrieveDomainAuthCodeAsync(AwsRoute53domainsRetrieveDomainAuthCodeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RetrieveDomainAuthCodeAsync(AwsRoute53domainsRetrieveDomainAuthCodeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Transfers a domain from another registrar to Amazon Route 53. For more information about transferring domains, see the following top- ics: o For transfer requirements, a detailed procedure, and information about viewing the status of a domain that you're transferring to Route 53, see Transferring Registration for a Domain to Amazon Route 53 in the Amazon Route 53 Developer Guide . o For information about how to transfer a domain from one Amazon Web Services account to another, see TransferDomain...
+    /// Transfers a domain from another registrar to Amazon Route 53. For more information about transferring domains, see the following topics: • For transfer requirements, a detailed procedure, and information about viewing the status of a domain that you're transferring to Route 53, see Transferring Registration for a Domain to Amazon Route 53 in the Amazon Route 53 Developer Guide . • For information about how to transfer a domain from one Amazon Web Services account to another, see TransferDomainTo...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TransferDomainAsync(AwsRoute53domainsTransferDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TransferDomainAsync(AwsRoute53domainsTransferDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Transfers a domain from the current Amazon Web Services account to an- other Amazon Web Services account. Note the following: o The Amazon Web Services account that you're transferring the domain to must accept the transfer. If the other account doesn't accept the transfer within 3 days, we cancel the transfer. See AcceptDomainTransferFromAnotherAwsAccount . o You can cancel the transfer before the other account accepts it. See CancelDomainTransferToAnotherAwsAccount . o The other account can re...
+    /// Transfers a domain from the current Amazon Web Services account to another Amazon Web Services account. Note the following: • The Amazon Web Services account that you're transferring the domain to must accept the transfer. If the other account doesn't accept the transfer within 3 days, we cancel the transfer. See AcceptDomainTransferFromAnotherAwsAccount . • You can cancel the transfer before the other account accepts it. See CancelDomainTransferToAnotherAwsAccount . • The other account can reje...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TransferDomainToAnotherAwsAccountAsync(AwsRoute53domainsTransferDomainToAnotherAwsAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TransferDomainToAnotherAwsAccountAsync(AwsRoute53domainsTransferDomainToAnotherAwsAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// This operation updates the contact information for a particular domain. You must specify information for at least one contact: registrant, ad- ministrator, or technical. If the update is successful, this method returns an operation ID that you can use to track the progress and completion of the operation. If the request is not completed successfully, the domain registrant will be notified by email. See also: AWS API Documentation
+    /// This operation updates the contact information for a particular domain. You must specify information for at least one contact: registrant, administrator, or technical. If the update is successful, this method returns an operation ID that you can use to track the progress and completion of the operation. If the request is not completed successfully, the domain registrant will be notified by email. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateDomainContactAsync(AwsRoute53domainsUpdateDomainContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateDomainContactAsync(AwsRoute53domainsUpdateDomainContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// This operation updates the specified domain contact's privacy setting. When privacy protection is enabled, your contact information is re- placed with contact information for the registrar or with the phrase "REDACTED FOR PRIVACY", or "On behalf of &lt;domain name&gt; owner." NOTE: While some domains may allow different privacy settings per contact, we recommend specifying the same privacy setting for all contacts. This operation affects only the contact information for the specified contact type (adm...
+    /// This operation updates the specified domain contact's privacy setting. When privacy protection is enabled, your contact information is replaced with contact information for the registrar or with the phrase "REDACTED FOR PRIVACY", or "On behalf of &lt;domain name&gt; owner." NOTE: While some domains may allow different privacy settings per contact, we recommend specifying the same privacy setting for all contacts. This operation affects only the contact information for the specified contact type (admin...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateDomainContactPrivacyAsync(AwsRoute53domainsUpdateDomainContactPrivacyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateDomainContactPrivacyAsync(AwsRoute53domainsUpdateDomainContactPrivacyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This operation replaces the current set of name servers for the domain with the specified set of name servers. If you use Amazon Route 53 as your DNS service, specify the four name servers in the delegation set for the hosted zone for the domain. If successful, this operation returns an operation ID that you can use to track the progress and completion of the action. If the request is not completed successfully, the domain registrant will be notified by email. See also: AWS API Documentation
@@ -338,8 +316,7 @@ public interface IAwsRoute53Domains
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateDomainNameserversAsync(AwsRoute53domainsUpdateDomainNameserversOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateDomainNameserversAsync(AwsRoute53domainsUpdateDomainNameserversOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This operation adds or updates tags for a specified domain. All tag operations are eventually consistent; subsequent operations might not immediately represent all issued operations. See also: AWS API Documentation
@@ -348,17 +325,15 @@ public interface IAwsRoute53Domains
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateTagsForDomainAsync(AwsRoute53domainsUpdateTagsForDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateTagsForDomainAsync(AwsRoute53domainsUpdateTagsForDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns all the domain-related billing records for the current Amazon Web Services account for a specified period See also: AWS API Documentation view-billing is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- p...
+    /// Returns all the domain-related billing records for the current Amazon Web Services account for a specified period See also: AWS API Documentation view-billing is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query express...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ViewBillingAsync(AwsRoute53domainsViewBillingOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ViewBillingAsync(AwsRoute53domainsViewBillingOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

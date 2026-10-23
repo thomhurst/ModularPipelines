@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsDsAcceptSharedDirectoryOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Accepts a directory sharing request that was sent from the directory owner account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SharedDirectoryId">Identifier of the shared directory in the directory consumer ac- count. This identifier is different for each directory owner ac- count. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="SharedDirectoryId">Identifier of the shared directory in the directory consumer account. This identifier is different for each directory owner account. Constraints: • pattern: ^d-[0-9a-f]{10}$</param>
     public AwsDsAcceptSharedDirectoryOptions(
         string SharedDirectoryId
     )
@@ -56,7 +57,7 @@ public record AwsDsAcceptSharedDirectoryOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Identifier of the shared directory in the directory consumer ac- count. This identifier is different for each directory owner ac- count. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// Identifier of the shared directory in the directory consumer account. This identifier is different for each directory owner account. Constraints: • pattern: ^d-[0-9a-f]{10}$
     /// </summary>
     [CliOption("--shared-directory-id")]
     public string? SharedDirectoryId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsDsAcceptSharedDirectoryOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

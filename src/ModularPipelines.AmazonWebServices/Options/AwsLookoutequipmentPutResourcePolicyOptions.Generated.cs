@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +29,8 @@ public record AwsLookoutequipmentPutResourcePolicyOptions : AwsOptions, IValidat
     /// <summary>
     /// Creates a resource control policy for a given resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource for which the policy is being created. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:lookoutequip- ment:[a-zA-Z0-9\-]*:[0-9]{12}:.+</param>
-    /// <param name="ResourcePolicy">The JSON-formatted resource policy to create. Constraints: o min: 1 o max: 20000 o pattern: [\u0009\u000A\u000D\u0020-\u00FF]+</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource for which the policy is being created. Constraints: • min: 20 • max: 2048 • pattern: arn:aws(-[^:]+)?:lookoutequipment:[a-zA-Z0-9\-]*:[0-9]{12}:.+</param>
+    /// <param name="ResourcePolicy">The JSON-formatted resource policy to create. Constraints: • min: 1 • max: 20000 • pattern: [\u0009\u000A\u000D\u0020-\u00FF]+</param>
     public AwsLookoutequipmentPutResourcePolicyOptions(
         string ResourceArn,
         string ResourcePolicy
@@ -61,25 +62,25 @@ public record AwsLookoutequipmentPutResourcePolicyOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource for which the policy is being created. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:lookoutequip- ment:[a-zA-Z0-9\-]*:[0-9]{12}:.+
+    /// The Amazon Resource Name (ARN) of the resource for which the policy is being created. Constraints: • min: 20 • max: 2048 • pattern: arn:aws(-[^:]+)?:lookoutequipment:[a-zA-Z0-9\-]*:[0-9]{12}:.+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The JSON-formatted resource policy to create. Constraints: o min: 1 o max: 20000 o pattern: [\u0009\u000A\u000D\u0020-\u00FF]+
+    /// The JSON-formatted resource policy to create. Constraints: • min: 1 • max: 20000 • pattern: [\u0009\u000A\u000D\u0020-\u00FF]+
     /// </summary>
     [CliOption("--resource-policy")]
     public string? ResourcePolicy { get; private init; }
 
     /// <summary>
-    /// A unique identifier for a revision of the resource policy. Constraints: o max: 50 o pattern: [0-9A-Fa-f]+
+    /// A unique identifier for a revision of the resource policy. Constraints: • max: 50 • pattern: [0-9A-Fa-f]+
     /// </summary>
     [CliOption("--policy-revision-id")]
     public string? PolicyRevisionId { get; set; }
 
     /// <summary>
-    /// A unique identifier for the request. If you do not set the client request token, Amazon Lookout for Equipment generates one. Constraints: o min: 1 o max: 256 o pattern: \p{ASCII}{1,256}
+    /// A unique identifier for the request. If you do not set the client request token, Amazon Lookout for Equipment generates one. Constraints: • min: 1 • max: 256 • pattern: \p{ASCII}{1,256}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -106,6 +107,15 @@ public record AwsLookoutequipmentPutResourcePolicyOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

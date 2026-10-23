@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Models;
+using ModularPipelines;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -28,108 +28,97 @@ public interface IAwsVerifiedpermissions
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchGetPolicyAsync(AwsVerifiedpermissionsBatchGetPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchGetPolicyAsync(AwsVerifiedpermissionsBatchGetPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Makes a series of decisions about multiple authorization requests for one principal or resource. Each request contains the equivalent content of an IsAuthorized request: principal, action, resource, and context. Either the principal or the resource parameter must be identical across all requests. For example, Verified Permissions won't evaluate a pair of requests where bob views photo1 and alice views photo2 . Authoriza- tion of bob to view photo1 and photo2 , or bob and alice to view photo1 , a...
+    /// Makes a series of decisions about multiple authorization requests for one principal or resource. Each request contains the equivalent content of an IsAuthorized request: principal, action, resource, and context. Either the principal or the resource parameter must be identical across all requests. For example, Verified Permissions won't evaluate a pair of requests where bob views photo1 and alice views photo2 . Authorization of bob to view photo1 and photo2 , or bob and alice to view photo1 , are...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchIsAuthorizedAsync(AwsVerifiedpermissionsBatchIsAuthorizedOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchIsAuthorizedAsync(AwsVerifiedpermissionsBatchIsAuthorizedOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Makes a series of decisions about multiple authorization requests for one token. The principal in this request comes from an external iden- tity source in the form of an identity or access token, formatted as a JSON web token (JWT) . The information in the parameters can also de- fine additional context that Verified Permissions can include in the evaluations. The request is evaluated against all policies in the specified policy store that match the entities that you provide in the entities decl...
+    /// Makes a series of decisions about multiple authorization requests for one token. The principal in this request comes from an external identity source in the form of an identity or access token, formatted as a JSON web token (JWT) . The information in the parameters can also define additional context that Verified Permissions can include in the evaluations. The request is evaluated against all policies in the specified policy store that match the entities that you provide in the entities declarat...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchIsAuthorizedWithTokenAsync(AwsVerifiedpermissionsBatchIsAuthorizedWithTokenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchIsAuthorizedWithTokenAsync(AwsVerifiedpermissionsBatchIsAuthorizedWithTokenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Adds an identity source to a policy storean Amazon Cognito user pool or OpenID Connect (OIDC) identity provider (IdP). After you create an identity source, you can use the identities pro- vided by the IdP as proxies for the principal in authorization queries that use the IsAuthorizedWithToken or BatchIsAuthorizedWithToken API operations. These identities take the form of tokens that contain claims about the user, such as IDs, attributes and group memberships. Identity sources provide identity (I...
+    /// Adds an identity source to a policy storean Amazon Cognito user pool or OpenID Connect (OIDC) identity provider (IdP). After you create an identity source, you can use the identities provided by the IdP as proxies for the principal in authorization queries that use the IsAuthorizedWithToken or BatchIsAuthorizedWithToken API operations. These identities take the form of tokens that contain claims about the user, such as IDs, attributes and group memberships. Identity sources provide identity (ID)...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateIdentitySourceAsync(AwsVerifiedpermissionsCreateIdentitySourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateIdentitySourceAsync(AwsVerifiedpermissionsCreateIdentitySourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates a Cedar policy and saves it in the specified policy store. You can create either a static policy or a policy linked to a policy tem- plate. o To create a static policy, provide the Cedar policy text in the Stat- icPolicy section of the PolicyDefinition . o To create a policy that is dynamically linked to a policy template, specify the policy template ID and the principal and resource to as- sociate with this policy in the templateLinked section of the Policy- Definition . If the policy t...
+    /// Creates a Cedar policy and saves it in the specified policy store. You can create either a static policy or a policy linked to a policy template. • To create a static policy, provide the Cedar policy text in the StaticPolicy section of the PolicyDefinition . • To create a policy that is dynamically linked to a policy template, specify the policy template ID and the principal and resource to associate with this policy in the templateLinked section of the PolicyDefinition . If the policy template ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreatePolicyAsync(AwsVerifiedpermissionsCreatePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreatePolicyAsync(AwsVerifiedpermissionsCreatePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates a policy store alias for the specified policy store. A policy store alias is an alternative identifier that you can use to reference a policy store in API operations. This operation is idempotent. If multiple CreatePolicyStoreAlias re- quests are made where the aliasName and policyStoreId fields are the same between the requests, subsequent requests will be ignored. For each duplicate CreatePolicyStoreAlias request, a Success response will be returned and a new policy store alias will no...
+    /// Creates a policy store alias for the specified policy store. A policy store alias is an alternative identifier that you can use to reference a policy store in API operations. This operation is idempotent. If multiple CreatePolicyStoreAlias requests are made where the aliasName and policyStoreId fields are the same between the requests, subsequent requests will be ignored. For each duplicate CreatePolicyStoreAlias request, a Success response will be returned and a new policy store alias will not ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreatePolicyStoreAliasAsync(AwsVerifiedpermissionsCreatePolicyStoreAliasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreatePolicyStoreAliasAsync(AwsVerifiedpermissionsCreatePolicyStoreAliasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates a policy store. A policy store is a container for policy re- sources. NOTE: As of May 2026, Verified Permissions has aligned with Cedar and now supports multiple namespaces. NOTE: Verified Permissions is * eventually consistent * . It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations. See also: AWS API Documentation
+    /// Creates a policy store. A policy store is a container for policy resources. NOTE: As of May 2026, Verified Permissions has aligned with Cedar and now supports multiple namespaces. NOTE: Verified Permissions is * eventually consistent * . It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreatePolicyStoreAsync(AwsVerifiedpermissionsCreatePolicyStoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreatePolicyStoreAsync(AwsVerifiedpermissionsCreatePolicyStoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates a policy template. A template can use placeholders for the principal and resource. A template must be instantiated into a policy by associating it with specific principals and resources to use for the placeholders. That instantiated policy can then be considered in autho- rization decisions. The instantiated policy works identically to any other policy, except that it is dynamically linked to the template. If the template changes, then any policies that are linked to that tem- plate are ...
+    /// Creates a policy template. A template can use placeholders for the principal and resource. A template must be instantiated into a policy by associating it with specific principals and resources to use for the placeholders. That instantiated policy can then be considered in authorization decisions. The instantiated policy works identically to any other policy, except that it is dynamically linked to the template. If the template changes, then any policies that are linked to that template are imme...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreatePolicyTemplateAsync(AwsVerifiedpermissionsCreatePolicyTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreatePolicyTemplateAsync(AwsVerifiedpermissionsCreatePolicyTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deletes an identity source that references an identity provider (IdP) such as Amazon Cognito. After you delete the identity source, you can no longer use tokens for identities from that identity source to repre- sent principals in authorization queries made using IsAuthorizedWithToken . operations. See also: AWS API Documentation
+    /// Deletes an identity source that references an identity provider (IdP) such as Amazon Cognito. After you delete the identity source, you can no longer use tokens for identities from that identity source to represent principals in authorization queries made using IsAuthorizedWithToken . operations. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteIdentitySourceAsync(AwsVerifiedpermissionsDeleteIdentitySourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteIdentitySourceAsync(AwsVerifiedpermissionsDeleteIdentitySourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deletes the specified policy from the policy store. This operation is idempotent; if you specify a policy that doesn't ex- ist, the request response returns a successful HTTP 200 status code. See also: AWS API Documentation
+    /// Deletes the specified policy from the policy store. This operation is idempotent; if you specify a policy that doesn't exist, the request response returns a successful HTTP 200 status code. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeletePolicyAsync(AwsVerifiedpermissionsDeletePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeletePolicyAsync(AwsVerifiedpermissionsDeletePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deletes the specified policy store alias. This operation is idempotent. If you specify a policy store alias that does not exist, the request response will still return a successful HTTP 200 status code. By default, when a policy store alias is deleted, it enters the Pend- ingDeletion state. When a policy store alias is in the PendingDeletion state, new policy store aliases cannot be created with the same name. If the policy store alias is used in an API that has a policyStoreId field, the operat...
+    /// Deletes the specified policy store alias. This operation is idempotent. If you specify a policy store alias that does not exist, the request response will still return a successful HTTP 200 status code. By default, when a policy store alias is deleted, it enters the PendingDeletion state. When a policy store alias is in the PendingDeletion state, new policy store aliases cannot be created with the same name. If the policy store alias is used in an API that has a policyStoreId field, the operatio...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeletePolicyStoreAliasAsync(AwsVerifiedpermissionsDeletePolicyStoreAliasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeletePolicyStoreAliasAsync(AwsVerifiedpermissionsDeletePolicyStoreAliasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified policy store. This operation is idempotent. If you specify a policy store that does not exist, the request response will still return a successful HTTP 200 status code. See also: AWS API Documentation
@@ -138,8 +127,7 @@ public interface IAwsVerifiedpermissions
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeletePolicyStoreAsync(AwsVerifiedpermissionsDeletePolicyStoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeletePolicyStoreAsync(AwsVerifiedpermissionsDeletePolicyStoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified policy template from the policy store. WARNING: This operation also deletes any policies that were created from the specified policy template. Those policies are immediately removed from all future API responses, and are asynchronously deleted from the policy store. See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsVerifiedpermissions
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeletePolicyTemplateAsync(AwsVerifiedpermissionsDeletePolicyTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeletePolicyTemplateAsync(AwsVerifiedpermissionsDeletePolicyTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the details about the specified identity source. See also: AWS API Documentation
@@ -158,8 +145,7 @@ public interface IAwsVerifiedpermissions
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetIdentitySourceAsync(AwsVerifiedpermissionsGetIdentitySourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetIdentitySourceAsync(AwsVerifiedpermissionsGetIdentitySourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about the specified policy. See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsVerifiedpermissions
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPolicyAsync(AwsVerifiedpermissionsGetPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetPolicyAsync(AwsVerifiedpermissionsGetPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves details about the specified policy store alias. See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsVerifiedpermissions
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPolicyStoreAliasAsync(AwsVerifiedpermissionsGetPolicyStoreAliasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetPolicyStoreAliasAsync(AwsVerifiedpermissionsGetPolicyStoreAliasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves details about a policy store. See also: AWS API Documentation
@@ -188,8 +172,7 @@ public interface IAwsVerifiedpermissions
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPolicyStoreAsync(AwsVerifiedpermissionsGetPolicyStoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetPolicyStoreAsync(AwsVerifiedpermissionsGetPolicyStoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieve the details for the specified policy template in the specified policy store. See also: AWS API Documentation
@@ -198,8 +181,7 @@ public interface IAwsVerifiedpermissions
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPolicyTemplateAsync(AwsVerifiedpermissionsGetPolicyTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetPolicyTemplateAsync(AwsVerifiedpermissionsGetPolicyTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieve the details for the specified schema in the specified policy store. See also: AWS API Documentation
@@ -208,28 +190,25 @@ public interface IAwsVerifiedpermissions
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSchemaAsync(AwsVerifiedpermissionsGetSchemaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSchemaAsync(AwsVerifiedpermissionsGetSchemaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Makes an authorization decision about a service request described in the parameters. The information in the parameters can also define addi- tional context that Verified Permissions can include in the evaluation. The request is evaluated against all matching policies in the specified policy store. The result of the decision is either Allow or Deny , along with a list of the policies that resulted in the decision. See also: AWS API Documentation
+    /// Makes an authorization decision about a service request described in the parameters. The information in the parameters can also define additional context that Verified Permissions can include in the evaluation. The request is evaluated against all matching policies in the specified policy store. The result of the decision is either Allow or Deny , along with a list of the policies that resulted in the decision. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> IsAuthorizedAsync(AwsVerifiedpermissionsIsAuthorizedOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> IsAuthorizedAsync(AwsVerifiedpermissionsIsAuthorizedOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Makes an authorization decision about a service request described in the parameters. The principal in this request comes from an external identity source in the form of an identity token formatted as a JSON web token (JWT) . The information in the parameters can also define ad- ditional context that Verified Permissions can include in the evalua- tion. The request is evaluated against all matching policies in the specified policy store. The result of the decision is either Allow or Deny , along ...
+    /// Makes an authorization decision about a service request described in the parameters. The principal in this request comes from an external identity source in the form of an identity token formatted as a JSON web token (JWT) . The information in the parameters can also define additional context that Verified Permissions can include in the evaluation. The request is evaluated against all matching policies in the specified policy store. The result of the decision is either Allow or Deny , along with...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> IsAuthorizedWithTokenAsync(AwsVerifiedpermissionsIsAuthorizedWithTokenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> IsAuthorizedWithTokenAsync(AwsVerifiedpermissionsIsAuthorizedWithTokenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a paginated list of all of the identity sources defined in the specified policy store. See also: AWS API Documentation list-identity-sources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: iden...
@@ -238,28 +217,25 @@ public interface IAwsVerifiedpermissions
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListIdentitySourcesAsync(AwsVerifiedpermissionsListIdentitySourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListIdentitySourcesAsync(AwsVerifiedpermissionsListIdentitySourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns a paginated list of all policies stored in the specified policy store. See also: AWS API Documentation list-policies is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: policies
+    /// Returns a paginated list of all policies stored in the specified policy store. See also: AWS API Documentation list-policies is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: policies
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPoliciesAsync(AwsVerifiedpermissionsListPoliciesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPoliciesAsync(AwsVerifiedpermissionsListPoliciesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns a paginated list of all policy store aliases in the calling Amazon Web Services account. See also: AWS API Documentation list-policy-store-aliases is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressio...
+    /// Returns a paginated list of all policy store aliases in the calling Amazon Web Services account. See also: AWS API Documentation list-policy-store-aliases is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPolicyStoreAliasesAsync(AwsVerifiedpermissionsListPolicyStoreAliasesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPolicyStoreAliasesAsync(AwsVerifiedpermissionsListPolicyStoreAliasesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a paginated list of all policy stores in the calling Amazon Web Services account. See also: AWS API Documentation list-policy-stores is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: policyStores
@@ -268,48 +244,43 @@ public interface IAwsVerifiedpermissions
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPolicyStoresAsync(AwsVerifiedpermissionsListPolicyStoresOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPolicyStoresAsync(AwsVerifiedpermissionsListPolicyStoresOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns a paginated list of all policy templates in the specified pol- icy store. See also: AWS API Documentation list-policy-templates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: policyTemplates
+    /// Returns a paginated list of all policy templates in the specified policy store. See also: AWS API Documentation list-policy-templates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: policyTemplates
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPolicyTemplatesAsync(AwsVerifiedpermissionsListPolicyTemplatesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPolicyTemplatesAsync(AwsVerifiedpermissionsListPolicyTemplatesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns the tags associated with the specified Amazon Verified Permis- sions resource. In Verified Permissions, policy stores can be tagged. See also: AWS API Documentation
+    /// Returns the tags associated with the specified Amazon Verified Permissions resource. In Verified Permissions, policy stores can be tagged. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsVerifiedpermissionsListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsVerifiedpermissionsListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates or updates the policy schema in the specified policy store. The schema is used to validate any Cedar policies and policy templates sub- mitted to the policy store. Any changes to the schema validate only policies and templates submitted after the schema change. Existing policies and templates are not re-evaluated against the changed schema. If you later update a policy, then it is evaluated against the new schema at that time. NOTE: Verified Permissions is * eventually consistent * . It ...
+    /// Creates or updates the policy schema in the specified policy store. The schema is used to validate any Cedar policies and policy templates submitted to the policy store. Any changes to the schema validate only policies and templates submitted after the schema change. Existing policies and templates are not re-evaluated against the changed schema. If you later update a policy, then it is evaluated against the new schema at that time. NOTE: Verified Permissions is * eventually consistent * . It ca...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutSchemaAsync(AwsVerifiedpermissionsPutSchemaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutSchemaAsync(AwsVerifiedpermissionsPutSchemaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Assigns one or more tags (key-value pairs) to the specified Amazon Ver- ified Permissions resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with cer- tain tag values. In Verified Permissions, policy stores can be tagged. Tags don't have any semantic meaning to Amazon Web Services and are in- terpreted strictly as strings of characters. You can use the TagResource act...
+    /// Assigns one or more tags (key-value pairs) to the specified Amazon Verified Permissions resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. In Verified Permissions, policy stores can be tagged. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource action wi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsVerifiedpermissionsTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsVerifiedpermissionsTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes one or more tags from the specified Amazon Verified Permissions resource. In Verified Permissions, policy stores can be tagged. See also: AWS API Documentation
@@ -318,28 +289,25 @@ public interface IAwsVerifiedpermissions
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsVerifiedpermissionsUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsVerifiedpermissionsUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Updates the specified identity source to use a new identity provider (IdP), or to change the mapping of identities from the IdP to a differ- ent principal entity type. NOTE: Verified Permissions is * eventually consistent * . It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations. See also: AWS API Documentation
+    /// Updates the specified identity source to use a new identity provider (IdP), or to change the mapping of identities from the IdP to a different principal entity type. NOTE: Verified Permissions is * eventually consistent * . It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateIdentitySourceAsync(AwsVerifiedpermissionsUpdateIdentitySourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateIdentitySourceAsync(AwsVerifiedpermissionsUpdateIdentitySourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Modifies a Cedar static policy in the specified policy store. You can change only certain elements of the UpdatePolicyDefinition parameter. You can directly update only static policies. To change a tem- plate-linked policy, you must update the template instead, using UpdatePolicyTemplate . NOTE: o If policy validation is enabled in the policy store, then updating a static policy causes Verified Permissions to validate the policy against the schema in the policy store. If the updated static pol- ...
+    /// Modifies a Cedar static policy in the specified policy store. You can change only certain elements of the UpdatePolicyDefinition parameter. You can directly update only static policies. To change a template-linked policy, you must update the template instead, using UpdatePolicyTemplate . NOTE: • If policy validation is enabled in the policy store, then updating a static policy causes Verified Permissions to validate the policy against the schema in the policy store. If the updated static policy ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdatePolicyAsync(AwsVerifiedpermissionsUpdatePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdatePolicyAsync(AwsVerifiedpermissionsUpdatePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the validation setting for a policy store. NOTE: Verified Permissions is * eventually consistent * . It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations. See also: AWS API Documentation
@@ -348,17 +316,15 @@ public interface IAwsVerifiedpermissions
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdatePolicyStoreAsync(AwsVerifiedpermissionsUpdatePolicyStoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdatePolicyStoreAsync(AwsVerifiedpermissionsUpdatePolicyStoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Updates the specified policy template. You can update only the descrip- tion and the some elements of the policyBody . WARNING: Changes you make to the policy template content are immediately (within the constraints of eventual consistency) reflected in autho- rization decisions that involve all template-linked policies instan- tiated from this template. NOTE: Verified Permissions is * eventually consistent * . It can take a few seconds for a new or changed element to propagate through the servi...
+    /// Updates the specified policy template. You can update only the description and the some elements of the policyBody . WARNING: Changes you make to the policy template content are immediately (within the constraints of eventual consistency) reflected in authorization decisions that involve all template-linked policies instantiated from this template. NOTE: Verified Permissions is * eventually consistent * . It can take a few seconds for a new or changed element to propagate through the service and...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdatePolicyTemplateAsync(AwsVerifiedpermissionsUpdatePolicyTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdatePolicyTemplateAsync(AwsVerifiedpermissionsUpdatePolicyTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

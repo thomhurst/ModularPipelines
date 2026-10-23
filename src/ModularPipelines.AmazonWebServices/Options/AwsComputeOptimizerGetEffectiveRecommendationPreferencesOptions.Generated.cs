@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the recommendation preferences that are in effect for a given resource, such as enhanced infrastructure metrics. Considers all ap- plicable preferences that you might have set at the resource, account, and organization level. When you create a recommendation preference, you can set its status to Active or Inactive . Use this action to view the recommendation prefer- ences that are in effect, or Active . See also: AWS API Documentation
+/// Returns the recommendation preferences that are in effect for a given resource, such as enhanced infrastructure metrics. Considers all applicable preferences that you might have set at the resource, account, and organization level. When you create a recommendation preference, you can set its status to Active or Inactive . Use this action to view the recommendation preferences that are in effect, or Active . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsComputeOptimizerGetEffectiveRecommendationPreferencesOptions : 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the recommendation preferences that are in effect for a given resource, such as enhanced infrastructure metrics. Considers all ap- plicable preferences that you might have set at the resource, account, and organization level. When you create a recommendation preference, you can set its status to Active or Inactive . Use this action to view the recommendation prefer- ences that are in effect, or Active . See also: AWS API Documentation
+    /// Returns the recommendation preferences that are in effect for a given resource, such as enhanced infrastructure metrics. Considers all applicable preferences that you might have set at the resource, account, and organization level. When you create a recommendation preference, you can set its status to Active or Inactive . Use this action to view the recommendation preferences that are in effect, or Active . See also: AWS API Documentation
     /// </summary>
     /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource for which to confirm effective recommendation preferences. Only EC2 instance and Auto Scaling group ARNs are currently supported.</param>
     public AwsComputeOptimizerGetEffectiveRecommendationPreferencesOptions(
@@ -82,6 +83,15 @@ public record AwsComputeOptimizerGetEffectiveRecommendationPreferencesOptions : 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

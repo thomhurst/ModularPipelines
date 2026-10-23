@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsM2UpdateEnvironmentOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates the configuration details for a specific runtime environment. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EnvironmentId">The unique identifier of the runtime environment that you want to update. Constraints: o pattern: ^\S{1,80}$</param>
+    /// <param name="EnvironmentId">The unique identifier of the runtime environment that you want to update. Constraints: • pattern: ^\S{1,80}$</param>
     public AwsM2UpdateEnvironmentOptions(
         string EnvironmentId
     )
@@ -56,43 +57,43 @@ public record AwsM2UpdateEnvironmentOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the runtime environment that you want to update. Constraints: o pattern: ^\S{1,80}$
+    /// The unique identifier of the runtime environment that you want to update. Constraints: • pattern: ^\S{1,80}$
     /// </summary>
     [CliOption("--environment-id")]
     public string? EnvironmentId { get; private init; }
 
     /// <summary>
-    /// dow (boolean) Indicates whether to update the runtime environment during the main- tenance window. The default is false. Currently, Amazon Web Services Mainframe Modernization accepts the engineVersion parameter only if applyDuringMaintenanceWindow is true. If any parameter other than engineVersion is provided in UpdateEnvironmentRequest , it will fail if applyDuringMaintenanceWindow is set to true.
+    /// Indicates whether to update the runtime environment during the maintenance window. The default is false. Currently, Amazon Web Services Mainframe Modernization accepts the engineVersion parameter only if applyDuringMaintenanceWindow is true. If any parameter other than engineVersion is provided in UpdateEnvironmentRequest , it will fail if applyDuringMaintenanceWindow is set to true.
     /// </summary>
     [CliFlag("--apply-during-maintenance-window", NegatedName = "--no-apply-during-maintenance-window")]
     public bool? ApplyDuringMaintenanceWindow { get; set; }
 
     /// <summary>
-    /// The desired capacity for the runtime environment to update. The min- imum possible value is 0 and the maximum is 100.
+    /// The desired capacity for the runtime environment to update. The minimum possible value is 0 and the maximum is 100.
     /// </summary>
     [CliOption("--desired-capacity")]
     public int? DesiredCapacity { get; set; }
 
     /// <summary>
-    /// The version of the runtime engine for the runtime environment. Constraints: o pattern: ^\S{1,10}$
+    /// The version of the runtime engine for the runtime environment. Constraints: • pattern: ^\S{1,10}$
     /// </summary>
     [CliOption("--engine-version")]
     public string? EngineVersion { get; set; }
 
     /// <summary>
-    /// Forces the updates on the environment. This option is needed if the applications in the environment are not stopped or if there are on- going application-related activities in the environment. If you use this option, be aware that it could lead to data corrup- tion in the applications, and that you might need to perform repair and recovery procedures for the applications. This option is not needed if the attribute being updated is pre- ferredMaintenanceWindow .
+    /// Forces the updates on the environment. This option is needed if the applications in the environment are not stopped or if there are ongoing application-related activities in the environment. If you use this option, be aware that it could lead to data corruption in the applications, and that you might need to perform repair and recovery procedures for the applications. This option is not needed if the attribute being updated is preferredMaintenanceWindow .
     /// </summary>
     [CliFlag("--force-update", NegatedName = "--no-force-update")]
     public bool? ForceUpdate { get; set; }
 
     /// <summary>
-    /// The instance type for the runtime environment to update. Constraints: o pattern: ^\S{1,20}$
+    /// The instance type for the runtime environment to update. Constraints: • pattern: ^\S{1,20}$
     /// </summary>
     [CliOption("--instance-type")]
     public string? InstanceType { get; set; }
 
     /// <summary>
-    /// Configures the maintenance window that you want for the runtime en- vironment. The maintenance window must have the format ddd:hh24:mi-ddd:hh24:mi and must be less than 24 hours. The follow- ing two examples are valid maintenance windows: sun:23:45-mon:00:15 or sat:01:00-sat:03:00 . If you do not provide a value, a random system-generated value will be assigned.
+    /// Configures the maintenance window that you want for the runtime environment. The maintenance window must have the format ddd:hh24:mi-ddd:hh24:mi and must be less than 24 hours. The following two examples are valid maintenance windows: sun:23:45-mon:00:15 or sat:01:00-sat:03:00 . If you do not provide a value, a random system-generated value will be assigned.
     /// </summary>
     [CliOption("--preferred-maintenance-window")]
     public string? PreferredMaintenanceWindow { get; set; }
@@ -118,6 +119,15 @@ public record AwsM2UpdateEnvironmentOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +28,8 @@ public record AwsWisdomUpdateContentOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates information about the content. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ContentId">The identifier of the content. Can be either the ID or the ARN. URLs cannot contain the ARN. Constraints: o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})?$</param>
-    /// <param name="KnowledgeBaseId">The identifier of the knowledge base. This should not be a QUICK_RE- SPONSES type knowledge base if you're storing Wisdom Content re- source to it. Can be either the ID or the ARN Constraints: o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})?$</param>
+    /// <param name="ContentId">The identifier of the content. Can be either the ID or the ARN. URLs cannot contain the ARN. Constraints: • pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})?$</param>
+    /// <param name="KnowledgeBaseId">The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can be either the ID or the ARN Constraints: • pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})?$</param>
     public AwsWisdomUpdateContentOptions(
         string ContentId,
         string KnowledgeBaseId
@@ -61,25 +61,25 @@ public record AwsWisdomUpdateContentOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the content. Can be either the ID or the ARN. URLs cannot contain the ARN. Constraints: o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})?$
+    /// The identifier of the content. Can be either the ID or the ARN. URLs cannot contain the ARN. Constraints: • pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})?$
     /// </summary>
     [CliOption("--content-id")]
     public string? ContentId { get; private init; }
 
     /// <summary>
-    /// The identifier of the knowledge base. This should not be a QUICK_RE- SPONSES type knowledge base if you're storing Wisdom Content re- source to it. Can be either the ID or the ARN Constraints: o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})?$
+    /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can be either the ID or the ARN Constraints: • pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})?$
     /// </summary>
     [CliOption("--knowledge-base-id")]
     public string? KnowledgeBaseId { get; private init; }
 
     /// <summary>
-    /// A key/value map to store attributes without affecting tagging or recommendations. For example, when synchronizing data between an ex- ternal system and Wisdom, you can store an external version identi- fier as metadata to utilize for determining drift. Constraints: o min: 0 o max: 10 key -&gt; (string) Constraints: o min: 1 o max: 4096 value -&gt; (string) Constraints: o min: 1 o max: 4096 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A key/value map to store attributes without affecting tagging or recommendations. For example, when synchronizing data between an external system and Wisdom, you can store an external version identifier as metadata to utilize for determining drift. Constraints: • min: 0 • max: 10 key -&gt; (string) Constraints: • min: 1 • max: 4096 value -&gt; (string) Constraints: • min: 1 • max: 4096 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--metadata", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Metadata { get; set; }
 
     /// <summary>
-    /// The URI for the article. If the knowledge base has a templateUri, setting this argument overrides it for this piece of content. To re- move an existing overrideLinkOurUri , exclude this argument and set removeOverrideLinkOutUri to true. Constraints: o min: 1 o max: 4096
+    /// The URI for the article. If the knowledge base has a templateUri, setting this argument overrides it for this piece of content. To remove an existing overrideLinkOurUri , exclude this argument and set removeOverrideLinkOutUri to true. Constraints: • min: 1 • max: 4096
     /// </summary>
     [CliOption("--override-link-out-uri")]
     public string? OverrideLinkOutUri { get; set; }
@@ -91,19 +91,19 @@ public record AwsWisdomUpdateContentOptions : AwsOptions, IValidatableObject
     public bool? RemoveOverrideLinkOutUri { get; set; }
 
     /// <summary>
-    /// The revisionId of the content resource to update, taken from an ear- lier call to GetContent , GetContentSummary , SearchContent , or ListContents . If included, this argument acts as an optimistic lock to ensure content was not modified since it was last read. If it has been modified, this API throws a PreconditionFailedException . Constraints: o min: 1 o max: 4096
+    /// The revisionId of the content resource to update, taken from an earlier call to GetContent , GetContentSummary , SearchContent , or ListContents . If included, this argument acts as an optimistic lock to ensure content was not modified since it was last read. If it has been modified, this API throws a PreconditionFailedException . Constraints: • min: 1 • max: 4096
     /// </summary>
     [CliOption("--revision-id")]
     public string? RevisionId { get; set; }
 
     /// <summary>
-    /// The title of the content. Constraints: o min: 1 o max: 255
+    /// The title of the content. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--title")]
     public string? Title { get; set; }
 
     /// <summary>
-    /// A pointer to the uploaded asset. This value is returned by StartContentUpload . Constraints: o min: 1 o max: 1200
+    /// A pointer to the uploaded asset. This value is returned by StartContentUpload . Constraints: • min: 1 • max: 1200
     /// </summary>
     [CliOption("--upload-id")]
     public string? UploadId { get; set; }
@@ -129,6 +129,15 @@ public record AwsWisdomUpdateContentOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

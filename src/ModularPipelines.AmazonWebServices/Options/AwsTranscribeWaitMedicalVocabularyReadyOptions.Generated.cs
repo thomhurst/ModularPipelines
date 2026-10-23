@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Wait until JMESPath query VocabularyState returns READY when polling with get-medical-vocabulary. It will poll every 10 seconds until a suc- cessful state has been reached. This will exit with a return code of 255 after 180 failed checks. See also: AWS API Documentation
+/// Wait until JMESPath query VocabularyState returns READY when polling with get-medical-vocabulary. It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 180 failed checks. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsTranscribeWaitMedicalVocabularyReadyOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Wait until JMESPath query VocabularyState returns READY when polling with get-medical-vocabulary. It will poll every 10 seconds until a suc- cessful state has been reached. This will exit with a return code of 255 after 180 failed checks. See also: AWS API Documentation
+    /// Wait until JMESPath query VocabularyState returns READY when polling with get-medical-vocabulary. It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 180 failed checks. See also: AWS API Documentation
     /// </summary>
-    /// <param name="VocabularyName">The name of the custom medical vocabulary you want information about. Custom medical vocabulary names are case sensitive. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z._-]+</param>
+    /// <param name="VocabularyName">The name of the custom medical vocabulary you want information about. Custom medical vocabulary names are case sensitive. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z._-]+</param>
     public AwsTranscribeWaitMedicalVocabularyReadyOptions(
         string VocabularyName
     )
@@ -56,7 +57,7 @@ public record AwsTranscribeWaitMedicalVocabularyReadyOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the custom medical vocabulary you want information about. Custom medical vocabulary names are case sensitive. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z._-]+
+    /// The name of the custom medical vocabulary you want information about. Custom medical vocabulary names are case sensitive. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z._-]+
     /// </summary>
     [CliOption("--vocabulary-name")]
     public string? VocabularyName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsTranscribeWaitMedicalVocabularyReadyOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

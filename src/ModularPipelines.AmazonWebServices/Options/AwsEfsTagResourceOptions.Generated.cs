@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a tag for an EFS resource. You can create tags for EFS file systems and access points using this API operation. This operation requires permissions for the elasticfilesystem:TagRe- source action. See also: AWS API Documentation
+/// Creates a tag for an EFS resource. You can create tags for EFS file systems and access points using this API operation. This operation requires permissions for the elasticfilesystem:TagResource action. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsEfsTagResourceOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a tag for an EFS resource. You can create tags for EFS file systems and access points using this API operation. This operation requires permissions for the elasticfilesystem:TagRe- source action. See also: AWS API Documentation
+    /// Creates a tag for an EFS resource. You can create tags for EFS file systems and access points using this API operation. This operation requires permissions for the elasticfilesystem:TagResource action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceId">The ID specifying the EFS resource that you want to create a tag for. Constraints: o max: 128 o pattern: ^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:(ac- cess-point/fsap|file-sys- tem/fs)-[0-9a-f]{8,40}|fs(ap)?-[0-9a-f]{8,40})$</param>
-    /// <param name="Tags">An array of Tag objects to add. Each Tag object is a key-value pair. (structure) A tag is a key-value pair. Allowed characters are letters, white space, and numbers that can be represented in UTF-8, and the following characters:+ - = . _ : / . Key -&gt; (string) [required] The tag key (String). The key can't start with aws: . Constraints: o min: 1 o max: 128 o pattern: ^(?![aA]{1}[wW]{1}[sS]{1}:)([\p{L}\p{Z}\p{N}_.:/=+\-@]+)$ Value -&gt; (string) [required] The value of the tag key. Constraints: o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
+    /// <param name="ResourceId">The ID specifying the EFS resource that you want to create a tag for. Constraints: • max: 128 • pattern: ^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:(access-point/fsap|file-system/fs)-[0-9a-f]{8,40}|fs(ap)?-[0-9a-f]{8,40})$</param>
+    /// <param name="Tags">An array of Tag objects to add. Each Tag object is a key-value pair. (structure) A tag is a key-value pair. Allowed characters are letters, white space, and numbers that can be represented in UTF-8, and the following characters:+ - = . _ : / . Key -&gt; (string) [required] The tag key (String). The key can't start with aws: . Constraints: • min: 1 • max: 128 • pattern: ^(?![aA]{1}[wW]{1}[sS]{1}:)([\p{L}\p{Z}\p{N}_.:/=+\-@]+)$ Value -&gt; (string) [required] The value of the tag key. Constraints: • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
     public AwsEfsTagResourceOptions(
         string ResourceId,
         IEnumerable<string> Tags
@@ -71,13 +72,13 @@ public record AwsEfsTagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID specifying the EFS resource that you want to create a tag for. Constraints: o max: 128 o pattern: ^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:(ac- cess-point/fsap|file-sys- tem/fs)-[0-9a-f]{8,40}|fs(ap)?-[0-9a-f]{8,40})$
+    /// The ID specifying the EFS resource that you want to create a tag for. Constraints: • max: 128 • pattern: ^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:(access-point/fsap|file-system/fs)-[0-9a-f]{8,40}|fs(ap)?-[0-9a-f]{8,40})$
     /// </summary>
     [CliOption("--resource-id")]
     public string? ResourceId { get; private init; }
 
     /// <summary>
-    /// An array of Tag objects to add. Each Tag object is a key-value pair. (structure) A tag is a key-value pair. Allowed characters are letters, white space, and numbers that can be represented in UTF-8, and the following characters:+ - = . _ : / . Key -&gt; (string) [required] The tag key (String). The key can't start with aws: . Constraints: o min: 1 o max: 128 o pattern: ^(?![aA]{1}[wW]{1}[sS]{1}:)([\p{L}\p{Z}\p{N}_.:/=+\-@]+)$ Value -&gt; (string) [required] The value of the tag key. Constraints: o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// An array of Tag objects to add. Each Tag object is a key-value pair. (structure) A tag is a key-value pair. Allowed characters are letters, white space, and numbers that can be represented in UTF-8, and the following characters:+ - = . _ : / . Key -&gt; (string) [required] The tag key (String). The key can't start with aws: . Constraints: • min: 1 • max: 128 • pattern: ^(?![aA]{1}[wW]{1}[sS]{1}:)([\p{L}\p{Z}\p{N}_.:/=+\-@]+)$ Value -&gt; (string) [required] The value of the tag key. Constraints: • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; private init; }
@@ -103,6 +104,15 @@ public record AwsEfsTagResourceOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

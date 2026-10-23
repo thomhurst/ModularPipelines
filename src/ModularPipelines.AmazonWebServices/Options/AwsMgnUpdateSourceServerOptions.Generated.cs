@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsMgnUpdateSourceServerOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Update Source Server. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SourceServerId">Update Source Server request source server ID. Constraints: o min: 19 o max: 19 o pattern: s-[0-9a-zA-Z]{17}</param>
+    /// <param name="SourceServerId">Update Source Server request source server ID. Constraints: • min: 19 • max: 19 • pattern: s-[0-9a-zA-Z]{17}</param>
     public AwsMgnUpdateSourceServerOptions(
         string SourceServerId
     )
@@ -56,37 +57,37 @@ public record AwsMgnUpdateSourceServerOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Update Source Server request source server ID. Constraints: o min: 19 o max: 19 o pattern: s-[0-9a-zA-Z]{17}
+    /// Update Source Server request source server ID. Constraints: • min: 19 • max: 19 • pattern: s-[0-9a-zA-Z]{17}
     /// </summary>
     [CliOption("--source-server-id")]
     public string? SourceServerId { get; private init; }
 
     /// <summary>
-    /// Update Source Server request account ID. Constraints: o min: 12 o max: 12 o pattern: .*[0-9]{12,}.*
+    /// Update Source Server request account ID. Constraints: • min: 12 • max: 12 • pattern: .*[0-9]{12,}.*
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; set; }
 
     /// <summary>
-    /// Update Source Server request connector action. credentialsSecretArn -&gt; (string) Source Server connector action credentials secret arn. Constraints: o min: 20 o max: 256 o pattern: arn:[\w-]+:secretsman- ager:([a-z]{2}-(gov-)?[a-z]+-\d{1})?:(\d{12})?:secret:(.+) connectorArn -&gt; (string) Source Server connector action connector arn. Constraints: o min: 27 o max: 100 o pattern: arn:[\w-]+:mgn:([a-z]{2}-(gov-)?[a-z]+-\d{1})?:(\d{12})?:con- nector\/(connector-[0-9a-zA-Z]{17}) Shorthand Syntax: credentialsSecretArn=string,connectorArn=string JSON Syntax: { "credentialsSecretArn": "string", "connectorArn": "string" }
+    /// Update Source Server request connector action. credentialsSecretArn -&gt; (string) Source Server connector action credentials secret arn. Constraints: • min: 20 • max: 256 • pattern: arn:[\w-]+:secretsmanager:([a-z]{2}-(gov-)?[a-z]+-\d{1})?:(\d{12})?:secret:(.+) connectorArn -&gt; (string) Source Server connector action connector arn. Constraints: • min: 27 • max: 100 • pattern: arn:[\w-]+:mgn:([a-z]{2}-(gov-)?[a-z]+-\d{1})?:(\d{12})?:connector\/(connector-[0-9a-zA-Z]{17}) Shorthand Syntax: credentialsSecretArn=string,connectorArn=string JSON Syntax: { "credentialsSecretArn": "string", "connectorArn": "string" }
     /// </summary>
     [CliOption("--connector-action")]
     public string? ConnectorAction { get; set; }
 
     /// <summary>
-    /// Update Source Server request user provided ID. Constraints: o min: 1 o max: 256 o pattern: [^\s\x00]( *[^\s\x00])*
+    /// Update Source Server request user provided ID. Constraints: • min: 1 • max: 256 • pattern: [^\s\x00]( *[^\s\x00])*
     /// </summary>
     [CliOption("--user-provided-id")]
     public string? UserProvidedId { get; set; }
 
     /// <summary>
-    /// Update Source Server request FQDN for action framework. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_](([a-zA-Z0-9_\-]{0,61}[a-zA-Z0-9_])?\.)+[a-zA-Z]{2,63}$|^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)\.?\b){4}$|^(?:[A-Fa-f0-9]{1,4}:){7}[A-Fa-f0-9]{1,4}
+    /// Update Source Server request FQDN for action framework. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_](([a-zA-Z0-9_\-]{0,61}[a-zA-Z0-9_])?\.)+[a-zA-Z]{2,63}$|^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)\.?\b){4}$|^(?:[A-Fa-f0-9]{1,4}:){7}[A-Fa-f0-9]{1,4}
     /// </summary>
     [CliOption("--fqdn-for-action-framework")]
     public string? FqdnForActionFramework { get; set; }
 
     /// <summary>
-    /// Update Source Server request platform operating system. Constraints: o pattern: (linux|windows)
+    /// Update Source Server request platform operating system. Constraints: • pattern: (linux|windows)
     /// </summary>
     [CliOption("--platform")]
     public string? Platform { get; set; }
@@ -112,6 +113,15 @@ public record AwsMgnUpdateSourceServerOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

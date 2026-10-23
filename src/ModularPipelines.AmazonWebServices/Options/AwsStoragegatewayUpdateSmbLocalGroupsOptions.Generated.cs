@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsStoragegatewayUpdateSmbLocalGroupsOptions : AwsOptions, IValida
     /// <summary>
     /// Updates the list of Active Directory users and groups that have special permissions for SMB file shares on the gateway. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GatewayArn">The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region. Constraints: o min: 50 o max: 500</param>
-    /// <param name="SmbLocalGroups">A list of Active Directory users and groups that you want to grant special permissions for SMB file shares on the gateway. GatewayAdmins -&gt; (list) A list of Active Directory users and groups that have local Gateway Admin permissions. Acceptable formats include: DO- MAIN\User1 , user1 , DOMAIN\group1 , and group1 . Gateway Admins can use the Shared Folders Microsoft Management Console snap-in to force-close files that are open and locked. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 1 o max: 64 Shorthand Syntax: GatewayAdmins=string,string JSON Syntax: { "GatewayAdmins": ["string", ...] }</param>
+    /// <param name="GatewayArn">The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region. Constraints: • min: 50 • max: 500</param>
+    /// <param name="SmbLocalGroups">A list of Active Directory users and groups that you want to grant special permissions for SMB file shares on the gateway. GatewayAdmins -&gt; (list) A list of Active Directory users and groups that have local Gateway Admin permissions. Acceptable formats include: DOMAIN\User1 , user1 , DOMAIN\group1 , and group1 . Gateway Admins can use the Shared Folders Microsoft Management Console snap-in to force-close files that are open and locked. Constraints: • min: 0 • max: 100 (string) Constraints: • min: 1 • max: 64 Shorthand Syntax: GatewayAdmins=string,string JSON Syntax: { "GatewayAdmins": ["string", ...] }</param>
     public AwsStoragegatewayUpdateSmbLocalGroupsOptions(
         string GatewayArn,
         string SmbLocalGroups
@@ -60,13 +61,13 @@ public record AwsStoragegatewayUpdateSmbLocalGroupsOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region. Constraints: o min: 50 o max: 500
+    /// The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region. Constraints: • min: 50 • max: 500
     /// </summary>
     [CliOption("--gateway-arn")]
     public string? GatewayArn { get; private init; }
 
     /// <summary>
-    /// A list of Active Directory users and groups that you want to grant special permissions for SMB file shares on the gateway. GatewayAdmins -&gt; (list) A list of Active Directory users and groups that have local Gateway Admin permissions. Acceptable formats include: DO- MAIN\User1 , user1 , DOMAIN\group1 , and group1 . Gateway Admins can use the Shared Folders Microsoft Management Console snap-in to force-close files that are open and locked. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 1 o max: 64 Shorthand Syntax: GatewayAdmins=string,string JSON Syntax: { "GatewayAdmins": ["string", ...] }
+    /// A list of Active Directory users and groups that you want to grant special permissions for SMB file shares on the gateway. GatewayAdmins -&gt; (list) A list of Active Directory users and groups that have local Gateway Admin permissions. Acceptable formats include: DOMAIN\User1 , user1 , DOMAIN\group1 , and group1 . Gateway Admins can use the Shared Folders Microsoft Management Console snap-in to force-close files that are open and locked. Constraints: • min: 0 • max: 100 (string) Constraints: • min: 1 • max: 64 Shorthand Syntax: GatewayAdmins=string,string JSON Syntax: { "GatewayAdmins": ["string", ...] }
     /// </summary>
     [CliOption("--smb-local-groups")]
     public string? SmbLocalGroups { get; private init; }
@@ -92,6 +93,15 @@ public record AwsStoragegatewayUpdateSmbLocalGroupsOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

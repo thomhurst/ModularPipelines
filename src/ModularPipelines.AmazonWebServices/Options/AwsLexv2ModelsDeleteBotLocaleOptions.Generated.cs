@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsLexv2ModelsDeleteBotLocaleOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Removes a locale from a bot. When you delete a locale, all intents, slots, and slot types defined for the locale are also deleted. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BotId">The unique identifier of the bot that contains the locale. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
-    /// <param name="BotVersion">The version of the bot that contains the locale. Constraints: o min: 5 o max: 5 o pattern: ^DRAFT$</param>
-    /// <param name="LocaleId">The identifier of the language and locale that will be deleted. The string must match one of the supported locales. For more informa- tion, see Supported languages .</param>
+    /// <param name="BotId">The unique identifier of the bot that contains the locale. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="BotVersion">The version of the bot that contains the locale. Constraints: • min: 5 • max: 5 • pattern: ^DRAFT$</param>
+    /// <param name="LocaleId">The identifier of the language and locale that will be deleted. The string must match one of the supported locales. For more information, see Supported languages .</param>
     public AwsLexv2ModelsDeleteBotLocaleOptions(
         string BotId,
         string BotVersion,
@@ -64,19 +65,19 @@ public record AwsLexv2ModelsDeleteBotLocaleOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the bot that contains the locale. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The unique identifier of the bot that contains the locale. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--bot-id")]
     public string? BotId { get; private init; }
 
     /// <summary>
-    /// The version of the bot that contains the locale. Constraints: o min: 5 o max: 5 o pattern: ^DRAFT$
+    /// The version of the bot that contains the locale. Constraints: • min: 5 • max: 5 • pattern: ^DRAFT$
     /// </summary>
     [CliOption("--bot-version")]
     public string? BotVersion { get; private init; }
 
     /// <summary>
-    /// The identifier of the language and locale that will be deleted. The string must match one of the supported locales. For more informa- tion, see Supported languages .
+    /// The identifier of the language and locale that will be deleted. The string must match one of the supported locales. For more information, see Supported languages .
     /// </summary>
     [CliOption("--locale-id")]
     public string? LocaleId { get; private init; }
@@ -102,6 +103,15 @@ public record AwsLexv2ModelsDeleteBotLocaleOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

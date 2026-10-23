@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +29,8 @@ public record AwsFinspaceDeleteKxUserOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes a user in the specified kdb environment. See also: AWS API Documentation
     /// </summary>
-    /// <param name="UserName">A unique identifier for the user that you want to delete. Constraints: o min: 1 o max: 50 o pattern: ^[0-9A-Za-z_-]{1,50}$</param>
-    /// <param name="EnvironmentId">A unique identifier for the kdb environment. Constraints: o min: 1 o max: 26 o pattern: ^[a-zA-Z0-9]{1,26}$</param>
+    /// <param name="UserName">A unique identifier for the user that you want to delete. Constraints: • min: 1 • max: 50 • pattern: ^[0-9A-Za-z_-]{1,50}$</param>
+    /// <param name="EnvironmentId">A unique identifier for the kdb environment. Constraints: • min: 1 • max: 26 • pattern: ^[a-zA-Z0-9]{1,26}$</param>
     public AwsFinspaceDeleteKxUserOptions(
         string UserName,
         string EnvironmentId
@@ -61,19 +62,19 @@ public record AwsFinspaceDeleteKxUserOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the user that you want to delete. Constraints: o min: 1 o max: 50 o pattern: ^[0-9A-Za-z_-]{1,50}$
+    /// A unique identifier for the user that you want to delete. Constraints: • min: 1 • max: 50 • pattern: ^[0-9A-Za-z_-]{1,50}$
     /// </summary>
     [CliOption("--user-name")]
     public string? UserName { get; private init; }
 
     /// <summary>
-    /// A unique identifier for the kdb environment. Constraints: o min: 1 o max: 26 o pattern: ^[a-zA-Z0-9]{1,26}$
+    /// A unique identifier for the kdb environment. Constraints: • min: 1 • max: 26 • pattern: ^[a-zA-Z0-9]{1,26}$
     /// </summary>
     [CliOption("--environment-id")]
     public string? EnvironmentId { get; private init; }
 
     /// <summary>
-    /// A token that ensures idempotency. This token expires in 10 minutes. Constraints: o min: 1 o max: 36 o pattern: .*\S.*
+    /// A token that ensures idempotency. This token expires in 10 minutes. Constraints: • min: 1 • max: 36 • pattern: .*\S.*
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -100,6 +101,15 @@ public record AwsFinspaceDeleteKxUserOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

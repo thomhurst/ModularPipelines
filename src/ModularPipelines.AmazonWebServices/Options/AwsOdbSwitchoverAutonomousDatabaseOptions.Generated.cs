@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsOdbSwitchoverAutonomousDatabaseOptions : AwsOptions, IValidatab
     /// <summary>
     /// Performs a switchover of the specified Autonomous Database to a standby peer database. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AutonomousDatabaseId">The unique identifier of the Autonomous Database to switch over. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})</param>
+    /// <param name="AutonomousDatabaseId">The unique identifier of the Autonomous Database to switch over. Constraints: • min: 6 • max: 2048 • pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})</param>
     public AwsOdbSwitchoverAutonomousDatabaseOptions(
         string AutonomousDatabaseId
     )
@@ -56,13 +57,13 @@ public record AwsOdbSwitchoverAutonomousDatabaseOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the Autonomous Database to switch over. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})
+    /// The unique identifier of the Autonomous Database to switch over. Constraints: • min: 6 • max: 2048 • pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})
     /// </summary>
     [CliOption("--autonomous-database-id")]
     public string? AutonomousDatabaseId { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the peer Autonomous Database to switch over to. Constraints: o min: 20 o max: 2048 o pattern: arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-z0-9-_]{6,64}
+    /// The Amazon Resource Name (ARN) of the peer Autonomous Database to switch over to. Constraints: • min: 20 • max: 2048 • pattern: arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-z0-9-_]{6,64}
     /// </summary>
     [CliOption("--peer-db-arn")]
     public string? PeerDbArn { get; set; }
@@ -88,6 +89,15 @@ public record AwsOdbSwitchoverAutonomousDatabaseOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

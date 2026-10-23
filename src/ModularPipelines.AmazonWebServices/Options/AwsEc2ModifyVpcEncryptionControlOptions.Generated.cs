@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modifies the encryption control configuration for a VPC. You can update the encryption mode and exclusion settings for various gateway types and peering connections. For more information, see Enforce VPC encryption in transit in the Ama- zon VPC User Guide . See also: AWS API Documentation
+/// Modifies the encryption control configuration for a VPC. You can update the encryption mode and exclusion settings for various gateway types and peering connections. For more information, see Enforce VPC encryption in transit in the Amazon VPC User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +27,7 @@ public record AwsEc2ModifyVpcEncryptionControlOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Modifies the encryption control configuration for a VPC. You can update the encryption mode and exclusion settings for various gateway types and peering connections. For more information, see Enforce VPC encryption in transit in the Ama- zon VPC User Guide . See also: AWS API Documentation
+    /// Modifies the encryption control configuration for a VPC. You can update the encryption mode and exclusion settings for various gateway types and peering connections. For more information, see Enforce VPC encryption in transit in the Amazon VPC User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="VpcEncryptionControlId">The ID of the VPC Encryption Control resource to modify.</param>
     public AwsEc2ModifyVpcEncryptionControlOptions(
@@ -63,61 +64,61 @@ public record AwsEc2ModifyVpcEncryptionControlOptions : AwsOptions, IValidatable
     public string? VpcEncryptionControlId { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// The encryption mode for the VPC Encryption Control configuration. Possible values: o monitor o enforce
+    /// The encryption mode for the VPC Encryption Control configuration. Possible values: • monitor • enforce
     /// </summary>
     [CliOption("--mode")]
     public AwsEc2ModifyVpcEncryptionControlMode? Mode { get; set; }
 
     /// <summary>
-    /// Specifies whether to exclude internet gateway traffic from encryp- tion enforcement. Possible values: o enable o disable
+    /// Specifies whether to exclude internet gateway traffic from encryption enforcement. Possible values: • enable • disable
     /// </summary>
     [CliOption("--internet-gateway-exclusion")]
     public AwsEc2ModifyVpcEncryptionControlInternetGatewayExclusion? InternetGatewayExclusion { get; set; }
 
     /// <summary>
-    /// Specifies whether to exclude egress-only internet gateway traffic from encryption enforcement. Possible values: o enable o disable
+    /// Specifies whether to exclude egress-only internet gateway traffic from encryption enforcement. Possible values: • enable • disable
     /// </summary>
     [CliOption("--egress-only-internet-gateway-exclusion")]
     public AwsEc2ModifyVpcEncryptionControlEgressOnlyInternetGatewayExclusion? EgressOnlyInternetGatewayExclusion { get; set; }
 
     /// <summary>
-    /// Specifies whether to exclude NAT gateway traffic from encryption en- forcement. Possible values: o enable o disable
+    /// Specifies whether to exclude NAT gateway traffic from encryption enforcement. Possible values: • enable • disable
     /// </summary>
     [CliOption("--nat-gateway-exclusion")]
     public AwsEc2ModifyVpcEncryptionControlNatGatewayExclusion? NatGatewayExclusion { get; set; }
 
     /// <summary>
-    /// Specifies whether to exclude virtual private gateway traffic from encryption enforcement. Possible values: o enable o disable
+    /// Specifies whether to exclude virtual private gateway traffic from encryption enforcement. Possible values: • enable • disable
     /// </summary>
     [CliOption("--virtual-private-gateway-exclusion")]
     public AwsEc2ModifyVpcEncryptionControlVirtualPrivateGatewayExclusion? VirtualPrivateGatewayExclusion { get; set; }
 
     /// <summary>
-    /// Specifies whether to exclude VPC peering connection traffic from en- cryption enforcement. Possible values: o enable o disable
+    /// Specifies whether to exclude VPC peering connection traffic from encryption enforcement. Possible values: • enable • disable
     /// </summary>
     [CliOption("--vpc-peering-exclusion")]
     public AwsEc2ModifyVpcEncryptionControlVpcPeeringExclusion? VpcPeeringExclusion { get; set; }
 
     /// <summary>
-    /// Specifies whether to exclude Lambda function traffic from encryption enforcement. Possible values: o enable o disable
+    /// Specifies whether to exclude Lambda function traffic from encryption enforcement. Possible values: • enable • disable
     /// </summary>
     [CliOption("--lambda-exclusion")]
     public AwsEc2ModifyVpcEncryptionControlLambdaExclusion? LambdaExclusion { get; set; }
 
     /// <summary>
-    /// Specifies whether to exclude VPC Lattice traffic from encryption en- forcement. Possible values: o enable o disable
+    /// Specifies whether to exclude VPC Lattice traffic from encryption enforcement. Possible values: • enable • disable
     /// </summary>
     [CliOption("--vpc-lattice-exclusion")]
     public AwsEc2ModifyVpcEncryptionControlVpcLatticeExclusion? VpcLatticeExclusion { get; set; }
 
     /// <summary>
-    /// Specifies whether to exclude Elastic File System traffic from en- cryption enforcement. Possible values: o enable o disable
+    /// Specifies whether to exclude Elastic File System traffic from encryption enforcement. Possible values: • enable • disable
     /// </summary>
     [CliOption("--elastic-file-system-exclusion")]
     public AwsEc2ModifyVpcEncryptionControlElasticFileSystemExclusion? ElasticFileSystemExclusion { get; set; }
@@ -143,6 +144,15 @@ public record AwsEc2ModifyVpcEncryptionControlOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

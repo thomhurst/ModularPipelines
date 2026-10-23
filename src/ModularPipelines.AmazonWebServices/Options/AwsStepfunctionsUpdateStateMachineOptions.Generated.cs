@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates an existing state machine by modifying its definition , roleArn , loggingConfiguration , or EncryptionConfiguration . Running execu- tions will continue to use the previous definition and roleArn . You must include at least one of definition or roleArn or you will receive a MissingRequiredParameter error. A qualified state machine ARN refers to a Distributed Map state defined within a state machine. For example, the qualified state machine ARN arn:partition:states:region:account-id:state...
+/// Updates an existing state machine by modifying its definition , roleArn , loggingConfiguration , or EncryptionConfiguration . Running executions will continue to use the previous definition and roleArn . You must include at least one of definition or roleArn or you will receive a MissingRequiredParameter error. A qualified state machine ARN refers to a Distributed Map state defined within a state machine. For example, the qualified state machine ARN arn:partition:states:region:account-id:stateMa...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsStepfunctionsUpdateStateMachineOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates an existing state machine by modifying its definition , roleArn , loggingConfiguration , or EncryptionConfiguration . Running execu- tions will continue to use the previous definition and roleArn . You must include at least one of definition or roleArn or you will receive a MissingRequiredParameter error. A qualified state machine ARN refers to a Distributed Map state defined within a state machine. For example, the qualified state machine ARN arn:partition:states:region:account-id:state...
+    /// Updates an existing state machine by modifying its definition , roleArn , loggingConfiguration , or EncryptionConfiguration . Running executions will continue to use the previous definition and roleArn . You must include at least one of definition or roleArn or you will receive a MissingRequiredParameter error. A qualified state machine ARN refers to a Distributed Map state defined within a state machine. For example, the qualified state machine ARN arn:partition:states:region:account-id:stateMa...
     /// </summary>
-    /// <param name="StateMachineArn">The Amazon Resource Name (ARN) of the state machine. Constraints: o min: 1 o max: 256</param>
+    /// <param name="StateMachineArn">The Amazon Resource Name (ARN) of the state machine. Constraints: • min: 1 • max: 256</param>
     public AwsStepfunctionsUpdateStateMachineOptions(
         string StateMachineArn
     )
@@ -56,25 +57,25 @@ public record AwsStepfunctionsUpdateStateMachineOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the state machine. Constraints: o min: 1 o max: 256
+    /// The Amazon Resource Name (ARN) of the state machine. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--state-machine-arn")]
     public string? StateMachineArn { get; private init; }
 
     /// <summary>
-    /// The Amazon States Language definition of the state machine. See Amazon States Language . Constraints: o min: 1 o max: 1048576
+    /// The Amazon States Language definition of the state machine. See Amazon States Language . Constraints: • min: 1 • max: 1048576
     /// </summary>
     [CliOption("--definition")]
     public string? Definition { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the IAM role of the state machine. Constraints: o min: 1 o max: 256
+    /// The Amazon Resource Name (ARN) of the IAM role of the state machine. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
     /// <summary>
-    /// Use the LoggingConfiguration data type to set CloudWatch Logs op- tions. level -&gt; (string) Defines which category of execution history events are logged. Possible values: o ALL o ERROR o FATAL o OFF includeExecutionData -&gt; (boolean) Determines whether execution data is included in your log. When set to false , data is excluded. destinations -&gt; (list) An array of objects that describes where your execution history events will be logged. Limited to size 1. Required, if your log level is not set to OFF . (structure) cloudWatchLogsLogGroup -&gt; (structure) An object describing a CloudWatch log group. For more in- formation, see AWS::Logs::LogGroup in the CloudFormation User Guide. logGroupArn -&gt; (string) The ARN of the the CloudWatch log group to which you want your logs emitted to. The ARN must end with :* Constraints: o min: 1 o max: 256 JSON Syntax: { "level": "ALL"|"ERROR"|"FATAL"|"OFF", "includeExecutionData": true|false, "destinations": [ { "cloudWatchLogsLogGroup": { "logGroupArn": "string" } } ... ] }
+    /// Use the LoggingConfiguration data type to set CloudWatch Logs options. level -&gt; (string) Defines which category of execution history events are logged. Possible values: • ALL • ERROR • FATAL • OFF includeExecutionData -&gt; (boolean) Determines whether execution data is included in your log. When set to false , data is excluded. destinations -&gt; (list) An array of objects that describes where your execution history events will be logged. Limited to size 1. Required, if your log level is not set to OFF . (structure) cloudWatchLogsLogGroup -&gt; (structure) An object describing a CloudWatch log group. For more information, see AWS::Logs::LogGroup in the CloudFormation User Guide. logGroupArn -&gt; (string) The ARN of the the CloudWatch log group to which you want your logs emitted to. The ARN must end with :* Constraints: • min: 1 • max: 256 JSON Syntax: { "level": "ALL"|"ERROR"|"FATAL"|"OFF", "includeExecutionData": true|false, "destinations": [ { "cloudWatchLogsLogGroup": { "logGroupArn": "string" } } ... ] }
     /// </summary>
     [CliOption("--logging-configuration")]
     public string? LoggingConfiguration { get; set; }
@@ -86,19 +87,19 @@ public record AwsStepfunctionsUpdateStateMachineOptions : AwsOptions, IValidatab
     public string? TracingConfiguration { get; set; }
 
     /// <summary>
-    /// Specifies whether the state machine version is published. The de- fault is false . To publish a version after updating the state ma- chine, set publish to true .
+    /// Specifies whether the state machine version is published. The default is false . To publish a version after updating the state machine, set publish to true .
     /// </summary>
     [CliFlag("--publish", NegatedName = "--no-publish")]
     public bool? Publish { get; set; }
 
     /// <summary>
-    /// An optional description of the state machine version to publish. You can only specify the versionDescription parameter if you've set publish to true . Constraints: o max: 256
+    /// An optional description of the state machine version to publish. You can only specify the versionDescription parameter if you've set publish to true . Constraints: • max: 256
     /// </summary>
     [CliOption("--version-description")]
     public string? VersionDescription { get; set; }
 
     /// <summary>
-    /// Settings to configure server-side encryption. kmsKeyId -&gt; (string) An alias, alias ARN, key ID, or key ARN of a symmetric encryp- tion KMS key to encrypt data. To specify a KMS key in a differ- ent Amazon Web Services account, you must use the key ARN or alias ARN. Constraints: o min: 1 o max: 2048 kmsDataKeyReusePeriodSeconds -&gt; (integer) Maximum duration that Step Functions will reuse data keys. When the period expires, Step Functions will call GenerateDataKey . Only applies to customer managed keys. Constraints: o min: 60 o max: 900 type -&gt; (string) [required] Encryption type Possible values: o AWS_OWNED_KEY o CUSTOMER_MANAGED_KMS_KEY Shorthand Syntax: kmsKeyId=string,kmsDataKeyReusePeriodSeconds=integer,type=string JSON Syntax: { "kmsKeyId": "string", "kmsDataKeyReusePeriodSeconds": integer, "type": "AWS_OWNED_KEY"|"CUSTOMER_MANAGED_KMS_KEY" }
+    /// Settings to configure server-side encryption. kmsKeyId -&gt; (string) An alias, alias ARN, key ID, or key ARN of a symmetric encryption KMS key to encrypt data. To specify a KMS key in a different Amazon Web Services account, you must use the key ARN or alias ARN. Constraints: • min: 1 • max: 2048 kmsDataKeyReusePeriodSeconds -&gt; (integer) Maximum duration that Step Functions will reuse data keys. When the period expires, Step Functions will call GenerateDataKey . Only applies to customer managed keys. Constraints: • min: 60 • max: 900 type -&gt; (string) [required] Encryption type Possible values: • AWS_OWNED_KEY • CUSTOMER_MANAGED_KMS_KEY Shorthand Syntax: kmsKeyId=string,kmsDataKeyReusePeriodSeconds=integer,type=string JSON Syntax: { "kmsKeyId": "string", "kmsDataKeyReusePeriodSeconds": integer, "type": "AWS_OWNED_KEY"|"CUSTOMER_MANAGED_KMS_KEY" }
     /// </summary>
     [CliOption("--encryption-configuration")]
     public string? EncryptionConfiguration { get; set; }
@@ -124,6 +125,15 @@ public record AwsStepfunctionsUpdateStateMachineOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,9 +29,9 @@ public record AwsHealthlakeStartFhirExportJobOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Start a FHIR export job. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OutputDataConfig">The output data configuration supplied when the export job was started. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: S3Configuration. S3Configuration -&gt; (structure) The output data configuration supplied when the export job was created. S3Uri -&gt; (string) [required] The S3Uri is the user-specified Amazon S3 location of the FHIR data to be imported into HealthLake. Constraints: o min: 0 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? KmsKeyId -&gt; (string) [required] The Key Management Service (KMS) key ID used to access the Amazon S3 bucket. Constraints: o min: 1 o max: 400 o pattern: (arn:aws((-us-gov)|(-iso)|(-iso-b)|(-cn))?:kms:)?([a-z]{2}-[a-z]+(-[a-z]+)?-\d:)?(\d{12}:)?(((key/)?[a-zA-Z0-9-_]+)|(alias/[a-zA-Z0-9:/_-]+)) Shorthand Syntax: S3Configuration={S3Uri=string,KmsKeyId=string} JSON Syntax: { "S3Configuration": { "S3Uri": "string", "KmsKeyId": "string" } }</param>
-    /// <param name="DatastoreId">The data store identifier from which files are being exported. Constraints: o min: 1 o max: 32 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)</param>
-    /// <param name="DataAccessRoleArn">The Amazon Resource Name (ARN) used during initiation of the export job. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+</param>
+    /// <param name="OutputDataConfig">The output data configuration supplied when the export job was started. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: S3Configuration. S3Configuration -&gt; (structure) The output data configuration supplied when the export job was created. S3Uri -&gt; (string) [required] The S3Uri is the user-specified Amazon S3 location of the FHIR data to be imported into HealthLake. Constraints: • min: 0 • max: 1024 • pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? KmsKeyId -&gt; (string) [required] The Key Management Service (KMS) key ID used to access the Amazon S3 bucket. Constraints: • min: 1 • max: 400 • pattern: (arn:aws((-us-gov)|(-iso)|(-iso-b)|(-cn))?:kms:)?([a-z]{2}-[a-z]+(-[a-z]+)?-\d:)?(\d{12}:)?(((key/)?[a-zA-Z0-9-_]+)|(alias/[a-zA-Z0-9:/_-]+)) Shorthand Syntax: S3Configuration={S3Uri=string,KmsKeyId=string} JSON Syntax: { "S3Configuration": { "S3Uri": "string", "KmsKeyId": "string" } }</param>
+    /// <param name="DatastoreId">The data store identifier from which files are being exported. Constraints: • min: 1 • max: 32 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)</param>
+    /// <param name="DataAccessRoleArn">The Amazon Resource Name (ARN) used during initiation of the export job. Constraints: • min: 20 • max: 2048 • pattern: arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+</param>
     public AwsHealthlakeStartFhirExportJobOptions(
         string OutputDataConfig,
         string DatastoreId,
@@ -65,31 +66,31 @@ public record AwsHealthlakeStartFhirExportJobOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The output data configuration supplied when the export job was started. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: S3Configuration. S3Configuration -&gt; (structure) The output data configuration supplied when the export job was created. S3Uri -&gt; (string) [required] The S3Uri is the user-specified Amazon S3 location of the FHIR data to be imported into HealthLake. Constraints: o min: 0 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? KmsKeyId -&gt; (string) [required] The Key Management Service (KMS) key ID used to access the Amazon S3 bucket. Constraints: o min: 1 o max: 400 o pattern: (arn:aws((-us-gov)|(-iso)|(-iso-b)|(-cn))?:kms:)?([a-z]{2}-[a-z]+(-[a-z]+)?-\d:)?(\d{12}:)?(((key/)?[a-zA-Z0-9-_]+)|(alias/[a-zA-Z0-9:/_-]+)) Shorthand Syntax: S3Configuration={S3Uri=string,KmsKeyId=string} JSON Syntax: { "S3Configuration": { "S3Uri": "string", "KmsKeyId": "string" } }
+    /// The output data configuration supplied when the export job was started. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: S3Configuration. S3Configuration -&gt; (structure) The output data configuration supplied when the export job was created. S3Uri -&gt; (string) [required] The S3Uri is the user-specified Amazon S3 location of the FHIR data to be imported into HealthLake. Constraints: • min: 0 • max: 1024 • pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? KmsKeyId -&gt; (string) [required] The Key Management Service (KMS) key ID used to access the Amazon S3 bucket. Constraints: • min: 1 • max: 400 • pattern: (arn:aws((-us-gov)|(-iso)|(-iso-b)|(-cn))?:kms:)?([a-z]{2}-[a-z]+(-[a-z]+)?-\d:)?(\d{12}:)?(((key/)?[a-zA-Z0-9-_]+)|(alias/[a-zA-Z0-9:/_-]+)) Shorthand Syntax: S3Configuration={S3Uri=string,KmsKeyId=string} JSON Syntax: { "S3Configuration": { "S3Uri": "string", "KmsKeyId": "string" } }
     /// </summary>
     [CliOption("--output-data-config")]
     public string? OutputDataConfig { get; private init; }
 
     /// <summary>
-    /// The data store identifier from which files are being exported. Constraints: o min: 1 o max: 32 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)
+    /// The data store identifier from which files are being exported. Constraints: • min: 1 • max: 32 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)
     /// </summary>
     [CliOption("--datastore-id")]
     public string? DatastoreId { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) used during initiation of the export job. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+
+    /// The Amazon Resource Name (ARN) used during initiation of the export job. Constraints: • min: 20 • max: 2048 • pattern: arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+
     /// </summary>
     [CliOption("--data-access-role-arn")]
     public string? DataAccessRoleArn { get; private init; }
 
     /// <summary>
-    /// The export job name. Constraints: o min: 1 o max: 64 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)
+    /// The export job name. Constraints: • min: 1 • max: 64 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)
     /// </summary>
     [CliOption("--job-name")]
     public string? JobName { get; set; }
 
     /// <summary>
-    /// An optional user provided token used for ensuring API idempotency. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-]+
+    /// An optional user provided token used for ensuring API idempotency. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -116,6 +117,15 @@ public record AwsHealthlakeStartFhirExportJobOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

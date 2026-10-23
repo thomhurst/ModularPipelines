@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Delete a cross-account attachment. When you delete an attachment, Global Accelerator revokes the permission to use the resources in the attachment from all principals in the list of principals. Global Accel- erator revokes the permission for specific resources. For more information, see Working with cross-account attachments and resources in Global Accelerator in the Global Accelerator Developer Guide . See also: AWS API Documentation
+/// Delete a cross-account attachment. When you delete an attachment, Global Accelerator revokes the permission to use the resources in the attachment from all principals in the list of principals. Global Accelerator revokes the permission for specific resources. For more information, see Working with cross-account attachments and resources in Global Accelerator in the Global Accelerator Developer Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsGlobalacceleratorDeleteCrossAccountAttachmentOptions : AwsOptio
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Delete a cross-account attachment. When you delete an attachment, Global Accelerator revokes the permission to use the resources in the attachment from all principals in the list of principals. Global Accel- erator revokes the permission for specific resources. For more information, see Working with cross-account attachments and resources in Global Accelerator in the Global Accelerator Developer Guide . See also: AWS API Documentation
+    /// Delete a cross-account attachment. When you delete an attachment, Global Accelerator revokes the permission to use the resources in the attachment from all principals in the list of principals. Global Accelerator revokes the permission for specific resources. For more information, see Working with cross-account attachments and resources in Global Accelerator in the Global Accelerator Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="AttachmentArn">The Amazon Resource Name (ARN) for the cross-account attachment to delete. Constraints: o max: 255</param>
+    /// <param name="AttachmentArn">The Amazon Resource Name (ARN) for the cross-account attachment to delete. Constraints: • max: 255</param>
     public AwsGlobalacceleratorDeleteCrossAccountAttachmentOptions(
         string AttachmentArn
     )
@@ -56,7 +57,7 @@ public record AwsGlobalacceleratorDeleteCrossAccountAttachmentOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) for the cross-account attachment to delete. Constraints: o max: 255
+    /// The Amazon Resource Name (ARN) for the cross-account attachment to delete. Constraints: • max: 255
     /// </summary>
     [CliOption("--attachment-arn")]
     public string? AttachmentArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsGlobalacceleratorDeleteCrossAccountAttachmentOptions : AwsOptio
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

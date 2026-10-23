@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves detailed information about a specific payment request. Both sellers (proposers) and buyers (acceptors) can use this operation to view payment requests associated with their agreements. The response includes the current status, charge details, timestamps, and the charge ID if the request has been approved. NOTE: The calling identity must be either the acceptor or proposer of the payment request. A ResourceNotFoundException is returned if the pay- ment request does not exist. See also: A...
+/// Retrieves detailed information about a specific payment request. Both sellers (proposers) and buyers (acceptors) can use this operation to view payment requests associated with their agreements. The response includes the current status, charge details, timestamps, and the charge ID if the request has been approved. NOTE: The calling identity must be either the acceptor or proposer of the payment request. A ResourceNotFoundException is returned if the payment request does not exist. See also: AWS...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsMarketplaceAgreementGetAgreementPaymentRequestOptions : AwsOpti
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves detailed information about a specific payment request. Both sellers (proposers) and buyers (acceptors) can use this operation to view payment requests associated with their agreements. The response includes the current status, charge details, timestamps, and the charge ID if the request has been approved. NOTE: The calling identity must be either the acceptor or proposer of the payment request. A ResourceNotFoundException is returned if the pay- ment request does not exist. See also: A...
+    /// Retrieves detailed information about a specific payment request. Both sellers (proposers) and buyers (acceptors) can use this operation to view payment requests associated with their agreements. The response includes the current status, charge details, timestamps, and the charge ID if the request has been approved. NOTE: The calling identity must be either the acceptor or proposer of the payment request. A ResourceNotFoundException is returned if the payment request does not exist. See also: AWS...
     /// </summary>
-    /// <param name="PaymentRequestId">The identifier of the payment request. Constraints: o min: 1 o max: 64 o pattern: pr-[a-zA-Z0-9]+</param>
-    /// <param name="AgreementId">The unique identifier of the agreement associated with the payment request. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_/-]+</param>
+    /// <param name="PaymentRequestId">The identifier of the payment request. Constraints: • min: 1 • max: 64 • pattern: pr-[a-zA-Z0-9]+</param>
+    /// <param name="AgreementId">The unique identifier of the agreement associated with the payment request. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9_/-]+</param>
     public AwsMarketplaceAgreementGetAgreementPaymentRequestOptions(
         string PaymentRequestId,
         string AgreementId
@@ -60,13 +61,13 @@ public record AwsMarketplaceAgreementGetAgreementPaymentRequestOptions : AwsOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the payment request. Constraints: o min: 1 o max: 64 o pattern: pr-[a-zA-Z0-9]+
+    /// The identifier of the payment request. Constraints: • min: 1 • max: 64 • pattern: pr-[a-zA-Z0-9]+
     /// </summary>
     [CliOption("--payment-request-id")]
     public string? PaymentRequestId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the agreement associated with the payment request. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_/-]+
+    /// The unique identifier of the agreement associated with the payment request. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9_/-]+
     /// </summary>
     [CliOption("--agreement-id")]
     public string? AgreementId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsMarketplaceAgreementGetAgreementPaymentRequestOptions : AwsOpti
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

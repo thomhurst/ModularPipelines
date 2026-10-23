@@ -6,14 +6,14 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Models;
+using ModularPipelines;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws lexv2models commands.
+/// aws lexv2-models commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -22,39 +22,36 @@ namespace ModularPipelines.AmazonWebServices.Services;
 public interface IAwsLexv2Models
 {
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws lexv2-models wait sub-commands.
     /// </summary>
-    AwsLexv2ModelsWait Wait => throw new System.NotSupportedException();
+    AwsLexv2ModelsWait Wait { get; }
 
     /// <summary>
-    /// Create a batch of custom vocabulary items for a given bot locale's cus- tom vocabulary. See also: AWS API Documentation
+    /// Create a batch of custom vocabulary items for a given bot locale's custom vocabulary. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchCreateCustomVocabularyItemAsync(AwsLexv2ModelsBatchCreateCustomVocabularyItemOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchCreateCustomVocabularyItemAsync(AwsLexv2ModelsBatchCreateCustomVocabularyItemOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Delete a batch of custom vocabulary items for a given bot locale's cus- tom vocabulary. See also: AWS API Documentation
+    /// Delete a batch of custom vocabulary items for a given bot locale's custom vocabulary. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchDeleteCustomVocabularyItemAsync(AwsLexv2ModelsBatchDeleteCustomVocabularyItemOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchDeleteCustomVocabularyItemAsync(AwsLexv2ModelsBatchDeleteCustomVocabularyItemOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Update a batch of custom vocabulary items for a given bot locale's cus- tom vocabulary. See also: AWS API Documentation
+    /// Update a batch of custom vocabulary items for a given bot locale's custom vocabulary. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchUpdateCustomVocabularyItemAsync(AwsLexv2ModelsBatchUpdateCustomVocabularyItemOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchUpdateCustomVocabularyItemAsync(AwsLexv2ModelsBatchUpdateCustomVocabularyItemOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Builds a bot, its intents, and its slot types into a specific locale. A bot can be built into multiple locales. At runtime the locale is used to choose a specific build of the bot. See also: AWS API Documentation
@@ -63,18 +60,16 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BuildBotLocaleAsync(AwsLexv2ModelsBuildBotLocaleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BuildBotLocaleAsync(AwsLexv2ModelsBuildBotLocaleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates an alias for the specified version of a bot. Use an alias to enable you to change the version of a bot without updating applications that use the bot. For example, you can create an alias called "PROD" that your applica- tions use to call the Amazon Lex bot. See also: AWS API Documentation
+    /// Creates an alias for the specified version of a bot. Use an alias to enable you to change the version of a bot without updating applications that use the bot. For example, you can create an alias called "PROD" that your applications use to call the Amazon Lex bot. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateBotAliasAsync(AwsLexv2ModelsCreateBotAliasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateBotAliasAsync(AwsLexv2ModelsCreateBotAliasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a locale in the bot. The locale contains the intents and slot types that the bot uses in conversations with users in the specified language and locale. You must add a locale to a bot before you can add intents and slot types to the bot. See also: AWS API Documentation
@@ -83,8 +78,7 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateBotLocaleAsync(AwsLexv2ModelsCreateBotLocaleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateBotLocaleAsync(AwsLexv2ModelsCreateBotLocaleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an Amazon Lex conversational bot. See also: AWS API Documentation
@@ -93,28 +87,25 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateBotAsync(AwsLexv2ModelsCreateBotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateBotAsync(AwsLexv2ModelsCreateBotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Action to create a replication of the source bot in the secondary re- gion. See also: AWS API Documentation
+    /// Action to create a replication of the source bot in the secondary region. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateBotReplicaAsync(AwsLexv2ModelsCreateBotReplicaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateBotReplicaAsync(AwsLexv2ModelsCreateBotReplicaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates an immutable version of the bot. When you create the first ver- sion of a bot, Amazon Lex sets the version number to 1. Subsequent bot versions increase in an increment of 1. The version number will always represent the total number of versions created of the bot, not the cur- rent number of versions. If a bot version is deleted, that bot version number will not be reused. See also: AWS API Documentation
+    /// Creates an immutable version of the bot. When you create the first version of a bot, Amazon Lex sets the version number to 1. Subsequent bot versions increase in an increment of 1. The version number will always represent the total number of versions created of the bot, not the current number of versions. If a bot version is deleted, that bot version number will not be reused. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateBotVersionAsync(AwsLexv2ModelsCreateBotVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateBotVersionAsync(AwsLexv2ModelsCreateBotVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a zip archive containing the contents of a bot or a bot locale. The archive contains a directory structure that contains JSON files that define the bot. You can create an archive that contains the complete definition of a bot, or you can specify that the archive contain only the definition of a single bot locale. For more information about exporting bots, and about the structure of the export archive, see Importing and exporting bots See also: AWS API Documentation
@@ -123,18 +114,16 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateExportAsync(AwsLexv2ModelsCreateExportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateExportAsync(AwsLexv2ModelsCreateExportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates an intent. To define the interaction between the user and your bot, you define one or more intents. For example, for a pizza ordering bot you would create an OrderPizza intent. When you create an intent, you must provide a name. You can optionally provide the following: o Sample utterances. For example, "I want to order a pizza" and "Can I order a pizza." You can't provide utterances for built-in intents. o Information to be gathered. You specify slots for the information that you bot re...
+    /// Creates an intent. To define the interaction between the user and your bot, you define one or more intents. For example, for a pizza ordering bot you would create an OrderPizza intent. When you create an intent, you must provide a name. You can optionally provide the following: • Sample utterances. For example, "I want to order a pizza" and "Can I order a pizza." You can't provide utterances for built-in intents. • Information to be gathered. You specify slots for the information that you bot re...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateIntentAsync(AwsLexv2ModelsCreateIntentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateIntentAsync(AwsLexv2ModelsCreateIntentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new resource policy with the specified policy statements. See also: AWS API Documentation
@@ -143,38 +132,34 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateResourcePolicyAsync(AwsLexv2ModelsCreateResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateResourcePolicyAsync(AwsLexv2ModelsCreateResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Adds a new resource policy statement to a bot or bot alias. If a re- source policy exists, the statement is added to the current resource policy. If a policy doesn't exist, a new policy is created. You can't create a resource policy statement that allows cross-account access. You need to add the CreateResourcePolicy or UpdateResourcePolicy action to the bot role in order to call the API. See also: AWS API Documentation
+    /// Adds a new resource policy statement to a bot or bot alias. If a resource policy exists, the statement is added to the current resource policy. If a policy doesn't exist, a new policy is created. You can't create a resource policy statement that allows cross-account access. You need to add the CreateResourcePolicy or UpdateResourcePolicy action to the bot role in order to call the API. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateResourcePolicyStatementAsync(AwsLexv2ModelsCreateResourcePolicyStatementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateResourcePolicyStatementAsync(AwsLexv2ModelsCreateResourcePolicyStatementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates a slot in an intent. A slot is a variable needed to fulfill an intent. For example, an OrderPizza intent might need slots for size, crust, and number of pizzas. For each slot, you define one or more ut- terances that Amazon Lex uses to elicit a response from the user. See also: AWS API Documentation
+    /// Creates a slot in an intent. A slot is a variable needed to fulfill an intent. For example, an OrderPizza intent might need slots for size, crust, and number of pizzas. For each slot, you define one or more utterances that Amazon Lex uses to elicit a response from the user. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateSlotAsync(AwsLexv2ModelsCreateSlotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateSlotAsync(AwsLexv2ModelsCreateSlotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates a custom slot type To create a custom slot type, specify a name for the slot type and a set of enumeration values, the values that a slot of this type can as- sume. See also: AWS API Documentation
+    /// Creates a custom slot type To create a custom slot type, specify a name for the slot type and a set of enumeration values, the values that a slot of this type can assume. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateSlotTypeAsync(AwsLexv2ModelsCreateSlotTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateSlotTypeAsync(AwsLexv2ModelsCreateSlotTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a report that describes the differences between the bot and the test set. See also: AWS API Documentation
@@ -183,8 +168,7 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateTestSetDiscrepancyReportAsync(AwsLexv2ModelsCreateTestSetDiscrepancyReportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateTestSetDiscrepancyReportAsync(AwsLexv2ModelsCreateTestSetDiscrepancyReportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a pre-signed S3 write URL that you use to upload the zip archive when importing a bot or a bot locale. See also: AWS API Documentation
@@ -193,8 +177,7 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateUploadUrlAsync(AwsLexv2ModelsCreateUploadUrlOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateUploadUrlAsync(AwsLexv2ModelsCreateUploadUrlOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified bot alias. See also: AWS API Documentation
@@ -203,18 +186,16 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteBotAliasAsync(AwsLexv2ModelsDeleteBotAliasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteBotAliasAsync(AwsLexv2ModelsDeleteBotAliasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Permanently deletes the recommendations and analysis results for a spe- cific bot analysis request. This operation is provided for GDPR compli- ance and cannot be undone. After deletion, the analysis results cannot be retrieved. The analysis request ID will still appear in the history list, but attempting to de- scribe the recommendations will return a ResourceNotFoundException . See also: AWS API Documentation
+    /// Permanently deletes the recommendations and analysis results for a specific bot analysis request. This operation is provided for GDPR compliance and cannot be undone. After deletion, the analysis results cannot be retrieved. The analysis request ID will still appear in the history list, but attempting to describe the recommendations will return a ResourceNotFoundException . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteBotAnalyzerRecommendationAsync(AwsLexv2ModelsDeleteBotAnalyzerRecommendationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteBotAnalyzerRecommendationAsync(AwsLexv2ModelsDeleteBotAnalyzerRecommendationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes a locale from a bot. When you delete a locale, all intents, slots, and slot types defined for the locale are also deleted. See also: AWS API Documentation
@@ -223,18 +204,16 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteBotLocaleAsync(AwsLexv2ModelsDeleteBotLocaleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteBotLocaleAsync(AwsLexv2ModelsDeleteBotLocaleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deletes all versions of a bot, including the Draft version. To delete a specific version, use the DeleteBotVersion operation. When you delete a bot, all of the resources contained in the bot are also deleted. Deleting a bot removes all locales, intents, slot, and slot types defined for the bot. If a bot has an alias, the DeleteBot operation returns a ResourceInUse- Exception exception. If you want to delete the bot and the alias, set the skipResourceInUseCheck parameter to true . See also: AWS A...
+    /// Deletes all versions of a bot, including the Draft version. To delete a specific version, use the DeleteBotVersion operation. When you delete a bot, all of the resources contained in the bot are also deleted. Deleting a bot removes all locales, intents, slot, and slot types defined for the bot. If a bot has an alias, the DeleteBot operation returns a ResourceInUseException exception. If you want to delete the bot and the alias, set the skipResourceInUseCheck parameter to true . See also: AWS API...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteBotAsync(AwsLexv2ModelsDeleteBotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteBotAsync(AwsLexv2ModelsDeleteBotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The action to delete the replicated bot in the secondary region. See also: AWS API Documentation
@@ -243,8 +222,7 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteBotReplicaAsync(AwsLexv2ModelsDeleteBotReplicaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteBotReplicaAsync(AwsLexv2ModelsDeleteBotReplicaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a specific version of a bot. To delete all versions of a bot, use the DeleteBot operation. See also: AWS API Documentation
@@ -253,8 +231,7 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteBotVersionAsync(AwsLexv2ModelsDeleteBotVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteBotVersionAsync(AwsLexv2ModelsDeleteBotVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes a custom vocabulary from the specified locale in the specified bot. See also: AWS API Documentation
@@ -263,8 +240,7 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteCustomVocabularyAsync(AwsLexv2ModelsDeleteCustomVocabularyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteCustomVocabularyAsync(AwsLexv2ModelsDeleteCustomVocabularyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes a previous export and the associated files stored in an S3 bucket. See also: AWS API Documentation
@@ -273,8 +249,7 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteExportAsync(AwsLexv2ModelsDeleteExportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteExportAsync(AwsLexv2ModelsDeleteExportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes a previous import and the associated file stored in an S3 bucket. See also: AWS API Documentation
@@ -283,8 +258,7 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteImportAsync(AwsLexv2ModelsDeleteImportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteImportAsync(AwsLexv2ModelsDeleteImportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes the specified intent. Deleting an intent also deletes the slots associated with the intent. See also: AWS API Documentation
@@ -293,8 +267,7 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteIntentAsync(AwsLexv2ModelsDeleteIntentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteIntentAsync(AwsLexv2ModelsDeleteIntentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes an existing policy from a bot or bot alias. If the resource doesn't have a policy attached, Amazon Lex returns an exception. See also: AWS API Documentation
@@ -303,8 +276,7 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteResourcePolicyAsync(AwsLexv2ModelsDeleteResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteResourcePolicyAsync(AwsLexv2ModelsDeleteResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a policy statement from a resource policy. If you delete the last statement from a policy, the policy is deleted. If you specify a statement ID that doesn't exist in the policy, or if the bot or bot alias doesn't have a policy attached, Amazon Lex returns an exception. You need to add the DeleteResourcePolicy or UpdateResourcePolicy action to the bot role in order to call the API. See also: AWS API Documentation
@@ -313,8 +285,7 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteResourcePolicyStatementAsync(AwsLexv2ModelsDeleteResourcePolicyStatementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteResourcePolicyStatementAsync(AwsLexv2ModelsDeleteResourcePolicyStatementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified slot from an intent. See also: AWS API Documentation
@@ -323,18 +294,16 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteSlotAsync(AwsLexv2ModelsDeleteSlotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteSlotAsync(AwsLexv2ModelsDeleteSlotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deletes a slot type from a bot locale. If a slot is using the slot type, Amazon Lex throws a ResourceInUseEx- ception exception. To avoid the exception, set the skipResourceI- nUseCheck parameter to true . See also: AWS API Documentation
+    /// Deletes a slot type from a bot locale. If a slot is using the slot type, Amazon Lex throws a ResourceInUseException exception. To avoid the exception, set the skipResourceInUseCheck parameter to true . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteSlotTypeAsync(AwsLexv2ModelsDeleteSlotTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteSlotTypeAsync(AwsLexv2ModelsDeleteSlotTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The action to delete the selected test set. See also: AWS API Documentation
@@ -343,18 +312,16 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTestSetAsync(AwsLexv2ModelsDeleteTestSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTestSetAsync(AwsLexv2ModelsDeleteTestSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deletes stored utterances. Amazon Lex stores the utterances that users send to your bot. Utter- ances are stored for 15 days for use with the ListAggregatedUtterances operation, and then stored indefinitely for use in improving the abil- ity of your bot to respond to user input.. Use the DeleteUtterances operation to manually delete utterances for a specific session. When you use the DeleteUtterances operation, utter- ances stored for improving your bot's ability to respond to user input are del...
+    /// Deletes stored utterances. Amazon Lex stores the utterances that users send to your bot. Utterances are stored for 15 days for use with the ListAggregatedUtterances operation, and then stored indefinitely for use in improving the ability of your bot to respond to user input.. Use the DeleteUtterances operation to manually delete utterances for a specific session. When you use the DeleteUtterances operation, utterances stored for improving your bot's ability to respond to user input are deleted i...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteUtterancesAsync(AwsLexv2ModelsDeleteUtterancesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteUtterancesAsync(AwsLexv2ModelsDeleteUtterancesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get information about a specific bot alias. See also: AWS API Documentation
@@ -363,18 +330,16 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeBotAliasAsync(AwsLexv2ModelsDescribeBotAliasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeBotAliasAsync(AwsLexv2ModelsDescribeBotAliasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves the analysis results and recommendations for bot optimiza- tion. The analysis must be in Available status before recommendations can be retrieved. Recommendations are returned with pagination support. Each recommenda- tion includes the issue location, priority level, detailed description, and proposed fix. See also: AWS API Documentation describe-bot-analyzer-recommendation is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults....
+    /// Retrieves the analysis results and recommendations for bot optimization. The analysis must be in Available status before recommendations can be retrieved. Recommendations are returned with pagination support. Each recommendation includes the issue location, priority level, detailed description, and proposed fix. See also: AWS API Documentation describe-bot-analyzer-recommendation is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You c...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeBotAnalyzerRecommendationAsync(AwsLexv2ModelsDescribeBotAnalyzerRecommendationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeBotAnalyzerRecommendationAsync(AwsLexv2ModelsDescribeBotAnalyzerRecommendationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the settings that a bot has for a specific locale. See also: AWS API Documentation
@@ -383,8 +348,7 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeBotLocaleAsync(AwsLexv2ModelsDescribeBotLocaleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeBotLocaleAsync(AwsLexv2ModelsDescribeBotLocaleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides metadata information about a bot. See also: AWS API Documentation
@@ -393,18 +357,16 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeBotAsync(AwsLexv2ModelsDescribeBotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeBotAsync(AwsLexv2ModelsDescribeBotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Provides metadata information about a bot recommendation. This informa- tion will enable you to get a description on the request inputs, to download associated transcripts after processing is complete, and to download intents and slot-types generated by the bot recommendation. See also: AWS API Documentation
+    /// Provides metadata information about a bot recommendation. This information will enable you to get a description on the request inputs, to download associated transcripts after processing is complete, and to download intents and slot-types generated by the bot recommendation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeBotRecommendationAsync(AwsLexv2ModelsDescribeBotRecommendationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeBotRecommendationAsync(AwsLexv2ModelsDescribeBotRecommendationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Monitors the bot replication status through the UI console. See also: AWS API Documentation
@@ -413,18 +375,16 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeBotReplicaAsync(AwsLexv2ModelsDescribeBotReplicaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeBotReplicaAsync(AwsLexv2ModelsDescribeBotReplicaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns information about a request to generate a bot through natural language description, made through the StartBotResource API. Use the generatedBotLocaleUrl to retrieve the Amazon S3 object containing the bot locale configuration. You can then modify and import this configu- ration. See also: AWS API Documentation
+    /// Returns information about a request to generate a bot through natural language description, made through the StartBotResource API. Use the generatedBotLocaleUrl to retrieve the Amazon S3 object containing the bot locale configuration. You can then modify and import this configuration. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeBotResourceGenerationAsync(AwsLexv2ModelsDescribeBotResourceGenerationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeBotResourceGenerationAsync(AwsLexv2ModelsDescribeBotResourceGenerationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides metadata about a version of a bot. See also: AWS API Documentation
@@ -433,8 +393,7 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeBotVersionAsync(AwsLexv2ModelsDescribeBotVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeBotVersionAsync(AwsLexv2ModelsDescribeBotVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides metadata information about a custom vocabulary. See also: AWS API Documentation
@@ -443,8 +402,7 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeCustomVocabularyMetadataAsync(AwsLexv2ModelsDescribeCustomVocabularyMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeCustomVocabularyMetadataAsync(AwsLexv2ModelsDescribeCustomVocabularyMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about a specific export. See also: AWS API Documentation
@@ -453,8 +411,7 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeExportAsync(AwsLexv2ModelsDescribeExportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeExportAsync(AwsLexv2ModelsDescribeExportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about a specific import. See also: AWS API Documentation
@@ -463,8 +420,7 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeImportAsync(AwsLexv2ModelsDescribeImportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeImportAsync(AwsLexv2ModelsDescribeImportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns metadata about an intent. See also: AWS API Documentation
@@ -473,8 +429,7 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeIntentAsync(AwsLexv2ModelsDescribeIntentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeIntentAsync(AwsLexv2ModelsDescribeIntentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the resource policy and policy revision for a bot or bot alias. See also: AWS API Documentation
@@ -483,8 +438,7 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeResourcePolicyAsync(AwsLexv2ModelsDescribeResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeResourcePolicyAsync(AwsLexv2ModelsDescribeResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets metadata information about a slot. See also: AWS API Documentation
@@ -493,8 +447,7 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeSlotAsync(AwsLexv2ModelsDescribeSlotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeSlotAsync(AwsLexv2ModelsDescribeSlotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets metadata information about a slot type. See also: AWS API Documentation
@@ -503,8 +456,7 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeSlotTypeAsync(AwsLexv2ModelsDescribeSlotTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeSlotTypeAsync(AwsLexv2ModelsDescribeSlotTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets metadata information about the test execution. See also: AWS API Documentation
@@ -513,8 +465,7 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeTestExecutionAsync(AwsLexv2ModelsDescribeTestExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeTestExecutionAsync(AwsLexv2ModelsDescribeTestExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets metadata information about the test set discrepancy report. See also: AWS API Documentation
@@ -523,8 +474,7 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeTestSetDiscrepancyReportAsync(AwsLexv2ModelsDescribeTestSetDiscrepancyReportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeTestSetDiscrepancyReportAsync(AwsLexv2ModelsDescribeTestSetDiscrepancyReportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets metadata information about the test set generation. See also: AWS API Documentation
@@ -533,8 +483,7 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeTestSetGenerationAsync(AwsLexv2ModelsDescribeTestSetGenerationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeTestSetGenerationAsync(AwsLexv2ModelsDescribeTestSetGenerationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets metadata information about the test set. See also: AWS API Documentation
@@ -543,8 +492,7 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeTestSetAsync(AwsLexv2ModelsDescribeTestSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeTestSetAsync(AwsLexv2ModelsDescribeTestSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Generates sample utterances for an intent. See also: AWS API Documentation
@@ -553,38 +501,25 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GenerateBotElementAsync(AwsLexv2ModelsGenerateBotElementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GenerateBotElementAsync(AwsLexv2ModelsGenerateBotElementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// The pre-signed Amazon S3 URL to download the test execution result ar- tifacts. See also: AWS API Documentation
+    /// The pre-signed Amazon S3 URL to download the test execution result artifacts. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTestExecutionArtifactsUrlAsync(AwsLexv2ModelsGetTestExecutionArtifactsUrlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTestExecutionArtifactsUrlAsync(AwsLexv2ModelsGetTestExecutionArtifactsUrlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Provides a list of utterances that users have sent to the bot. Utterances are aggregated by the text of the utterance. For example, all instances where customers used the phrase "I want to order pizza" are aggregated into the same line in the response. You can see both detected utterances and missed utterances. A detected utterance is where the bot properly recognized the utterance and acti- vated the associated intent. A missed utterance was not recognized by the bot and didn't activate an inte...
+    /// Provides a list of utterances that users have sent to the bot. Utterances are aggregated by the text of the utterance. For example, all instances where customers used the phrase "I want to order pizza" are aggregated into the same line in the response. You can see both detected utterances and missed utterances. A detected utterance is where the bot properly recognized the utterance and activated the associated intent. A missed utterance was not recognized by the bot and didn't activate an intent...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAggregatedUtterancesAsync(AwsLexv2ModelsListAggregatedUtterancesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// Gets a list of aliases for the specified bot. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> ListBotAliasesAsync(AwsLexv2ModelsListBotAliasesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAggregatedUtterancesAsync(AwsLexv2ModelsListAggregatedUtterancesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The action to list the replicated bots created from the source bot alias. See also: AWS API Documentation
@@ -593,18 +528,25 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListBotAliasReplicasAsync(AwsLexv2ModelsListBotAliasReplicasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListBotAliasReplicasAsync(AwsLexv2ModelsListBotAliasReplicasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves a list of historical bot analysis executions for a specific bot. You can filter the results by locale and bot version. The history includes all analysis executions regardless of their sta- tus, allowing you to track past analyses and their outcomes. See also: AWS API Documentation list-bot-analyzer-history is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. Wh...
+    /// Gets a list of aliases for the specified bot. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListBotAnalyzerHistoryAsync(AwsLexv2ModelsListBotAnalyzerHistoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListBotAliasesAsync(AwsLexv2ModelsListBotAliasesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Retrieves a list of historical bot analysis executions for a specific bot. You can filter the results by locale and bot version. The history includes all analysis executions regardless of their status, allowing you to track past analyses and their outcomes. See also: AWS API Documentation list-bot-analyzer-history is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ListBotAnalyzerHistoryAsync(AwsLexv2ModelsListBotAnalyzerHistoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a list of locales for the specified bot. See also: AWS API Documentation
@@ -613,8 +555,7 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListBotLocalesAsync(AwsLexv2ModelsListBotLocalesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListBotLocalesAsync(AwsLexv2ModelsListBotLocalesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get a list of bot recommendations that meet the specified criteria. See also: AWS API Documentation
@@ -623,8 +564,7 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListBotRecommendationsAsync(AwsLexv2ModelsListBotRecommendationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListBotRecommendationsAsync(AwsLexv2ModelsListBotRecommendationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The action to list the replicated bots. See also: AWS API Documentation
@@ -633,8 +573,7 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListBotReplicasAsync(AwsLexv2ModelsListBotReplicasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListBotReplicasAsync(AwsLexv2ModelsListBotReplicasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the generation requests made for a bot locale. See also: AWS API Documentation
@@ -643,8 +582,25 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListBotResourceGenerationsAsync(AwsLexv2ModelsListBotResourceGenerationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListBotResourceGenerationsAsync(AwsLexv2ModelsListBotResourceGenerationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Contains information about all the versions replication statuses applicable for Global Resiliency. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ListBotVersionReplicasAsync(AwsLexv2ModelsListBotVersionReplicasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Gets information about all of the versions of a bot. The ListBotVersions operation returns a summary of each version of a bot. For example, if a bot has three numbered versions, the ListBotVersions operation returns for summaries, one for each numbered version and one for the DRAFT version. The ListBotVersions operation always returns at least one version, the DRAFT version. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ListBotVersionsAsync(AwsLexv2ModelsListBotVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a list of available bots. See also: AWS API Documentation
@@ -653,28 +609,7 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListBotsAsync(AwsLexv2ModelsListBotsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// Contains information about all the versions replication statuses ap- plicable for Global Resiliency. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> ListBotVersionReplicasAsync(AwsLexv2ModelsListBotVersionReplicasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// Gets information about all of the versions of a bot. The ListBotVersions operation returns a summary of each version of a bot. For example, if a bot has three numbered versions, the ListBotVer- sions operation returns for summaries, one for each numbered version and one for the DRAFT version. The ListBotVersions operation always returns at least one version, the DRAFT version. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> ListBotVersionsAsync(AwsLexv2ModelsListBotVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListBotsAsync(AwsLexv2ModelsListBotsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a list of built-in intents provided by Amazon Lex that you can use in your bot. To use a built-in intent as a the base for your own intent, include the built-in intent signature in the parentIntentSignature parameter when you call the CreateIntent operation. For more information, see CreateIntent . See also: AWS API Documentation
@@ -683,8 +618,7 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListBuiltInIntentsAsync(AwsLexv2ModelsListBuiltInIntentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListBuiltInIntentsAsync(AwsLexv2ModelsListBuiltInIntentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a list of built-in slot types that meet the specified criteria. See also: AWS API Documentation
@@ -693,18 +627,16 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListBuiltInSlotTypesAsync(AwsLexv2ModelsListBuiltInSlotTypesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListBuiltInSlotTypesAsync(AwsLexv2ModelsListBuiltInSlotTypesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Paginated list of custom vocabulary items for a given bot locale's cus- tom vocabulary. See also: AWS API Documentation
+    /// Paginated list of custom vocabulary items for a given bot locale's custom vocabulary. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListCustomVocabularyItemsAsync(AwsLexv2ModelsListCustomVocabularyItemsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListCustomVocabularyItemsAsync(AwsLexv2ModelsListCustomVocabularyItemsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the exports for a bot, bot locale, or custom vocabulary. Exports are kept in the list for 7 days. See also: AWS API Documentation
@@ -713,8 +645,7 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListExportsAsync(AwsLexv2ModelsListExportsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListExportsAsync(AwsLexv2ModelsListExportsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the imports for a bot, bot locale, or custom vocabulary. Imports are kept in the list for 7 days. See also: AWS API Documentation
@@ -723,28 +654,34 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListImportsAsync(AwsLexv2ModelsListImportsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListImportsAsync(AwsLexv2ModelsListImportsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves summary metrics for the intents in your bot. The following fields are required: o metrics A list of AnalyticsIntentMetric objects. In each object, use the name field to specify the metric to calculate, the statistic field to specify whether to calculate the Sum , Average , or Max num- ber, and the order field to specify whether to sort the results in Ascending or Descending order. o startDateTime and endDateTime Define a time range for which you want to retrieve results. Of the optiona...
+    /// Retrieves summary metrics for the intents in your bot. The following fields are required: • metrics A list of AnalyticsIntentMetric objects. In each object, use the name field to specify the metric to calculate, the statistic field to specify whether to calculate the Sum , Average , or Max number, and the order field to specify whether to sort the results in Ascending or Descending order. • startDateTime and endDateTime Define a time range for which you want to retrieve results. Of the optional ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListIntentMetricsAsync(AwsLexv2ModelsListIntentMetricsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListIntentMetricsAsync(AwsLexv2ModelsListIntentMetricsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves summary statistics for a path of intents that users take over sessions with your bot. The following fields are required: o startDateTime and endDateTime Define a time range for which you want to retrieve results. o intentPath Define an order of intents for which you want to retrieve metrics. Separate intents in the path with a forward slash. For exam- ple, populate the intentPath field with /BookCar/BookHotel to see de- tails about how many times users invoked the BookCar and BookHotel...
+    /// Retrieves summary statistics for a path of intents that users take over sessions with your bot. The following fields are required: • startDateTime and endDateTime Define a time range for which you want to retrieve results. • intentPath Define an order of intents for which you want to retrieve metrics. Separate intents in the path with a forward slash. For example, populate the intentPath field with /BookCar/BookHotel to see details about how many times users invoked the BookCar and BookHotel int...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListIntentPathsAsync(AwsLexv2ModelsListIntentPathsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListIntentPathsAsync(AwsLexv2ModelsListIntentPathsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Retrieves summary metrics for the stages within intents in your bot. The following fields are required: • metrics A list of AnalyticsIntentStageMetric objects. In each object, use the name field to specify the metric to calculate, the statistic field to specify whether to calculate the Sum , Average , or Max number, and the order field to specify whether to sort the results in Ascending or Descending order. • startDateTime and endDateTime Define a time range for which you want to retrieve result...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ListIntentStageMetricsAsync(AwsLexv2ModelsListIntentStageMetricsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get a list of intents that meet the specified criteria. See also: AWS API Documentation
@@ -753,18 +690,7 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListIntentsAsync(AwsLexv2ModelsListIntentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// Retrieves summary metrics for the stages within intents in your bot. The following fields are required: o metrics A list of AnalyticsIntentStageMetric objects. In each ob- ject, use the name field to specify the metric to calculate, the sta- tistic field to specify whether to calculate the Sum , Average , or Max number, and the order field to specify whether to sort the re- sults in Ascending or Descending order. o startDateTime and endDateTime Define a time range for which you want to retrieve ...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> ListIntentStageMetricsAsync(AwsLexv2ModelsListIntentStageMetricsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListIntentsAsync(AwsLexv2ModelsListIntentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a list of recommended intents provided by the bot recommendation that you can use in your bot. Intents in the response are ordered by relevance. See also: AWS API Documentation
@@ -773,38 +699,25 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRecommendedIntentsAsync(AwsLexv2ModelsListRecommendedIntentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRecommendedIntentsAsync(AwsLexv2ModelsListRecommendedIntentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves a list of metadata for individual user sessions with your bot. The startDateTime and endDateTime fields are required. These fields define a time range for which you want to retrieve results. Of the optional fields, you can organize the results in the following ways: o Use the filters field to filter the results and the sortBy field to specify the values by which to sort the results. o Use the maxResults field to limit the number of results to return in a single response and the nextTok...
+    /// Retrieves a list of metadata for individual user sessions with your bot. The startDateTime and endDateTime fields are required. These fields define a time range for which you want to retrieve results. Of the optional fields, you can organize the results in the following ways: • Use the filters field to filter the results and the sortBy field to specify the values by which to sort the results. • Use the maxResults field to limit the number of results to return in a single response and the nextTok...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSessionAnalyticsDataAsync(AwsLexv2ModelsListSessionAnalyticsDataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSessionAnalyticsDataAsync(AwsLexv2ModelsListSessionAnalyticsDataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves summary metrics for the user sessions with your bot. The fol- lowing fields are required: o metrics A list of AnalyticsSessionMetric objects. In each object, use the name field to specify the metric to calculate, the statistic field to specify whether to calculate the Sum , Average , or Max num- ber, and the order field to specify whether to sort the results in Ascending or Descending order. o startDateTime and endDateTime Define a time range for which you want to retrieve results. Of ...
+    /// Retrieves summary metrics for the user sessions with your bot. The following fields are required: • metrics A list of AnalyticsSessionMetric objects. In each object, use the name field to specify the metric to calculate, the statistic field to specify whether to calculate the Sum , Average , or Max number, and the order field to specify whether to sort the results in Ascending or Descending order. • startDateTime and endDateTime Define a time range for which you want to retrieve results. Of the ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSessionMetricsAsync(AwsLexv2ModelsListSessionMetricsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// Gets a list of slots that match the specified criteria. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSlotsAsync(AwsLexv2ModelsListSlotsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSessionMetricsAsync(AwsLexv2ModelsListSessionMetricsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a list of slot types that match the specified criteria. See also: AWS API Documentation
@@ -813,8 +726,16 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSlotTypesAsync(AwsLexv2ModelsListSlotTypesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSlotTypesAsync(AwsLexv2ModelsListSlotTypesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Gets a list of slots that match the specified criteria. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ListSlotsAsync(AwsLexv2ModelsListSlotsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a list of tags associated with a resource. Only bots, bot aliases, and bot channels can have tags associated with them. See also: AWS API Documentation
@@ -823,8 +744,7 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsLexv2ModelsListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsLexv2ModelsListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a list of test execution result items. See also: AWS API Documentation
@@ -833,8 +753,7 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTestExecutionResultItemsAsync(AwsLexv2ModelsListTestExecutionResultItemsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTestExecutionResultItemsAsync(AwsLexv2ModelsListTestExecutionResultItemsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The list of test set executions. See also: AWS API Documentation
@@ -843,8 +762,7 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTestExecutionsAsync(AwsLexv2ModelsListTestExecutionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTestExecutionsAsync(AwsLexv2ModelsListTestExecutionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The list of test set records. See also: AWS API Documentation
@@ -853,8 +771,7 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTestSetRecordsAsync(AwsLexv2ModelsListTestSetRecordsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTestSetRecordsAsync(AwsLexv2ModelsListTestSetRecordsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The list of the test sets See also: AWS API Documentation
@@ -863,28 +780,25 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTestSetsAsync(AwsLexv2ModelsListTestSetsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTestSetsAsync(AwsLexv2ModelsListTestSetsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// NOTE: To use this API operation, your IAM role must have permissions to perform the ListAggregatedUtterances operation, which provides ac- cess to utterance-related analytics. See Viewing utterance statis- tics for the IAM policy to apply to the IAM role. Retrieves a list of metadata for individual user utterances to your bot. The following fields are required: o startDateTime and endDateTime Define a time range for which you want to retrieve results. Of the optional fields, you can organize the...
+    /// NOTE: To use this API operation, your IAM role must have permissions to perform the ListAggregatedUtterances operation, which provides access to utterance-related analytics. See Viewing utterance statistics for the IAM policy to apply to the IAM role. Retrieves a list of metadata for individual user utterances to your bot. The following fields are required: • startDateTime and endDateTime Define a time range for which you want to retrieve results. Of the optional fields, you can organize the res...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListUtteranceAnalyticsDataAsync(AwsLexv2ModelsListUtteranceAnalyticsDataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListUtteranceAnalyticsDataAsync(AwsLexv2ModelsListUtteranceAnalyticsDataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// NOTE: To use this API operation, your IAM role must have permissions to perform the ListAggregatedUtterances operation, which provides ac- cess to utterance-related analytics. See Viewing utterance statis- tics for the IAM policy to apply to the IAM role. Retrieves summary metrics for the utterances in your bot. The following fields are required: o metrics A list of AnalyticsUtteranceMetric objects. In each object, use the name field to specify the metric to calculate, the statistic field to spe...
+    /// NOTE: To use this API operation, your IAM role must have permissions to perform the ListAggregatedUtterances operation, which provides access to utterance-related analytics. See Viewing utterance statistics for the IAM policy to apply to the IAM role. Retrieves summary metrics for the utterances in your bot. The following fields are required: • metrics A list of AnalyticsUtteranceMetric objects. In each object, use the name field to specify the metric to calculate, the statistic field to specify...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListUtteranceMetricsAsync(AwsLexv2ModelsListUtteranceMetricsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListUtteranceMetricsAsync(AwsLexv2ModelsListUtteranceMetricsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Search for associated transcripts that meet the specified criteria. See also: AWS API Documentation
@@ -893,38 +807,34 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchAssociatedTranscriptsAsync(AwsLexv2ModelsSearchAssociatedTranscriptsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchAssociatedTranscriptsAsync(AwsLexv2ModelsSearchAssociatedTranscriptsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Initiates an asynchronous analysis of your bot configuration using AI-powered analysis to identify potential issues and recommend improve- ments based on AWS best practices. The analysis examines your bot's configuration, including intents, ut- terances, slots, and conversation flows, to provide actionable recom- mendations for optimization. See also: AWS API Documentation
+    /// Initiates an asynchronous analysis of your bot configuration using AI-powered analysis to identify potential issues and recommend improvements based on AWS best practices. The analysis examines your bot's configuration, including intents, utterances, slots, and conversation flows, to provide actionable recommendations for optimization. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartBotAnalyzerAsync(AwsLexv2ModelsStartBotAnalyzerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartBotAnalyzerAsync(AwsLexv2ModelsStartBotAnalyzerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Use this to provide your transcript data, and to start the bot recom- mendation process. See also: AWS API Documentation
+    /// Use this to provide your transcript data, and to start the bot recommendation process. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartBotRecommendationAsync(AwsLexv2ModelsStartBotRecommendationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartBotRecommendationAsync(AwsLexv2ModelsStartBotRecommendationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Starts a request for the descriptive bot builder to generate a bot lo- cale configuration based on the prompt you provide it. After you make this call, use the DescribeBotResourceGeneration operation to check on the status of the generation and for the generatedBotLocaleUrl when the generation is complete. Use that value to retrieve the Amazon S3 object containing the bot locale configuration. You can then modify and import this configuration. See also: AWS API Documentation
+    /// Starts a request for the descriptive bot builder to generate a bot locale configuration based on the prompt you provide it. After you make this call, use the DescribeBotResourceGeneration operation to check on the status of the generation and for the generatedBotLocaleUrl when the generation is complete. Use that value to retrieve the Amazon S3 object containing the bot locale configuration. You can then modify and import this configuration. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartBotResourceGenerationAsync(AwsLexv2ModelsStartBotResourceGenerationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartBotResourceGenerationAsync(AwsLexv2ModelsStartBotResourceGenerationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts importing a bot, bot locale, or custom vocabulary from a zip archive that you uploaded to an S3 bucket. See also: AWS API Documentation
@@ -933,8 +843,7 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartImportAsync(AwsLexv2ModelsStartImportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartImportAsync(AwsLexv2ModelsStartImportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The action to start test set execution. See also: AWS API Documentation
@@ -943,8 +852,7 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartTestExecutionAsync(AwsLexv2ModelsStartTestExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartTestExecutionAsync(AwsLexv2ModelsStartTestExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The action to start the generation of test set. See also: AWS API Documentation
@@ -953,8 +861,7 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartTestSetGenerationAsync(AwsLexv2ModelsStartTestSetGenerationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartTestSetGenerationAsync(AwsLexv2ModelsStartTestSetGenerationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Cancels an ongoing bot analysis execution. Once stopped, the analysis cannot be resumed and no recommendations will be generated. See also: AWS API Documentation
@@ -963,8 +870,7 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopBotAnalyzerAsync(AwsLexv2ModelsStopBotAnalyzerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopBotAnalyzerAsync(AwsLexv2ModelsStopBotAnalyzerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stop an already running Bot Recommendation request. See also: AWS API Documentation
@@ -973,8 +879,7 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopBotRecommendationAsync(AwsLexv2ModelsStopBotRecommendationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopBotRecommendationAsync(AwsLexv2ModelsStopBotRecommendationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds the specified tags to the specified resource. If a tag key already exists, the existing value is replaced with the new value. See also: AWS API Documentation
@@ -983,8 +888,7 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsLexv2ModelsTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsLexv2ModelsTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes tags from a bot, bot alias, or bot channel. See also: AWS API Documentation
@@ -993,8 +897,7 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsLexv2ModelsUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsLexv2ModelsUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the configuration of an existing bot alias. See also: AWS API Documentation
@@ -1003,8 +906,7 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateBotAliasAsync(AwsLexv2ModelsUpdateBotAliasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateBotAliasAsync(AwsLexv2ModelsUpdateBotAliasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the settings that a bot has for a specific locale. See also: AWS API Documentation
@@ -1013,8 +915,7 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateBotLocaleAsync(AwsLexv2ModelsUpdateBotLocaleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateBotLocaleAsync(AwsLexv2ModelsUpdateBotLocaleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the configuration of an existing bot. See also: AWS API Documentation
@@ -1023,8 +924,7 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateBotAsync(AwsLexv2ModelsUpdateBotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateBotAsync(AwsLexv2ModelsUpdateBotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing bot recommendation request. See also: AWS API Documentation
@@ -1033,8 +933,7 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateBotRecommendationAsync(AwsLexv2ModelsUpdateBotRecommendationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateBotRecommendationAsync(AwsLexv2ModelsUpdateBotRecommendationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the password used to protect an export zip archive. The password is not required. If you don't supply a password, Amazon Lex generates a zip file that is not protected by a password. This is the archive that is available at the pre-signed S3 URL provided by the DescribeExport operation. See also: AWS API Documentation
@@ -1043,8 +942,7 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateExportAsync(AwsLexv2ModelsUpdateExportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateExportAsync(AwsLexv2ModelsUpdateExportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the settings for an intent. See also: AWS API Documentation
@@ -1053,8 +951,7 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateIntentAsync(AwsLexv2ModelsUpdateIntentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateIntentAsync(AwsLexv2ModelsUpdateIntentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Replaces the existing resource policy for a bot or bot alias with a new one. If the policy doesn't exist, Amazon Lex returns an exception. See also: AWS API Documentation
@@ -1063,8 +960,7 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateResourcePolicyAsync(AwsLexv2ModelsUpdateResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateResourcePolicyAsync(AwsLexv2ModelsUpdateResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the settings for a slot. See also: AWS API Documentation
@@ -1073,8 +969,7 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateSlotAsync(AwsLexv2ModelsUpdateSlotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateSlotAsync(AwsLexv2ModelsUpdateSlotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the configuration of an existing slot type. See also: AWS API Documentation
@@ -1083,8 +978,7 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateSlotTypeAsync(AwsLexv2ModelsUpdateSlotTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateSlotTypeAsync(AwsLexv2ModelsUpdateSlotTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The action to update the test set. See also: AWS API Documentation
@@ -1093,7 +987,6 @@ public interface IAwsLexv2Models
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateTestSetAsync(AwsLexv2ModelsUpdateTestSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateTestSetAsync(AwsLexv2ModelsUpdateTestSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

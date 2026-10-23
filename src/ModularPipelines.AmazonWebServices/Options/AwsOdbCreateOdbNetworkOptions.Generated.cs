@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -30,8 +30,8 @@ public record AwsOdbCreateOdbNetworkOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates an ODB network. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DisplayName">A user-friendly name for the ODB network. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z_](?!.*--)[a-zA-Z0-9_-]*</param>
-    /// <param name="ClientSubnetCidr">The CIDR range of the client subnet for the ODB network. Constraints: o Must not overlap with the CIDR range of the backup subnet. o Must not overlap with the CIDR ranges of the VPCs that are con- nected to the ODB network. o Must not use the following CIDR ranges that are reserved by OCI: o 100.106.0.0/16 and 100.107.0.0/16 o 169.254.0.0/16 o 224.0.0.0 - 239.255.255.255 o 240.0.0.0 - 255.255.255.255 Constraints: o min: 1 o max: 43</param>
+    /// <param name="DisplayName">A user-friendly name for the ODB network. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z_](?!.*--)[a-zA-Z0-9_-]*</param>
+    /// <param name="ClientSubnetCidr">The CIDR range of the client subnet for the ODB network. Constraints: • Must not overlap with the CIDR range of the backup subnet. • Must not overlap with the CIDR ranges of the VPCs that are connected to the ODB network. • Must not use the following CIDR ranges that are reserved by OCI: • 100.106.0.0/16 and 100.107.0.0/16 • 169.254.0.0/16 • 224.0.0.0 - 239.255.255.255 • 240.0.0.0 - 255.255.255.255 Constraints: • min: 1 • max: 43</param>
     public AwsOdbCreateOdbNetworkOptions(
         string DisplayName,
         string ClientSubnetCidr
@@ -63,104 +63,104 @@ public record AwsOdbCreateOdbNetworkOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A user-friendly name for the ODB network. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z_](?!.*--)[a-zA-Z0-9_-]*
+    /// A user-friendly name for the ODB network. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z_](?!.*--)[a-zA-Z0-9_-]*
     /// </summary>
     [CliOption("--display-name")]
     public string? DisplayName { get; private init; }
 
     /// <summary>
-    /// The CIDR range of the client subnet for the ODB network. Constraints: o Must not overlap with the CIDR range of the backup subnet. o Must not overlap with the CIDR ranges of the VPCs that are con- nected to the ODB network. o Must not use the following CIDR ranges that are reserved by OCI: o 100.106.0.0/16 and 100.107.0.0/16 o 169.254.0.0/16 o 224.0.0.0 - 239.255.255.255 o 240.0.0.0 - 255.255.255.255 Constraints: o min: 1 o max: 43
+    /// The CIDR range of the client subnet for the ODB network. Constraints: • Must not overlap with the CIDR range of the backup subnet. • Must not overlap with the CIDR ranges of the VPCs that are connected to the ODB network. • Must not use the following CIDR ranges that are reserved by OCI: • 100.106.0.0/16 and 100.107.0.0/16 • 169.254.0.0/16 • 224.0.0.0 - 239.255.255.255 • 240.0.0.0 - 255.255.255.255 Constraints: • min: 1 • max: 43
     /// </summary>
     [CliOption("--client-subnet-cidr")]
     public string? ClientSubnetCidr { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services Availability Zone (AZ) where the ODB network is located. This operation requires that you specify a value for either avail- abilityZone or availabilityZoneId . Constraints: o min: 1 o max: 255
+    /// The Amazon Web Services Availability Zone (AZ) where the ODB network is located. This operation requires that you specify a value for either availabilityZone or availabilityZoneId . Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--availability-zone")]
     public string? AvailabilityZone { get; set; }
 
     /// <summary>
-    /// The AZ ID of the AZ where the ODB network is located. This operation requires that you specify a value for either avail- abilityZone or availabilityZoneId . Constraints: o min: 1 o max: 255
+    /// The AZ ID of the AZ where the ODB network is located. This operation requires that you specify a value for either availabilityZone or availabilityZoneId . Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--availability-zone-id")]
     public string? AvailabilityZoneId { get; set; }
 
     /// <summary>
-    /// The CIDR range of the backup subnet for the ODB network. Constraints: o Must not overlap with the CIDR range of the client subnet. o Must not overlap with the CIDR ranges of the VPCs that are con- nected to the ODB network. o Must not use the following CIDR ranges that are reserved by OCI: o 100.106.0.0/16 and 100.107.0.0/16 o 169.254.0.0/16 o 224.0.0.0 - 239.255.255.255 o 240.0.0.0 - 255.255.255.255 Constraints: o min: 1 o max: 43
+    /// The CIDR range of the backup subnet for the ODB network. Constraints: • Must not overlap with the CIDR range of the client subnet. • Must not overlap with the CIDR ranges of the VPCs that are connected to the ODB network. • Must not use the following CIDR ranges that are reserved by OCI: • 100.106.0.0/16 and 100.107.0.0/16 • 169.254.0.0/16 • 224.0.0.0 - 239.255.255.255 • 240.0.0.0 - 255.255.255.255 Constraints: • min: 1 • max: 43
     /// </summary>
     [CliOption("--backup-subnet-cidr")]
     public string? BackupSubnetCidr { get; set; }
 
     /// <summary>
-    /// The domain name to use for the resources in the ODB network. Constraints: o min: 1 o max: 255
+    /// The domain name to use for the resources in the ODB network. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--custom-domain-name")]
     public string? CustomDomainName { get; set; }
 
     /// <summary>
-    /// The DNS prefix to the default DNS domain name. The default DNS do- main name is oraclevcn.com. Constraints: o min: 1 o max: 15 o pattern: [a-zA-Z][a-zA-Z0-9]*
+    /// The DNS prefix to the default DNS domain name. The default DNS domain name is oraclevcn.com. Constraints: • min: 1 • max: 15 • pattern: [a-zA-Z][a-zA-Z0-9]*
     /// </summary>
     [CliOption("--default-dns-prefix")]
     public string? DefaultDnsPrefix { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency. The client token is valid for up to 24 hours after it's first used. Constraints: o min: 8 o max: 64 o pattern: [a-zA-Z0-9_\/.=-]+
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency. The client token is valid for up to 24 hours after it's first used. Constraints: • min: 8 • max: 64 • pattern: [a-zA-Z0-9_\/.=-]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// Specifies the configuration for Amazon S3 access from the ODB net- work. Possible values: o ENABLED o DISABLED
+    /// Specifies the configuration for Amazon S3 access from the ODB network. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--s3-access")]
     public AwsOdbCreateOdbNetworkS3Access? S3Access { get; set; }
 
     /// <summary>
-    /// Specifies the configuration for Zero-ETL access from the ODB net- work. Possible values: o ENABLED o DISABLED
+    /// Specifies the configuration for Zero-ETL access from the ODB network. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--zero-etl-access")]
     public AwsOdbCreateOdbNetworkZeroEtlAccess? ZeroEtlAccess { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services Security Token Service (STS) access configu- ration for the ODB network. Possible values: o ENABLED o DISABLED
+    /// The Amazon Web Services Security Token Service (STS) access configuration for the ODB network. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--sts-access")]
     public AwsOdbCreateOdbNetworkStsAccess? StsAccess { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services Key Management Service (KMS) access configu- ration for the ODB network. Possible values: o ENABLED o DISABLED
+    /// The Amazon Web Services Key Management Service (KMS) access configuration for the ODB network. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--kms-access")]
     public AwsOdbCreateOdbNetworkKmsAccess? KmsAccess { get; set; }
 
     /// <summary>
-    /// Specifies the endpoint policy for Amazon S3 access from the ODB net- work. Constraints: o min: 3 o max: 20480
+    /// Specifies the endpoint policy for Amazon S3 access from the ODB network. Constraints: • min: 3 • max: 20480
     /// </summary>
     [CliOption("--s3-policy-document")]
     public string? S3PolicyDocument { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services Security Token Service (STS) policy document that defines permissions for token service usage within the ODB net- work. Constraints: o min: 3 o max: 20480
+    /// The Amazon Web Services Security Token Service (STS) policy document that defines permissions for token service usage within the ODB network. Constraints: • min: 3 • max: 20480
     /// </summary>
     [CliOption("--sts-policy-document")]
     public string? StsPolicyDocument { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services Key Management Service (KMS) policy document that defines permissions for key usage within the ODB network. Constraints: o min: 3 o max: 20480
+    /// The Amazon Web Services Key Management Service (KMS) policy document that defines permissions for key usage within the ODB network. Constraints: • min: 3 • max: 20480
     /// </summary>
     [CliOption("--kms-policy-document")]
     public string? KmsPolicyDocument { get; set; }
 
     /// <summary>
-    /// The cross-Region Amazon S3 restore sources to enable for the ODB network. Constraints: o min: 1 o max: 1024 (string) Syntax: "string" "string" ...
+    /// The cross-Region Amazon S3 restore sources to enable for the ODB network. Constraints: • min: 1 • max: 1024 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--cross-region-s3-restore-sources-to-enable", GroupValues = true)]
     public IEnumerable<string>? CrossRegionS3RestoreSourcesToEnable { get; set; }
 
     /// <summary>
-    /// The list of resource tags to apply to the ODB network. Constraints: o min: 1 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The list of resource tags to apply to the ODB network. Constraints: • min: 1 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -186,6 +186,15 @@ public record AwsOdbCreateOdbNetworkOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

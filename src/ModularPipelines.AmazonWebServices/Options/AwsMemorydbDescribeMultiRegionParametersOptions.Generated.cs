@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the detailed parameter list for a particular multi-region para- meter group. See also: AWS API Documentation
+/// Returns the detailed parameter list for a particular multi-region parameter group. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +27,7 @@ public record AwsMemorydbDescribeMultiRegionParametersOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the detailed parameter list for a particular multi-region para- meter group. See also: AWS API Documentation
+    /// Returns the detailed parameter list for a particular multi-region parameter group. See also: AWS API Documentation
     /// </summary>
     /// <param name="MultiRegionParameterGroupName">The name of the multi-region parameter group to return details for.</param>
     public AwsMemorydbDescribeMultiRegionParametersOptions(
@@ -63,19 +64,19 @@ public record AwsMemorydbDescribeMultiRegionParametersOptions : AwsOptions, IVal
     public string? MultiRegionParameterGroupName { get; private init; }
 
     /// <summary>
-    /// The parameter types to return. Valid values: user | system | en- gine-default
+    /// The parameter types to return. Valid values: user | system | engine-default
     /// </summary>
     [CliOption("--source")]
     public string? Source { get; set; }
 
     /// <summary>
-    /// The maximum number of records to include in the response. If more records exist than the specified MaxResults value, a token is in- cluded in the response so that the remaining results can be re- trieved.
+    /// The maximum number of records to include in the response. If more records exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is speci- fied, the response includes only results beyond the token, up to the value specified by MaxResults.
+    /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -102,6 +103,15 @@ public record AwsMemorydbDescribeMultiRegionParametersOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

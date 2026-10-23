@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates or updates the intelligence configuration for the calling ac- count. Account is identified via FAS (caller identity). See also: AWS API Documentation
+/// Creates or updates the intelligence configuration for the calling account. Account is identified via FAS (caller identity). See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,19 +23,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsCloudwatchomniPutIntelligenceConfigurationOptions : AwsOptions
 {
     /// <summary>
-    /// Optional KMS key ARN to configure customer-managed encryption for anomaly data. Constraints: o min: 1 o max: 2048 o pattern: arn:(aws|aws-cn|aws-us-gov):kms:[a-z0-9-]+:[0-9]{12}:key/(?:mrk-)?[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// Optional KMS key ARN to configure customer-managed encryption for anomaly data. Constraints: • min: 1 • max: 2048 • pattern: arn:(aws|aws-cn|aws-us-gov):kms:[a-z0-9-]+:[0-9]{12}:key/(?:mrk-)?[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--kms-key-arn")]
     public string? KmsKeyArn { get; set; }
 
     /// <summary>
-    /// Set to true to disassociate the configured KMS key. Mutually exclu- sive with kmsKeyArn; the service returns ValidationException if both are provided.
+    /// Set to true to disassociate the configured KMS key. Mutually exclusive with kmsKeyArn; the service returns ValidationException if both are provided.
     /// </summary>
     [CliFlag("--remove-kms-key", NegatedName = "--no-remove-kms-key")]
     public bool? RemoveKmsKey { get; set; }
 
     /// <summary>
-    /// Idempotency token for safe retries. Repeating a request with the same token applies the update at most once instead of reprocessing it. Constraints: o min: 1 o max: 64 o pattern: [!-~]+
+    /// Idempotency token for safe retries. Repeating a request with the same token applies the update at most once instead of reprocessing it. Constraints: • min: 1 • max: 64 • pattern: [!-~]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -46,5 +46,14 @@ public record AwsCloudwatchomniPutIntelligenceConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

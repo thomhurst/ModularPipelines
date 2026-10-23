@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsFmsDeleteProtocolsListOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Permanently deletes an Firewall Manager protocols list. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ListId">The ID of the protocols list that you want to delete. You can re- trieve this ID from PutProtocolsList , ListProtocolsLists , and Get- ProtocolsLost . Constraints: o min: 36 o max: 36 o pattern: ^[a-z0-9A-Z-]{36}$</param>
+    /// <param name="ListId">The ID of the protocols list that you want to delete. You can retrieve this ID from PutProtocolsList , ListProtocolsLists , and GetProtocolsLost . Constraints: • min: 36 • max: 36 • pattern: ^[a-z0-9A-Z-]{36}$</param>
     public AwsFmsDeleteProtocolsListOptions(
         string ListId
     )
@@ -56,7 +57,7 @@ public record AwsFmsDeleteProtocolsListOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the protocols list that you want to delete. You can re- trieve this ID from PutProtocolsList , ListProtocolsLists , and Get- ProtocolsLost . Constraints: o min: 36 o max: 36 o pattern: ^[a-z0-9A-Z-]{36}$
+    /// The ID of the protocols list that you want to delete. You can retrieve this ID from PutProtocolsList , ListProtocolsLists , and GetProtocolsLost . Constraints: • min: 36 • max: 36 • pattern: ^[a-z0-9A-Z-]{36}$
     /// </summary>
     [CliOption("--list-id")]
     public string? ListId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsFmsDeleteProtocolsListOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

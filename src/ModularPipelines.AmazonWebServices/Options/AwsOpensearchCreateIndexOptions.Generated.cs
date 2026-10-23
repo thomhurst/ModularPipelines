@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an OpenSearch index with optional automatic semantic enrichment for specified text fields. Automatic semantic enrichment enables seman- tic search capabilities without requiring machine learning expertise, improving search relevance by up to 20% by understanding search intent and contextual meaning beyond keyword matching. The semantic enrichment process has zero impact on search latency as sparse encodings are stored directly within the index during indexing. For more information, see A...
+/// Creates an OpenSearch index with optional automatic semantic enrichment for specified text fields. Automatic semantic enrichment enables semantic search capabilities without requiring machine learning expertise, improving search relevance by up to 20% by understanding search intent and contextual meaning beyond keyword matching. The semantic enrichment process has zero impact on search latency as sparse encodings are stored directly within the index during indexing. For more information, see Aut...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsOpensearchCreateIndexOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an OpenSearch index with optional automatic semantic enrichment for specified text fields. Automatic semantic enrichment enables seman- tic search capabilities without requiring machine learning expertise, improving search relevance by up to 20% by understanding search intent and contextual meaning beyond keyword matching. The semantic enrichment process has zero impact on search latency as sparse encodings are stored directly within the index during indexing. For more information, see A...
+    /// Creates an OpenSearch index with optional automatic semantic enrichment for specified text fields. Automatic semantic enrichment enables semantic search capabilities without requiring machine learning expertise, improving search relevance by up to 20% by understanding search intent and contextual meaning beyond keyword matching. The semantic enrichment process has zero impact on search latency as sparse encodings are stored directly within the index during indexing. For more information, see Aut...
     /// </summary>
-    /// <param name="DomainName">The name of an OpenSearch Service domain. Domain names are unique across the domains owned by an account within an Amazon Web Services Region. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+</param>
-    /// <param name="IndexName">The name of the index to create. Must be between 1 and 255 charac- ters and follow OpenSearch naming conventions. Constraints: o min: 1 o max: 255 o pattern: ^(?!\.\.?$)[^_ ,:"+/*\\|?#&gt;&lt;A-Z-][^ ,:"+/*\\|?#&gt;&lt;A-Z]*$</param>
-    /// <param name="IndexSchema">The JSON schema defining index mappings, settings, and semantic en- richment configuration. The schema specifies which text fields should be automatically enriched for semantic search capabilities and includes OpenSearch index configuration parameters. JSON Syntax: {...}</param>
+    /// <param name="DomainName">The name of an OpenSearch Service domain. Domain names are unique across the domains owned by an account within an Amazon Web Services Region. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+</param>
+    /// <param name="IndexName">The name of the index to create. Must be between 1 and 255 characters and follow OpenSearch naming conventions. Constraints: • min: 1 • max: 255 • pattern: ^(?!\.\.?$)[^_ ,:"+/*\\|?#&gt;&lt;A-Z-][^ ,:"+/*\\|?#&gt;&lt;A-Z]*$</param>
+    /// <param name="IndexSchema">The JSON schema defining index mappings, settings, and semantic enrichment configuration. The schema specifies which text fields should be automatically enriched for semantic search capabilities and includes OpenSearch index configuration parameters. JSON Syntax: {...}</param>
     public AwsOpensearchCreateIndexOptions(
         string DomainName,
         string IndexName,
@@ -64,19 +65,19 @@ public record AwsOpensearchCreateIndexOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of an OpenSearch Service domain. Domain names are unique across the domains owned by an account within an Amazon Web Services Region. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+
+    /// The name of an OpenSearch Service domain. Domain names are unique across the domains owned by an account within an Amazon Web Services Region. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// The name of the index to create. Must be between 1 and 255 charac- ters and follow OpenSearch naming conventions. Constraints: o min: 1 o max: 255 o pattern: ^(?!\.\.?$)[^_ ,:"+/*\\|?#&gt;&lt;A-Z-][^ ,:"+/*\\|?#&gt;&lt;A-Z]*$
+    /// The name of the index to create. Must be between 1 and 255 characters and follow OpenSearch naming conventions. Constraints: • min: 1 • max: 255 • pattern: ^(?!\.\.?$)[^_ ,:"+/*\\|?#&gt;&lt;A-Z-][^ ,:"+/*\\|?#&gt;&lt;A-Z]*$
     /// </summary>
     [CliOption("--index-name")]
     public string? IndexName { get; private init; }
 
     /// <summary>
-    /// The JSON schema defining index mappings, settings, and semantic en- richment configuration. The schema specifies which text fields should be automatically enriched for semantic search capabilities and includes OpenSearch index configuration parameters. JSON Syntax: {...}
+    /// The JSON schema defining index mappings, settings, and semantic enrichment configuration. The schema specifies which text fields should be automatically enriched for semantic search capabilities and includes OpenSearch index configuration parameters. JSON Syntax: {...}
     /// </summary>
     [CliOption("--index-schema")]
     public string? IndexSchema { get; private init; }
@@ -102,6 +103,15 @@ public record AwsOpensearchCreateIndexOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

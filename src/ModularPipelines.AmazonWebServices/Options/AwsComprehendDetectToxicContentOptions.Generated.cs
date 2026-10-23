@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +29,8 @@ public record AwsComprehendDetectToxicContentOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Performs toxicity analysis on the list of text strings that you provide as input. The API response contains a results list that matches the size of the input list. For more information about toxicity detection, see Toxicity detection in the Amazon Comprehend Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="TextSegments">A list of up to 10 text strings. Each string has a maximum size of 1 KB, and the maximum size of the list is 10 KB. Constraints: o min: 1 (structure) One of the of text strings. Each string has a size limit of 1KB. Text -&gt; (string) [required] The text content. Constraints: o min: 1 Shorthand Syntax: Text=string ... JSON Syntax: [ { "Text": "string" } ... ]</param>
-    /// <param name="LanguageCode">The language of the input text. Currently, English is the only sup- ported language. Possible values: o en o es o fr o de o it o pt o ar o hi o ja o ko o zh o zh-TW</param>
+    /// <param name="TextSegments">A list of up to 10 text strings. Each string has a maximum size of 1 KB, and the maximum size of the list is 10 KB. Constraints: • min: 1 (structure) One of the of text strings. Each string has a size limit of 1KB. Text -&gt; (string) [required] The text content. Constraints: • min: 1 Shorthand Syntax: Text=string ... JSON Syntax: [ { "Text": "string" } ... ]</param>
+    /// <param name="LanguageCode">The language of the input text. Currently, English is the only supported language. Possible values: • en • es • fr • de • it • pt • ar • hi • ja • ko • zh • zh-TW</param>
     public AwsComprehendDetectToxicContentOptions(
         IEnumerable<string> TextSegments,
         AwsComprehendDetectToxicContentLanguageCode LanguageCode
@@ -71,13 +72,13 @@ public record AwsComprehendDetectToxicContentOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A list of up to 10 text strings. Each string has a maximum size of 1 KB, and the maximum size of the list is 10 KB. Constraints: o min: 1 (structure) One of the of text strings. Each string has a size limit of 1KB. Text -&gt; (string) [required] The text content. Constraints: o min: 1 Shorthand Syntax: Text=string ... JSON Syntax: [ { "Text": "string" } ... ]
+    /// A list of up to 10 text strings. Each string has a maximum size of 1 KB, and the maximum size of the list is 10 KB. Constraints: • min: 1 (structure) One of the of text strings. Each string has a size limit of 1KB. Text -&gt; (string) [required] The text content. Constraints: • min: 1 Shorthand Syntax: Text=string ... JSON Syntax: [ { "Text": "string" } ... ]
     /// </summary>
     [CliOption("--text-segments", GroupValues = true)]
     public IEnumerable<string>? TextSegments { get; private init; }
 
     /// <summary>
-    /// The language of the input text. Currently, English is the only sup- ported language. Possible values: o en o es o fr o de o it o pt o ar o hi o ja o ko o zh o zh-TW
+    /// The language of the input text. Currently, English is the only supported language. Possible values: • en • es • fr • de • it • pt • ar • hi • ja • ko • zh • zh-TW
     /// </summary>
     [CliOption("--language-code")]
     public AwsComprehendDetectToxicContentLanguageCode? LanguageCode { get; private init; }
@@ -103,6 +104,15 @@ public record AwsComprehendDetectToxicContentOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

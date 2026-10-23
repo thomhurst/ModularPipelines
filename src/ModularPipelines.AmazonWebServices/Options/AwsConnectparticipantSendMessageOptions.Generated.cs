@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Sends a message. For security recommendations, see Connect Customer Chat security best practices . NOTE: ConnectionToken is used for invoking this API instead of Partici- pantToken . The Amazon Connect Participant Service APIs do not use Signature Ver- sion 4 authentication . See also: AWS API Documentation
+/// Sends a message. For security recommendations, see Connect Customer Chat security best practices . NOTE: ConnectionToken is used for invoking this API instead of ParticipantToken . The Amazon Connect Participant Service APIs do not use Signature Version 4 authentication . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsConnectparticipantSendMessageOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Sends a message. For security recommendations, see Connect Customer Chat security best practices . NOTE: ConnectionToken is used for invoking this API instead of Partici- pantToken . The Amazon Connect Participant Service APIs do not use Signature Ver- sion 4 authentication . See also: AWS API Documentation
+    /// Sends a message. For security recommendations, see Connect Customer Chat security best practices . NOTE: ConnectionToken is used for invoking this API instead of ParticipantToken . The Amazon Connect Participant Service APIs do not use Signature Version 4 authentication . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ContentType">The type of the content. Possible types are text/plain , text/mark- down , application/json , and application/vnd.amazonaws.connect.mes- sage.interactive.response . Supported types on the contact are configured through SupportedMes- sagingContentTypes on StartChatContact and StartOutboundChatContact . For Apple Messages for Business, SMS, and WhatsApp Business Messag- ing contacts, only text/plain is supported. Constraints: o min: 1 o max: 100</param>
-    /// <param name="Content">The content of the message. o For text/plain and text/markdown , the Length Constraints are Min- imum of 1, Maximum of 1024. o For application/json , the Length Constraints are Minimum of 1, Maximum of 12000. o For application/vnd.amazonaws.connect.message.interactive.response , the Length Constraints are Minimum of 1, Maximum of 12288. Constraints: o min: 1 o max: 16384</param>
-    /// <param name="ConnectionToken">The authentication token associated with the connection. Constraints: o min: 1 o max: 1000</param>
+    /// <param name="ContentType">The type of the content. Possible types are text/plain , text/markdown , application/json , and application/vnd.amazonaws.connect.message.interactive.response . Supported types on the contact are configured through SupportedMessagingContentTypes on StartChatContact and StartOutboundChatContact . For Apple Messages for Business, SMS, and WhatsApp Business Messaging contacts, only text/plain is supported. Constraints: • min: 1 • max: 100</param>
+    /// <param name="Content">The content of the message. • For text/plain and text/markdown , the Length Constraints are Minimum of 1, Maximum of 1024. • For application/json , the Length Constraints are Minimum of 1, Maximum of 12000. • For application/vnd.amazonaws.connect.message.interactive.response , the Length Constraints are Minimum of 1, Maximum of 12288. Constraints: • min: 1 • max: 16384</param>
+    /// <param name="ConnectionToken">The authentication token associated with the connection. Constraints: • min: 1 • max: 1000</param>
     public AwsConnectparticipantSendMessageOptions(
         string ContentType,
         string Content,
@@ -65,26 +66,26 @@ public record AwsConnectparticipantSendMessageOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The type of the content. Possible types are text/plain , text/mark- down , application/json , and application/vnd.amazonaws.connect.mes- sage.interactive.response . Supported types on the contact are configured through SupportedMes- sagingContentTypes on StartChatContact and StartOutboundChatContact . For Apple Messages for Business, SMS, and WhatsApp Business Messag- ing contacts, only text/plain is supported. Constraints: o min: 1 o max: 100
+    /// The type of the content. Possible types are text/plain , text/markdown , application/json , and application/vnd.amazonaws.connect.message.interactive.response . Supported types on the contact are configured through SupportedMessagingContentTypes on StartChatContact and StartOutboundChatContact . For Apple Messages for Business, SMS, and WhatsApp Business Messaging contacts, only text/plain is supported. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--content-type")]
     public string? ContentType { get; private init; }
 
     /// <summary>
-    /// The content of the message. o For text/plain and text/markdown , the Length Constraints are Min- imum of 1, Maximum of 1024. o For application/json , the Length Constraints are Minimum of 1, Maximum of 12000. o For application/vnd.amazonaws.connect.message.interactive.response , the Length Constraints are Minimum of 1, Maximum of 12288. Constraints: o min: 1 o max: 16384
+    /// The content of the message. • For text/plain and text/markdown , the Length Constraints are Minimum of 1, Maximum of 1024. • For application/json , the Length Constraints are Minimum of 1, Maximum of 12000. • For application/vnd.amazonaws.connect.message.interactive.response , the Length Constraints are Minimum of 1, Maximum of 12288. Constraints: • min: 1 • max: 16384
     /// </summary>
     [CliOption("--content")]
     public string? Content { get; private init; }
 
     /// <summary>
-    /// The authentication token associated with the connection. Constraints: o min: 1 o max: 1000
+    /// The authentication token associated with the connection. Constraints: • min: 1 • max: 1000
     /// </summary>
     [SecretValue]
     [CliOption("--connection-token")]
     public string? ConnectionToken { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: o max: 500
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: • max: 500
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -111,6 +112,15 @@ public record AwsConnectparticipantSendMessageOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

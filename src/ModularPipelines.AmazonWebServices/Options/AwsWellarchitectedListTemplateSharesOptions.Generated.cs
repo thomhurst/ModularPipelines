@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,7 +30,7 @@ public record AwsWellarchitectedListTemplateSharesOptions : AwsOptions, IValidat
     /// <summary>
     /// List review template shares. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TemplateArn">The review template ARN. Constraints: o min: 50 o max: 250 o pattern: arn:aws(-us-gov|-iso(-[a-z])?|-cn)?:wellarchi- tected:[a-z]{2}(-gov|-iso([a-z])?)?-[a-z]+-\d:\d{12}:(review-tem- plate)/[a-f0-9]{32}</param>
+    /// <param name="TemplateArn">The review template ARN. Constraints: • min: 50 • max: 250 • pattern: arn:aws(-us-gov|-iso(-[a-z])?|-cn)?:wellarchitected:[a-z]{2}(-gov|-iso([a-z])?)?-[a-z]+-\d:\d{12}:(review-template)/[a-f0-9]{32}</param>
     public AwsWellarchitectedListTemplateSharesOptions(
         string TemplateArn
     )
@@ -58,32 +59,32 @@ public record AwsWellarchitectedListTemplateSharesOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The review template ARN. Constraints: o min: 50 o max: 250 o pattern: arn:aws(-us-gov|-iso(-[a-z])?|-cn)?:wellarchi- tected:[a-z]{2}(-gov|-iso([a-z])?)?-[a-z]+-\d:\d{12}:(review-tem- plate)/[a-f0-9]{32}
+    /// The review template ARN. Constraints: • min: 50 • max: 250 • pattern: arn:aws(-us-gov|-iso(-[a-z])?|-cn)?:wellarchitected:[a-z]{2}(-gov|-iso([a-z])?)?-[a-z]+-\d:\d{12}:(review-template)/[a-f0-9]{32}
     /// </summary>
     [CliOption("--template-arn")]
     public string? TemplateArn { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services account ID, organization ID, or organiza- tional unit (OU) ID with which the profile is shared. Constraints: o min: 0 o max: 100
+    /// The Amazon Web Services account ID, organization ID, or organizational unit (OU) ID with which the profile is shared. Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--shared-with-prefix")]
     public string? SharedWithPrefix { get; set; }
 
     /// <summary>
-    /// The token to use to retrieve the next set of results. Constraints: o pattern: [A-Za-z0-9+\/=_-]+
+    /// The token to use to retrieve the next set of results. Constraints: • pattern: [A-Za-z0-9+\/=_-]+
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return for this request. Constraints: o min: 1 o max: 50
+    /// The maximum number of results to return for this request. Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The status of the share request. Possible values: o ACCEPTED o REJECTED o PENDING o REVOKED o EXPIRED o ASSOCIATING o ASSOCIATED o FAILED
+    /// The status of the share request. Possible values: • ACCEPTED • REJECTED • PENDING • REVOKED • EXPIRED • ASSOCIATING • ASSOCIATED • FAILED
     /// </summary>
     [CliOption("--status")]
     public AwsWellarchitectedListTemplateSharesStatus? Status { get; set; }
@@ -109,6 +110,15 @@ public record AwsWellarchitectedListTemplateSharesOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

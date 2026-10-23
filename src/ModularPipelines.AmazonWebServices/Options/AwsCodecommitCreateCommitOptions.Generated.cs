@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsCodecommitCreateCommitOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a commit for a repository on the tip of a specified branch. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RepositoryName">The name of the repository where you create the commit. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+</param>
-    /// <param name="BranchName">The name of the branch where you create the commit. Constraints: o min: 1 o max: 256</param>
+    /// <param name="RepositoryName">The name of the repository where you create the commit. Constraints: • min: 1 • max: 100 • pattern: [\w\.-]+</param>
+    /// <param name="BranchName">The name of the branch where you create the commit. Constraints: • min: 1 • max: 256</param>
     public AwsCodecommitCreateCommitOptions(
         string RepositoryName,
         string BranchName
@@ -60,13 +61,13 @@ public record AwsCodecommitCreateCommitOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the repository where you create the commit. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+
+    /// The name of the repository where you create the commit. Constraints: • min: 1 • max: 100 • pattern: [\w\.-]+
     /// </summary>
     [CliOption("--repository-name")]
     public string? RepositoryName { get; private init; }
 
     /// <summary>
-    /// The name of the branch where you create the commit. Constraints: o min: 1 o max: 256
+    /// The name of the branch where you create the commit. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--branch-name")]
     public string? BranchName { get; private init; }
@@ -90,31 +91,31 @@ public record AwsCodecommitCreateCommitOptions : AwsOptions, IValidatableObject
     public string? Email { get; set; }
 
     /// <summary>
-    /// The commit message you want to include in the commit. Commit mes- sages are limited to 256 KB. If no message is specified, a default message is used.
+    /// The commit message you want to include in the commit. Commit messages are limited to 256 KB. If no message is specified, a default message is used.
     /// </summary>
     [CliOption("--commit-message")]
     public string? CommitMessage { get; set; }
 
     /// <summary>
-    /// If the commit contains deletions, whether to keep a folder or folder structure if the changes leave the folders empty. If true, a ..git- keep file is created for empty folders. The default is false.
+    /// If the commit contains deletions, whether to keep a folder or folder structure if the changes leave the folders empty. If true, a ..gitkeep file is created for empty folders. The default is false.
     /// </summary>
     [CliFlag("--keep-empty-folders", NegatedName = "--no-keep-empty-folders")]
     public bool? KeepEmptyFolders { get; set; }
 
     /// <summary>
-    /// The files to add or update in this commit. (structure) Information about a file added or updated as part of a commit. filePath -&gt; (string) [required] The full path to the file in the repository, including the name of the file. fileMode -&gt; (string) The extrapolated file mode permissions for the file. Valid values include EXECUTABLE and NORMAL. Possible values: o EXECUTABLE o NORMAL o SYMLINK fileContent -&gt; (blob) The content of the file, if a source file is not specified. Constraints: o max: 6291456 sourceFile -&gt; (structure) The name and full path of the file that contains the changes you want to make as part of the commit, if you are not pro- viding the file content directly. filePath -&gt; (string) [required] The full path to the file, including the name of the file. isMove -&gt; (boolean) Whether to remove the source file from the parent commit. Shorthand Syntax: filePath=string,fileMode=string,fileContent=blob,sourceFile={filePath=string,isMove=boolean} ... JSON Syntax: [ { "filePath": "string", "fileMode": "EXECUTABLE"|"NORMAL"|"SYMLINK", "fileContent": blob, "sourceFile": { "filePath": "string", "isMove": true|false } } ... ]
+    /// The files to add or update in this commit. (structure) Information about a file added or updated as part of a commit. filePath -&gt; (string) [required] The full path to the file in the repository, including the name of the file. fileMode -&gt; (string) The extrapolated file mode permissions for the file. Valid values include EXECUTABLE and NORMAL. Possible values: • EXECUTABLE • NORMAL • SYMLINK fileContent -&gt; (blob) The content of the file, if a source file is not specified. Constraints: • max: 6291456 sourceFile -&gt; (structure) The name and full path of the file that contains the changes you want to make as part of the commit, if you are not providing the file content directly. filePath -&gt; (string) [required] The full path to the file, including the name of the file. isMove -&gt; (boolean) Whether to remove the source file from the parent commit. Shorthand Syntax: filePath=string,fileMode=string,fileContent=blob,sourceFile={filePath=string,isMove=boolean} ... JSON Syntax: [ { "filePath": "string", "fileMode": "EXECUTABLE"|"NORMAL"|"SYMLINK", "fileContent": blob, "sourceFile": { "filePath": "string", "isMove": true|false } } ... ]
     /// </summary>
     [CliOption("--put-files", GroupValues = true)]
     public IEnumerable<string>? PutFiles { get; set; }
 
     /// <summary>
-    /// The files to delete in this commit. These files still exist in ear- lier commits. (structure) A file that is deleted as part of a commit. filePath -&gt; (string) [required] The full path of the file to be deleted, including the name of the file. Shorthand Syntax: filePath=string ... JSON Syntax: [ { "filePath": "string" } ... ]
+    /// The files to delete in this commit. These files still exist in earlier commits. (structure) A file that is deleted as part of a commit. filePath -&gt; (string) [required] The full path of the file to be deleted, including the name of the file. Shorthand Syntax: filePath=string ... JSON Syntax: [ { "filePath": "string" } ... ]
     /// </summary>
     [CliOption("--delete-files", GroupValues = true)]
     public IEnumerable<string>? DeleteFiles { get; set; }
 
     /// <summary>
-    /// The file modes to update for files in this commit. (structure) Information about the file mode changes. filePath -&gt; (string) [required] The full path to the file, including the name of the file. fileMode -&gt; (string) [required] The file mode for the file. Possible values: o EXECUTABLE o NORMAL o SYMLINK Shorthand Syntax: filePath=string,fileMode=string ... JSON Syntax: [ { "filePath": "string", "fileMode": "EXECUTABLE"|"NORMAL"|"SYMLINK" } ... ]
+    /// The file modes to update for files in this commit. (structure) Information about the file mode changes. filePath -&gt; (string) [required] The full path to the file, including the name of the file. fileMode -&gt; (string) [required] The file mode for the file. Possible values: • EXECUTABLE • NORMAL • SYMLINK Shorthand Syntax: filePath=string,fileMode=string ... JSON Syntax: [ { "filePath": "string", "fileMode": "EXECUTABLE"|"NORMAL"|"SYMLINK" } ... ]
     /// </summary>
     [CliOption("--set-file-modes", GroupValues = true)]
     public IEnumerable<string>? SetFileModes { get; set; }
@@ -140,6 +141,15 @@ public record AwsCodecommitCreateCommitOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

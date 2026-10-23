@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsControltowerUntagResourceOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Removes tags from a resource. For usage examples, see the ` Controls Reference Guide https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html`__ . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The ARN of the resource. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[0-9a-zA-Z_\-:\/]+</param>
-    /// <param name="TagKeys">Tag keys to be removed from the resource. Constraints: o min: 0 o max: 200 (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArn">The ARN of the resource. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[0-9a-zA-Z_\-:\/]+</param>
+    /// <param name="TagKeys">Tag keys to be removed from the resource. Constraints: • min: 0 • max: 200 (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...</param>
     public AwsControltowerUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -71,13 +72,13 @@ public record AwsControltowerUntagResourceOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the resource. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[0-9a-zA-Z_\-:\/]+
+    /// The ARN of the resource. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[0-9a-zA-Z_\-:\/]+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// Tag keys to be removed from the resource. Constraints: o min: 0 o max: 200 (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...
+    /// Tag keys to be removed from the resource. Constraints: • min: 0 • max: 200 (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }
@@ -103,6 +104,15 @@ public record AwsControltowerUntagResourceOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

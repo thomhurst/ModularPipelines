@@ -10,14 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates or updates a logical delivery destination . A delivery destina- tion is an Amazon Web Services resource that represents an Amazon Web Services service that logs can be sent to. CloudWatch Logs, Amazon S3, and Firehose are supported as logs delivery destinations and X-Ray as the trace delivery destination. To configure logs delivery between a supported Amazon Web Services ser- vice and a destination, you must do the following: o Create a delivery source, which is a logical object that rep...
+/// Creates or updates a logical delivery destination . A delivery destination is an Amazon Web Services resource that represents an Amazon Web Services service that logs can be sent to. CloudWatch Logs, Amazon S3, and Firehose are supported as logs delivery destinations and X-Ray as the trace delivery destination. To configure logs delivery between a supported Amazon Web Services service and a destination, you must do the following: • Create a delivery source, which is a logical object that represe...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +27,9 @@ public record AwsLogsPutDeliveryDestinationOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates or updates a logical delivery destination . A delivery destina- tion is an Amazon Web Services resource that represents an Amazon Web Services service that logs can be sent to. CloudWatch Logs, Amazon S3, and Firehose are supported as logs delivery destinations and X-Ray as the trace delivery destination. To configure logs delivery between a supported Amazon Web Services ser- vice and a destination, you must do the following: o Create a delivery source, which is a logical object that rep...
+    /// Creates or updates a logical delivery destination . A delivery destination is an Amazon Web Services resource that represents an Amazon Web Services service that logs can be sent to. CloudWatch Logs, Amazon S3, and Firehose are supported as logs delivery destinations and X-Ray as the trace delivery destination. To configure logs delivery between a supported Amazon Web Services service and a destination, you must do the following: • Create a delivery source, which is a logical object that represe...
     /// </summary>
-    /// <param name="Name">A name for this delivery destination. This name must be unique for all delivery destinations in your account. Constraints: o min: 1 o max: 60 o pattern: [\w-]*</param>
+    /// <param name="Name">A name for this delivery destination. This name must be unique for all delivery destinations in your account. Constraints: • min: 1 • max: 60 • pattern: [\w-]*</param>
     public AwsLogsPutDeliveryDestinationOptions(
         string Name
     )
@@ -58,37 +58,37 @@ public record AwsLogsPutDeliveryDestinationOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A name for this delivery destination. This name must be unique for all delivery destinations in your account. Constraints: o min: 1 o max: 60 o pattern: [\w-]*
+    /// A name for this delivery destination. This name must be unique for all delivery destinations in your account. Constraints: • min: 1 • max: 60 • pattern: [\w-]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The format for the logs that this delivery destination will receive. Possible values: o json o plain o w3c o raw o parquet
+    /// The format for the logs that this delivery destination will receive. Possible values: • json • plain • w3c • raw • parquet
     /// </summary>
     [CliOption("--output-format")]
     public AwsLogsPutDeliveryDestinationOutputFormat? OutputFormat { get; set; }
 
     /// <summary>
-    /// A structure that contains the ARN of the Amazon Web Services re- source that will receive the logs. NOTE: deliveryDestinationConfiguration is required for CloudWatch Logs, Amazon S3, Firehose log delivery destinations and not re- quired for X-Ray trace delivery destinations. deliveryDestina- tionType is needed for X-Ray trace delivery destinations but not required for other logs delivery destinations. destinationResourceArn -&gt; (string) [required] The ARN of the Amazon Web Services destination that this deliv- ery destination represents. That Amazon Web Services destination can be a log group in CloudWatch Logs, an Amazon S3 bucket, or a delivery stream in Firehose. Shorthand Syntax: destinationResourceArn=string JSON Syntax: { "destinationResourceArn": "string" }
+    /// A structure that contains the ARN of the Amazon Web Services resource that will receive the logs. NOTE: deliveryDestinationConfiguration is required for CloudWatch Logs, Amazon S3, Firehose log delivery destinations and not required for X-Ray trace delivery destinations. deliveryDestinationType is needed for X-Ray trace delivery destinations but not required for other logs delivery destinations. destinationResourceArn -&gt; (string) [required] The ARN of the Amazon Web Services destination that this delivery destination represents. That Amazon Web Services destination can be a log group in CloudWatch Logs, an Amazon S3 bucket, or a delivery stream in Firehose. Shorthand Syntax: destinationResourceArn=string JSON Syntax: { "destinationResourceArn": "string" }
     /// </summary>
     [CliOption("--delivery-destination-configuration")]
     public string? DeliveryDestinationConfiguration { get; set; }
 
     /// <summary>
-    /// The type of delivery destination. This parameter specifies the tar- get service where log data will be delivered. Valid values include: o S3 - Amazon S3 for long-term storage and analytics o CWL - CloudWatch Logs for centralized log management o FH - Amazon Kinesis Data Firehose for real-time data streaming o XRAY - Amazon Web Services X-Ray for distributed tracing and ap- plication monitoring The delivery destination type determines the format and configura- tion options available for log delivery. Possible values: o S3 o CWL o FH o XRAY
+    /// The type of delivery destination. This parameter specifies the target service where log data will be delivered. Valid values include: • S3 - Amazon S3 for long-term storage and analytics • CWL - CloudWatch Logs for centralized log management • FH - Amazon Kinesis Data Firehose for real-time data streaming • XRAY - Amazon Web Services X-Ray for distributed tracing and application monitoring The delivery destination type determines the format and configuration options available for log delivery. Possible values: • S3 • CWL • FH • XRAY
     /// </summary>
     [CliOption("--delivery-destination-type")]
     public AwsLogsPutDeliveryDestinationDeliveryDestinationType? DeliveryDestinationType { get; set; }
 
     /// <summary>
-    /// The ARN of an IAM role in your account that CloudWatch Logs assumes to deliver to this delivery destination. The trust policy of the role must allow CloudWatch Logs to assume it. This parameter is sup- ported only for X-Ray trace delivery destinations.
+    /// The ARN of an IAM role in your account that CloudWatch Logs assumes to deliver to this delivery destination. The trust policy of the role must allow CloudWatch Logs to assume it. This parameter is supported only for X-Ray trace delivery destinations.
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
     /// <summary>
-    /// An optional list of key-value pairs to associate with the resource. For more information about tagging, see Tagging Amazon Web Services resources Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]+)$ value -&gt; (string) Constraints: o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// An optional list of key-value pairs to associate with the resource. For more information about tagging, see Tagging Amazon Web Services resources Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]+)$ value -&gt; (string) Constraints: • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -114,6 +114,15 @@ public record AwsLogsPutDeliveryDestinationOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

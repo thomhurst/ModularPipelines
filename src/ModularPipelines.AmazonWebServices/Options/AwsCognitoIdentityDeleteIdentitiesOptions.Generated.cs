@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes identities from an identity pool. You can specify a list of 1-60 identities that you want to delete. You must use Amazon Web Services developer credentials to call this op- eration. See also: AWS API Documentation
+/// Deletes identities from an identity pool. You can specify a list of 1-60 identities that you want to delete. You must use Amazon Web Services developer credentials to call this operation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsCognitoIdentityDeleteIdentitiesOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes identities from an identity pool. You can specify a list of 1-60 identities that you want to delete. You must use Amazon Web Services developer credentials to call this op- eration. See also: AWS API Documentation
+    /// Deletes identities from an identity pool. You can specify a list of 1-60 identities that you want to delete. You must use Amazon Web Services developer credentials to call this operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="IdentityIdsToDelete">A list of 1-60 identities that you want to delete. Constraints: o min: 1 o max: 60 (string) Constraints: o min: 1 o max: 55 o pattern: [\w-]+:[0-9a-f-]+ Syntax: "string" "string" ...</param>
+    /// <param name="IdentityIdsToDelete">A list of 1-60 identities that you want to delete. Constraints: • min: 1 • max: 60 (string) Constraints: • min: 1 • max: 55 • pattern: [\w-]+:[0-9a-f-]+ Syntax: "string" "string" ...</param>
     public AwsCognitoIdentityDeleteIdentitiesOptions(
         IEnumerable<string> IdentityIdsToDelete
     )
@@ -67,7 +68,7 @@ public record AwsCognitoIdentityDeleteIdentitiesOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A list of 1-60 identities that you want to delete. Constraints: o min: 1 o max: 60 (string) Constraints: o min: 1 o max: 55 o pattern: [\w-]+:[0-9a-f-]+ Syntax: "string" "string" ...
+    /// A list of 1-60 identities that you want to delete. Constraints: • min: 1 • max: 60 (string) Constraints: • min: 1 • max: 55 • pattern: [\w-]+:[0-9a-f-]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--identity-ids-to-delete", GroupValues = true)]
     public IEnumerable<string>? IdentityIdsToDelete { get; private init; }
@@ -93,6 +94,15 @@ public record AwsCognitoIdentityDeleteIdentitiesOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists the inference components in your account and their properties. See also: AWS API Documentation list-inference-components is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: InferenceComponents
+/// Lists the inference components in your account and their properties. See also: AWS API Documentation list-inference-components is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: InferenceComponents
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -24,19 +24,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSagemakerListInferenceComponentsOptions : AwsOptions
 {
     /// <summary>
-    /// The field by which to sort the inference components in the response. The default is CreationTime . Possible values: o Name o CreationTime o Status
+    /// The field by which to sort the inference components in the response. The default is CreationTime . Possible values: • Name • CreationTime • Status
     /// </summary>
     [CliOption("--sort-by")]
     public AwsSagemakerListInferenceComponentsSortBy? SortBy { get; set; }
 
     /// <summary>
-    /// The sort order for results. The default is Descending . Possible values: o Ascending o Descending
+    /// The sort order for results. The default is Descending . Possible values: • Ascending • Descending
     /// </summary>
     [CliOption("--sort-order")]
     public AwsSagemakerListInferenceComponentsSortOrder? SortOrder { get; set; }
 
     /// <summary>
-    /// Filters the results to only those inference components with a name that contains the specified string. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9-]+
+    /// Filters the results to only those inference components with a name that contains the specified string. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--name-contains")]
     public string? NameContains { get; set; }
@@ -54,40 +54,37 @@ public record AwsSagemakerListInferenceComponentsOptions : AwsOptions
     public string? CreationTimeAfter { get; set; }
 
     /// <summary>
-    /// Filters the results to only those inference components that were up- dated before the specified time.
+    /// Filters the results to only those inference components that were updated before the specified time.
     /// </summary>
     [CliOption("--last-modified-time-before")]
     public string? LastModifiedTimeBefore { get; set; }
 
     /// <summary>
-    /// Filters the results to only those inference components that were up- dated after the specified time.
+    /// Filters the results to only those inference components that were updated after the specified time.
     /// </summary>
     [CliOption("--last-modified-time-after")]
     public string? LastModifiedTimeAfter { get; set; }
 
     /// <summary>
-    /// Filters the results to only those inference components with the specified status. Possible values: o InService o Creating o Updating o Failed o Deleting
+    /// Filters the results to only those inference components with the specified status. Possible values: • InService • Creating • Updating • Failed • Deleting
     /// </summary>
     [CliOption("--status-equals")]
     public AwsSagemakerListInferenceComponentsStatusEquals? StatusEquals { get; set; }
 
     /// <summary>
-    /// An endpoint name to filter the listed inference components. The re- sponse includes only those inference components that are hosted at the specified endpoint. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// An endpoint name to filter the listed inference components. The response includes only those inference components that are hosted at the specified endpoint. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--endpoint-name-equals")]
     public string? EndpointNameEquals { get; set; }
 
     /// <summary>
-    /// A production variant name to filter the listed inference components. The response includes only those inference components that are hosted at the specified variant. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// A production variant name to filter the listed inference components. The response includes only those inference components that are hosted at the specified variant. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--variant-name-equals")]
     public string? VariantNameEquals { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -97,15 +94,27 @@ public record AwsSagemakerListInferenceComponentsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

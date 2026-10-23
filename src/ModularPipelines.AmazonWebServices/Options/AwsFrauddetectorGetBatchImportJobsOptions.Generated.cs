@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets all batch import jobs or a specific job of the specified ID. This is a paginated API. If you provide a null maxResults , this action re- trieves a maximum of 50 records per page. If you provide a maxResults , the value must be between 1 and 50. To get the next page results, pro- vide the pagination token from the GetBatchImportJobsResponse as part of your request. A null pagination token fetches the records from the beginning. See also: AWS API Documentation
+/// Gets all batch import jobs or a specific job of the specified ID. This is a paginated API. If you provide a null maxResults , this action retrieves a maximum of 50 records per page. If you provide a maxResults , the value must be between 1 and 50. To get the next page results, provide the pagination token from the GetBatchImportJobsResponse as part of your request. A null pagination token fetches the records from the beginning. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,13 +23,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsFrauddetectorGetBatchImportJobsOptions : AwsOptions
 {
     /// <summary>
-    /// The ID of the batch import job to get. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$
+    /// The ID of the batch import job to get. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; set; }
 
     /// <summary>
-    /// The maximum number of objects to return for request. Constraints: o min: 1 o max: 50
+    /// The maximum number of objects to return for request. Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -46,5 +46,14 @@ public record AwsFrauddetectorGetBatchImportJobsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

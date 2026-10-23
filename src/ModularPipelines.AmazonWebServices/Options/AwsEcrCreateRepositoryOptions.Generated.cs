@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsEcrCreateRepositoryOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a repository. For more information, see Amazon ECR repositories in the Amazon Elastic Container Registry User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="RepositoryName">The name to use for the repository. The repository name may be spec- ified on its own (such as nginx-web-app ) or it can be prepended with a namespace to group the repository into a category (such as project-a/nginx-web-app ). The repository name must start with a letter and can only contain lowercase letters, numbers, hyphens, underscores, and forward slashes. Constraints: o min: 2 o max: 256 o pattern: [a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*</param>
+    /// <param name="RepositoryName">The name to use for the repository. The repository name may be specified on its own (such as nginx-web-app ) or it can be prepended with a namespace to group the repository into a category (such as project-a/nginx-web-app ). The repository name must start with a letter and can only contain lowercase letters, numbers, hyphens, underscores, and forward slashes. Constraints: • min: 2 • max: 256 • pattern: [a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*</param>
     public AwsEcrCreateRepositoryOptions(
         string RepositoryName
     )
@@ -57,13 +58,13 @@ public record AwsEcrCreateRepositoryOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name to use for the repository. The repository name may be spec- ified on its own (such as nginx-web-app ) or it can be prepended with a namespace to group the repository into a category (such as project-a/nginx-web-app ). The repository name must start with a letter and can only contain lowercase letters, numbers, hyphens, underscores, and forward slashes. Constraints: o min: 2 o max: 256 o pattern: [a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*
+    /// The name to use for the repository. The repository name may be specified on its own (such as nginx-web-app ) or it can be prepended with a namespace to group the repository into a category (such as project-a/nginx-web-app ). The repository name must start with a letter and can only contain lowercase letters, numbers, hyphens, underscores, and forward slashes. Constraints: • min: 2 • max: 256 • pattern: [a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*
     /// </summary>
     [CliOption("--repository-name")]
     public string? RepositoryName { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services account ID associated with the registry to create the repository. If you do not specify a registry, the default registry is assumed. Constraints: o pattern: [0-9]{12}
+    /// The Amazon Web Services account ID associated with the registry to create the repository. If you do not specify a registry, the default registry is assumed. Constraints: • pattern: [0-9]{12}
     /// </summary>
     [CliOption("--registry-id")]
     public string? RegistryId { get; set; }
@@ -75,25 +76,25 @@ public record AwsEcrCreateRepositoryOptions : AwsOptions, IValidatableObject
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// The tag mutability setting for the repository. If this parameter is omitted, the default setting of MUTABLE will be used which will al- low image tags to be overwritten. If IMMUTABLE is specified, all im- age tags within the repository will be immutable which will prevent them from being overwritten. Possible values: o MUTABLE o IMMUTABLE o IMMUTABLE_WITH_EXCLUSION o MUTABLE_WITH_EXCLUSION
+    /// The tag mutability setting for the repository. If this parameter is omitted, the default setting of MUTABLE will be used which will allow image tags to be overwritten. If IMMUTABLE is specified, all image tags within the repository will be immutable which will prevent them from being overwritten. Possible values: • MUTABLE • IMMUTABLE • IMMUTABLE_WITH_EXCLUSION • MUTABLE_WITH_EXCLUSION
     /// </summary>
     [CliOption("--image-tag-mutability")]
     public AwsEcrCreateRepositoryImageTagMutability? ImageTagMutability { get; set; }
 
     /// <summary>
-    /// A list of filters that specify which image tags should be excluded from the repository's image tag mutability setting. Constraints: o min: 1 o max: 5 (structure) A filter that specifies which image tags should be excluded from the repository's image tag mutability setting. filterType -&gt; (string) [required] The type of filter to apply for excluding image tags from mu- tability settings. Possible values: o WILDCARD filter -&gt; (string) [required] The filter value used to match image tags for exclusion from mutability settings. Constraints: o min: 1 o max: 128 o pattern: ^[0-9a-zA-Z._*-]{1,128}$ Shorthand Syntax: filterType=string,filter=string ... JSON Syntax: [ { "filterType": "WILDCARD", "filter": "string" } ... ]
+    /// A list of filters that specify which image tags should be excluded from the repository's image tag mutability setting. Constraints: • min: 1 • max: 5 (structure) A filter that specifies which image tags should be excluded from the repository's image tag mutability setting. filterType -&gt; (string) [required] The type of filter to apply for excluding image tags from mutability settings. Possible values: • WILDCARD filter -&gt; (string) [required] The filter value used to match image tags for exclusion from mutability settings. Constraints: • min: 1 • max: 128 • pattern: ^[0-9a-zA-Z._*-]{1,128}$ Shorthand Syntax: filterType=string,filter=string ... JSON Syntax: [ { "filterType": "WILDCARD", "filter": "string" } ... ]
     /// </summary>
     [CliOption("--image-tag-mutability-exclusion-filters", GroupValues = true)]
     public IEnumerable<string>? ImageTagMutabilityExclusionFilters { get; set; }
 
     /// <summary>
-    /// WARNING: The imageScanningConfiguration parameter is being deprecated, in favor of specifying the image scanning configuration at the reg- istry level. For more information, see PutRegistryScanningCon- figuration . The image scanning configuration for the repository. This determines whether images are scanned for known vulnerabilities after being pushed to the repository. scanOnPush -&gt; (boolean) The setting that determines whether images are scanned after be- ing pushed to a repository. If set to true , images will be scanned after being pushed. If this parameter is not specified, it will default to false and images will not be scanned unless a scan is manually started with the API_StartImageScan API. Shorthand Syntax: scanOnPush=boolean JSON Syntax: { "scanOnPush": true|false }
+    /// WARNING: The imageScanningConfiguration parameter is being deprecated, in favor of specifying the image scanning configuration at the registry level. For more information, see PutRegistryScanningConfiguration . The image scanning configuration for the repository. This determines whether images are scanned for known vulnerabilities after being pushed to the repository. scanOnPush -&gt; (boolean) The setting that determines whether images are scanned after being pushed to a repository. If set to true , images will be scanned after being pushed. If this parameter is not specified, it will default to false and images will not be scanned unless a scan is manually started with the API_StartImageScan API. Shorthand Syntax: scanOnPush=boolean JSON Syntax: { "scanOnPush": true|false }
     /// </summary>
     [CliOption("--image-scanning-configuration")]
     public string? ImageScanningConfiguration { get; set; }
 
     /// <summary>
-    /// The encryption configuration for the repository. This determines how the contents of your repository are encrypted at rest. encryptionType -&gt; (string) [required] The encryption type to use. If you use the KMS encryption type, the contents of the reposi- tory will be encrypted using server-side encryption with Key Management Service key stored in KMS. When you use KMS to en- crypt your data, you can either use the default Amazon Web Ser- vices managed KMS key for Amazon ECR, or specify your own KMS key, which you already created. If you use the KMS_DSSE encryption type, the contents of the repository will be encrypted with two layers of encryption using server-side encryption with the KMS Management Service key stored in KMS. Similar to the KMS encryption type, you can ei- ther use the default Amazon Web Services managed KMS key for Amazon ECR, or specify your own KMS key, which you've already created. If you use the AES256 encryption type, Amazon ECR uses server-side encryption with Amazon S3-managed encryption keys which encrypts the images in the repository using an AES256 en- cryption algorithm. For more information, see Amazon ECR encryption at rest in the Amazon Elastic Container Registry User Guide . Possible values: o AES256 o KMS o KMS_DSSE kmsKey -&gt; (string) If you use the KMS encryption type, specify the KMS key to use for encryption. The alias, key ID, or full ARN of the KMS key can be specified. The key must exist in the same Region as the repository. If no key is specified, the default Amazon Web Ser- vices managed KMS key for Amazon ECR will be used. Constraints: o min: 1 o max: 2048 Shorthand Syntax: encryptionType=string,kmsKey=string JSON Syntax: { "encryptionType": "AES256"|"KMS"|"KMS_DSSE", "kmsKey": "string" }
+    /// The encryption configuration for the repository. This determines how the contents of your repository are encrypted at rest. encryptionType -&gt; (string) [required] The encryption type to use. If you use the KMS encryption type, the contents of the repository will be encrypted using server-side encryption with Key Management Service key stored in KMS. When you use KMS to encrypt your data, you can either use the default Amazon Web Services managed KMS key for Amazon ECR, or specify your own KMS key, which you already created. If you use the KMS_DSSE encryption type, the contents of the repository will be encrypted with two layers of encryption using server-side encryption with the KMS Management Service key stored in KMS. Similar to the KMS encryption type, you can either use the default Amazon Web Services managed KMS key for Amazon ECR, or specify your own KMS key, which you've already created. If you use the AES256 encryption type, Amazon ECR uses server-side encryption with Amazon S3-managed encryption keys which encrypts the images in the repository using an AES256 encryption algorithm. For more information, see Amazon ECR encryption at rest in the Amazon Elastic Container Registry User Guide . Possible values: • AES256 • KMS • KMS_DSSE kmsKey -&gt; (string) If you use the KMS encryption type, specify the KMS key to use for encryption. The alias, key ID, or full ARN of the KMS key can be specified. The key must exist in the same Region as the repository. If no key is specified, the default Amazon Web Services managed KMS key for Amazon ECR will be used. Constraints: • min: 1 • max: 2048 Shorthand Syntax: encryptionType=string,kmsKey=string JSON Syntax: { "encryptionType": "AES256"|"KMS"|"KMS_DSSE", "kmsKey": "string" }
     /// </summary>
     [CliOption("--encryption-configuration")]
     public string? EncryptionConfiguration { get; set; }
@@ -119,6 +120,15 @@ public record AwsEcrCreateRepositoryOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API works with the following fleet types: EC2, Anywhere, Con- tainer Retrieves information, including current status, about a game session placement request. To get game session placement details, specify the placement ID. This operation is not designed to be continually called to track game session status. This practice can cause you to exceed your API limit, which results in errors. Instead, you must configure an Amazon Simple Notification Service (SNS) topic to receive notifications from...
+/// This API works with the following fleet types: EC2, Anywhere, Container Retrieves information, including current status, about a game session placement request. To get game session placement details, specify the placement ID. This operation is not designed to be continually called to track game session status. This practice can cause you to exceed your API limit, which results in errors. Instead, you must configure an Amazon Simple Notification Service (SNS) topic to receive notifications from F...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsGameliftDescribeGameSessionPlacementOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Retrieves information, including current status, about a game session placement request. To get game session placement details, specify the placement ID. This operation is not designed to be continually called to track game session status. This practice can cause you to exceed your API limit, which results in errors. Instead, you must configure an Amazon Simple Notification Service (SNS) topic to receive notifications from...
+    /// This API works with the following fleet types: EC2, Anywhere, Container Retrieves information, including current status, about a game session placement request. To get game session placement details, specify the placement ID. This operation is not designed to be continually called to track game session status. This practice can cause you to exceed your API limit, which results in errors. Instead, you must configure an Amazon Simple Notification Service (SNS) topic to receive notifications from F...
     /// </summary>
-    /// <param name="PlacementId">A unique identifier for a game session placement to retrieve. Constraints: o min: 1 o max: 48 o pattern: ^[a-zA-Z0-9-]+$</param>
+    /// <param name="PlacementId">A unique identifier for a game session placement to retrieve. Constraints: • min: 1 • max: 48 • pattern: ^[a-zA-Z0-9-]+$</param>
     public AwsGameliftDescribeGameSessionPlacementOptions(
         string PlacementId
     )
@@ -56,7 +57,7 @@ public record AwsGameliftDescribeGameSessionPlacementOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for a game session placement to retrieve. Constraints: o min: 1 o max: 48 o pattern: ^[a-zA-Z0-9-]+$
+    /// A unique identifier for a game session placement to retrieve. Constraints: • min: 1 • max: 48 • pattern: ^[a-zA-Z0-9-]+$
     /// </summary>
     [CliOption("--placement-id")]
     public string? PlacementId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsGameliftDescribeGameSessionPlacementOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

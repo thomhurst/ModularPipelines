@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +29,8 @@ public record AwsEmrDeleteStudioSessionMappingOptions : AwsOptions, IValidatable
     /// <summary>
     /// Removes a user or group from an Amazon EMR Studio. See also: AWS API Documentation
     /// </summary>
-    /// <param name="StudioId">The ID of the Amazon EMR Studio. Constraints: o min: 0 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
-    /// <param name="IdentityType">Specifies whether the identity to delete from the Amazon EMR Studio is a user or a group. Possible values: o USER o GROUP</param>
+    /// <param name="StudioId">The ID of the Amazon EMR Studio. Constraints: • min: 0 • max: 256 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
+    /// <param name="IdentityType">Specifies whether the identity to delete from the Amazon EMR Studio is a user or a group. Possible values: • USER • GROUP</param>
     public AwsEmrDeleteStudioSessionMappingOptions(
         string StudioId,
         AwsEmrDeleteStudioSessionMappingIdentityType IdentityType
@@ -60,25 +61,25 @@ public record AwsEmrDeleteStudioSessionMappingOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon EMR Studio. Constraints: o min: 0 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// The ID of the Amazon EMR Studio. Constraints: • min: 0 • max: 256 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
     [CliOption("--studio-id")]
     public string? StudioId { get; private init; }
 
     /// <summary>
-    /// Specifies whether the identity to delete from the Amazon EMR Studio is a user or a group. Possible values: o USER o GROUP
+    /// Specifies whether the identity to delete from the Amazon EMR Studio is a user or a group. Possible values: • USER • GROUP
     /// </summary>
     [CliOption("--identity-type")]
     public AwsEmrDeleteStudioSessionMappingIdentityType? IdentityType { get; private init; }
 
     /// <summary>
-    /// The globally unique identifier (GUID) of the user or group to remove from the Amazon EMR Studio. For more information, see UserId and GroupId in the IAM Identity Center Identity Store API Reference . Either IdentityName or IdentityId must be specified. Constraints: o min: 0 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// The globally unique identifier (GUID) of the user or group to remove from the Amazon EMR Studio. For more information, see UserId and GroupId in the IAM Identity Center Identity Store API Reference . Either IdentityName or IdentityId must be specified. Constraints: • min: 0 • max: 256 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
     [CliOption("--identity-id")]
     public string? IdentityId { get; set; }
 
     /// <summary>
-    /// The name of the user name or group to remove from the Amazon EMR Studio. For more information, see UserName and DisplayName in the IAM Identity Center Store API Reference . Either IdentityName or IdentityId must be specified. Constraints: o min: 0 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// The name of the user name or group to remove from the Amazon EMR Studio. For more information, see UserName and DisplayName in the IAM Identity Center Store API Reference . Either IdentityName or IdentityId must be specified. Constraints: • min: 0 • max: 256 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
     [CliOption("--identity-name")]
     public string? IdentityName { get; set; }
@@ -104,6 +105,15 @@ public record AwsEmrDeleteStudioSessionMappingOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

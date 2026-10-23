@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsIotUpdateBillingGroupOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates information about the billing group. Requires permission to access the UpdateBillingGroup action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BillingGroupName">The name of the billing group. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+</param>
-    /// <param name="BillingGroupProperties">The properties of the billing group. billingGroupDescription -&gt; (string) The description of the billing group. Constraints: o max: 2028 o pattern: [\p{Graph}\x20]* Shorthand Syntax: billingGroupDescription=string JSON Syntax: { "billingGroupDescription": "string" }</param>
+    /// <param name="BillingGroupName">The name of the billing group. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+</param>
+    /// <param name="BillingGroupProperties">The properties of the billing group. billingGroupDescription -&gt; (string) The description of the billing group. Constraints: • max: 2028 • pattern: [\p{Graph}\x20]* Shorthand Syntax: billingGroupDescription=string JSON Syntax: { "billingGroupDescription": "string" }</param>
     public AwsIotUpdateBillingGroupOptions(
         string BillingGroupName,
         string BillingGroupProperties
@@ -60,22 +61,22 @@ public record AwsIotUpdateBillingGroupOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the billing group. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+
+    /// The name of the billing group. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+
     /// </summary>
     [CliOption("--billing-group-name")]
     public string? BillingGroupName { get; private init; }
 
     /// <summary>
-    /// The properties of the billing group. billingGroupDescription -&gt; (string) The description of the billing group. Constraints: o max: 2028 o pattern: [\p{Graph}\x20]* Shorthand Syntax: billingGroupDescription=string JSON Syntax: { "billingGroupDescription": "string" }
+    /// The properties of the billing group. billingGroupDescription -&gt; (string) The description of the billing group. Constraints: • max: 2028 • pattern: [\p{Graph}\x20]* Shorthand Syntax: billingGroupDescription=string JSON Syntax: { "billingGroupDescription": "string" }
     /// </summary>
     [CliOption("--billing-group-properties")]
     public string? BillingGroupProperties { get; private init; }
 
     /// <summary>
-    /// The expected version of the billing group. If the version of the billing group does not match the expected version specified in the request, the UpdateBillingGroup request is rejected with a Version- ConflictException .
+    /// The expected version of the billing group. If the version of the billing group does not match the expected version specified in the request, the UpdateBillingGroup request is rejected with a VersionConflictException .
     /// </summary>
     [CliOption("--expected-version")]
-    public int? ExpectedVersion { get; set; }
+    public long? ExpectedVersion { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -98,6 +99,15 @@ public record AwsIotUpdateBillingGroupOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

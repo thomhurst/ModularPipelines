@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsIotUpdatePackageOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates the supported fields for a specific software package. Requires permission to access the UpdatePackage and GetIndexingConfiguration actions. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PackageName">The name of the target software package. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9-_.]+</param>
+    /// <param name="PackageName">The name of the target software package. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9-_.]+</param>
     public AwsIotUpdatePackageOptions(
         string PackageName
     )
@@ -57,31 +58,31 @@ public record AwsIotUpdatePackageOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the target software package. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9-_.]+
+    /// The name of the target software package. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9-_.]+
     /// </summary>
     [CliOption("--package-name")]
     public string? PackageName { get; private init; }
 
     /// <summary>
-    /// The package description. Constraints: o min: 0 o max: 1024 o pattern: [^\p{C}]+
+    /// The package description. Constraints: • min: 0 • max: 1024 • pattern: [^\p{C}]+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The name of the default package version. Note: You cannot name a defaultVersion and set unsetDefaultVer- sion equal to true at the same time. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-_.]+
+    /// The name of the default package version. Note: You cannot name a defaultVersion and set unsetDefaultVersion equal to true at the same time. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-_.]+
     /// </summary>
     [CliOption("--default-version-name")]
     public string? DefaultVersionName { get; set; }
 
     /// <summary>
-    /// Indicates whether you want to remove the named default package ver- sion from the software package. Set as true to remove the default package version. Note: You cannot name a defaultVersion and set unsetDefaultVer- sion equal to true at the same time.
+    /// Indicates whether you want to remove the named default package version from the software package. Set as true to remove the default package version. Note: You cannot name a defaultVersion and set unsetDefaultVersion equal to true at the same time.
     /// </summary>
     [CliFlag("--unset-default-version", NegatedName = "--no-unset-default-version")]
     public bool? UnsetDefaultVersion { get; set; }
 
     /// <summary>
-    /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required. Constraints: o min: 36 o max: 64 o pattern: \S{36,64}
+    /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required. Constraints: • min: 36 • max: 64 • pattern: \S{36,64}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -108,6 +109,15 @@ public record AwsIotUpdatePackageOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

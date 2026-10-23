@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Given a user pool ID, returns a list of users and their basic details in a user pool. This operation is eventually consistent. You might experience a delay before results are up-to-date. To validate the existence or configura- tion of an individual user, use AdminGetUser . NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresp...
+/// Given a user pool ID, returns a list of users and their basic details in a user pool. This operation is eventually consistent. You might experience a delay before results are up-to-date. To validate the existence or configuration of an individual user, use AdminGetUser . NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the correspondi...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsCognitoIdpListUsersOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Given a user pool ID, returns a list of users and their basic details in a user pool. This operation is eventually consistent. You might experience a delay before results are up-to-date. To validate the existence or configura- tion of an individual user, use AdminGetUser . NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresp...
+    /// Given a user pool ID, returns a list of users and their basic details in a user pool. This operation is eventually consistent. You might experience a delay before results are up-to-date. To validate the existence or configuration of an individual user, use AdminGetUser . NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the correspondi...
     /// </summary>
-    /// <param name="UserPoolId">The ID of the user pool where you want to display or search for users. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+</param>
+    /// <param name="UserPoolId">The ID of the user pool where you want to display or search for users. Constraints: • min: 1 • max: 55 • pattern: [\w-]+_[0-9a-zA-Z]+</param>
     public AwsCognitoIdpListUsersOptions(
         string UserPoolId
     )
@@ -57,19 +58,19 @@ public record AwsCognitoIdpListUsersOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the user pool where you want to display or search for users. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+
+    /// The ID of the user pool where you want to display or search for users. Constraints: • min: 1 • max: 55 • pattern: [\w-]+_[0-9a-zA-Z]+
     /// </summary>
     [CliOption("--user-pool-id")]
     public string? UserPoolId { get; private init; }
 
     /// <summary>
-    /// A JSON array of user attribute names, for example given_name , that you want Amazon Cognito to include in the response for each user. When you don't provide an AttributesToGet parameter, Amazon Cognito returns all attributes for each user. Use AttributesToGet with required attributes in your user pool, or in conjunction with Filter . Amazon Cognito returns an error if not all users in the results have set a value for the attribute you re- quest. Attributes that you can't filter on, including custom attrib- utes, must have a value set in every user profile before an Attrib- utesToGet parameter returns results. (string) Constraints: o min: 1 o max: 32 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ Syntax: "string" "string" ...
+    /// A JSON array of user attribute names, for example given_name , that you want Amazon Cognito to include in the response for each user. When you don't provide an AttributesToGet parameter, Amazon Cognito returns all attributes for each user. Use AttributesToGet with required attributes in your user pool, or in conjunction with Filter . Amazon Cognito returns an error if not all users in the results have set a value for the attribute you request. Attributes that you can't filter on, including custom attributes, must have a value set in every user profile before an AttributesToGet parameter returns results. (string) Constraints: • min: 1 • max: 32 • pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--attributes-to-get", GroupValues = true)]
     public IEnumerable<string>? AttributesToGet { get; set; }
 
     /// <summary>
-    /// A filter string of the form "AttributeName Filter-Type "Attribute- Value" . Quotation marks within the filter string must be escaped using the backslash (\ ) character. For example, "family_name = \"Reddy\"" . o AttributeName : The name of the attribute to search for. You can only search for one attribute at a time. o Filter-Type : For an exact match, use = , for example, "given_name = \"Jon\" ". For a prefix ("starts with") match, use ^= , for ex- ample, "given_name ^= \"Jon\" ". o AttributeValue : The attribute value that must be matched for each user. If the filter string is empty, ListUsers returns all users in the user pool. You can only search for the following standard attributes: o username (case-sensitive) o email o phone_number o name o given_name o family_name o preferred_username o cognito:user_status (called Status in the Console) (case-insensi- tive) o status (called **Enabled** in the Console) (case-sensitive) o sub Custom attributes aren't searchable. NOTE: You can also list users with a client-side filter. The server-side filter matches no more than one attribute. For an advanced search, use a client-side filter with the --query para- meter of the list-users action in the CLI. When you use a client-side filter, ListUsers returns a paginated list of zero or more users. You can receive multiple pages in a row with zero results. Repeat the query with each pagination token that is re- turned until you receive a null pagination token value, and then review the combined result. For more information about server-side and client-side filter- ing, see FilteringCLI output in the Command Line Interface User Guide . For more information, see Searching for Users Using the ListUsers API and Examples of Using the ListUsers API in the Amazon Cognito Developer Guide . Constraints: o max: 256
+    /// A filter string of the form "AttributeName Filter-Type "AttributeValue" . Quotation marks within the filter string must be escaped using the backslash (\ ) character. For example, "family_name = \"Reddy\"" . • AttributeName : The name of the attribute to search for. You can only search for one attribute at a time. • Filter-Type : For an exact match, use = , for example, "given_name = \"Jon\" ". For a prefix ("starts with") match, use ^= , for example, "given_name ^= \"Jon\" ". • AttributeValue : The attribute value that must be matched for each user. If the filter string is empty, ListUsers returns all users in the user pool. You can only search for the following standard attributes: • username (case-sensitive) • email • phone_number • name • given_name • family_name • preferred_username • cognito:user_status (called Status in the Console) (case-insensitive) • status (called **Enabled** in the Console) (case-sensitive) • sub Custom attributes aren't searchable. NOTE: You can also list users with a client-side filter. The server-side filter matches no more than one attribute. For an advanced search, use a client-side filter with the --query parameter of the list-users action in the CLI. When you use a client-side filter, ListUsers returns a paginated list of zero or more users. You can receive multiple pages in a row with zero results. Repeat the query with each pagination token that is returned until you receive a null pagination token value, and then review the combined result. For more information about server-side and client-side filtering, see FilteringCLI output in the Command Line Interface User Guide . For more information, see Searching for Users Using the ListUsers API and Examples of Using the ListUsers API in the Amazon Cognito Developer Guide . Constraints: • max: 256
     /// </summary>
     [SecretValue]
     [CliOption("--filter")]
@@ -77,9 +78,6 @@ public record AwsCognitoIdpListUsersOptions : AwsOptions, IValidatableObject
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -89,16 +87,19 @@ public record AwsCognitoIdpListUsersOptions : AwsOptions, IValidatableObject
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 0 o max: 60
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 0 • max: 60
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -115,6 +116,15 @@ public record AwsCognitoIdpListUsersOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

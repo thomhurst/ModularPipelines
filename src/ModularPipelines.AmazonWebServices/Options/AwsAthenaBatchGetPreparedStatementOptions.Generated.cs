@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the details of a single prepared statement or a list of up to 256 prepared statements for the array of prepared statement names that you provide. Requires you to have access to the workgroup to which the prepared statements belong. If a prepared statement cannot be retrieved for the name specified, the statement is listed in UnprocessedPrepared- StatementNames . See also: AWS API Documentation
+/// Returns the details of a single prepared statement or a list of up to 256 prepared statements for the array of prepared statement names that you provide. Requires you to have access to the workgroup to which the prepared statements belong. If a prepared statement cannot be retrieved for the name specified, the statement is listed in UnprocessedPreparedStatementNames . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsAthenaBatchGetPreparedStatementOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the details of a single prepared statement or a list of up to 256 prepared statements for the array of prepared statement names that you provide. Requires you to have access to the workgroup to which the prepared statements belong. If a prepared statement cannot be retrieved for the name specified, the statement is listed in UnprocessedPrepared- StatementNames . See also: AWS API Documentation
+    /// Returns the details of a single prepared statement or a list of up to 256 prepared statements for the array of prepared statement names that you provide. Requires you to have access to the workgroup to which the prepared statements belong. If a prepared statement cannot be retrieved for the name specified, the statement is listed in UnprocessedPreparedStatementNames . See also: AWS API Documentation
     /// </summary>
-    /// <param name="PreparedStatementNames">A list of prepared statement names to return. (string) Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z_][a-zA-Z0-9_@:]{1,256} Syntax: "string" "string" ...</param>
-    /// <param name="WorkGroup">The name of the workgroup to which the prepared statements belong. Constraints: o pattern: [a-zA-Z0-9._-]{1,128}</param>
+    /// <param name="PreparedStatementNames">A list of prepared statement names to return. (string) Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z_][a-zA-Z0-9_@:]{1,256} Syntax: "string" "string" ...</param>
+    /// <param name="WorkGroup">The name of the workgroup to which the prepared statements belong. Constraints: • pattern: [a-zA-Z0-9._-]{1,128}</param>
     public AwsAthenaBatchGetPreparedStatementOptions(
         IEnumerable<string> PreparedStatementNames,
         string WorkGroup
@@ -71,13 +72,13 @@ public record AwsAthenaBatchGetPreparedStatementOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A list of prepared statement names to return. (string) Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z_][a-zA-Z0-9_@:]{1,256} Syntax: "string" "string" ...
+    /// A list of prepared statement names to return. (string) Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z_][a-zA-Z0-9_@:]{1,256} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--prepared-statement-names", GroupValues = true)]
     public IEnumerable<string>? PreparedStatementNames { get; private init; }
 
     /// <summary>
-    /// The name of the workgroup to which the prepared statements belong. Constraints: o pattern: [a-zA-Z0-9._-]{1,128}
+    /// The name of the workgroup to which the prepared statements belong. Constraints: • pattern: [a-zA-Z0-9._-]{1,128}
     /// </summary>
     [CliOption("--work-group")]
     public string? WorkGroup { get; private init; }
@@ -103,6 +104,15 @@ public record AwsAthenaBatchGetPreparedStatementOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

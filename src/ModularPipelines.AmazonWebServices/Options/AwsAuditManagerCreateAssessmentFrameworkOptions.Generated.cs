@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +28,8 @@ public record AwsAuditManagerCreateAssessmentFrameworkOptions : AwsOptions, IVal
     /// <summary>
     /// Creates a custom framework in Audit Manager. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the new custom framework. Constraints: o min: 1 o max: 300 o pattern: ^[^\\]*$</param>
-    /// <param name="ControlSets">The control sets that are associated with the framework. NOTE: The Controls object returns a partial response when called through Framework APIs. For a complete Controls object, use Get- Control . Constraints: o min: 1 (structure) A controlSet entity that represents a collection of controls in Audit Manager. This doesn't contain the control set ID. name -&gt; (string) [required] The name of the control set. Constraints: o min: 1 o max: 300 o pattern: ^[^\\\_]*$ controls -&gt; (list) The list of controls within the control set. This doesn't contain the control set ID. Constraints: o min: 1 (structure) The control entity attributes that uniquely identify an existing control to be added to a framework in Audit Man- ager. id -&gt; (string) [required] The unique identifier of the control. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$ Shorthand Syntax: name=string,controls=[{id=string},{id=string}] ... JSON Syntax: [ { "name": "string", "controls": [ { "id": "string" } ... ] } ... ]</param>
+    /// <param name="Name">The name of the new custom framework. Constraints: • min: 1 • max: 300 • pattern: ^[^\\]*$</param>
+    /// <param name="ControlSets">The control sets that are associated with the framework. NOTE: The Controls object returns a partial response when called through Framework APIs. For a complete Controls object, use GetControl . Constraints: • min: 1 (structure) A controlSet entity that represents a collection of controls in Audit Manager. This doesn't contain the control set ID. name -&gt; (string) [required] The name of the control set. Constraints: • min: 1 • max: 300 • pattern: ^[^\\\_]*$ controls -&gt; (list) The list of controls within the control set. This doesn't contain the control set ID. Constraints: • min: 1 (structure) The control entity attributes that uniquely identify an existing control to be added to a framework in Audit Manager. id -&gt; (string) [required] The unique identifier of the control. Constraints: • min: 36 • max: 36 • pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$ Shorthand Syntax: name=string,controls=[{id=string},{id=string}] ... JSON Syntax: [ { "name": "string", "controls": [ { "id": "string" } ... ] } ... ]</param>
     public AwsAuditManagerCreateAssessmentFrameworkOptions(
         string Name,
         IEnumerable<string> ControlSets
@@ -72,31 +72,31 @@ public record AwsAuditManagerCreateAssessmentFrameworkOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the new custom framework. Constraints: o min: 1 o max: 300 o pattern: ^[^\\]*$
+    /// The name of the new custom framework. Constraints: • min: 1 • max: 300 • pattern: ^[^\\]*$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The control sets that are associated with the framework. NOTE: The Controls object returns a partial response when called through Framework APIs. For a complete Controls object, use Get- Control . Constraints: o min: 1 (structure) A controlSet entity that represents a collection of controls in Audit Manager. This doesn't contain the control set ID. name -&gt; (string) [required] The name of the control set. Constraints: o min: 1 o max: 300 o pattern: ^[^\\\_]*$ controls -&gt; (list) The list of controls within the control set. This doesn't contain the control set ID. Constraints: o min: 1 (structure) The control entity attributes that uniquely identify an existing control to be added to a framework in Audit Man- ager. id -&gt; (string) [required] The unique identifier of the control. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$ Shorthand Syntax: name=string,controls=[{id=string},{id=string}] ... JSON Syntax: [ { "name": "string", "controls": [ { "id": "string" } ... ] } ... ]
+    /// The control sets that are associated with the framework. NOTE: The Controls object returns a partial response when called through Framework APIs. For a complete Controls object, use GetControl . Constraints: • min: 1 (structure) A controlSet entity that represents a collection of controls in Audit Manager. This doesn't contain the control set ID. name -&gt; (string) [required] The name of the control set. Constraints: • min: 1 • max: 300 • pattern: ^[^\\\_]*$ controls -&gt; (list) The list of controls within the control set. This doesn't contain the control set ID. Constraints: • min: 1 (structure) The control entity attributes that uniquely identify an existing control to be added to a framework in Audit Manager. id -&gt; (string) [required] The unique identifier of the control. Constraints: • min: 36 • max: 36 • pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$ Shorthand Syntax: name=string,controls=[{id=string},{id=string}] ... JSON Syntax: [ { "name": "string", "controls": [ { "id": "string" } ... ] } ... ]
     /// </summary>
     [CliOption("--control-sets", GroupValues = true)]
     public IEnumerable<string>? ControlSets { get; private init; }
 
     /// <summary>
-    /// An optional description for the new custom framework. Constraints: o min: 1 o max: 1000 o pattern: ^[\w\W\s\S]*$
+    /// An optional description for the new custom framework. Constraints: • min: 1 • max: 1000 • pattern: ^[\w\W\s\S]*$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The compliance type that the new custom framework supports, such as CIS or HIPAA. Constraints: o max: 100 o pattern: ^[\w\W\s\S]*$
+    /// The compliance type that the new custom framework supports, such as CIS or HIPAA. Constraints: • max: 100 • pattern: ^[\w\W\s\S]*$
     /// </summary>
     [CliOption("--compliance-type")]
     public string? ComplianceType { get; set; }
 
     /// <summary>
-    /// The tags that are associated with the framework. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: .{0,255} Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags that are associated with the framework. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: .{0,255} Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -122,6 +122,15 @@ public record AwsAuditManagerCreateAssessmentFrameworkOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

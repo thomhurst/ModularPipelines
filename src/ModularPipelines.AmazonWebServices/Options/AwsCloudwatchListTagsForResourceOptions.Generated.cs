@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Displays the tags associated with a CloudWatch resource. Currently, alarms, dashboards, metric streams and Contributor Insights rules sup- port tagging. See also: AWS API Documentation
+/// Displays the tags associated with a CloudWatch resource. Currently, alarms, dashboards, metric streams and Contributor Insights rules support tagging. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsCloudwatchListTagsForResourceOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Displays the tags associated with a CloudWatch resource. Currently, alarms, dashboards, metric streams and Contributor Insights rules sup- port tagging. See also: AWS API Documentation
+    /// Displays the tags associated with a CloudWatch resource. Currently, alarms, dashboards, metric streams and Contributor Insights rules support tagging. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The ARN of the CloudWatch resource that you want to view tags for. The ARN format of an alarm is `` arn:aws:cloudwatch:Region :account-id :alarm:alarm-name `` System Message: WARNING/2 (&lt;string&gt;:, line 72) Inline literal start-string without end-string. The ARN format of a Contributor Insights rule is `` arn:aws:cloudwatch:Region :account-id :insight-rule/in- sight-rule-name `` System Message: WARNING/2 (&lt;string&gt;:, line 76) Inline literal start-string without end-string. The ARN format of a dashboard is `` arn:aws:cloudwatch::account-id :dashboard/dashboard-name `` System Message: WARNING/2 (&lt;string&gt;:, line 80) Inline literal start-string without end-string. The ARN format of a metric stream is `` arn:aws:cloudwatch:Region :account-id :metric-stream/met- ric-stream-name `` System Message: WARNING/2 (&lt;string&gt;:, line 84) Inline literal start-string without end-string. For more information about ARN format, see Resource Types De- fined by Amazon CloudWatch in the Amazon Web Services General Reference . Constraints: o min: 1 o max: 1024</param>
+    /// <param name="ResourceArn">The ARN of the CloudWatch resource that you want to view tags for. The ARN format of an alarm is `` arn:aws:cloudwatch:Region :account-id :alarm:alarm-name `` System Message: WARNING/2 (&lt;string&gt;:, line 72) Inline literal start-string without end-string. The ARN format of a Contributor Insights rule is `` arn:aws:cloudwatch:Region :account-id :insight-rule/insight-rule-name `` System Message: WARNING/2 (&lt;string&gt;:, line 76) Inline literal start-string without end-string. The ARN format of a dashboard is `` arn:aws:cloudwatch::account-id :dashboard/dashboard-name `` System Message: WARNING/2 (&lt;string&gt;:, line 80) Inline literal start-string without end-string. The ARN format of a metric stream is `` arn:aws:cloudwatch:Region :account-id :metric-stream/metric-stream-name `` System Message: WARNING/2 (&lt;string&gt;:, line 84) Inline literal start-string without end-string. For more information about ARN format, see Resource Types Defined by Amazon CloudWatch in the Amazon Web Services General Reference . Constraints: • min: 1 • max: 1024</param>
     public AwsCloudwatchListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +57,7 @@ public record AwsCloudwatchListTagsForResourceOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the CloudWatch resource that you want to view tags for. The ARN format of an alarm is `` arn:aws:cloudwatch:Region :account-id :alarm:alarm-name `` System Message: WARNING/2 (&lt;string&gt;:, line 72) Inline literal start-string without end-string. The ARN format of a Contributor Insights rule is `` arn:aws:cloudwatch:Region :account-id :insight-rule/in- sight-rule-name `` System Message: WARNING/2 (&lt;string&gt;:, line 76) Inline literal start-string without end-string. The ARN format of a dashboard is `` arn:aws:cloudwatch::account-id :dashboard/dashboard-name `` System Message: WARNING/2 (&lt;string&gt;:, line 80) Inline literal start-string without end-string. The ARN format of a metric stream is `` arn:aws:cloudwatch:Region :account-id :metric-stream/met- ric-stream-name `` System Message: WARNING/2 (&lt;string&gt;:, line 84) Inline literal start-string without end-string. For more information about ARN format, see Resource Types De- fined by Amazon CloudWatch in the Amazon Web Services General Reference . Constraints: o min: 1 o max: 1024
+    /// The ARN of the CloudWatch resource that you want to view tags for. The ARN format of an alarm is `` arn:aws:cloudwatch:Region :account-id :alarm:alarm-name `` System Message: WARNING/2 (&lt;string&gt;:, line 72) Inline literal start-string without end-string. The ARN format of a Contributor Insights rule is `` arn:aws:cloudwatch:Region :account-id :insight-rule/insight-rule-name `` System Message: WARNING/2 (&lt;string&gt;:, line 76) Inline literal start-string without end-string. The ARN format of a dashboard is `` arn:aws:cloudwatch::account-id :dashboard/dashboard-name `` System Message: WARNING/2 (&lt;string&gt;:, line 80) Inline literal start-string without end-string. The ARN format of a metric stream is `` arn:aws:cloudwatch:Region :account-id :metric-stream/metric-stream-name `` System Message: WARNING/2 (&lt;string&gt;:, line 84) Inline literal start-string without end-string. For more information about ARN format, see Resource Types Defined by Amazon CloudWatch in the Amazon Web Services General Reference . Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsCloudwatchListTagsForResourceOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists subscription grants. See also: AWS API Documentation list-subscription-grants is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: items
+/// Lists subscription grants. See also: AWS API Documentation list-subscription-grants is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +28,9 @@ public record AwsDatazoneListSubscriptionGrantsOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists subscription grants. See also: AWS API Documentation list-subscription-grants is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: items
+    /// Lists subscription grants. See also: AWS API Documentation list-subscription-grants is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
-    /// <param name="DomainIdentifier">The identifier of the Amazon DataZone domain. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="DomainIdentifier">The identifier of the Amazon DataZone domain. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
     public AwsDatazoneListSubscriptionGrantsOptions(
         string DomainIdentifier
     )
@@ -58,76 +59,73 @@ public record AwsDatazoneListSubscriptionGrantsOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Amazon DataZone domain. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The identifier of the Amazon DataZone domain. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The identifier of the Amazon DataZone environment. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The identifier of the Amazon DataZone environment. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--environment-id")]
     public string? EnvironmentId { get; set; }
 
     /// <summary>
-    /// The identifier of the subscription target. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The identifier of the subscription target. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--subscription-target-id")]
     public string? SubscriptionTargetId { get; set; }
 
     /// <summary>
-    /// The identifier of the subscribed listing. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The identifier of the subscribed listing. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--subscribed-listing-id")]
     public string? SubscribedListingId { get; set; }
 
     /// <summary>
-    /// The identifier of the subscription. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The identifier of the subscription. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--subscription-id")]
     public string? SubscriptionId { get; set; }
 
     /// <summary>
-    /// The ID of the owning project of the subscription grants. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The ID of the owning project of the subscription grants. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--owning-project-id")]
     public string? OwningProjectId { get; set; }
 
     /// <summary>
-    /// The ARN of the owning IAM principal. Constraints: o min: 1 o max: 255 o pattern: arn:aws[^:]*:iam::\d{12}:(role|user)(/[\w+=,.@-]*)*/[\w+=,.@-]+
+    /// The ARN of the owning IAM principal. Constraints: • min: 1 • max: 255 • pattern: arn:aws[^:]*:iam::\d{12}:(role|user)(/[\w+=,.@-]*)*/[\w+=,.@-]+
     /// </summary>
     [CliOption("--owning-iam-principal-arn")]
     public string? OwningIamPrincipalArn { get; set; }
 
     /// <summary>
-    /// The ID of the owning user. Constraints: o pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}
+    /// The ID of the owning user. Constraints: • pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}
     /// </summary>
     [CliOption("--owning-user-id")]
     public string? OwningUserId { get; set; }
 
     /// <summary>
-    /// The ID of the owning group. Constraints: o pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}
+    /// The ID of the owning group. Constraints: • pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}
     /// </summary>
     [CliOption("--owning-group-id")]
     public string? OwningGroupId { get; set; }
 
     /// <summary>
-    /// Specifies the way of sorting the results of this action. Possible values: o CREATED_AT o UPDATED_AT
+    /// Specifies the way of sorting the results of this action. Possible values: • CREATED_AT • UPDATED_AT
     /// </summary>
     [CliOption("--sort-by")]
     public AwsDatazoneListSubscriptionGrantsSortBy? SortBy { get; set; }
 
     /// <summary>
-    /// Specifies the sort order of this action. Possible values: o ASCENDING o DESCENDING
+    /// Specifies the sort order of this action. Possible values: • ASCENDING • DESCENDING
     /// </summary>
     [CliOption("--sort-order")]
     public AwsDatazoneListSubscriptionGrantsSortOrder? SortOrder { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -137,16 +135,19 @@ public record AwsDatazoneListSubscriptionGrantsOptions : AwsOptions, IValidatabl
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 50
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -163,6 +164,15 @@ public record AwsDatazoneListSubscriptionGrantsOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

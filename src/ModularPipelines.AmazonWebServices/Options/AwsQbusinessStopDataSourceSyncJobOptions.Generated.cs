@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsQbusinessStopDataSourceSyncJobOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Stops an Amazon Q Business data source connector synchronization job already in progress. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DataSourceId">The identifier of the data source connector. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
-    /// <param name="ApplicationId">The identifier of the Amazon Q Business application that the data source is connected to. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
-    /// <param name="IndexId">The identifier of the index used with the Amazon Q Business data source connector. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
+    /// <param name="DataSourceId">The identifier of the data source connector. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
+    /// <param name="ApplicationId">The identifier of the Amazon Q Business application that the data source is connected to. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
+    /// <param name="IndexId">The identifier of the index used with the Amazon Q Business data source connector. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
     public AwsQbusinessStopDataSourceSyncJobOptions(
         string DataSourceId,
         string ApplicationId,
@@ -64,19 +65,19 @@ public record AwsQbusinessStopDataSourceSyncJobOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the data source connector. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
+    /// The identifier of the data source connector. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
     /// </summary>
     [CliOption("--data-source-id")]
     public string? DataSourceId { get; private init; }
 
     /// <summary>
-    /// The identifier of the Amazon Q Business application that the data source is connected to. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
+    /// The identifier of the Amazon Q Business application that the data source is connected to. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// The identifier of the index used with the Amazon Q Business data source connector. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
+    /// The identifier of the index used with the Amazon Q Business data source connector. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
     /// </summary>
     [CliOption("--index-id")]
     public string? IndexId { get; private init; }
@@ -102,6 +103,15 @@ public record AwsQbusinessStopDataSourceSyncJobOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

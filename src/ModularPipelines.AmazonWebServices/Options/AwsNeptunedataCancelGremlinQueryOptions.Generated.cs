@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Cancels a Gremlin query. See Gremlin query cancellation for more infor- mation. When invoking this operation in a Neptune cluster that has IAM authen- tication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CancelQuery IAM action in that cluster. See also: AWS API Documentation
+/// Cancels a Gremlin query. See Gremlin query cancellation for more information. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CancelQuery IAM action in that cluster. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsNeptunedataCancelGremlinQueryOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Cancels a Gremlin query. See Gremlin query cancellation for more infor- mation. When invoking this operation in a Neptune cluster that has IAM authen- tication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CancelQuery IAM action in that cluster. See also: AWS API Documentation
+    /// Cancels a Gremlin query. See Gremlin query cancellation for more information. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CancelQuery IAM action in that cluster. See also: AWS API Documentation
     /// </summary>
     /// <param name="QueryId">The unique identifier that identifies the query to be canceled.</param>
     public AwsNeptunedataCancelGremlinQueryOptions(
@@ -82,6 +83,15 @@ public record AwsNeptunedataCancelGremlinQueryOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

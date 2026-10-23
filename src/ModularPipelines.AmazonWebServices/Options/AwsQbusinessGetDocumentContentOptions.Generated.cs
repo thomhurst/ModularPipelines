@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +29,9 @@ public record AwsQbusinessGetDocumentContentOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Retrieves the content of a document that was ingested into Amazon Q Business. This API validates user authorization against document ACLs before returning a pre-signed URL for secure document access. You can download or view source documents referenced in chat responses through the URL. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The unique identifier of the Amazon Q Business application contain- ing the document. This ensures the request is scoped to the correct application environment and its associated security policies. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
-    /// <param name="IndexId">The identifier of the index where documents are indexed. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
-    /// <param name="DocumentId">The unique identifier of the document that is indexed via BatchPut- Document API or file-upload or connector sync. It is also found in chat or chatSync response. Constraints: o min: 1 o max: 1825 o pattern: \P{C}*</param>
+    /// <param name="ApplicationId">The unique identifier of the Amazon Q Business application containing the document. This ensures the request is scoped to the correct application environment and its associated security policies. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
+    /// <param name="IndexId">The identifier of the index where documents are indexed. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
+    /// <param name="DocumentId">The unique identifier of the document that is indexed via BatchPutDocument API or file-upload or connector sync. It is also found in chat or chatSync response. Constraints: • min: 1 • max: 1825 • pattern: \P{C}*</param>
     public AwsQbusinessGetDocumentContentOptions(
         string ApplicationId,
         string IndexId,
@@ -65,31 +66,31 @@ public record AwsQbusinessGetDocumentContentOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the Amazon Q Business application contain- ing the document. This ensures the request is scoped to the correct application environment and its associated security policies. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
+    /// The unique identifier of the Amazon Q Business application containing the document. This ensures the request is scoped to the correct application environment and its associated security policies. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// The identifier of the index where documents are indexed. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
+    /// The identifier of the index where documents are indexed. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
     /// </summary>
     [CliOption("--index-id")]
     public string? IndexId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the document that is indexed via BatchPut- Document API or file-upload or connector sync. It is also found in chat or chatSync response. Constraints: o min: 1 o max: 1825 o pattern: \P{C}*
+    /// The unique identifier of the document that is indexed via BatchPutDocument API or file-upload or connector sync. It is also found in chat or chatSync response. Constraints: • min: 1 • max: 1825 • pattern: \P{C}*
     /// </summary>
     [CliOption("--document-id")]
     public string? DocumentId { get; private init; }
 
     /// <summary>
-    /// The identifier of the data source from which the document was in- gested. This field is not present if the document is ingested by di- rectly calling the BatchPutDocument API. If the document is from a file-upload data source, the datasource will be "up- loaded-docs-file-stat-datasourceid". Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
+    /// The identifier of the data source from which the document was ingested. This field is not present if the document is ingested by directly calling the BatchPutDocument API. If the document is from a file-upload data source, the datasource will be "uploaded-docs-file-stat-datasourceid". Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
     /// </summary>
     [CliOption("--data-source-id")]
     public string? DataSourceId { get; set; }
 
     /// <summary>
-    /// Document outputFormat. Defaults to RAW if not selected. Possible values: o RAW o EXTRACTED
+    /// Document outputFormat. Defaults to RAW if not selected. Possible values: • RAW • EXTRACTED
     /// </summary>
     [CliOption("--output-format")]
     public AwsQbusinessGetDocumentContentOutputFormat? OutputFormat { get; set; }
@@ -115,6 +116,15 @@ public record AwsQbusinessGetDocumentContentOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

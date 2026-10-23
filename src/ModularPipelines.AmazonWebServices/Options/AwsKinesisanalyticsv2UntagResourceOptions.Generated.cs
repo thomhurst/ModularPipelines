@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes one or more tags from a Managed Service for Apache Flink appli- cation. For more information, see Using Tagging . See also: AWS API Documentation
+/// Removes one or more tags from a Managed Service for Apache Flink application. For more information, see Using Tagging . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsKinesisanalyticsv2UntagResourceOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes one or more tags from a Managed Service for Apache Flink appli- cation. For more information, see Using Tagging . See also: AWS API Documentation
+    /// Removes one or more tags from a Managed Service for Apache Flink application. For more information, see Using Tagging . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The ARN of the Managed Service for Apache Flink application from which to remove the tags. Constraints: o min: 1 o max: 2048 o pattern: arn:.*</param>
-    /// <param name="TagKeys">A list of keys of tags to remove from the specified application. Constraints: o min: 1 o max: 200 (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArn">The ARN of the Managed Service for Apache Flink application from which to remove the tags. Constraints: • min: 1 • max: 2048 • pattern: arn:.*</param>
+    /// <param name="TagKeys">A list of keys of tags to remove from the specified application. Constraints: • min: 1 • max: 200 (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...</param>
     public AwsKinesisanalyticsv2UntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -71,13 +72,13 @@ public record AwsKinesisanalyticsv2UntagResourceOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the Managed Service for Apache Flink application from which to remove the tags. Constraints: o min: 1 o max: 2048 o pattern: arn:.*
+    /// The ARN of the Managed Service for Apache Flink application from which to remove the tags. Constraints: • min: 1 • max: 2048 • pattern: arn:.*
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// A list of keys of tags to remove from the specified application. Constraints: o min: 1 o max: 200 (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...
+    /// A list of keys of tags to remove from the specified application. Constraints: • min: 1 • max: 200 (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }
@@ -103,6 +104,15 @@ public record AwsKinesisanalyticsv2UntagResourceOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

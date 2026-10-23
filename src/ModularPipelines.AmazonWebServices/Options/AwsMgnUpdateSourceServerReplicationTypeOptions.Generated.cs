@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +29,8 @@ public record AwsMgnUpdateSourceServerReplicationTypeOptions : AwsOptions, IVali
     /// <summary>
     /// Allows you to change between the AGENT_BASED replication type and the SNAPSHOT_SHIPPING replication type. SNAPSHOT_SHIPPING should be used for agentless replication. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SourceServerId">ID of source server on which to update replication type. Constraints: o min: 19 o max: 19 o pattern: s-[0-9a-zA-Z]{17}</param>
-    /// <param name="ReplicationType">Replication type to which to update source server. Possible values: o AGENT_BASED o SNAPSHOT_SHIPPING</param>
+    /// <param name="SourceServerId">ID of source server on which to update replication type. Constraints: • min: 19 • max: 19 • pattern: s-[0-9a-zA-Z]{17}</param>
+    /// <param name="ReplicationType">Replication type to which to update source server. Possible values: • AGENT_BASED • SNAPSHOT_SHIPPING</param>
     public AwsMgnUpdateSourceServerReplicationTypeOptions(
         string SourceServerId,
         AwsMgnUpdateSourceServerReplicationTypeReplicationType ReplicationType
@@ -60,19 +61,19 @@ public record AwsMgnUpdateSourceServerReplicationTypeOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ID of source server on which to update replication type. Constraints: o min: 19 o max: 19 o pattern: s-[0-9a-zA-Z]{17}
+    /// ID of source server on which to update replication type. Constraints: • min: 19 • max: 19 • pattern: s-[0-9a-zA-Z]{17}
     /// </summary>
     [CliOption("--source-server-id")]
     public string? SourceServerId { get; private init; }
 
     /// <summary>
-    /// Replication type to which to update source server. Possible values: o AGENT_BASED o SNAPSHOT_SHIPPING
+    /// Replication type to which to update source server. Possible values: • AGENT_BASED • SNAPSHOT_SHIPPING
     /// </summary>
     [CliOption("--replication-type")]
     public AwsMgnUpdateSourceServerReplicationTypeReplicationType? ReplicationType { get; private init; }
 
     /// <summary>
-    /// Account ID on which to update replication type. Constraints: o min: 12 o max: 12 o pattern: .*[0-9]{12,}.*
+    /// Account ID on which to update replication type. Constraints: • min: 12 • max: 12 • pattern: .*[0-9]{12,}.*
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; set; }
@@ -98,6 +99,15 @@ public record AwsMgnUpdateSourceServerReplicationTypeOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

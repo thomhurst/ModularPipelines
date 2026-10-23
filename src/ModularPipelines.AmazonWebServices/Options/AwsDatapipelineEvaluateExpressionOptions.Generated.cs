@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Task runners call EvaluateExpression to evaluate a string in the con- text of the specified object. For example, a task runner can evaluate SQL queries stored in Amazon S3. See also: AWS API Documentation
+/// Task runners call EvaluateExpression to evaluate a string in the context of the specified object. For example, a task runner can evaluate SQL queries stored in Amazon S3. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsDatapipelineEvaluateExpressionOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Task runners call EvaluateExpression to evaluate a string in the con- text of the specified object. For example, a task runner can evaluate SQL queries stored in Amazon S3. See also: AWS API Documentation
+    /// Task runners call EvaluateExpression to evaluate a string in the context of the specified object. For example, a task runner can evaluate SQL queries stored in Amazon S3. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PipelineId">The ID of the pipeline. Constraints: o min: 1 o max: 1024 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
-    /// <param name="ObjectId">The ID of the object. Constraints: o min: 1 o max: 1024 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
-    /// <param name="Expression">The expression to evaluate. Constraints: o min: 0 o max: 20971520 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
+    /// <param name="PipelineId">The ID of the pipeline. Constraints: • min: 1 • max: 1024 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
+    /// <param name="ObjectId">The ID of the object. Constraints: • min: 1 • max: 1024 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
+    /// <param name="Expression">The expression to evaluate. Constraints: • min: 0 • max: 20971520 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
     public AwsDatapipelineEvaluateExpressionOptions(
         string PipelineId,
         string ObjectId,
@@ -64,19 +65,19 @@ public record AwsDatapipelineEvaluateExpressionOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the pipeline. Constraints: o min: 1 o max: 1024 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// The ID of the pipeline. Constraints: • min: 1 • max: 1024 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
     [CliOption("--pipeline-id")]
     public string? PipelineId { get; private init; }
 
     /// <summary>
-    /// The ID of the object. Constraints: o min: 1 o max: 1024 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// The ID of the object. Constraints: • min: 1 • max: 1024 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
     [CliOption("--object-id")]
     public string? ObjectId { get; private init; }
 
     /// <summary>
-    /// The expression to evaluate. Constraints: o min: 0 o max: 20971520 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// The expression to evaluate. Constraints: • min: 0 • max: 20971520 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
     [CliOption("--expression")]
     public string? Expression { get; private init; }
@@ -102,6 +103,15 @@ public record AwsDatapipelineEvaluateExpressionOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

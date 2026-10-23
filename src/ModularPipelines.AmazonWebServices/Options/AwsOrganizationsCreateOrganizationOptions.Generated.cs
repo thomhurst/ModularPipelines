@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsOrganizationsCreateOrganizationOptions : AwsOptions
 {
     /// <summary>
-    /// Specifies the feature set supported by the new organization. Each feature set supports different levels of functionality. o CONSOLIDATED_BILLING : All member accounts have their bills con- solidated to and paid by the management account. For more informa- tion, see Consolidated billing in the Organizations User Guide . The consolidated billing feature subset isn't available for orga- nizations in the Amazon Web Services GovCloud (US) Region. o ALL : In addition to all the features supported by the consoli- dated billing feature set, the management account can also apply any policy type to any member account in the organization. For more information, see All features in the Organizations User Guide . Possible values: o ALL o CONSOLIDATED_BILLING
+    /// Specifies the feature set supported by the new organization. Each feature set supports different levels of functionality. • CONSOLIDATED_BILLING : All member accounts have their bills consolidated to and paid by the management account. For more information, see Consolidated billing in the Organizations User Guide . The consolidated billing feature subset isn't available for organizations in the Amazon Web Services GovCloud (US) Region. • ALL : In addition to all the features supported by the consolidated billing feature set, the management account can also apply any policy type to any member account in the organization. For more information, see All features in the Organizations User Guide . Possible values: • ALL • CONSOLIDATED_BILLING
     /// </summary>
     [CliOption("--feature-set")]
     public AwsOrganizationsCreateOrganizationFeatureSet? FeatureSet { get; set; }
@@ -33,5 +33,14 @@ public record AwsOrganizationsCreateOrganizationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

@@ -23,26 +23,26 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsWellarchitectedListNotificationsOptions : AwsOptions
 {
     /// <summary>
-    /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region. Constraints: o min: 32 o max: 32 o pattern: [0-9a-f]{32}
+    /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region. Constraints: • min: 32 • max: 32 • pattern: [0-9a-f]{32}
     /// </summary>
     [CliOption("--workload-id")]
     public string? WorkloadId { get; set; }
 
     /// <summary>
-    /// The token to use to retrieve the next set of results. Constraints: o pattern: [A-Za-z0-9+\/=_-]+
+    /// The token to use to retrieve the next set of results. Constraints: • pattern: [A-Za-z0-9+\/=_-]+
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return for this request. Constraints: o min: 1 o max: 50
+    /// The maximum number of results to return for this request. Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The ARN for the related resource for the notification. NOTE: Only one of WorkloadID or ResourceARN should be specified. Constraints: o min: 50 o max: 250 o pattern: arn:aws(-us-gov|-iso(-[a-z])?|-cn)?:wellarchi- tected:[a-z]{2}(-gov|-iso([a-z])?)?-[a-z]+-\d:\d{12}:(review-tem- plate)/[a-f0-9]{32}
+    /// The ARN for the related resource for the notification. NOTE: Only one of WorkloadID or ResourceARN should be specified. Constraints: • min: 50 • max: 250 • pattern: arn:aws(-us-gov|-iso(-[a-z])?|-cn)?:wellarchitected:[a-z]{2}(-gov|-iso([a-z])?)?-[a-z]+-\d:\d{12}:(review-template)/[a-f0-9]{32}
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; set; }
@@ -52,5 +52,14 @@ public record AwsWellarchitectedListNotificationsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

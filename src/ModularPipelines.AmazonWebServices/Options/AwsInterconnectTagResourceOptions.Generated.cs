@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +28,8 @@ public record AwsInterconnectTagResourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Add new tags to the specified resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The ARN of the resource that should receive the new tags. Constraints: o min: 59 o max: 150 o pattern: arn:aws[a-z-]*:interconnect:[^:]+:[0-9]{12}:connec- tion/(mcc|lmcc)-[a-z0-9]{8}</param>
-    /// <param name="Tags">A map of tags to apply to the specified resource. key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    /// <param name="Arn">The ARN of the resource that should receive the new tags. Constraints: • min: 59 • max: 150 • pattern: arn:aws[a-z-]*:interconnect:[^:]+:[0-9]{12}:connection/(mcc|lmcc)-[a-z0-9]{8}</param>
+    /// <param name="Tags">A map of tags to apply to the specified resource. key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
     public AwsInterconnectTagResourceOptions(
         string Arn,
         IReadOnlyList<KeyValue> Tags
@@ -72,13 +72,13 @@ public record AwsInterconnectTagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the resource that should receive the new tags. Constraints: o min: 59 o max: 150 o pattern: arn:aws[a-z-]*:interconnect:[^:]+:[0-9]{12}:connec- tion/(mcc|lmcc)-[a-z0-9]{8}
+    /// The ARN of the resource that should receive the new tags. Constraints: • min: 59 • max: 150 • pattern: arn:aws[a-z-]*:interconnect:[^:]+:[0-9]{12}:connection/(mcc|lmcc)-[a-z0-9]{8}
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// A map of tags to apply to the specified resource. key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A map of tags to apply to the specified resource. key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; private init; }
@@ -104,6 +104,15 @@ public record AwsInterconnectTagResourceOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsBcmPricingCalculatorUpdateWorkloadEstimateOptions : AwsOptions,
     /// <summary>
     /// Updates an existing workload estimate. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identifier">The unique identifier of the workload estimate to update. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="Identifier">The unique identifier of the workload estimate to update. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
     public AwsBcmPricingCalculatorUpdateWorkloadEstimateOptions(
         string Identifier
     )
@@ -56,13 +57,13 @@ public record AwsBcmPricingCalculatorUpdateWorkloadEstimateOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the workload estimate to update. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// The unique identifier of the workload estimate to update. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// The new name for the workload estimate. Constraints: o min: 0 o max: 64 o pattern: [a-zA-Z0-9-]+
+    /// The new name for the workload estimate. Constraints: • min: 0 • max: 64 • pattern: [a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
@@ -94,6 +95,15 @@ public record AwsBcmPricingCalculatorUpdateWorkloadEstimateOptions : AwsOptions,
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

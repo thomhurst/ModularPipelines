@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -74,13 +75,13 @@ public record AwsEc2ModifyTransitGatewayVpcAttachmentOptions : AwsOptions, IVali
     public IEnumerable<string>? RemoveSubnetIds { get; set; }
 
     /// <summary>
-    /// The new VPC attachment options. DnsSupport -&gt; (string) Enable or disable DNS support. The default is enable . Possible values: o enable o disable SecurityGroupReferencingSupport -&gt; (string) Enables you to reference a security group across VPCs attached to a transit gateway to simplify security group management. This option is disabled by default. For more information about security group referencing, see Security group referencing in the Amazon Web Services Transit Gateways Guide . Possible values: o enable o disable Ipv6Support -&gt; (string) Specifies whether IPv6 support is enabled for the attachment. When enabled, the transit gateway network interface receives an IPv6 address. When you enable route propagation, IPv6 VPC CIDRs propagate to the transit gateway route tables. When disabled, the network interface does not receive an IPv6 address, and IPv6 routes do not propagate. The setting does not filter IPv6 traf- fic. Possible values: o enable o disable ApplianceModeSupport -&gt; (string) Enable or disable support for appliance mode. If enabled, a traffic flow between a source and destination uses the same Availability Zone for the VPC attachment for the lifetime of that flow. The default is disable . Possible values: o enable o disable Shorthand Syntax: DnsSupport=string,SecurityGroupReferencingSupport=string,Ipv6Support=string,ApplianceModeSupport=string JSON Syntax: { "DnsSupport": "enable"|"disable", "SecurityGroupReferencingSupport": "enable"|"disable", "Ipv6Support": "enable"|"disable", "ApplianceModeSupport": "enable"|"disable" }
+    /// The new VPC attachment options. DnsSupport -&gt; (string) Enable or disable DNS support. The default is enable . Possible values: • enable • disable SecurityGroupReferencingSupport -&gt; (string) Enables you to reference a security group across VPCs attached to a transit gateway to simplify security group management. This option is disabled by default. For more information about security group referencing, see Security group referencing in the Amazon Web Services Transit Gateways Guide . Possible values: • enable • disable Ipv6Support -&gt; (string) Specifies whether IPv6 support is enabled for the attachment. When enabled, the transit gateway network interface receives an IPv6 address. When you enable route propagation, IPv6 VPC CIDRs propagate to the transit gateway route tables. When disabled, the network interface does not receive an IPv6 address, and IPv6 routes do not propagate. The setting does not filter IPv6 traffic. Possible values: • enable • disable ApplianceModeSupport -&gt; (string) Enable or disable support for appliance mode. If enabled, a traffic flow between a source and destination uses the same Availability Zone for the VPC attachment for the lifetime of that flow. The default is disable . Possible values: • enable • disable Shorthand Syntax: DnsSupport=string,SecurityGroupReferencingSupport=string,Ipv6Support=string,ApplianceModeSupport=string JSON Syntax: { "DnsSupport": "enable"|"disable", "SecurityGroupReferencingSupport": "enable"|"disable", "Ipv6Support": "enable"|"disable", "ApplianceModeSupport": "enable"|"disable" }
     /// </summary>
     [CliOption("--options")]
     public string? Options { get; set; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -106,6 +107,15 @@ public record AwsEc2ModifyTransitGatewayVpcAttachmentOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

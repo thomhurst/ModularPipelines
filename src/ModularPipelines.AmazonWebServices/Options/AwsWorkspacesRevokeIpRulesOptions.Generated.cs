@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsWorkspacesRevokeIpRulesOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Removes one or more rules from the specified IP access control group. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GroupId">The identifier of the group. Constraints: o pattern: wsipg-[0-9a-z]{8,63}$</param>
+    /// <param name="GroupId">The identifier of the group. Constraints: • pattern: wsipg-[0-9a-z]{8,63}$</param>
     /// <param name="UserRules">The rules to remove from the group. (string) Syntax: "string" "string" ...</param>
     public AwsWorkspacesRevokeIpRulesOptions(
         string GroupId,
@@ -71,7 +72,7 @@ public record AwsWorkspacesRevokeIpRulesOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the group. Constraints: o pattern: wsipg-[0-9a-z]{8,63}$
+    /// The identifier of the group. Constraints: • pattern: wsipg-[0-9a-z]{8,63}$
     /// </summary>
     [CliOption("--group-id")]
     public string? GroupId { get; private init; }
@@ -103,6 +104,15 @@ public record AwsWorkspacesRevokeIpRulesOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

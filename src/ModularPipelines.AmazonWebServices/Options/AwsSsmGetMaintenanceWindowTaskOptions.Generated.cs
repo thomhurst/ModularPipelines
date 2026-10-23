@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsSsmGetMaintenanceWindowTaskOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Retrieves the details of a maintenance window task. NOTE: For maintenance window tasks without a specified target, you can't supply values for --max-errors and --max-concurrency . Instead, the system inserts a placeholder value of 1 , which may be reported in the response to this command. These values don't affect the running of your task and can be ignored. To retrieve a list of tasks in a maintenance window, instead use the DescribeMaintenanceWindowTasks command. See also: AWS API Documentatio...
     /// </summary>
-    /// <param name="WindowId">The maintenance window ID that includes the task to retrieve. Constraints: o min: 20 o max: 20 o pattern: ^mw-[0-9a-f]{17}$</param>
-    /// <param name="WindowTaskId">The maintenance window task ID to retrieve. Constraints: o min: 36 o max: 36 o pattern: ^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$</param>
+    /// <param name="WindowId">The maintenance window ID that includes the task to retrieve. Constraints: • min: 20 • max: 20 • pattern: ^mw-[0-9a-f]{17}$</param>
+    /// <param name="WindowTaskId">The maintenance window task ID to retrieve. Constraints: • min: 36 • max: 36 • pattern: ^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$</param>
     public AwsSsmGetMaintenanceWindowTaskOptions(
         string WindowId,
         string WindowTaskId
@@ -60,13 +61,13 @@ public record AwsSsmGetMaintenanceWindowTaskOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The maintenance window ID that includes the task to retrieve. Constraints: o min: 20 o max: 20 o pattern: ^mw-[0-9a-f]{17}$
+    /// The maintenance window ID that includes the task to retrieve. Constraints: • min: 20 • max: 20 • pattern: ^mw-[0-9a-f]{17}$
     /// </summary>
     [CliOption("--window-id")]
     public string? WindowId { get; private init; }
 
     /// <summary>
-    /// The maintenance window task ID to retrieve. Constraints: o min: 36 o max: 36 o pattern: ^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$
+    /// The maintenance window task ID to retrieve. Constraints: • min: 36 • max: 36 • pattern: ^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$
     /// </summary>
     [CliOption("--window-task-id")]
     public string? WindowTaskId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsSsmGetMaintenanceWindowTaskOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

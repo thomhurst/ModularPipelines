@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -62,7 +63,7 @@ public record AwsPinpointEmailPutConfigurationSetReputationOptionsOptions : AwsO
     public string? ConfigurationSetName { get; private init; }
 
     /// <summary>
-    /// If true , tracking of reputation metrics is enabled for the configu- ration set. If false , tracking of reputation metrics is disabled for the configuration set.
+    /// If true , tracking of reputation metrics is enabled for the configuration set. If false , tracking of reputation metrics is disabled for the configuration set.
     /// </summary>
     [CliFlag("--reputation-metrics-enabled", NegatedName = "--no-reputation-metrics-enabled")]
     public bool? ReputationMetricsEnabled { get; set; }
@@ -88,6 +89,15 @@ public record AwsPinpointEmailPutConfigurationSetReputationOptionsOptions : AwsO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

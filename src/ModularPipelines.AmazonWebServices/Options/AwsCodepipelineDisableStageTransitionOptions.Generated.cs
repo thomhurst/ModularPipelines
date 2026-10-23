@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,10 +29,10 @@ public record AwsCodepipelineDisableStageTransitionOptions : AwsOptions, IValida
     /// <summary>
     /// Prevents artifacts in a pipeline from transitioning to the next stage in the pipeline. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PipelineName">The name of the pipeline in which you want to disable the flow of artifacts from one stage to another. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9.@\-_]+</param>
-    /// <param name="StageName">The name of the stage where you want to disable the inbound or out- bound transition of artifacts. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9.@\-_]+</param>
-    /// <param name="TransitionType">Specifies whether artifacts are prevented from transitioning into the stage and being processed by the actions in that stage (in- bound), or prevented from transitioning from the stage after they have been processed by the actions in that stage (outbound). Possible values: o Inbound o Outbound</param>
-    /// <param name="Reason">The reason given to the user that a stage is disabled, such as wait- ing for manual approval or manual tests. This message is displayed in the pipeline console UI. Constraints: o min: 1 o max: 300 o pattern: [a-zA-Z0-9!@ \(\)\.\*\?\-]+</param>
+    /// <param name="PipelineName">The name of the pipeline in which you want to disable the flow of artifacts from one stage to another. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9.@\-_]+</param>
+    /// <param name="StageName">The name of the stage where you want to disable the inbound or outbound transition of artifacts. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9.@\-_]+</param>
+    /// <param name="TransitionType">Specifies whether artifacts are prevented from transitioning into the stage and being processed by the actions in that stage (inbound), or prevented from transitioning from the stage after they have been processed by the actions in that stage (outbound). Possible values: • Inbound • Outbound</param>
+    /// <param name="Reason">The reason given to the user that a stage is disabled, such as waiting for manual approval or manual tests. This message is displayed in the pipeline console UI. Constraints: • min: 1 • max: 300 • pattern: [a-zA-Z0-9!@ \(\)\.\*\?\-]+</param>
     public AwsCodepipelineDisableStageTransitionOptions(
         string PipelineName,
         string StageName,
@@ -68,25 +69,25 @@ public record AwsCodepipelineDisableStageTransitionOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the pipeline in which you want to disable the flow of artifacts from one stage to another. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9.@\-_]+
+    /// The name of the pipeline in which you want to disable the flow of artifacts from one stage to another. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9.@\-_]+
     /// </summary>
     [CliOption("--pipeline-name")]
     public string? PipelineName { get; private init; }
 
     /// <summary>
-    /// The name of the stage where you want to disable the inbound or out- bound transition of artifacts. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9.@\-_]+
+    /// The name of the stage where you want to disable the inbound or outbound transition of artifacts. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9.@\-_]+
     /// </summary>
     [CliOption("--stage-name")]
     public string? StageName { get; private init; }
 
     /// <summary>
-    /// Specifies whether artifacts are prevented from transitioning into the stage and being processed by the actions in that stage (in- bound), or prevented from transitioning from the stage after they have been processed by the actions in that stage (outbound). Possible values: o Inbound o Outbound
+    /// Specifies whether artifacts are prevented from transitioning into the stage and being processed by the actions in that stage (inbound), or prevented from transitioning from the stage after they have been processed by the actions in that stage (outbound). Possible values: • Inbound • Outbound
     /// </summary>
     [CliOption("--transition-type")]
     public AwsCodepipelineDisableStageTransitionTransitionType? TransitionType { get; private init; }
 
     /// <summary>
-    /// The reason given to the user that a stage is disabled, such as wait- ing for manual approval or manual tests. This message is displayed in the pipeline console UI. Constraints: o min: 1 o max: 300 o pattern: [a-zA-Z0-9!@ \(\)\.\*\?\-]+
+    /// The reason given to the user that a stage is disabled, such as waiting for manual approval or manual tests. This message is displayed in the pipeline console UI. Constraints: • min: 1 • max: 300 • pattern: [a-zA-Z0-9!@ \(\)\.\*\?\-]+
     /// </summary>
     [CliOption("--reason")]
     public string? Reason { get; private init; }
@@ -112,6 +113,15 @@ public record AwsCodepipelineDisableStageTransitionOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

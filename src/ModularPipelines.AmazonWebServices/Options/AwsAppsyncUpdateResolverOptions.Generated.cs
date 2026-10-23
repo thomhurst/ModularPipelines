@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,8 +30,8 @@ public record AwsAppsyncUpdateResolverOptions : AwsOptions, IValidatableObject
     /// Updates a Resolver object. See also: AWS API Documentation
     /// </summary>
     /// <param name="ApiId">The API ID.</param>
-    /// <param name="TypeName">The new type name. Constraints: o min: 1 o max: 65536 o pattern: [_A-Za-z][_0-9A-Za-z]*</param>
-    /// <param name="FieldName">The new field name. Constraints: o min: 1 o max: 65536 o pattern: [_A-Za-z][_0-9A-Za-z]*</param>
+    /// <param name="TypeName">The new type name. Constraints: • min: 1 • max: 65536 • pattern: [_A-Za-z][_0-9A-Za-z]*</param>
+    /// <param name="FieldName">The new field name. Constraints: • min: 1 • max: 65536 • pattern: [_A-Za-z][_0-9A-Za-z]*</param>
     public AwsAppsyncUpdateResolverOptions(
         string ApiId,
         string TypeName,
@@ -71,37 +72,37 @@ public record AwsAppsyncUpdateResolverOptions : AwsOptions, IValidatableObject
     public string? ApiId { get; private init; }
 
     /// <summary>
-    /// The new type name. Constraints: o min: 1 o max: 65536 o pattern: [_A-Za-z][_0-9A-Za-z]*
+    /// The new type name. Constraints: • min: 1 • max: 65536 • pattern: [_A-Za-z][_0-9A-Za-z]*
     /// </summary>
     [CliOption("--type-name")]
     public string? TypeName { get; private init; }
 
     /// <summary>
-    /// The new field name. Constraints: o min: 1 o max: 65536 o pattern: [_A-Za-z][_0-9A-Za-z]*
+    /// The new field name. Constraints: • min: 1 • max: 65536 • pattern: [_A-Za-z][_0-9A-Za-z]*
     /// </summary>
     [CliOption("--field-name")]
     public string? FieldName { get; private init; }
 
     /// <summary>
-    /// The new data source name. Constraints: o min: 1 o max: 65536 o pattern: [_A-Za-z][_0-9A-Za-z]*
+    /// The new data source name. Constraints: • min: 1 • max: 65536 • pattern: [_A-Za-z][_0-9A-Za-z]*
     /// </summary>
     [CliOption("--data-source-name")]
     public string? DataSourceName { get; set; }
 
     /// <summary>
-    /// The new request mapping template. A resolver uses a request mapping template to convert a GraphQL ex- pression into a format that a data source can understand. Mapping templates are written in Apache Velocity Template Language (VTL). VTL request mapping templates are optional when using an Lambda data source. For all other data sources, VTL request and response mapping templates are required. Constraints: o min: 1 o max: 65536 o pattern: ^.*$
+    /// The new request mapping template. A resolver uses a request mapping template to convert a GraphQL expression into a format that a data source can understand. Mapping templates are written in Apache Velocity Template Language (VTL). VTL request mapping templates are optional when using an Lambda data source. For all other data sources, VTL request and response mapping templates are required. Constraints: • min: 1 • max: 65536 • pattern: ^.*$
     /// </summary>
     [CliOption("--request-mapping-template")]
     public string? RequestMappingTemplate { get; set; }
 
     /// <summary>
-    /// The new response mapping template. Constraints: o min: 1 o max: 65536 o pattern: ^.*$
+    /// The new response mapping template. Constraints: • min: 1 • max: 65536 • pattern: ^.*$
     /// </summary>
     [CliOption("--response-mapping-template")]
     public string? ResponseMappingTemplate { get; set; }
 
     /// <summary>
-    /// The resolver type. o UNIT : A UNIT resolver type. A UNIT resolver is the default re- solver type. You can use a UNIT resolver to run a GraphQL query against a single data source. o PIPELINE : A PIPELINE resolver type. You can use a PIPELINE re- solver to invoke a series of Function objects in a serial manner. You can use a pipeline resolver to run a GraphQL query against multiple data sources. Possible values: o UNIT o PIPELINE
+    /// The resolver type. • UNIT : A UNIT resolver type. A UNIT resolver is the default resolver type. You can use a UNIT resolver to run a GraphQL query against a single data source. • PIPELINE : A PIPELINE resolver type. You can use a PIPELINE resolver to invoke a series of Function objects in a serial manner. You can use a pipeline resolver to run a GraphQL query against multiple data sources. Possible values: • UNIT • PIPELINE
     /// </summary>
     [CliOption("--kind")]
     public AwsAppsyncUpdateResolverKind? Kind { get; set; }
@@ -113,37 +114,37 @@ public record AwsAppsyncUpdateResolverOptions : AwsOptions, IValidatableObject
     public string? PipelineConfig { get; set; }
 
     /// <summary>
-    /// The SyncConfig for a resolver attached to a versioned data source. conflictHandler -&gt; (string) The Conflict Resolution strategy to perform in the event of a conflict. o OPTIMISTIC_CONCURRENCY : Resolve conflicts by rejecting muta- tions when versions don't match the latest version at the server. o AUTOMERGE : Resolve conflicts with the Automerge conflict res- olution strategy. o LAMBDA : Resolve conflicts with an Lambda function supplied in the LambdaConflictHandlerConfig . Possible values: o OPTIMISTIC_CONCURRENCY o LAMBDA o AUTOMERGE o NONE conflictDetection -&gt; (string) The Conflict Detection strategy to use. o VERSION : Detect conflicts based on object versions for this resolver. o NONE : Do not detect conflicts when invoking this resolver. Possible values: o VERSION o NONE lambdaConflictHandlerConfig -&gt; (structure) The LambdaConflictHandlerConfig when configuring LAMBDA as the Conflict Handler. lambdaConflictHandlerArn -&gt; (string) The Amazon Resource Name (ARN) for the Lambda function to use as the Conflict Handler. Shorthand Syntax: conflictHandler=string,conflictDetection=string,lambdaConflictHandlerConfig={lambdaConflictHandlerArn=string} JSON Syntax: { "conflictHandler": "OPTIMISTIC_CONCURRENCY"|"LAMBDA"|"AUTOMERGE"|"NONE", "conflictDetection": "VERSION"|"NONE", "lambdaConflictHandlerConfig": { "lambdaConflictHandlerArn": "string" } }
+    /// The SyncConfig for a resolver attached to a versioned data source. conflictHandler -&gt; (string) The Conflict Resolution strategy to perform in the event of a conflict. • OPTIMISTIC_CONCURRENCY : Resolve conflicts by rejecting mutations when versions don't match the latest version at the server. • AUTOMERGE : Resolve conflicts with the Automerge conflict resolution strategy. • LAMBDA : Resolve conflicts with an Lambda function supplied in the LambdaConflictHandlerConfig . Possible values: • OPTIMISTIC_CONCURRENCY • LAMBDA • AUTOMERGE • NONE conflictDetection -&gt; (string) The Conflict Detection strategy to use. • VERSION : Detect conflicts based on object versions for this resolver. • NONE : Do not detect conflicts when invoking this resolver. Possible values: • VERSION • NONE lambdaConflictHandlerConfig -&gt; (structure) The LambdaConflictHandlerConfig when configuring LAMBDA as the Conflict Handler. lambdaConflictHandlerArn -&gt; (string) The Amazon Resource Name (ARN) for the Lambda function to use as the Conflict Handler. Shorthand Syntax: conflictHandler=string,conflictDetection=string,lambdaConflictHandlerConfig={lambdaConflictHandlerArn=string} JSON Syntax: { "conflictHandler": "OPTIMISTIC_CONCURRENCY"|"LAMBDA"|"AUTOMERGE"|"NONE", "conflictDetection": "VERSION"|"NONE", "lambdaConflictHandlerConfig": { "lambdaConflictHandlerArn": "string" } }
     /// </summary>
     [CliOption("--sync-config")]
     public string? SyncConfig { get; set; }
 
     /// <summary>
-    /// The caching configuration for the resolver. ttl -&gt; (long) [required] The TTL in seconds for a resolver that has caching activated. Valid values are 13,600 seconds. cachingKeys -&gt; (list) The caching keys for a resolver that has caching activated. Valid values are entries from the $context.arguments , $con- text.source , and $context.identity maps. (string) Shorthand Syntax: ttl=long,cachingKeys=string,string JSON Syntax: { "ttl": long, "cachingKeys": ["string", ...] }
+    /// The caching configuration for the resolver. ttl -&gt; (long) [required] The TTL in seconds for a resolver that has caching activated. Valid values are 13,600 seconds. cachingKeys -&gt; (list) The caching keys for a resolver that has caching activated. Valid values are entries from the $context.arguments , $context.source , and $context.identity maps. (string) Shorthand Syntax: ttl=long,cachingKeys=string,string JSON Syntax: { "ttl": long, "cachingKeys": ["string", ...] }
     /// </summary>
     [CliOption("--caching-config")]
     public string? CachingConfig { get; set; }
 
     /// <summary>
-    /// The maximum batching size for a resolver. Constraints: o min: 0 o max: 2000
+    /// The maximum batching size for a resolver. Constraints: • min: 0 • max: 2000
     /// </summary>
     [CliOption("--max-batch-size")]
     public int? MaxBatchSize { get; set; }
 
     /// <summary>
-    /// Describes a runtime used by an Amazon Web Services AppSync pipeline resolver or Amazon Web Services AppSync function. Specifies the name and version of the runtime to use. Note that if a runtime is speci- fied, code must also be specified. name -&gt; (string) [required] The name of the runtime to use. Currently, the only allowed value is APPSYNC_JS . Possible values: o APPSYNC_JS runtimeVersion -&gt; (string) [required] The version of the runtime to use. Currently, the only allowed version is 1.0.0 . Shorthand Syntax: name=string,runtimeVersion=string JSON Syntax: { "name": "APPSYNC_JS", "runtimeVersion": "string" }
+    /// Describes a runtime used by an Amazon Web Services AppSync pipeline resolver or Amazon Web Services AppSync function. Specifies the name and version of the runtime to use. Note that if a runtime is specified, code must also be specified. name -&gt; (string) [required] The name of the runtime to use. Currently, the only allowed value is APPSYNC_JS . Possible values: • APPSYNC_JS runtimeVersion -&gt; (string) [required] The version of the runtime to use. Currently, the only allowed version is 1.0.0 . Shorthand Syntax: name=string,runtimeVersion=string JSON Syntax: { "name": "APPSYNC_JS", "runtimeVersion": "string" }
     /// </summary>
     [CliOption("--runtime")]
     public string? Runtime { get; set; }
 
     /// <summary>
-    /// The resolver code that contains the request and response functions. When code is used, the runtime is required. The runtime value must be APPSYNC_JS . Constraints: o min: 1 o max: 32768
+    /// The resolver code that contains the request and response functions. When code is used, the runtime is required. The runtime value must be APPSYNC_JS . Constraints: • min: 1 • max: 32768
     /// </summary>
     [CliOption("--code")]
     public string? Code { get; set; }
 
     /// <summary>
-    /// Enables or disables enhanced resolver metrics for specified re- solvers. Note that metricsConfig won't be used unless the resolver- LevelMetricsBehavior value is set to PER_RESOLVER_METRICS . If the resolverLevelMetricsBehavior is set to FULL_REQUEST_RESOLVER_METRICS instead, metricsConfig will be ignored. However, you can still set its value. metricsConfig can be ENABLED or DISABLED . Possible values: o ENABLED o DISABLED
+    /// Enables or disables enhanced resolver metrics for specified resolvers. Note that metricsConfig won't be used unless the resolverLevelMetricsBehavior value is set to PER_RESOLVER_METRICS . If the resolverLevelMetricsBehavior is set to FULL_REQUEST_RESOLVER_METRICS instead, metricsConfig will be ignored. However, you can still set its value. metricsConfig can be ENABLED or DISABLED . Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--metrics-config")]
     public AwsAppsyncUpdateResolverMetricsConfig? MetricsConfig { get; set; }
@@ -169,6 +170,15 @@ public record AwsAppsyncUpdateResolverOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

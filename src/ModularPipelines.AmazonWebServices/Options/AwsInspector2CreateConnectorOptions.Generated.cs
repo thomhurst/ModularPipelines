@@ -11,13 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a connector that links an external cloud provider to Amazon In- spector for vulnerability scanning. See also: AWS API Documentation
+/// Creates a connector that links an external cloud provider to Amazon Inspector for vulnerability scanning. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +27,11 @@ public record AwsInspector2CreateConnectorOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a connector that links an external cloud provider to Amazon In- spector for vulnerability scanning. See also: AWS API Documentation
+    /// Creates a connector that links an external cloud provider to Amazon Inspector for vulnerability scanning. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the connector. Constraints: o min: 1 o max: 50 o pattern: [\p{L}\p{N}_-]+</param>
-    /// <param name="Provider">The cloud provider for the connector. Possible values: o AZURE</param>
-    /// <param name="ProviderDetail">The provider-specific configuration details for the connector. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: azure. azure -&gt; (structure) The Azure-specific details for creating a connector. awsConfigConnectorArn -&gt; (string) [required] The ARN of the Amazon Web Services Config connector to asso- ciate with this connector. Constraints: o min: 1 o max: 512 o pattern: arn:([^:]+):config:([^:]+):([^:]+):connec- tor/([^/]+)/([^/]+)/([^/:\s]+) scopeConfiguration -&gt; (structure) [required] The scope configuration that defines which Azure resources to scan. vmScanning -&gt; (structure) The scope configuration input for VM scanning. scopeType -&gt; (string) [required] The type of scope. Valid values are TENANT , which scans all resources in the Azure tenant, and SUBSCRIP- TION , which scans only the resources in the specified Azure subscriptions. Possible values: o TENANT o SUBSCRIPTION scopeValues -&gt; (list) The list of scope values. For subscription-level scope, these are Azure subscription IDs. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} containerImageScanning -&gt; (structure) The scope configuration input for container image scan- ning. scopeType -&gt; (string) [required] The type of scope. Valid values are TENANT , which scans all resources in the Azure tenant, and SUBSCRIP- TION , which scans only the resources in the specified Azure subscriptions. Possible values: o TENANT o SUBSCRIPTION scopeValues -&gt; (list) The list of scope values. For subscription-level scope, these are Azure subscription IDs. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} serverlessScanning -&gt; (structure) The scope configuration input for serverless scanning. scopeType -&gt; (string) [required] The type of scope. Valid values are TENANT , which scans all resources in the Azure tenant, and SUBSCRIP- TION , which scans only the resources in the specified Azure subscriptions. Possible values: o TENANT o SUBSCRIPTION scopeValues -&gt; (list) The list of scope values. For subscription-level scope, these are Azure subscription IDs. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} azureRegions -&gt; (list) [required] The Azure regions to scan. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-]+ autoInstallVMScanner -&gt; (boolean) Specifies whether to automatically install the VM scanner on connected Azure resources. Defaults to true . JSON Syntax: { "azure": { "awsConfigConnectorArn": "string", "scopeConfiguration": { "vmScanning": { "scopeType": "TENANT"|"SUBSCRIPTION", "scopeValues": ["string", ...] }, "containerImageScanning": { "scopeType": "TENANT"|"SUBSCRIPTION", "scopeValues": ["string", ...] }, "serverlessScanning": { "scopeType": "TENANT"|"SUBSCRIPTION", "scopeValues": ["string", ...] } }, "azureRegions": ["string", ...], "autoInstallVMScanner": true|false } }</param>
+    /// <param name="Name">The name of the connector. Constraints: • min: 1 • max: 50 • pattern: [\p{L}\p{N}_-]+</param>
+    /// <param name="Provider">The cloud provider for the connector. Possible values: • AZURE</param>
+    /// <param name="ProviderDetail">The provider-specific configuration details for the connector. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: azure. azure -&gt; (structure) The Azure-specific details for creating a connector. awsConfigConnectorArn -&gt; (string) [required] The ARN of the Amazon Web Services Config connector to associate with this connector. Constraints: • min: 1 • max: 512 • pattern: arn:([^:]+):config:([^:]+):([^:]+):connector/([^/]+)/([^/]+)/([^/:\s]+) scopeConfiguration -&gt; (structure) [required] The scope configuration that defines which Azure resources to scan. vmScanning -&gt; (structure) The scope configuration input for VM scanning. scopeType -&gt; (string) [required] The type of scope. Valid values are TENANT , which scans all resources in the Azure tenant, and SUBSCRIPTION , which scans only the resources in the specified Azure subscriptions. Possible values: • TENANT • SUBSCRIPTION scopeValues -&gt; (list) The list of scope values. For subscription-level scope, these are Azure subscription IDs. Constraints: • min: 0 • max: 100 (string) Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} containerImageScanning -&gt; (structure) The scope configuration input for container image scanning. scopeType -&gt; (string) [required] The type of scope. Valid values are TENANT , which scans all resources in the Azure tenant, and SUBSCRIPTION , which scans only the resources in the specified Azure subscriptions. Possible values: • TENANT • SUBSCRIPTION scopeValues -&gt; (list) The list of scope values. For subscription-level scope, these are Azure subscription IDs. Constraints: • min: 0 • max: 100 (string) Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} serverlessScanning -&gt; (structure) The scope configuration input for serverless scanning. scopeType -&gt; (string) [required] The type of scope. Valid values are TENANT , which scans all resources in the Azure tenant, and SUBSCRIPTION , which scans only the resources in the specified Azure subscriptions. Possible values: • TENANT • SUBSCRIPTION scopeValues -&gt; (list) The list of scope values. For subscription-level scope, these are Azure subscription IDs. Constraints: • min: 0 • max: 100 (string) Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} azureRegions -&gt; (list) [required] The Azure regions to scan. Constraints: • min: 1 • max: 100 (string) Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-]+ autoInstallVMScanner -&gt; (boolean) Specifies whether to automatically install the VM scanner on connected Azure resources. Defaults to true . JSON Syntax: { "azure": { "awsConfigConnectorArn": "string", "scopeConfiguration": { "vmScanning": { "scopeType": "TENANT"|"SUBSCRIPTION", "scopeValues": ["string", ...] }, "containerImageScanning": { "scopeType": "TENANT"|"SUBSCRIPTION", "scopeValues": ["string", ...] }, "serverlessScanning": { "scopeType": "TENANT"|"SUBSCRIPTION", "scopeValues": ["string", ...] } }, "azureRegions": ["string", ...], "autoInstallVMScanner": true|false } }</param>
     public AwsInspector2CreateConnectorOptions(
         string Name,
         string Provider,
@@ -66,38 +66,38 @@ public record AwsInspector2CreateConnectorOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the connector. Constraints: o min: 1 o max: 50 o pattern: [\p{L}\p{N}_-]+
+    /// The name of the connector. Constraints: • min: 1 • max: 50 • pattern: [\p{L}\p{N}_-]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The cloud provider for the connector. Possible values: o AZURE
+    /// The cloud provider for the connector. Possible values: • AZURE
     /// </summary>
     [CliOption("--provider")]
     public string? Provider { get; private init; }
 
     /// <summary>
-    /// The provider-specific configuration details for the connector. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: azure. azure -&gt; (structure) The Azure-specific details for creating a connector. awsConfigConnectorArn -&gt; (string) [required] The ARN of the Amazon Web Services Config connector to asso- ciate with this connector. Constraints: o min: 1 o max: 512 o pattern: arn:([^:]+):config:([^:]+):([^:]+):connec- tor/([^/]+)/([^/]+)/([^/:\s]+) scopeConfiguration -&gt; (structure) [required] The scope configuration that defines which Azure resources to scan. vmScanning -&gt; (structure) The scope configuration input for VM scanning. scopeType -&gt; (string) [required] The type of scope. Valid values are TENANT , which scans all resources in the Azure tenant, and SUBSCRIP- TION , which scans only the resources in the specified Azure subscriptions. Possible values: o TENANT o SUBSCRIPTION scopeValues -&gt; (list) The list of scope values. For subscription-level scope, these are Azure subscription IDs. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} containerImageScanning -&gt; (structure) The scope configuration input for container image scan- ning. scopeType -&gt; (string) [required] The type of scope. Valid values are TENANT , which scans all resources in the Azure tenant, and SUBSCRIP- TION , which scans only the resources in the specified Azure subscriptions. Possible values: o TENANT o SUBSCRIPTION scopeValues -&gt; (list) The list of scope values. For subscription-level scope, these are Azure subscription IDs. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} serverlessScanning -&gt; (structure) The scope configuration input for serverless scanning. scopeType -&gt; (string) [required] The type of scope. Valid values are TENANT , which scans all resources in the Azure tenant, and SUBSCRIP- TION , which scans only the resources in the specified Azure subscriptions. Possible values: o TENANT o SUBSCRIPTION scopeValues -&gt; (list) The list of scope values. For subscription-level scope, these are Azure subscription IDs. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} azureRegions -&gt; (list) [required] The Azure regions to scan. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-]+ autoInstallVMScanner -&gt; (boolean) Specifies whether to automatically install the VM scanner on connected Azure resources. Defaults to true . JSON Syntax: { "azure": { "awsConfigConnectorArn": "string", "scopeConfiguration": { "vmScanning": { "scopeType": "TENANT"|"SUBSCRIPTION", "scopeValues": ["string", ...] }, "containerImageScanning": { "scopeType": "TENANT"|"SUBSCRIPTION", "scopeValues": ["string", ...] }, "serverlessScanning": { "scopeType": "TENANT"|"SUBSCRIPTION", "scopeValues": ["string", ...] } }, "azureRegions": ["string", ...], "autoInstallVMScanner": true|false } }
+    /// The provider-specific configuration details for the connector. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: azure. azure -&gt; (structure) The Azure-specific details for creating a connector. awsConfigConnectorArn -&gt; (string) [required] The ARN of the Amazon Web Services Config connector to associate with this connector. Constraints: • min: 1 • max: 512 • pattern: arn:([^:]+):config:([^:]+):([^:]+):connector/([^/]+)/([^/]+)/([^/:\s]+) scopeConfiguration -&gt; (structure) [required] The scope configuration that defines which Azure resources to scan. vmScanning -&gt; (structure) The scope configuration input for VM scanning. scopeType -&gt; (string) [required] The type of scope. Valid values are TENANT , which scans all resources in the Azure tenant, and SUBSCRIPTION , which scans only the resources in the specified Azure subscriptions. Possible values: • TENANT • SUBSCRIPTION scopeValues -&gt; (list) The list of scope values. For subscription-level scope, these are Azure subscription IDs. Constraints: • min: 0 • max: 100 (string) Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} containerImageScanning -&gt; (structure) The scope configuration input for container image scanning. scopeType -&gt; (string) [required] The type of scope. Valid values are TENANT , which scans all resources in the Azure tenant, and SUBSCRIPTION , which scans only the resources in the specified Azure subscriptions. Possible values: • TENANT • SUBSCRIPTION scopeValues -&gt; (list) The list of scope values. For subscription-level scope, these are Azure subscription IDs. Constraints: • min: 0 • max: 100 (string) Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} serverlessScanning -&gt; (structure) The scope configuration input for serverless scanning. scopeType -&gt; (string) [required] The type of scope. Valid values are TENANT , which scans all resources in the Azure tenant, and SUBSCRIPTION , which scans only the resources in the specified Azure subscriptions. Possible values: • TENANT • SUBSCRIPTION scopeValues -&gt; (list) The list of scope values. For subscription-level scope, these are Azure subscription IDs. Constraints: • min: 0 • max: 100 (string) Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} azureRegions -&gt; (list) [required] The Azure regions to scan. Constraints: • min: 1 • max: 100 (string) Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-]+ autoInstallVMScanner -&gt; (boolean) Specifies whether to automatically install the VM scanner on connected Azure resources. Defaults to true . JSON Syntax: { "azure": { "awsConfigConnectorArn": "string", "scopeConfiguration": { "vmScanning": { "scopeType": "TENANT"|"SUBSCRIPTION", "scopeValues": ["string", ...] }, "containerImageScanning": { "scopeType": "TENANT"|"SUBSCRIPTION", "scopeValues": ["string", ...] }, "serverlessScanning": { "scopeType": "TENANT"|"SUBSCRIPTION", "scopeValues": ["string", ...] } }, "azureRegions": ["string", ...], "autoInstallVMScanner": true|false } }
     /// </summary>
     [CliOption("--provider-detail")]
     public string? ProviderDetail { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request but does not re- turn an error.
+    /// A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request but does not return an error.
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// A description of the connector. Constraints: o min: 0 o max: 200 o pattern: [^\p{C}]*
+    /// A description of the connector. Constraints: • min: 0 • max: 200 • pattern: [^\p{C}]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The tags to apply to the connector. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]* value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags to apply to the connector. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]* value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -123,6 +123,15 @@ public record AwsInspector2CreateConnectorOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -257,7 +257,7 @@ public class AwsIotwireless : IAwsIotwireless
     }
 
     /// <summary>
-    /// Provisions a wireless gateway. NOTE: When provisioning a wireless gateway, you might run into duplication errors for the following reasons. o If you specify a GatewayEui value that already exists. o If you used a ClientRequestToken with the same parameters within the last 10 minutes. To avoid this error, make sure that you use unique identifiers and parameters for each request within the specified time period. See also: AWS API Documentation
+    /// Provisions a wireless gateway. NOTE: When provisioning a wireless gateway, you might run into duplication errors for the following reasons. • If you specify a GatewayEui value that already exists. • If you used a ClientRequestToken with the same parameters within the last 10 minutes. To avoid this error, make sure that you use unique identifiers and parameters for each request within the specified time period. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -437,7 +437,7 @@ public class AwsIotwireless : IAwsIotwireless
     }
 
     /// <summary>
-    /// Deletes a wireless gateway. NOTE: When deleting a wireless gateway, you might run into duplication er- rors for the following reasons. o If you specify a GatewayEui value that already exists. o If you used a ClientRequestToken with the same parameters within the last 10 minutes. To avoid this error, make sure that you use unique identifiers and parameters for each request within the specified time period. See also: AWS API Documentation
+    /// Deletes a wireless gateway. NOTE: When deleting a wireless gateway, you might run into duplication errors for the following reasons. • If you specify a GatewayEui value that already exists. • If you used a ClientRequestToken with the same parameters within the last 10 minutes. To avoid this error, make sure that you use unique identifiers and parameters for each request within the specified time period. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -452,7 +452,7 @@ public class AwsIotwireless : IAwsIotwireless
     }
 
     /// <summary>
-    /// Deletes a wireless gateway task definition. Deleting this task defini- tion does not affect tasks that are currently in progress. See also: AWS API Documentation
+    /// Deletes a wireless gateway task definition. Deleting this task definition does not affect tasks that are currently in progress. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -497,7 +497,7 @@ public class AwsIotwireless : IAwsIotwireless
     }
 
     /// <summary>
-    /// Disassociates your AWS account from a partner account. If PartnerAc- countId and PartnerType are null , disassociates your AWS account from all partner accounts. See also: AWS API Documentation
+    /// Disassociates your AWS account from a partner account. If PartnerAccountId and PartnerType are null , disassociates your AWS account from all partner accounts. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -572,7 +572,7 @@ public class AwsIotwireless : IAwsIotwireless
     }
 
     /// <summary>
-    /// Disassociates a wireless gateway from its currently associated certifi- cate. See also: AWS API Documentation
+    /// Disassociates a wireless gateway from its currently associated certificate. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -662,7 +662,7 @@ public class AwsIotwireless : IAwsIotwireless
     }
 
     /// <summary>
-    /// Returns current default log levels or log levels by resource types. Based on the resource type, log levels can be returned for wireless de- vice, wireless gateway, or FUOTA task log options. See also: AWS API Documentation
+    /// Returns current default log levels or log levels by resource types. Based on the resource type, log levels can be returned for wireless device, wireless gateway, or FUOTA task log options. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -752,7 +752,7 @@ public class AwsIotwireless : IAwsIotwireless
     }
 
     /// <summary>
-    /// Gets information about a partner account. If PartnerAccountId and Part- nerType are null , returns all partner accounts. See also: AWS API Documentation
+    /// Gets information about a partner account. If PartnerAccountId and PartnerType are null , returns all partner accounts. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -797,7 +797,7 @@ public class AwsIotwireless : IAwsIotwireless
     }
 
     /// <summary>
-    /// Fetches the log-level override, if any, for a given resource ID and re- source type.. See also: AWS API Documentation
+    /// Fetches the log-level override, if any, for a given resource ID and resource type.. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -812,7 +812,7 @@ public class AwsIotwireless : IAwsIotwireless
     }
 
     /// <summary>
-    /// Get the position information for a given wireless device or a wireless gateway resource. The position information uses the World Geodetic Sys- tem (WGS84) . See also: AWS API Documentation
+    /// Get the position information for a given wireless device or a wireless gateway resource. The position information uses the World Geodetic System (WGS84) . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -917,7 +917,7 @@ public class AwsIotwireless : IAwsIotwireless
     }
 
     /// <summary>
-    /// Gets the firmware version and other information about a wireless gate- way. See also: AWS API Documentation
+    /// Gets the firmware version and other information about a wireless gateway. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1022,7 +1022,7 @@ public class AwsIotwireless : IAwsIotwireless
     }
 
     /// <summary>
-    /// List the Sidewalk devices in an import task and their onboarding sta- tus. See also: AWS API Documentation
+    /// List the Sidewalk devices in an import task and their onboarding status. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1037,7 +1037,7 @@ public class AwsIotwireless : IAwsIotwireless
     }
 
     /// <summary>
-    /// List event configurations where at least one event topic has been en- abled. See also: AWS API Documentation
+    /// List event configurations where at least one event topic has been enabled. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1202,6 +1202,21 @@ public class AwsIotwireless : IAwsIotwireless
     }
 
     /// <summary>
+    /// List the wireless gateway tasks definitions registered to your AWS account. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListWirelessGatewayTaskDefinitionsAsync(
+        AwsIotwirelessListWirelessGatewayTaskDefinitionsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessListWirelessGatewayTaskDefinitionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Lists the wireless gateways registered to your AWS account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -1214,21 +1229,6 @@ public class AwsIotwireless : IAwsIotwireless
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessListWirelessGatewaysOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// List the wireless gateway tasks definitions registered to your AWS ac- count. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListWirelessGatewayTaskDefinitionsAsync(
-        AwsIotwirelessListWirelessGatewayTaskDefinitionsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessListWirelessGatewayTaskDefinitionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1262,7 +1262,7 @@ public class AwsIotwireless : IAwsIotwireless
     }
 
     /// <summary>
-    /// Removes the log-level override, if any, for a specific resource ID and resource type. It can be used for a wireless device, a wireless gate- way, or a FUOTA task. See also: AWS API Documentation
+    /// Removes the log-level override, if any, for a specific resource ID and resource type. It can be used for a wireless device, a wireless gateway, or a FUOTA task. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1577,7 +1577,7 @@ public class AwsIotwireless : IAwsIotwireless
     }
 
     /// <summary>
-    /// Update the position information of a given wireless device or a wire- less gateway resource. The position coordinates are based on the World Geodetic System (WGS84) . See also: AWS API Documentation
+    /// Update the position information of a given wireless device or a wireless gateway resource. The position coordinates are based on the World Geodetic System (WGS84) . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

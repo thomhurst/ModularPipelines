@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,10 +28,10 @@ public record AwsDatazoneCreateEnvironmentActionOptions : AwsOptions, IValidatab
     /// <summary>
     /// Creates an action for the environment, for example, creates a console link for an analytics tool that is available in this environment. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain in which the environment action is created. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="EnvironmentIdentifier">The ID of the environment in which the environment action is cre- ated. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain in which the environment action is created. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="EnvironmentIdentifier">The ID of the environment in which the environment action is created. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}</param>
     /// <param name="Name">The name of the environment action.</param>
-    /// <param name="Parameters">The parameters of the environment action. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: awsConsoleLink. awsConsoleLink -&gt; (structure) The console link specified as part of the environment action. uri -&gt; (string) The URI of the console link specified as part of the environ- ment action. Shorthand Syntax: awsConsoleLink={uri=string} JSON Syntax: { "awsConsoleLink": { "uri": "string" } }</param>
+    /// <param name="Parameters">The parameters of the environment action. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: awsConsoleLink. awsConsoleLink -&gt; (structure) The console link specified as part of the environment action. uri -&gt; (string) The URI of the console link specified as part of the environment action. Shorthand Syntax: awsConsoleLink={uri=string} JSON Syntax: { "awsConsoleLink": { "uri": "string" } }</param>
     public AwsDatazoneCreateEnvironmentActionOptions(
         string DomainIdentifier,
         string EnvironmentIdentifier,
@@ -68,13 +69,13 @@ public record AwsDatazoneCreateEnvironmentActionOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon DataZone domain in which the environment action is created. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The ID of the Amazon DataZone domain in which the environment action is created. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The ID of the environment in which the environment action is cre- ated. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The ID of the environment in which the environment action is created. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--environment-identifier")]
     public string? EnvironmentIdentifier { get; private init; }
@@ -86,7 +87,7 @@ public record AwsDatazoneCreateEnvironmentActionOptions : AwsOptions, IValidatab
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The parameters of the environment action. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: awsConsoleLink. awsConsoleLink -&gt; (structure) The console link specified as part of the environment action. uri -&gt; (string) The URI of the console link specified as part of the environ- ment action. Shorthand Syntax: awsConsoleLink={uri=string} JSON Syntax: { "awsConsoleLink": { "uri": "string" } }
+    /// The parameters of the environment action. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: awsConsoleLink. awsConsoleLink -&gt; (structure) The console link specified as part of the environment action. uri -&gt; (string) The URI of the console link specified as part of the environment action. Shorthand Syntax: awsConsoleLink={uri=string} JSON Syntax: { "awsConsoleLink": { "uri": "string" } }
     /// </summary>
     [CliOption("--parameters")]
     public string? Parameters { get; private init; }
@@ -118,6 +119,15 @@ public record AwsDatazoneCreateEnvironmentActionOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

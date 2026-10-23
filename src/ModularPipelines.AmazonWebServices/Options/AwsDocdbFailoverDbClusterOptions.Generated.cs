@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsDocdbFailoverDbClusterOptions : AwsOptions
 {
     /// <summary>
-    /// A cluster identifier to force a failover for. This parameter is not case sensitive. Constraints: o Must match the identifier of an existing DBCluster .
+    /// A cluster identifier to force a failover for. This parameter is not case sensitive. Constraints: • Must match the identifier of an existing DBCluster .
     /// </summary>
     [CliOption("--db-cluster-identifier")]
     public string? DbClusterIdentifier { get; set; }
@@ -38,5 +38,14 @@ public record AwsDocdbFailoverDbClusterOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

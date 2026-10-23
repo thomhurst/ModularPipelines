@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsShieldDeleteProtectionGroupOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Removes the specified protection group. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProtectionGroupId">The name of the protection group. You use this to identify the pro- tection group in lists and to manage the protection group, for exam- ple to update, delete, or describe it. Constraints: o min: 1 o max: 36 o pattern: [a-zA-Z0-9\\-]*</param>
+    /// <param name="ProtectionGroupId">The name of the protection group. You use this to identify the protection group in lists and to manage the protection group, for example to update, delete, or describe it. Constraints: • min: 1 • max: 36 • pattern: [a-zA-Z0-9\\-]*</param>
     public AwsShieldDeleteProtectionGroupOptions(
         string ProtectionGroupId
     )
@@ -56,7 +57,7 @@ public record AwsShieldDeleteProtectionGroupOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the protection group. You use this to identify the pro- tection group in lists and to manage the protection group, for exam- ple to update, delete, or describe it. Constraints: o min: 1 o max: 36 o pattern: [a-zA-Z0-9\\-]*
+    /// The name of the protection group. You use this to identify the protection group in lists and to manage the protection group, for example to update, delete, or describe it. Constraints: • min: 1 • max: 36 • pattern: [a-zA-Z0-9\\-]*
     /// </summary>
     [CliOption("--protection-group-id")]
     public string? ProtectionGroupId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsShieldDeleteProtectionGroupOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

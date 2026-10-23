@@ -28,7 +28,7 @@ public record AwsEcsDescribeClustersOptions : AwsOptions
     public IEnumerable<string>? Clusters { get; set; }
 
     /// <summary>
-    /// Determines whether to include additional information about the clus- ters in the response. If this field is omitted, this information isn't included. If ATTACHMENTS is specified, the attachments for the container in- stances or tasks within the cluster are included, for example the capacity providers. If SETTINGS is specified, the settings for the cluster are included. If CONFIGURATIONS is specified, the configuration for the cluster is included. If STATISTICS is specified, the task and service count is included, separated by launch type. If TAGS is specified, the metadata tags associated with the cluster are included. (string) Possible values: o ATTACHMENTS o CONFIGURATIONS o SETTINGS o STATISTICS o TAGS Syntax: "string" "string" ...
+    /// Determines whether to include additional information about the clusters in the response. If this field is omitted, this information isn't included. If ATTACHMENTS is specified, the attachments for the container instances or tasks within the cluster are included, for example the capacity providers. If SETTINGS is specified, the settings for the cluster are included. If CONFIGURATIONS is specified, the configuration for the cluster is included. If STATISTICS is specified, the task and service count is included, separated by launch type. If TAGS is specified, the metadata tags associated with the cluster are included. (string) Possible values: • ATTACHMENTS • CONFIGURATIONS • SETTINGS • STATISTICS • TAGS Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--include", GroupValues = true)]
     public IEnumerable<string>? Include { get; set; }
@@ -38,5 +38,14 @@ public record AwsEcsDescribeClustersOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

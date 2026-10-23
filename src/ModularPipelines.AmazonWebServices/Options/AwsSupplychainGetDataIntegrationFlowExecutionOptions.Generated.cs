@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsSupplychainGetDataIntegrationFlowExecutionOptions : AwsOptions,
     /// <summary>
     /// Get the flow execution. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The AWS Supply Chain instance identifier. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
-    /// <param name="FlowName">The flow name. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9-]+</param>
-    /// <param name="ExecutionId">The flow execution identifier. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="InstanceId">The AWS Supply Chain instance identifier. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="FlowName">The flow name. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9-]+</param>
+    /// <param name="ExecutionId">The flow execution identifier. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
     public AwsSupplychainGetDataIntegrationFlowExecutionOptions(
         string InstanceId,
         string FlowName,
@@ -64,19 +65,19 @@ public record AwsSupplychainGetDataIntegrationFlowExecutionOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The AWS Supply Chain instance identifier. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// The AWS Supply Chain instance identifier. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The flow name. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9-]+
+    /// The flow name. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9-]+
     /// </summary>
     [CliOption("--flow-name")]
     public string? FlowName { get; private init; }
 
     /// <summary>
-    /// The flow execution identifier. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// The flow execution identifier. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--execution-id")]
     public string? ExecutionId { get; private init; }
@@ -102,6 +103,15 @@ public record AwsSupplychainGetDataIntegrationFlowExecutionOptions : AwsOptions,
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

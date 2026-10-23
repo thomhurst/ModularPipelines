@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +28,7 @@ public record AwsDrsStartRecoveryOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Launches Recovery Instances for the specified Source Servers. For each Source Server you may choose a point in time snapshot to launch from, or use an on demand snapshot. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SourceServers">The Source Servers that we want to start a Recovery Job for. Constraints: o min: 1 o max: 200 (structure) An object representing the Source Server to recover. sourceServerID -&gt; (string) [required] The ID of the Source Server you want to recover. Constraints: o min: 19 o max: 19 o pattern: s-[0-9a-zA-Z]{17} recoverySnapshotID -&gt; (string) The ID of a Recovery Snapshot we want to recover from. Omit this field to launch from the latest data by taking an on-de- mand snapshot. Constraints: o min: 21 o max: 21 o pattern: pit-[0-9a-zA-Z]{17} Shorthand Syntax: sourceServerID=string,recoverySnapshotID=string ... JSON Syntax: [ { "sourceServerID": "string", "recoverySnapshotID": "string" } ... ]</param>
+    /// <param name="SourceServers">The Source Servers that we want to start a Recovery Job for. Constraints: • min: 1 • max: 200 (structure) An object representing the Source Server to recover. sourceServerID -&gt; (string) [required] The ID of the Source Server you want to recover. Constraints: • min: 19 • max: 19 • pattern: s-[0-9a-zA-Z]{17} recoverySnapshotID -&gt; (string) The ID of a Recovery Snapshot we want to recover from. Omit this field to launch from the latest data by taking an on-demand snapshot. Constraints: • min: 21 • max: 21 • pattern: pit-[0-9a-zA-Z]{17} Shorthand Syntax: sourceServerID=string,recoverySnapshotID=string ... JSON Syntax: [ { "sourceServerID": "string", "recoverySnapshotID": "string" } ... ]</param>
     public AwsDrsStartRecoveryOptions(
         IEnumerable<string> SourceServers
     )
@@ -68,7 +68,7 @@ public record AwsDrsStartRecoveryOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Source Servers that we want to start a Recovery Job for. Constraints: o min: 1 o max: 200 (structure) An object representing the Source Server to recover. sourceServerID -&gt; (string) [required] The ID of the Source Server you want to recover. Constraints: o min: 19 o max: 19 o pattern: s-[0-9a-zA-Z]{17} recoverySnapshotID -&gt; (string) The ID of a Recovery Snapshot we want to recover from. Omit this field to launch from the latest data by taking an on-de- mand snapshot. Constraints: o min: 21 o max: 21 o pattern: pit-[0-9a-zA-Z]{17} Shorthand Syntax: sourceServerID=string,recoverySnapshotID=string ... JSON Syntax: [ { "sourceServerID": "string", "recoverySnapshotID": "string" } ... ]
+    /// The Source Servers that we want to start a Recovery Job for. Constraints: • min: 1 • max: 200 (structure) An object representing the Source Server to recover. sourceServerID -&gt; (string) [required] The ID of the Source Server you want to recover. Constraints: • min: 19 • max: 19 • pattern: s-[0-9a-zA-Z]{17} recoverySnapshotID -&gt; (string) The ID of a Recovery Snapshot we want to recover from. Omit this field to launch from the latest data by taking an on-demand snapshot. Constraints: • min: 21 • max: 21 • pattern: pit-[0-9a-zA-Z]{17} Shorthand Syntax: sourceServerID=string,recoverySnapshotID=string ... JSON Syntax: [ { "sourceServerID": "string", "recoverySnapshotID": "string" } ... ]
     /// </summary>
     [CliOption("--source-servers", GroupValues = true)]
     public IEnumerable<string>? SourceServers { get; private init; }
@@ -80,7 +80,7 @@ public record AwsDrsStartRecoveryOptions : AwsOptions, IValidatableObject
     public bool? IsDrill { get; set; }
 
     /// <summary>
-    /// The tags to be associated with the Recovery Job. key -&gt; (string) Constraints: o min: 0 o max: 256 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags to be associated with the Recovery Job. key -&gt; (string) Constraints: • min: 0 • max: 256 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -106,6 +106,15 @@ public record AwsDrsStartRecoveryOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

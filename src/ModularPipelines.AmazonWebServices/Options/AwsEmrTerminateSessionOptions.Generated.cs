@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Terminates an active session. After you call this operation, the ses- sion enters the TERMINATING state and then transitions to TERMINATED . See also: AWS API Documentation
+/// Terminates an active session. After you call this operation, the session enters the TERMINATING state and then transitions to TERMINATED . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsEmrTerminateSessionOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Terminates an active session. After you call this operation, the ses- sion enters the TERMINATING state and then transitions to TERMINATED . See also: AWS API Documentation
+    /// Terminates an active session. After you call this operation, the session enters the TERMINATING state and then transitions to TERMINATED . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClusterId">The ID of the cluster that the session belongs to. Constraints: o max: 256</param>
-    /// <param name="SessionId">The ID of the session to terminate. Constraints: o min: 0 o max: 256</param>
+    /// <param name="ClusterId">The ID of the cluster that the session belongs to. Constraints: • max: 256</param>
+    /// <param name="SessionId">The ID of the session to terminate. Constraints: • min: 0 • max: 256</param>
     public AwsEmrTerminateSessionOptions(
         string ClusterId,
         string SessionId
@@ -60,13 +61,13 @@ public record AwsEmrTerminateSessionOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the cluster that the session belongs to. Constraints: o max: 256
+    /// The ID of the cluster that the session belongs to. Constraints: • max: 256
     /// </summary>
     [CliOption("--cluster-id")]
     public string? ClusterId { get; private init; }
 
     /// <summary>
-    /// The ID of the session to terminate. Constraints: o min: 0 o max: 256
+    /// The ID of the session to terminate. Constraints: • min: 0 • max: 256
     /// </summary>
     [CliOption("--session-id")]
     public string? SessionId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsEmrTerminateSessionOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

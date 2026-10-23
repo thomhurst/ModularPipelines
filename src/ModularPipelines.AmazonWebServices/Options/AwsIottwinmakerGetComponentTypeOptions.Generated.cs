@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsIottwinmakerGetComponentTypeOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Retrieves information about a component type. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkspaceId">The ID of the workspace that contains the component type. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+</param>
-    /// <param name="ComponentTypeId">The ID of the component type. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z_\.\-0-9:]+</param>
+    /// <param name="WorkspaceId">The ID of the workspace that contains the component type. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+</param>
+    /// <param name="ComponentTypeId">The ID of the component type. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z_\.\-0-9:]+</param>
     public AwsIottwinmakerGetComponentTypeOptions(
         string WorkspaceId,
         string ComponentTypeId
@@ -60,13 +61,13 @@ public record AwsIottwinmakerGetComponentTypeOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the workspace that contains the component type. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+
+    /// The ID of the workspace that contains the component type. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+
     /// </summary>
     [CliOption("--workspace-id")]
     public string? WorkspaceId { get; private init; }
 
     /// <summary>
-    /// The ID of the component type. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z_\.\-0-9:]+
+    /// The ID of the component type. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z_\.\-0-9:]+
     /// </summary>
     [CliOption("--component-type-id")]
     public string? ComponentTypeId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsIottwinmakerGetComponentTypeOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

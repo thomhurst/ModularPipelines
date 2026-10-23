@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -29,10 +29,10 @@ public record AwsMarketplaceDeploymentPutDeploymentParameterOptions : AwsOptions
     /// <summary>
     /// Creates or updates a deployment parameter and is targeted by catalog and agreementId . See also: AWS API Documentation
     /// </summary>
-    /// <param name="AgreementId">The unique identifier of the agreement. Constraints: o min: 1 o max: 64 o pattern: ^[A-Za-z0-9_/-]+$</param>
-    /// <param name="Catalog">The catalog related to the request. Fixed value: AWSMarketplace Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z_-]+$</param>
-    /// <param name="DeploymentParameter">The deployment parameter targeted to the acceptor of an agreement for which to create the AWS Secret Manager resource. name -&gt; (string) [required] The desired name of the deployment parameter. This is the iden- tifier on which deployment parameters are keyed for a given buyer and product. If this name matches an existing deployment parameter, this request will update the existing resource. Constraints: o min: 1 o max: 400 o pattern: ^[a-zA-Z0-9/_+=.@-]+$ secretString -&gt; (string) [required] The text to encrypt and store in the secret. Constraints: o min: 1 o max: 15000 Shorthand Syntax: name=string,secretString=string JSON Syntax: { "name": "string", "secretString": "string" }</param>
-    /// <param name="ProductId">The product for which AWS Marketplace will save secrets for the buy- ers account. Constraints: o min: 1 o max: 64 o pattern: ^[A-Za-z0-9_/-]+$</param>
+    /// <param name="AgreementId">The unique identifier of the agreement. Constraints: • min: 1 • max: 64 • pattern: ^[A-Za-z0-9_/-]+$</param>
+    /// <param name="Catalog">The catalog related to the request. Fixed value: AWSMarketplace Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z_-]+$</param>
+    /// <param name="DeploymentParameter">The deployment parameter targeted to the acceptor of an agreement for which to create the AWS Secret Manager resource. name -&gt; (string) [required] The desired name of the deployment parameter. This is the identifier on which deployment parameters are keyed for a given buyer and product. If this name matches an existing deployment parameter, this request will update the existing resource. Constraints: • min: 1 • max: 400 • pattern: ^[a-zA-Z0-9/_+=.@-]+$ secretString -&gt; (string) [required] The text to encrypt and store in the secret. Constraints: • min: 1 • max: 15000 Shorthand Syntax: name=string,secretString=string JSON Syntax: { "name": "string", "secretString": "string" }</param>
+    /// <param name="ProductId">The product for which AWS Marketplace will save secrets for the buyers account. Constraints: • min: 1 • max: 64 • pattern: ^[A-Za-z0-9_/-]+$</param>
     public AwsMarketplaceDeploymentPutDeploymentParameterOptions(
         string AgreementId,
         string Catalog,
@@ -70,31 +70,31 @@ public record AwsMarketplaceDeploymentPutDeploymentParameterOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the agreement. Constraints: o min: 1 o max: 64 o pattern: ^[A-Za-z0-9_/-]+$
+    /// The unique identifier of the agreement. Constraints: • min: 1 • max: 64 • pattern: ^[A-Za-z0-9_/-]+$
     /// </summary>
     [CliOption("--agreement-id")]
     public string? AgreementId { get; private init; }
 
     /// <summary>
-    /// The catalog related to the request. Fixed value: AWSMarketplace Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z_-]+$
+    /// The catalog related to the request. Fixed value: AWSMarketplace Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z_-]+$
     /// </summary>
     [CliOption("--catalog")]
     public string? Catalog { get; private init; }
 
     /// <summary>
-    /// The deployment parameter targeted to the acceptor of an agreement for which to create the AWS Secret Manager resource. name -&gt; (string) [required] The desired name of the deployment parameter. This is the iden- tifier on which deployment parameters are keyed for a given buyer and product. If this name matches an existing deployment parameter, this request will update the existing resource. Constraints: o min: 1 o max: 400 o pattern: ^[a-zA-Z0-9/_+=.@-]+$ secretString -&gt; (string) [required] The text to encrypt and store in the secret. Constraints: o min: 1 o max: 15000 Shorthand Syntax: name=string,secretString=string JSON Syntax: { "name": "string", "secretString": "string" }
+    /// The deployment parameter targeted to the acceptor of an agreement for which to create the AWS Secret Manager resource. name -&gt; (string) [required] The desired name of the deployment parameter. This is the identifier on which deployment parameters are keyed for a given buyer and product. If this name matches an existing deployment parameter, this request will update the existing resource. Constraints: • min: 1 • max: 400 • pattern: ^[a-zA-Z0-9/_+=.@-]+$ secretString -&gt; (string) [required] The text to encrypt and store in the secret. Constraints: • min: 1 • max: 15000 Shorthand Syntax: name=string,secretString=string JSON Syntax: { "name": "string", "secretString": "string" }
     /// </summary>
     [CliOption("--deployment-parameter")]
     public string? DeploymentParameter { get; private init; }
 
     /// <summary>
-    /// The product for which AWS Marketplace will save secrets for the buy- ers account. Constraints: o min: 1 o max: 64 o pattern: ^[A-Za-z0-9_/-]+$
+    /// The product for which AWS Marketplace will save secrets for the buyers account. Constraints: • min: 1 • max: 64 • pattern: ^[A-Za-z0-9_/-]+$
     /// </summary>
     [CliOption("--product-id")]
     public string? ProductId { get; private init; }
 
     /// <summary>
-    /// The idempotency token for deployment parameters. A unique identifier for the new version. NOTE: This field is not required if you're calling using an AWS SDK. Otherwise, a clientToken must be provided with the request. Constraints: o min: 32 o max: 64 o pattern: ^[a-zA-Z0-9/_+=.:@-]+$
+    /// The idempotency token for deployment parameters. A unique identifier for the new version. NOTE: This field is not required if you're calling using an AWS SDK. Otherwise, a clientToken must be provided with the request. Constraints: • min: 32 • max: 64 • pattern: ^[a-zA-Z0-9/_+=.:@-]+$
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -107,7 +107,7 @@ public record AwsMarketplaceDeploymentPutDeploymentParameterOptions : AwsOptions
     public string? ExpirationDate { get; set; }
 
     /// <summary>
-    /// A map of key-value pairs, where each pair represents a tag saved to the resource. Tags will only be applied for create operations, and they'll be ignored if the resource already exists. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9/_+=.:@-]+$ value -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9/_+=.:@-]+$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A map of key-value pairs, where each pair represents a tag saved to the resource. Tags will only be applied for create operations, and they'll be ignored if the resource already exists. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^[a-zA-Z0-9/_+=.:@-]+$ value -&gt; (string) Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z0-9/_+=.:@-]+$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -133,6 +133,15 @@ public record AwsMarketplaceDeploymentPutDeploymentParameterOptions : AwsOptions
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

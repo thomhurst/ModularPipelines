@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the specified stack. After the stack is deleted, the applica- tion streaming environment provided by the stack is no longer available to users. Also, any reservations made for application streaming ses- sions for the stack are released. See also: AWS API Documentation
+/// Deletes the specified stack. After the stack is deleted, the application streaming environment provided by the stack is no longer available to users. Also, any reservations made for application streaming sessions for the stack are released. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsAppstreamDeleteStackOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the specified stack. After the stack is deleted, the applica- tion streaming environment provided by the stack is no longer available to users. Also, any reservations made for application streaming ses- sions for the stack are released. See also: AWS API Documentation
+    /// Deletes the specified stack. After the stack is deleted, the application streaming environment provided by the stack is no longer available to users. Also, any reservations made for application streaming sessions for the stack are released. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the stack. Constraints: o min: 1</param>
+    /// <param name="Name">The name of the stack. Constraints: • min: 1</param>
     public AwsAppstreamDeleteStackOptions(
         string Name
     )
@@ -56,7 +57,7 @@ public record AwsAppstreamDeleteStackOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the stack. Constraints: o min: 1
+    /// The name of the stack. Constraints: • min: 1
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
@@ -82,6 +83,15 @@ public record AwsAppstreamDeleteStackOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

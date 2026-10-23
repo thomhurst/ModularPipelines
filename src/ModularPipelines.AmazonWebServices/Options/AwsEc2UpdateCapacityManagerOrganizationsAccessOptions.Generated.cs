@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the Organizations access setting for EC2 Capacity Manager. This controls whether Capacity Manager can aggregate data from all accounts in your Amazon Web Services Organization or only from the current ac- count. See also: AWS API Documentation
+/// Updates the Organizations access setting for EC2 Capacity Manager. This controls whether Capacity Manager can aggregate data from all accounts in your Amazon Web Services Organization or only from the current account. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsEc2UpdateCapacityManagerOrganizationsAccessOptions : AwsOptions
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the Organizations access setting for EC2 Capacity Manager. This controls whether Capacity Manager can aggregate data from all accounts in your Amazon Web Services Organization or only from the current ac- count. See also: AWS API Documentation
+    /// Updates the Organizations access setting for EC2 Capacity Manager. This controls whether Capacity Manager can aggregate data from all accounts in your Amazon Web Services Organization or only from the current account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OrganizationsAccess">Specifies whether to enable or disable cross-account access for Ama- zon Web Services Organizations. When enabled, Capacity Manager ag- gregates data from all accounts in your organization.</param>
+    /// <param name="OrganizationsAccess">Specifies whether to enable or disable cross-account access for Amazon Web Services Organizations. When enabled, Capacity Manager aggregates data from all accounts in your organization.</param>
     public AwsEc2UpdateCapacityManagerOrganizationsAccessOptions(
         bool OrganizationsAccess
     )
@@ -56,13 +57,13 @@ public record AwsEc2UpdateCapacityManagerOrganizationsAccessOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies whether to enable or disable cross-account access for Ama- zon Web Services Organizations. When enabled, Capacity Manager ag- gregates data from all accounts in your organization.
+    /// Specifies whether to enable or disable cross-account access for Amazon Web Services Organizations. When enabled, Capacity Manager aggregates data from all accounts in your organization.
     /// </summary>
     [CliFlag("--organizations-access", NegatedName = "--no-organizations-access")]
     public bool? OrganizationsAccess { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -95,6 +96,15 @@ public record AwsEc2UpdateCapacityManagerOrganizationsAccessOptions : AwsOptions
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

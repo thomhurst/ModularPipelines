@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -33,7 +33,7 @@ public class AwsEventsv2 : IAwsEventsv2
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws eventsv2 wait sub-commands.
     /// </summary>
     public AwsEventsv2Wait Wait => _wait ??= new AwsEventsv2Wait(_command);
 
@@ -42,7 +42,7 @@ public class AwsEventsv2 : IAwsEventsv2
     #region Commands
 
     /// <summary>
-    /// Creates an event bus. Provisioning is asynchronous: the bus is returned in the CREATING state and transitions to ACTIVE when ready (see the EventBusActive waiter). Retries carrying the same ClientToken are idem- potent. See also: AWS API Documentation
+    /// Creates an event bus. Provisioning is asynchronous: the bus is returned in the CREATING state and transitions to ACTIVE when ready (see the EventBusActive waiter). Retries carrying the same ClientToken are idempotent. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -87,7 +87,7 @@ public class AwsEventsv2 : IAwsEventsv2
     }
 
     /// <summary>
-    /// Deletes an event bus. Deletion is asynchronous: the bus moves to DELET- ING and disappears when complete (see the EventBusDeleted waiter). A bus with subscribers or event sources cannot be deleted. See also: AWS API Documentation
+    /// Deletes an event bus. Deletion is asynchronous: the bus moves to DELETING and disappears when complete (see the EventBusDeleted waiter). A bus with subscribers or event sources cannot be deleted. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -237,7 +237,7 @@ public class AwsEventsv2 : IAwsEventsv2
     }
 
     /// <summary>
-    /// Lists the resource policies attached to an event bus as summaries (pol- icy name and revision ID). Use GetResourcePolicy to retrieve a policy document. See also: AWS API Documentation list-resource-policies is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data...
+    /// Lists the resource policies attached to an event bus as summaries (policy name and revision ID). Use GetResourcePolicy to retrieve a policy document. See also: AWS API Documentation list-resource-policies is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data f...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -252,7 +252,7 @@ public class AwsEventsv2 : IAwsEventsv2
     }
 
     /// <summary>
-    /// Lists subscribers as summaries. By default the list spans the sub- scribers the caller account owns across all buses; set EventBusArn to scope it to one bus. Use DescribeSubscriber to retrieve full configura- tion. See also: AWS API Documentation list-subscribers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a p...
+    /// Lists subscribers as summaries. By default the list spans the subscribers the caller account owns across all buses; set EventBusArn to scope it to one bus. Use DescribeSubscriber to retrieve full configuration. See also: AWS API Documentation list-subscribers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagin...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -312,7 +312,7 @@ public class AwsEventsv2 : IAwsEventsv2
     }
 
     /// <summary>
-    /// Attaches a named resource policy to an event bus the only resource type that supports policies; other resource ARNs are rejected. Each bus holds two named policies: "default" (customer-managed, full IAM policy language including Deny) and "AWS_RAM" (written exclusively by AWS Re- source Access Manager to reflect resource shares). Both policies are evaluated on cross-account authorization; an explicit Deny in either overrides an Allow in the other. Operations that omit PolicyName target "default"...
+    /// Attaches a named resource policy to an event bus the only resource type that supports policies; other resource ARNs are rejected. Each bus holds two named policies: "default" (customer-managed, full IAM policy language including Deny) and "AWS_RAM" (written exclusively by AWS Resource Access Manager to reflect resource shares). Both policies are evaluated on cross-account authorization; an explicit Deny in either overrides an Allow in the other. Operations that omit PolicyName target "default". ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -327,7 +327,7 @@ public class AwsEventsv2 : IAwsEventsv2
     }
 
     /// <summary>
-    /// Revokes a subscriber or an EventSource. The bus owner calls this to withdraw a misbehaving resource attached to their bus. Revocation is terminal: there is no operation that clears it. A revoked resource re- fuses mutating operations with InvalidStateException; delete stays available for cleanup. See also: AWS API Documentation
+    /// Revokes a subscriber or an EventSource. The bus owner calls this to withdraw a misbehaving resource attached to their bus. Revocation is terminal: there is no operation that clears it. A revoked resource refuses mutating operations with InvalidStateException; delete stays available for cleanup. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -372,7 +372,7 @@ public class AwsEventsv2 : IAwsEventsv2
     }
 
     /// <summary>
-    /// Updates an event bus. The update is asynchronous: the bus moves to UP- DATING and returns to ACTIVE when the change is applied. Fields omitted from the request are left unchanged. See also: AWS API Documentation
+    /// Updates an event bus. The update is asynchronous: the bus moves to UPDATING and returns to ACTIVE when the change is applied. Fields omitted from the request are left unchanged. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -387,7 +387,7 @@ public class AwsEventsv2 : IAwsEventsv2
     }
 
     /// <summary>
-    /// Updates an EventSource. Fields omitted from the request are left un- changed. See also: AWS API Documentation
+    /// Updates an EventSource. Fields omitted from the request are left unchanged. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -402,7 +402,7 @@ public class AwsEventsv2 : IAwsEventsv2
     }
 
     /// <summary>
-    /// Updates a subscriber. Fields omitted from the request are left un- changed. See also: AWS API Documentation
+    /// Updates a subscriber. Fields omitted from the request are left unchanged. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

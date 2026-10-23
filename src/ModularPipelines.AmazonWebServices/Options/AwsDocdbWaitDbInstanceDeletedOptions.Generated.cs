@@ -23,22 +23,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsDocdbWaitDbInstanceDeletedOptions : AwsOptions
 {
     /// <summary>
-    /// The user-provided instance identifier. If this parameter is speci- fied, information from only the specific instance is returned. This parameter isn't case sensitive. Constraints: o If provided, must match the identifier of an existing DBInstance .
+    /// The user-provided instance identifier. If this parameter is specified, information from only the specific instance is returned. This parameter isn't case sensitive. Constraints: • If provided, must match the identifier of an existing DBInstance .
     /// </summary>
     [CliOption("--db-instance-identifier")]
     public string? DbInstanceIdentifier { get; set; }
 
     /// <summary>
-    /// A filter that specifies one or more instances to describe. Supported filters: o db-cluster-id - Accepts cluster identifiers and cluster Amazon Re- source Names (ARNs). The results list includes only the informa- tion about the instances that are associated with the clusters that are identified by these ARNs. o db-instance-id - Accepts instance identifiers and instance ARNs. The results list includes only the information about the instances that are identified by these ARNs. (structure) A named set of filter values, used to return a more specific list of results. You can use a filter to match a set of re- sources by specific criteria, such as IDs. Wildcards are not supported in filters. Name -&gt; (string) [required] The name of the filter. Filter names are case sensitive. Values -&gt; (list) [required] One or more filter values. Filter values are case sensitive. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
+    /// A filter that specifies one or more instances to describe. Supported filters: • db-cluster-id - Accepts cluster identifiers and cluster Amazon Resource Names (ARNs). The results list includes only the information about the instances that are associated with the clusters that are identified by these ARNs. • db-instance-id - Accepts instance identifiers and instance ARNs. The results list includes only the information about the instances that are identified by these ARNs. (structure) A named set of filter values, used to return a more specific list of results. You can use a filter to match a set of resources by specific criteria, such as IDs. Wildcards are not supported in filters. Name -&gt; (string) [required] The name of the filter. Filter names are case sensitive. Values -&gt; (list) [required] One or more filter values. Filter values are case sensitive. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -48,15 +45,27 @@ public record AwsDocdbWaitDbInstanceDeletedOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

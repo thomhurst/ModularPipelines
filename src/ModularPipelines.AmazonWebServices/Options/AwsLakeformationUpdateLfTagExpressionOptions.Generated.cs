@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the name of the LF-Tag expression to the new description and expression body provided. Updating a LF-Tag expression immediately changes the permission boundaries of all existing LFTagPolicy permis- sion grants that reference the given LF-Tag expression. See also: AWS API Documentation
+/// Updates the name of the LF-Tag expression to the new description and expression body provided. Updating a LF-Tag expression immediately changes the permission boundaries of all existing LFTagPolicy permission grants that reference the given LF-Tag expression. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsLakeformationUpdateLfTagExpressionOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the name of the LF-Tag expression to the new description and expression body provided. Updating a LF-Tag expression immediately changes the permission boundaries of all existing LFTagPolicy permis- sion grants that reference the given LF-Tag expression. See also: AWS API Documentation
+    /// Updates the name of the LF-Tag expression to the new description and expression body provided. Updating a LF-Tag expression immediately changes the permission boundaries of all existing LFTagPolicy permission grants that reference the given LF-Tag expression. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name for the LF-Tag expression. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
-    /// <param name="Expression">The LF-Tag expression body composed of one more LF-Tag key-value pairs. (structure) A structure that allows an admin to grant user permissions on certain conditions. For example, granting a role access to all columns that do not have the LF-tag 'PII' in tables that have the LF-tag 'Prod'. TagKey -&gt; (string) [required] The key-name for the LF-tag. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:\/=+\-@%]*)$ TagValues -&gt; (list) [required] A list of possible values an attribute can take. The maximum number of values that can be defined for a LF-Tag is 1000. A single API call supports 50 values. You can use multiple API calls to add more values. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:\*\/=+\-@%]*)$ Shorthand Syntax: TagKey=string,TagValues=string,string ... JSON Syntax: [ { "TagKey": "string", "TagValues": ["string", ...] } ... ]</param>
+    /// <param name="Name">The name for the LF-Tag expression. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="Expression">The LF-Tag expression body composed of one more LF-Tag key-value pairs. (structure) A structure that allows an admin to grant user permissions on certain conditions. For example, granting a role access to all columns that do not have the LF-tag 'PII' in tables that have the LF-tag 'Prod'. TagKey -&gt; (string) [required] The key-name for the LF-tag. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:\/=+\-@%]*)$ TagValues -&gt; (list) [required] A list of possible values an attribute can take. The maximum number of values that can be defined for a LF-Tag is 1000. A single API call supports 50 values. You can use multiple API calls to add more values. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:\*\/=+\-@%]*)$ Shorthand Syntax: TagKey=string,TagValues=string,string ... JSON Syntax: [ { "TagKey": "string", "TagValues": ["string", ...] } ... ]</param>
     public AwsLakeformationUpdateLfTagExpressionOptions(
         string Name,
         IEnumerable<string> Expression
@@ -71,25 +72,25 @@ public record AwsLakeformationUpdateLfTagExpressionOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name for the LF-Tag expression. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The name for the LF-Tag expression. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The LF-Tag expression body composed of one more LF-Tag key-value pairs. (structure) A structure that allows an admin to grant user permissions on certain conditions. For example, granting a role access to all columns that do not have the LF-tag 'PII' in tables that have the LF-tag 'Prod'. TagKey -&gt; (string) [required] The key-name for the LF-tag. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:\/=+\-@%]*)$ TagValues -&gt; (list) [required] A list of possible values an attribute can take. The maximum number of values that can be defined for a LF-Tag is 1000. A single API call supports 50 values. You can use multiple API calls to add more values. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:\*\/=+\-@%]*)$ Shorthand Syntax: TagKey=string,TagValues=string,string ... JSON Syntax: [ { "TagKey": "string", "TagValues": ["string", ...] } ... ]
+    /// The LF-Tag expression body composed of one more LF-Tag key-value pairs. (structure) A structure that allows an admin to grant user permissions on certain conditions. For example, granting a role access to all columns that do not have the LF-tag 'PII' in tables that have the LF-tag 'Prod'. TagKey -&gt; (string) [required] The key-name for the LF-tag. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:\/=+\-@%]*)$ TagValues -&gt; (list) [required] A list of possible values an attribute can take. The maximum number of values that can be defined for a LF-Tag is 1000. A single API call supports 50 values. You can use multiple API calls to add more values. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:\*\/=+\-@%]*)$ Shorthand Syntax: TagKey=string,TagValues=string,string ... JSON Syntax: [ { "TagKey": "string", "TagValues": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--expression", GroupValues = true)]
     public IEnumerable<string>? Expression { get; private init; }
 
     /// <summary>
-    /// The description with information about the saved LF-Tag expression. Constraints: o min: 0 o max: 2048 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// The description with information about the saved LF-Tag expression. Constraints: • min: 0 • max: 2048 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The identifier for the Data Catalog. By default, the account ID. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The identifier for the Data Catalog. By default, the account ID. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--catalog-id")]
     public string? CatalogId { get; set; }
@@ -115,6 +116,15 @@ public record AwsLakeformationUpdateLfTagExpressionOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

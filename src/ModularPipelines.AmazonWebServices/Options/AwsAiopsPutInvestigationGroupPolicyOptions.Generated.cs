@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an IAM resource policy and assigns it to the specified investi- gation group. If you create your investigation group with CreateInvestigationGroup and you want to enable CloudWatch alarms to create investigations and add events to investigations, you must use this operation to create a policy similar to this example. { "Version": "2008-10-17", "Statement": [ { "Effect": "Allow", "Principal": { "Service": "aiops.alarms.cloudwatch.amazonaws.com" }, "Action": [ "aiops:CreateInvestigation", ...
+/// Creates an IAM resource policy and assigns it to the specified investigation group. If you create your investigation group with CreateInvestigationGroup and you want to enable CloudWatch alarms to create investigations and add events to investigations, you must use this operation to create a policy similar to this example. { "Version": "2008-10-17", "Statement": [ { "Effect": "Allow", "Principal": { "Service": "aiops.alarms.cloudwatch.amazonaws.com" }, "Action": [ "aiops:CreateInvestigation", "a...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsAiopsPutInvestigationGroupPolicyOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an IAM resource policy and assigns it to the specified investi- gation group. If you create your investigation group with CreateInvestigationGroup and you want to enable CloudWatch alarms to create investigations and add events to investigations, you must use this operation to create a policy similar to this example. { "Version": "2008-10-17", "Statement": [ { "Effect": "Allow", "Principal": { "Service": "aiops.alarms.cloudwatch.amazonaws.com" }, "Action": [ "aiops:CreateInvestigation", ...
+    /// Creates an IAM resource policy and assigns it to the specified investigation group. If you create your investigation group with CreateInvestigationGroup and you want to enable CloudWatch alarms to create investigations and add events to investigations, you must use this operation to create a policy similar to this example. { "Version": "2008-10-17", "Statement": [ { "Effect": "Allow", "Principal": { "Service": "aiops.alarms.cloudwatch.amazonaws.com" }, "Action": [ "aiops:CreateInvestigation", "a...
     /// </summary>
-    /// <param name="Identifier">Specify either the name or the ARN of the investigation group that you want to assign the policy to. Constraints: o pattern: (?:[\-_A-Za-z0-9]{1,512}|arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):aiops:[a-zA-Z0-9-]*:[0-9]{12}:in- vestigation-group\/[A-Za-z0-9]{16})</param>
-    /// <param name="Policy">The policy, in JSON format. Constraints: o min: 1 o max: 32768 o pattern: [\u0009\u000A\u000D\u0020-\u00FF]+</param>
+    /// <param name="Identifier">Specify either the name or the ARN of the investigation group that you want to assign the policy to. Constraints: • pattern: (?:[\-_A-Za-z0-9]{1,512}|arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):aiops:[a-zA-Z0-9-]*:[0-9]{12}:investigation-group\/[A-Za-z0-9]{16})</param>
+    /// <param name="Policy">The policy, in JSON format. Constraints: • min: 1 • max: 32768 • pattern: [\u0009\u000A\u000D\u0020-\u00FF]+</param>
     public AwsAiopsPutInvestigationGroupPolicyOptions(
         string Identifier,
         string Policy
@@ -60,13 +61,13 @@ public record AwsAiopsPutInvestigationGroupPolicyOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specify either the name or the ARN of the investigation group that you want to assign the policy to. Constraints: o pattern: (?:[\-_A-Za-z0-9]{1,512}|arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):aiops:[a-zA-Z0-9-]*:[0-9]{12}:in- vestigation-group\/[A-Za-z0-9]{16})
+    /// Specify either the name or the ARN of the investigation group that you want to assign the policy to. Constraints: • pattern: (?:[\-_A-Za-z0-9]{1,512}|arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):aiops:[a-zA-Z0-9-]*:[0-9]{12}:investigation-group\/[A-Za-z0-9]{16})
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// The policy, in JSON format. Constraints: o min: 1 o max: 32768 o pattern: [\u0009\u000A\u000D\u0020-\u00FF]+
+    /// The policy, in JSON format. Constraints: • min: 1 • max: 32768 • pattern: [\u0009\u000A\u000D\u0020-\u00FF]+
     /// </summary>
     [CliOption("--policy")]
     public string? Policy { get; private init; }
@@ -92,6 +93,15 @@ public record AwsAiopsPutInvestigationGroupPolicyOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsRdsRemoveRoleFromDbInstanceOptions : AwsOptions, IValidatableOb
     /// Disassociates an Amazon Web Services Identity and Access Management (IAM) role from a DB instance. See also: AWS API Documentation
     /// </summary>
     /// <param name="DbInstanceIdentifier">The name of the DB instance to disassociate the IAM role from.</param>
-    /// <param name="RoleArn">The Amazon Resource Name (ARN) of the IAM role to disassociate from the DB instance, for example, arn:aws:iam::123456789012:role/Access- Role .</param>
+    /// <param name="RoleArn">The Amazon Resource Name (ARN) of the IAM role to disassociate from the DB instance, for example, arn:aws:iam::123456789012:role/AccessRole .</param>
     /// <param name="FeatureName">The name of the feature for the DB instance that the IAM role is to be disassociated from. For information about supported feature names, see DBEngineVersion .</param>
     public AwsRdsRemoveRoleFromDbInstanceOptions(
         string DbInstanceIdentifier,
@@ -70,7 +71,7 @@ public record AwsRdsRemoveRoleFromDbInstanceOptions : AwsOptions, IValidatableOb
     public string? DbInstanceIdentifier { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the IAM role to disassociate from the DB instance, for example, arn:aws:iam::123456789012:role/Access- Role .
+    /// The Amazon Resource Name (ARN) of the IAM role to disassociate from the DB instance, for example, arn:aws:iam::123456789012:role/AccessRole .
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; private init; }
@@ -102,6 +103,15 @@ public record AwsRdsRemoveRoleFromDbInstanceOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

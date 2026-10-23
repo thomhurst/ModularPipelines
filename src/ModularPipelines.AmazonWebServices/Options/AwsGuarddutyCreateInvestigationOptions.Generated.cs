@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +29,8 @@ public record AwsGuarddutyCreateInvestigationOptions : AwsOptions, IValidatableO
     /// <summary>
     /// This API is currently available as a preview. During the preview, you can initiate up to 10 investigations per account per day, with a total limit of 100 investigations per account. This feature is available in the following Amazon Web Services Regions: US East (N. Virginia), US East (Ohio), US West (Oregon), Canada (Central), Europe (Frankfurt), Europe (Ireland), Europe (London), Europe (Paris), Europe (Stockholm), and Asia Pacific (Tokyo). Initiates a GuardDuty investigation that automatically...
     /// </summary>
-    /// <param name="DetectorId">The unique ID of the GuardDuty detector for the account in which the investigation is created. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300</param>
-    /// <param name="TriggerPrompt">A natural-language description of what to investigate. For example: o "Investigate finding 1ab2c3d4e5f6a7b8c9d0e1f2a3b4c5d6 in account 123456789012" o "Analyze findings in account with id 123456789012" o "Analyze findings in my organization" Constraints: o min: 1 o max: 2048</param>
+    /// <param name="DetectorId">The unique ID of the GuardDuty detector for the account in which the investigation is created. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: • min: 1 • max: 300</param>
+    /// <param name="TriggerPrompt">A natural-language description of what to investigate. For example: • "Investigate finding 1ab2c3d4e5f6a7b8c9d0e1f2a3b4c5d6 in account 123456789012" • "Analyze findings in account with id 123456789012" • "Analyze findings in my organization" Constraints: • min: 1 • max: 2048</param>
     public AwsGuarddutyCreateInvestigationOptions(
         string DetectorId,
         string TriggerPrompt
@@ -61,19 +62,19 @@ public record AwsGuarddutyCreateInvestigationOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique ID of the GuardDuty detector for the account in which the investigation is created. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300
+    /// The unique ID of the GuardDuty detector for the account in which the investigation is created. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: • min: 1 • max: 300
     /// </summary>
     [CliOption("--detector-id")]
     public string? DetectorId { get; private init; }
 
     /// <summary>
-    /// A natural-language description of what to investigate. For example: o "Investigate finding 1ab2c3d4e5f6a7b8c9d0e1f2a3b4c5d6 in account 123456789012" o "Analyze findings in account with id 123456789012" o "Analyze findings in my organization" Constraints: o min: 1 o max: 2048
+    /// A natural-language description of what to investigate. For example: • "Investigate finding 1ab2c3d4e5f6a7b8c9d0e1f2a3b4c5d6 in account 123456789012" • "Analyze findings in account with id 123456789012" • "Analyze findings in my organization" Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--trigger-prompt")]
     public string? TriggerPrompt { get; private init; }
 
     /// <summary>
-    /// The idempotency token for the create request. Constraints: o min: 0 o max: 64
+    /// The idempotency token for the create request. Constraints: • min: 0 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -100,6 +101,15 @@ public record AwsGuarddutyCreateInvestigationOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

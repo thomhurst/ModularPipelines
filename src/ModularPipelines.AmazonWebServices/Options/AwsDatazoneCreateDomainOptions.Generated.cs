@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -71,37 +71,37 @@ public record AwsDatazoneCreateDomainOptions : AwsOptions, IValidatableObject
     public string? Description { get; set; }
 
     /// <summary>
-    /// The single-sign on configuration of the Amazon DataZone domain. type -&gt; (string) The type of single sign-on in Amazon DataZone. Possible values: o IAM_IDC o DISABLED userAssignment -&gt; (string) The single sign-on user assignment in Amazon DataZone. Possible values: o AUTOMATIC o MANUAL idcInstanceArn -&gt; (string) The ARN of the IDC instance. Constraints: o pattern: .*arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}.* Shorthand Syntax: type=string,userAssignment=string,idcInstanceArn=string JSON Syntax: { "type": "IAM_IDC"|"DISABLED", "userAssignment": "AUTOMATIC"|"MANUAL", "idcInstanceArn": "string" }
+    /// The single-sign on configuration of the Amazon DataZone domain. type -&gt; (string) The type of single sign-on in Amazon DataZone. Possible values: • IAM_IDC • DISABLED userAssignment -&gt; (string) The single sign-on user assignment in Amazon DataZone. Possible values: • AUTOMATIC • MANUAL idcInstanceArn -&gt; (string) The ARN of the IDC instance. Constraints: • pattern: .*arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}.* Shorthand Syntax: type=string,userAssignment=string,idcInstanceArn=string JSON Syntax: { "type": "IAM_IDC"|"DISABLED", "userAssignment": "AUTOMATIC"|"MANUAL", "idcInstanceArn": "string" }
     /// </summary>
     [CliOption("--single-sign-on")]
     public string? SingleSignOn { get; set; }
 
     /// <summary>
-    /// The domain execution role that is created when an Amazon DataZone domain is created. The domain execution role is created in the Ama- zon Web Services account that houses the Amazon DataZone domain. Constraints: o pattern: arn:aws[^:]*:iam::\d{12}:role(/[a-zA-Z0-9+=,.@_-]+)*/[a-zA-Z0-9+=,.@_-]+
+    /// The domain execution role that is created when an Amazon DataZone domain is created. The domain execution role is created in the Amazon Web Services account that houses the Amazon DataZone domain. Constraints: • pattern: arn:aws[^:]*:iam::\d{12}:role(/[a-zA-Z0-9+=,.@_-]+)*/[a-zA-Z0-9+=,.@_-]+
     /// </summary>
     [CliOption("--domain-execution-role")]
     public string? DomainExecutionRole { get; set; }
 
     /// <summary>
-    /// The identifier of the Amazon Web Services Key Management Service (KMS) key that is used to encrypt the Amazon DataZone domain, meta- data, and reporting data. Constraints: o min: 1 o max: 1024 o pattern: arn:aws(|-cn|-us-gov):kms:[a-zA-Z0-9-]*:[0-9]{12}:key/[a-zA-Z0-9-]{36}
+    /// The identifier of the Amazon Web Services Key Management Service (KMS) key that is used to encrypt the Amazon DataZone domain, metadata, and reporting data. Constraints: • min: 1 • max: 1024 • pattern: arn:aws(|-cn|-us-gov):kms:[a-zA-Z0-9-]*:[0-9]{12}:key/[a-zA-Z0-9-]{36}
     /// </summary>
     [CliOption("--kms-key-identifier")]
     public string? KmsKeyIdentifier { get; set; }
 
     /// <summary>
-    /// The tags specified for the Amazon DataZone domain. key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [\w \.:/=+@-]+ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: [\w \.:/=+@-]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags specified for the Amazon DataZone domain. key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: [\w \.:/=+@-]+ value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: [\w \.:/=+@-]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// The version of the domain that is created. Possible values: o V1 o V2
+    /// The version of the domain that is created. Possible values: • V1 • V2
     /// </summary>
     [CliOption("--domain-version")]
     public AwsDatazoneCreateDomainDomainVersion? DomainVersion { get; set; }
 
     /// <summary>
-    /// The service role of the domain that is created. Constraints: o pattern: arn:aws[^:]*:iam::\d{12}:role(/[a-zA-Z0-9+=,.@_-]+)*/[a-zA-Z0-9+=,.@_-]+
+    /// The service role of the domain that is created. Constraints: • pattern: arn:aws[^:]*:iam::\d{12}:role(/[a-zA-Z0-9+=,.@_-]+)*/[a-zA-Z0-9+=,.@_-]+
     /// </summary>
     [CliOption("--service-role")]
     public string? ServiceRole { get; set; }
@@ -134,6 +134,15 @@ public record AwsDatazoneCreateDomainOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

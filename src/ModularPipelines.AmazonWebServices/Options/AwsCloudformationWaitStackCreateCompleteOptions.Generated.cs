@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Wait until stack status is CREATE_COMPLETE. It will poll every 30 sec- onds until a successful state has been reached. This will exit with a return code of 255 after 120 failed checks. See also: AWS API Documentation stack-create-complete is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --...
+/// Wait until stack status is CREATE_COMPLETE. It will poll every 30 seconds until a successful state has been reached. This will exit with a return code of 255 after 120 failed checks. See also: AWS API Documentation stack-create-complete is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --qu...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,16 +23,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsCloudformationWaitStackCreateCompleteOptions : AwsOptions
 {
     /// <summary>
-    /// NOTE: If you don't pass a parameter to StackName , the API returns a response that describes all resources in the account, which can impact performance. This requires ListStacks and DescribeStacks permissions. Consider using the ListStacks API if you're not passing a para- meter to StackName . The IAM policy below can be added to IAM policies when you want to limit resource-level permissions and avoid returning a re- sponse when no parameter is sent in the request: { "Version": "2012-10-17", "Statement": [{ "Effect": "Deny", "Action": "cloudformation:DescribeStacks", "NotResource": "arn:aws:cloudformation:::stack//" }] } The name or the unique stack ID that's associated with the stack, which aren't always interchangeable: o Running stacks: You can specify either the stack's name or its unique stack ID. o Deleted stacks: You must specify the unique stack ID.
+    /// NOTE: If you don't pass a parameter to StackName , the API returns a response that describes all resources in the account, which can impact performance. This requires ListStacks and DescribeStacks permissions. Consider using the ListStacks API if you're not passing a parameter to StackName . The IAM policy below can be added to IAM policies when you want to limit resource-level permissions and avoid returning a response when no parameter is sent in the request: { "Version": "2012-10-17", "Statement": [{ "Effect": "Deny", "Action": "cloudformation:DescribeStacks", "NotResource": "arn:aws:cloudformation:::stack//" }] } The name or the unique stack ID that's associated with the stack, which aren't always interchangeable: • Running stacks: You can specify either the stack's name or its unique stack ID. • Deleted stacks: You must specify the unique stack ID.
     /// </summary>
     [CliOption("--stack-name")]
     public string? StackName { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -42,9 +39,21 @@ public record AwsCloudformationWaitStackCreateCompleteOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

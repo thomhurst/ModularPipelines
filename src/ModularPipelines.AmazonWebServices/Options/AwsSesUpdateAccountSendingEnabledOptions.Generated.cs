@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSesUpdateAccountSendingEnabledOptions : AwsOptions
 {
     /// <summary>
-    /// Describes whether email sending is enabled or disabled for your Ama- zon SES account in the current Amazon Web Services Region.
+    /// Describes whether email sending is enabled or disabled for your Amazon SES account in the current Amazon Web Services Region.
     /// </summary>
     [CliFlag("--enabled", NegatedName = "--no-enabled")]
     public bool? Enabled { get; set; }
@@ -32,5 +32,14 @@ public record AwsSesUpdateAccountSendingEnabledOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

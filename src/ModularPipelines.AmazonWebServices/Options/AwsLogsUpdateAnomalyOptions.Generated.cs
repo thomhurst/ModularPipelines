@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Use this operation to suppress anomaly detection for a specified anom- aly or pattern. If you suppress an anomaly, CloudWatch Logs won't re- port new occurrences of that anomaly and won't update that anomaly with new data. If you suppress a pattern, CloudWatch Logs won't report any anomalies related to that pattern. You must specify either anomalyId or patternId , but you can't specify both parameters in the same operation. If you have previously used this operation to suppress detection of a pa...
+/// Use this operation to suppress anomaly detection for a specified anomaly or pattern. If you suppress an anomaly, CloudWatch Logs won't report new occurrences of that anomaly and won't update that anomaly with new data. If you suppress a pattern, CloudWatch Logs won't report any anomalies related to that pattern. You must specify either anomalyId or patternId , but you can't specify both parameters in the same operation. If you have previously used this operation to suppress detection of a patter...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsLogsUpdateAnomalyOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Use this operation to suppress anomaly detection for a specified anom- aly or pattern. If you suppress an anomaly, CloudWatch Logs won't re- port new occurrences of that anomaly and won't update that anomaly with new data. If you suppress a pattern, CloudWatch Logs won't report any anomalies related to that pattern. You must specify either anomalyId or patternId , but you can't specify both parameters in the same operation. If you have previously used this operation to suppress detection of a pa...
+    /// Use this operation to suppress anomaly detection for a specified anomaly or pattern. If you suppress an anomaly, CloudWatch Logs won't report new occurrences of that anomaly and won't update that anomaly with new data. If you suppress a pattern, CloudWatch Logs won't report any anomalies related to that pattern. You must specify either anomalyId or patternId , but you can't specify both parameters in the same operation. If you have previously used this operation to suppress detection of a patter...
     /// </summary>
-    /// <param name="AnomalyDetectorArn">The ARN of the anomaly detector that this operation is to act on. Constraints: o min: 1 o pattern: [\w#+=/:,.@-]*</param>
+    /// <param name="AnomalyDetectorArn">The ARN of the anomaly detector that this operation is to act on. Constraints: • min: 1 • pattern: [\w#+=/:,.@-]*</param>
     public AwsLogsUpdateAnomalyOptions(
         string AnomalyDetectorArn
     )
@@ -57,37 +58,37 @@ public record AwsLogsUpdateAnomalyOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the anomaly detector that this operation is to act on. Constraints: o min: 1 o pattern: [\w#+=/:,.@-]*
+    /// The ARN of the anomaly detector that this operation is to act on. Constraints: • min: 1 • pattern: [\w#+=/:,.@-]*
     /// </summary>
     [CliOption("--anomaly-detector-arn")]
     public string? AnomalyDetectorArn { get; private init; }
 
     /// <summary>
-    /// If you are suppressing or unsuppressing an anomaly, specify its unique ID here. You can find anomaly IDs by using the ListAnomalies operation. Constraints: o min: 36 o max: 36
+    /// If you are suppressing or unsuppressing an anomaly, specify its unique ID here. You can find anomaly IDs by using the ListAnomalies operation. Constraints: • min: 36 • max: 36
     /// </summary>
     [CliOption("--anomaly-id")]
     public string? AnomalyId { get; set; }
 
     /// <summary>
-    /// If you are suppressing or unsuppressing an pattern, specify its unique ID here. You can find pattern IDs by using the ListAnomalies operation. Constraints: o min: 32 o max: 32
+    /// If you are suppressing or unsuppressing an pattern, specify its unique ID here. You can find pattern IDs by using the ListAnomalies operation. Constraints: • min: 32 • max: 32
     /// </summary>
     [CliOption("--pattern-id")]
     public string? PatternId { get; set; }
 
     /// <summary>
-    /// Use this to specify whether the suppression to be temporary or infi- nite. If you specify LIMITED , you must also specify a suppression- Period . If you specify INFINITE , any value for suppressionPeriod is ignored. Possible values: o LIMITED o INFINITE
+    /// Use this to specify whether the suppression to be temporary or infinite. If you specify LIMITED , you must also specify a suppressionPeriod . If you specify INFINITE , any value for suppressionPeriod is ignored. Possible values: • LIMITED • INFINITE
     /// </summary>
     [CliOption("--suppression-type")]
     public AwsLogsUpdateAnomalySuppressionType? SuppressionType { get; set; }
 
     /// <summary>
-    /// If you are temporarily suppressing an anomaly or pattern, use this structure to specify how long the suppression is to last. value -&gt; (integer) Specifies the number of seconds, minutes or hours to suppress this anomaly. There is no maximum. suppressionUnit -&gt; (string) Specifies whether the value of value is in seconds, minutes, or hours. Possible values: o SECONDS o MINUTES o HOURS Shorthand Syntax: value=integer,suppressionUnit=string JSON Syntax: { "value": integer, "suppressionUnit": "SECONDS"|"MINUTES"|"HOURS" }
+    /// If you are temporarily suppressing an anomaly or pattern, use this structure to specify how long the suppression is to last. value -&gt; (integer) Specifies the number of seconds, minutes or hours to suppress this anomaly. There is no maximum. suppressionUnit -&gt; (string) Specifies whether the value of value is in seconds, minutes, or hours. Possible values: • SECONDS • MINUTES • HOURS Shorthand Syntax: value=integer,suppressionUnit=string JSON Syntax: { "value": integer, "suppressionUnit": "SECONDS"|"MINUTES"|"HOURS" }
     /// </summary>
     [CliOption("--suppression-period")]
     public string? SuppressionPeriod { get; set; }
 
     /// <summary>
-    /// Set this to true to prevent CloudWatch Logs from displaying this be- havior as an anomaly in the future. The behavior is then treated as baseline behavior. However, if similar but more severe occurrences of this behavior occur in the future, those will still be reported as anomalies. The default is false
+    /// Set this to true to prevent CloudWatch Logs from displaying this behavior as an anomaly in the future. The behavior is then treated as baseline behavior. However, if similar but more severe occurrences of this behavior occur in the future, those will still be reported as anomalies. The default is false
     /// </summary>
     [CliFlag("--baseline", NegatedName = "--no-baseline")]
     public bool? Baseline { get; set; }
@@ -113,6 +114,15 @@ public record AwsLogsUpdateAnomalyOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

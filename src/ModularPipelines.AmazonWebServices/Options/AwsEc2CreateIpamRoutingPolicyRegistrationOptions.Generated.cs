@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a routing policy registration and publishes Route Origin Autho- rizations (ROAs) to the RPKI for the specified CIDR prefix and ASNs. See also: AWS API Documentation
+/// Creates a routing policy registration and publishes Route Origin Authorizations (ROAs) to the RPKI for the specified CIDR prefix and ASNs. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +27,7 @@ public record AwsEc2CreateIpamRoutingPolicyRegistrationOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a routing policy registration and publishes Route Origin Autho- rizations (ROAs) to the RPKI for the specified CIDR prefix and ASNs. See also: AWS API Documentation
+    /// Creates a routing policy registration and publishes Route Origin Authorizations (ROAs) to the RPKI for the specified CIDR prefix and ASNs. See also: AWS API Documentation
     /// </summary>
     /// <param name="IpamInternetRegistryAssociationId">The ID of the IPAM internet registry association.</param>
     /// <param name="Cidr">The IP address prefix in CIDR notation to authorize in the ROA.</param>
@@ -94,19 +95,19 @@ public record AwsEc2CreateIpamRoutingPolicyRegistrationOptions : AwsOptions, IVa
     public IEnumerable<string>? Asns { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// nouncements (boolean) Specifies whether to permit more specific route announcements than the CIDR prefix. When enabled, ASNs can announce sub-prefixes of the authorized CIDR up to the specified maximum length. Default: false .
+    /// Specifies whether to permit more specific route announcements than the CIDR prefix. When enabled, ASNs can announce sub-prefixes of the authorized CIDR up to the specified maximum length. Default: false .
     /// </summary>
     [CliFlag("--permit-more-specific-announcements", NegatedName = "--no-permit-more-specific-announcements")]
     public bool? PermitMoreSpecificAnnouncements { get; set; }
 
     /// <summary>
-    /// The maximum prefix length that the ASNs are authorized to announce. Must be greater than or equal to the prefix length of the CIDR. If not specified, defaults to the prefix length of the CIDR (exact match only). Constraints: o min: 0 o max: 48
+    /// The maximum prefix length that the ASNs are authorized to announce. Must be greater than or equal to the prefix length of the CIDR. If not specified, defaults to the prefix length of the CIDR (exact match only). Constraints: • min: 0 • max: 48
     /// </summary>
     [CliOption("--max-length")]
     public int? MaxLength { get; set; }
@@ -151,6 +152,15 @@ public record AwsEc2CreateIpamRoutingPolicyRegistrationOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

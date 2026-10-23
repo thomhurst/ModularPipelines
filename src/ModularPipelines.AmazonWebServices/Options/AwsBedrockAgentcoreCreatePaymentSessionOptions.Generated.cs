@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +29,8 @@ public record AwsBedrockAgentcoreCreatePaymentSessionOptions : AwsOptions, IVali
     /// <summary>
     /// Create a new payment session. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PaymentManagerArn">The ARN of the payment manager that owns this session. Constraints: o min: 66 o max: 2048 o pattern: arn:(aws|aws-[a-z0-9-]+):bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:payment-man- ager/[a-z0-9]([a-z0-9-]{0,47}[a-z0-9])?-[a-z0-9]{10}</param>
-    /// <param name="ExpiryTimeInMinutes">The session expiry time in minutes. Must be between 15 and 480 min- utes. Constraints: o min: 15 o max: 480</param>
+    /// <param name="PaymentManagerArn">The ARN of the payment manager that owns this session. Constraints: • min: 66 • max: 2048 • pattern: arn:(aws|aws-[a-z0-9-]+):bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:payment-manager/[a-z0-9]([a-z0-9-]{0,47}[a-z0-9])?-[a-z0-9]{10}</param>
+    /// <param name="ExpiryTimeInMinutes">The session expiry time in minutes. Must be between 15 and 480 minutes. Constraints: • min: 15 • max: 480</param>
     public AwsBedrockAgentcoreCreatePaymentSessionOptions(
         string PaymentManagerArn,
         int ExpiryTimeInMinutes
@@ -60,37 +61,37 @@ public record AwsBedrockAgentcoreCreatePaymentSessionOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the payment manager that owns this session. Constraints: o min: 66 o max: 2048 o pattern: arn:(aws|aws-[a-z0-9-]+):bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:payment-man- ager/[a-z0-9]([a-z0-9-]{0,47}[a-z0-9])?-[a-z0-9]{10}
+    /// The ARN of the payment manager that owns this session. Constraints: • min: 66 • max: 2048 • pattern: arn:(aws|aws-[a-z0-9-]+):bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:payment-manager/[a-z0-9]([a-z0-9-]{0,47}[a-z0-9])?-[a-z0-9]{10}
     /// </summary>
     [CliOption("--payment-manager-arn")]
     public string? PaymentManagerArn { get; private init; }
 
     /// <summary>
-    /// The session expiry time in minutes. Must be between 15 and 480 min- utes. Constraints: o min: 15 o max: 480
+    /// The session expiry time in minutes. Must be between 15 and 480 minutes. Constraints: • min: 15 • max: 480
     /// </summary>
     [CliOption("--expiry-time-in-minutes")]
     public int? ExpiryTimeInMinutes { get; private init; }
 
     /// <summary>
-    /// The user ID associated with this payment session. Constraints: o min: 0 o max: 120
+    /// The user ID associated with this payment session. Constraints: • min: 0 • max: 120
     /// </summary>
     [CliOption("--user-id")]
     public string? UserId { get; set; }
 
     /// <summary>
-    /// The agent name associated with this request, used for observability. Constraints: o min: 0 o max: 256
+    /// The agent name associated with this request, used for observability. Constraints: • min: 0 • max: 256
     /// </summary>
     [CliOption("--agent-name")]
     public string? AgentName { get; set; }
 
     /// <summary>
-    /// The spending limits for this payment session. maxSpendAmount -&gt; (structure) [required] The maximum amount that can be spent in the session. value -&gt; (string) [required] The numeric value of the amount. currency -&gt; (string) [required] The currency code for the amount. Possible values: o USD Shorthand Syntax: maxSpendAmount={value=string,currency=string} JSON Syntax: { "maxSpendAmount": { "value": "string", "currency": "USD" } }
+    /// The spending limits for this payment session. maxSpendAmount -&gt; (structure) [required] The maximum amount that can be spent in the session. value -&gt; (string) [required] The numeric value of the amount. currency -&gt; (string) [required] The currency code for the amount. Possible values: • USD Shorthand Syntax: maxSpendAmount={value=string,currency=string} JSON Syntax: { "maxSpendAmount": { "value": "string", "currency": "USD" } }
     /// </summary>
     [CliOption("--limits")]
     public string? Limits { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 33 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: • min: 33 • max: 256 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -117,6 +118,15 @@ public record AwsBedrockAgentcoreCreatePaymentSessionOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

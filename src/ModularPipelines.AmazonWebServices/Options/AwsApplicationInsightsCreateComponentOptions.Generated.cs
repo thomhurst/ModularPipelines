@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsApplicationInsightsCreateComponentOptions : AwsOptions, IValida
     /// <summary>
     /// Creates a custom component by grouping similar standalone instances to monitor. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceGroupName">The name of the resource group. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9\.\-_]*</param>
-    /// <param name="ComponentName">The name of the component. Constraints: o min: 1 o max: 128 o pattern: ^[\d\w\-_\.+]*$</param>
-    /// <param name="ResourceList">The list of resource ARNs that belong to the component. (string) Constraints: o min: 1 o max: 1011 o pattern: ^arn:aws(-\w+)*:[\w\d-]+:([\w\d-]*)?:[\w\d_-]*([:/].+)*$ Syntax: "string" "string" ...</param>
+    /// <param name="ResourceGroupName">The name of the resource group. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9\.\-_]*</param>
+    /// <param name="ComponentName">The name of the component. Constraints: • min: 1 • max: 128 • pattern: ^[\d\w\-_\.+]*$</param>
+    /// <param name="ResourceList">The list of resource ARNs that belong to the component. (string) Constraints: • min: 1 • max: 1011 • pattern: ^arn:aws(-\w+)*:[\w\d-]+:([\w\d-]*)?:[\w\d_-]*([:/].+)*$ Syntax: "string" "string" ...</param>
     public AwsApplicationInsightsCreateComponentOptions(
         string ResourceGroupName,
         string ComponentName,
@@ -75,19 +76,19 @@ public record AwsApplicationInsightsCreateComponentOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the resource group. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9\.\-_]*
+    /// The name of the resource group. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9\.\-_]*
     /// </summary>
     [CliOption("--resource-group-name")]
     public string? ResourceGroupName { get; private init; }
 
     /// <summary>
-    /// The name of the component. Constraints: o min: 1 o max: 128 o pattern: ^[\d\w\-_\.+]*$
+    /// The name of the component. Constraints: • min: 1 • max: 128 • pattern: ^[\d\w\-_\.+]*$
     /// </summary>
     [CliOption("--component-name")]
     public string? ComponentName { get; private init; }
 
     /// <summary>
-    /// The list of resource ARNs that belong to the component. (string) Constraints: o min: 1 o max: 1011 o pattern: ^arn:aws(-\w+)*:[\w\d-]+:([\w\d-]*)?:[\w\d_-]*([:/].+)*$ Syntax: "string" "string" ...
+    /// The list of resource ARNs that belong to the component. (string) Constraints: • min: 1 • max: 1011 • pattern: ^arn:aws(-\w+)*:[\w\d-]+:([\w\d-]*)?:[\w\d_-]*([:/].+)*$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--resource-list", GroupValues = true)]
     public IEnumerable<string>? ResourceList { get; private init; }
@@ -113,6 +114,15 @@ public record AwsApplicationInsightsCreateComponentOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

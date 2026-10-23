@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,10 +28,10 @@ public record AwsCleanroomsmlStartTrainedModelExportJobOptions : AwsOptions, IVa
     /// <summary>
     /// Provides the information necessary to start a trained model export job. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the trained model export job. Constraints: o min: 1 o max: 63 o pattern: (?!\s*$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]*</param>
-    /// <param name="TrainedModelArn">The Amazon Resource Name (ARN) of the trained model that you want to export. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:member- ship/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/trained-model/[-a-zA-Z0-9_/.]+</param>
-    /// <param name="MembershipIdentifier">The membership ID of the member that is receiving the exported trained model artifacts. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
-    /// <param name="OutputConfiguration">The output configuration information for the trained model export job. members -&gt; (list) [required] The members that will received the exported trained model out- put. Constraints: o min: 1 o max: 1 (structure) Provides information about the member who will receive trained model exports. accountId -&gt; (string) [required] The account ID of the member who will receive trained model exports. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12} Shorthand Syntax: members=[{accountId=string},{accountId=string}] JSON Syntax: { "members": [ { "accountId": "string" } ... ] }</param>
+    /// <param name="Name">The name of the trained model export job. Constraints: • min: 1 • max: 63 • pattern: (?!\s*$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]*</param>
+    /// <param name="TrainedModelArn">The Amazon Resource Name (ARN) of the trained model that you want to export. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/trained-model/[-a-zA-Z0-9_/.]+</param>
+    /// <param name="MembershipIdentifier">The membership ID of the member that is receiving the exported trained model artifacts. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="OutputConfiguration">The output configuration information for the trained model export job. members -&gt; (list) [required] The members that will received the exported trained model output. Constraints: • min: 1 • max: 1 (structure) Provides information about the member who will receive trained model exports. accountId -&gt; (string) [required] The account ID of the member who will receive trained model exports. Constraints: • min: 12 • max: 12 • pattern: [0-9]{12} Shorthand Syntax: members=[{accountId=string},{accountId=string}] JSON Syntax: { "members": [ { "accountId": "string" } ... ] }</param>
     public AwsCleanroomsmlStartTrainedModelExportJobOptions(
         string Name,
         string TrainedModelArn,
@@ -68,37 +69,37 @@ public record AwsCleanroomsmlStartTrainedModelExportJobOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the trained model export job. Constraints: o min: 1 o max: 63 o pattern: (?!\s*$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]*
+    /// The name of the trained model export job. Constraints: • min: 1 • max: 63 • pattern: (?!\s*$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the trained model that you want to export. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:member- ship/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/trained-model/[-a-zA-Z0-9_/.]+
+    /// The Amazon Resource Name (ARN) of the trained model that you want to export. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/trained-model/[-a-zA-Z0-9_/.]+
     /// </summary>
     [CliOption("--trained-model-arn")]
     public string? TrainedModelArn { get; private init; }
 
     /// <summary>
-    /// The membership ID of the member that is receiving the exported trained model artifacts. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The membership ID of the member that is receiving the exported trained model artifacts. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--membership-identifier")]
     public string? MembershipIdentifier { get; private init; }
 
     /// <summary>
-    /// The output configuration information for the trained model export job. members -&gt; (list) [required] The members that will received the exported trained model out- put. Constraints: o min: 1 o max: 1 (structure) Provides information about the member who will receive trained model exports. accountId -&gt; (string) [required] The account ID of the member who will receive trained model exports. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12} Shorthand Syntax: members=[{accountId=string},{accountId=string}] JSON Syntax: { "members": [ { "accountId": "string" } ... ] }
+    /// The output configuration information for the trained model export job. members -&gt; (list) [required] The members that will received the exported trained model output. Constraints: • min: 1 • max: 1 (structure) Provides information about the member who will receive trained model exports. accountId -&gt; (string) [required] The account ID of the member who will receive trained model exports. Constraints: • min: 12 • max: 12 • pattern: [0-9]{12} Shorthand Syntax: members=[{accountId=string},{accountId=string}] JSON Syntax: { "members": [ { "accountId": "string" } ... ] }
     /// </summary>
     [CliOption("--output-configuration")]
     public string? OutputConfiguration { get; private init; }
 
     /// <summary>
-    /// The version identifier of the trained model to export. This speci- fies which version of the trained model should be exported to the specified destination. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The version identifier of the trained model to export. This specifies which version of the trained model should be exported to the specified destination. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--trained-model-version-identifier")]
     public string? TrainedModelVersionIdentifier { get; set; }
 
     /// <summary>
-    /// The description of the trained model export job. Constraints: o min: 0 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t\r\n]*
+    /// The description of the trained model export job. Constraints: • min: 0 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t\r\n]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
@@ -124,6 +125,15 @@ public record AwsCleanroomsmlStartTrainedModelExportJobOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

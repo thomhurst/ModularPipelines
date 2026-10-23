@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsWorkspacesInstancesDeleteVolumeOptions : AwsOptions, IValidatab
     /// <summary>
     /// Deletes a specified volume. See also: AWS API Documentation
     /// </summary>
-    /// <param name="VolumeId">Identifier of the volume to delete. Constraints: o pattern: vol-[0-9a-zA-Z]{1,63}</param>
+    /// <param name="VolumeId">Identifier of the volume to delete. Constraints: • pattern: vol-[0-9a-zA-Z]{1,63}</param>
     public AwsWorkspacesInstancesDeleteVolumeOptions(
         string VolumeId
     )
@@ -56,7 +57,7 @@ public record AwsWorkspacesInstancesDeleteVolumeOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Identifier of the volume to delete. Constraints: o pattern: vol-[0-9a-zA-Z]{1,63}
+    /// Identifier of the volume to delete. Constraints: • pattern: vol-[0-9a-zA-Z]{1,63}
     /// </summary>
     [CliOption("--volume-id")]
     public string? VolumeId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsWorkspacesInstancesDeleteVolumeOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

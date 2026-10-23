@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a machine learning model for data inference. A machine-learning (ML) model is a mathematical model that finds pat- terns in your data. In Amazon Lookout for Equipment, the model learns the patterns of normal behavior and detects abnormal behavior that could be potential equipment failure (or maintenance events). The mod- els are made by analyzing normal data and abnormalities in machine be- havior that have already occurred. Your model is trained using a portion of the data from your dat...
+/// Creates a machine learning model for data inference. A machine-learning (ML) model is a mathematical model that finds patterns in your data. In Amazon Lookout for Equipment, the model learns the patterns of normal behavior and detects abnormal behavior that could be potential equipment failure (or maintenance events). The models are made by analyzing normal data and abnormalities in machine behavior that have already occurred. Your model is trained using a portion of the data from your dataset a...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsLookoutequipmentCreateModelOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a machine learning model for data inference. A machine-learning (ML) model is a mathematical model that finds pat- terns in your data. In Amazon Lookout for Equipment, the model learns the patterns of normal behavior and detects abnormal behavior that could be potential equipment failure (or maintenance events). The mod- els are made by analyzing normal data and abnormalities in machine be- havior that have already occurred. Your model is trained using a portion of the data from your dat...
+    /// Creates a machine learning model for data inference. A machine-learning (ML) model is a mathematical model that finds patterns in your data. In Amazon Lookout for Equipment, the model learns the patterns of normal behavior and detects abnormal behavior that could be potential equipment failure (or maintenance events). The models are made by analyzing normal data and abnormalities in machine behavior that have already occurred. Your model is trained using a portion of the data from your dataset a...
     /// </summary>
-    /// <param name="ModelName">The name for the machine learning model to be created. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$</param>
-    /// <param name="DataSetName">The name of the dataset for the machine learning model being cre- ated. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$</param>
+    /// <param name="ModelName">The name for the machine learning model to be created. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z_-]{1,200}$</param>
+    /// <param name="DataSetName">The name of the dataset for the machine learning model being created. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z_-]{1,200}$</param>
     public AwsLookoutequipmentCreateModelOptions(
         string ModelName,
         string DataSetName
@@ -61,31 +62,31 @@ public record AwsLookoutequipmentCreateModelOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name for the machine learning model to be created. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$
+    /// The name for the machine learning model to be created. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z_-]{1,200}$
     /// </summary>
     [CliOption("--model-name")]
     public string? ModelName { get; private init; }
 
     /// <summary>
-    /// The name of the dataset for the machine learning model being cre- ated. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$
+    /// The name of the dataset for the machine learning model being created. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z_-]{1,200}$
     /// </summary>
     [CliOption("--dataset-name")]
     public string? DataSetName { get; private init; }
 
     /// <summary>
-    /// The data schema for the machine learning model being created. InlineDataSchema -&gt; (string) The data schema used within the given dataset. Constraints: o min: 1 o max: 1000000 Shorthand Syntax: InlineDataSchema=string JSON Syntax: { "InlineDataSchema": "string" }
+    /// The data schema for the machine learning model being created. InlineDataSchema -&gt; (string) The data schema used within the given dataset. Constraints: • min: 1 • max: 1000000 Shorthand Syntax: InlineDataSchema=string JSON Syntax: { "InlineDataSchema": "string" }
     /// </summary>
     [CliOption("--dataset-schema")]
     public string? DataSetSchema { get; set; }
 
     /// <summary>
-    /// The input configuration for the labels being used for the machine learning model that's being created. S3InputConfiguration -&gt; (structure) Contains location information for the S3 location being used for label data. Bucket -&gt; (string) [required] The name of the S3 bucket holding the label data. Constraints: o min: 3 o max: 63 o pattern: ^[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9]$ Prefix -&gt; (string) The prefix for the S3 bucket used for the label data. Constraints: o min: 0 o max: 1024 o pattern: (^$)|([\u0009\u000A\u000D\u0020-\u00FF]{1,1023}/$) LabelGroupName -&gt; (string) The name of the label group to be used for label data. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$ Shorthand Syntax: S3InputConfiguration={Bucket=string,Prefix=string},LabelGroupName=string JSON Syntax: { "S3InputConfiguration": { "Bucket": "string", "Prefix": "string" }, "LabelGroupName": "string" }
+    /// The input configuration for the labels being used for the machine learning model that's being created. S3InputConfiguration -&gt; (structure) Contains location information for the S3 location being used for label data. Bucket -&gt; (string) [required] The name of the S3 bucket holding the label data. Constraints: • min: 3 • max: 63 • pattern: ^[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9]$ Prefix -&gt; (string) The prefix for the S3 bucket used for the label data. Constraints: • min: 0 • max: 1024 • pattern: (^$)|([\u0009\u000A\u000D\u0020-\u00FF]{1,1023}/$) LabelGroupName -&gt; (string) The name of the label group to be used for label data. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z_-]{1,200}$ Shorthand Syntax: S3InputConfiguration={Bucket=string,Prefix=string},LabelGroupName=string JSON Syntax: { "S3InputConfiguration": { "Bucket": "string", "Prefix": "string" }, "LabelGroupName": "string" }
     /// </summary>
     [CliOption("--labels-input-configuration")]
     public string? LabelsInputConfiguration { get; set; }
 
     /// <summary>
-    /// A unique identifier for the request. If you do not set the client request token, Amazon Lookout for Equipment generates one. Constraints: o min: 1 o max: 256 o pattern: \p{ASCII}{1,256}
+    /// A unique identifier for the request. If you do not set the client request token, Amazon Lookout for Equipment generates one. Constraints: • min: 1 • max: 256 • pattern: \p{ASCII}{1,256}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -116,37 +117,37 @@ public record AwsLookoutequipmentCreateModelOptions : AwsOptions, IValidatableOb
     public string? EvaluationDataEndTime { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of a role with permission to access the data source being used to create the machine learning model. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+
+    /// The Amazon Resource Name (ARN) of a role with permission to access the data source being used to create the machine learning model. Constraints: • min: 20 • max: 2048 • pattern: arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
     /// <summary>
-    /// The configuration is the TargetSamplingRate , which is the sampling rate of the data after post processing by Amazon Lookout for Equip- ment. For example, if you provide data that has been collected at a 1 second level and you want the system to resample the data at a 1 minute rate before training, the TargetSamplingRate is 1 minute. When providing a value for the TargetSamplingRate , you must attach the prefix "PT" to the rate you want. The value for a 1 second rate is therefore PT1S , the value for a 15 minute rate is PT15M , and the value for a 1 hour rate is PT1H TargetSamplingRate -&gt; (string) The sampling rate of the data after post processing by Amazon Lookout for Equipment. For example, if you provide data that has been collected at a 1 second level and you want the system to resample the data at a 1 minute rate before training, the Tar- getSamplingRate is 1 minute. When providing a value for the TargetSamplingRate , you must at- tach the prefix "PT" to the rate you want. The value for a 1 second rate is therefore PT1S , the value for a 15 minute rate is PT15M , and the value for a 1 hour rate is PT1H Possible values: o PT1S o PT5S o PT10S o PT15S o PT30S o PT1M o PT5M o PT10M o PT15M o PT30M o PT1H Shorthand Syntax: TargetSamplingRate=string JSON Syntax: { "TargetSamplingRate": "PT1S"|"PT5S"|"PT10S"|"PT15S"|"PT30S"|"PT1M"|"PT5M"|"PT10M"|"PT15M"|"PT30M"|"PT1H" }
+    /// The configuration is the TargetSamplingRate , which is the sampling rate of the data after post processing by Amazon Lookout for Equipment. For example, if you provide data that has been collected at a 1 second level and you want the system to resample the data at a 1 minute rate before training, the TargetSamplingRate is 1 minute. When providing a value for the TargetSamplingRate , you must attach the prefix "PT" to the rate you want. The value for a 1 second rate is therefore PT1S , the value for a 15 minute rate is PT15M , and the value for a 1 hour rate is PT1H TargetSamplingRate -&gt; (string) The sampling rate of the data after post processing by Amazon Lookout for Equipment. For example, if you provide data that has been collected at a 1 second level and you want the system to resample the data at a 1 minute rate before training, the TargetSamplingRate is 1 minute. When providing a value for the TargetSamplingRate , you must attach the prefix "PT" to the rate you want. The value for a 1 second rate is therefore PT1S , the value for a 15 minute rate is PT15M , and the value for a 1 hour rate is PT1H Possible values: • PT1S • PT5S • PT10S • PT15S • PT30S • PT1M • PT5M • PT10M • PT15M • PT30M • PT1H Shorthand Syntax: TargetSamplingRate=string JSON Syntax: { "TargetSamplingRate": "PT1S"|"PT5S"|"PT10S"|"PT15S"|"PT30S"|"PT1M"|"PT5M"|"PT10M"|"PT15M"|"PT30M"|"PT1H" }
     /// </summary>
     [CliOption("--data-pre-processing-configuration")]
     public string? DataPreProcessingConfiguration { get; set; }
 
     /// <summary>
-    /// Provides the identifier of the KMS key used to encrypt model data by Amazon Lookout for Equipment. Constraints: o min: 1 o max: 2048 o pattern: ^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$
+    /// Provides the identifier of the KMS key used to encrypt model data by Amazon Lookout for Equipment. Constraints: • min: 1 • max: 2048 • pattern: ^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$
     /// </summary>
     [CliOption("--server-side-kms-key-id")]
     public string? ServerSideKmsKeyId { get; set; }
 
     /// <summary>
-    /// Any tags associated with the machine learning model being created. Constraints: o min: 0 o max: 200 (structure) A tag is a key-value pair that can be added to a resource as metadata. Key -&gt; (string) [required] The key for the specified tag. Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ Value -&gt; (string) [required] The value for the specified tag. Constraints: o min: 0 o max: 256 o pattern: [\s\w+-=\.:/@]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Any tags associated with the machine learning model being created. Constraints: • min: 0 • max: 200 (structure) A tag is a key-value pair that can be added to a resource as metadata. Key -&gt; (string) [required] The key for the specified tag. Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ Value -&gt; (string) [required] The value for the specified tag. Constraints: • min: 0 • max: 256 • pattern: [\s\w+-=\.:/@]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Indicates that the asset associated with this sensor has been shut off. As long as this condition is met, Lookout for Equipment will not use data from this asset for training, evaluation, or inference. Constraints: o min: 1 o max: 2048
+    /// Indicates that the asset associated with this sensor has been shut off. As long as this condition is met, Lookout for Equipment will not use data from this asset for training, evaluation, or inference. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--off-condition")]
     public string? OffCondition { get; set; }
 
     /// <summary>
-    /// The Amazon S3 location where you want Amazon Lookout for Equipment to save the pointwise model diagnostics. You must also specify the RoleArn request parameter. S3OutputConfiguration -&gt; (structure) [required] The Amazon S3 location for the pointwise model diagnostics. Bucket -&gt; (string) [required] The name of the Amazon S3 bucket where the pointwise model diagnostics are located. You must be the owner of the Amazon S3 bucket. Constraints: o min: 3 o max: 63 o pattern: ^[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9]$ Prefix -&gt; (string) The Amazon S3 prefix for the location of the pointwise model diagnostics. The prefix specifies the folder and evaluation result file name. (bucket ). When you call CreateModel or UpdateModel , specify the path within the bucket that you want Lookout for Equipment to save the model to. During training, Lookout for Equipment creates the model evaluation model as a compressed JSON file with the name model_diagnostics_results.json.gz . When you call DescribeModel or DescribeModelVersion , prefix contains the file path and filename of the model evaluation file. Constraints: o min: 0 o max: 1024 o pattern: (^$)|([\u0009\u000A\u000D\u0020-\u00FF]{1,1023}/$) KmsKeyId -&gt; (string) The Amazon Web Services Key Management Service (KMS) key identi- fier to encrypt the pointwise model diagnostics files. Constraints: o min: 1 o max: 2048 o pattern: ^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$ Shorthand Syntax: S3OutputConfiguration={Bucket=string,Prefix=string},KmsKeyId=string JSON Syntax: { "S3OutputConfiguration": { "Bucket": "string", "Prefix": "string" }, "KmsKeyId": "string" }
+    /// The Amazon S3 location where you want Amazon Lookout for Equipment to save the pointwise model diagnostics. You must also specify the RoleArn request parameter. S3OutputConfiguration -&gt; (structure) [required] The Amazon S3 location for the pointwise model diagnostics. Bucket -&gt; (string) [required] The name of the Amazon S3 bucket where the pointwise model diagnostics are located. You must be the owner of the Amazon S3 bucket. Constraints: • min: 3 • max: 63 • pattern: ^[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9]$ Prefix -&gt; (string) The Amazon S3 prefix for the location of the pointwise model diagnostics. The prefix specifies the folder and evaluation result file name. (bucket ). When you call CreateModel or UpdateModel , specify the path within the bucket that you want Lookout for Equipment to save the model to. During training, Lookout for Equipment creates the model evaluation model as a compressed JSON file with the name model_diagnostics_results.json.gz . When you call DescribeModel or DescribeModelVersion , prefix contains the file path and filename of the model evaluation file. Constraints: • min: 0 • max: 1024 • pattern: (^$)|([\u0009\u000A\u000D\u0020-\u00FF]{1,1023}/$) KmsKeyId -&gt; (string) The Amazon Web Services Key Management Service (KMS) key identifier to encrypt the pointwise model diagnostics files. Constraints: • min: 1 • max: 2048 • pattern: ^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$ Shorthand Syntax: S3OutputConfiguration={Bucket=string,Prefix=string},KmsKeyId=string JSON Syntax: { "S3OutputConfiguration": { "Bucket": "string", "Prefix": "string" }, "KmsKeyId": "string" }
     /// </summary>
     [CliOption("--model-diagnostics-output-configuration")]
     public string? ModelDiagnosticsOutputConfiguration { get; set; }
@@ -172,6 +173,15 @@ public record AwsLookoutequipmentCreateModelOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

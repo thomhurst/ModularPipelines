@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsLogsGetQueryResultsOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Returns the results from the specified query. Only the fields requested in the query are returned, along with a @ptr field, which is the identifier for the log record. You can use the value of @ptr in a GetLogRecord operation to get the full log record. GetQueryResults does not start running a query. To run a query, use StartQuery . For more information about how long results of previous queries are available, see CloudWatch Logs quotas . If the value of the Status field in the output is Running...
     /// </summary>
-    /// <param name="QueryId">The ID number of the query. Constraints: o min: 1 o max: 256</param>
+    /// <param name="QueryId">The ID number of the query. Constraints: • min: 1 • max: 256</param>
     public AwsLogsGetQueryResultsOptions(
         string QueryId
     )
@@ -57,20 +58,20 @@ public record AwsLogsGetQueryResultsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID number of the query. Constraints: o min: 1 o max: 256
+    /// The ID number of the query. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--query-id")]
     public string? QueryId { get; private init; }
 
     /// <summary>
-    /// The token for the next set of items to return. The token expires af- ter 1 hour. Constraints: o max: 1024
+    /// The token for the next set of items to return. The token expires after 1 hour. Constraints: • max: 1024
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of log events to return in the response. The max- imum is 10,000 log events per request. You can retrieve up to 100,000 log event results from a query by paginating with the next- Token . Constraints: o min: 0 o max: 10000
+    /// The maximum number of log events to return in the response. The maximum is 10,000 log events per request. You can retrieve up to 100,000 log event results from a query by paginating with the nextToken . Constraints: • min: 0 • max: 10000
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
@@ -96,6 +97,15 @@ public record AwsLogsGetQueryResultsOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

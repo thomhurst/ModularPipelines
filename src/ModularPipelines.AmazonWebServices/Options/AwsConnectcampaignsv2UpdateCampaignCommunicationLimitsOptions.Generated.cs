@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsConnectcampaignsv2UpdateCampaignCommunicationLimitsOptions : Aw
     /// <summary>
     /// Updates the communication limits config for a campaign. This API is idempotent. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">Identifier representing a Campaign Constraints: o min: 1 o max: 256 o pattern: [-:/a-zA-Z0-9]+</param>
-    /// <param name="CommunicationLimitsOverride">Communication limits config allChannelSubtypes -&gt; (tagged union structure) Communication limits NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: communicationLimitsList. communicationLimitsList -&gt; (list) List of communication limit Constraints: o min: 0 o max: 2 (structure) Communication Limit maxCountPerRecipient -&gt; (integer) [required] Maximum number of contacts allowed for a given target within the given frequency. Constraints: o min: 1 frequency -&gt; (integer) [required] The number of days to consider with regards to this limit. Constraints: o min: 1 o max: 30 unit -&gt; (string) [required] The communication limit time unit. Possible values: o DAY instanceLimitsHandling -&gt; (string) Instance limits handling Possible values: o OPT_IN o OPT_OUT JSON Syntax: { "allChannelSubtypes": { "communicationLimitsList": [ { "maxCountPerRecipient": integer, "frequency": integer, "unit": "DAY" } ... ] }, "instanceLimitsHandling": "OPT_IN"|"OPT_OUT" }</param>
+    /// <param name="Id">Identifier representing a Campaign Constraints: • min: 1 • max: 256 • pattern: [-:/a-zA-Z0-9]+</param>
+    /// <param name="CommunicationLimitsOverride">Communication limits config allChannelSubtypes -&gt; (tagged union structure) Communication limits NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: communicationLimitsList. communicationLimitsList -&gt; (list) List of communication limit Constraints: • min: 0 • max: 2 (structure) Communication Limit maxCountPerRecipient -&gt; (integer) [required] Maximum number of contacts allowed for a given target within the given frequency. Constraints: • min: 1 frequency -&gt; (integer) [required] The number of days to consider with regards to this limit. Constraints: • min: 1 • max: 30 unit -&gt; (string) [required] The communication limit time unit. Possible values: • DAY instanceLimitsHandling -&gt; (string) Instance limits handling Possible values: • OPT_IN • OPT_OUT JSON Syntax: { "allChannelSubtypes": { "communicationLimitsList": [ { "maxCountPerRecipient": integer, "frequency": integer, "unit": "DAY" } ... ] }, "instanceLimitsHandling": "OPT_IN"|"OPT_OUT" }</param>
     public AwsConnectcampaignsv2UpdateCampaignCommunicationLimitsOptions(
         string Id,
         string CommunicationLimitsOverride
@@ -60,13 +61,13 @@ public record AwsConnectcampaignsv2UpdateCampaignCommunicationLimitsOptions : Aw
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Identifier representing a Campaign Constraints: o min: 1 o max: 256 o pattern: [-:/a-zA-Z0-9]+
+    /// Identifier representing a Campaign Constraints: • min: 1 • max: 256 • pattern: [-:/a-zA-Z0-9]+
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// Communication limits config allChannelSubtypes -&gt; (tagged union structure) Communication limits NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: communicationLimitsList. communicationLimitsList -&gt; (list) List of communication limit Constraints: o min: 0 o max: 2 (structure) Communication Limit maxCountPerRecipient -&gt; (integer) [required] Maximum number of contacts allowed for a given target within the given frequency. Constraints: o min: 1 frequency -&gt; (integer) [required] The number of days to consider with regards to this limit. Constraints: o min: 1 o max: 30 unit -&gt; (string) [required] The communication limit time unit. Possible values: o DAY instanceLimitsHandling -&gt; (string) Instance limits handling Possible values: o OPT_IN o OPT_OUT JSON Syntax: { "allChannelSubtypes": { "communicationLimitsList": [ { "maxCountPerRecipient": integer, "frequency": integer, "unit": "DAY" } ... ] }, "instanceLimitsHandling": "OPT_IN"|"OPT_OUT" }
+    /// Communication limits config allChannelSubtypes -&gt; (tagged union structure) Communication limits NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: communicationLimitsList. communicationLimitsList -&gt; (list) List of communication limit Constraints: • min: 0 • max: 2 (structure) Communication Limit maxCountPerRecipient -&gt; (integer) [required] Maximum number of contacts allowed for a given target within the given frequency. Constraints: • min: 1 frequency -&gt; (integer) [required] The number of days to consider with regards to this limit. Constraints: • min: 1 • max: 30 unit -&gt; (string) [required] The communication limit time unit. Possible values: • DAY instanceLimitsHandling -&gt; (string) Instance limits handling Possible values: • OPT_IN • OPT_OUT JSON Syntax: { "allChannelSubtypes": { "communicationLimitsList": [ { "maxCountPerRecipient": integer, "frequency": integer, "unit": "DAY" } ... ] }, "instanceLimitsHandling": "OPT_IN"|"OPT_OUT" }
     /// </summary>
     [CliOption("--communication-limits-override")]
     public string? CommunicationLimitsOverride { get; private init; }
@@ -92,6 +93,15 @@ public record AwsConnectcampaignsv2UpdateCampaignCommunicationLimitsOptions : Aw
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

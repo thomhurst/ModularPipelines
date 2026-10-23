@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -83,7 +84,7 @@ public record AwsEmrRemoveTagsOptions : AwsOptions, IValidatableObject
     public IEnumerable<string>? TagKeys { get; private init; }
 
     /// <summary>
-    /// The ID of the cluster that scopes the tag operation. Required when the resource being untagged is a session-scoped resource. Constraints: o max: 256
+    /// The ID of the cluster that scopes the tag operation. Required when the resource being untagged is a session-scoped resource. Constraints: • max: 256
     /// </summary>
     [CliOption("--cluster-id")]
     public string? ClusterId { get; set; }
@@ -109,6 +110,15 @@ public record AwsEmrRemoveTagsOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -107,7 +107,7 @@ public class AwsOsis : IAwsOsis
     }
 
     /// <summary>
-    /// Retrieves information about a specific blueprint for OpenSearch Inges- tion. Blueprints are templates for the configuration needed for a Cre- atePipeline request. For more information, see Using blueprints to cre- ate a pipeline . See also: AWS API Documentation
+    /// Retrieves information about a specific blueprint for OpenSearch Ingestion. Blueprints are templates for the configuration needed for a CreatePipeline request. For more information, see Using blueprints to create a pipeline . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsOsis : IAwsOsis
     }
 
     /// <summary>
-    /// Lists the pipeline endpoints connected to pipelines in your account. See also: AWS API Documentation list-pipeline-endpoint-connections is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: PipelineEndpo...
+    /// Lists the pipeline endpoints connected to pipelines in your account. See also: AWS API Documentation list-pipeline-endpoint-connections is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: PipelineEndpointC...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsOsis : IAwsOsis
     }
 
     /// <summary>
-    /// Lists all pipeline endpoints in your account. See also: AWS API Documentation list-pipeline-endpoints is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: PipelineEndpoints
+    /// Lists all pipeline endpoints in your account. See also: AWS API Documentation list-pipeline-endpoints is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: PipelineEndpoints
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsOsis : IAwsOsis
     }
 
     /// <summary>
-    /// Lists all OpenSearch Ingestion pipelines in the current Amazon Web Ser- vices account and Region. For more information, see Viewing Amazon OpenSearch Ingestion pipelines . See also: AWS API Documentation
+    /// Lists all OpenSearch Ingestion pipelines in the current Amazon Web Services account and Region. For more information, see Viewing Amazon OpenSearch Ingestion pipelines . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -242,7 +242,7 @@ public class AwsOsis : IAwsOsis
     }
 
     /// <summary>
-    /// Attaches a resource-based policy to an OpenSearch Ingestion resource. Resource-based policies grant permissions to principals to perform ac- tions on the resource. See also: AWS API Documentation
+    /// Attaches a resource-based policy to an OpenSearch Ingestion resource. Resource-based policies grant permissions to principals to perform actions on the resource. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsBcmPricingCalculatorListTagsForResourceOptions : AwsOptions, IV
     /// <summary>
     /// Lists all tags associated with a specified resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The Amazon Resource Name (ARN) of the resource to list tags for. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z0-9]*:bcm-pricing-calcula- tor:[-a-z0-9]*:[0-9]{12}:[-a-z0-9/:_]+</param>
+    /// <param name="Arn">The Amazon Resource Name (ARN) of the resource to list tags for. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z0-9]*:bcm-pricing-calculator:[-a-z0-9]*:[0-9]{12}:[-a-z0-9/:_]+</param>
     public AwsBcmPricingCalculatorListTagsForResourceOptions(
         string Arn
     )
@@ -56,7 +57,7 @@ public record AwsBcmPricingCalculatorListTagsForResourceOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource to list tags for. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z0-9]*:bcm-pricing-calcula- tor:[-a-z0-9]*:[0-9]{12}:[-a-z0-9/:_]+
+    /// The Amazon Resource Name (ARN) of the resource to list tags for. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z0-9]*:bcm-pricing-calculator:[-a-z0-9]*:[0-9]{12}:[-a-z0-9/:_]+
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsBcmPricingCalculatorListTagsForResourceOptions : AwsOptions, IV
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

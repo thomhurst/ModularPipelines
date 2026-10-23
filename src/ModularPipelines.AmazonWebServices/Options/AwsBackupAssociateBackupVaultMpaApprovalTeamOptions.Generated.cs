@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsBackupAssociateBackupVaultMpaApprovalTeamOptions : AwsOptions, 
     /// <summary>
     /// Associates an MPA approval team with a backup vault. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BackupVaultName">The name of the backup vault to associate with the MPA approval team. Constraints: o pattern: ^[a-zA-Z0-9\-\_]{2,50}$</param>
+    /// <param name="BackupVaultName">The name of the backup vault to associate with the MPA approval team. Constraints: • pattern: ^[a-zA-Z0-9\-\_]{2,50}$</param>
     /// <param name="MpaApprovalTeamArn">The Amazon Resource Name (ARN) of the MPA approval team to associate with the backup vault.</param>
     public AwsBackupAssociateBackupVaultMpaApprovalTeamOptions(
         string BackupVaultName,
@@ -60,7 +61,7 @@ public record AwsBackupAssociateBackupVaultMpaApprovalTeamOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the backup vault to associate with the MPA approval team. Constraints: o pattern: ^[a-zA-Z0-9\-\_]{2,50}$
+    /// The name of the backup vault to associate with the MPA approval team. Constraints: • pattern: ^[a-zA-Z0-9\-\_]{2,50}$
     /// </summary>
     [CliOption("--backup-vault-name")]
     public string? BackupVaultName { get; private init; }
@@ -72,7 +73,7 @@ public record AwsBackupAssociateBackupVaultMpaApprovalTeamOptions : AwsOptions, 
     public string? MpaApprovalTeamArn { get; private init; }
 
     /// <summary>
-    /// A comment provided by the requester explaining the association re- quest.
+    /// A comment provided by the requester explaining the association request.
     /// </summary>
     [CliOption("--requester-comment")]
     public string? RequesterComment { get; set; }
@@ -98,6 +99,15 @@ public record AwsBackupAssociateBackupVaultMpaApprovalTeamOptions : AwsOptions, 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

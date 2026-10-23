@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes an identity pool. Once a pool is deleted, users will not be able to authenticate with the pool. You must use Amazon Web Services developer credentials to call this op- eration. See also: AWS API Documentation
+/// Deletes an identity pool. Once a pool is deleted, users will not be able to authenticate with the pool. You must use Amazon Web Services developer credentials to call this operation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsCognitoIdentityDeleteIdentityPoolOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes an identity pool. Once a pool is deleted, users will not be able to authenticate with the pool. You must use Amazon Web Services developer credentials to call this op- eration. See also: AWS API Documentation
+    /// Deletes an identity pool. Once a pool is deleted, users will not be able to authenticate with the pool. You must use Amazon Web Services developer credentials to call this operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="IdentityPoolId">An identity pool ID in the format REGION:GUID. Constraints: o min: 1 o max: 55 o pattern: [\w-]+:[0-9a-f-]+</param>
+    /// <param name="IdentityPoolId">An identity pool ID in the format REGION:GUID. Constraints: • min: 1 • max: 55 • pattern: [\w-]+:[0-9a-f-]+</param>
     public AwsCognitoIdentityDeleteIdentityPoolOptions(
         string IdentityPoolId
     )
@@ -56,7 +57,7 @@ public record AwsCognitoIdentityDeleteIdentityPoolOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// An identity pool ID in the format REGION:GUID. Constraints: o min: 1 o max: 55 o pattern: [\w-]+:[0-9a-f-]+
+    /// An identity pool ID in the format REGION:GUID. Constraints: • min: 1 • max: 55 • pattern: [\w-]+:[0-9a-f-]+
     /// </summary>
     [CliOption("--identity-pool-id")]
     public string? IdentityPoolId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsCognitoIdentityDeleteIdentityPoolOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

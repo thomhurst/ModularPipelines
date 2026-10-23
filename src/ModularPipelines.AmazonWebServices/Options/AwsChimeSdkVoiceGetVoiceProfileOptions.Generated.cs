@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsChimeSdkVoiceGetVoiceProfileOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Retrieves the details of the specified voice profile. See also: AWS API Documentation
     /// </summary>
-    /// <param name="VoiceProfileId">The voice profile ID. Constraints: o min: 1 o max: 256 o pattern: .*\S.*</param>
+    /// <param name="VoiceProfileId">The voice profile ID. Constraints: • min: 1 • max: 256 • pattern: .*\S.*</param>
     public AwsChimeSdkVoiceGetVoiceProfileOptions(
         string VoiceProfileId
     )
@@ -56,7 +57,7 @@ public record AwsChimeSdkVoiceGetVoiceProfileOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The voice profile ID. Constraints: o min: 1 o max: 256 o pattern: .*\S.*
+    /// The voice profile ID. Constraints: • min: 1 • max: 256 • pattern: .*\S.*
     /// </summary>
     [CliOption("--voice-profile-id")]
     public string? VoiceProfileId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsChimeSdkVoiceGetVoiceProfileOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

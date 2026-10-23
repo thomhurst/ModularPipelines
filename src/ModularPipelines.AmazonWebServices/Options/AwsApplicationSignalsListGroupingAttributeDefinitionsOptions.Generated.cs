@@ -30,13 +30,13 @@ public record AwsApplicationSignalsListGroupingAttributeDefinitionsOptions : Aws
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services account ID to retrieve grouping attribute definitions for. Use this when accessing grouping configurations from a different account in cross-account monitoring scenarios. Constraints: o pattern: [0-9]{12}
+    /// The Amazon Web Services account ID to retrieve grouping attribute definitions for. Use this when accessing grouping configurations from a different account in cross-account monitoring scenarios. Constraints: • pattern: [0-9]{12}
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; set; }
 
     /// <summary>
-    /// If you are using this operation in a monitoring account, specify true to include grouping attributes from source accounts in the re- turned data.
+    /// If you are using this operation in a monitoring account, specify true to include grouping attributes from source accounts in the returned data.
     /// </summary>
     [CliFlag("--include-linked-accounts", NegatedName = "--no-include-linked-accounts")]
     public bool? IncludeLinkedAccounts { get; set; }
@@ -46,5 +46,14 @@ public record AwsApplicationSignalsListGroupingAttributeDefinitionsOptions : Aws
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

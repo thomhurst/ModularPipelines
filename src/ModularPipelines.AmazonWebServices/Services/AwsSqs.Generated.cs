@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -32,7 +32,7 @@ public class AwsSqs : IAwsSqs
     #region Commands
 
     /// <summary>
-    /// Adds a permission to a queue for a specific principal . This allows sharing access to the queue. When you create a queue, you have full control access rights for the queue. Only you, the owner of the queue, can grant or deny permissions to the queue. For more information about these permissions, see Allow Developers to Write Messages to a Shared Queue in the Amazon SQS Devel- oper Guide . NOTE: o AddPermission generates a policy for you. You can use `` SetQueueAttributes `` to upload your policy...
+    /// Adds a permission to a queue for a specific principal . This allows sharing access to the queue. When you create a queue, you have full control access rights for the queue. Only you, the owner of the queue, can grant or deny permissions to the queue. For more information about these permissions, see Allow Developers to Write Messages to a Shared Queue in the Amazon SQS Developer Guide . NOTE: • AddPermission generates a policy for you. You can use `` SetQueueAttributes `` to upload your policy. ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsSqs : IAwsSqs
     }
 
     /// <summary>
-    /// Cancels a specified message movement task. A message movement can only be cancelled when the current status is RUNNING. Cancelling a message movement task does not revert the messages that have already been moved. It can only stop the messages that have not been moved yet. NOTE: o This action is currently limited to supporting message redrive from dead-letter queues (DLQs) only. In this context, the source queue is the dead-letter queue (DLQ), while the destination queue can be the original sour...
+    /// Cancels a specified message movement task. A message movement can only be cancelled when the current status is RUNNING. Cancelling a message movement task does not revert the messages that have already been moved. It can only stop the messages that have not been moved yet. NOTE: • This action is currently limited to supporting message redrive from dead-letter queues (DLQs) only. In this context, the source queue is the dead-letter queue (DLQ), while the destination queue can be the original sour...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsSqs : IAwsSqs
     }
 
     /// <summary>
-    /// Changes the visibility timeout of multiple messages. This is a batch version of `` ChangeMessageVisibility .`` The result of the action on each message is reported individually in the response. You can send up to 10 `` ChangeMessageVisibility `` requests with each ChangeMes- sageVisibilityBatch action. WARNING: Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200 . See...
+    /// Changes the visibility timeout of multiple messages. This is a batch version of `` ChangeMessageVisibility .`` The result of the action on each message is reported individually in the response. You can send up to 10 `` ChangeMessageVisibility `` requests with each ChangeMessageVisibilityBatch action. WARNING: Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200 . See a...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsSqs : IAwsSqs
     }
 
     /// <summary>
-    /// Changes the visibility timeout of a specified message in a queue to a new value. The default visibility timeout for a message is 30 seconds. The minimum is 0 seconds. The maximum is 12 hours. For more informa- tion, see Visibility Timeout in the Amazon SQS Developer Guide . For example, if the default timeout for a queue is 60 seconds, 15 sec- onds have elapsed since you received the message, and you send a ChangeMessageVisibility call with VisibilityTimeout set to 10 seconds, the 10 seconds beg...
+    /// Changes the visibility timeout of a specified message in a queue to a new value. The default visibility timeout for a message is 30 seconds. The minimum is 0 seconds. The maximum is 12 hours. For more information, see Visibility Timeout in the Amazon SQS Developer Guide . For example, if the default timeout for a queue is 60 seconds, 15 seconds have elapsed since you received the message, and you send a ChangeMessageVisibility call with VisibilityTimeout set to 10 seconds, the 10 seconds begin t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsSqs : IAwsSqs
     }
 
     /// <summary>
-    /// Creates a new standard or FIFO queue. You can pass one or more attrib- utes in the request. Keep the following in mind: o If you don't specify the FifoQueue attribute, Amazon SQS creates a standard queue. NOTE: You can't change the queue type after you create it and you can't convert an existing standard queue into a FIFO queue. You must ei- ther create a new FIFO queue for your application or delete your ex- isting standard queue and recreate it as a FIFO queue. For more in- formation, see Movi...
+    /// Creates a new standard or FIFO queue. You can pass one or more attributes in the request. Keep the following in mind: • If you don't specify the FifoQueue attribute, Amazon SQS creates a standard queue. NOTE: You can't change the queue type after you create it and you can't convert an existing standard queue into a FIFO queue. You must either create a new FIFO queue for your application or delete your existing standard queue and recreate it as a FIFO queue. For more information, see Moving From ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsSqs : IAwsSqs
     }
 
     /// <summary>
-    /// Deletes up to ten messages from the specified queue. This is a batch version of `` DeleteMessage .`` The result of the action on each mes- sage is reported individually in the response. WARNING: Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200 . See also: AWS API Documentation
+    /// Deletes up to ten messages from the specified queue. This is a batch version of `` DeleteMessage .`` The result of the action on each message is reported individually in the response. WARNING: Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200 . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsSqs : IAwsSqs
     }
 
     /// <summary>
-    /// Deletes the specified message from the specified queue. To select the message to delete, use the ReceiptHandle of the message (not the Mes- sageId which you receive when you send the message). Amazon SQS can delete a message from a queue even if a visibility timeout setting causes the message to be locked by another consumer. Amazon SQS auto- matically deletes messages left in a queue longer than the retention period configured for the queue. NOTE: Each time you receive a message, meaning when a...
+    /// Deletes the specified message from the specified queue. To select the message to delete, use the ReceiptHandle of the message (not the MessageId which you receive when you send the message). Amazon SQS can delete a message from a queue even if a visibility timeout setting causes the message to be locked by another consumer. Amazon SQS automatically deletes messages left in a queue longer than the retention period configured for the queue. NOTE: Each time you receive a message, meaning when a con...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsSqs : IAwsSqs
     }
 
     /// <summary>
-    /// Deletes the queue specified by the QueueUrl , regardless of the queue's contents. WARNING: Be careful with the DeleteQueue action: When you delete a queue, any messages in the queue are no longer available. When you delete a queue, the deletion process takes up to 60 seconds. Requests you send involving that queue during the 60 seconds might suc- ceed. For example, a `` SendMessage `` request might succeed, but af- ter 60 seconds the queue and the message you sent no longer exist. When you delet...
+    /// Deletes the queue specified by the QueueUrl , regardless of the queue's contents. WARNING: Be careful with the DeleteQueue action: When you delete a queue, any messages in the queue are no longer available. When you delete a queue, the deletion process takes up to 60 seconds. Requests you send involving that queue during the 60 seconds might succeed. For example, a `` SendMessage `` request might succeed, but after 60 seconds the queue and the message you sent no longer exist. When you delete a ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsSqs : IAwsSqs
     }
 
     /// <summary>
-    /// Gets attributes for the specified queue. NOTE: To determine whether a queue is FIFO , you can check whether Queue- Name ends with the .fifo suffix. See also: AWS API Documentation
+    /// Gets attributes for the specified queue. NOTE: To determine whether a queue is FIFO , you can check whether QueueName ends with the .fifo suffix. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsSqs : IAwsSqs
     }
 
     /// <summary>
-    /// Returns a list of your queues that have the RedrivePolicy queue at- tribute configured with a dead-letter queue. The ListDeadLetterSourceQueues methods supports pagination. Set parame- ter MaxResults in the request to specify the maximum number of results to be returned in the response. If you do not set MaxResults , the re- sponse includes a maximum of 1,000 results. If you set MaxResults and there are additional results to display, the response includes a value for NextToken . Use NextToken as...
+    /// Returns a list of your queues that have the RedrivePolicy queue attribute configured with a dead-letter queue. The ListDeadLetterSourceQueues methods supports pagination. Set parameter MaxResults in the request to specify the maximum number of results to be returned in the response. If you do not set MaxResults , the response includes a maximum of 1,000 results. If you set MaxResults and there are additional results to display, the response includes a value for NextToken . Use NextToken as a par...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsSqs : IAwsSqs
     }
 
     /// <summary>
-    /// Gets the most recent message movement tasks (up to 10) under a specific source queue. NOTE: o This action is currently limited to supporting message redrive from dead-letter queues (DLQs) only. In this context, the source queue is the dead-letter queue (DLQ), while the destination queue can be the original source queue (from which the messages were driven to the dead-letter-queue), or a custom destination queue. o Only one active message movement task is supported per queue at any given time. Se...
+    /// Gets the most recent message movement tasks (up to 10) under a specific source queue. NOTE: • This action is currently limited to supporting message redrive from dead-letter queues (DLQs) only. In this context, the source queue is the dead-letter queue (DLQ), while the destination queue can be the original source queue (from which the messages were driven to the dead-letter-queue), or a custom destination queue. • Only one active message movement task is supported per queue at any given time. Se...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,22 +212,7 @@ public class AwsSqs : IAwsSqs
     }
 
     /// <summary>
-    /// Returns a list of your queues in the current region. The response in- cludes a maximum of 1,000 results. If you specify a value for the op- tional QueueNamePrefix parameter, only queues with a name that begins with the specified value are returned. The listQueues methods supports pagination. Set parameter MaxResults in the request to specify the maximum number of results to be returned in the response. If you do not set MaxResults , the response includes a maximum of 1,000 results. If you set Ma...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListQueuesAsync(
-        AwsSqsListQueuesOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSqsListQueuesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// List all cost allocation tags added to the specified Amazon SQS queue. For an overview, see Tagging Your Amazon SQS Queues in the Amazon SQS Developer Guide . NOTE: Cross-account permissions don't apply to this action. For more in- formation, see Grant cross-account permissions to a role and a user- name in the Amazon SQS Developer Guide . See also: AWS API Documentation
+    /// List all cost allocation tags added to the specified Amazon SQS queue. For an overview, see Tagging Your Amazon SQS Queues in the Amazon SQS Developer Guide . NOTE: Cross-account permissions don't apply to this action. For more information, see Grant cross-account permissions to a role and a username in the Amazon SQS Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -239,6 +224,21 @@ public class AwsSqs : IAwsSqs
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns a list of your queues in the current region. The response includes a maximum of 1,000 results. If you specify a value for the optional QueueNamePrefix parameter, only queues with a name that begins with the specified value are returned. The listQueues methods supports pagination. Set parameter MaxResults in the request to specify the maximum number of results to be returned in the response. If you do not set MaxResults , the response includes a maximum of 1,000 results. If you set MaxRes...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListQueuesAsync(
+        AwsSqsListQueuesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSqsListQueuesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -257,7 +257,7 @@ public class AwsSqs : IAwsSqs
     }
 
     /// <summary>
-    /// Retrieves one or more messages (up to 10), from the specified queue. Using the WaitTimeSeconds parameter enables long-poll support. For more information, see Amazon SQS Long Polling in the Amazon SQS Developer Guide . Short poll is the default behavior where a weighted random set of ma- chines is sampled on a ReceiveMessage call. Therefore, only the mes- sages on the sampled machines are returned. If the number of messages in the queue is small (fewer than 1,000), you most likely get fewer messa...
+    /// Retrieves one or more messages (up to 10), from the specified queue. Using the WaitTimeSeconds parameter enables long-poll support. For more information, see Amazon SQS Long Polling in the Amazon SQS Developer Guide . Short poll is the default behavior where a weighted random set of machines is sampled on a ReceiveMessage call. Therefore, only the messages on the sampled machines are returned. If the number of messages in the queue is small (fewer than 1,000), you most likely get fewer messages ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +272,7 @@ public class AwsSqs : IAwsSqs
     }
 
     /// <summary>
-    /// Revokes any permissions in the queue policy that matches the specified Label parameter. NOTE: o Only the owner of a queue can remove permissions from it. o Cross-account permissions don't apply to this action. For more in- formation, see Grant cross-account permissions to a role and a username in the Amazon SQS Developer Guide . o To remove the ability to change queue permissions, you must deny permission to the AddPermission , RemovePermission , and SetQueueAttributes actions in your IAM policy...
+    /// Revokes any permissions in the queue policy that matches the specified Label parameter. NOTE: • Only the owner of a queue can remove permissions from it. • Cross-account permissions don't apply to this action. For more information, see Grant cross-account permissions to a role and a username in the Amazon SQS Developer Guide . • To remove the ability to change queue permissions, you must deny permission to the AddPermission , RemovePermission , and SetQueueAttributes actions in your IAM policy. ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -287,7 +287,7 @@ public class AwsSqs : IAwsSqs
     }
 
     /// <summary>
-    /// You can use SendMessageBatch to send up to 10 messages to the specified queue by assigning either identical or different values to each message (or by not assigning values at all). This is a batch version of `` SendMessage .`` For a FIFO queue, multiple messages within a single batch are enqueued in the order they are sent. The result of sending each message is reported individually in the re- sponse. Because the batch request can result in a combination of suc- cessful and unsuccessful actions,...
+    /// You can use SendMessageBatch to send up to 10 messages to the specified queue by assigning either identical or different values to each message (or by not assigning values at all). This is a batch version of `` SendMessage .`` For a FIFO queue, multiple messages within a single batch are enqueued in the order they are sent. The result of sending each message is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -302,7 +302,7 @@ public class AwsSqs : IAwsSqs
     }
 
     /// <summary>
-    /// Delivers a message to the specified queue. WARNING: A message can include only XML, JSON, and unformatted text. The fol- lowing Unicode characters are allowed. For more information, see the W3C specification for characters . #x9 | #xA | #xD | #x20 to #xD7FF | #xE000 to #xFFFD | #x10000 to #x10FFFF If a message contains characters outside the allowed set, Amazon SQS rejects the message and returns an InvalidMessageContents error. En- sure that your message body includes only valid characters to a...
+    /// Delivers a message to the specified queue. WARNING: A message can include only XML, JSON, and unformatted text. The following Unicode characters are allowed. For more information, see the W3C specification for characters . #x9 | #xA | #xD | #x20 to #xD7FF | #xE000 to #xFFFD | #x10000 to #x10FFFF If a message contains characters outside the allowed set, Amazon SQS rejects the message and returns an InvalidMessageContents error. Ensure that your message body includes only valid characters to avoid...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -317,7 +317,7 @@ public class AwsSqs : IAwsSqs
     }
 
     /// <summary>
-    /// Sets the value of one or more queue attributes, like a policy. When you change a queue's attributes, the change can take up to 60 seconds for most of the attributes to propagate throughout the Amazon SQS system. Changes made to the MessageRetentionPeriod attribute can take up to 15 minutes and will impact existing messages in the queue potentially causing them to be expired and deleted if the MessageRetentionPeriod is reduced below the age of existing messages. NOTE: o In the future, new attribu...
+    /// Sets the value of one or more queue attributes, like a policy. When you change a queue's attributes, the change can take up to 60 seconds for most of the attributes to propagate throughout the Amazon SQS system. Changes made to the MessageRetentionPeriod attribute can take up to 15 minutes and will impact existing messages in the queue potentially causing them to be expired and deleted if the MessageRetentionPeriod is reduced below the age of existing messages. NOTE: • In the future, new attribu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -332,7 +332,7 @@ public class AwsSqs : IAwsSqs
     }
 
     /// <summary>
-    /// Starts an asynchronous task to move messages from a specified source queue to a specified destination queue. NOTE: o This action is currently limited to supporting message redrive from queues that are configured as dead-letter queues (DLQs) of other Amazon SQS queues only. Non-SQS queue sources of dead-letter queues, such as Lambda or Amazon SNS topics, are currently not supported. o In dead-letter queues redrive context, the StartMessageMoveTask the source queue is the DLQ, while the destinatio...
+    /// Starts an asynchronous task to move messages from a specified source queue to a specified destination queue. NOTE: • This action is currently limited to supporting message redrive from queues that are configured as dead-letter queues (DLQs) of other Amazon SQS queues only. Non-SQS queue sources of dead-letter queues, such as Lambda or Amazon SNS topics, are currently not supported. • In dead-letter queues redrive context, the StartMessageMoveTask the source queue is the DLQ, while the destinatio...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -347,7 +347,7 @@ public class AwsSqs : IAwsSqs
     }
 
     /// <summary>
-    /// Add cost allocation tags to the specified Amazon SQS queue. For an overview, see Tagging Your Amazon SQS Queues in the Amazon SQS Devel- oper Guide . When you use queue tags, keep the following guidelines in mind: o Adding more than 50 tags to a queue isn't recommended. o Tags don't have any semantic meaning. Amazon SQS interprets tags as character strings. o Tags are case-sensitive. o A new tag with a key identical to that of an existing tag overwrites the existing tag. For a full list of tag r...
+    /// Add cost allocation tags to the specified Amazon SQS queue. For an overview, see Tagging Your Amazon SQS Queues in the Amazon SQS Developer Guide . When you use queue tags, keep the following guidelines in mind: • Adding more than 50 tags to a queue isn't recommended. • Tags don't have any semantic meaning. Amazon SQS interprets tags as character strings. • Tags are case-sensitive. • A new tag with a key identical to that of an existing tag overwrites the existing tag. For a full list of tag res...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public class AwsSqs : IAwsSqs
     }
 
     /// <summary>
-    /// Remove cost allocation tags from the specified Amazon SQS queue. For an overview, see Tagging Your Amazon SQS Queues in the Amazon SQS Devel- oper Guide . NOTE: Cross-account permissions don't apply to this action. For more in- formation, see Grant cross-account permissions to a role and a user- name in the Amazon SQS Developer Guide . See also: AWS API Documentation
+    /// Remove cost allocation tags from the specified Amazon SQS queue. For an overview, see Tagging Your Amazon SQS Queues in the Amazon SQS Developer Guide . NOTE: Cross-account permissions don't apply to this action. For more information, see Grant cross-account permissions to a role and a username in the Amazon SQS Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

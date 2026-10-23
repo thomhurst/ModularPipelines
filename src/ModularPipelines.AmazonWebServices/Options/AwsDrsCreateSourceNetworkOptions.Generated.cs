@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,9 +28,9 @@ public record AwsDrsCreateSourceNetworkOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Create a new Source Network resource for a provided VPC ID. See also: AWS API Documentation
     /// </summary>
-    /// <param name="VpcId">Which VPC ID to protect. Constraints: o min: 12 o max: 21 o pattern: vpc-[0-9a-fA-F]{8,}</param>
-    /// <param name="OriginAccountId">Account containing the VPC to protect. Constraints: o min: 12 o max: 12 o pattern: .*[0-9]{12,}.*</param>
-    /// <param name="OriginRegion">Region containing the VPC to protect. Constraints: o min: 0 o max: 255 o pattern: (us(-gov)?|ap|ca|cn|eu|eusc|sa|af|me|mx|il)-([a-z]{2}-)?(cen- tral|north|(north(?:east|west))|south|south(?:east|west)|east|west)-[0-9]</param>
+    /// <param name="VpcId">Which VPC ID to protect. Constraints: • min: 12 • max: 21 • pattern: vpc-[0-9a-fA-F]{8,}</param>
+    /// <param name="OriginAccountId">Account containing the VPC to protect. Constraints: • min: 12 • max: 12 • pattern: .*[0-9]{12,}.*</param>
+    /// <param name="OriginRegion">Region containing the VPC to protect. Constraints: • min: 0 • max: 255 • pattern: (us(-gov)?|ap|ca|cn|eu|eusc|sa|af|me|mx|il)-([a-z]{2}-)?(central|north|(north(?:east|west))|south|south(?:east|west)|east|west)-[0-9]</param>
     public AwsDrsCreateSourceNetworkOptions(
         string VpcId,
         string OriginAccountId,
@@ -65,25 +65,25 @@ public record AwsDrsCreateSourceNetworkOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Which VPC ID to protect. Constraints: o min: 12 o max: 21 o pattern: vpc-[0-9a-fA-F]{8,}
+    /// Which VPC ID to protect. Constraints: • min: 12 • max: 21 • pattern: vpc-[0-9a-fA-F]{8,}
     /// </summary>
     [CliOption("--vpc-id")]
     public string? VpcId { get; private init; }
 
     /// <summary>
-    /// Account containing the VPC to protect. Constraints: o min: 12 o max: 12 o pattern: .*[0-9]{12,}.*
+    /// Account containing the VPC to protect. Constraints: • min: 12 • max: 12 • pattern: .*[0-9]{12,}.*
     /// </summary>
     [CliOption("--origin-account-id")]
     public string? OriginAccountId { get; private init; }
 
     /// <summary>
-    /// Region containing the VPC to protect. Constraints: o min: 0 o max: 255 o pattern: (us(-gov)?|ap|ca|cn|eu|eusc|sa|af|me|mx|il)-([a-z]{2}-)?(cen- tral|north|(north(?:east|west))|south|south(?:east|west)|east|west)-[0-9]
+    /// Region containing the VPC to protect. Constraints: • min: 0 • max: 255 • pattern: (us(-gov)?|ap|ca|cn|eu|eusc|sa|af|me|mx|il)-([a-z]{2}-)?(central|north|(north(?:east|west))|south|south(?:east|west)|east|west)-[0-9]
     /// </summary>
     [CliOption("--origin-region")]
     public string? OriginRegion { get; private init; }
 
     /// <summary>
-    /// A set of tags to be associated with the Source Network resource. key -&gt; (string) Constraints: o min: 0 o max: 256 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A set of tags to be associated with the Source Network resource. key -&gt; (string) Constraints: • min: 0 • max: 256 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -109,6 +109,15 @@ public record AwsDrsCreateSourceNetworkOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

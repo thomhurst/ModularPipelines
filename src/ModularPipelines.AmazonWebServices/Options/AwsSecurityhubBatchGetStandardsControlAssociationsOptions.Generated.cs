@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsSecurityhubBatchGetStandardsControlAssociationsOptions : AwsOpt
     /// <summary>
     /// For a batch of security controls and standards, identifies whether each control is currently enabled or disabled in a standard. Calls to this operation return a RESOURCE_NOT_FOUND_EXCEPTION error when the standard subscription for the association has a NOT_READY_FOR_UPDATES value for StandardsControlsUpdatable . See also: AWS API Documentation
     /// </summary>
-    /// <param name="StandardsControlAssociationIds">An array with one or more objects that includes a security control (identified with SecurityControlId , SecurityControlArn , or a mix of both parameters) and the Amazon Resource Name (ARN) of a stan- dard. This field is used to query the enablement status of a control in a specified standard. The security control ID or ARN is the same across standards. (structure) An array with one or more objects that includes a security con- trol (identified with SecurityControlId , SecurityControlArn , or a mix of both parameters) and the Amazon Resource Name (ARN) of a standard. The security control ID or ARN is the same across standards. SecurityControlId -&gt; (string) [required] The unique identifier (identified with SecurityControlId , SecurityControlArn , or a mix of both parameters) of a secu- rity control across standards. Constraints: o pattern: .*\S.* StandardsArn -&gt; (string) [required] The ARN of a standard. Constraints: o pattern: .*\S.* Shorthand Syntax: SecurityControlId=string,StandardsArn=string ... JSON Syntax: [ { "SecurityControlId": "string", "StandardsArn": "string" } ... ]</param>
+    /// <param name="StandardsControlAssociationIds">An array with one or more objects that includes a security control (identified with SecurityControlId , SecurityControlArn , or a mix of both parameters) and the Amazon Resource Name (ARN) of a standard. This field is used to query the enablement status of a control in a specified standard. The security control ID or ARN is the same across standards. (structure) An array with one or more objects that includes a security control (identified with SecurityControlId , SecurityControlArn , or a mix of both parameters) and the Amazon Resource Name (ARN) of a standard. The security control ID or ARN is the same across standards. SecurityControlId -&gt; (string) [required] The unique identifier (identified with SecurityControlId , SecurityControlArn , or a mix of both parameters) of a security control across standards. Constraints: • pattern: .*\S.* StandardsArn -&gt; (string) [required] The ARN of a standard. Constraints: • pattern: .*\S.* Shorthand Syntax: SecurityControlId=string,StandardsArn=string ... JSON Syntax: [ { "SecurityControlId": "string", "StandardsArn": "string" } ... ]</param>
     public AwsSecurityhubBatchGetStandardsControlAssociationsOptions(
         IEnumerable<string> StandardsControlAssociationIds
     )
@@ -67,7 +68,7 @@ public record AwsSecurityhubBatchGetStandardsControlAssociationsOptions : AwsOpt
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// An array with one or more objects that includes a security control (identified with SecurityControlId , SecurityControlArn , or a mix of both parameters) and the Amazon Resource Name (ARN) of a stan- dard. This field is used to query the enablement status of a control in a specified standard. The security control ID or ARN is the same across standards. (structure) An array with one or more objects that includes a security con- trol (identified with SecurityControlId , SecurityControlArn , or a mix of both parameters) and the Amazon Resource Name (ARN) of a standard. The security control ID or ARN is the same across standards. SecurityControlId -&gt; (string) [required] The unique identifier (identified with SecurityControlId , SecurityControlArn , or a mix of both parameters) of a secu- rity control across standards. Constraints: o pattern: .*\S.* StandardsArn -&gt; (string) [required] The ARN of a standard. Constraints: o pattern: .*\S.* Shorthand Syntax: SecurityControlId=string,StandardsArn=string ... JSON Syntax: [ { "SecurityControlId": "string", "StandardsArn": "string" } ... ]
+    /// An array with one or more objects that includes a security control (identified with SecurityControlId , SecurityControlArn , or a mix of both parameters) and the Amazon Resource Name (ARN) of a standard. This field is used to query the enablement status of a control in a specified standard. The security control ID or ARN is the same across standards. (structure) An array with one or more objects that includes a security control (identified with SecurityControlId , SecurityControlArn , or a mix of both parameters) and the Amazon Resource Name (ARN) of a standard. The security control ID or ARN is the same across standards. SecurityControlId -&gt; (string) [required] The unique identifier (identified with SecurityControlId , SecurityControlArn , or a mix of both parameters) of a security control across standards. Constraints: • pattern: .*\S.* StandardsArn -&gt; (string) [required] The ARN of a standard. Constraints: • pattern: .*\S.* Shorthand Syntax: SecurityControlId=string,StandardsArn=string ... JSON Syntax: [ { "SecurityControlId": "string", "StandardsArn": "string" } ... ]
     /// </summary>
     [CliOption("--standards-control-association-ids", GroupValues = true)]
     public IEnumerable<string>? StandardsControlAssociationIds { get; private init; }
@@ -93,6 +94,15 @@ public record AwsSecurityhubBatchGetStandardsControlAssociationsOptions : AwsOpt
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

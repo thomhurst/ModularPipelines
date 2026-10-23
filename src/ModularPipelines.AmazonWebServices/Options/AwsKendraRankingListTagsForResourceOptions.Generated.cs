@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets a list of tags associated with a specified resource. A rescore ex- ecution plan is an example of a resource that can have tags associated with it. See also: AWS API Documentation
+/// Gets a list of tags associated with a specified resource. A rescore execution plan is an example of a resource that can have tags associated with it. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsKendraRankingListTagsForResourceOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets a list of tags associated with a specified resource. A rescore ex- ecution plan is an example of a resource that can have tags associated with it. See also: AWS API Documentation
+    /// Gets a list of tags associated with a specified resource. A rescore execution plan is an example of a resource that can have tags associated with it. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the rescore execution plan to get a list of tags for. Constraints: o min: 1 o max: 1011</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the rescore execution plan to get a list of tags for. Constraints: • min: 1 • max: 1011</param>
     public AwsKendraRankingListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +57,7 @@ public record AwsKendraRankingListTagsForResourceOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the rescore execution plan to get a list of tags for. Constraints: o min: 1 o max: 1011
+    /// The Amazon Resource Name (ARN) of the rescore execution plan to get a list of tags for. Constraints: • min: 1 • max: 1011
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsKendraRankingListTagsForResourceOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

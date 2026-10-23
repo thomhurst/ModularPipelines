@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsMediaconnectAddFlowVpcInterfacesOptions : AwsOptions, IValidata
     /// <summary>
     /// Adds VPC interfaces to a flow. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FlowArn">The Amazon Resource Name (ARN) of the flow that you want to update. Constraints: o pattern: arn:.+:mediaconnect.+:flow:.+</param>
-    /// <param name="VpcInterfaces">A list of VPC interfaces that you want to add to the flow. (structure) The details of the VPC interfaces that you want to add to the flow. Name -&gt; (string) [required] The name for the VPC interface. This name must be unique within the flow. NetworkInterfaceType -&gt; (string) The type of network interface. Possible values: o ena o efa RoleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the role that you created when you set up MediaConnect as a trusted service. SecurityGroupIds -&gt; (list) [required] A virtual firewall to control inbound and outbound traffic. (string) SubnetId -&gt; (string) [required] The subnet IDs that you want to use for your VPC interface. A range of IP addresses in your VPC. When you create your VPC, you specify a range of IPv4 addresses for the VPC in the form of a Classless Inter-Domain Routing (CIDR) block; for exam- ple, 10.0.0.0/16. This is the primary CIDR block for your VPC. When you create a subnet for your VPC, you specify the CIDR block for the subnet, which is a subset of the VPC CIDR block. The subnets that you use across all VPC interfaces on the flow must be in the same Availability Zone as the flow. VpcInterfaceTags -&gt; (map) The key-value pairs that can be used to tag and organize the VPC network interface. key -&gt; (string) value -&gt; (string) Shorthand Syntax: Name=string,NetworkInterfaceType=string,RoleArn=string,SecurityGroupIds=string,string,SubnetId=string,VpcInterfaceTags={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "Name": "string", "NetworkInterfaceType": "ena"|"efa", "RoleArn": "string", "SecurityGroupIds": ["string", ...], "SubnetId": "string", "VpcInterfaceTags": {"string": "string" ...} } ... ]</param>
+    /// <param name="FlowArn">The Amazon Resource Name (ARN) of the flow that you want to update. Constraints: • pattern: arn:.+:mediaconnect.+:flow:.+</param>
+    /// <param name="VpcInterfaces">A list of VPC interfaces that you want to add to the flow. (structure) The details of the VPC interfaces that you want to add to the flow. Name -&gt; (string) [required] The name for the VPC interface. This name must be unique within the flow. NetworkInterfaceType -&gt; (string) The type of network interface. Possible values: • ena • efa RoleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the role that you created when you set up MediaConnect as a trusted service. SecurityGroupIds -&gt; (list) [required] A virtual firewall to control inbound and outbound traffic. (string) SubnetId -&gt; (string) [required] The subnet IDs that you want to use for your VPC interface. A range of IP addresses in your VPC. When you create your VPC, you specify a range of IPv4 addresses for the VPC in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16. This is the primary CIDR block for your VPC. When you create a subnet for your VPC, you specify the CIDR block for the subnet, which is a subset of the VPC CIDR block. The subnets that you use across all VPC interfaces on the flow must be in the same Availability Zone as the flow. VpcInterfaceTags -&gt; (map) The key-value pairs that can be used to tag and organize the VPC network interface. key -&gt; (string) value -&gt; (string) Shorthand Syntax: Name=string,NetworkInterfaceType=string,RoleArn=string,SecurityGroupIds=string,string,SubnetId=string,VpcInterfaceTags={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "Name": "string", "NetworkInterfaceType": "ena"|"efa", "RoleArn": "string", "SecurityGroupIds": ["string", ...], "SubnetId": "string", "VpcInterfaceTags": {"string": "string" ...} } ... ]</param>
     public AwsMediaconnectAddFlowVpcInterfacesOptions(
         string FlowArn,
         IEnumerable<string> VpcInterfaces
@@ -71,13 +72,13 @@ public record AwsMediaconnectAddFlowVpcInterfacesOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the flow that you want to update. Constraints: o pattern: arn:.+:mediaconnect.+:flow:.+
+    /// The Amazon Resource Name (ARN) of the flow that you want to update. Constraints: • pattern: arn:.+:mediaconnect.+:flow:.+
     /// </summary>
     [CliOption("--flow-arn")]
     public string? FlowArn { get; private init; }
 
     /// <summary>
-    /// A list of VPC interfaces that you want to add to the flow. (structure) The details of the VPC interfaces that you want to add to the flow. Name -&gt; (string) [required] The name for the VPC interface. This name must be unique within the flow. NetworkInterfaceType -&gt; (string) The type of network interface. Possible values: o ena o efa RoleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the role that you created when you set up MediaConnect as a trusted service. SecurityGroupIds -&gt; (list) [required] A virtual firewall to control inbound and outbound traffic. (string) SubnetId -&gt; (string) [required] The subnet IDs that you want to use for your VPC interface. A range of IP addresses in your VPC. When you create your VPC, you specify a range of IPv4 addresses for the VPC in the form of a Classless Inter-Domain Routing (CIDR) block; for exam- ple, 10.0.0.0/16. This is the primary CIDR block for your VPC. When you create a subnet for your VPC, you specify the CIDR block for the subnet, which is a subset of the VPC CIDR block. The subnets that you use across all VPC interfaces on the flow must be in the same Availability Zone as the flow. VpcInterfaceTags -&gt; (map) The key-value pairs that can be used to tag and organize the VPC network interface. key -&gt; (string) value -&gt; (string) Shorthand Syntax: Name=string,NetworkInterfaceType=string,RoleArn=string,SecurityGroupIds=string,string,SubnetId=string,VpcInterfaceTags={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "Name": "string", "NetworkInterfaceType": "ena"|"efa", "RoleArn": "string", "SecurityGroupIds": ["string", ...], "SubnetId": "string", "VpcInterfaceTags": {"string": "string" ...} } ... ]
+    /// A list of VPC interfaces that you want to add to the flow. (structure) The details of the VPC interfaces that you want to add to the flow. Name -&gt; (string) [required] The name for the VPC interface. This name must be unique within the flow. NetworkInterfaceType -&gt; (string) The type of network interface. Possible values: • ena • efa RoleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the role that you created when you set up MediaConnect as a trusted service. SecurityGroupIds -&gt; (list) [required] A virtual firewall to control inbound and outbound traffic. (string) SubnetId -&gt; (string) [required] The subnet IDs that you want to use for your VPC interface. A range of IP addresses in your VPC. When you create your VPC, you specify a range of IPv4 addresses for the VPC in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16. This is the primary CIDR block for your VPC. When you create a subnet for your VPC, you specify the CIDR block for the subnet, which is a subset of the VPC CIDR block. The subnets that you use across all VPC interfaces on the flow must be in the same Availability Zone as the flow. VpcInterfaceTags -&gt; (map) The key-value pairs that can be used to tag and organize the VPC network interface. key -&gt; (string) value -&gt; (string) Shorthand Syntax: Name=string,NetworkInterfaceType=string,RoleArn=string,SecurityGroupIds=string,string,SubnetId=string,VpcInterfaceTags={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "Name": "string", "NetworkInterfaceType": "ena"|"efa", "RoleArn": "string", "SecurityGroupIds": ["string", ...], "SubnetId": "string", "VpcInterfaceTags": {"string": "string" ...} } ... ]
     /// </summary>
     [CliOption("--vpc-interfaces", GroupValues = true)]
     public IEnumerable<string>? VpcInterfaces { get; private init; }
@@ -103,6 +104,15 @@ public record AwsMediaconnectAddFlowVpcInterfacesOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

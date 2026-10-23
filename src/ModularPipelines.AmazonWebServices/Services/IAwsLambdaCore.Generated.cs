@@ -6,14 +6,14 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Models;
+using ModularPipelines;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws lambdacore commands.
+/// aws lambda-core commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -22,44 +22,49 @@ namespace ModularPipelines.AmazonWebServices.Services;
 public interface IAwsLambdaCore
 {
     /// <summary>
-    /// Creates a network connector that enables Lambda compute resources to route outbound traffic through your Amazon VPC. The network connector provisions elastic network interfaces (ENIs) in the subnets you spec- ify, providing a managed network path to private resources such as databases, caches, and internal APIs. This operation is asynchronous. The network connector starts in PENDING state while ENIs are provisioned in your VPC (provisioning typically takes up to 10 minutes). Use GetNetworkConnec...
+    /// Creates a network connector that enables Lambda compute resources to route outbound traffic through your Amazon VPC. The network connector provisions elastic network interfaces (ENIs) in the subnets you specify, providing a managed network path to private resources such as databases, caches, and internal APIs. This operation is asynchronous. The network connector starts in PENDING state while ENIs are provisioned in your VPC (provisioning typically takes up to 10 minutes). Use GetNetworkConnecto...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateNetworkConnectorAsync(AwsLambdaCoreCreateNetworkConnectorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateNetworkConnectorAsync(AwsLambdaCoreCreateNetworkConnectorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Initiates deletion of a network connector. The connector transitions to DELETING state while elastic network interfaces are cleaned up asyn- chronously. After deletion completes, subsequent calls to GetNetwork- Connector return ResourceNotFoundException . This operation is idempotent calling delete on a connector that is al- ready deleting or has been deleted succeeds without error. You can delete connectors in ACTIVE or FAILED states. Before deleting a connec- tor, ensure that no Lambda MicroVM...
+    /// Initiates deletion of a network connector. The connector transitions to DELETING state while elastic network interfaces are cleaned up asynchronously. After deletion completes, subsequent calls to GetNetworkConnector return ResourceNotFoundException . This operation is idempotent calling delete on a connector that is already deleting or has been deleted succeeds without error. You can delete connectors in ACTIVE or FAILED states. Before deleting a connector, ensure that no Lambda compute resourc...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteNetworkConnectorAsync(AwsLambdaCoreDeleteNetworkConnectorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteNetworkConnectorAsync(AwsLambdaCoreDeleteNetworkConnectorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves the current configuration, state, and metadata of a network connector. The Identifier parameter accepts the connector ID, name, or full ARN. Use this operation to poll connector state after creation or update, or to inspect the current VPC configuration and any failure reasons. The response includes the full connector configuration, current state, and if the connector has been updated the LastUpdateStatus and Las- tUpdateStatusReasonCode fields that indicate whether the most recent upd...
+    /// Retrieves the current configuration, state, and metadata of a network connector. The Identifier parameter accepts the connector ID, name, or full ARN. Use this operation to poll connector state after creation or update, or to inspect the current VPC configuration and any failure reasons. The response includes the full connector configuration, current state, and if the connector has been updated the LastUpdateStatus and LastUpdateStatusReasonCode fields that indicate whether the most recent updat...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetNetworkConnectorAsync(AwsLambdaCoreGetNetworkConnectorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetNetworkConnectorAsync(AwsLambdaCoreGetNetworkConnectorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns a paginated list of network connectors in your account for the current Region. You can optionally filter results by connector state. Use the Marker parameter from a previous response to retrieve the next page of results. Each item in the response includes the connector ARN, name, ID, type, current state, and last modified timestamp. To retrieve full configura- tion details for a specific connector, use GetNetworkConnector . See also: AWS API Documentation list-network-connectors is a pag...
+    /// Returns a paginated list of the versions of a network connector. Each configuration update creates a new immutable version; this operation lists those versions for the connector you specify. You can optionally filter results by version state. Use the Marker parameter from a previous response to retrieve the next page of results. Each item in the response includes the version-qualified ARN, version number, current state, and last modified timestamp for that version. To retrieve the current (lates...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListNetworkConnectorsAsync(AwsLambdaCoreListNetworkConnectorsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListNetworkConnectorVersionsAsync(AwsLambdaCoreListNetworkConnectorVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Returns a paginated list of network connectors in your account for the current Region. You can optionally filter results by connector state. Use the Marker parameter from a previous response to retrieve the next page of results. Each item in the response includes the connector ARN, name, ID, type, current state, and last modified timestamp. To retrieve full configuration details for a specific connector, use GetNetworkConnector . See also: AWS API Documentation list-network-connectors is a pagin...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ListNetworkConnectorsAsync(AwsLambdaCoreListNetworkConnectorsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the VPC configuration or operator role of an existing network connector. You can modify the subnet IDs, security group IDs, network protocol, or operator role. The connector must be in ACTIVE state to accept updates. This operation is asynchronous. The connector remains in ACTIVE state during the update existing workloads that reference this connector are not disrupted. Use GetNetworkConnector to monitor the LastUpdateStatus field, which transitions through InProgress to Successful or Fa...
@@ -68,7 +73,6 @@ public interface IAwsLambdaCore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateNetworkConnectorAsync(AwsLambdaCoreUpdateNetworkConnectorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateNetworkConnectorAsync(AwsLambdaCoreUpdateNetworkConnectorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

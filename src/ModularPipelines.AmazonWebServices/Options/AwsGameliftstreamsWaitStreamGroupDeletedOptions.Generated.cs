@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Waits until a stream group is deleted It will poll every 30 seconds un- til a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
+/// Waits until a stream group is deleted It will poll every 30 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsGameliftstreamsWaitStreamGroupDeletedOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Waits until a stream group is deleted It will poll every 30 seconds un- til a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
+    /// Waits until a stream group is deleted It will poll every 30 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identifier">An Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gamelift- streams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4 . Example ID: sg-1AB2C3De4 . Constraints: o min: 1 o max: 128 o pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)</param>
+    /// <param name="Identifier">An Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4 . Example ID: sg-1AB2C3De4 . Constraints: • min: 1 • max: 128 • pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)</param>
     public AwsGameliftstreamsWaitStreamGroupDeletedOptions(
         string Identifier
     )
@@ -56,7 +57,7 @@ public record AwsGameliftstreamsWaitStreamGroupDeletedOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// An Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gamelift- streams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4 . Example ID: sg-1AB2C3De4 . Constraints: o min: 1 o max: 128 o pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)
+    /// An Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4 . Example ID: sg-1AB2C3De4 . Constraints: • min: 1 • max: 128 • pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
@@ -82,6 +83,15 @@ public record AwsGameliftstreamsWaitStreamGroupDeletedOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

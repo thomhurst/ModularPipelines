@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of model customization jobs that you have submitted. You can filter the jobs to return based on one or more criteria. For more information, see Custom models in the Amazon Bedrock User Guide . See also: AWS API Documentation list-model-customization-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argum...
+/// Returns a list of model customization jobs that you have submitted. You can filter the jobs to return based on one or more criteria. For more information, see Custom models in the Amazon Bedrock User Guide . See also: AWS API Documentation list-model-customization-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -36,34 +36,31 @@ public record AwsBedrockListModelCustomizationJobsOptions : AwsOptions
     public string? CreationTimeBefore { get; set; }
 
     /// <summary>
-    /// Return customization jobs with the specified status. Possible values: o InProgress o Completed o Failed o Stopping o Stopped
+    /// Return customization jobs with the specified status. Possible values: • InProgress • Completed • Failed • Stopping • Stopped
     /// </summary>
     [CliOption("--status-equals")]
     public AwsBedrockListModelCustomizationJobsStatusEquals? StatusEquals { get; set; }
 
     /// <summary>
-    /// Return customization jobs only if the job name contains these char- acters. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9\+\-\.])*
+    /// Return customization jobs only if the job name contains these characters. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9\+\-\.])*
     /// </summary>
     [CliOption("--name-contains")]
     public string? NameContains { get; set; }
 
     /// <summary>
-    /// The field to sort by in the returned list of jobs. Possible values: o CreationTime
+    /// The field to sort by in the returned list of jobs. Possible values: • CreationTime
     /// </summary>
     [CliOption("--sort-by")]
     public string? SortBy { get; set; }
 
     /// <summary>
-    /// The sort order of the results. Possible values: o Ascending o Descending
+    /// The sort order of the results. Possible values: • Ascending • Descending
     /// </summary>
     [CliOption("--sort-order")]
     public AwsBedrockListModelCustomizationJobsSortOrder? SortOrder { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -73,15 +70,27 @@ public record AwsBedrockListModelCustomizationJobsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 1000
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

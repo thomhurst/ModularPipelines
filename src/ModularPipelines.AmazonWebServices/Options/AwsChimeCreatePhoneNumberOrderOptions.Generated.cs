@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +29,8 @@ public record AwsChimeCreatePhoneNumberOrderOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Creates an order for phone numbers to be provisioned. For toll-free numbers, you cannot use the Amazon Chime Business Calling product type. For numbers outside the U.S., you must use the Amazon Chime SIP Media Application Dial-In product type. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProductType">The phone number product type. Possible values: o BusinessCalling o VoiceConnector o SipMediaApplicationDialIn</param>
-    /// <param name="E164PhoneNumbers">List of phone numbers, in E.164 format. (string) Constraints: o pattern: ^\+?[1-9]\d{1,14}$ Syntax: "string" "string" ...</param>
+    /// <param name="ProductType">The phone number product type. Possible values: • BusinessCalling • VoiceConnector • SipMediaApplicationDialIn</param>
+    /// <param name="E164PhoneNumbers">List of phone numbers, in E.164 format. (string) Constraints: • pattern: ^\+?[1-9]\d{1,14}$ Syntax: "string" "string" ...</param>
     public AwsChimeCreatePhoneNumberOrderOptions(
         AwsChimeCreatePhoneNumberOrderProductType ProductType,
         IEnumerable<string> E164PhoneNumbers
@@ -71,13 +72,13 @@ public record AwsChimeCreatePhoneNumberOrderOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The phone number product type. Possible values: o BusinessCalling o VoiceConnector o SipMediaApplicationDialIn
+    /// The phone number product type. Possible values: • BusinessCalling • VoiceConnector • SipMediaApplicationDialIn
     /// </summary>
     [CliOption("--product-type")]
     public AwsChimeCreatePhoneNumberOrderProductType? ProductType { get; private init; }
 
     /// <summary>
-    /// List of phone numbers, in E.164 format. (string) Constraints: o pattern: ^\+?[1-9]\d{1,14}$ Syntax: "string" "string" ...
+    /// List of phone numbers, in E.164 format. (string) Constraints: • pattern: ^\+?[1-9]\d{1,14}$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--e164-phone-numbers", GroupValues = true)]
     public IEnumerable<string>? E164PhoneNumbers { get; private init; }
@@ -103,6 +104,15 @@ public record AwsChimeCreatePhoneNumberOrderOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

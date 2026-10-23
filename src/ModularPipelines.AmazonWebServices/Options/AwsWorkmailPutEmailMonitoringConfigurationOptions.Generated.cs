@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsWorkmailPutEmailMonitoringConfigurationOptions : AwsOptions, IV
     /// <summary>
     /// Creates or updates the email monitoring configuration for a specified organization. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OrganizationId">The ID of the organization for which the email monitoring configura- tion is set. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$</param>
-    /// <param name="LogGroupArn">The Amazon Resource Name (ARN) of the CloudWatch Log group associ- ated with the email monitoring configuration. Constraints: o min: 47 o max: 562 o pattern: arn:aws:logs:[a-z\-0-9]*:[0-9]{12}:log-group:([\.\-_/#A-Za-z0-9]+):\*$</param>
+    /// <param name="OrganizationId">The ID of the organization for which the email monitoring configuration is set. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$</param>
+    /// <param name="LogGroupArn">The Amazon Resource Name (ARN) of the CloudWatch Log group associated with the email monitoring configuration. Constraints: • min: 47 • max: 562 • pattern: arn:aws:logs:[a-z\-0-9]*:[0-9]{12}:log-group:([\.\-_/#A-Za-z0-9]+):\*$</param>
     public AwsWorkmailPutEmailMonitoringConfigurationOptions(
         string OrganizationId,
         string LogGroupArn
@@ -60,19 +61,19 @@ public record AwsWorkmailPutEmailMonitoringConfigurationOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the organization for which the email monitoring configura- tion is set. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$
+    /// The ID of the organization for which the email monitoring configuration is set. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$
     /// </summary>
     [CliOption("--organization-id")]
     public string? OrganizationId { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the CloudWatch Log group associ- ated with the email monitoring configuration. Constraints: o min: 47 o max: 562 o pattern: arn:aws:logs:[a-z\-0-9]*:[0-9]{12}:log-group:([\.\-_/#A-Za-z0-9]+):\*$
+    /// The Amazon Resource Name (ARN) of the CloudWatch Log group associated with the email monitoring configuration. Constraints: • min: 47 • max: 562 • pattern: arn:aws:logs:[a-z\-0-9]*:[0-9]{12}:log-group:([\.\-_/#A-Za-z0-9]+):\*$
     /// </summary>
     [CliOption("--log-group-arn")]
     public string? LogGroupArn { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the IAM Role associated with the email monitoring configuration. If absent, the IAM Role Arn of AWSServiceRoleForAmazonWorkMailEvents will be used. Constraints: o min: 20 o max: 2048 o pattern: arn:aws:iam:[a-z0-9-]*:[a-z0-9-]+:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}
+    /// The Amazon Resource Name (ARN) of the IAM Role associated with the email monitoring configuration. If absent, the IAM Role Arn of AWSServiceRoleForAmazonWorkMailEvents will be used. Constraints: • min: 20 • max: 2048 • pattern: arn:aws:iam:[a-z0-9-]*:[a-z0-9-]+:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
@@ -98,6 +99,15 @@ public record AwsWorkmailPutEmailMonitoringConfigurationOptions : AwsOptions, IV
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

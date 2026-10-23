@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a paginated list of committed allocations with support for fil- tering by entity, customer, status, or date range. See also: AWS API Documentation list-revenue-attribution-allocations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the r...
+/// Returns a paginated list of committed allocations with support for filtering by entity, customer, status, or date range. See also: AWS API Documentation list-revenue-attribution-allocations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +28,10 @@ public record AwsPartnercentralRevenueMeasurementListRevenueAttributionAllocatio
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns a paginated list of committed allocations with support for fil- tering by entity, customer, status, or date range. See also: AWS API Documentation list-revenue-attribution-allocations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the r...
+    /// Returns a paginated list of committed allocations with support for filtering by entity, customer, status, or date range. See also: AWS API Documentation list-revenue-attribution-allocations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results...
     /// </summary>
-    /// <param name="Catalog">The catalog that contains the resource. Possible values: o AWS o Sandbox</param>
-    /// <param name="RevenueAttributionIdentifier">The revenue attribution identifier to query. Constraints: o min: 16 o max: 1011 o pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:cata- log/[a-zA-Z]+/revenue-attribution/ra-[a-z0-9]{13}|ra-[a-z0-9]{13})</param>
+    /// <param name="Catalog">The catalog that contains the resource. Possible values: • AWS • Sandbox</param>
+    /// <param name="RevenueAttributionIdentifier">The revenue attribution identifier to query. Constraints: • min: 16 • max: 1011 • pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:catalog/[a-zA-Z]+/revenue-attribution/ra-[a-z0-9]{13}|ra-[a-z0-9]{13})</param>
     public AwsPartnercentralRevenueMeasurementListRevenueAttributionAllocationsOptions(
         AwsPartnercentralRevenueMeasurementListRevenueAttributionAllocationsCatalog Catalog,
         string RevenueAttributionIdentifier
@@ -61,88 +62,85 @@ public record AwsPartnercentralRevenueMeasurementListRevenueAttributionAllocatio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The catalog that contains the resource. Possible values: o AWS o Sandbox
+    /// The catalog that contains the resource. Possible values: • AWS • Sandbox
     /// </summary>
     [CliOption("--catalog")]
     public AwsPartnercentralRevenueMeasurementListRevenueAttributionAllocationsCatalog? Catalog { get; private init; }
 
     /// <summary>
-    /// The revenue attribution identifier to query. Constraints: o min: 16 o max: 1011 o pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:cata- log/[a-zA-Z]+/revenue-attribution/ra-[a-z0-9]{13}|ra-[a-z0-9]{13})
+    /// The revenue attribution identifier to query. Constraints: • min: 16 • max: 1011 • pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:catalog/[a-zA-Z]+/revenue-attribution/ra-[a-z0-9]{13}|ra-[a-z0-9]{13})
     /// </summary>
     [CliOption("--revenue-attribution-identifier")]
     public string? RevenueAttributionIdentifier { get; private init; }
 
     /// <summary>
-    /// Filter by deal entity types. Constraints: o min: 1 o max: 2 (string) Possible values: o OFFER o OPPORTUNITY Syntax: "string" "string" ...
+    /// Filter by deal entity types. Constraints: • min: 1 • max: 2 (string) Possible values: • OFFER • OPPORTUNITY Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--entity-type-filters", GroupValues = true)]
     public IEnumerable<string>? EntityTypeFilters { get; set; }
 
     /// <summary>
-    /// Filter by deal entity identifiers. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 255 o pattern: [\w\-:/.]+ Syntax: "string" "string" ...
+    /// Filter by deal entity identifiers. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 1 • max: 255 • pattern: [\w\-:/.]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--entity-identifier-filters", GroupValues = true)]
     public IEnumerable<string>? EntityIdentifierFilters { get; set; }
 
     /// <summary>
-    /// Filter by customer AWS account IDs for associated deal entities. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 12 o max: 12 o pattern: [0-9]{12} Syntax: "string" "string" ...
+    /// Filter by customer AWS account IDs for associated deal entities. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 12 • max: 12 • pattern: [0-9]{12} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--customer-aws-account-id-filters", GroupValues = true)]
     public IEnumerable<string>? CustomerAwsAccountIdFilters { get; set; }
 
     /// <summary>
-    /// Filter by allocation status. Possible values: o ACTIVE o INACTIVE
+    /// Filter by allocation status. Possible values: • ACTIVE • INACTIVE
     /// </summary>
     [CliOption("--status-filter")]
     public AwsPartnercentralRevenueMeasurementListRevenueAttributionAllocationsStatusFilter? StatusFilter { get; set; }
 
     /// <summary>
-    /// Inclusive lower bound for EffectiveFrom date filter. Constraints: o min: 10 o max: 10 o pattern: \d{4}-\d{2}-\d{2}
+    /// Inclusive lower bound for EffectiveFrom date filter. Constraints: • min: 10 • max: 10 • pattern: \d{4}-\d{2}-\d{2}
     /// </summary>
     [CliOption("--after-effective-from")]
     public string? AfterEffectiveFrom { get; set; }
 
     /// <summary>
-    /// Exclusive upper bound for EffectiveFrom date filter (half-open range). Constraints: o min: 10 o max: 10 o pattern: \d{4}-\d{2}-\d{2}
+    /// Exclusive upper bound for EffectiveFrom date filter (half-open range). Constraints: • min: 10 • max: 10 • pattern: \d{4}-\d{2}-\d{2}
     /// </summary>
     [CliOption("--before-effective-from")]
     public string? BeforeEffectiveFrom { get; set; }
 
     /// <summary>
-    /// Inclusive lower bound for EffectiveUntil date filter. Constraints: o min: 10 o max: 10 o pattern: \d{4}-\d{2}-\d{2}
+    /// Inclusive lower bound for EffectiveUntil date filter. Constraints: • min: 10 • max: 10 • pattern: \d{4}-\d{2}-\d{2}
     /// </summary>
     [CliOption("--after-effective-until")]
     public string? AfterEffectiveUntil { get; set; }
 
     /// <summary>
-    /// Exclusive upper bound for EffectiveUntil date filter (half-open range). Constraints: o min: 10 o max: 10 o pattern: \d{4}-\d{2}-\d{2}
+    /// Exclusive upper bound for EffectiveUntil date filter (half-open range). Constraints: • min: 10 • max: 10 • pattern: \d{4}-\d{2}-\d{2}
     /// </summary>
     [CliOption("--before-effective-until")]
     public string? BeforeEffectiveUntil { get; set; }
 
     /// <summary>
-    /// Field to sort by. Possible values: o EffectiveFrom
+    /// Field to sort by. Possible values: • EffectiveFrom
     /// </summary>
     [CliOption("--sort-by")]
     public string? SortBy { get; set; }
 
     /// <summary>
-    /// Sort direction. Defaults to ASCENDING. Possible values: o ASCENDING o DESCENDING
+    /// Sort direction. Defaults to ASCENDING. Possible values: • ASCENDING • DESCENDING
     /// </summary>
     [CliOption("--sort-order")]
     public AwsPartnercentralRevenueMeasurementListRevenueAttributionAllocationsSortOrder? SortOrder { get; set; }
 
     /// <summary>
-    /// Point-in-time revision number to query. Constraints: o min: 1 o max: 19 o pattern: [1-9][0-9]*
+    /// Point-in-time revision number to query. Constraints: • min: 1 • max: 19 • pattern: [1-9][0-9]*
     /// </summary>
     [CliOption("--revenue-attribution-revision")]
     public string? RevenueAttributionRevision { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -152,16 +150,19 @@ public record AwsPartnercentralRevenueMeasurementListRevenueAttributionAllocatio
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 500
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -178,6 +179,15 @@ public record AwsPartnercentralRevenueMeasurementListRevenueAttributionAllocatio
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

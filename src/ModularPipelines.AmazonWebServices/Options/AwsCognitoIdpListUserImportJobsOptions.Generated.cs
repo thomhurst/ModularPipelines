@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Given a user pool ID, returns user import jobs and their details. Im- port jobs are retained in user pool configuration so that you can stage, stop, start, review, and delete them. For more information about user import, see Importing users from a CSV file . NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM perm...
+/// Given a user pool ID, returns user import jobs and their details. Import jobs are retained in user pool configuration so that you can stage, stop, start, review, and delete them. For more information about user import, see Importing users from a CSV file . NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permissi...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsCognitoIdpListUserImportJobsOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Given a user pool ID, returns user import jobs and their details. Im- port jobs are retained in user pool configuration so that you can stage, stop, start, review, and delete them. For more information about user import, see Importing users from a CSV file . NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM perm...
+    /// Given a user pool ID, returns user import jobs and their details. Import jobs are retained in user pool configuration so that you can stage, stop, start, review, and delete them. For more information about user import, see Importing users from a CSV file . NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permissi...
     /// </summary>
-    /// <param name="UserPoolId">The ID of the user pool where you want to list import jobs. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+</param>
-    /// <param name="MaxResults">The maximum number of import jobs that you want Amazon Cognito to return in the response. Constraints: o min: 1 o max: 60</param>
+    /// <param name="UserPoolId">The ID of the user pool where you want to list import jobs. Constraints: • min: 1 • max: 55 • pattern: [\w-]+_[0-9a-zA-Z]+</param>
+    /// <param name="MaxResults">The maximum number of import jobs that you want Amazon Cognito to return in the response. Constraints: • min: 1 • max: 60</param>
     public AwsCognitoIdpListUserImportJobsOptions(
         string UserPoolId,
         int MaxResults
@@ -60,19 +61,19 @@ public record AwsCognitoIdpListUserImportJobsOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the user pool where you want to list import jobs. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+
+    /// The ID of the user pool where you want to list import jobs. Constraints: • min: 1 • max: 55 • pattern: [\w-]+_[0-9a-zA-Z]+
     /// </summary>
     [CliOption("--user-pool-id")]
     public string? UserPoolId { get; private init; }
 
     /// <summary>
-    /// The maximum number of import jobs that you want Amazon Cognito to return in the response. Constraints: o min: 1 o max: 60
+    /// The maximum number of import jobs that you want Amazon Cognito to return in the response. Constraints: • min: 1 • max: 60
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; private init; }
 
     /// <summary>
-    /// This API operation returns a limited number of results. The pagina- tion token is an identifier that you can present in an additional API request with the same parameters. When you include the pagina- tion token, Amazon Cognito returns the next set of items after the current list. Subsequent requests return a new pagination token. By use of this token, you can paginate through the full list of items. Constraints: o min: 1 o pattern: [\S]+
+    /// This API operation returns a limited number of results. The pagination token is an identifier that you can present in an additional API request with the same parameters. When you include the pagination token, Amazon Cognito returns the next set of items after the current list. Subsequent requests return a new pagination token. By use of this token, you can paginate through the full list of items. Constraints: • min: 1 • pattern: [\S]+
     /// </summary>
     [SecretValue]
     [CliOption("--pagination-token")]
@@ -99,6 +100,15 @@ public record AwsCognitoIdpListUserImportJobsOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

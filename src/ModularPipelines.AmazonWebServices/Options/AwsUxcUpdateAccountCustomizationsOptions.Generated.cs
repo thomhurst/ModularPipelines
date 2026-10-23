@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates one or more account customization settings. You can update ac- count color, visible services, and visible Regions in a single request. Only the settings that you include in the request body are modified. Omitted settings remain unchanged. To reset a setting to its default behavior, set the value to null for visible Regions and visible ser- vices, or none for account color. This operation is idempotent. NOTE: The visibleServices and visibleRegions settings control only the ap- pearance of...
+/// Updates one or more account customization settings. You can update account color, visible services, and visible Regions in a single request. Only the settings that you include in the request body are modified. Omitted settings remain unchanged. To reset a setting to its default behavior, set the value to null for visible Regions and visible services, or none for account color. This operation is idempotent. NOTE: The visibleServices and visibleRegions settings control only the appearance of servi...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,19 +23,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsUxcUpdateAccountCustomizationsOptions : AwsOptions
 {
     /// <summary>
-    /// The account color preference to set. Set to none to reset to the de- fault (no color). Possible values: o none o pink o purple o darkBlue o lightBlue o teal o green o yellow o orange o red
+    /// The account color preference to set. Set to none to reset to the default (no color). Possible values: • none • pink • purple • darkBlue • lightBlue • teal • green • yellow • orange • red
     /// </summary>
     [CliOption("--account-color")]
     public AwsUxcUpdateAccountCustomizationsAccountColor? AccountColor { get; set; }
 
     /// <summary>
-    /// The list of Amazon Web Services service identifiers to make visible in the Amazon Web Services Management Console. Set to null to reset to the default, which makes all services visible. For valid service identifiers, call ListServices . Constraints: o min: 0 o max: 500 (string) Constraints: o min: 1 o max: 64 o pattern: [a-z0-9]+(-[a-z0-9]+)* Syntax: "string" "string" ...
+    /// The list of Amazon Web Services service identifiers to make visible in the Amazon Web Services Management Console. Set to null to reset to the default, which makes all services visible. For valid service identifiers, call ListServices . Constraints: • min: 0 • max: 500 (string) Constraints: • min: 1 • max: 64 • pattern: [a-z0-9]+(-[a-z0-9]+)* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--visible-services", GroupValues = true)]
     public IEnumerable<string>? VisibleServices { get; set; }
 
     /// <summary>
-    /// The list of Amazon Web Services Region codes to make visible in the Amazon Web Services Management Console. Set to null to reset to the default, which makes all Regions visible. For a list of valid Region codes, see Amazon Web Services Regions . Constraints: o min: 0 o max: 100 (string) Constraints: o pattern: [a-z]{2}(-[a-z]{1,10}){1,2}-[1-9] Syntax: "string" "string" ...
+    /// The list of Amazon Web Services Region codes to make visible in the Amazon Web Services Management Console. Set to null to reset to the default, which makes all Regions visible. For a list of valid Region codes, see Amazon Web Services Regions . Constraints: • min: 0 • max: 100 (string) Constraints: • pattern: [a-z]{2}(-[a-z]{1,10}){1,2}-[1-9] Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--visible-regions", GroupValues = true)]
     public IEnumerable<string>? VisibleRegions { get; set; }
@@ -45,5 +45,14 @@ public record AwsUxcUpdateAccountCustomizationsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

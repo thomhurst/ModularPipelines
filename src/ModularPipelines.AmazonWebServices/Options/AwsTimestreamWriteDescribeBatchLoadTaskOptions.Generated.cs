@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns information about the batch load task, including configura- tions, mappings, progress, and other details. Service quotas apply . See code sample for details. See also: AWS API Documentation
+/// Returns information about the batch load task, including configurations, mappings, progress, and other details. Service quotas apply . See code sample for details. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsTimestreamWriteDescribeBatchLoadTaskOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns information about the batch load task, including configura- tions, mappings, progress, and other details. Service quotas apply . See code sample for details. See also: AWS API Documentation
+    /// Returns information about the batch load task, including configurations, mappings, progress, and other details. Service quotas apply . See code sample for details. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TaskId">The ID of the batch load task. Constraints: o min: 3 o max: 32 o pattern: [A-Z0-9]+</param>
+    /// <param name="TaskId">The ID of the batch load task. Constraints: • min: 3 • max: 32 • pattern: [A-Z0-9]+</param>
     public AwsTimestreamWriteDescribeBatchLoadTaskOptions(
         string TaskId
     )
@@ -56,7 +57,7 @@ public record AwsTimestreamWriteDescribeBatchLoadTaskOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the batch load task. Constraints: o min: 3 o max: 32 o pattern: [A-Z0-9]+
+    /// The ID of the batch load task. Constraints: • min: 3 • max: 32 • pattern: [A-Z0-9]+
     /// </summary>
     [CliOption("--task-id")]
     public string? TaskId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsTimestreamWriteDescribeBatchLoadTaskOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

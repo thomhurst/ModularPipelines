@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates resource record sets in a specified hosted zone based on the settings in a specified traffic policy version. In addition, Create- TrafficPolicyInstance associates the resource record sets with a speci- fied domain name (such as example.com) or subdomain name (such as www.example.com). Amazon Route 53 responds to DNS queries for the do- main or subdomain name by using the resource record sets that Create- TrafficPolicyInstance created. NOTE: After you submit an CreateTrafficPolicyInstance...
+/// Creates resource record sets in a specified hosted zone based on the settings in a specified traffic policy version. In addition, CreateTrafficPolicyInstance associates the resource record sets with a specified domain name (such as example.com) or subdomain name (such as www.example.com). Amazon Route 53 responds to DNS queries for the domain or subdomain name by using the resource record sets that CreateTrafficPolicyInstance created. NOTE: After you submit an CreateTrafficPolicyInstance request...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,17 +26,17 @@ public record AwsRoute53CreateTrafficPolicyInstanceOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates resource record sets in a specified hosted zone based on the settings in a specified traffic policy version. In addition, Create- TrafficPolicyInstance associates the resource record sets with a speci- fied domain name (such as example.com) or subdomain name (such as www.example.com). Amazon Route 53 responds to DNS queries for the do- main or subdomain name by using the resource record sets that Create- TrafficPolicyInstance created. NOTE: After you submit an CreateTrafficPolicyInstance...
+    /// Creates resource record sets in a specified hosted zone based on the settings in a specified traffic policy version. In addition, CreateTrafficPolicyInstance associates the resource record sets with a specified domain name (such as example.com) or subdomain name (such as www.example.com). Amazon Route 53 responds to DNS queries for the domain or subdomain name by using the resource record sets that CreateTrafficPolicyInstance created. NOTE: After you submit an CreateTrafficPolicyInstance request...
     /// </summary>
-    /// <param name="HostedZoneId">The ID of the hosted zone that you want Amazon Route 53 to create resource record sets in by using the configuration in a traffic pol- icy. Constraints: o max: 32</param>
-    /// <param name="Name">The domain name (such as example.com) or subdomain name (such as www.example.com) for which Amazon Route 53 responds to DNS queries by using the resource record sets that Route 53 creates for this traffic policy instance. Constraints: o max: 1024</param>
-    /// <param name="Ttl">(Optional) The TTL that you want Amazon Route 53 to assign to all of the resource record sets that it creates in the specified hosted zone. Constraints: o min: 0 o max: 2147483647</param>
-    /// <param name="TrafficPolicyId">The ID of the traffic policy that you want to use to create resource record sets in the specified hosted zone. Constraints: o min: 1 o max: 36</param>
-    /// <param name="TrafficPolicyVersion">The version of the traffic policy that you want to use to create re- source record sets in the specified hosted zone. Constraints: o min: 1 o max: 1000</param>
+    /// <param name="HostedZoneId">The ID of the hosted zone that you want Amazon Route 53 to create resource record sets in by using the configuration in a traffic policy. Constraints: • max: 32</param>
+    /// <param name="Name">The domain name (such as example.com) or subdomain name (such as www.example.com) for which Amazon Route 53 responds to DNS queries by using the resource record sets that Route 53 creates for this traffic policy instance. Constraints: • max: 1024</param>
+    /// <param name="Ttl">(Optional) The TTL that you want Amazon Route 53 to assign to all of the resource record sets that it creates in the specified hosted zone. Constraints: • min: 0 • max: 2147483647</param>
+    /// <param name="TrafficPolicyId">The ID of the traffic policy that you want to use to create resource record sets in the specified hosted zone. Constraints: • min: 1 • max: 36</param>
+    /// <param name="TrafficPolicyVersion">The version of the traffic policy that you want to use to create resource record sets in the specified hosted zone. Constraints: • min: 1 • max: 1000</param>
     public AwsRoute53CreateTrafficPolicyInstanceOptions(
         string HostedZoneId,
         string Name,
-        int Ttl,
+        long Ttl,
         string TrafficPolicyId,
         int TrafficPolicyVersion
     )
@@ -70,31 +71,31 @@ public record AwsRoute53CreateTrafficPolicyInstanceOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the hosted zone that you want Amazon Route 53 to create resource record sets in by using the configuration in a traffic pol- icy. Constraints: o max: 32
+    /// The ID of the hosted zone that you want Amazon Route 53 to create resource record sets in by using the configuration in a traffic policy. Constraints: • max: 32
     /// </summary>
     [CliOption("--hosted-zone-id")]
     public string? HostedZoneId { get; private init; }
 
     /// <summary>
-    /// The domain name (such as example.com) or subdomain name (such as www.example.com) for which Amazon Route 53 responds to DNS queries by using the resource record sets that Route 53 creates for this traffic policy instance. Constraints: o max: 1024
+    /// The domain name (such as example.com) or subdomain name (such as www.example.com) for which Amazon Route 53 responds to DNS queries by using the resource record sets that Route 53 creates for this traffic policy instance. Constraints: • max: 1024
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// (Optional) The TTL that you want Amazon Route 53 to assign to all of the resource record sets that it creates in the specified hosted zone. Constraints: o min: 0 o max: 2147483647
+    /// (Optional) The TTL that you want Amazon Route 53 to assign to all of the resource record sets that it creates in the specified hosted zone. Constraints: • min: 0 • max: 2147483647
     /// </summary>
     [CliOption("--ttl")]
-    public int? Ttl { get; private init; }
+    public long? Ttl { get; private init; }
 
     /// <summary>
-    /// The ID of the traffic policy that you want to use to create resource record sets in the specified hosted zone. Constraints: o min: 1 o max: 36
+    /// The ID of the traffic policy that you want to use to create resource record sets in the specified hosted zone. Constraints: • min: 1 • max: 36
     /// </summary>
     [CliOption("--traffic-policy-id")]
     public string? TrafficPolicyId { get; private init; }
 
     /// <summary>
-    /// The version of the traffic policy that you want to use to create re- source record sets in the specified hosted zone. Constraints: o min: 1 o max: 1000
+    /// The version of the traffic policy that you want to use to create resource record sets in the specified hosted zone. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--traffic-policy-version")]
     public int? TrafficPolicyVersion { get; private init; }
@@ -120,6 +121,15 @@ public record AwsRoute53CreateTrafficPolicyInstanceOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

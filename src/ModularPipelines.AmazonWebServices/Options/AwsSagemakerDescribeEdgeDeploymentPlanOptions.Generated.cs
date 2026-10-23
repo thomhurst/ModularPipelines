@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsSagemakerDescribeEdgeDeploymentPlanOptions : AwsOptions, IValid
     /// <summary>
     /// Describes an edge deployment plan with deployment status per stage. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EdgeDeploymentPlanName">The name of the deployment plan to describe. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="EdgeDeploymentPlanName">The name of the deployment plan to describe. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
     public AwsSagemakerDescribeEdgeDeploymentPlanOptions(
         string EdgeDeploymentPlanName
     )
@@ -57,20 +58,20 @@ public record AwsSagemakerDescribeEdgeDeploymentPlanOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the deployment plan to describe. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// The name of the deployment plan to describe. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--edge-deployment-plan-name")]
     public string? EdgeDeploymentPlanName { get; private init; }
 
     /// <summary>
-    /// If the edge deployment plan has enough stages to require tokening, then this is the response from the last list of stages returned. Constraints: o min: 0 o max: 8192 o pattern: .*
+    /// If the edge deployment plan has enough stages to require tokening, then this is the response from the last list of stages returned. Constraints: • min: 0 • max: 8192 • pattern: .*
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of results to select (50 by default). Constraints: o max: 10
+    /// The maximum number of results to select (50 by default). Constraints: • max: 10
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -96,6 +97,15 @@ public record AwsSagemakerDescribeEdgeDeploymentPlanOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

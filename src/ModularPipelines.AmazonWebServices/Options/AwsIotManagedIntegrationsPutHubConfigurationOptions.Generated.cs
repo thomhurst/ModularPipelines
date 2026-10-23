@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsIotManagedIntegrationsPutHubConfigurationOptions : AwsOptions, 
     /// <summary>
     /// Update a hub configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="HubTokenTimerExpirySettingInSeconds">A user-defined integer value that represents the hub token timer ex- piry setting in seconds. Constraints: o min: 1</param>
+    /// <param name="HubTokenTimerExpirySettingInSeconds">A user-defined integer value that represents the hub token timer expiry setting in seconds. Constraints: • min: 1</param>
     public AwsIotManagedIntegrationsPutHubConfigurationOptions(
-        int HubTokenTimerExpirySettingInSeconds
+        long HubTokenTimerExpirySettingInSeconds
     )
     {
         this.HubTokenTimerExpirySettingInSeconds = HubTokenTimerExpirySettingInSeconds;
@@ -55,10 +56,10 @@ public record AwsIotManagedIntegrationsPutHubConfigurationOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A user-defined integer value that represents the hub token timer ex- piry setting in seconds. Constraints: o min: 1
+    /// A user-defined integer value that represents the hub token timer expiry setting in seconds. Constraints: • min: 1
     /// </summary>
     [CliOption("--hub-token-timer-expiry-setting-in-seconds")]
-    public int? HubTokenTimerExpirySettingInSeconds { get; private init; }
+    public long? HubTokenTimerExpirySettingInSeconds { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -81,6 +82,15 @@ public record AwsIotManagedIntegrationsPutHubConfigurationOptions : AwsOptions, 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

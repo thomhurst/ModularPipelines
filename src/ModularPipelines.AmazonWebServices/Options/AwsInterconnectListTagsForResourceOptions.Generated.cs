@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// List all current tags on the specified resource. Currently this sup- ports Connection resources. See also: AWS API Documentation
+/// List all current tags on the specified resource. Currently this supports Connection resources. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsInterconnectListTagsForResourceOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// List all current tags on the specified resource. Currently this sup- ports Connection resources. See also: AWS API Documentation
+    /// List all current tags on the specified resource. Currently this supports Connection resources. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The resource ARN for which to list tags. Constraints: o min: 59 o max: 150 o pattern: arn:aws[a-z-]*:interconnect:[^:]+:[0-9]{12}:connec- tion/(mcc|lmcc)-[a-z0-9]{8}</param>
+    /// <param name="Arn">The resource ARN for which to list tags. Constraints: • min: 59 • max: 150 • pattern: arn:aws[a-z-]*:interconnect:[^:]+:[0-9]{12}:connection/(mcc|lmcc)-[a-z0-9]{8}</param>
     public AwsInterconnectListTagsForResourceOptions(
         string Arn
     )
@@ -56,7 +57,7 @@ public record AwsInterconnectListTagsForResourceOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The resource ARN for which to list tags. Constraints: o min: 59 o max: 150 o pattern: arn:aws[a-z-]*:interconnect:[^:]+:[0-9]{12}:connec- tion/(mcc|lmcc)-[a-z0-9]{8}
+    /// The resource ARN for which to list tags. Constraints: • min: 59 • max: 150 • pattern: arn:aws[a-z-]*:interconnect:[^:]+:[0-9]{12}:connection/(mcc|lmcc)-[a-z0-9]{8}
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsInterconnectListTagsForResourceOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

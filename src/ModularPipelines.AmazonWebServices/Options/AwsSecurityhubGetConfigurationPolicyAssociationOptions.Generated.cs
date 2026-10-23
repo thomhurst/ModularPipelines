@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the association between a configuration and a target account, organizational unit, or the root. The configuration can be a configura- tion policy or self-managed behavior. Only the Security Hub CSPM dele- gated administrator can invoke this operation from the home Region. See also: AWS API Documentation
+/// Returns the association between a configuration and a target account, organizational unit, or the root. The configuration can be a configuration policy or self-managed behavior. Only the Security Hub CSPM delegated administrator can invoke this operation from the home Region. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsSecurityhubGetConfigurationPolicyAssociationOptions : AwsOption
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the association between a configuration and a target account, organizational unit, or the root. The configuration can be a configura- tion policy or self-managed behavior. Only the Security Hub CSPM dele- gated administrator can invoke this operation from the home Region. See also: AWS API Documentation
+    /// Returns the association between a configuration and a target account, organizational unit, or the root. The configuration can be a configuration policy or self-managed behavior. Only the Security Hub CSPM delegated administrator can invoke this operation from the home Region. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Target">The target account ID, organizational unit ID, or the root ID to re- trieve the association for. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: AccountId, OrganizationalUnitId, RootId. AccountId -&gt; (string) The Amazon Web Services account ID of the target account. Constraints: o pattern: .*\S.* OrganizationalUnitId -&gt; (string) The organizational unit ID of the target organizational unit. Constraints: o pattern: .*\S.* RootId -&gt; (string) The ID of the organization root. Constraints: o pattern: .*\S.* Shorthand Syntax: AccountId=string,OrganizationalUnitId=string,RootId=string JSON Syntax: { "AccountId": "string", "OrganizationalUnitId": "string", "RootId": "string" }</param>
+    /// <param name="Target">The target account ID, organizational unit ID, or the root ID to retrieve the association for. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: AccountId, OrganizationalUnitId, RootId. AccountId -&gt; (string) The Amazon Web Services account ID of the target account. Constraints: • pattern: .*\S.* OrganizationalUnitId -&gt; (string) The organizational unit ID of the target organizational unit. Constraints: • pattern: .*\S.* RootId -&gt; (string) The ID of the organization root. Constraints: • pattern: .*\S.* Shorthand Syntax: AccountId=string,OrganizationalUnitId=string,RootId=string JSON Syntax: { "AccountId": "string", "OrganizationalUnitId": "string", "RootId": "string" }</param>
     public AwsSecurityhubGetConfigurationPolicyAssociationOptions(
         string Target
     )
@@ -56,7 +57,7 @@ public record AwsSecurityhubGetConfigurationPolicyAssociationOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The target account ID, organizational unit ID, or the root ID to re- trieve the association for. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: AccountId, OrganizationalUnitId, RootId. AccountId -&gt; (string) The Amazon Web Services account ID of the target account. Constraints: o pattern: .*\S.* OrganizationalUnitId -&gt; (string) The organizational unit ID of the target organizational unit. Constraints: o pattern: .*\S.* RootId -&gt; (string) The ID of the organization root. Constraints: o pattern: .*\S.* Shorthand Syntax: AccountId=string,OrganizationalUnitId=string,RootId=string JSON Syntax: { "AccountId": "string", "OrganizationalUnitId": "string", "RootId": "string" }
+    /// The target account ID, organizational unit ID, or the root ID to retrieve the association for. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: AccountId, OrganizationalUnitId, RootId. AccountId -&gt; (string) The Amazon Web Services account ID of the target account. Constraints: • pattern: .*\S.* OrganizationalUnitId -&gt; (string) The organizational unit ID of the target organizational unit. Constraints: • pattern: .*\S.* RootId -&gt; (string) The ID of the organization root. Constraints: • pattern: .*\S.* Shorthand Syntax: AccountId=string,OrganizationalUnitId=string,RootId=string JSON Syntax: { "AccountId": "string", "OrganizationalUnitId": "string", "RootId": "string" }
     /// </summary>
     [CliOption("--target")]
     public string? Target { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSecurityhubGetConfigurationPolicyAssociationOptions : AwsOption
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

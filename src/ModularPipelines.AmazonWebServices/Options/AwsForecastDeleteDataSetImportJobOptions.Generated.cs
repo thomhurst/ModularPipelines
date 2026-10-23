@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsForecastDeleteDataSetImportJobOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Deletes a dataset import job created using the CreateDatasetImportJob operation. You can delete only dataset import jobs that have a status of ACTIVE or CREATE_FAILED . To get the status, use the DescribeDatasetImportJob operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DataSetImportJobArn">The Amazon Resource Name (ARN) of the dataset import job to delete. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+</param>
+    /// <param name="DataSetImportJobArn">The Amazon Resource Name (ARN) of the dataset import job to delete. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):forecast:.*:.*:.+</param>
     public AwsForecastDeleteDataSetImportJobOptions(
         string DataSetImportJobArn
     )
@@ -56,7 +57,7 @@ public record AwsForecastDeleteDataSetImportJobOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the dataset import job to delete. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+
+    /// The Amazon Resource Name (ARN) of the dataset import job to delete. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):forecast:.*:.*:.+
     /// </summary>
     [CliOption("--dataset-import-job-arn")]
     public string? DataSetImportJobArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsForecastDeleteDataSetImportJobOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

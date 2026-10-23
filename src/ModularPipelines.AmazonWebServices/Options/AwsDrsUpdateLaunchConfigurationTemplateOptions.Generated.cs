@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsDrsUpdateLaunchConfigurationTemplateOptions : AwsOptions, IVali
     /// <summary>
     /// Updates an existing Launch Configuration Template by ID. See also: AWS API Documentation
     /// </summary>
-    /// <param name="LaunchConfigurationTemplateId">Launch Configuration Template ID. Constraints: o min: 21 o max: 21 o pattern: lct-[0-9a-zA-Z]{17}</param>
+    /// <param name="LaunchConfigurationTemplateId">Launch Configuration Template ID. Constraints: • min: 21 • max: 21 • pattern: lct-[0-9a-zA-Z]{17}</param>
     public AwsDrsUpdateLaunchConfigurationTemplateOptions(
         string LaunchConfigurationTemplateId
     )
@@ -57,19 +58,19 @@ public record AwsDrsUpdateLaunchConfigurationTemplateOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Launch Configuration Template ID. Constraints: o min: 21 o max: 21 o pattern: lct-[0-9a-zA-Z]{17}
+    /// Launch Configuration Template ID. Constraints: • min: 21 • max: 21 • pattern: lct-[0-9a-zA-Z]{17}
     /// </summary>
     [CliOption("--launch-configuration-template-id")]
     public string? LaunchConfigurationTemplateId { get; private init; }
 
     /// <summary>
-    /// Launch disposition. Possible values: o STOPPED o STARTED
+    /// Launch disposition. Possible values: • STOPPED • STARTED
     /// </summary>
     [CliOption("--launch-disposition")]
     public AwsDrsUpdateLaunchConfigurationTemplateLaunchDisposition? LaunchDisposition { get; set; }
 
     /// <summary>
-    /// Target instance type right-sizing method. Possible values: o NONE o BASIC o IN_AWS
+    /// Target instance type right-sizing method. Possible values: • NONE • BASIC • IN_AWS
     /// </summary>
     [CliOption("--target-instance-type-right-sizing-method")]
     public AwsDrsUpdateLaunchConfigurationTemplateTargetInstanceTypeRightSizingMethod? TargetInstanceTypeRightSizingMethod { get; set; }
@@ -93,7 +94,7 @@ public record AwsDrsUpdateLaunchConfigurationTemplateOptions : AwsOptions, IVali
     public string? Licensing { get; set; }
 
     /// <summary>
-    /// S3 bucket ARN to export Source Network templates. Constraints: o min: 20 o max: 2048 o pattern: arn:.{16,2044}
+    /// S3 bucket ARN to export Source Network templates. Constraints: • min: 20 • max: 2048 • pattern: arn:.{16,2044}
     /// </summary>
     [CliOption("--export-bucket-arn")]
     public string? ExportBucketArn { get; set; }
@@ -111,7 +112,7 @@ public record AwsDrsUpdateLaunchConfigurationTemplateOptions : AwsOptions, IVali
     public bool? LaunchIntoSourceInstance { get; set; }
 
     /// <summary>
-    /// Recovery mode. Possible values: o FAST o OPTIMAL
+    /// Recovery mode. Possible values: • FAST • OPTIMAL
     /// </summary>
     [CliOption("--recovery-mode")]
     public AwsDrsUpdateLaunchConfigurationTemplateRecoveryMode? RecoveryMode { get; set; }
@@ -137,6 +138,15 @@ public record AwsDrsUpdateLaunchConfigurationTemplateOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

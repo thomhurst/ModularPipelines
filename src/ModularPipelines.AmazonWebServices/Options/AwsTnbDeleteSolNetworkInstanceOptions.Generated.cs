@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a network instance. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like ter- minate, update, and delete) can be performed. To delete a network instance, the instance must be in a stopped or ter- minated state. To terminate a network instance, see TerminateSolNetworkInstance . See also: AWS API Documentation
+/// Deletes a network instance. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed. To delete a network instance, the instance must be in a stopped or terminated state. To terminate a network instance, see TerminateSolNetworkInstance . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsTnbDeleteSolNetworkInstanceOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a network instance. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like ter- minate, update, and delete) can be performed. To delete a network instance, the instance must be in a stopped or ter- minated state. To terminate a network instance, see TerminateSolNetworkInstance . See also: AWS API Documentation
+    /// Deletes a network instance. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed. To delete a network instance, the instance must be in a stopped or terminated state. To terminate a network instance, see TerminateSolNetworkInstance . See also: AWS API Documentation
     /// </summary>
-    /// <param name="NsInstanceId">Network instance ID. Constraints: o pattern: ^ni-[a-f0-9]{17}$</param>
+    /// <param name="NsInstanceId">Network instance ID. Constraints: • pattern: ^ni-[a-f0-9]{17}$</param>
     public AwsTnbDeleteSolNetworkInstanceOptions(
         string NsInstanceId
     )
@@ -56,7 +57,7 @@ public record AwsTnbDeleteSolNetworkInstanceOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Network instance ID. Constraints: o pattern: ^ni-[a-f0-9]{17}$
+    /// Network instance ID. Constraints: • pattern: ^ni-[a-f0-9]{17}$
     /// </summary>
     [CliOption("--ns-instance-id")]
     public string? NsInstanceId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsTnbDeleteSolNetworkInstanceOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

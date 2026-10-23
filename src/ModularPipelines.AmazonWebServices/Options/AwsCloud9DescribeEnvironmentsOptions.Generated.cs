@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsCloud9DescribeEnvironmentsOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Gets information about Cloud9 development environments. WARNING: Cloud9 is no longer available to new customers. Existing customers of Cloud9 can continue to use the service as normal. Learn more" See also: AWS API Documentation
     /// </summary>
-    /// <param name="EnvironmentIds">The IDs of individual environments to get information about. Constraints: o min: 1 o max: 25 (string) Constraints: o pattern: ^[a-zA-Z0-9]{8,32}$ Syntax: "string" "string" ...</param>
+    /// <param name="EnvironmentIds">The IDs of individual environments to get information about. Constraints: • min: 1 • max: 25 (string) Constraints: • pattern: ^[a-zA-Z0-9]{8,32}$ Syntax: "string" "string" ...</param>
     public AwsCloud9DescribeEnvironmentsOptions(
         IEnumerable<string> EnvironmentIds
     )
@@ -67,7 +68,7 @@ public record AwsCloud9DescribeEnvironmentsOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The IDs of individual environments to get information about. Constraints: o min: 1 o max: 25 (string) Constraints: o pattern: ^[a-zA-Z0-9]{8,32}$ Syntax: "string" "string" ...
+    /// The IDs of individual environments to get information about. Constraints: • min: 1 • max: 25 (string) Constraints: • pattern: ^[a-zA-Z0-9]{8,32}$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--environment-ids", GroupValues = true)]
     public IEnumerable<string>? EnvironmentIds { get; private init; }
@@ -93,6 +94,15 @@ public record AwsCloud9DescribeEnvironmentsOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

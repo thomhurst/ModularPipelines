@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Enables the specified directory. Only disabled directories can be en- abled. Once enabled, the directory can then be read and written to. See also: AWS API Documentation
+/// Enables the specified directory. Only disabled directories can be enabled. Once enabled, the directory can then be read and written to. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsClouddirectoryEnableDirectoryOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Enables the specified directory. Only disabled directories can be en- abled. Once enabled, the directory can then be read and written to. See also: AWS API Documentation
+    /// Enables the specified directory. Only disabled directories can be enabled. Once enabled, the directory can then be read and written to. See also: AWS API Documentation
     /// </summary>
     /// <param name="DirectoryArn">The ARN of the directory to enable.</param>
     public AwsClouddirectoryEnableDirectoryOptions(
@@ -82,6 +83,15 @@ public record AwsClouddirectoryEnableDirectoryOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,13 +29,13 @@ public record AwsRdsRestoreDbClusterFromS3Options : AwsOptions, IValidatableObje
     /// <summary>
     /// Creates an Amazon Aurora DB cluster from MySQL data stored in an Amazon S3 bucket. Amazon RDS must be authorized to access the Amazon S3 bucket and the data must be created using the Percona XtraBackup utility as described in Migrating Data from MySQL by Using an Amazon S3 Bucket in the Amazon Aurora User Guide . NOTE: This operation only restores the DB cluster, not the DB instances for that DB cluster. You must invoke the CreateDBInstance operation to create DB instances for the restored DB cl...
     /// </summary>
-    /// <param name="DbClusterIdentifier">The name of the DB cluster to create from the source data in the Amazon S3 bucket. This parameter isn't case-sensitive. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens. o First character must be a letter. o Can't end with a hyphen or contain two consecutive hyphens. Example: my-cluster1</param>
+    /// <param name="DbClusterIdentifier">The name of the DB cluster to create from the source data in the Amazon S3 bucket. This parameter isn't case-sensitive. Constraints: • Must contain from 1 to 63 letters, numbers, or hyphens. • First character must be a letter. • Can't end with a hyphen or contain two consecutive hyphens. Example: my-cluster1</param>
     /// <param name="Engine">The name of the database engine to be used for this DB cluster. Valid Values: aurora-mysql (for Aurora MySQL)</param>
-    /// <param name="MasterUsername">The name of the master user for the restored DB cluster. Constraints: o Must be 1 to 16 letters or numbers. o First character must be a letter. o Can't be a reserved word for the chosen database engine.</param>
+    /// <param name="MasterUsername">The name of the master user for the restored DB cluster. Constraints: • Must be 1 to 16 letters or numbers. • First character must be a letter. • Can't be a reserved word for the chosen database engine.</param>
     /// <param name="SourceEngine">The identifier for the database engine that was backed up to create the files stored in the Amazon S3 bucket. Valid Values: mysql</param>
     /// <param name="SourceEngineVersion">The version of the database that the backup files were created from. MySQL versions 5.7 and 8.0 are supported. Example: 5.7.40 , 8.0.28</param>
-    /// <param name="S3BucketName">The name of the Amazon S3 bucket that contains the data used to cre- ate the Amazon Aurora DB cluster.</param>
-    /// <param name="S3IngestionRoleArn">The Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) role that authorizes Amazon RDS to ac- cess the Amazon S3 bucket on your behalf.</param>
+    /// <param name="S3BucketName">The name of the Amazon S3 bucket that contains the data used to create the Amazon Aurora DB cluster.</param>
+    /// <param name="S3IngestionRoleArn">The Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) role that authorizes Amazon RDS to access the Amazon S3 bucket on your behalf.</param>
     public AwsRdsRestoreDbClusterFromS3Options(
         string DbClusterIdentifier,
         string Engine,
@@ -81,7 +82,7 @@ public record AwsRdsRestoreDbClusterFromS3Options : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the DB cluster to create from the source data in the Amazon S3 bucket. This parameter isn't case-sensitive. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens. o First character must be a letter. o Can't end with a hyphen or contain two consecutive hyphens. Example: my-cluster1
+    /// The name of the DB cluster to create from the source data in the Amazon S3 bucket. This parameter isn't case-sensitive. Constraints: • Must contain from 1 to 63 letters, numbers, or hyphens. • First character must be a letter. • Can't end with a hyphen or contain two consecutive hyphens. Example: my-cluster1
     /// </summary>
     [CliOption("--db-cluster-identifier")]
     public string? DbClusterIdentifier { get; private init; }
@@ -93,7 +94,7 @@ public record AwsRdsRestoreDbClusterFromS3Options : AwsOptions, IValidatableObje
     public string? Engine { get; private init; }
 
     /// <summary>
-    /// The name of the master user for the restored DB cluster. Constraints: o Must be 1 to 16 letters or numbers. o First character must be a letter. o Can't be a reserved word for the chosen database engine.
+    /// The name of the master user for the restored DB cluster. Constraints: • Must be 1 to 16 letters or numbers. • First character must be a letter. • Can't be a reserved word for the chosen database engine.
     /// </summary>
     [CliOption("--master-username")]
     public string? MasterUsername { get; private init; }
@@ -111,13 +112,13 @@ public record AwsRdsRestoreDbClusterFromS3Options : AwsOptions, IValidatableObje
     public string? SourceEngineVersion { get; private init; }
 
     /// <summary>
-    /// The name of the Amazon S3 bucket that contains the data used to cre- ate the Amazon Aurora DB cluster.
+    /// The name of the Amazon S3 bucket that contains the data used to create the Amazon Aurora DB cluster.
     /// </summary>
     [CliOption("--s3-bucket-name")]
     public string? S3BucketName { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) role that authorizes Amazon RDS to ac- cess the Amazon S3 bucket on your behalf.
+    /// The Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) role that authorizes Amazon RDS to access the Amazon S3 bucket on your behalf.
     /// </summary>
     [CliOption("--s3-ingestion-role-arn")]
     public string? S3IngestionRoleArn { get; private init; }
@@ -129,13 +130,13 @@ public record AwsRdsRestoreDbClusterFromS3Options : AwsOptions, IValidatableObje
     public IEnumerable<string>? AvailabilityZones { get; set; }
 
     /// <summary>
-    /// The number of days for which automated backups of the restored DB cluster are retained. You must specify a minimum value of 1. Default: 1 Constraints: o Must be a value from 1 to 35
+    /// The number of days for which automated backups of the restored DB cluster are retained. You must specify a minimum value of 1. Default: 1 Constraints: • Must be a value from 1 to 35
     /// </summary>
     [CliOption("--backup-retention-period")]
     public int? BackupRetentionPeriod { get; set; }
 
     /// <summary>
-    /// A value that indicates that the restored DB cluster should be asso- ciated with the specified CharacterSet.
+    /// A value that indicates that the restored DB cluster should be associated with the specified CharacterSet.
     /// </summary>
     [CliOption("--character-set-name")]
     public string? CharacterSetName { get; set; }
@@ -147,7 +148,7 @@ public record AwsRdsRestoreDbClusterFromS3Options : AwsOptions, IValidatableObje
     public string? DatabaseName { get; set; }
 
     /// <summary>
-    /// The name of the DB cluster parameter group to associate with the re- stored DB cluster. If this argument is omitted, the default parame- ter group for the engine version is used. Constraints: o If supplied, must match the name of an existing DBClusterParame- terGroup.
+    /// The name of the DB cluster parameter group to associate with the restored DB cluster. If this argument is omitted, the default parameter group for the engine version is used. Constraints: • If supplied, must match the name of an existing DBClusterParameterGroup.
     /// </summary>
     [CliOption("--db-cluster-parameter-group-name")]
     public string? DbClusterParameterGroupName { get; set; }
@@ -159,13 +160,13 @@ public record AwsRdsRestoreDbClusterFromS3Options : AwsOptions, IValidatableObje
     public IEnumerable<string>? VpcSecurityGroupIds { get; set; }
 
     /// <summary>
-    /// A DB subnet group to associate with the restored DB cluster. Constraints: If supplied, must match the name of an existing DBSub- netGroup. Example: mydbsubnetgroup
+    /// A DB subnet group to associate with the restored DB cluster. Constraints: If supplied, must match the name of an existing DBSubnetGroup. Example: mydbsubnetgroup
     /// </summary>
     [CliOption("--db-subnet-group-name")]
     public string? DbSubnetGroupName { get; set; }
 
     /// <summary>
-    /// The version number of the database engine to use. To list all of the available engine versions for aurora-mysql (Au- rora MySQL), use the following command: aws rds describe-db-engine-versions --engine aurora-mysql --query "DBEngineVersions[].EngineVersion" Aurora MySQL Examples: 5.7.mysql_aurora.2.12.0 , 8.0.mysql_aurora.3.04.0
+    /// The version number of the database engine to use. To list all of the available engine versions for aurora-mysql (Aurora MySQL), use the following command: aws rds describe-db-engine-versions --engine aurora-mysql --query "DBEngineVersions[].EngineVersion" Aurora MySQL Examples: 5.7.mysql_aurora.2.12.0 , 8.0.mysql_aurora.3.04.0
     /// </summary>
     [CliOption("--engine-version")]
     public string? EngineVersion { get; set; }
@@ -177,20 +178,20 @@ public record AwsRdsRestoreDbClusterFromS3Options : AwsOptions, IValidatableObje
     public int? Port { get; set; }
 
     /// <summary>
-    /// The password for the master database user. This password can contain any printable ASCII character except "/", """, or "@". Constraints: o Must contain from 8 to 41 characters. o Can't be specified if ManageMasterUserPassword is turned on.
+    /// The password for the master database user. This password can contain any printable ASCII character except "/", """, or "@". Constraints: • Must contain from 8 to 41 characters. • Can't be specified if ManageMasterUserPassword is turned on.
     /// </summary>
     [SecretValue]
     [CliOption("--master-user-password")]
     public string? MasterUserPassword { get; set; }
 
     /// <summary>
-    /// A value that indicates that the restored DB cluster should be asso- ciated with the specified option group. Permanent options can't be removed from an option group. An option group can't be removed from a DB cluster once it is associated with a DB cluster.
+    /// A value that indicates that the restored DB cluster should be associated with the specified option group. Permanent options can't be removed from an option group. An option group can't be removed from a DB cluster once it is associated with a DB cluster.
     /// </summary>
     [CliOption("--option-group-name")]
     public string? OptionGroupName { get; set; }
 
     /// <summary>
-    /// The daily time range during which automated backups are created if automated backups are enabled using the BackupRetentionPeriod para- meter. The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Web Services Region. To view the time blocks available, see Backup window in the Amazon Aurora User Guide . Constraints: o Must be in the format hh24:mi-hh24:mi . o Must be in Universal Coordinated Time (UTC). o Must not conflict with the preferred maintenance window. o Must be at least 30 minutes.
+    /// The daily time range during which automated backups are created if automated backups are enabled using the BackupRetentionPeriod parameter. The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Web Services Region. To view the time blocks available, see Backup window in the Amazon Aurora User Guide . Constraints: • Must be in the format hh24:mi-hh24:mi . • Must be in Universal Coordinated Time (UTC). • Must not conflict with the preferred maintenance window. • Must be at least 30 minutes.
     /// </summary>
     [CliOption("--preferred-backup-window")]
     public string? PreferredBackupWindow { get; set; }
@@ -214,13 +215,13 @@ public record AwsRdsRestoreDbClusterFromS3Options : AwsOptions, IValidatableObje
     public bool? StorageEncrypted { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services KMS key identifier for an encrypted DB clus- ter. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a dif- ferent Amazon Web Services account, specify the key ARN or alias ARN. If the StorageEncrypted parameter is enabled, and you do not specify a value for the KmsKeyId parameter, then Amazon RDS will use your default KMS key. There is a default KMS key for your Amazon Web Ser- vices account. Your Amazon Web Services account has a different de- fault KMS key for each Amazon Web Services Region.
+    /// The Amazon Web Services KMS key identifier for an encrypted DB cluster. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. If the StorageEncrypted parameter is enabled, and you do not specify a value for the KmsKeyId parameter, then Amazon RDS will use your default KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
     /// </summary>
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
     /// <summary>
-    /// tication (boolean) Specifies whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By de- fault, mapping isn't enabled. For more information, see IAM Database Authentication in the Amazon Aurora User Guide .
+    /// Specifies whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By default, mapping isn't enabled. For more information, see IAM Database Authentication in the Amazon Aurora User Guide .
     /// </summary>
     [CliFlag("--enable-iam-database-authentication", NegatedName = "--no-enable-iam-database-authentication")]
     public bool? EnableIamDatabaseAuthentication { get; set; }
@@ -232,13 +233,13 @@ public record AwsRdsRestoreDbClusterFromS3Options : AwsOptions, IValidatableObje
     public string? S3Prefix { get; set; }
 
     /// <summary>
-    /// The target backtrack window, in seconds. To disable backtracking, set this value to 0. NOTE: Currently, Backtrack is only supported for Aurora MySQL DB clus- ters. Default: 0 Constraints: o If specified, this value must be set to a number from 0 to 259,200 (72 hours).
+    /// The target backtrack window, in seconds. To disable backtracking, set this value to 0. NOTE: Currently, Backtrack is only supported for Aurora MySQL DB clusters. Default: 0 Constraints: • If specified, this value must be set to a number from 0 to 259,200 (72 hours).
     /// </summary>
     [CliOption("--backtrack-window")]
-    public int? BacktrackWindow { get; set; }
+    public long? BacktrackWindow { get; set; }
 
     /// <summary>
-    /// The list of logs that the restored DB cluster is to export to Cloud- Watch Logs. The values in the list depend on the DB engine being used. Aurora MySQL Possible values are audit , error , general , instance , slowquery , and iam-db-auth-error . Aurora PostgreSQL Possible value are instance , postgresql , and iam-db-auth-error . For more information about exporting CloudWatch Logs for Amazon RDS, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon RDS User Guide . For more information about exporting CloudWatch Logs for Amazon Au- rora, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon Aurora User Guide . (string) Syntax: "string" "string" ...
+    /// The list of logs that the restored DB cluster is to export to CloudWatch Logs. The values in the list depend on the DB engine being used. Aurora MySQL Possible values are audit , error , general , instance , slowquery , and iam-db-auth-error . Aurora PostgreSQL Possible value are instance , postgresql , and iam-db-auth-error . For more information about exporting CloudWatch Logs for Amazon RDS, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon RDS User Guide . For more information about exporting CloudWatch Logs for Amazon Aurora, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon Aurora User Guide . (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--enable-cloudwatch-logs-exports", GroupValues = true)]
     public IEnumerable<string>? EnableCloudwatchLogsExports { get; set; }
@@ -256,7 +257,7 @@ public record AwsRdsRestoreDbClusterFromS3Options : AwsOptions, IValidatableObje
     public bool? CopyTagsToSnapshot { get; set; }
 
     /// <summary>
-    /// Specify the Active Directory directory ID to restore the DB cluster in. The domain must be created prior to this operation. For Amazon Aurora DB clusters, Amazon RDS can use Kerberos Authenti- cation to authenticate users that connect to the DB cluster. For more information, see Kerberos Authentication in the Amazon Aurora User Guide .
+    /// Specify the Active Directory directory ID to restore the DB cluster in. The domain must be created prior to this operation. For Amazon Aurora DB clusters, Amazon RDS can use Kerberos Authentication to authenticate users that connect to the DB cluster. For more information, see Kerberos Authentication in the Amazon Aurora User Guide .
     /// </summary>
     [CliOption("--domain")]
     public string? Domain { get; set; }
@@ -274,43 +275,43 @@ public record AwsRdsRestoreDbClusterFromS3Options : AwsOptions, IValidatableObje
     public string? StorageType { get; set; }
 
     /// <summary>
-    /// The network type of the DB cluster. Valid Values: o IPV4 o DUAL The network type is determined by the DBSubnetGroup specified for the DB cluster. A DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6 protocols (DUAL ). For more information, see Working with a DB instance in a VPC in the Amazon Aurora User Guide.
+    /// The network type of the DB cluster. Valid Values: • IPV4 • DUAL The network type is determined by the DBSubnetGroup specified for the DB cluster. A DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6 protocols (DUAL ). For more information, see Working with a DB instance in a VPC in the Amazon Aurora User Guide.
     /// </summary>
     [CliOption("--network-type")]
     public string? NetworkType { get; set; }
 
     /// <summary>
-    /// Contains the scaling configuration of an Aurora Serverless v2 DB cluster. For more information, see Using Amazon Aurora Serverless v2 in the Amazon Aurora User Guide . MinCapacity -&gt; (double) The minimum number of Aurora capacity units (ACUs) for a DB in- stance in an Aurora Serverless v2 cluster. You can specify ACU values in half-step increments, such as 8, 8.5, 9, and so on. For Aurora versions that support the Aurora Serverless v2 auto-pause feature, the smallest value that you can use is 0. For versions that don't support Aurora Serverless v2 auto-pause, the smallest value that you can use is 0.5. MaxCapacity -&gt; (double) The maximum number of Aurora capacity units (ACUs) for a DB in- stance in an Aurora Serverless v2 cluster. You can specify ACU values in half-step increments, such as 32, 32.5, 33, and so on. The largest value that you can use is 256 for recent Aurora ver- sions, or 128 for older versions. You can check the attributes of your engine version or platform version to determine the spe- cific maximum capacity supported. SecondsUntilAutoPause -&gt; (integer) Specifies the number of seconds an Aurora Serverless v2 DB in- stance must be idle before Aurora attempts to automatically pause it. Specify a value between 300 seconds (five minutes) and 86,400 seconds (one day). The default is 300 seconds. Shorthand Syntax: MinCapacity=double,MaxCapacity=double,SecondsUntilAutoPause=integer JSON Syntax: { "MinCapacity": double, "MaxCapacity": double, "SecondsUntilAutoPause": integer }
+    /// Contains the scaling configuration of an Aurora Serverless v2 DB cluster. For more information, see Using Amazon Aurora Serverless v2 in the Amazon Aurora User Guide . MinCapacity -&gt; (double) The minimum number of Aurora capacity units (ACUs) for a DB instance in an Aurora Serverless v2 cluster. You can specify ACU values in half-step increments, such as 8, 8.5, 9, and so on. For Aurora versions that support the Aurora Serverless v2 auto-pause feature, the smallest value that you can use is 0. For versions that don't support Aurora Serverless v2 auto-pause, the smallest value that you can use is 0.5. MaxCapacity -&gt; (double) The maximum number of Aurora capacity units (ACUs) for a DB instance in an Aurora Serverless v2 cluster. You can specify ACU values in half-step increments, such as 32, 32.5, 33, and so on. The largest value that you can use is 256 for recent Aurora versions, or 128 for older versions. You can check the attributes of your engine version or platform version to determine the specific maximum capacity supported. SecondsUntilAutoPause -&gt; (integer) Specifies the number of seconds an Aurora Serverless v2 DB instance must be idle before Aurora attempts to automatically pause it. Specify a value between 300 seconds (five minutes) and 86,400 seconds (one day). The default is 300 seconds. Shorthand Syntax: MinCapacity=double,MaxCapacity=double,SecondsUntilAutoPause=integer JSON Syntax: { "MinCapacity": double, "MaxCapacity": double, "SecondsUntilAutoPause": integer }
     /// </summary>
     [CliOption("--serverless-v2-scaling-configuration")]
     public string? ServerlessV2ScalingConfiguration { get; set; }
 
     /// <summary>
-    /// Specifies whether to manage the master user password with Amazon Web Services Secrets Manager. For more information, see Password management with Amazon Web Ser- vices Secrets Manager in the Amazon RDS User Guide and Password man- agement with Amazon Web Services Secrets Manager in the Amazon Au- rora User Guide. Constraints: o Can't manage the master user password with Amazon Web Services Se- crets Manager if MasterUserPassword is specified.
+    /// Specifies whether to manage the master user password with Amazon Web Services Secrets Manager. For more information, see Password management with Amazon Web Services Secrets Manager in the Amazon RDS User Guide and Password management with Amazon Web Services Secrets Manager in the Amazon Aurora User Guide. Constraints: • Can't manage the master user password with Amazon Web Services Secrets Manager if MasterUserPassword is specified.
     /// </summary>
     [CliFlag("--manage-master-user-password", NegatedName = "--no-manage-master-user-password")]
     public bool? ManageMasterUserPassword { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services KMS key identifier to encrypt a secret that is automatically generated and managed in Amazon Web Services Se- crets Manager. This setting is valid only if the master user password is managed by RDS in Amazon Web Services Secrets Manager for the DB cluster. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a dif- ferent Amazon Web Services account, specify the key ARN or alias ARN. If you don't specify MasterUserSecretKmsKeyId , then the aws/se- cretsmanager KMS key is used to encrypt the secret. If the secret is in a different Amazon Web Services account, then you can't use the aws/secretsmanager KMS key to encrypt the secret, and you must use a customer managed KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
+    /// The Amazon Web Services KMS key identifier to encrypt a secret that is automatically generated and managed in Amazon Web Services Secrets Manager. This setting is valid only if the master user password is managed by RDS in Amazon Web Services Secrets Manager for the DB cluster. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. If you don't specify MasterUserSecretKmsKeyId , then the aws/secretsmanager KMS key is used to encrypt the secret. If the secret is in a different Amazon Web Services account, then you can't use the aws/secretsmanager KMS key to encrypt the secret, and you must use a customer managed KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
     /// </summary>
     [CliOption("--master-user-secret-kms-key-id")]
     public string? MasterUserSecretKmsKeyId { get; set; }
 
     /// <summary>
-    /// The lifecycle type for this DB cluster. NOTE: By default, this value is set to open-source-rds-extended-sup- port , which enrolls your DB cluster into Amazon RDS Extended Support. At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-ex- tended-support-disabled . In this case, RDS automatically up- grades your restored DB cluster to a higher engine version, if the major engine version is past its end of standard support date. You can use this setting to enroll your DB cluster into Amazon RDS Extended Support. With RDS Extended Support, you can run the se- lected major engine version on your DB cluster past the end of stan- dard support for that engine version. For more information, see the following sections: o Amazon Aurora - Amazon RDS Extended Support with Amazon Aurora in the Amazon Aurora User Guide o Amazon RDS - Amazon RDS Extended Support with Amazon RDS in the Amazon RDS User Guide Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Valid Values: open-source-rds-extended-support | open-source-rds-ex- tended-support-disabled Default: open-source-rds-extended-support
+    /// The lifecycle type for this DB cluster. NOTE: By default, this value is set to open-source-rds-extended-support , which enrolls your DB cluster into Amazon RDS Extended Support. At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled . In this case, RDS automatically upgrades your restored DB cluster to a higher engine version, if the major engine version is past its end of standard support date. You can use this setting to enroll your DB cluster into Amazon RDS Extended Support. With RDS Extended Support, you can run the selected major engine version on your DB cluster past the end of standard support for that engine version. For more information, see the following sections: • Amazon Aurora - Amazon RDS Extended Support with Amazon Aurora in the Amazon Aurora User Guide • Amazon RDS - Amazon RDS Extended Support with Amazon RDS in the Amazon RDS User Guide Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled Default: open-source-rds-extended-support
     /// </summary>
     [CliOption("--engine-lifecycle-support")]
     public string? EngineLifecycleSupport { get; set; }
 
     /// <summary>
-    /// Tags to assign to resources associated with the DB cluster. Valid Values: o cluster-auto-backup - The DB cluster's automated backup. (structure) The tags to apply to resources when creating or modifying a DB instance or DB cluster. When you specify a tag, you must specify the resource type to tag, otherwise the request will fail. ResourceType -&gt; (string) The type of resource to tag on creation. Valid Values: o auto-backup - The DB instance's automated backup. o cluster-auto-backup - The DB cluster's automated backup. Tags -&gt; (list) A list of tags. For more information, see Tagging Amazon RDS resources in the Amazon RDS User Guide or Tagging Amazon Aurora and Amazon RDS resources in the Amazon Aurora User Guide . (structure) Metadata assigned to an Amazon RDS resource consisting of a key-value pair. For more information, see Tagging Amazon RDS resources in the Amazon RDS User Guide or Tagging Amazon Aurora and Amazon RDS resources in the Amazon Aurora User Guide . Key -&gt; (string) A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain only the set of Unicode let- ters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$"). Value -&gt; (string) A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain only the set of Unicode let- ters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$"). Shorthand Syntax: ResourceType=string,Tags=[{Key=string,Value=string},{Key=string,Value=string}] ... JSON Syntax: [ { "ResourceType": "string", "Tags": [ { "Key": "string", "Value": "string" } ... ] } ... ]
+    /// Tags to assign to resources associated with the DB cluster. Valid Values: • cluster-auto-backup - The DB cluster's automated backup. (structure) The tags to apply to resources when creating or modifying a DB instance or DB cluster. When you specify a tag, you must specify the resource type to tag, otherwise the request will fail. ResourceType -&gt; (string) The type of resource to tag on creation. Valid Values: • auto-backup - The DB instance's automated backup. • cluster-auto-backup - The DB cluster's automated backup. Tags -&gt; (list) A list of tags. For more information, see Tagging Amazon RDS resources in the Amazon RDS User Guide or Tagging Amazon Aurora and Amazon RDS resources in the Amazon Aurora User Guide . (structure) Metadata assigned to an Amazon RDS resource consisting of a key-value pair. For more information, see Tagging Amazon RDS resources in the Amazon RDS User Guide or Tagging Amazon Aurora and Amazon RDS resources in the Amazon Aurora User Guide . Key -&gt; (string) A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$"). Value -&gt; (string) A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$"). Shorthand Syntax: ResourceType=string,Tags=[{Key=string,Value=string},{Key=string,Value=string}] ... JSON Syntax: [ { "ResourceType": "string", "Tags": [ { "Key": "string", "Value": "string" } ... ] } ... ]
     /// </summary>
     [CliOption("--tag-specifications", GroupValues = true)]
     public IEnumerable<string>? TagSpecifications { get; set; }
 
     /// <summary>
-    /// A list of Amazon Web Services Identity and Access Management (IAM) roles to associate with the DB cluster when it's restored from Ama- zon S3. Each role grants the DB cluster permission to access other Amazon Web Services on your behalf. For each role, specify a role ARN and, optionally, the feature name (such as s3Import , s3Export , or Lambda ). Constraints: o min: 0 o max: 15 (structure) Contains information about an Amazon Web Services Identity and Access Management (IAM) role to associate with a DB cluster. You can specify this structure in the AssociatedRoles parameter of CreateDBCluster , RestoreDBClusterFromS3 , RestoreDBCluster- FromSnapshot , and RestoreDBClusterToPointInTime . RoleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the IAM role to associate with the DB cluster. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[a-z-]*:iam::[0-9]*:role/.* FeatureName -&gt; (string) The name of the feature associated with the IAM role. For in- formation about supported feature names, see DBEngineVersion . Shorthand Syntax: RoleArn=string,FeatureName=string ... JSON Syntax: [ { "RoleArn": "string", "FeatureName": "string" } ... ]
+    /// A list of Amazon Web Services Identity and Access Management (IAM) roles to associate with the DB cluster when it's restored from Amazon S3. Each role grants the DB cluster permission to access other Amazon Web Services on your behalf. For each role, specify a role ARN and, optionally, the feature name (such as s3Import , s3Export , or Lambda ). Constraints: • min: 0 • max: 15 (structure) Contains information about an Amazon Web Services Identity and Access Management (IAM) role to associate with a DB cluster. You can specify this structure in the AssociatedRoles parameter of CreateDBCluster , RestoreDBClusterFromS3 , RestoreDBClusterFromSnapshot , and RestoreDBClusterToPointInTime . RoleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the IAM role to associate with the DB cluster. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[a-z-]*:iam::[0-9]*:role/.* FeatureName -&gt; (string) The name of the feature associated with the IAM role. For information about supported feature names, see DBEngineVersion . Shorthand Syntax: RoleArn=string,FeatureName=string ... JSON Syntax: [ { "RoleArn": "string", "FeatureName": "string" } ... ]
     /// </summary>
     [CliOption("--associated-roles", GroupValues = true)]
     public IEnumerable<string>? AssociatedRoles { get; set; }
@@ -336,6 +337,15 @@ public record AwsRdsRestoreDbClusterFromS3Options : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

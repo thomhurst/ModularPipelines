@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsTransferDescribeWorkflowOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Describes the specified workflow. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkflowId">A unique identifier for the workflow. Constraints: o min: 19 o max: 19 o pattern: w-([a-z0-9]{17})</param>
+    /// <param name="WorkflowId">A unique identifier for the workflow. Constraints: • min: 19 • max: 19 • pattern: w-([a-z0-9]{17})</param>
     public AwsTransferDescribeWorkflowOptions(
         string WorkflowId
     )
@@ -56,7 +57,7 @@ public record AwsTransferDescribeWorkflowOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the workflow. Constraints: o min: 19 o max: 19 o pattern: w-([a-z0-9]{17})
+    /// A unique identifier for the workflow. Constraints: • min: 19 • max: 19 • pattern: w-([a-z0-9]{17})
     /// </summary>
     [CliOption("--workflow-id")]
     public string? WorkflowId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsTransferDescribeWorkflowOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

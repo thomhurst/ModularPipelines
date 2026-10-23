@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -47,7 +47,7 @@ public class AwsTnb : IAwsTnb
     }
 
     /// <summary>
-    /// Creates a function package. A function package is a .zip file in CSAR (Cloud Service Archive) for- mat that contains a network function (an ETSI standard telecommunica- tion application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your net- work. For more information, see Function packages in the Amazon Web Services Telco Network Builder User Guide . Creating a function package is the first step for creating a network in AWS TN...
+    /// Creates a function package. A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network. For more information, see Function packages in the Amazon Web Services Telco Network Builder User Guide . Creating a function package is the first step for creating a network in AWS TNB. Thi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsTnb : IAwsTnb
     }
 
     /// <summary>
-    /// Creates a network instance. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like ter- minate, update, and delete) can be performed. Creating a network in- stance is the third step after creating a network package. For more in- formation about network instances, Network instances in the Amazon Web Services Telco Network Builder User Guide . Once you create a network instance, you can instantiate it. To instan- tiat...
+    /// Creates a network instance. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed. Creating a network instance is the third step after creating a network package. For more information about network instances, Network instances in the Amazon Web Services Telco Network Builder User Guide . Once you create a network instance, you can instantiate it. To instantiate a netw...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsTnb : IAwsTnb
     }
 
     /// <summary>
-    /// Creates a network package. A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on. For more informa- tion, see Network instances in the Amazon Web Services Telco Network Builder User Guide . A network package consists of a network service descriptor (NSD) file (required) and any additional files (optional), such as scripts spe- cific to your needs. For example, ...
+    /// Creates a network package. A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on. For more information, see Network instances in the Amazon Web Services Telco Network Builder User Guide . A network package consists of a network service descriptor (NSD) file (required) and any additional files (optional), such as scripts specific to your needs. For example, if y...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsTnb : IAwsTnb
     }
 
     /// <summary>
-    /// Deletes a function package. A function package is a .zip file in CSAR (Cloud Service Archive) for- mat that contains a network function (an ETSI standard telecommunica- tion application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your net- work. To delete a function package, the package must be in a disabled state. To disable a function package, see UpdateSolFunctionPackage . See also: AWS API Documentation
+    /// Deletes a function package. A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network. To delete a function package, the package must be in a disabled state. To disable a function package, see UpdateSolFunctionPackage . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsTnb : IAwsTnb
     }
 
     /// <summary>
-    /// Deletes a network instance. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like ter- minate, update, and delete) can be performed. To delete a network instance, the instance must be in a stopped or ter- minated state. To terminate a network instance, see TerminateSolNetworkInstance . See also: AWS API Documentation
+    /// Deletes a network instance. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed. To delete a network instance, the instance must be in a stopped or terminated state. To terminate a network instance, see TerminateSolNetworkInstance . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsTnb : IAwsTnb
     }
 
     /// <summary>
-    /// Gets the details of a network function instance, including the instan- tiation state and metadata from the function package descriptor in the network function package. A network function instance is a function in a function package . See also: AWS API Documentation
+    /// Gets the details of a network function instance, including the instantiation state and metadata from the function package descriptor in the network function package. A network function instance is a function in a function package . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsTnb : IAwsTnb
     }
 
     /// <summary>
-    /// Gets the contents of a function package. A function package is a .zip file in CSAR (Cloud Service Archive) for- mat that contains a network function (an ETSI standard telecommunica- tion application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your net- work. See also: AWS API Documentation
+    /// Gets the contents of a function package. A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsTnb : IAwsTnb
     }
 
     /// <summary>
-    /// Gets a function package descriptor in a function package. A function package descriptor is a .yaml file in a function package that uses the TOSCA standard to describe how the network function in the function package should run on your network. A function package is a .zip file in CSAR (Cloud Service Archive) for- mat that contains a network function (an ETSI standard telecommunica- tion application) and function package descriptor that uses the TOSCA standard to describe how the network function...
+    /// Gets a function package descriptor in a function package. A function package descriptor is a .yaml file in a function package that uses the TOSCA standard to describe how the network function in the function package should run on your network. A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions sh...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsTnb : IAwsTnb
     }
 
     /// <summary>
-    /// Gets the details of an individual function package, such as the opera- tional state and whether the package is in use. A function package is a .zip file in CSAR (Cloud Service Archive) for- mat that contains a network function (an ETSI standard telecommunica- tion application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your net- work.. See also: AWS API Documentation
+    /// Gets the details of an individual function package, such as the operational state and whether the package is in use. A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network.. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsTnb : IAwsTnb
     }
 
     /// <summary>
-    /// Gets the details of the network instance. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like ter- minate, update, and delete) can be performed. See also: AWS API Documentation
+    /// Gets the details of the network instance. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +272,7 @@ public class AwsTnb : IAwsTnb
     }
 
     /// <summary>
-    /// Instantiates a network instance. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like ter- minate, update, and delete) can be performed. Before you can instantiate a network instance, you have to create a network instance. For more information, see CreateSolNetworkInstance . See also: AWS API Documentation instantiate-sol-network-instance uses document type values. Document types follow the JSON data model where v...
+    /// Instantiates a network instance. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed. Before you can instantiate a network instance, you have to create a network instance. For more information, see CreateSolNetworkInstance . See also: AWS API Documentation instantiate-sol-network-instance uses document type values. Document types follow the JSON data model where val...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -287,7 +287,7 @@ public class AwsTnb : IAwsTnb
     }
 
     /// <summary>
-    /// Lists network function instances. A network function instance is a function in a function package . See also: AWS API Documentation list-sol-function-instances is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex...
+    /// Lists network function instances. A network function instance is a function in a function package . See also: AWS API Documentation list-sol-function-instances is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expres...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -302,7 +302,7 @@ public class AwsTnb : IAwsTnb
     }
 
     /// <summary>
-    /// Lists information about function packages. A function package is a .zip file in CSAR (Cloud Service Archive) for- mat that contains a network function (an ETSI standard telecommunica- tion application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your net- work. See also: AWS API Documentation list-sol-function-packages is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results...
+    /// Lists information about function packages. A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network. See also: AWS API Documentation list-sol-function-packages is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -317,7 +317,7 @@ public class AwsTnb : IAwsTnb
     }
 
     /// <summary>
-    /// Lists your network instances. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like ter- minate, update, and delete) can be performed. See also: AWS API Documentation list-sol-network-instances is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query arg...
+    /// Lists your network instances. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed. See also: AWS API Documentation list-sol-network-instances is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argum...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -332,7 +332,7 @@ public class AwsTnb : IAwsTnb
     }
 
     /// <summary>
-    /// Lists details for a network operation, including when the operation started and the status of the operation. A network operation is any operation that is done to your network, such as network instance instantiation or termination. See also: AWS API Documentation list-sol-network-operations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text ...
+    /// Lists details for a network operation, including when the operation started and the status of the operation. A network operation is any operation that is done to your network, such as network instance instantiation or termination. See also: AWS API Documentation list-sol-network-operations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -377,7 +377,7 @@ public class AwsTnb : IAwsTnb
     }
 
     /// <summary>
-    /// Uploads the contents of a function package. A function package is a .zip file in CSAR (Cloud Service Archive) for- mat that contains a network function (an ETSI standard telecommunica- tion application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your net- work. See also: AWS API Documentation
+    /// Uploads the contents of a function package. A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -422,7 +422,7 @@ public class AwsTnb : IAwsTnb
     }
 
     /// <summary>
-    /// Terminates a network instance. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like ter- minate, update, and delete) can be performed. You must terminate a network instance before you can delete it. See also: AWS API Documentation
+    /// Terminates a network instance. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed. You must terminate a network instance before you can delete it. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -452,7 +452,7 @@ public class AwsTnb : IAwsTnb
     }
 
     /// <summary>
-    /// Updates the operational state of function package. A function package is a .zip file in CSAR (Cloud Service Archive) for- mat that contains a network function (an ETSI standard telecommunica- tion application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your net- work. See also: AWS API Documentation
+    /// Updates the operational state of function package. A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -467,7 +467,7 @@ public class AwsTnb : IAwsTnb
     }
 
     /// <summary>
-    /// Update a network instance. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like ter- minate, update, and delete) can be performed. Choose the updateType parameter to target the necessary update of the network instance. See also: AWS API Documentation update-sol-network-instance uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and...
+    /// Update a network instance. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed. Choose the updateType parameter to target the necessary update of the network instance. See also: AWS API Documentation update-sol-network-instance uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and o...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -497,7 +497,7 @@ public class AwsTnb : IAwsTnb
     }
 
     /// <summary>
-    /// Validates function package content. This can be used as a dry run be- fore uploading function package content with PutSolFunctionPackageContent . A function package is a .zip file in CSAR (Cloud Service Archive) for- mat that contains a network function (an ETSI standard telecommunica- tion application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your net- work. See also: AWS API Documentation
+    /// Validates function package content. This can be used as a dry run before uploading function package content with PutSolFunctionPackageContent . A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

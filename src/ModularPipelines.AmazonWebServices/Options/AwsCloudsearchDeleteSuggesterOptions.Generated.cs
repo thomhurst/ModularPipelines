@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a suggester. For more information, see Getting Search Sugges- tions in the Amazon CloudSearch Developer Guide . See also: AWS API Documentation
+/// Deletes a suggester. For more information, see Getting Search Suggestions in the Amazon CloudSearch Developer Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsCloudsearchDeleteSuggesterOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a suggester. For more information, see Getting Search Sugges- tions in the Amazon CloudSearch Developer Guide . See also: AWS API Documentation
+    /// Deletes a suggester. For more information, see Getting Search Suggestions in the Amazon CloudSearch Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">A string that represents the name of a domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the fol- lowing characters: a-z (lowercase), 0-9, and - (hyphen). Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+</param>
-    /// <param name="SuggesterName">Specifies the name of the suggester you want to delete. Constraints: o min: 1 o max: 64 o pattern: [a-z][a-z0-9_]*</param>
+    /// <param name="DomainName">A string that represents the name of a domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen). Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+</param>
+    /// <param name="SuggesterName">Specifies the name of the suggester you want to delete. Constraints: • min: 1 • max: 64 • pattern: [a-z][a-z0-9_]*</param>
     public AwsCloudsearchDeleteSuggesterOptions(
         string DomainName,
         string SuggesterName
@@ -60,13 +61,13 @@ public record AwsCloudsearchDeleteSuggesterOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A string that represents the name of a domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the fol- lowing characters: a-z (lowercase), 0-9, and - (hyphen). Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+
+    /// A string that represents the name of a domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen). Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// Specifies the name of the suggester you want to delete. Constraints: o min: 1 o max: 64 o pattern: [a-z][a-z0-9_]*
+    /// Specifies the name of the suggester you want to delete. Constraints: • min: 1 • max: 64 • pattern: [a-z][a-z0-9_]*
     /// </summary>
     [CliOption("--suggester-name")]
     public string? SuggesterName { get; private init; }
@@ -92,6 +93,15 @@ public record AwsCloudsearchDeleteSuggesterOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

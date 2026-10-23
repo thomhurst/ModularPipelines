@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,12 +29,12 @@ public record AwsCodestarConnectionsCreateSyncConfigurationOptions : AwsOptions,
     /// <summary>
     /// Creates a sync configuration which allows Amazon Web Services to sync content from a Git repository to update a specified Amazon Web Services resource. Parameters for the sync configuration are determined by the sync type. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Branch">The branch in the repository from which changes will be synced. Constraints: o min: 1 o max: 255 o pattern: ^.*$</param>
+    /// <param name="Branch">The branch in the repository from which changes will be synced. Constraints: • min: 1 • max: 255 • pattern: ^.*$</param>
     /// <param name="ConfigFile">The file name of the configuration file that manages syncing between the connection and the repository. This configuration file is stored in the repository.</param>
-    /// <param name="RepositoryLinkId">The ID of the repository link created for the connection. A reposi- tory link allows Git sync to monitor and sync changes to files in a specified Git repository. Constraints: o pattern: ^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$</param>
-    /// <param name="ResourceName">The name of the Amazon Web Services resource (for example, a Cloud- Formation stack in the case of CFN_STACK_SYNC) that will be synchro- nized from the linked repository. Constraints: o min: 1 o max: 100 o pattern: ^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$</param>
-    /// <param name="RoleArn">The ARN of the IAM role that grants permission for Amazon Web Ser- vices to use Git sync to update a given Amazon Web Services resource on your behalf. Constraints: o min: 1 o max: 1024 o pattern: arn:aws(-[\w]+)*:iam::\d{12}:role/[a-zA-Z_0-9+=,.@\-_/]+</param>
-    /// <param name="SyncType">The type of sync configuration. Possible values: o CFN_STACK_SYNC</param>
+    /// <param name="RepositoryLinkId">The ID of the repository link created for the connection. A repository link allows Git sync to monitor and sync changes to files in a specified Git repository. Constraints: • pattern: ^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$</param>
+    /// <param name="ResourceName">The name of the Amazon Web Services resource (for example, a CloudFormation stack in the case of CFN_STACK_SYNC) that will be synchronized from the linked repository. Constraints: • min: 1 • max: 100 • pattern: ^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$</param>
+    /// <param name="RoleArn">The ARN of the IAM role that grants permission for Amazon Web Services to use Git sync to update a given Amazon Web Services resource on your behalf. Constraints: • min: 1 • max: 1024 • pattern: arn:aws(-[\w]+)*:iam::\d{12}:role/[a-zA-Z_0-9+=,.@\-_/]+</param>
+    /// <param name="SyncType">The type of sync configuration. Possible values: • CFN_STACK_SYNC</param>
     public AwsCodestarConnectionsCreateSyncConfigurationOptions(
         string Branch,
         string ConfigFile,
@@ -77,7 +78,7 @@ public record AwsCodestarConnectionsCreateSyncConfigurationOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The branch in the repository from which changes will be synced. Constraints: o min: 1 o max: 255 o pattern: ^.*$
+    /// The branch in the repository from which changes will be synced. Constraints: • min: 1 • max: 255 • pattern: ^.*$
     /// </summary>
     [CliOption("--branch")]
     public string? Branch { get; private init; }
@@ -89,37 +90,37 @@ public record AwsCodestarConnectionsCreateSyncConfigurationOptions : AwsOptions,
     public string? ConfigFile { get; private init; }
 
     /// <summary>
-    /// The ID of the repository link created for the connection. A reposi- tory link allows Git sync to monitor and sync changes to files in a specified Git repository. Constraints: o pattern: ^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$
+    /// The ID of the repository link created for the connection. A repository link allows Git sync to monitor and sync changes to files in a specified Git repository. Constraints: • pattern: ^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$
     /// </summary>
     [CliOption("--repository-link-id")]
     public string? RepositoryLinkId { get; private init; }
 
     /// <summary>
-    /// The name of the Amazon Web Services resource (for example, a Cloud- Formation stack in the case of CFN_STACK_SYNC) that will be synchro- nized from the linked repository. Constraints: o min: 1 o max: 100 o pattern: ^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$
+    /// The name of the Amazon Web Services resource (for example, a CloudFormation stack in the case of CFN_STACK_SYNC) that will be synchronized from the linked repository. Constraints: • min: 1 • max: 100 • pattern: ^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$
     /// </summary>
     [CliOption("--resource-name")]
     public string? ResourceName { get; private init; }
 
     /// <summary>
-    /// The ARN of the IAM role that grants permission for Amazon Web Ser- vices to use Git sync to update a given Amazon Web Services resource on your behalf. Constraints: o min: 1 o max: 1024 o pattern: arn:aws(-[\w]+)*:iam::\d{12}:role/[a-zA-Z_0-9+=,.@\-_/]+
+    /// The ARN of the IAM role that grants permission for Amazon Web Services to use Git sync to update a given Amazon Web Services resource on your behalf. Constraints: • min: 1 • max: 1024 • pattern: arn:aws(-[\w]+)*:iam::\d{12}:role/[a-zA-Z_0-9+=,.@\-_/]+
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; private init; }
 
     /// <summary>
-    /// The type of sync configuration. Possible values: o CFN_STACK_SYNC
+    /// The type of sync configuration. Possible values: • CFN_STACK_SYNC
     /// </summary>
     [CliOption("--sync-type")]
     public string? SyncType { get; private init; }
 
     /// <summary>
-    /// Whether to enable or disable publishing of deployment status to source providers. Possible values: o ENABLED o DISABLED
+    /// Whether to enable or disable publishing of deployment status to source providers. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--publish-deployment-status")]
     public AwsCodestarConnectionsCreateSyncConfigurationPublishDeploymentStatus? PublishDeploymentStatus { get; set; }
 
     /// <summary>
-    /// When to trigger Git sync to begin the stack update. Possible values: o ANY_CHANGE o FILE_CHANGE
+    /// When to trigger Git sync to begin the stack update. Possible values: • ANY_CHANGE • FILE_CHANGE
     /// </summary>
     [CliOption("--trigger-resource-update-on")]
     public AwsCodestarConnectionsCreateSyncConfigurationTriggerResourceUpdateOn? TriggerResourceUpdateOn { get; set; }
@@ -145,6 +146,15 @@ public record AwsCodestarConnectionsCreateSyncConfigurationOptions : AwsOptions,
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

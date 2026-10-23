@@ -46,7 +46,7 @@ public record AwsDdbSelectOptions : AwsOptions
     public string? IndexName { get; set; }
 
     /// <summary>
-    /// A string that identifies one or more attributes to retrieve from the specified table or index. These attributes can include scalars, sets, or elements of a JSON document. The attributes in the expres- sion must be separated by commas. If any of the requested attributes are not found, they will not appear in the result. For more information, see Accessing Item Attributes in the Amazon DynamoDB Developer Guide . For CLI specific syntax see aws help ddb-expressions
+    /// A string that identifies one or more attributes to retrieve from the specified table or index. These attributes can include scalars, sets, or elements of a JSON document. The attributes in the expression must be separated by commas. If any of the requested attributes are not found, they will not appear in the result. For more information, see Accessing Item Attributes in the Amazon DynamoDB Developer Guide . For CLI specific syntax see aws help ddb-expressions
     /// </summary>
     [CliOption("--projection", GroupValues = true)]
     public IEnumerable<string>? Projection { get; set; }
@@ -58,13 +58,13 @@ public record AwsDdbSelectOptions : AwsOptions
     public IEnumerable<string>? Filter { get; set; }
 
     /// <summary>
-    /// The condition that specifies the key value(s) for items to be re- trieved. Must perform an equality test on a single partition key value. The condition can optionally perform one of several comparison tests on a single sort key value. This allows select to retrieve one item with a given partition key value and sort key value, or several items that have the same partition key value but different sort key values. The partition key equality test must be specified in the following format: partitionKeyName = :partitionkeyval If you also want to provide a condition for the sort key, it must be combined using AND with the condition for the sort key. Valid comparisons for the sort key condition are as follows: o sortKeyName = :sortkeyval - true if the sort key value is equal to :sortkeyval . o sortKeyName &lt; :sortkeyval - true if the sort key value is less than :sortkeyval . o sortKeyName &lt;= :sortkeyval - true if the sort key value is less than or equal to :sortkeyval . o sortKeyName &gt; :sortkeyval - true if the sort key value is greater than :sortkeyval . o sortKeyName &gt;= :sortkeyval - true if the sort key value is greater than or equal to :sortkeyval . o sortKeyName BETWEEN :sortkeyval1 AND :sortkeyval2 - true if the sort key value is greater than or equal to :sortkeyval1 , and less than or equal to :sortkeyval2 . o begins_with(sortKeyName, :sortkeyval) - true if the sort key value begins with a particular operand. (You cannot use this function with a sort key that is of type Number.) Note that the function name begins_with is case-sensitive. For CLI specific syntax see aws help ddb-expressions
+    /// The condition that specifies the key value(s) for items to be retrieved. Must perform an equality test on a single partition key value. The condition can optionally perform one of several comparison tests on a single sort key value. This allows select to retrieve one item with a given partition key value and sort key value, or several items that have the same partition key value but different sort key values. The partition key equality test must be specified in the following format: partitionKeyName = :partitionkeyval If you also want to provide a condition for the sort key, it must be combined using AND with the condition for the sort key. Valid comparisons for the sort key condition are as follows: • sortKeyName = :sortkeyval - true if the sort key value is equal to :sortkeyval . • sortKeyName &lt; :sortkeyval - true if the sort key value is less than :sortkeyval . • sortKeyName &lt;= :sortkeyval - true if the sort key value is less than or equal to :sortkeyval . • sortKeyName &gt; :sortkeyval - true if the sort key value is greater than :sortkeyval . • sortKeyName &gt;= :sortkeyval - true if the sort key value is greater than or equal to :sortkeyval . • sortKeyName BETWEEN :sortkeyval1 AND :sortkeyval2 - true if the sort key value is greater than or equal to :sortkeyval1 , and less than or equal to :sortkeyval2 . • begins_with(sortKeyName, :sortkeyval) - true if the sort key value begins with a particular operand. (You cannot use this function with a sort key that is of type Number.) Note that the function name begins_with is case-sensitive. For CLI specific syntax see aws help ddb-expressions
     /// </summary>
     [CliOption("--key-condition", GroupValues = true)]
     public IEnumerable<string>? KeyCondition { get; set; }
 
     /// <summary>
-    /// The attributes to be returned in the result. You can retrieve all item attributes, specific item attributes, the count of matching items, or in the case of an index, some or all of the attributes projected into the index. o ALL - Returns all of the item attributes from the specified table or index. If you query a local secondary index, then for each matching item in the index DynamoDB will fetch the entire item from the parent table. If the index is configured to project all item attributes, then all of the data can be obtained from the lo- cal secondary index, and no fetching is required. o ALL_PROJECTED - Allowed only when querying an index. Retrieves all attributes that have been projected into the index. If the index is configured to project all attributes, this return value is equivalent to specifying ALL. o COUNT - Returns the number of matching items, rather than the matching items themselves.
+    /// The attributes to be returned in the result. You can retrieve all item attributes, specific item attributes, the count of matching items, or in the case of an index, some or all of the attributes projected into the index. • ALL - Returns all of the item attributes from the specified table or index. If you query a local secondary index, then for each matching item in the index DynamoDB will fetch the entire item from the parent table. If the index is configured to project all item attributes, then all of the data can be obtained from the local secondary index, and no fetching is required. • ALL_PROJECTED - Allowed only when querying an index. Retrieves all attributes that have been projected into the index. If the index is configured to project all attributes, this return value is equivalent to specifying ALL. • COUNT - Returns the number of matching items, rather than the matching items themselves.
     /// </summary>
     [CliOption("--attributes")]
     public string? Attributes { get; set; }
@@ -89,13 +89,13 @@ public record AwsDdbSelectOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
@@ -105,5 +105,14 @@ public record AwsDdbSelectOptions : AwsOptions
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
     public string TableName { get; private init; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

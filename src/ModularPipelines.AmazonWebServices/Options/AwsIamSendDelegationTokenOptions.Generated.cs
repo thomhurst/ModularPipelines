@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Sends the exchange token for an accepted delegation request. The exchange token is sent to the partner via an asynchronous notifica- tion channel, established by the partner. The delegation request must be in the ACCEPTED state when calling this API. After the SendDelegationToken API call is successful, the request transitions to a FINALIZED state and cannot be rolled back. However, a user may reject an accepted request before the SendDelegationToken API is called. For more details, see Managing...
+/// Sends the exchange token for an accepted delegation request. The exchange token is sent to the partner via an asynchronous notification channel, established by the partner. The delegation request must be in the ACCEPTED state when calling this API. After the SendDelegationToken API call is successful, the request transitions to a FINALIZED state and cannot be rolled back. However, a user may reject an accepted request before the SendDelegationToken API is called. For more details, see Managing P...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsIamSendDelegationTokenOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Sends the exchange token for an accepted delegation request. The exchange token is sent to the partner via an asynchronous notifica- tion channel, established by the partner. The delegation request must be in the ACCEPTED state when calling this API. After the SendDelegationToken API call is successful, the request transitions to a FINALIZED state and cannot be rolled back. However, a user may reject an accepted request before the SendDelegationToken API is called. For more details, see Managing...
+    /// Sends the exchange token for an accepted delegation request. The exchange token is sent to the partner via an asynchronous notification channel, established by the partner. The delegation request must be in the ACCEPTED state when calling this API. After the SendDelegationToken API call is successful, the request transitions to a FINALIZED state and cannot be rolled back. However, a user may reject an accepted request before the SendDelegationToken API is called. For more details, see Managing P...
     /// </summary>
-    /// <param name="DelegationRequestId">The unique identifier of the delegation request for which to send the token. Constraints: o min: 16 o max: 128 o pattern: [\w-]+</param>
+    /// <param name="DelegationRequestId">The unique identifier of the delegation request for which to send the token. Constraints: • min: 16 • max: 128 • pattern: [\w-]+</param>
     public AwsIamSendDelegationTokenOptions(
         string DelegationRequestId
     )
@@ -56,7 +57,7 @@ public record AwsIamSendDelegationTokenOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the delegation request for which to send the token. Constraints: o min: 16 o max: 128 o pattern: [\w-]+
+    /// The unique identifier of the delegation request for which to send the token. Constraints: • min: 16 • max: 128 • pattern: [\w-]+
     /// </summary>
     [CliOption("--delegation-request-id")]
     public string? DelegationRequestId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsIamSendDelegationTokenOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

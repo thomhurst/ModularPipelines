@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -33,7 +33,7 @@ public class AwsRds : IAwsRds
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws rds wait sub-commands.
     /// </summary>
     public AwsRdsWait Wait => _wait ??= new AwsRdsWait(_command);
 
@@ -57,7 +57,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Associates an Identity and Access Management (IAM) role with a DB clus- ter. See also: AWS API Documentation
+    /// Associates an Identity and Access Management (IAM) role with a DB cluster. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -87,7 +87,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Adds a source identifier to an existing RDS event notification sub- scription. See also: AWS API Documentation
+    /// Adds a source identifier to an existing RDS event notification subscription. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -102,7 +102,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Adds metadata tags to an Amazon RDS resource. These tags can also be used with cost allocation reporting to track cost associated with Ama- zon RDS resources, or used in a Condition statement in an IAM policy for Amazon RDS. For an overview on tagging your relational database resources, see Tagging Amazon RDS Resources or Tagging Amazon Aurora and Amazon RDS Resources . See also: AWS API Documentation
+    /// Adds metadata tags to an Amazon RDS resource. These tags can also be used with cost allocation reporting to track cost associated with Amazon RDS resources, or used in a Condition statement in an IAM policy for Amazon RDS. For an overview on tagging your relational database resources, see Tagging Amazon RDS Resources or Tagging Amazon Aurora and Amazon RDS Resources . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -132,7 +132,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Enables ingress to a DBSecurityGroup using one of two forms of autho- rization. First, EC2 or VPC security groups can be added to the DBSecu- rityGroup if the application using the database is running on EC2 or VPC instances. Second, IP ranges are available if the application ac- cessing your database is running on the internet. Required parameters for this API are one of CIDR range, EC2SecurityGroupId for VPC, or (EC2SecurityGroupOwnerId and either EC2SecurityGroupName or EC2Securi- tyGroupId f...
+    /// Enables ingress to a DBSecurityGroup using one of two forms of authorization. First, EC2 or VPC security groups can be added to the DBSecurityGroup if the application using the database is running on EC2 or VPC instances. Second, IP ranges are available if the application accessing your database is running on the internet. Required parameters for this API are one of CIDR range, EC2SecurityGroupId for VPC, or (EC2SecurityGroupOwnerId and either EC2SecurityGroupName or EC2SecurityGroupId for non-V...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -222,7 +222,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Copies the specified DB snapshot. The source DB snapshot must be in the available state. You can copy a snapshot from one Amazon Web Services Region to another. In that case, the Amazon Web Services Region where you call the CopyDB- Snapshot operation is the destination Amazon Web Services Region for the DB snapshot copy. This command doesn't apply to RDS Custom. For more information about copying snapshots, see Copying a DB Snapshot in the Amazon RDS User Guide . See also: AWS API Documentation
+    /// Copies the specified DB snapshot. The source DB snapshot must be in the available state. You can copy a snapshot from one Amazon Web Services Region to another. In that case, the Amazon Web Services Region where you call the CopyDBSnapshot operation is the destination Amazon Web Services Region for the DB snapshot copy. This command doesn't apply to RDS Custom. For more information about copying snapshots, see Copying a DB Snapshot in the Amazon RDS User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -252,7 +252,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Creates a blue/green deployment. A blue/green deployment creates a staging environment that copies the production environment. In a blue/green deployment, the blue environ- ment is the current production environment. The green environment is the staging environment, and it stays in sync with the current produc- tion environment. You can make changes to the databases in the green environment without affecting production workloads. For example, you can upgrade the major or minor DB engine version,...
+    /// Creates a blue/green deployment. A blue/green deployment creates a staging environment that copies the production environment. In a blue/green deployment, the blue environment is the current production environment. The green environment is the staging environment, and it stays in sync with the current production environment. You can make changes to the databases in the green environment without affecting production workloads. For example, you can upgrade the major or minor DB engine version, cha...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -297,7 +297,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Creates a new Amazon Aurora DB cluster or Multi-AZ DB cluster. If you create an Aurora DB cluster, the request creates an empty clus- ter. You must explicitly create the writer instance for your DB cluster using the CreateDBInstance operation. If you create a Multi-AZ DB clus- ter, the request creates a writer and two reader DB instances for you, each in a different Availability Zone. You can use the ReplicationSourceIdentifier parameter to create an Ama- zon Aurora DB cluster as a read replica ...
+    /// Creates a new Amazon Aurora DB cluster or Multi-AZ DB cluster. If you create an Aurora DB cluster, the request creates an empty cluster. You must explicitly create the writer instance for your DB cluster using the CreateDBInstance operation. If you create a Multi-AZ DB cluster, the request creates a writer and two reader DB instances for you, each in a different Availability Zone. You can use the ReplicationSourceIdentifier parameter to create an Amazon Aurora DB cluster as a read replica of ano...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -312,7 +312,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Creates a new DB cluster parameter group. Parameters in a DB cluster parameter group apply to all of the in- stances in a DB cluster. A DB cluster parameter group is initially created with the default pa- rameters for the database engine used by instances in the DB cluster. To provide custom values for any of the parameters, you must modify the group after creating it using ModifyDBClusterParameterGroup . Once you've created a DB cluster parameter group, you need to associate it with your DB clu...
+    /// Creates a new DB cluster parameter group. Parameters in a DB cluster parameter group apply to all of the instances in a DB cluster. A DB cluster parameter group is initially created with the default parameters for the database engine used by instances in the DB cluster. To provide custom values for any of the parameters, you must modify the group after creating it using ModifyDBClusterParameterGroup . Once you've created a DB cluster parameter group, you need to associate it with your DB cluster...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -342,7 +342,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Creates a new DB instance. The new DB instance can be an RDS DB instance, or it can be a DB in- stance in an Aurora DB cluster. For an Aurora DB cluster, you can call this operation multiple times to add more than one DB instance to the cluster. For more information about creating an RDS DB instance, see Creating an Amazon RDS DB instance in the Amazon RDS User Guide . For more information about creating a DB instance in an Aurora DB clus- ter, see Creating an Amazon Aurora DB cluster in the Ama...
+    /// Creates a new DB instance. The new DB instance can be an RDS DB instance, or it can be a DB instance in an Aurora DB cluster. For an Aurora DB cluster, you can call this operation multiple times to add more than one DB instance to the cluster. For more information about creating an RDS DB instance, see Creating an Amazon RDS DB instance in the Amazon RDS User Guide . For more information about creating a DB instance in an Aurora DB cluster, see Creating an Amazon Aurora DB cluster in the Amazon ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -357,7 +357,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Creates a new DB instance that acts as a read replica for an existing source DB instance or Multi-AZ DB cluster. You can create a read replica for a DB instance running Db2, MariaDB, MySQL, Oracle, Post- greSQL, or SQL Server. You can create a read replica for a Multi-AZ DB cluster running MySQL or PostgreSQL. For more information, see Working with read replicas and Migrating from a Multi-AZ DB cluster to a DB in- stance using a read replica in the Amazon RDS User Guide . Amazon Aurora doesn't s...
+    /// Creates a new DB instance that acts as a read replica for an existing source DB instance or Multi-AZ DB cluster. You can create a read replica for a DB instance running Db2, MariaDB, MySQL, Oracle, PostgreSQL, or SQL Server. You can create a read replica for a Multi-AZ DB cluster running MySQL or PostgreSQL. For more information, see Working with read replicas and Migrating from a Multi-AZ DB cluster to a DB instance using a read replica in the Amazon RDS User Guide . Amazon Aurora doesn't suppo...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -372,7 +372,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Creates a new DB parameter group. A DB parameter group is initially created with the default parameters for the database engine used by the DB instance. To provide custom val- ues for any of the parameters, you must modify the group after creating it using ModifyDBParameterGroup . Once you've created a DB parameter group, you need to associate it with your DB instance using ModifyDBIn- stance . When you associate a new DB parameter group with a running DB instance, you need to reboot the DB inst...
+    /// Creates a new DB parameter group. A DB parameter group is initially created with the default parameters for the database engine used by the DB instance. To provide custom values for any of the parameters, you must modify the group after creating it using ModifyDBParameterGroup . Once you've created a DB parameter group, you need to associate it with your DB instance using ModifyDBInstance . When you associate a new DB parameter group with a running DB instance, you need to reboot the DB instance...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -477,7 +477,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Creates an RDS event notification subscription. This operation requires a topic Amazon Resource Name (ARN) created by either the RDS console, the SNS console, or the SNS API. To obtain an ARN with SNS, you must create a topic in Amazon SNS and subscribe to the topic. The ARN is displayed in the SNS console. You can specify the type of source (SourceType ) that you want to be notified of and provide a list of RDS sources (SourceIds ) that trig- gers the events. You can also provide a list of even...
+    /// Creates an RDS event notification subscription. This operation requires a topic Amazon Resource Name (ARN) created by either the RDS console, the SNS console, or the SNS API. To obtain an ARN with SNS, you must create a topic in Amazon SNS and subscribe to the topic. The ARN is displayed in the SNS console. You can specify the type of source (SourceType ) that you want to be notified of and provide a list of RDS sources (SourceIds ) that triggers the events. You can also provide a list of event ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -492,7 +492,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Creates an Aurora global database spread across multiple Amazon Web Services Regions. The global database contains a single primary cluster with read-write capability, and a read-only secondary cluster that re- ceives data from the primary cluster through high-speed replication performed by the Aurora storage subsystem. You can create a global database that is initially empty, and then cre- ate the primary and secondary DB clusters in the global database. Or you can specify an existing Aurora cl...
+    /// Creates an Aurora global database spread across multiple Amazon Web Services Regions. The global database contains a single primary cluster with read-write capability, and a read-only secondary cluster that receives data from the primary cluster through high-speed replication performed by the Aurora storage subsystem. You can create a global database that is initially empty, and then create the primary and secondary DB clusters in the global database. Or you can specify an existing Aurora cluste...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -567,7 +567,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Deletes a custom engine version. To run this command, make sure you meet the following prerequisites: o The CEV must not be the default for RDS Custom. If it is, change the default before running this command. o The CEV must not be associated with an RDS Custom DB instance, RDS Custom instance snapshot, or automated backup of your RDS Custom in- stance. Typically, deletion takes a few minutes. NOTE: The MediaImport service that imports files from Amazon S3 to create CEVs isn't integrated with Am...
+    /// Deletes a custom engine version. To run this command, make sure you meet the following prerequisites: • The CEV must not be the default for RDS Custom. If it is, change the default before running this command. • The CEV must not be associated with an RDS Custom DB instance, RDS Custom instance snapshot, or automated backup of your RDS Custom instance. Typically, deletion takes a few minutes. NOTE: The MediaImport service that imports files from Amazon S3 to create CEVs isn't integrated with Amaz...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -597,7 +597,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Deletes a custom endpoint and removes it from an Amazon Aurora DB clus- ter. NOTE: This action only applies to Aurora DB clusters. See also: AWS API Documentation
+    /// Deletes a custom endpoint and removes it from an Amazon Aurora DB cluster. NOTE: This action only applies to Aurora DB clusters. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -612,7 +612,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// The DeleteDBCluster action deletes a previously provisioned DB cluster. When you delete a DB cluster, all automated backups for that DB cluster are deleted and can't be recovered. Manual DB cluster snapshots of the specified DB cluster are not deleted. If you're deleting a Multi-AZ DB cluster with read replicas, all clus- ter members are terminated and read replicas are promoted to standalone instances. For more information on Amazon Aurora, see What is Amazon Aurora? in the Amazon Aurora User G...
+    /// The DeleteDBCluster action deletes a previously provisioned DB cluster. When you delete a DB cluster, all automated backups for that DB cluster are deleted and can't be recovered. Manual DB cluster snapshots of the specified DB cluster are not deleted. If you're deleting a Multi-AZ DB cluster with read replicas, all cluster members are terminated and read replicas are promoted to standalone instances. For more information on Amazon Aurora, see What is Amazon Aurora? in the Amazon Aurora User Gui...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -627,7 +627,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Deletes a specified DB cluster parameter group. The DB cluster parame- ter group to be deleted can't be associated with any DB clusters. For more information on Amazon Aurora, see What is Amazon Aurora? in the Amazon Aurora User Guide . For more information on Multi-AZ DB clusters, see Multi-AZ DB cluster deployments in the Amazon RDS User Guide . See also: AWS API Documentation
+    /// Deletes a specified DB cluster parameter group. The DB cluster parameter group to be deleted can't be associated with any DB clusters. For more information on Amazon Aurora, see What is Amazon Aurora? in the Amazon Aurora User Guide . For more information on Multi-AZ DB clusters, see Multi-AZ DB cluster deployments in the Amazon RDS User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -672,7 +672,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Deletes a previously provisioned DB instance. When you delete a DB in- stance, all automated backups for that instance are deleted and can't be recovered. However, manual DB snapshots of the DB instance aren't deleted. If you request a final DB snapshot, the status of the Amazon RDS DB in- stance is deleting until the DB snapshot is created. This operation can't be canceled or reverted after it begins. To monitor the status of this operation, use DescribeDBInstance . When a DB instance is in a f...
+    /// Deletes a previously provisioned DB instance. When you delete a DB instance, all automated backups for that instance are deleted and can't be recovered. However, manual DB snapshots of the DB instance aren't deleted. If you request a final DB snapshot, the status of the Amazon RDS DB instance is deleting until the DB snapshot is created. This operation can't be canceled or reverted after it begins. To monitor the status of this operation, use DescribeDBInstance . When a DB instance is in a failu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -732,7 +732,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Deletes a DB security group. The specified DB security group must not be associated with any DB in- stances. NOTE: EC2-Classic was retired on August 15, 2022. If you haven't migrated from EC2-Classic to a VPC, we recommend that you migrate as soon as possible. For more information, see Migrate from EC2-Classic to a VPC in the Amazon EC2 User Guide , the blog EC2-Classic Networking is Retiring Heres How to Prepare , and Moving a DB instance not in a VPC into a VPC in the Amazon RDS User Guide . S...
+    /// Deletes a DB security group. The specified DB security group must not be associated with any DB instances. NOTE: EC2-Classic was retired on August 15, 2022. If you haven't migrated from EC2-Classic to a VPC, we recommend that you migrate as soon as possible. For more information, see Migrate from EC2-Classic to a VPC in the Amazon EC2 User Guide , the blog EC2-Classic Networking is Retiring Heres How to Prepare , and Moving a DB instance not in a VPC into a VPC in the Amazon RDS User Guide . See...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -762,7 +762,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Deletes a DB snapshot. If the snapshot is being copied, the copy opera- tion is terminated. NOTE: The DB snapshot must be in the available state to be deleted. See also: AWS API Documentation
+    /// Deletes a DB snapshot. If the snapshot is being copied, the copy operation is terminated. NOTE: The DB snapshot must be in the available state to be deleted. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -852,7 +852,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Deletes a tenant database from your DB instance. This command only ap- plies to RDS for Oracle container database (CDB) instances. You can't delete a tenant database when it is the only tenant in the DB instance. See also: AWS API Documentation
+    /// Deletes a tenant database from your DB instance. This command only applies to RDS for Oracle container database (CDB) instances. You can't delete a tenant database when it is the only tenant in the DB instance. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -867,7 +867,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Remove the association between one or more DBProxyTarget data struc- tures and a DBProxyTargetGroup . See also: AWS API Documentation
+    /// Remove the association between one or more DBProxyTarget data structures and a DBProxyTargetGroup . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -882,7 +882,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Lists all of the attributes for a customer account. The attributes in- clude Amazon RDS quotas for the account, such as the number of DB in- stances allowed. The description for a quota includes the quota name, current usage toward that quota, and the quota's maximum value. This command doesn't take any parameters. See also: AWS API Documentation
+    /// Lists all of the attributes for a customer account. The attributes include Amazon RDS quotas for the account, such as the number of DB instances allowed. The description for a quota includes the quota name, current usage toward that quota, and the quota's maximum value. This command doesn't take any parameters. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -897,7 +897,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Describes one or more blue/green deployments. For more information, see Using Amazon RDS Blue/Green Deployments for database updates in the Amazon RDS User Guide and Using Amazon RDS Blue/Green Deployments for database updates in the Amazon Aurora User Guide . See also: AWS API Documentation describe-blue-green-deployments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate arg...
+    /// Describes one or more blue/green deployments. For more information, see Using Amazon RDS Blue/Green Deployments for database updates in the Amazon RDS User Guide and Using Amazon RDS Blue/Green Deployments for database updates in the Amazon Aurora User Guide . See also: AWS API Documentation describe-blue-green-deployments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argum...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -927,7 +927,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Displays backups for both current and deleted DB clusters. For example, use this operation to find details about automated backups for previ- ously deleted clusters. Current clusters are returned for both the De- scribeDBClusterAutomatedBackups and DescribeDBClusters operations. All parameters are optional. See also: AWS API Documentation describe-db-cluster-automated-backups is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can...
+    /// Displays backups for both current and deleted DB clusters. For example, use this operation to find details about automated backups for previously deleted clusters. Current clusters are returned for both the DescribeDBClusterAutomatedBackups and DescribeDBClusters operations. All parameters are optional. See also: AWS API Documentation describe-db-cluster-automated-backups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disab...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -942,7 +942,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Returns information about backtracks for a DB cluster. For more information on Amazon Aurora, see What is Amazon Aurora? in the Amazon Aurora User Guide . NOTE: This action only applies to Aurora MySQL DB clusters. See also: AWS API Documentation describe-db-cluster-backtracks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --que...
+    /// Returns information about backtracks for a DB cluster. For more information on Amazon Aurora, see What is Amazon Aurora? in the Amazon Aurora User Guide . NOTE: This action only applies to Aurora MySQL DB clusters. See also: AWS API Documentation describe-db-cluster-backtracks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query a...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -957,7 +957,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Returns information about endpoints for an Amazon Aurora DB cluster. NOTE: This action only applies to Aurora DB clusters. See also: AWS API Documentation describe-db-cluster-endpoints is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results ...
+    /// Returns information about endpoints for an Amazon Aurora DB cluster. NOTE: This action only applies to Aurora DB clusters. See also: AWS API Documentation describe-db-cluster-endpoints is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -972,7 +972,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Returns a list of DBClusterParameterGroup descriptions. If a DBCluster- ParameterGroupName parameter is specified, the list will contain only the description of the specified DB cluster parameter group. For more information on Amazon Aurora, see What is Amazon Aurora? in the Amazon Aurora User Guide . For more information on Multi-AZ DB clusters, see Multi-AZ DB cluster deployments in the Amazon RDS User Guide . See also: AWS API Documentation describe-db-cluster-parameter-groups is a paginated ...
+    /// Returns a list of DBClusterParameterGroup descriptions. If a DBClusterParameterGroupName parameter is specified, the list will contain only the description of the specified DB cluster parameter group. For more information on Amazon Aurora, see What is Amazon Aurora? in the Amazon Aurora User Guide . For more information on Multi-AZ DB clusters, see Multi-AZ DB cluster deployments in the Amazon RDS User Guide . See also: AWS API Documentation describe-db-cluster-parameter-groups is a paginated op...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -987,7 +987,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Returns the detailed parameter list for a particular DB cluster parame- ter group. For more information on Amazon Aurora, see What is Amazon Aurora? in the Amazon Aurora User Guide . For more information on Multi-AZ DB clusters, see Multi-AZ DB cluster deployments in the Amazon RDS User Guide . See also: AWS API Documentation describe-db-cluster-parameters is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination ...
+    /// Returns the detailed parameter list for a particular DB cluster parameter group. For more information on Amazon Aurora, see What is Amazon Aurora? in the Amazon Aurora User Guide . For more information on Multi-AZ DB clusters, see Multi-AZ DB cluster deployments in the Amazon RDS User Guide . See also: AWS API Documentation describe-db-cluster-parameters is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by p...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1002,7 +1002,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Returns a list of DB cluster snapshot attribute names and values for a manual DB cluster snapshot. When sharing snapshots with other Amazon Web Services accounts, De- scribeDBClusterSnapshotAttributes returns the restore attribute and a list of IDs for the Amazon Web Services accounts that are authorized to copy or restore the manual DB cluster snapshot. If all is included in the list of values for the restore attribute, then the manual DB clus- ter snapshot is public and can be copied or restor...
+    /// Returns a list of DB cluster snapshot attribute names and values for a manual DB cluster snapshot. When sharing snapshots with other Amazon Web Services accounts, DescribeDBClusterSnapshotAttributes returns the restore attribute and a list of IDs for the Amazon Web Services accounts that are authorized to copy or restore the manual DB cluster snapshot. If all is included in the list of values for the restore attribute, then the manual DB cluster snapshot is public and can be copied or restored b...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1017,7 +1017,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Returns information about DB cluster snapshots. This API action sup- ports pagination. For more information on Amazon Aurora DB clusters, see What is Amazon Aurora? in the Amazon Aurora User Guide . For more information on Multi-AZ DB clusters, see Multi-AZ DB cluster deployments in the Amazon RDS User Guide . See also: AWS API Documentation describe-db-cluster-snapshots is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disa...
+    /// Returns information about DB cluster snapshots. This API action supports pagination. For more information on Amazon Aurora DB clusters, see What is Amazon Aurora? in the Amazon Aurora User Guide . For more information on Multi-AZ DB clusters, see Multi-AZ DB cluster deployments in the Amazon RDS User Guide . See also: AWS API Documentation describe-db-cluster-snapshots is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1032,7 +1032,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Describes existing Amazon Aurora DB clusters and Multi-AZ DB clusters. This API supports pagination. For more information on Amazon Aurora DB clusters, see What is Amazon Aurora? in the Amazon Aurora User Guide . For more information on Multi-AZ DB clusters, see Multi-AZ DB cluster deployments in the Amazon RDS User Guide . This operation can also return information for Amazon Neptune DB in- stances and Amazon DocumentDB instances. See also: AWS API Documentation describe-db-clusters is a pagina...
+    /// Describes existing Amazon Aurora DB clusters and Multi-AZ DB clusters. This API supports pagination. For more information on Amazon Aurora DB clusters, see What is Amazon Aurora? in the Amazon Aurora User Guide . For more information on Multi-AZ DB clusters, see Multi-AZ DB cluster deployments in the Amazon RDS User Guide . This operation can also return information for Amazon Neptune DB instances and Amazon DocumentDB instances. See also: AWS API Documentation describe-db-clusters is a paginate...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1047,7 +1047,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Describes the properties of specific versions of DB engines. See also: AWS API Documentation describe-db-engine-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: DBEngineVersions
+    /// Describes the properties of specific versions of DB engines. See also: AWS API Documentation describe-db-engine-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: DBEngineVersions
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1062,7 +1062,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Displays backups for both current and deleted instances. For example, use this operation to find details about automated backups for previ- ously deleted instances. Current instances with retention periods greater than zero (0) are returned for both the DescribeDBInstanceAuto- matedBackups and DescribeDBInstances operations. All parameters are optional. See also: AWS API Documentation describe-db-instance-automated-backups is a paginated operation. Multi- ple API calls may be issued in order to ...
+    /// Displays backups for both current and deleted instances. For example, use this operation to find details about automated backups for previously deleted instances. Current instances with retention periods greater than zero (0) are returned for both the DescribeDBInstanceAutomatedBackups and DescribeDBInstances operations. All parameters are optional. See also: AWS API Documentation describe-db-instance-automated-backups is a paginated operation. Multiple API calls may be issued in order to retrie...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1077,7 +1077,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Describes provisioned RDS instances. This API supports pagination. NOTE: This operation can also return information for Amazon Neptune DB in- stances and Amazon DocumentDB instances. See also: AWS API Documentation describe-db-instances is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --qu...
+    /// Describes provisioned RDS instances. This API supports pagination. NOTE: This operation can also return information for Amazon Neptune DB instances and Amazon DocumentDB instances. See also: AWS API Documentation describe-db-instances is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --quer...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1107,7 +1107,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Describes the properties of specific major versions of DB engines. See also: AWS API Documentation describe-db-major-engine-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: DBMajorEngineVer...
+    /// Describes the properties of specific major versions of DB engines. See also: AWS API Documentation describe-db-major-engine-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: DBMajorEngineVersion...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1122,7 +1122,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Returns a list of DBParameterGroup descriptions. If a DBParameterGroup- Name is specified, the list will contain only the description of the specified DB parameter group. See also: AWS API Documentation describe-db-parameter-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --que...
+    /// Returns a list of DBParameterGroup descriptions. If a DBParameterGroupName is specified, the list will contain only the description of the specified DB parameter group. See also: AWS API Documentation describe-db-parameter-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query arg...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1167,7 +1167,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Returns information about DB proxy endpoints. See also: AWS API Documentation describe-db-proxy-endpoints is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: DBProxyEndpoints
+    /// Returns information about DB proxy endpoints. See also: AWS API Documentation describe-db-proxy-endpoints is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: DBProxyEndpoints
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1182,7 +1182,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Returns information about DB proxy target groups, represented by DBProxyTargetGroup data structures. See also: AWS API Documentation describe-db-proxy-target-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following que...
+    /// Returns information about DB proxy target groups, represented by DBProxyTargetGroup data structures. See also: AWS API Documentation describe-db-proxy-target-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query e...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1197,7 +1197,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Returns information about DBProxyTarget objects. This API supports pag- ination. See also: AWS API Documentation describe-db-proxy-targets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: Targets
+    /// Returns information about DBProxyTarget objects. This API supports pagination. See also: AWS API Documentation describe-db-proxy-targets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Targets
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1212,7 +1212,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Describes the recommendations to resolve the issues for your DB in- stances, DB clusters, and DB parameter groups. See also: AWS API Documentation describe-db-recommendations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the fol...
+    /// Describes the recommendations to resolve the issues for your DB instances, DB clusters, and DB parameter groups. See also: AWS API Documentation describe-db-recommendations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1227,7 +1227,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Returns a list of DBSecurityGroup descriptions. If a DBSecurityGroup- Name is specified, the list will contain only the descriptions of the specified DB security group. NOTE: EC2-Classic was retired on August 15, 2022. If you haven't migrated from EC2-Classic to a VPC, we recommend that you migrate as soon as possible. For more information, see Migrate from EC2-Classic to a VPC in the Amazon EC2 User Guide , the blog EC2-Classic Networking is Retiring Heres How to Prepare , and Moving a DB insta...
+    /// Returns a list of DBSecurityGroup descriptions. If a DBSecurityGroupName is specified, the list will contain only the descriptions of the specified DB security group. NOTE: EC2-Classic was retired on August 15, 2022. If you haven't migrated from EC2-Classic to a VPC, we recommend that you migrate as soon as possible. For more information, see Migrate from EC2-Classic to a VPC in the Amazon EC2 User Guide , the blog EC2-Classic Networking is Retiring Heres How to Prepare , and Moving a DB instanc...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1257,7 +1257,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Returns a list of DB snapshot attribute names and values for a manual DB snapshot. When sharing snapshots with other Amazon Web Services accounts, De- scribeDBSnapshotAttributes returns the restore attribute and a list of IDs for the Amazon Web Services accounts that are authorized to copy or restore the manual DB snapshot. If all is included in the list of val- ues for the restore attribute, then the manual DB snapshot is public and can be copied or restored by all Amazon Web Services accounts....
+    /// Returns a list of DB snapshot attribute names and values for a manual DB snapshot. When sharing snapshots with other Amazon Web Services accounts, DescribeDBSnapshotAttributes returns the restore attribute and a list of IDs for the Amazon Web Services accounts that are authorized to copy or restore the manual DB snapshot. If all is included in the list of values for the restore attribute, then the manual DB snapshot is public and can be copied or restored by all Amazon Web Services accounts. To ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1272,22 +1272,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Returns information about DB snapshots. This API action supports pagi- nation. See also: AWS API Documentation describe-db-snapshots is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: DBSnapshots
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeDbSnapshotsAsync(
-        AwsRdsDescribeDbSnapshotsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRdsDescribeDbSnapshotsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Describes the tenant databases that exist in a DB snapshot. This com- mand only applies to RDS for Oracle DB instances in the multi-tenant configuration. You can use this command to inspect the tenant databases within a snap- shot before restoring it. You can't directly interact with the tenant databases in a DB snapshot. If you restore a snapshot that was taken from DB instance using the multi-tenant configuration, you restore all its tenant databases. See also: AWS API Documentation describe-d...
+    /// Describes the tenant databases that exist in a DB snapshot. This command only applies to RDS for Oracle DB instances in the multi-tenant configuration. You can use this command to inspect the tenant databases within a snapshot before restoring it. You can't directly interact with the tenant databases in a DB snapshot. If you restore a snapshot that was taken from DB instance using the multi-tenant configuration, you restore all its tenant databases. See also: AWS API Documentation describe-db-sn...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1299,6 +1284,21 @@ public class AwsRds : IAwsRds
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRdsDescribeDbSnapshotTenantDatabasesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns information about DB snapshots. This API action supports pagination. See also: AWS API Documentation describe-db-snapshots is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: DBSnapshots
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeDbSnapshotsAsync(
+        AwsRdsDescribeDbSnapshotsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRdsDescribeDbSnapshotsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1317,7 +1317,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Returns the default engine and system parameter information for the cluster database engine. For more information on Amazon Aurora, see What is Amazon Aurora? in the Amazon Aurora User Guide . See also: AWS API Documentation describe-engine-default-cluster-parameters is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument ...
+    /// Returns the default engine and system parameter information for the cluster database engine. For more information on Amazon Aurora, see What is Amazon Aurora? in the Amazon Aurora User Guide . See also: AWS API Documentation describe-engine-default-cluster-parameters is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1332,7 +1332,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Returns the default engine and system parameter information for the specified database engine. See also: AWS API Documentation describe-engine-default-parameters is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ...
+    /// Returns the default engine and system parameter information for the specified database engine. See also: AWS API Documentation describe-engine-default-parameters is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expr...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1347,7 +1347,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Displays a list of categories for all event source types, or, if speci- fied, for a specified source type. You can also see this list in the "Amazon RDS event categories and event messages" section of the ` Ama- zon RDS User Guide https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Events.Messages.html`__ or the ` Amazon Aurora User Guide https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Events.Messages.html`__ . See also: AWS API Documentation
+    /// Displays a list of categories for all event source types, or, if specified, for a specified source type. You can also see this list in the "Amazon RDS event categories and event messages" section of the ` Amazon RDS User Guide https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Events.Messages.html`__ or the ` Amazon Aurora User Guide https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Events.Messages.html`__ . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1362,22 +1362,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Returns events related to DB instances, DB clusters, DB parameter groups, DB security groups, DB snapshots, DB cluster snapshots, and RDS Proxies for the past 14 days. Events specific to a particular DB in- stance, DB cluster, DB parameter group, DB security group, DB snapshot, DB cluster snapshot group, or RDS Proxy can be obtained by providing the name as a parameter. For more information on working with events, see Monitoring Amazon RDS events in the Amazon RDS User Guide and Monitoring Amazo...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeEventsAsync(
-        AwsRdsDescribeEventsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRdsDescribeEventsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Lists all the subscription descriptions for a customer account. The de- scription for a subscription includes SubscriptionName , SNSTopicARN , CustomerID , SourceType , SourceID , CreationTime , and Status . If you specify a SubscriptionName , lists the description for that sub- scription. See also: AWS API Documentation describe-event-subscriptions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by prov...
+    /// Lists all the subscription descriptions for a customer account. The description for a subscription includes SubscriptionName , SNSTopicARN , CustomerID , SourceType , SourceID , CreationTime , and Status . If you specify a SubscriptionName , lists the description for that subscription. See also: AWS API Documentation describe-event-subscriptions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1389,6 +1374,21 @@ public class AwsRds : IAwsRds
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRdsDescribeEventSubscriptionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns events related to DB instances, DB clusters, DB parameter groups, DB security groups, DB snapshots, DB cluster snapshots, and RDS Proxies for the past 14 days. Events specific to a particular DB instance, DB cluster, DB parameter group, DB security group, DB snapshot, DB cluster snapshot group, or RDS Proxy can be obtained by providing the name as a parameter. For more information on working with events, see Monitoring Amazon RDS events in the Amazon RDS User Guide and Monitoring Amazon ...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeEventsAsync(
+        AwsRdsDescribeEventsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRdsDescribeEventsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1437,7 +1437,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Describes all available options for the specified engine. See also: AWS API Documentation describe-option-group-options is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: OptionGroupOptions
+    /// Describes all available options for the specified engine. See also: AWS API Documentation describe-option-group-options is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: OptionGroupOptions
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1467,7 +1467,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Describes the orderable DB instance options for a specified DB engine. See also: AWS API Documentation describe-orderable-db-instance-options is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: Order...
+    /// Describes the orderable DB instance options for a specified DB engine. See also: AWS API Documentation describe-orderable-db-instance-options is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: OrderableDB...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1482,7 +1482,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Returns a list of resources (for example, DB instances) that have at least one pending maintenance action. This API follows an eventual consistency model. This means that the re- sult of the DescribePendingMaintenanceActions command might not be im- mediately visible to all subsequent RDS commands. Keep this in mind when you use DescribePendingMaintenanceActions immediately after using a previous API command such as ApplyPendingMaintenanceActions . See also: AWS API Documentation describe-pendin...
+    /// Returns a list of resources (for example, DB instances) that have at least one pending maintenance action. This API follows an eventual consistency model. This means that the result of the DescribePendingMaintenanceActions command might not be immediately visible to all subsequent RDS commands. Keep this in mind when you use DescribePendingMaintenanceActions immediately after using a previous API command such as ApplyPendingMaintenanceActions . See also: AWS API Documentation describe-pending-ma...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1497,7 +1497,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Lists available reserved DB instance offerings. See also: AWS API Documentation describe-reserved-db-instances-offerings is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: ReservedDBInstancesOfferings
+    /// Lists available reserved DB instance offerings. See also: AWS API Documentation describe-reserved-db-instances-offerings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ReservedDBInstancesOfferings
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1512,7 +1512,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Returns information about reserved DB instances for this account, or about a specified reserved DB instance. See also: AWS API Documentation describe-reserved-db-instances is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow...
+    /// Returns information about reserved DB instances for this account, or about a specified reserved DB instance. See also: AWS API Documentation describe-reserved-db-instances is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1527,7 +1527,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Describes the properties of specific platform versions for Aurora Serverless v2. See also: AWS API Documentation describe-serverless-v2-platform-versions is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressi...
+    /// Describes the properties of specific platform versions for Aurora Serverless v2. See also: AWS API Documentation describe-serverless-v2-platform-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions:...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1542,7 +1542,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Returns a list of the source Amazon Web Services Regions where the cur- rent Amazon Web Services Region can create a read replica, copy a DB snapshot from, or replicate automated backups from. Use this operation to determine whether cross-Region features are sup- ported between other Regions and your current Region. This operation supports pagination. To return information about the Regions that are enabled for your ac- count, or all Regions, use the EC2 operation DescribeRegions . For more info...
+    /// Returns a list of the source Amazon Web Services Regions where the current Amazon Web Services Region can create a read replica, copy a DB snapshot from, or replicate automated backups from. Use this operation to determine whether cross-Region features are supported between other Regions and your current Region. This operation supports pagination. To return information about the Regions that are enabled for your account, or all Regions, use the EC2 operation DescribeRegions . For more informatio...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1557,7 +1557,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Describes the tenant databases in a DB instance that uses the multi-tenant configuration. Only RDS for Oracle CDB instances are sup- ported. See also: AWS API Documentation describe-tenant-databases is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from th...
+    /// Describes the tenant databases in a DB instance that uses the multi-tenant configuration. Only RDS for Oracle CDB instances are supported. See also: AWS API Documentation describe-tenant-databases is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1572,7 +1572,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// You can call DescribeValidDBInstanceModifications to learn what modifi- cations you can make to your DB instance. You can use this information when you call ModifyDBInstance . This command doesn't apply to RDS Custom. See also: AWS API Documentation
+    /// You can call DescribeValidDBInstanceModifications to learn what modifications you can make to your DB instance. You can use this information when you call ModifyDBInstance . This command doesn't apply to RDS Custom. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1587,7 +1587,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Disables the HTTP endpoint for the specified DB cluster. Disabling this endpoint disables RDS Data API. For more information, see Using RDS Data API in the Amazon Aurora User Guide . NOTE: This operation applies only to Aurora Serverless v2 and provisioned DB clusters. To disable the HTTP endpoint for Aurora Serverless v1 DB clusters, use the EnableHttpEndpoint parameter of the ModifyDB- Cluster operation. See also: AWS API Documentation
+    /// Disables the HTTP endpoint for the specified DB cluster. Disabling this endpoint disables RDS Data API. For more information, see Using RDS Data API in the Amazon Aurora User Guide . NOTE: This operation applies only to Aurora Serverless v2 and provisioned DB clusters. To disable the HTTP endpoint for Aurora Serverless v1 DB clusters, use the EnableHttpEndpoint parameter of the ModifyDBCluster operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1617,7 +1617,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Enables the HTTP endpoint for the DB cluster. By default, the HTTP end- point isn't enabled. When enabled, this endpoint provides a connectionless web service API (RDS Data API) for running SQL queries on the Aurora DB cluster. You can also query your database from inside the RDS console with the RDS query editor. For more information, see Using RDS Data API in the Amazon Aurora User Guide . NOTE: This operation applies only to Aurora Serverless v2 and provisioned DB clusters. To enable the HTTP...
+    /// Enables the HTTP endpoint for the DB cluster. By default, the HTTP endpoint isn't enabled. When enabled, this endpoint provides a connectionless web service API (RDS Data API) for running SQL queries on the Aurora DB cluster. You can also query your database from inside the RDS console with the RDS query editor. For more information, see Using RDS Data API in the Amazon Aurora User Guide . NOTE: This operation applies only to Aurora Serverless v2 and provisioned DB clusters. To enable the HTTP e...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1632,7 +1632,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Forces a failover for a DB cluster. For an Aurora DB cluster, failover for a DB cluster promotes one of the Aurora Replicas (read-only instances) in the DB cluster to be the pri- mary DB instance (the cluster writer). For a Multi-AZ DB cluster, after RDS terminates the primary DB in- stance, the internal monitoring system detects that the primary DB in- stance is unhealthy and promotes a readable standby (read-only in- stances) in the DB cluster to be the primary DB instance (the cluster writer)...
+    /// Forces a failover for a DB cluster. For an Aurora DB cluster, failover for a DB cluster promotes one of the Aurora Replicas (read-only instances) in the DB cluster to be the primary DB instance (the cluster writer). For a Multi-AZ DB cluster, after RDS terminates the primary DB instance, the internal monitoring system detects that the primary DB instance is unhealthy and promotes a readable standby (read-only instances) in the DB cluster to be the primary DB instance (the cluster writer). Failov...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1647,7 +1647,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Promotes the specified secondary DB cluster to be the primary DB clus- ter in the global database cluster to fail over or switch over a global database. Switchover operations were previously called "managed planned failovers." NOTE: Although this operation can be used either to fail over or to switch over a global database cluster, its intended use is for global data- base failover. To switch over a global database cluster, we recom- mend that you use the SwitchoverGlobalCluster operation instea...
+    /// Promotes the specified secondary DB cluster to be the primary DB cluster in the global database cluster to fail over or switch over a global database. Switchover operations were previously called "managed planned failovers." NOTE: Although this operation can be used either to fail over or to switch over a global database cluster, its intended use is for global database failover. To switch over a global database cluster, we recommend that you use the SwitchoverGlobalCluster operation instead. How...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1707,7 +1707,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Override the system-default Secure Sockets Layer/Transport Layer Secu- rity (SSL/TLS) certificate for Amazon RDS for new DB instances, or re- move the override. By using this operation, you can specify an RDS-approved SSL/TLS cer- tificate for new DB instances that is different from the default cer- tificate provided by RDS. You can also use this operation to remove the override, so that new DB instances use the default certificate provided by RDS. You might need to override the default certific...
+    /// Override the system-default Secure Sockets Layer/Transport Layer Security (SSL/TLS) certificate for Amazon RDS for new DB instances, or remove the override. By using this operation, you can specify an RDS-approved SSL/TLS certificate for new DB instances that is different from the default certificate provided by RDS. You can also use this operation to remove the override, so that new DB instances use the default certificate provided by RDS. You might need to override the default certificate in t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1722,7 +1722,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Set the capacity of an Aurora Serverless v1 DB cluster to a specific value. Aurora Serverless v1 scales seamlessly based on the workload on the DB cluster. In some cases, the capacity might not scale fast enough to meet a sudden change in workload, such as a large number of new trans- actions. Call ModifyCurrentDBClusterCapacity to set the capacity ex- plicitly. After this call sets the DB cluster capacity, Aurora Serverless v1 can automatically scale the DB cluster based on the cooldown period ...
+    /// Set the capacity of an Aurora Serverless v1 DB cluster to a specific value. Aurora Serverless v1 scales seamlessly based on the workload on the DB cluster. In some cases, the capacity might not scale fast enough to meet a sudden change in workload, such as a large number of new transactions. Call ModifyCurrentDBClusterCapacity to set the capacity explicitly. After this call sets the DB cluster capacity, Aurora Serverless v1 can automatically scale the DB cluster based on the cooldown period for ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1737,7 +1737,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Modifies the status of a custom engine version (CEV). You can find CEVs to modify by calling DescribeDBEngineVersions . NOTE: The MediaImport service that imports files from Amazon S3 to create CEVs isn't integrated with Amazon Web Services CloudTrail. If you turn on data logging for Amazon RDS in CloudTrail, calls to the Mod- ifyCustomDbEngineVersion event aren't logged. However, you might see calls from the API gateway that accesses your Amazon S3 bucket. These calls originate from the MediaIm...
+    /// Modifies the status of a custom engine version (CEV). You can find CEVs to modify by calling DescribeDBEngineVersions . NOTE: The MediaImport service that imports files from Amazon S3 to create CEVs isn't integrated with Amazon Web Services CloudTrail. If you turn on data logging for Amazon RDS in CloudTrail, calls to the ModifyCustomDbEngineVersion event aren't logged. However, you might see calls from the API gateway that accesses your Amazon S3 bucket. These calls originate from the MediaImpo...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1767,7 +1767,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Modifies the settings of an Amazon Aurora DB cluster or a Multi-AZ DB cluster. You can change one or more settings by specifying these para- meters and the new values in the request. For more information on Amazon Aurora DB clusters, see What is Amazon Aurora? in the Amazon Aurora User Guide . For more information on Multi-AZ DB clusters, see Multi-AZ DB cluster deployments in the Amazon RDS User Guide . See also: AWS API Documentation
+    /// Modifies the settings of an Amazon Aurora DB cluster or a Multi-AZ DB cluster. You can change one or more settings by specifying these parameters and the new values in the request. For more information on Amazon Aurora DB clusters, see What is Amazon Aurora? in the Amazon Aurora User Guide . For more information on Multi-AZ DB clusters, see Multi-AZ DB cluster deployments in the Amazon RDS User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1782,7 +1782,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Modifies the parameters of a DB cluster parameter group. To modify more than one parameter, submit a list of the following: ParameterName , Pa- rameterValue , and ApplyMethod . A maximum of 20 parameters can be mod- ified in a single request. WARNING: There are two types of parameters - dynamic parameters and static parameters. Changes to dynamic parameters are applied to the DB cluster immediately without a reboot. Changes to static parameters are applied only after the DB cluster is rebooted, ...
+    /// Modifies the parameters of a DB cluster parameter group. To modify more than one parameter, submit a list of the following: ParameterName , ParameterValue , and ApplyMethod . A maximum of 20 parameters can be modified in a single request. WARNING: There are two types of parameters - dynamic parameters and static parameters. Changes to dynamic parameters are applied to the DB cluster immediately without a reboot. Changes to static parameters are applied only after the DB cluster is rebooted, whic...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1812,7 +1812,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Modifies settings for a DB instance. You can change one or more data- base configuration parameters by specifying these parameters and the new values in the request. To learn what modifications you can make to your DB instance, call DescribeValidDBInstanceModifications before you call ModifyDBInstance . See also: AWS API Documentation
+    /// Modifies settings for a DB instance. You can change one or more database configuration parameters by specifying these parameters and the new values in the request. To learn what modifications you can make to your DB instance, call DescribeValidDBInstanceModifications before you call ModifyDBInstance . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1827,7 +1827,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Modifies the parameters of a DB parameter group. To modify more than one parameter, submit a list of the following: ParameterName , Parame- terValue , and ApplyMethod . A maximum of 20 parameters can be modified in a single request. WARNING: After you modify a DB parameter group, you should wait at least 5 minutes before creating your first DB instance that uses that DB pa- rameter group as the default parameter group. This allows Amazon RDS to fully complete the modify operation before the para...
+    /// Modifies the parameters of a DB parameter group. To modify more than one parameter, submit a list of the following: ParameterName , ParameterValue , and ApplyMethod . A maximum of 20 parameters can be modified in a single request. WARNING: After you modify a DB parameter group, you should wait at least 5 minutes before creating your first DB instance that uses that DB parameter group as the default parameter group. This allows Amazon RDS to fully complete the modify operation before the paramete...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1917,7 +1917,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Adds an attribute and values to, or removes an attribute and values from, a manual DB snapshot. To share a manual DB snapshot with other Amazon Web Services accounts, specify restore as the AttributeName and use the ValuesToAdd parameter to add a list of IDs of the Amazon Web Services accounts that are au- thorized to restore the manual DB snapshot. Uses the value all to make the manual DB snapshot public, which means it can be copied or restored by all Amazon Web Services accounts. NOTE: Don't ...
+    /// Adds an attribute and values to, or removes an attribute and values from, a manual DB snapshot. To share a manual DB snapshot with other Amazon Web Services accounts, specify restore as the AttributeName and use the ValuesToAdd parameter to add a list of IDs of the Amazon Web Services accounts that are authorized to restore the manual DB snapshot. Uses the value all to make the manual DB snapshot public, which means it can be copied or restored by all Amazon Web Services accounts. NOTE: Don't ad...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1932,7 +1932,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Updates a manual DB snapshot with a new engine version. The snapshot can be encrypted or unencrypted, but not shared or public. Amazon RDS supports upgrading DB snapshots for MariaDB, MySQL, Post- greSQL, and Oracle. This operation doesn't apply to RDS Custom or RDS for Db2. See also: AWS API Documentation
+    /// Updates a manual DB snapshot with a new engine version. The snapshot can be encrypted or unencrypted, but not shared or public. Amazon RDS supports upgrading DB snapshots for MariaDB, MySQL, PostgreSQL, and Oracle. This operation doesn't apply to RDS Custom or RDS for Db2. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1962,7 +1962,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Modifies an existing RDS event notification subscription. You can't modify the source identifiers using this call. To change source identi- fiers for a subscription, use the AddSourceIdentifierToSubscription and RemoveSourceIdentifierFromSubscription calls. You can see a list of the event categories for a given source type (SourceType ) in Events in the Amazon RDS User Guide or by using the DescribeEventCategories operation. See also: AWS API Documentation
+    /// Modifies an existing RDS event notification subscription. You can't modify the source identifiers using this call. To change source identifiers for a subscription, use the AddSourceIdentifierToSubscription and RemoveSourceIdentifierFromSubscription calls. You can see a list of the event categories for a given source type (SourceType ) in Events in the Amazon RDS User Guide or by using the DescribeEventCategories operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1977,7 +1977,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Modifies a setting for an Amazon Aurora global database cluster. You can change one or more database configuration parameters by specifying these parameters and the new values in the request. For more informa- tion on Amazon Aurora, see What is Amazon Aurora? in the Amazon Aurora User Guide . NOTE: This operation only applies to Aurora global database clusters. See also: AWS API Documentation
+    /// Modifies a setting for an Amazon Aurora global database cluster. You can change one or more database configuration parameters by specifying these parameters and the new values in the request. For more information on Amazon Aurora, see What is Amazon Aurora? in the Amazon Aurora User Guide . NOTE: This operation only applies to Aurora global database clusters. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2037,7 +2037,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Promotes a read replica DB instance to a standalone DB instance. NOTE: o Backup duration is a function of the amount of changes to the database since the previous backup. If you plan to promote a read replica to a standalone instance, we recommend that you enable backups and complete at least one backup prior to promotion. In addition, a read replica cannot be promoted to a standalone in- stance when it is in the backing-up status. If you have enabled backups on your read replica, configure the ...
+    /// Promotes a read replica DB instance to a standalone DB instance. NOTE: • Backup duration is a function of the amount of changes to the database since the previous backup. If you plan to promote a read replica to a standalone instance, we recommend that you enable backups and complete at least one backup prior to promotion. In addition, a read replica cannot be promoted to a standalone instance when it is in the backing-up status. If you have enabled backups on your read replica, configure the au...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2067,7 +2067,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// You might need to reboot your DB cluster, usually for maintenance rea- sons. For example, if you make certain modifications, or if you change the DB cluster parameter group associated with the DB cluster, reboot the DB cluster for the changes to take effect. Rebooting a DB cluster restarts the database engine service. Rebooting a DB cluster results in a momentary outage, during which the DB cluster status is set to rebooting. Use this operation only for a non-Aurora Multi-AZ DB cluster. For more...
+    /// You might need to reboot your DB cluster, usually for maintenance reasons. For example, if you make certain modifications, or if you change the DB cluster parameter group associated with the DB cluster, reboot the DB cluster for the changes to take effect. Rebooting a DB cluster restarts the database engine service. Rebooting a DB cluster results in a momentary outage, during which the DB cluster status is set to rebooting. Use this operation only for a non-Aurora Multi-AZ DB cluster. For more i...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2082,7 +2082,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// You might need to reboot your DB instance, usually for maintenance rea- sons. For example, if you make certain modifications, or if you change the DB parameter group associated with the DB instance, you must reboot the instance for the changes to take effect. Rebooting a DB instance restarts the database engine service. Rebooting a DB instance results in a momentary outage, during which the DB in- stance status is set to rebooting. For more information about rebooting, see Rebooting a DB Instanc...
+    /// You might need to reboot your DB instance, usually for maintenance reasons. For example, if you make certain modifications, or if you change the DB parameter group associated with the DB instance, you must reboot the instance for the changes to take effect. Rebooting a DB instance restarts the database engine service. Rebooting a DB instance results in a momentary outage, during which the DB instance status is set to rebooting. For more information about rebooting, see Rebooting a DB Instance in...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2112,7 +2112,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Associate one or more DBProxyTarget data structures with a DBProxyTar- getGroup . See also: AWS API Documentation
+    /// Associate one or more DBProxyTarget data structures with a DBProxyTargetGroup . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2127,7 +2127,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Detaches an Aurora secondary cluster from an Aurora global database cluster. The cluster becomes a standalone cluster with read-write capa- bility instead of being read-only and receiving data from a primary cluster in a different Region. NOTE: This operation only applies to Aurora DB clusters. See also: AWS API Documentation
+    /// Detaches an Aurora secondary cluster from an Aurora global database cluster. The cluster becomes a standalone cluster with read-write capability instead of being read-only and receiving data from a primary cluster in a different Region. NOTE: This operation only applies to Aurora DB clusters. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2217,7 +2217,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Modifies the parameters of a DB cluster parameter group to the default value. To reset specific parameters submit a list of the following: Pa- rameterName and ApplyMethod . To reset the entire DB cluster parameter group, specify the DBClusterParameterGroupName and ResetAllParameters parameters. When resetting the entire group, dynamic parameters are updated immedi- ately and static parameters are set to pending-reboot to take effect on the next DB instance restart or RebootDBInstance request. Yo...
+    /// Modifies the parameters of a DB cluster parameter group to the default value. To reset specific parameters submit a list of the following: ParameterName and ApplyMethod . To reset the entire DB cluster parameter group, specify the DBClusterParameterGroupName and ResetAllParameters parameters. When resetting the entire group, dynamic parameters are updated immediately and static parameters are set to pending-reboot to take effect on the next DB instance restart or RebootDBInstance request. You mu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2232,7 +2232,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Modifies the parameters of a DB parameter group to the engine/system default value. To reset specific parameters, provide a list of the fol- lowing: ParameterName and ApplyMethod . To reset the entire DB parame- ter group, specify the DBParameterGroup name and ResetAllParameters pa- rameters. When resetting the entire group, dynamic parameters are up- dated immediately and static parameters are set to pending-reboot to take effect on the next DB instance restart or RebootDBInstance re- quest. Se...
+    /// Modifies the parameters of a DB parameter group to the engine/system default value. To reset specific parameters, provide a list of the following: ParameterName and ApplyMethod . To reset the entire DB parameter group, specify the DBParameterGroup name and ResetAllParameters parameters. When resetting the entire group, dynamic parameters are updated immediately and static parameters are set to pending-reboot to take effect on the next DB instance restart or RebootDBInstance request. See also: AW...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2262,7 +2262,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Creates a new DB cluster from a DB snapshot or DB cluster snapshot. The target DB cluster is created from the source snapshot with a de- fault configuration. If you don't specify a security group, the new DB cluster is associated with the default security group. You can use the EnableVPCNetworking and EnableInternetAccessGateway pa- rameters together to restore an Aurora PostgreSQL cluster without VPC networking and with internet-based connectivity. These two parameters must always be specified ...
+    /// Creates a new DB cluster from a DB snapshot or DB cluster snapshot. The target DB cluster is created from the source snapshot with a default configuration. If you don't specify a security group, the new DB cluster is associated with the default security group. You can use the EnableVPCNetworking and EnableInternetAccessGateway parameters together to restore an Aurora PostgreSQL cluster without VPC networking and with internet-based connectivity. These two parameters must always be specified toge...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2277,7 +2277,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Restores a DB cluster to an arbitrary point in time. Users can restore to any point in time before LatestRestorableTime for up to BackupReten- tionPeriod days. The target DB cluster is created from the source DB cluster with the same configuration as the original DB cluster, except that the new DB cluster is created with the default DB security group. Unless the RestoreType is set to copy-on-write , the restore may occur in a different Availability Zone (AZ) from the original DB cluster. The AZ ...
+    /// Restores a DB cluster to an arbitrary point in time. Users can restore to any point in time before LatestRestorableTime for up to BackupRetentionPeriod days. The target DB cluster is created from the source DB cluster with the same configuration as the original DB cluster, except that the new DB cluster is created with the default DB security group. Unless the RestoreType is set to copy-on-write , the restore may occur in a different Availability Zone (AZ) from the original DB cluster. The AZ wh...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2322,7 +2322,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Restores a DB instance to an arbitrary point in time. You can restore to any point in time before the time identified by the LatestRestor- ableTime property. You can restore to a point up to the number of days specified by the BackupRetentionPeriod property. The target database is created with most of the original configuration, but in a system-selected Availability Zone, with the default security group, the default subnet group, and the default DB parameter group. By default, the new DB instanc...
+    /// Restores a DB instance to an arbitrary point in time. You can restore to any point in time before the time identified by the LatestRestorableTime property. You can restore to a point up to the number of days specified by the BackupRetentionPeriod property. The target database is created with most of the original configuration, but in a system-selected Availability Zone, with the default security group, the default subnet group, and the default DB parameter group. By default, the new DB instance ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2337,7 +2337,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Revokes ingress from a DBSecurityGroup for previously authorized IP ranges or EC2 or VPC security groups. Required parameters for this API are one of CIDRIP, EC2SecurityGroupId for VPC, or (EC2Security- GroupOwnerId and either EC2SecurityGroupName or EC2SecurityGroupId). NOTE: EC2-Classic was retired on August 15, 2022. If you haven't migrated from EC2-Classic to a VPC, we recommend that you migrate as soon as possible. For more information, see Migrate from EC2-Classic to a VPC in the Amazon EC...
+    /// Revokes ingress from a DBSecurityGroup for previously authorized IP ranges or EC2 or VPC security groups. Required parameters for this API are one of CIDRIP, EC2SecurityGroupId for VPC, or (EC2SecurityGroupOwnerId and either EC2SecurityGroupName or EC2SecurityGroupId). NOTE: EC2-Classic was retired on August 15, 2022. If you haven't migrated from EC2-Classic to a VPC, we recommend that you migrate as soon as possible. For more information, see Migrate from EC2-Classic to a VPC in the Amazon EC2 ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2352,7 +2352,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Starts a database activity stream to monitor activity on the database. For more information, see Monitoring Amazon Aurora with Database Activ- ity Streams in the Amazon Aurora User Guide or Monitoring Amazon RDS with Database Activity Streams in the Amazon RDS User Guide . See also: AWS API Documentation
+    /// Starts a database activity stream to monitor activity on the database. For more information, see Monitoring Amazon Aurora with Database Activity Streams in the Amazon Aurora User Guide or Monitoring Amazon RDS with Database Activity Streams in the Amazon RDS User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2367,7 +2367,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Starts an Amazon Aurora DB cluster that was stopped using the Amazon Web Services console, the stop-db-cluster CLI command, or the StopDB- Cluster operation. For more information, see Stopping and Starting an Aurora Cluster in the Amazon Aurora User Guide . NOTE: This operation only applies to Aurora DB clusters. See also: AWS API Documentation
+    /// Starts an Amazon Aurora DB cluster that was stopped using the Amazon Web Services console, the stop-db-cluster CLI command, or the StopDBCluster operation. For more information, see Stopping and Starting an Aurora Cluster in the Amazon Aurora User Guide . NOTE: This operation only applies to Aurora DB clusters. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2382,7 +2382,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Enables replication of automated backups to a different Amazon Web Ser- vices Region. This command doesn't apply to RDS Custom. For more information, see Replicating Automated Backups to Another Ama- zon Web Services Region in the Amazon RDS User Guide. See also: AWS API Documentation
+    /// Enables replication of automated backups to a different Amazon Web Services Region. This command doesn't apply to RDS Custom. For more information, see Replicating Automated Backups to Another Amazon Web Services Region in the Amazon RDS User Guide. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2397,7 +2397,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Starts an Amazon RDS DB instance that was stopped using the Amazon Web Services console, the stop-db-instance CLI command, or the StopDBIn- stance operation. For more information, see Starting an Amazon RDS DB instance That Was Previously Stopped in the Amazon RDS User Guide. NOTE: This command doesn't apply to RDS Custom, Aurora MySQL, and Aurora PostgreSQL. For Aurora DB clusters, use StartDBCluster instead. See also: AWS API Documentation
+    /// Starts an Amazon RDS DB instance that was stopped using the Amazon Web Services console, the stop-db-instance CLI command, or the StopDBInstance operation. For more information, see Starting an Amazon RDS DB instance That Was Previously Stopped in the Amazon RDS User Guide. NOTE: This command doesn't apply to RDS Custom, Aurora MySQL, and Aurora PostgreSQL. For Aurora DB clusters, use StartDBCluster instead. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2412,7 +2412,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Starts an export of DB snapshot or DB cluster data to Amazon S3. The provided IAM role must have access to the S3 bucket. You can't export snapshot data from RDS Custom DB instances. For more information, see Supported Regions and DB engines for exporting snap- shots to S3 in Amazon RDS . For more information on exporting DB snapshot data, see Exporting DB snapshot data to Amazon S3 in the Amazon RDS User Guide or Exporting DB cluster snapshot data to Amazon S3 in the Amazon Aurora User Guide . ...
+    /// Starts an export of DB snapshot or DB cluster data to Amazon S3. The provided IAM role must have access to the S3 bucket. You can't export snapshot data from RDS Custom DB instances. For more information, see Supported Regions and DB engines for exporting snapshots to S3 in Amazon RDS . For more information on exporting DB snapshot data, see Exporting DB snapshot data to Amazon S3 in the Amazon RDS User Guide or Exporting DB cluster snapshot data to Amazon S3 in the Amazon Aurora User Guide . Fo...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2427,7 +2427,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Stops a database activity stream that was started using the Amazon Web Services console, the start-activity-stream CLI command, or the Star- tActivityStream operation. For more information, see Monitoring Amazon Aurora with Database Activ- ity Streams in the Amazon Aurora User Guide or Monitoring Amazon RDS with Database Activity Streams in the Amazon RDS User Guide . See also: AWS API Documentation
+    /// Stops a database activity stream that was started using the Amazon Web Services console, the start-activity-stream CLI command, or the StartActivityStream operation. For more information, see Monitoring Amazon Aurora with Database Activity Streams in the Amazon Aurora User Guide or Monitoring Amazon RDS with Database Activity Streams in the Amazon RDS User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2442,7 +2442,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Stops an Amazon Aurora DB cluster. When you stop a DB cluster, Aurora retains the DB cluster's metadata, including its endpoints and DB para- meter groups. Aurora also retains the transaction logs so you can do a point-in-time restore if necessary. For more information, see Stopping and Starting an Aurora Cluster in the Amazon Aurora User Guide . NOTE: This operation only applies to Aurora DB clusters. See also: AWS API Documentation
+    /// Stops an Amazon Aurora DB cluster. When you stop a DB cluster, Aurora retains the DB cluster's metadata, including its endpoints and DB parameter groups. Aurora also retains the transaction logs so you can do a point-in-time restore if necessary. For more information, see Stopping and Starting an Aurora Cluster in the Amazon Aurora User Guide . NOTE: This operation only applies to Aurora DB clusters. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2457,7 +2457,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Stops automated backup replication for a DB instance. This command doesn't apply to RDS Custom, Aurora MySQL, and Aurora PostgreSQL. For more information, see Replicating Automated Backups to Another Ama- zon Web Services Region in the Amazon RDS User Guide. See also: AWS API Documentation
+    /// Stops automated backup replication for a DB instance. This command doesn't apply to RDS Custom, Aurora MySQL, and Aurora PostgreSQL. For more information, see Replicating Automated Backups to Another Amazon Web Services Region in the Amazon RDS User Guide. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2472,7 +2472,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Stops an Amazon RDS DB instance temporarily. When you stop a DB in- stance, Amazon RDS retains the DB instance's metadata, including its endpoint, DB parameter group, and option group membership. Amazon RDS also retains the transaction logs so you can do a point-in-time restore if necessary. The instance restarts automatically after 7 days. For more information, see Stopping an Amazon RDS DB Instance Temporar- ily in the Amazon RDS User Guide. NOTE: This command doesn't apply to RDS Custom, Auro...
+    /// Stops an Amazon RDS DB instance temporarily. When you stop a DB instance, Amazon RDS retains the DB instance's metadata, including its endpoint, DB parameter group, and option group membership. Amazon RDS also retains the transaction logs so you can do a point-in-time restore if necessary. The instance restarts automatically after 7 days. For more information, see Stopping an Amazon RDS DB Instance Temporarily in the Amazon RDS User Guide. NOTE: This command doesn't apply to RDS Custom, Aurora M...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2517,7 +2517,7 @@ public class AwsRds : IAwsRds
     }
 
     /// <summary>
-    /// Switches over an Oracle standby database in an Oracle Data Guard envi- ronment, making it the new primary database. Issue this command in the Region that hosts the current standby database. See also: AWS API Documentation
+    /// Switches over an Oracle standby database in an Oracle Data Guard environment, making it the new primary database. Issue this command in the Region that hosts the current standby database. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

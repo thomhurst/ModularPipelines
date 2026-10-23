@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsLightsailGetDistributionLatestCacheResetOptions : AwsOptions
 {
     /// <summary>
-    /// The name of the distribution for which to return the timestamp of the last cache reset. Use the GetDistributions action to get a list of distribution names that you can specify. When omitted, the response includes the latest cache reset timestamp of all your distributions. Constraints: o pattern: \w[\w\-]*\w
+    /// The name of the distribution for which to return the timestamp of the last cache reset. Use the GetDistributions action to get a list of distribution names that you can specify. When omitted, the response includes the latest cache reset timestamp of all your distributions. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--distribution-name")]
     public string? DistributionName { get; set; }
@@ -32,5 +32,14 @@ public record AwsLightsailGetDistributionLatestCacheResetOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

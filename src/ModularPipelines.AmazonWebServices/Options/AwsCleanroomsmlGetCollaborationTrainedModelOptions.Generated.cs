@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsCleanroomsmlGetCollaborationTrainedModelOptions : AwsOptions, I
     /// <summary>
     /// Returns information about a trained model in a collaboration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TrainedModelArn">The Amazon Resource Name (ARN) of the trained model that you want to return information about. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:member- ship/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/trained-model/[-a-zA-Z0-9_/.]+</param>
-    /// <param name="CollaborationIdentifier">The collaboration ID that contains the trained model that you want to return information about. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="TrainedModelArn">The Amazon Resource Name (ARN) of the trained model that you want to return information about. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/trained-model/[-a-zA-Z0-9_/.]+</param>
+    /// <param name="CollaborationIdentifier">The collaboration ID that contains the trained model that you want to return information about. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
     public AwsCleanroomsmlGetCollaborationTrainedModelOptions(
         string TrainedModelArn,
         string CollaborationIdentifier
@@ -60,19 +61,19 @@ public record AwsCleanroomsmlGetCollaborationTrainedModelOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the trained model that you want to return information about. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:member- ship/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/trained-model/[-a-zA-Z0-9_/.]+
+    /// The Amazon Resource Name (ARN) of the trained model that you want to return information about. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/trained-model/[-a-zA-Z0-9_/.]+
     /// </summary>
     [CliOption("--trained-model-arn")]
     public string? TrainedModelArn { get; private init; }
 
     /// <summary>
-    /// The collaboration ID that contains the trained model that you want to return information about. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The collaboration ID that contains the trained model that you want to return information about. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--collaboration-identifier")]
     public string? CollaborationIdentifier { get; private init; }
 
     /// <summary>
-    /// The version identifier of the trained model to retrieve. If not specified, the operation returns information about the latest ver- sion of the trained model. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The version identifier of the trained model to retrieve. If not specified, the operation returns information about the latest version of the trained model. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--version-identifier")]
     public string? VersionIdentifier { get; set; }
@@ -98,6 +99,15 @@ public record AwsCleanroomsmlGetCollaborationTrainedModelOptions : AwsOptions, I
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

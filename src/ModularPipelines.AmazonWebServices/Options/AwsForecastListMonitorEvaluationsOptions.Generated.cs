@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsForecastListMonitorEvaluationsOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Returns a list of the monitoring evaluation results and predictor events collected by the monitor resource during different windows of time. For information about monitoring see predictor-monitoring . For more information about retrieving monitoring results see Viewing Monitoring Results . See also: AWS API Documentation list-monitor-evaluations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing ...
     /// </summary>
-    /// <param name="MonitorArn">The Amazon Resource Name (ARN) of the monitor resource to get re- sults from. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+</param>
+    /// <param name="MonitorArn">The Amazon Resource Name (ARN) of the monitor resource to get results from. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):forecast:.*:.*:.+</param>
     public AwsForecastListMonitorEvaluationsOptions(
         string MonitorArn
     )
@@ -57,22 +58,19 @@ public record AwsForecastListMonitorEvaluationsOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the monitor resource to get re- sults from. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+
+    /// The Amazon Resource Name (ARN) of the monitor resource to get results from. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):forecast:.*:.*:.+
     /// </summary>
     [CliOption("--monitor-arn")]
     public string? MonitorArn { get; private init; }
 
     /// <summary>
-    /// An array of filters. For each filter, provide a condition and a match statement. The condition is either IS or IS_NOT , which speci- fies whether to include or exclude the resources that match the statement from the list. The match statement consists of a key and a value. Filter properties o Condition - The condition to apply. Valid values are IS and IS_NOT . o Key - The name of the parameter to filter on. The only valid value is EvaluationState . o Value - The value to match. Valid values are only SUCCESS or FAIL- URE . For example, to list only successful monitor evaluations, you would specify: "Filters": [ { "Condition": "IS", "Key": "EvaluationState", "Value": "SUCCESS" } ] (structure) Describes a filter for choosing a subset of objects. Each filter consists of a condition and a match statement. The condition is either IS or IS_NOT , which specifies whether to include or ex- clude the objects that match the statement, respectively. The match statement consists of a key and a value. Key -&gt; (string) [required] The name of the parameter to filter on. Constraints: o max: 256 o pattern: ^[a-zA-Z0-9\_]+$ Value -&gt; (string) [required] The value to match. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+ Condition -&gt; (string) [required] The condition to apply. To include the objects that match the statement, specify IS . To exclude matching objects, specify IS_NOT . Possible values: o IS o IS_NOT Shorthand Syntax: Key=string,Value=string,Condition=string ... JSON Syntax: [ { "Key": "string", "Value": "string", "Condition": "IS"|"IS_NOT" } ... ]
+    /// An array of filters. For each filter, provide a condition and a match statement. The condition is either IS or IS_NOT , which specifies whether to include or exclude the resources that match the statement from the list. The match statement consists of a key and a value. Filter properties • Condition - The condition to apply. Valid values are IS and IS_NOT . • Key - The name of the parameter to filter on. The only valid value is EvaluationState . • Value - The value to match. Valid values are only SUCCESS or FAILURE . For example, to list only successful monitor evaluations, you would specify: "Filters": [ { "Condition": "IS", "Key": "EvaluationState", "Value": "SUCCESS" } ] (structure) Describes a filter for choosing a subset of objects. Each filter consists of a condition and a match statement. The condition is either IS or IS_NOT , which specifies whether to include or exclude the objects that match the statement, respectively. The match statement consists of a key and a value. Key -&gt; (string) [required] The name of the parameter to filter on. Constraints: • max: 256 • pattern: ^[a-zA-Z0-9\_]+$ Value -&gt; (string) [required] The value to match. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):forecast:.*:.*:.+ Condition -&gt; (string) [required] The condition to apply. To include the objects that match the statement, specify IS . To exclude matching objects, specify IS_NOT . Possible values: • IS • IS_NOT Shorthand Syntax: Key=string,Value=string,Condition=string ... JSON Syntax: [ { "Key": "string", "Value": "string", "Condition": "IS"|"IS_NOT" } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -82,16 +80,19 @@ public record AwsForecastListMonitorEvaluationsOptions : AwsOptions, IValidatabl
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -108,6 +109,15 @@ public record AwsForecastListMonitorEvaluationsOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -69,7 +69,7 @@ public record AwsSecurityagentCreateAgentSpaceOptions : AwsOptions, IValidatable
     public string? Description { get; set; }
 
     /// <summary>
-    /// The AWS resources to associate with the agent space. vpcs -&gt; (list) The VPC configurations associated with the agent space. (structure) The VPC configuration for a pentest, specifying the VPC, se- curity groups, and subnets to use during testing. vpcArn -&gt; (string) The Amazon Resource Name (ARN) or ID of the VPC. securityGroupArns -&gt; (list) The Amazon Resource Names (ARNs) or IDs of the security groups for the VPC configuration. (string) ARN or ID of a security group. subnetArns -&gt; (list) The Amazon Resource Names (ARNs) or IDs of the subnets for the VPC configuration. (string) ARN or ID of a subnet. logGroups -&gt; (list) The Amazon Resource Names (ARNs) of the CloudWatch log groups associated with the agent space. (string) Log group ARN or name for agent space AWS resources. s3Buckets -&gt; (list) The Amazon Resource Names (ARNs) of the S3 buckets associated with the agent space. (string) S3 bucket ARN or name for agent space AWS resources. secretArns -&gt; (list) The Amazon Resource Names (ARNs) of the Secrets Manager secrets associated with the agent space. (string) Secret ARN or name for agent space AWS resources. lambdaFunctionArns -&gt; (list) The Amazon Resource Names (ARNs) of the Lambda functions associ- ated with the agent space. (string) Lambda function ARN or name for agent space AWS resources. iamRoles -&gt; (list) The IAM roles associated with the agent space. (string) ARN of an IAM role that the service can assume to access cus- tomer resources. JSON Syntax: { "vpcs": [ { "vpcArn": "string", "securityGroupArns": ["string", ...], "subnetArns": ["string", ...] } ... ], "logGroups": ["string", ...], "s3Buckets": ["string", ...], "secretArns": ["string", ...], "lambdaFunctionArns": ["string", ...], "iamRoles": ["string", ...] }
+    /// The AWS resources to associate with the agent space. vpcs -&gt; (list) The VPC configurations associated with the agent space. (structure) The VPC configuration for a pentest, specifying the VPC, security groups, and subnets to use during testing. vpcArn -&gt; (string) The Amazon Resource Name (ARN) or ID of the VPC. securityGroupArns -&gt; (list) The Amazon Resource Names (ARNs) or IDs of the security groups for the VPC configuration. (string) ARN or ID of a security group. subnetArns -&gt; (list) The Amazon Resource Names (ARNs) or IDs of the subnets for the VPC configuration. (string) ARN or ID of a subnet. logGroups -&gt; (list) The Amazon Resource Names (ARNs) of the CloudWatch log groups associated with the agent space. (string) Log group ARN or name for agent space AWS resources. s3Buckets -&gt; (list) The Amazon Resource Names (ARNs) of the S3 buckets associated with the agent space. (string) S3 bucket ARN or name for agent space AWS resources. secretArns -&gt; (list) The Amazon Resource Names (ARNs) of the Secrets Manager secrets associated with the agent space. (string) Secret ARN or name for agent space AWS resources. lambdaFunctionArns -&gt; (list) The Amazon Resource Names (ARNs) of the Lambda functions associated with the agent space. (string) Lambda function ARN or name for agent space AWS resources. iamRoles -&gt; (list) The IAM roles associated with the agent space. (string) ARN of an IAM role that the service can assume to access customer resources. JSON Syntax: { "vpcs": [ { "vpcArn": "string", "securityGroupArns": ["string", ...], "subnetArns": ["string", ...] } ... ], "logGroups": ["string", ...], "s3Buckets": ["string", ...], "secretArns": ["string", ...], "lambdaFunctionArns": ["string", ...], "iamRoles": ["string", ...] }
     /// </summary>
     [CliOption("--aws-resources")]
     public string? AwsResources { get; set; }
@@ -119,6 +119,15 @@ public record AwsSecurityagentCreateAgentSpaceOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

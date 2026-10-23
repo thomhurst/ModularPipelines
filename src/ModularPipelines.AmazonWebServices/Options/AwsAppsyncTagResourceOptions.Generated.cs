@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +28,8 @@ public record AwsAppsyncTagResourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Tags a resource with user-supplied tags. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The GraphqlApi Amazon Resource Name (ARN). Constraints: o min: 70 o max: 75 o pattern: ^arn:aws:app- sync:[A-Za-z0-9_/.-]{0,63}:\d{12}:apis/[0-9A-Za-z_-]{26}$</param>
-    /// <param name="Tags">A TagMap object. Constraints: o min: 1 o max: 50 key -&gt; (string) The key for the tag. Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[ a-zA-Z+-=._:/]+$ value -&gt; (string) The value for the tag. Constraints: o max: 256 o pattern: ^[\s\w+-=\.:/@]*$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    /// <param name="ResourceArn">The GraphqlApi Amazon Resource Name (ARN). Constraints: • min: 70 • max: 75 • pattern: ^arn:aws:appsync:[A-Za-z0-9_/.-]{0,63}:\d{12}:apis/[0-9A-Za-z_-]{26}$</param>
+    /// <param name="Tags">A TagMap object. Constraints: • min: 1 • max: 50 key -&gt; (string) The key for the tag. Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[ a-zA-Z+-=._:/]+$ value -&gt; (string) The value for the tag. Constraints: • max: 256 • pattern: ^[\s\w+-=\.:/@]*$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
     public AwsAppsyncTagResourceOptions(
         string ResourceArn,
         IReadOnlyList<KeyValue> Tags
@@ -72,13 +72,13 @@ public record AwsAppsyncTagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The GraphqlApi Amazon Resource Name (ARN). Constraints: o min: 70 o max: 75 o pattern: ^arn:aws:app- sync:[A-Za-z0-9_/.-]{0,63}:\d{12}:apis/[0-9A-Za-z_-]{26}$
+    /// The GraphqlApi Amazon Resource Name (ARN). Constraints: • min: 70 • max: 75 • pattern: ^arn:aws:appsync:[A-Za-z0-9_/.-]{0,63}:\d{12}:apis/[0-9A-Za-z_-]{26}$
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// A TagMap object. Constraints: o min: 1 o max: 50 key -&gt; (string) The key for the tag. Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[ a-zA-Z+-=._:/]+$ value -&gt; (string) The value for the tag. Constraints: o max: 256 o pattern: ^[\s\w+-=\.:/@]*$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A TagMap object. Constraints: • min: 1 • max: 50 key -&gt; (string) The key for the tag. Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[ a-zA-Z+-=._:/]+$ value -&gt; (string) The value for the tag. Constraints: • max: 256 • pattern: ^[\s\w+-=\.:/@]*$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; private init; }
@@ -104,6 +104,15 @@ public record AwsAppsyncTagResourceOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

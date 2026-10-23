@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the base-64 encoded contents of a specified file and its meta- data. See also: AWS API Documentation
+/// Returns the base-64 encoded contents of a specified file and its metadata. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsCodecommitGetFileOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the base-64 encoded contents of a specified file and its meta- data. See also: AWS API Documentation
+    /// Returns the base-64 encoded contents of a specified file and its metadata. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RepositoryName">The name of the repository that contains the file. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+</param>
+    /// <param name="RepositoryName">The name of the repository that contains the file. Constraints: • min: 1 • max: 100 • pattern: [\w\.-]+</param>
     /// <param name="FilePath">The fully qualified path to the file, including the full name and extension of the file. For example, /examples/file.md is the fully qualified path to a file named file.md in a folder named examples.</param>
     public AwsCodecommitGetFileOptions(
         string RepositoryName,
@@ -60,7 +61,7 @@ public record AwsCodecommitGetFileOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the repository that contains the file. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+
+    /// The name of the repository that contains the file. Constraints: • min: 1 • max: 100 • pattern: [\w\.-]+
     /// </summary>
     [CliOption("--repository-name")]
     public string? RepositoryName { get; private init; }
@@ -72,7 +73,7 @@ public record AwsCodecommitGetFileOptions : AwsOptions, IValidatableObject
     public string? FilePath { get; private init; }
 
     /// <summary>
-    /// The fully quaified reference that identifies the commit that con- tains the file. For example, you can specify a full commit ID, a tag, a branch name, or a reference such as refs/heads/main. If none is provided, the head commit is used.
+    /// The fully quaified reference that identifies the commit that contains the file. For example, you can specify a full commit ID, a tag, a branch name, or a reference such as refs/heads/main. If none is provided, the head commit is used.
     /// </summary>
     [CliOption("--commit-specifier")]
     public string? CommitSpecifier { get; set; }
@@ -98,6 +99,15 @@ public record AwsCodecommitGetFileOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

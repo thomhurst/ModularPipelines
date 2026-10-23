@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsIvsUpdateAdConfigurationOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Updates a specified ad configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">ARN of the ad configuration to be updated. Constraints: o min: 0 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:ad-configura- tion/[a-zA-Z0-9-]+</param>
+    /// <param name="Arn">ARN of the ad configuration to be updated. Constraints: • min: 0 • max: 128 • pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:ad-configuration/[a-zA-Z0-9-]+</param>
     public AwsIvsUpdateAdConfigurationOptions(
         string Arn
     )
@@ -56,25 +57,25 @@ public record AwsIvsUpdateAdConfigurationOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ARN of the ad configuration to be updated. Constraints: o min: 0 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:ad-configura- tion/[a-zA-Z0-9-]+
+    /// ARN of the ad configuration to be updated. Constraints: • min: 0 • max: 128 • pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:ad-configuration/[a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// Ad configuration name. The value does not need to be unique. Constraints: o min: 0 o max: 128 o pattern: [a-zA-Z0-9-_]*
+    /// Ad configuration name. The value does not need to be unique. Constraints: • min: 0 • max: 128 • pattern: [a-zA-Z0-9-_]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// List of integration configurations with MediaTailor resources. The first item in the list is the default playback configuration used for the ad configuration. To select a different configuration per viewing session, see Generate and Sign IVS Playback Tokens . Constraints: o min: 1 o max: 3 (structure) Object specifying a configuration for integration with an AWS Elemental MediaTailor (EMT). playbackConfigurationArn -&gt; (string) ARN of the customer-created EMT PlaybackConfiguration re- source in the same region and account. Constraints: o min: 0 o max: 128 o pattern: arn:aws:mediatailor:[a-z0-9-]+:[0-9]+:playbackCon- figuration/[a-zA-Z0-9-]+ Shorthand Syntax: playbackConfigurationArn=string ... JSON Syntax: [ { "playbackConfigurationArn": "string" } ... ]
+    /// List of integration configurations with MediaTailor resources. The first item in the list is the default playback configuration used for the ad configuration. To select a different configuration per viewing session, see Generate and Sign IVS Playback Tokens . Constraints: • min: 1 • max: 3 (structure) Object specifying a configuration for integration with an AWS Elemental MediaTailor (EMT). playbackConfigurationArn -&gt; (string) ARN of the customer-created EMT PlaybackConfiguration resource in the same region and account. Constraints: • min: 0 • max: 128 • pattern: arn:aws:mediatailor:[a-z0-9-]+:[0-9]+:playbackConfiguration/[a-zA-Z0-9-]+ Shorthand Syntax: playbackConfigurationArn=string ... JSON Syntax: [ { "playbackConfigurationArn": "string" } ... ]
     /// </summary>
     [CliOption("--media-tailor-playback-configurations", GroupValues = true)]
     public IEnumerable<string>? MediaTailorPlaybackConfigurations { get; set; }
 
     /// <summary>
-    /// Configuration for the post-roll ad break to use for this ad configu- ration. durationSeconds -&gt; (integer) [required] Duration of the post-roll ad break, in seconds. Constraints: o min: 1 o max: 300 enabled -&gt; (boolean) [required] Whether the post-roll ad configuration is enabled. Shorthand Syntax: durationSeconds=integer,enabled=boolean JSON Syntax: { "durationSeconds": integer, "enabled": true|false }
+    /// Configuration for the post-roll ad break to use for this ad configuration. durationSeconds -&gt; (integer) [required] Duration of the post-roll ad break, in seconds. Constraints: • min: 1 • max: 300 enabled -&gt; (boolean) [required] Whether the post-roll ad configuration is enabled. Shorthand Syntax: durationSeconds=integer,enabled=boolean JSON Syntax: { "durationSeconds": integer, "enabled": true|false }
     /// </summary>
     [CliOption("--post-roll-configuration")]
     public string? PostRollConfiguration { get; set; }
@@ -100,6 +101,15 @@ public record AwsIvsUpdateAdConfigurationOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -29,8 +30,8 @@ public record AwsKafkaCreateTopicOptions : AwsOptions, IValidatableObject
     /// </summary>
     /// <param name="ClusterArn">The Amazon Resource Name (ARN) that uniquely identifies the cluster.</param>
     /// <param name="TopicName">The name of the topic to create.</param>
-    /// <param name="PartitionCount">The number of partitions for the topic. Constraints: o min: 1</param>
-    /// <param name="ReplicationFactor">The replication factor for the topic. Constraints: o min: 1</param>
+    /// <param name="PartitionCount">The number of partitions for the topic. Constraints: • min: 1</param>
+    /// <param name="ReplicationFactor">The replication factor for the topic. Constraints: • min: 1</param>
     public AwsKafkaCreateTopicOptions(
         string ClusterArn,
         string TopicName,
@@ -78,13 +79,13 @@ public record AwsKafkaCreateTopicOptions : AwsOptions, IValidatableObject
     public string? TopicName { get; private init; }
 
     /// <summary>
-    /// The number of partitions for the topic. Constraints: o min: 1
+    /// The number of partitions for the topic. Constraints: • min: 1
     /// </summary>
     [CliOption("--partition-count")]
     public int? PartitionCount { get; private init; }
 
     /// <summary>
-    /// The replication factor for the topic. Constraints: o min: 1
+    /// The replication factor for the topic. Constraints: • min: 1
     /// </summary>
     [CliOption("--replication-factor")]
     public int? ReplicationFactor { get; private init; }
@@ -116,6 +117,15 @@ public record AwsKafkaCreateTopicOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

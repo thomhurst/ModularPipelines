@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Resends the email that requests domain ownership validation. The domain owner or an authorized representative must approve the ACM certificate before it can be issued. The certificate can be approved by clicking a link in the mail to navigate to the Amazon certificate approval website and then clicking I Approve . However, the validation email can be blocked by spam filters. Therefore, if you do not receive the original mail, you can request that the mail be resent within 72 hours of re- questin...
+/// Resends the email that requests domain ownership validation. The domain owner or an authorized representative must approve the ACM certificate before it can be issued. The certificate can be approved by clicking a link in the mail to navigate to the Amazon certificate approval website and then clicking I Approve . However, the validation email can be blocked by spam filters. Therefore, if you do not receive the original mail, you can request that the mail be resent within 72 hours of requesting ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsAcmResendValidationEmailOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Resends the email that requests domain ownership validation. The domain owner or an authorized representative must approve the ACM certificate before it can be issued. The certificate can be approved by clicking a link in the mail to navigate to the Amazon certificate approval website and then clicking I Approve . However, the validation email can be blocked by spam filters. Therefore, if you do not receive the original mail, you can request that the mail be resent within 72 hours of re- questin...
+    /// Resends the email that requests domain ownership validation. The domain owner or an authorized representative must approve the ACM certificate before it can be issued. The certificate can be approved by clicking a link in the mail to navigate to the Amazon certificate approval website and then clicking I Approve . However, the validation email can be blocked by spam filters. Therefore, if you do not receive the original mail, you can request that the mail be resent within 72 hours of requesting ...
     /// </summary>
-    /// <param name="CertificateArn">String that contains the ARN of the requested certificate. The cer- tificate ARN is generated and returned by the RequestCertificate action as soon as the request is made. By default, using this para- meter causes email to be sent to all top-level domains you specified in the certificate request. The ARN must be of the form: arn:aws:acm:us-east-1:123456789012:certifi- cate/12345678-1234-1234-1234-123456789012 Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=/,.@-]+:acm:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*</param>
-    /// <param name="Domain">The fully qualified domain name (FQDN) of the certificate that needs to be validated. Constraints: o min: 1 o max: 253 o pattern: (\*\.)?(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])</param>
-    /// <param name="ValidationDomain">The base validation domain that will act as the suffix of the email addresses that are used to send the emails. This must be the same as the Domain value or a superdomain of the Domain value. For example, if you requested a certificate for site.subdomain.example.com and specify a ValidationDomain of subdomain.example.com , ACM sends email to the the following five addresses: o admin@subdomain.example.com o administrator@subdomain.example.com o hostmaster@subdomain.example.com o postmaster@subdomain.example.com o webmaster@subdomain.example.com Constraints: o min: 1 o max: 253 o pattern: (\*\.)?(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])</param>
+    /// <param name="CertificateArn">String that contains the ARN of the requested certificate. The certificate ARN is generated and returned by the RequestCertificate action as soon as the request is made. By default, using this parameter causes email to be sent to all top-level domains you specified in the certificate request. The ARN must be of the form: arn:aws:acm:us-east-1:123456789012:certificate/12345678-1234-1234-1234-123456789012 Constraints: • min: 20 • max: 2048 • pattern: arn:[\w+=/,.@-]+:acm:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*</param>
+    /// <param name="Domain">The fully qualified domain name (FQDN) of the certificate that needs to be validated. Constraints: • min: 1 • max: 253 • pattern: (\*\.)?(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])</param>
+    /// <param name="ValidationDomain">The base validation domain that will act as the suffix of the email addresses that are used to send the emails. This must be the same as the Domain value or a superdomain of the Domain value. For example, if you requested a certificate for site.subdomain.example.com and specify a ValidationDomain of subdomain.example.com , ACM sends email to the the following five addresses: • admin@subdomain.example.com • administrator@subdomain.example.com • hostmaster@subdomain.example.com • postmaster@subdomain.example.com • webmaster@subdomain.example.com Constraints: • min: 1 • max: 253 • pattern: (\*\.)?(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])</param>
     public AwsAcmResendValidationEmailOptions(
         string CertificateArn,
         string Domain,
@@ -64,19 +65,19 @@ public record AwsAcmResendValidationEmailOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// String that contains the ARN of the requested certificate. The cer- tificate ARN is generated and returned by the RequestCertificate action as soon as the request is made. By default, using this para- meter causes email to be sent to all top-level domains you specified in the certificate request. The ARN must be of the form: arn:aws:acm:us-east-1:123456789012:certifi- cate/12345678-1234-1234-1234-123456789012 Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=/,.@-]+:acm:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*
+    /// String that contains the ARN of the requested certificate. The certificate ARN is generated and returned by the RequestCertificate action as soon as the request is made. By default, using this parameter causes email to be sent to all top-level domains you specified in the certificate request. The ARN must be of the form: arn:aws:acm:us-east-1:123456789012:certificate/12345678-1234-1234-1234-123456789012 Constraints: • min: 20 • max: 2048 • pattern: arn:[\w+=/,.@-]+:acm:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*
     /// </summary>
     [CliOption("--certificate-arn")]
     public string? CertificateArn { get; private init; }
 
     /// <summary>
-    /// The fully qualified domain name (FQDN) of the certificate that needs to be validated. Constraints: o min: 1 o max: 253 o pattern: (\*\.)?(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])
+    /// The fully qualified domain name (FQDN) of the certificate that needs to be validated. Constraints: • min: 1 • max: 253 • pattern: (\*\.)?(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])
     /// </summary>
     [CliOption("--domain")]
     public string? Domain { get; private init; }
 
     /// <summary>
-    /// The base validation domain that will act as the suffix of the email addresses that are used to send the emails. This must be the same as the Domain value or a superdomain of the Domain value. For example, if you requested a certificate for site.subdomain.example.com and specify a ValidationDomain of subdomain.example.com , ACM sends email to the the following five addresses: o admin@subdomain.example.com o administrator@subdomain.example.com o hostmaster@subdomain.example.com o postmaster@subdomain.example.com o webmaster@subdomain.example.com Constraints: o min: 1 o max: 253 o pattern: (\*\.)?(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])
+    /// The base validation domain that will act as the suffix of the email addresses that are used to send the emails. This must be the same as the Domain value or a superdomain of the Domain value. For example, if you requested a certificate for site.subdomain.example.com and specify a ValidationDomain of subdomain.example.com , ACM sends email to the the following five addresses: • admin@subdomain.example.com • administrator@subdomain.example.com • hostmaster@subdomain.example.com • postmaster@subdomain.example.com • webmaster@subdomain.example.com Constraints: • min: 1 • max: 253 • pattern: (\*\.)?(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])
     /// </summary>
     [CliOption("--validation-domain")]
     public string? ValidationDomain { get; private init; }
@@ -102,6 +103,15 @@ public record AwsAcmResendValidationEmailOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

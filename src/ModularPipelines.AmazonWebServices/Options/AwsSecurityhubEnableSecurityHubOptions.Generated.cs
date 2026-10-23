@@ -10,13 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Enables Security Hub CSPM for your account in the current Region or the Region you specify in the request. When you enable Security Hub CSPM, you grant to Security Hub CSPM the permissions necessary to gather findings from other services that are integrated with Security Hub CSPM. When you use the EnableSecurityHub operation to enable Security Hub CSPM, you also automatically enable the following standards: o Center for Internet Security (CIS) Amazon Web Services Foundations Benchmark v1.2.0 o A...
+/// Enables Security Hub CSPM for your account in the current Region or the Region you specify in the request. When you enable Security Hub CSPM, you grant to Security Hub CSPM the permissions necessary to gather findings from other services that are integrated with Security Hub CSPM. When you use the EnableSecurityHub operation to enable Security Hub CSPM, you also automatically enable the following standards: • Center for Internet Security (CIS) Amazon Web Services Foundations Benchmark v1.2.0 • A...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -24,7 +24,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSecurityhubEnableSecurityHubOptions : AwsOptions
 {
     /// <summary>
-    /// The tags to add to the hub resource when you enable Security Hub CSPM. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags to add to the hub resource when you enable Security Hub CSPM. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -36,7 +36,7 @@ public record AwsSecurityhubEnableSecurityHubOptions : AwsOptions
     public bool? EnableDefaultStandards { get; set; }
 
     /// <summary>
-    /// This field, used when enabling Security Hub CSPM, specifies whether the calling account has consolidated control findings turned on. If the value for this field is set to SECURITY_CONTROL , Security Hub CSPM generates a single finding for a control check even when the check applies to multiple enabled standards. If the value for this field is set to STANDARD_CONTROL , Security Hub CSPM generates separate findings for a control check when the check applies to multiple enabled standards. The value for this field in a member account matches the value in the administrator account. For accounts that aren't part of an orga- nization, the default value of this field is SECURITY_CONTROL if you enabled Security Hub CSPM on or after February 23, 2023. Possible values: o STANDARD_CONTROL o SECURITY_CONTROL
+    /// This field, used when enabling Security Hub CSPM, specifies whether the calling account has consolidated control findings turned on. If the value for this field is set to SECURITY_CONTROL , Security Hub CSPM generates a single finding for a control check even when the check applies to multiple enabled standards. If the value for this field is set to STANDARD_CONTROL , Security Hub CSPM generates separate findings for a control check when the check applies to multiple enabled standards. The value for this field in a member account matches the value in the administrator account. For accounts that aren't part of an organization, the default value of this field is SECURITY_CONTROL if you enabled Security Hub CSPM on or after February 23, 2023. Possible values: • STANDARD_CONTROL • SECURITY_CONTROL
     /// </summary>
     [CliOption("--control-finding-generator")]
     public AwsSecurityhubEnableSecurityHubControlFindingGenerator? ControlFindingGenerator { get; set; }
@@ -46,5 +46,14 @@ public record AwsSecurityhubEnableSecurityHubOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

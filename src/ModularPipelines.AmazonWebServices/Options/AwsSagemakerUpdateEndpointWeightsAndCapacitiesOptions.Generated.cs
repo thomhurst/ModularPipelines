@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates variant weight of one or more variants associated with an ex- isting endpoint, or capacity of one variant associated with an existing endpoint. When it receives the request, SageMaker sets the endpoint status to Updating . After updating the endpoint, it sets the status to InService . To check the status of an endpoint, use the DescribeEndpoint API. See also: AWS API Documentation
+/// Updates variant weight of one or more variants associated with an existing endpoint, or capacity of one variant associated with an existing endpoint. When it receives the request, SageMaker sets the endpoint status to Updating . After updating the endpoint, it sets the status to InService . To check the status of an endpoint, use the DescribeEndpoint API. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsSagemakerUpdateEndpointWeightsAndCapacitiesOptions : AwsOptions
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates variant weight of one or more variants associated with an ex- isting endpoint, or capacity of one variant associated with an existing endpoint. When it receives the request, SageMaker sets the endpoint status to Updating . After updating the endpoint, it sets the status to InService . To check the status of an endpoint, use the DescribeEndpoint API. See also: AWS API Documentation
+    /// Updates variant weight of one or more variants associated with an existing endpoint, or capacity of one variant associated with an existing endpoint. When it receives the request, SageMaker sets the endpoint status to Updating . After updating the endpoint, it sets the status to InService . To check the status of an endpoint, use the DescribeEndpoint API. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EndpointName">The name of an existing SageMaker endpoint. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
-    /// <param name="DesiredWeightsAndCapacities">An object that provides new capacity and weight values for a vari- ant. Constraints: o min: 1 (structure) Specifies weight and capacity values for a production variant. VariantName -&gt; (string) [required] The name of the variant to update. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62} DesiredWeight -&gt; (float) The variant's weight. Constraints: o min: 0 DesiredInstanceCount -&gt; (integer) The variant's capacity. Constraints: o min: 0 ServerlessUpdateConfig -&gt; (structure) Specifies the serverless update concurrency configuration for an endpoint variant. MaxConcurrency -&gt; (integer) The updated maximum number of concurrent invocations your serverless endpoint can process. Constraints: o min: 1 o max: 200 ProvisionedConcurrency -&gt; (integer) The updated amount of provisioned concurrency to allocate for the serverless endpoint. Should be less than or equal to MaxConcurrency . Constraints: o min: 1 o max: 200 Shorthand Syntax: VariantName=string,DesiredWeight=float,DesiredInstanceCount=integer,ServerlessUpdateConfig={MaxConcurrency=integer,ProvisionedConcurrency=integer} ... JSON Syntax: [ { "VariantName": "string", "DesiredWeight": float, "DesiredInstanceCount": integer, "ServerlessUpdateConfig": { "MaxConcurrency": integer, "ProvisionedConcurrency": integer } } ... ]</param>
+    /// <param name="EndpointName">The name of an existing SageMaker endpoint. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="DesiredWeightsAndCapacities">An object that provides new capacity and weight values for a variant. Constraints: • min: 1 (structure) Specifies weight and capacity values for a production variant. VariantName -&gt; (string) [required] The name of the variant to update. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62} DesiredWeight -&gt; (float) The variant's weight. Constraints: • min: 0 DesiredInstanceCount -&gt; (integer) The variant's capacity. Constraints: • min: 0 ServerlessUpdateConfig -&gt; (structure) Specifies the serverless update concurrency configuration for an endpoint variant. MaxConcurrency -&gt; (integer) The updated maximum number of concurrent invocations your serverless endpoint can process. Constraints: • min: 1 • max: 200 ProvisionedConcurrency -&gt; (integer) The updated amount of provisioned concurrency to allocate for the serverless endpoint. Should be less than or equal to MaxConcurrency . Constraints: • min: 1 • max: 200 Shorthand Syntax: VariantName=string,DesiredWeight=float,DesiredInstanceCount=integer,ServerlessUpdateConfig={MaxConcurrency=integer,ProvisionedConcurrency=integer} ... JSON Syntax: [ { "VariantName": "string", "DesiredWeight": float, "DesiredInstanceCount": integer, "ServerlessUpdateConfig": { "MaxConcurrency": integer, "ProvisionedConcurrency": integer } } ... ]</param>
     public AwsSagemakerUpdateEndpointWeightsAndCapacitiesOptions(
         string EndpointName,
         IEnumerable<string> DesiredWeightsAndCapacities
@@ -71,13 +72,13 @@ public record AwsSagemakerUpdateEndpointWeightsAndCapacitiesOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of an existing SageMaker endpoint. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// The name of an existing SageMaker endpoint. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--endpoint-name")]
     public string? EndpointName { get; private init; }
 
     /// <summary>
-    /// An object that provides new capacity and weight values for a vari- ant. Constraints: o min: 1 (structure) Specifies weight and capacity values for a production variant. VariantName -&gt; (string) [required] The name of the variant to update. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62} DesiredWeight -&gt; (float) The variant's weight. Constraints: o min: 0 DesiredInstanceCount -&gt; (integer) The variant's capacity. Constraints: o min: 0 ServerlessUpdateConfig -&gt; (structure) Specifies the serverless update concurrency configuration for an endpoint variant. MaxConcurrency -&gt; (integer) The updated maximum number of concurrent invocations your serverless endpoint can process. Constraints: o min: 1 o max: 200 ProvisionedConcurrency -&gt; (integer) The updated amount of provisioned concurrency to allocate for the serverless endpoint. Should be less than or equal to MaxConcurrency . Constraints: o min: 1 o max: 200 Shorthand Syntax: VariantName=string,DesiredWeight=float,DesiredInstanceCount=integer,ServerlessUpdateConfig={MaxConcurrency=integer,ProvisionedConcurrency=integer} ... JSON Syntax: [ { "VariantName": "string", "DesiredWeight": float, "DesiredInstanceCount": integer, "ServerlessUpdateConfig": { "MaxConcurrency": integer, "ProvisionedConcurrency": integer } } ... ]
+    /// An object that provides new capacity and weight values for a variant. Constraints: • min: 1 (structure) Specifies weight and capacity values for a production variant. VariantName -&gt; (string) [required] The name of the variant to update. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62} DesiredWeight -&gt; (float) The variant's weight. Constraints: • min: 0 DesiredInstanceCount -&gt; (integer) The variant's capacity. Constraints: • min: 0 ServerlessUpdateConfig -&gt; (structure) Specifies the serverless update concurrency configuration for an endpoint variant. MaxConcurrency -&gt; (integer) The updated maximum number of concurrent invocations your serverless endpoint can process. Constraints: • min: 1 • max: 200 ProvisionedConcurrency -&gt; (integer) The updated amount of provisioned concurrency to allocate for the serverless endpoint. Should be less than or equal to MaxConcurrency . Constraints: • min: 1 • max: 200 Shorthand Syntax: VariantName=string,DesiredWeight=float,DesiredInstanceCount=integer,ServerlessUpdateConfig={MaxConcurrency=integer,ProvisionedConcurrency=integer} ... JSON Syntax: [ { "VariantName": "string", "DesiredWeight": float, "DesiredInstanceCount": integer, "ServerlessUpdateConfig": { "MaxConcurrency": integer, "ProvisionedConcurrency": integer } } ... ]
     /// </summary>
     [CliOption("--desired-weights-and-capacities", GroupValues = true)]
     public IEnumerable<string>? DesiredWeightsAndCapacities { get; private init; }
@@ -103,6 +104,15 @@ public record AwsSagemakerUpdateEndpointWeightsAndCapacitiesOptions : AwsOptions
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

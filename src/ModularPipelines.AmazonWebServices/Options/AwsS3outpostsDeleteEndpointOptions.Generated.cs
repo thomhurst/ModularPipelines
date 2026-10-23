@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes an endpoint. NOTE: It can take up to 5 minutes for this action to finish. Related actions include: o CreateEndpoint o ListEndpoints See also: AWS API Documentation
+/// Deletes an endpoint. NOTE: It can take up to 5 minutes for this action to finish. Related actions include: • CreateEndpoint • ListEndpoints See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsS3outpostsDeleteEndpointOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes an endpoint. NOTE: It can take up to 5 minutes for this action to finish. Related actions include: o CreateEndpoint o ListEndpoints See also: AWS API Documentation
+    /// Deletes an endpoint. NOTE: It can take up to 5 minutes for this action to finish. Related actions include: • CreateEndpoint • ListEndpoints See also: AWS API Documentation
     /// </summary>
-    /// <param name="EndpointId">The ID of the endpoint. Constraints: o pattern: ^[a-zA-Z0-9]{19}$</param>
-    /// <param name="OutpostId">The ID of the Outposts. Constraints: o pattern: ^(op-[a-f0-9]{17}|\d{12}|ec2)$</param>
+    /// <param name="EndpointId">The ID of the endpoint. Constraints: • pattern: ^[a-zA-Z0-9]{19}$</param>
+    /// <param name="OutpostId">The ID of the Outposts. Constraints: • pattern: ^(op-[a-f0-9]{17}|\d{12}|ec2)$</param>
     public AwsS3outpostsDeleteEndpointOptions(
         string EndpointId,
         string OutpostId
@@ -60,13 +61,13 @@ public record AwsS3outpostsDeleteEndpointOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the endpoint. Constraints: o pattern: ^[a-zA-Z0-9]{19}$
+    /// The ID of the endpoint. Constraints: • pattern: ^[a-zA-Z0-9]{19}$
     /// </summary>
     [CliOption("--endpoint-id")]
     public string? EndpointId { get; private init; }
 
     /// <summary>
-    /// The ID of the Outposts. Constraints: o pattern: ^(op-[a-f0-9]{17}|\d{12}|ec2)$
+    /// The ID of the Outposts. Constraints: • pattern: ^(op-[a-f0-9]{17}|\d{12}|ec2)$
     /// </summary>
     [CliOption("--outpost-id")]
     public string? OutpostId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsS3outpostsDeleteEndpointOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

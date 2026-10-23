@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Reloads the target database table with the source data. You can only use this operation with a task in the RUNNING state, oth- erwise the service will throw an InvalidResourceStateFault exception. See also: AWS API Documentation
+/// Reloads the target database table with the source data. You can only use this operation with a task in the RUNNING state, otherwise the service will throw an InvalidResourceStateFault exception. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsDmsReloadTablesOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Reloads the target database table with the source data. You can only use this operation with a task in the RUNNING state, oth- erwise the service will throw an InvalidResourceStateFault exception. See also: AWS API Documentation
+    /// Reloads the target database table with the source data. You can only use this operation with a task in the RUNNING state, otherwise the service will throw an InvalidResourceStateFault exception. See also: AWS API Documentation
     /// </summary>
     /// <param name="ReplicationTaskArn">The Amazon Resource Name (ARN) of the replication task.</param>
     /// <param name="TablesToReload">The name and schema of the table to be reloaded. (structure) Provides the name of the schema and table to be reloaded. SchemaName -&gt; (string) [required] The schema name of the table to be reloaded. TableName -&gt; (string) [required] The table name of the table to be reloaded. Shorthand Syntax: SchemaName=string,TableName=string ... JSON Syntax: [ { "SchemaName": "string", "TableName": "string" } ... ]</param>
@@ -83,7 +84,7 @@ public record AwsDmsReloadTablesOptions : AwsOptions, IValidatableObject
     public IEnumerable<string>? TablesToReload { get; private init; }
 
     /// <summary>
-    /// Options for reload. Specify data-reload to reload the data and re-validate it if validation is enabled. Specify validate-only to re-validate the table. This option applies only when validation is enabled for the task. Valid values: data-reload, validate-only Default value is data-reload. Possible values: o data-reload o validate-only
+    /// Options for reload. Specify data-reload to reload the data and re-validate it if validation is enabled. Specify validate-only to re-validate the table. This option applies only when validation is enabled for the task. Valid values: data-reload, validate-only Default value is data-reload. Possible values: • data-reload • validate-only
     /// </summary>
     [CliOption("--reload-option")]
     public string? ReloadOption { get; set; }
@@ -109,6 +110,15 @@ public record AwsDmsReloadTablesOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

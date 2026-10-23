@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets the shadow for the specified thing. Requires permission to access the GetThingShadow action. For more information, see GetThingShadow in the IoT Developer Guide. See also: AWS API Documentation NOTE: For production code it is strongly recommended to use the custom endpoint for your account (retrievable via the iot describe-endpoint command) to ensure best availability and reachability of the ser- vice. The default endpoints (intended for testing purposes only) can be found at https://docs.a...
+/// Gets the shadow for the specified thing. Requires permission to access the GetThingShadow action. For more information, see GetThingShadow in the IoT Developer Guide. See also: AWS API Documentation NOTE: For production code it is strongly recommended to use the custom endpoint for your account (retrievable via the iot describe-endpoint command) to ensure best availability and reachability of the service. The default endpoints (intended for testing purposes only) can be found at https://docs.aws...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,9 +22,9 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsIotDataGetThingShadowOptions : AwsOptions
 {
     /// <summary>
-    /// Gets the shadow for the specified thing. Requires permission to access the GetThingShadow action. For more information, see GetThingShadow in the IoT Developer Guide. See also: AWS API Documentation NOTE: For production code it is strongly recommended to use the custom endpoint for your account (retrievable via the iot describe-endpoint command) to ensure best availability and reachability of the ser- vice. The default endpoints (intended for testing purposes only) can be found at https://docs.a...
+    /// Gets the shadow for the specified thing. Requires permission to access the GetThingShadow action. For more information, see GetThingShadow in the IoT Developer Guide. See also: AWS API Documentation NOTE: For production code it is strongly recommended to use the custom endpoint for your account (retrievable via the iot describe-endpoint command) to ensure best availability and reachability of the service. The default endpoints (intended for testing purposes only) can be found at https://docs.aws...
     /// </summary>
-    /// <param name="ThingName">The name of the thing. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+</param>
+    /// <param name="ThingName">The name of the thing. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+</param>
     /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
     public AwsIotDataGetThingShadowOptions(
         string ThingName,
@@ -44,13 +44,13 @@ public record AwsIotDataGetThingShadowOptions : AwsOptions
     }
 
     /// <summary>
-    /// The name of the thing. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+
+    /// The name of the thing. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+
     /// </summary>
     [CliOption("--thing-name")]
     public string ThingName { get; private init; }
 
     /// <summary>
-    /// The name of the shadow. Constraints: o min: 1 o max: 64 o pattern: [$a-zA-Z0-9:_-]+ outfile (string) [required] Filename where the content will be saved
+    /// The name of the shadow. Constraints: • min: 1 • max: 64 • pattern: [$a-zA-Z0-9:_-]+ outfile (string) [required] Filename where the content will be saved
     /// </summary>
     [CliOption("--shadow-name")]
     public string? ShadowName { get; set; }
@@ -60,5 +60,14 @@ public record AwsIotDataGetThingShadowOptions : AwsOptions
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
     public string Outfile { get; private init; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

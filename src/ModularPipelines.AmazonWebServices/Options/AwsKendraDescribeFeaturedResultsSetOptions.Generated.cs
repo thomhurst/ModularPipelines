@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsKendraDescribeFeaturedResultsSetOptions : AwsOptions, IValidata
     /// <summary>
     /// Gets information about a set of featured results. Features results are placed above all other results for certain queries. If there's an exact match of a query, then one or more specific documents are featured in the search results. See also: AWS API Documentation
     /// </summary>
-    /// <param name="IndexId">The identifier of the index used for featuring results. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*</param>
-    /// <param name="FeaturedResultsSetId">The identifier of the set of featured results that you want to get information on. Constraints: o min: 36 o max: 36 o pattern: ^[a-zA-Z-0-9]*</param>
+    /// <param name="IndexId">The identifier of the index used for featuring results. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]*</param>
+    /// <param name="FeaturedResultsSetId">The identifier of the set of featured results that you want to get information on. Constraints: • min: 36 • max: 36 • pattern: ^[a-zA-Z-0-9]*</param>
     public AwsKendraDescribeFeaturedResultsSetOptions(
         string IndexId,
         string FeaturedResultsSetId
@@ -60,13 +61,13 @@ public record AwsKendraDescribeFeaturedResultsSetOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the index used for featuring results. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*
+    /// The identifier of the index used for featuring results. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]*
     /// </summary>
     [CliOption("--index-id")]
     public string? IndexId { get; private init; }
 
     /// <summary>
-    /// The identifier of the set of featured results that you want to get information on. Constraints: o min: 36 o max: 36 o pattern: ^[a-zA-Z-0-9]*
+    /// The identifier of the set of featured results that you want to get information on. Constraints: • min: 36 • max: 36 • pattern: ^[a-zA-Z-0-9]*
     /// </summary>
     [CliOption("--featured-results-set-id")]
     public string? FeaturedResultsSetId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsKendraDescribeFeaturedResultsSetOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

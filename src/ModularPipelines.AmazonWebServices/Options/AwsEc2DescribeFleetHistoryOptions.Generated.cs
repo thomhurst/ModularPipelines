@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes the events for the specified EC2 Fleet during the specified time. EC2 Fleet events are delayed by up to 30 seconds before they can be de- scribed. This ensures that you can query by the last evaluated time and not miss a recorded event. EC2 Fleet events are available for 48 hours. For more information, see Monitor fleet events using Amazon EventBridge in the Amazon EC2 User Guide . See also: AWS API Documentation
+/// Describes the events for the specified EC2 Fleet during the specified time. EC2 Fleet events are delayed by up to 30 seconds before they can be described. This ensures that you can query by the last evaluated time and not miss a recorded event. EC2 Fleet events are available for 48 hours. For more information, see Monitor fleet events using Amazon EventBridge in the Amazon EC2 User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,7 +28,7 @@ public record AwsEc2DescribeFleetHistoryOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Describes the events for the specified EC2 Fleet during the specified time. EC2 Fleet events are delayed by up to 30 seconds before they can be de- scribed. This ensures that you can query by the last evaluated time and not miss a recorded event. EC2 Fleet events are available for 48 hours. For more information, see Monitor fleet events using Amazon EventBridge in the Amazon EC2 User Guide . See also: AWS API Documentation
+    /// Describes the events for the specified EC2 Fleet during the specified time. EC2 Fleet events are delayed by up to 30 seconds before they can be described. This ensures that you can query by the last evaluated time and not miss a recorded event. EC2 Fleet events are available for 48 hours. For more information, see Monitor fleet events using Amazon EventBridge in the Amazon EC2 User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="FleetId">The ID of the EC2 Fleet.</param>
     /// <param name="StartTime">The start date and time for the events, in UTC format (for example, YYYY -MM -DD T*HH* :MM :SS Z).</param>
@@ -74,13 +75,13 @@ public record AwsEc2DescribeFleetHistoryOptions : AwsOptions, IValidatableObject
     public string? StartTime { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// The type of events to describe. By default, all events are de- scribed. Possible values: o instance-change o fleet-change o service-error
+    /// The type of events to describe. By default, all events are described. Possible values: • instance-change • fleet-change • service-error
     /// </summary>
     [CliOption("--event-type")]
     public AwsEc2DescribeFleetHistoryEventType? EventType { get; set; }
@@ -92,7 +93,7 @@ public record AwsEc2DescribeFleetHistoryOptions : AwsOptions, IValidatableObject
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous re- quest.
+    /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -119,6 +120,15 @@ public record AwsEc2DescribeFleetHistoryOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

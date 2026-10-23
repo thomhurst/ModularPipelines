@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the IdNamespace with a given name, if it exists. See also: AWS API Documentation get-id-namespace uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+/// Returns the IdNamespace with a given name, if it exists. See also: AWS API Documentation get-id-namespace uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsEntityresolutionGetIdNamespaceOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the IdNamespace with a given name, if it exists. See also: AWS API Documentation get-id-namespace uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Returns the IdNamespace with a given name, if it exists. See also: AWS API Documentation get-id-namespace uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
-    /// <param name="IdNamespaceName">The name of the ID namespace. Constraints: o pattern: [a-zA-Z_0-9-=+/]*$|^arn:(aws|aws-us-gov|aws-cn):enti- tyresolution:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:(idname- space/[a-zA-Z_0-9-]{1,255})</param>
+    /// <param name="IdNamespaceName">The name of the ID namespace. Constraints: • pattern: [a-zA-Z_0-9-=+/]*$|^arn:(aws|aws-us-gov|aws-cn):entityresolution:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:(idnamespace/[a-zA-Z_0-9-]{1,255})</param>
     public AwsEntityresolutionGetIdNamespaceOptions(
         string IdNamespaceName
     )
@@ -56,7 +57,7 @@ public record AwsEntityresolutionGetIdNamespaceOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the ID namespace. Constraints: o pattern: [a-zA-Z_0-9-=+/]*$|^arn:(aws|aws-us-gov|aws-cn):enti- tyresolution:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:(idname- space/[a-zA-Z_0-9-]{1,255})
+    /// The name of the ID namespace. Constraints: • pattern: [a-zA-Z_0-9-=+/]*$|^arn:(aws|aws-us-gov|aws-cn):entityresolution:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:(idnamespace/[a-zA-Z_0-9-]{1,255})
     /// </summary>
     [CliOption("--id-namespace-name")]
     public string? IdNamespaceName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsEntityresolutionGetIdNamespaceOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Use the CreateGroup operation to create a group in Quick Sight. You can create up to 10,000 groups in a namespace. If you want to create more than 10,000 groups in a namespace, contact Amazon Web Services Support. The permissions resource is `` arn:aws:quicksight:&lt;your-region&gt;:&lt;relevant-aws-account-id&gt; :group/de- fault/&lt;group-name&gt; `` . System Message: WARNING/2 (&lt;string&gt;:, line 25) Inline literal start-string without end-string. The response is a group object. See also: AWS API Documentation
+/// Use the CreateGroup operation to create a group in Quick Sight. You can create up to 10,000 groups in a namespace. If you want to create more than 10,000 groups in a namespace, contact Amazon Web Services Support. The permissions resource is `` arn:aws:quicksight:&lt;your-region&gt;:&lt;relevant-aws-account-id&gt; :group/default/&lt;group-name&gt; `` . System Message: WARNING/2 (&lt;string&gt;:, line 25) Inline literal start-string without end-string. The response is a group object. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsQuicksightCreateGroupOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Use the CreateGroup operation to create a group in Quick Sight. You can create up to 10,000 groups in a namespace. If you want to create more than 10,000 groups in a namespace, contact Amazon Web Services Support. The permissions resource is `` arn:aws:quicksight:&lt;your-region&gt;:&lt;relevant-aws-account-id&gt; :group/de- fault/&lt;group-name&gt; `` . System Message: WARNING/2 (&lt;string&gt;:, line 25) Inline literal start-string without end-string. The response is a group object. See also: AWS API Documentation
+    /// Use the CreateGroup operation to create a group in Quick Sight. You can create up to 10,000 groups in a namespace. If you want to create more than 10,000 groups in a namespace, contact Amazon Web Services Support. The permissions resource is `` arn:aws:quicksight:&lt;your-region&gt;:&lt;relevant-aws-account-id&gt; :group/default/&lt;group-name&gt; `` . System Message: WARNING/2 (&lt;string&gt;:, line 25) Inline literal start-string without end-string. The response is a group object. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GroupName">A name for the group that you want to create. Constraints: o min: 1 o pattern: [\u0020-\u00FF]+</param>
-    /// <param name="AwsAccountId">The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon Quick Sight account. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="Namespace">The namespace that you want the group to be a part of. Constraints: o max: 64 o pattern: ^[a-zA-Z0-9._-]*$</param>
+    /// <param name="GroupName">A name for the group that you want to create. Constraints: • min: 1 • pattern: [\u0020-\u00FF]+</param>
+    /// <param name="AwsAccountId">The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon Quick Sight account. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="Namespace">The namespace that you want the group to be a part of. Constraints: • max: 64 • pattern: ^[a-zA-Z0-9._-]*$</param>
     public AwsQuicksightCreateGroupOptions(
         string GroupName,
         string AwsAccountId,
@@ -64,25 +65,25 @@ public record AwsQuicksightCreateGroupOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A name for the group that you want to create. Constraints: o min: 1 o pattern: [\u0020-\u00FF]+
+    /// A name for the group that you want to create. Constraints: • min: 1 • pattern: [\u0020-\u00FF]+
     /// </summary>
     [CliOption("--group-name")]
     public string? GroupName { get; private init; }
 
     /// <summary>
-    /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon Quick Sight account. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon Quick Sight account. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The namespace that you want the group to be a part of. Constraints: o max: 64 o pattern: ^[a-zA-Z0-9._-]*$
+    /// The namespace that you want the group to be a part of. Constraints: • max: 64 • pattern: ^[a-zA-Z0-9._-]*$
     /// </summary>
     [CliOption("--namespace")]
     public string? Namespace { get; private init; }
 
     /// <summary>
-    /// A description for the group that you want to create. Constraints: o min: 1 o max: 512
+    /// A description for the group that you want to create. Constraints: • min: 1 • max: 512
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
@@ -108,6 +109,15 @@ public record AwsQuicksightCreateGroupOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

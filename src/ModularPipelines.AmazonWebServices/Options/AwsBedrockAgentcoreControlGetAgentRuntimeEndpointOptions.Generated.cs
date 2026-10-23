@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsBedrockAgentcoreControlGetAgentRuntimeEndpointOptions : AwsOpti
     /// <summary>
     /// Gets information about an Amazon Secure AgentEndpoint. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AgentRuntimeId">The unique identifier of the AgentCore Runtime associated with the endpoint. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9_]{0,99}-[a-zA-Z0-9]{10}</param>
-    /// <param name="EndpointName">The name of the AgentCore Runtime endpoint to retrieve. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9_]{0,47}</param>
+    /// <param name="AgentRuntimeId">The unique identifier of the AgentCore Runtime associated with the endpoint. Constraints: • pattern: [a-zA-Z][a-zA-Z0-9_]{0,99}-[a-zA-Z0-9]{10}</param>
+    /// <param name="EndpointName">The name of the AgentCore Runtime endpoint to retrieve. Constraints: • pattern: [a-zA-Z][a-zA-Z0-9_]{0,47}</param>
     public AwsBedrockAgentcoreControlGetAgentRuntimeEndpointOptions(
         string AgentRuntimeId,
         string EndpointName
@@ -60,13 +61,13 @@ public record AwsBedrockAgentcoreControlGetAgentRuntimeEndpointOptions : AwsOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the AgentCore Runtime associated with the endpoint. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9_]{0,99}-[a-zA-Z0-9]{10}
+    /// The unique identifier of the AgentCore Runtime associated with the endpoint. Constraints: • pattern: [a-zA-Z][a-zA-Z0-9_]{0,99}-[a-zA-Z0-9]{10}
     /// </summary>
     [CliOption("--agent-runtime-id")]
     public string? AgentRuntimeId { get; private init; }
 
     /// <summary>
-    /// The name of the AgentCore Runtime endpoint to retrieve. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9_]{0,47}
+    /// The name of the AgentCore Runtime endpoint to retrieve. Constraints: • pattern: [a-zA-Z][a-zA-Z0-9_]{0,47}
     /// </summary>
     [CliOption("--endpoint-name")]
     public string? EndpointName { get; private init; }
@@ -92,6 +93,15 @@ public record AwsBedrockAgentcoreControlGetAgentRuntimeEndpointOptions : AwsOpti
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

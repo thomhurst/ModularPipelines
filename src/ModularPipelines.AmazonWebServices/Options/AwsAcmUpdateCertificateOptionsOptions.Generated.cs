@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsAcmUpdateCertificateOptionsOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Updates certificate options. You can use this operation to change the domain validation method or specify whether to export your certificate. For more information, see Migrate from email to DNS validation and Certificate Manager Exportable Managed Certificates . See also: AWS API Documentation
     /// </summary>
-    /// <param name="CertificateArn">ARN of the requested certificate to update. This must be of the form: `` arn:aws:acm:us-east-1:account :certifi- cate/12345678-1234-1234-1234-123456789012 `` System Message: WARNING/2 (&lt;string&gt;:, line 73) Inline literal start-string without end-string. Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=/,.@-]+:acm:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*</param>
-    /// <param name="Options">Use to update the options for your certificate. Currently, you can change the domain validation method or specify whether to export your certificate. For more information about migrating from email to DNS validation, see Migrate from email to DNS validation . CertificateTransparencyLoggingPreference -&gt; (string) This parameter has been deprecated. Certificate transparency logging opt-out is no longer available. All public certificates are recorded in a certificate transparency log. Possible values: o ENABLED o DISABLED Export -&gt; (string) You can opt in to allow the export of your certificates by spec- ifying ENABLED . You cannot update the value of Export after the the certificate is created. Possible values: o ENABLED o DISABLED ValidationMethod -&gt; (string) The domain validation method for the certificate. To migrate from email to DNS validation, specify DNS . Possible values: o EMAIL o DNS o HTTP Shorthand Syntax: CertificateTransparencyLoggingPreference=string,Export=string,ValidationMethod=string JSON Syntax: { "CertificateTransparencyLoggingPreference": "ENABLED"|"DISABLED", "Export": "ENABLED"|"DISABLED", "ValidationMethod": "EMAIL"|"DNS"|"HTTP" }</param>
+    /// <param name="CertificateArn">ARN of the requested certificate to update. This must be of the form: `` arn:aws:acm:us-east-1:account :certificate/12345678-1234-1234-1234-123456789012 `` System Message: WARNING/2 (&lt;string&gt;:, line 73) Inline literal start-string without end-string. Constraints: • min: 20 • max: 2048 • pattern: arn:[\w+=/,.@-]+:acm:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*</param>
+    /// <param name="Options">Use to update the options for your certificate. Currently, you can change the domain validation method or specify whether to export your certificate. For more information about migrating from email to DNS validation, see Migrate from email to DNS validation . CertificateTransparencyLoggingPreference -&gt; (string) This parameter has been deprecated. Certificate transparency logging opt-out is no longer available. All public certificates are recorded in a certificate transparency log. Possible values: • ENABLED • DISABLED Export -&gt; (string) You can opt in to allow the export of your certificates by specifying ENABLED . You cannot update the value of Export after the the certificate is created. Possible values: • ENABLED • DISABLED ValidationMethod -&gt; (string) The domain validation method for the certificate. To migrate from email to DNS validation, specify DNS . Possible values: • EMAIL • DNS • HTTP Shorthand Syntax: CertificateTransparencyLoggingPreference=string,Export=string,ValidationMethod=string JSON Syntax: { "CertificateTransparencyLoggingPreference": "ENABLED"|"DISABLED", "Export": "ENABLED"|"DISABLED", "ValidationMethod": "EMAIL"|"DNS"|"HTTP" }</param>
     public AwsAcmUpdateCertificateOptionsOptions(
         string CertificateArn,
         string Options
@@ -60,13 +61,13 @@ public record AwsAcmUpdateCertificateOptionsOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ARN of the requested certificate to update. This must be of the form: `` arn:aws:acm:us-east-1:account :certifi- cate/12345678-1234-1234-1234-123456789012 `` System Message: WARNING/2 (&lt;string&gt;:, line 73) Inline literal start-string without end-string. Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=/,.@-]+:acm:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*
+    /// ARN of the requested certificate to update. This must be of the form: `` arn:aws:acm:us-east-1:account :certificate/12345678-1234-1234-1234-123456789012 `` System Message: WARNING/2 (&lt;string&gt;:, line 73) Inline literal start-string without end-string. Constraints: • min: 20 • max: 2048 • pattern: arn:[\w+=/,.@-]+:acm:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*
     /// </summary>
     [CliOption("--certificate-arn")]
     public string? CertificateArn { get; private init; }
 
     /// <summary>
-    /// Use to update the options for your certificate. Currently, you can change the domain validation method or specify whether to export your certificate. For more information about migrating from email to DNS validation, see Migrate from email to DNS validation . CertificateTransparencyLoggingPreference -&gt; (string) This parameter has been deprecated. Certificate transparency logging opt-out is no longer available. All public certificates are recorded in a certificate transparency log. Possible values: o ENABLED o DISABLED Export -&gt; (string) You can opt in to allow the export of your certificates by spec- ifying ENABLED . You cannot update the value of Export after the the certificate is created. Possible values: o ENABLED o DISABLED ValidationMethod -&gt; (string) The domain validation method for the certificate. To migrate from email to DNS validation, specify DNS . Possible values: o EMAIL o DNS o HTTP Shorthand Syntax: CertificateTransparencyLoggingPreference=string,Export=string,ValidationMethod=string JSON Syntax: { "CertificateTransparencyLoggingPreference": "ENABLED"|"DISABLED", "Export": "ENABLED"|"DISABLED", "ValidationMethod": "EMAIL"|"DNS"|"HTTP" }
+    /// Use to update the options for your certificate. Currently, you can change the domain validation method or specify whether to export your certificate. For more information about migrating from email to DNS validation, see Migrate from email to DNS validation . CertificateTransparencyLoggingPreference -&gt; (string) This parameter has been deprecated. Certificate transparency logging opt-out is no longer available. All public certificates are recorded in a certificate transparency log. Possible values: • ENABLED • DISABLED Export -&gt; (string) You can opt in to allow the export of your certificates by specifying ENABLED . You cannot update the value of Export after the the certificate is created. Possible values: • ENABLED • DISABLED ValidationMethod -&gt; (string) The domain validation method for the certificate. To migrate from email to DNS validation, specify DNS . Possible values: • EMAIL • DNS • HTTP Shorthand Syntax: CertificateTransparencyLoggingPreference=string,Export=string,ValidationMethod=string JSON Syntax: { "CertificateTransparencyLoggingPreference": "ENABLED"|"DISABLED", "Export": "ENABLED"|"DISABLED", "ValidationMethod": "EMAIL"|"DNS"|"HTTP" }
     /// </summary>
     [CliOption("--options")]
     public string? Options { get; private init; }
@@ -92,6 +93,15 @@ public record AwsAcmUpdateCertificateOptionsOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws securityir commands.
+/// aws security-ir commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsSecurityIr : IAwsSecurityIr
@@ -167,6 +167,21 @@ public class AwsSecurityIr : IAwsSecurityIr
     }
 
     /// <summary>
+    /// Returns finding-lifecycle metrics for a membership over a date range. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetFindingMetricsAsync(
+        AwsSecurityIrGetFindingMetricsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Returns the attributes of a membership. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -182,7 +197,7 @@ public class AwsSecurityIr : IAwsSecurityIr
     }
 
     /// <summary>
-    /// Views the case history for edits made to a designated case. See also: AWS API Documentation list-case-edits is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
+    /// Views the case history for edits made to a designated case. See also: AWS API Documentation list-case-edits is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +212,7 @@ public class AwsSecurityIr : IAwsSecurityIr
     }
 
     /// <summary>
-    /// Lists all cases the requester has access to. See also: AWS API Documentation list-cases is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: items
+    /// Lists all cases the requester has access to. See also: AWS API Documentation list-cases is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +227,7 @@ public class AwsSecurityIr : IAwsSecurityIr
     }
 
     /// <summary>
-    /// Returns comments for a designated case. See also: AWS API Documentation list-comments is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
+    /// Returns comments for a designated case. See also: AWS API Documentation list-comments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -347,7 +362,7 @@ public class AwsSecurityIr : IAwsSecurityIr
     }
 
     /// <summary>
-    /// Updates the state transitions for a designated cases. Self-managed : the following states are available for self-managed cases. o Submitted Detection and Analysis o Detection and Analysis Containment, Eradication, and Recovery o Detection and Analysis Post-incident Activities o Containment, Eradication, and Recovery Detection and Analysis o Containment, Eradication, and Recovery Post-incident Activities o Post-incident Activities Containment, Eradication, and Recovery o Post-incident Activities ...
+    /// Updates the state transitions for a designated cases. Self-managed : the following states are available for self-managed cases. • Submitted Detection and Analysis • Detection and Analysis Containment, Eradication, and Recovery • Detection and Analysis Post-incident Activities • Containment, Eradication, and Recovery Detection and Analysis • Containment, Eradication, and Recovery Post-incident Activities • Post-incident Activities Containment, Eradication, and Recovery • Post-incident Activities ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

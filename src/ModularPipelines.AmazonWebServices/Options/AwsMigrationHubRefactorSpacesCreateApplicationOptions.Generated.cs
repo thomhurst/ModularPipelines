@@ -11,13 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an Amazon Web Services Migration Hub Refactor Spaces applica- tion. The account that owns the environment also owns the applications created inside the environment, regardless of the account that creates the application. Refactor Spaces provisions an Amazon API Gateway, API Gateway VPC link, and Network Load Balancer for the application proxy inside your account. In environments created with a CreateEnvironment:NetworkFabricType of NONE you need to configure VPC to VPC connectivity betwe...
+/// Creates an Amazon Web Services Migration Hub Refactor Spaces application. The account that owns the environment also owns the applications created inside the environment, regardless of the account that creates the application. Refactor Spaces provisions an Amazon API Gateway, API Gateway VPC link, and Network Load Balancer for the application proxy inside your account. In environments created with a CreateEnvironment:NetworkFabricType of NONE you need to configure VPC to VPC connectivity between...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,12 +27,12 @@ public record AwsMigrationHubRefactorSpacesCreateApplicationOptions : AwsOptions
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an Amazon Web Services Migration Hub Refactor Spaces applica- tion. The account that owns the environment also owns the applications created inside the environment, regardless of the account that creates the application. Refactor Spaces provisions an Amazon API Gateway, API Gateway VPC link, and Network Load Balancer for the application proxy inside your account. In environments created with a CreateEnvironment:NetworkFabricType of NONE you need to configure VPC to VPC connectivity betwe...
+    /// Creates an Amazon Web Services Migration Hub Refactor Spaces application. The account that owns the environment also owns the applications created inside the environment, regardless of the account that creates the application. Refactor Spaces provisions an Amazon API Gateway, API Gateway VPC link, and Network Load Balancer for the application proxy inside your account. In environments created with a CreateEnvironment:NetworkFabricType of NONE you need to configure VPC to VPC connectivity between...
     /// </summary>
-    /// <param name="EnvironmentIdentifier">The unique identifier of the environment. Constraints: o min: 14 o max: 14 o pattern: ^env-[0-9A-Za-z]{10}$</param>
-    /// <param name="Name">The name to use for the application. Constraints: o min: 3 o max: 63 o pattern: ^(?!app-)[a-zA-Z0-9]+[a-zA-Z0-9-_ ]+$</param>
-    /// <param name="ProxyType">The proxy type of the proxy created within the application. Possible values: o API_GATEWAY</param>
-    /// <param name="VpcId">The ID of the virtual private cloud (VPC). Constraints: o min: 12 o max: 21 o pattern: ^vpc-[-a-f0-9]{8}([-a-f0-9]{9})?$</param>
+    /// <param name="EnvironmentIdentifier">The unique identifier of the environment. Constraints: • min: 14 • max: 14 • pattern: ^env-[0-9A-Za-z]{10}$</param>
+    /// <param name="Name">The name to use for the application. Constraints: • min: 3 • max: 63 • pattern: ^(?!app-)[a-zA-Z0-9]+[a-zA-Z0-9-_ ]+$</param>
+    /// <param name="ProxyType">The proxy type of the proxy created within the application. Possible values: • API_GATEWAY</param>
+    /// <param name="VpcId">The ID of the virtual private cloud (VPC). Constraints: • min: 12 • max: 21 • pattern: ^vpc-[-a-f0-9]{8}([-a-f0-9]{9})?$</param>
     public AwsMigrationHubRefactorSpacesCreateApplicationOptions(
         string EnvironmentIdentifier,
         string Name,
@@ -70,44 +70,44 @@ public record AwsMigrationHubRefactorSpacesCreateApplicationOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the environment. Constraints: o min: 14 o max: 14 o pattern: ^env-[0-9A-Za-z]{10}$
+    /// The unique identifier of the environment. Constraints: • min: 14 • max: 14 • pattern: ^env-[0-9A-Za-z]{10}$
     /// </summary>
     [CliOption("--environment-identifier")]
     public string? EnvironmentIdentifier { get; private init; }
 
     /// <summary>
-    /// The name to use for the application. Constraints: o min: 3 o max: 63 o pattern: ^(?!app-)[a-zA-Z0-9]+[a-zA-Z0-9-_ ]+$
+    /// The name to use for the application. Constraints: • min: 3 • max: 63 • pattern: ^(?!app-)[a-zA-Z0-9]+[a-zA-Z0-9-_ ]+$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The proxy type of the proxy created within the application. Possible values: o API_GATEWAY
+    /// The proxy type of the proxy created within the application. Possible values: • API_GATEWAY
     /// </summary>
     [CliOption("--proxy-type")]
     public string? ProxyType { get; private init; }
 
     /// <summary>
-    /// The ID of the virtual private cloud (VPC). Constraints: o min: 12 o max: 21 o pattern: ^vpc-[-a-f0-9]{8}([-a-f0-9]{9})?$
+    /// The ID of the virtual private cloud (VPC). Constraints: • min: 12 • max: 21 • pattern: ^vpc-[-a-f0-9]{8}([-a-f0-9]{9})?$
     /// </summary>
     [CliOption("--vpc-id")]
     public string? VpcId { get; private init; }
 
     /// <summary>
-    /// A wrapper object holding the API Gateway endpoint type and stage name for the proxy. EndpointType -&gt; (string) The type of endpoint to use for the API Gateway proxy. If no value is specified in the request, the value is set to REGIONAL by default. If the value is set to PRIVATE in the request, this creates a private API endpoint that is isolated from the public internet. The private endpoint can only be accessed by using Amazon Vir- tual Private Cloud (Amazon VPC) interface endpoints for the Ama- zon API Gateway that has been granted access. For more informa- tion about creating a private connection with Refactor Spaces and interface endpoint (Amazon Web Services PrivateLink) avail- ability, see Access Refactor Spaces using an interface endpoint (Amazon Web Services PrivateLink) . Possible values: o REGIONAL o PRIVATE StageName -&gt; (string) The name of the API Gateway stage. The name defaults to prod . Constraints: o min: 1 o max: 128 o pattern: ^[-a-zA-Z0-9_]*$ Shorthand Syntax: EndpointType=string,StageName=string JSON Syntax: { "EndpointType": "REGIONAL"|"PRIVATE", "StageName": "string" }
+    /// A wrapper object holding the API Gateway endpoint type and stage name for the proxy. EndpointType -&gt; (string) The type of endpoint to use for the API Gateway proxy. If no value is specified in the request, the value is set to REGIONAL by default. If the value is set to PRIVATE in the request, this creates a private API endpoint that is isolated from the public internet. The private endpoint can only be accessed by using Amazon Virtual Private Cloud (Amazon VPC) interface endpoints for the Amazon API Gateway that has been granted access. For more information about creating a private connection with Refactor Spaces and interface endpoint (Amazon Web Services PrivateLink) availability, see Access Refactor Spaces using an interface endpoint (Amazon Web Services PrivateLink) . Possible values: • REGIONAL • PRIVATE StageName -&gt; (string) The name of the API Gateway stage. The name defaults to prod . Constraints: • min: 1 • max: 128 • pattern: ^[-a-zA-Z0-9_]*$ Shorthand Syntax: EndpointType=string,StageName=string JSON Syntax: { "EndpointType": "REGIONAL"|"PRIVATE", "StageName": "string" }
     /// </summary>
     [CliOption("--api-gateway-proxy")]
     public string? ApiGatewayProxy { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 1 o max: 64 o pattern: ^[\x20-\x7E]{1,64}$
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: • min: 1 • max: 64 • pattern: ^[\x20-\x7E]{1,64}$
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The tags to assign to the application. A tag is a label that you as- sign to an Amazon Web Services resource. Each tag consists of a key-value pair. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:).+ value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags to assign to the application. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key-value pair. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:).+ value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -133,6 +133,15 @@ public record AwsMigrationHubRefactorSpacesCreateApplicationOptions : AwsOptions
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

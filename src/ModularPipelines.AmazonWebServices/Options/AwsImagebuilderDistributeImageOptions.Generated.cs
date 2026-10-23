@@ -11,13 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Distributes an existing AMI to target Regions and accounts without run- ning the full image build process. This operation only runs the distri- bution phase on an image that has already been built. See also: AWS API Documentation
+/// Distributes an existing AMI to target Regions and accounts without running the full image build process. This operation only runs the distribution phase on an image that has already been built. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +27,11 @@ public record AwsImagebuilderDistributeImageOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Distributes an existing AMI to target Regions and accounts without run- ning the full image build process. This operation only runs the distri- bution phase on an image that has already been built. See also: AWS API Documentation
+    /// Distributes an existing AMI to target Regions and accounts without running the full image build process. This operation only runs the distribution phase on an image that has already been built. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SourceImage">The source image to distribute. You can specify the source in any of the following formats: o An AMI ID. o An Amazon Web Services Systems Manager Parameter Store reference, prefixed by ssm: , followed by the parameter name or ARN. o An Image Builder image Amazon Resource Name (ARN). An image ver- sion ARN resolves to the latest available build version. Whichever format you use, the source must resolve to an AMI in the current Amazon Web Services Region. Constraints: o min: 1 o max: 1024</param>
-    /// <param name="DistributionConfigurationArn">The Amazon Resource Name (ARN) of the distribution configuration. The configuration defines target Regions, accounts, and AMI set- tings. The distribution configuration must be in the same Region as this operation. Constraints: o pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):dis- tribution-configuration/[a-z0-9-_]+$</param>
-    /// <param name="ExecutionRole">The name or Amazon Resource Name (ARN) of the IAM role that Image Builder assumes to distribute the image. Constraints: o min: 1 o max: 2048 o pattern: ^(?:arn:aws(?:-[a-z]+)*:iam::[0-9]{12}:role/)?[a-zA-Z_0-9+=,.@\-_/]+$</param>
+    /// <param name="SourceImage">The source image to distribute. You can specify the source in any of the following formats: • An AMI ID. • An Amazon Web Services Systems Manager Parameter Store reference, prefixed by ssm: , followed by the parameter name or ARN. • An Image Builder image Amazon Resource Name (ARN). An image version ARN resolves to the latest available build version. Whichever format you use, the source must resolve to an AMI in the current Amazon Web Services Region. Constraints: • min: 1 • max: 1024</param>
+    /// <param name="DistributionConfigurationArn">The Amazon Resource Name (ARN) of the distribution configuration. The configuration defines target Regions, accounts, and AMI settings. The distribution configuration must be in the same Region as this operation. Constraints: • pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):distribution-configuration/[a-z0-9-_]+$</param>
+    /// <param name="ExecutionRole">The name or Amazon Resource Name (ARN) of the IAM role that Image Builder assumes to distribute the image. Constraints: • min: 1 • max: 2048 • pattern: ^(?:arn:aws(?:-[a-z]+)*:iam::[0-9]{12}:role/)?[a-zA-Z_0-9+=,.@\-_/]+$</param>
     public AwsImagebuilderDistributeImageOptions(
         string SourceImage,
         string DistributionConfigurationArn,
@@ -66,38 +66,38 @@ public record AwsImagebuilderDistributeImageOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The source image to distribute. You can specify the source in any of the following formats: o An AMI ID. o An Amazon Web Services Systems Manager Parameter Store reference, prefixed by ssm: , followed by the parameter name or ARN. o An Image Builder image Amazon Resource Name (ARN). An image ver- sion ARN resolves to the latest available build version. Whichever format you use, the source must resolve to an AMI in the current Amazon Web Services Region. Constraints: o min: 1 o max: 1024
+    /// The source image to distribute. You can specify the source in any of the following formats: • An AMI ID. • An Amazon Web Services Systems Manager Parameter Store reference, prefixed by ssm: , followed by the parameter name or ARN. • An Image Builder image Amazon Resource Name (ARN). An image version ARN resolves to the latest available build version. Whichever format you use, the source must resolve to an AMI in the current Amazon Web Services Region. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--source-image")]
     public string? SourceImage { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the distribution configuration. The configuration defines target Regions, accounts, and AMI set- tings. The distribution configuration must be in the same Region as this operation. Constraints: o pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):dis- tribution-configuration/[a-z0-9-_]+$
+    /// The Amazon Resource Name (ARN) of the distribution configuration. The configuration defines target Regions, accounts, and AMI settings. The distribution configuration must be in the same Region as this operation. Constraints: • pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):distribution-configuration/[a-z0-9-_]+$
     /// </summary>
     [CliOption("--distribution-configuration-arn")]
     public string? DistributionConfigurationArn { get; private init; }
 
     /// <summary>
-    /// The name or Amazon Resource Name (ARN) of the IAM role that Image Builder assumes to distribute the image. Constraints: o min: 1 o max: 2048 o pattern: ^(?:arn:aws(?:-[a-z]+)*:iam::[0-9]{12}:role/)?[a-zA-Z_0-9+=,.@\-_/]+$
+    /// The name or Amazon Resource Name (ARN) of the IAM role that Image Builder assumes to distribute the image. Constraints: • min: 1 • max: 2048 • pattern: ^(?:arn:aws(?:-[a-z]+)*:iam::[0-9]{12}:role/)?[a-zA-Z_0-9+=,.@\-_/]+$
     /// </summary>
     [CliOption("--execution-role")]
     public string? ExecutionRole { get; private init; }
 
     /// <summary>
-    /// The tags to apply to the new Image Builder image resource that this operation creates. To tag the output AMIs, use amiTags in the dis- tribution configuration. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z0-9\s_.:/=+\-@]*$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags to apply to the new Image Builder image resource that this operation creates. To tag the output AMIs, use amiTags in the distribution configuration. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[a-zA-Z0-9\s_.:/=+\-@]*$ value -&gt; (string) Constraints: • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client token, Image Builder returns the original response without running the operation again. For more information, see Ensuring idempotency in the Amazon EC2 API Reference . Constraints: o min: 1 o max: 64
+    /// A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client token, Image Builder returns the original response without running the operation again. For more information, see Ensuring idempotency in the Amazon EC2 API Reference . Constraints: • min: 1 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The logging configuration for the distribution. logGroupName -&gt; (string) The log group name that Image Builder uses for image creation. If not specified, the log group name defaults to /aws/image- builder/image-name . Constraints: o min: 1 o max: 512 o pattern: ^[a-zA-Z0-9\-_/\.]{1,512}$ Shorthand Syntax: logGroupName=string JSON Syntax: { "logGroupName": "string" }
+    /// The logging configuration for the distribution. logGroupName -&gt; (string) The log group name that Image Builder uses for image creation. If not specified, the log group name defaults to /aws/imagebuilder/image-name . Constraints: • min: 1 • max: 512 • pattern: ^[a-zA-Z0-9\-_/\.]{1,512}$ Shorthand Syntax: logGroupName=string JSON Syntax: { "logGroupName": "string" }
     /// </summary>
     [CliOption("--logging-configuration")]
     public string? LoggingConfiguration { get; set; }
@@ -123,6 +123,15 @@ public record AwsImagebuilderDistributeImageOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

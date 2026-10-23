@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: This operation is not supported for directory buckets. Returns the tag set associated with the general purpose bucket. To use this operation, you must have permission to perform the s3:Get- BucketTagging action. By default, the bucket owner has this permission and can grant this permission to others. GetBucketTagging has the following special error: o Error code: NoSuchTagSet o Description: There is no tag set associated with the bucket. The following operations are related to GetBucketTag...
+/// NOTE: This operation is not supported for directory buckets. Returns the tag set associated with the general purpose bucket. To use this operation, you must have permission to perform the s3:GetBucketTagging action. By default, the bucket owner has this permission and can grant this permission to others. GetBucketTagging has the following special error: • Error code: NoSuchTagSet • Description: There is no tag set associated with the bucket. The following operations are related to GetBucketTaggi...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsS3apiGetBucketTaggingOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: This operation is not supported for directory buckets. Returns the tag set associated with the general purpose bucket. To use this operation, you must have permission to perform the s3:Get- BucketTagging action. By default, the bucket owner has this permission and can grant this permission to others. GetBucketTagging has the following special error: o Error code: NoSuchTagSet o Description: There is no tag set associated with the bucket. The following operations are related to GetBucketTag...
+    /// NOTE: This operation is not supported for directory buckets. Returns the tag set associated with the general purpose bucket. To use this operation, you must have permission to perform the s3:GetBucketTagging action. By default, the bucket owner has this permission and can grant this permission to others. GetBucketTagging has the following special error: • Error code: NoSuchTagSet • Description: There is no tag set associated with the bucket. The following operations are related to GetBucketTaggi...
     /// </summary>
     /// <param name="Bucket">The name of the bucket for which to get the tagging information.</param>
     public AwsS3apiGetBucketTaggingOptions(
@@ -62,7 +63,7 @@ public record AwsS3apiGetBucketTaggingOptions : AwsOptions, IValidatableObject
     public string? Bucket { get; private init; }
 
     /// <summary>
-    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the re- quest fails with the HTTP status code 403 Forbidden (access denied).
+    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
     /// </summary>
     [CliOption("--expected-bucket-owner")]
     public string? ExpectedBucketOwner { get; set; }
@@ -88,6 +89,15 @@ public record AwsS3apiGetBucketTaggingOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

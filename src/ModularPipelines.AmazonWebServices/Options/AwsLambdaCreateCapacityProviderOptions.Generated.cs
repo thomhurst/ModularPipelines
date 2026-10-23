@@ -10,13 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a capacity provider that manages compute resources for Lambda functions See also: AWS API Documentation
+/// Creates a capacity provider that manages compute resources for Lambda Event Functions See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +26,11 @@ public record AwsLambdaCreateCapacityProviderOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a capacity provider that manages compute resources for Lambda functions See also: AWS API Documentation
+    /// Creates a capacity provider that manages compute resources for Lambda Event Functions See also: AWS API Documentation
     /// </summary>
-    /// <param name="CapacityProviderName">The name of the capacity provider. Constraints: o min: 1 o max: 140 o pattern: (arn:aws[a-zA-Z-]*:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:ca- pacity-provider:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+</param>
-    /// <param name="VpcConfig">The VPC configuration for the capacity provider, including subnet IDs and security group IDs where compute instances will be launched. SubnetIds -&gt; (list) [required] A list of subnet IDs where the capacity provider launches com- pute instances. Constraints: o min: 1 o max: 16 (string) Constraints: o min: 0 o max: 1024 o pattern: subnet-[0-9a-z]* SecurityGroupIds -&gt; (list) [required] A list of security group IDs that control network access for compute instances managed by the capacity provider. Constraints: o min: 0 o max: 5 (string) Constraints: o min: 0 o max: 1024 o pattern: sg-[0-9a-zA-Z]* Shorthand Syntax: SubnetIds=string,string,SecurityGroupIds=string,string JSON Syntax: { "SubnetIds": ["string", ...], "SecurityGroupIds": ["string", ...] }</param>
-    /// <param name="PermissionsConfig">The permissions configuration that specifies the IAM role ARN used by the capacity provider to manage compute resources. CapacityProviderOperatorRoleArn -&gt; (string) [required] The ARN of the IAM role that the capacity provider uses to man- age compute instances and other Amazon Web Services resources. Constraints: o min: 0 o max: 10000 o pattern: arn:(aws[a-zA-Z-]*)?:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+ Shorthand Syntax: CapacityProviderOperatorRoleArn=string JSON Syntax: { "CapacityProviderOperatorRoleArn": "string" }</param>
+    /// <param name="CapacityProviderName">The name of the capacity provider. Constraints: • min: 1 • max: 140 • pattern: (arn:aws[a-zA-Z-]*:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:capacity-provider:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+</param>
+    /// <param name="VpcConfig">The VPC configuration for the capacity provider, including subnet IDs and security group IDs where compute instances will be launched. SubnetIds -&gt; (list) [required] A list of subnet IDs where the capacity provider launches compute instances. Constraints: • min: 1 • max: 16 (string) Constraints: • min: 0 • max: 1024 • pattern: subnet-[0-9a-z]* SecurityGroupIds -&gt; (list) [required] A list of security group IDs that control network access for compute instances managed by the capacity provider. Constraints: • min: 0 • max: 5 (string) Constraints: • min: 0 • max: 1024 • pattern: sg-[0-9a-zA-Z]* Shorthand Syntax: SubnetIds=string,string,SecurityGroupIds=string,string JSON Syntax: { "SubnetIds": ["string", ...], "SecurityGroupIds": ["string", ...] }</param>
+    /// <param name="PermissionsConfig">The permissions configuration that specifies the IAM role ARN used by the capacity provider to manage compute resources. CapacityProviderOperatorRoleArn -&gt; (string) [required] The ARN of the IAM role that the capacity provider uses to manage compute instances and other Amazon Web Services resources. Constraints: • min: 0 • max: 10000 • pattern: arn:(aws[a-zA-Z-]*)?:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+ Shorthand Syntax: CapacityProviderOperatorRoleArn=string JSON Syntax: { "CapacityProviderOperatorRoleArn": "string" }</param>
     public AwsLambdaCreateCapacityProviderOptions(
         string CapacityProviderName,
         string VpcConfig,
@@ -65,55 +65,55 @@ public record AwsLambdaCreateCapacityProviderOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the capacity provider. Constraints: o min: 1 o max: 140 o pattern: (arn:aws[a-zA-Z-]*:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:ca- pacity-provider:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+
+    /// The name of the capacity provider. Constraints: • min: 1 • max: 140 • pattern: (arn:aws[a-zA-Z-]*:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:capacity-provider:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+
     /// </summary>
     [CliOption("--capacity-provider-name")]
     public string? CapacityProviderName { get; private init; }
 
     /// <summary>
-    /// The VPC configuration for the capacity provider, including subnet IDs and security group IDs where compute instances will be launched. SubnetIds -&gt; (list) [required] A list of subnet IDs where the capacity provider launches com- pute instances. Constraints: o min: 1 o max: 16 (string) Constraints: o min: 0 o max: 1024 o pattern: subnet-[0-9a-z]* SecurityGroupIds -&gt; (list) [required] A list of security group IDs that control network access for compute instances managed by the capacity provider. Constraints: o min: 0 o max: 5 (string) Constraints: o min: 0 o max: 1024 o pattern: sg-[0-9a-zA-Z]* Shorthand Syntax: SubnetIds=string,string,SecurityGroupIds=string,string JSON Syntax: { "SubnetIds": ["string", ...], "SecurityGroupIds": ["string", ...] }
+    /// The VPC configuration for the capacity provider, including subnet IDs and security group IDs where compute instances will be launched. SubnetIds -&gt; (list) [required] A list of subnet IDs where the capacity provider launches compute instances. Constraints: • min: 1 • max: 16 (string) Constraints: • min: 0 • max: 1024 • pattern: subnet-[0-9a-z]* SecurityGroupIds -&gt; (list) [required] A list of security group IDs that control network access for compute instances managed by the capacity provider. Constraints: • min: 0 • max: 5 (string) Constraints: • min: 0 • max: 1024 • pattern: sg-[0-9a-zA-Z]* Shorthand Syntax: SubnetIds=string,string,SecurityGroupIds=string,string JSON Syntax: { "SubnetIds": ["string", ...], "SecurityGroupIds": ["string", ...] }
     /// </summary>
     [CliOption("--vpc-config")]
     public string? VpcConfig { get; private init; }
 
     /// <summary>
-    /// The permissions configuration that specifies the IAM role ARN used by the capacity provider to manage compute resources. CapacityProviderOperatorRoleArn -&gt; (string) [required] The ARN of the IAM role that the capacity provider uses to man- age compute instances and other Amazon Web Services resources. Constraints: o min: 0 o max: 10000 o pattern: arn:(aws[a-zA-Z-]*)?:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+ Shorthand Syntax: CapacityProviderOperatorRoleArn=string JSON Syntax: { "CapacityProviderOperatorRoleArn": "string" }
+    /// The permissions configuration that specifies the IAM role ARN used by the capacity provider to manage compute resources. CapacityProviderOperatorRoleArn -&gt; (string) [required] The ARN of the IAM role that the capacity provider uses to manage compute instances and other Amazon Web Services resources. Constraints: • min: 0 • max: 10000 • pattern: arn:(aws[a-zA-Z-]*)?:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+ Shorthand Syntax: CapacityProviderOperatorRoleArn=string JSON Syntax: { "CapacityProviderOperatorRoleArn": "string" }
     /// </summary>
     [CliOption("--permissions-config")]
     public string? PermissionsConfig { get; private init; }
 
     /// <summary>
-    /// The instance requirements that specify the compute instance charac- teristics, including architectures and allowed or excluded instance types. Architectures -&gt; (list) A list of supported CPU architectures for compute instances. Valid values include x86_64 and arm64 . Constraints: o min: 1 o max: 1 (string) Possible values: o x86_64 o arm64 AllowedInstanceTypes -&gt; (list) A list of EC2 instance types that the capacity provider is al- lowed to use. If not specified, all compatible instance types are allowed. Constraints: o min: 0 o max: 400 (string) Constraints: o min: 1 o max: 30 o pattern: [a-zA-Z0-9\.\*\-]+ ExcludedInstanceTypes -&gt; (list) A list of EC2 instance types that the capacity provider should not use, even if they meet other requirements. Constraints: o min: 0 o max: 400 (string) Constraints: o min: 1 o max: 30 o pattern: [a-zA-Z0-9\.\*\-]+ Shorthand Syntax: Architectures=string,string,AllowedInstanceTypes=string,string,ExcludedInstanceTypes=string,string JSON Syntax: { "Architectures": ["x86_64"|"arm64", ...], "AllowedInstanceTypes": ["string", ...], "ExcludedInstanceTypes": ["string", ...] }
+    /// The instance requirements that specify the compute instance characteristics, including architectures and allowed or excluded instance types. Architectures -&gt; (list) A list of supported CPU architectures for compute instances. Valid values include x86_64 and arm64 . Constraints: • min: 1 • max: 1 (string) Possible values: • x86_64 • arm64 AllowedInstanceTypes -&gt; (list) A list of EC2 instance types that the capacity provider is allowed to use. If not specified, all compatible instance types are allowed. Constraints: • min: 0 • max: 400 (string) Constraints: • min: 1 • max: 30 • pattern: [a-zA-Z0-9\.\*\-]+ ExcludedInstanceTypes -&gt; (list) A list of EC2 instance types that the capacity provider should not use, even if they meet other requirements. Constraints: • min: 0 • max: 400 (string) Constraints: • min: 1 • max: 30 • pattern: [a-zA-Z0-9\.\*\-]+ Shorthand Syntax: Architectures=string,string,AllowedInstanceTypes=string,string,ExcludedInstanceTypes=string,string JSON Syntax: { "Architectures": ["x86_64"|"arm64", ...], "AllowedInstanceTypes": ["string", ...], "ExcludedInstanceTypes": ["string", ...] }
     /// </summary>
     [CliOption("--instance-requirements")]
     public string? InstanceRequirements { get; set; }
 
     /// <summary>
-    /// The scaling configuration that defines how the capacity provider scales compute instances, including maximum vCPU count and scaling policies. MaxVCpuCount -&gt; (integer) The maximum number of vCPUs that the capacity provider can pro- vision across all compute instances. Constraints: o min: 2 o max: 15000 ScalingMode -&gt; (string) The scaling mode that determines how the capacity provider re- sponds to changes in demand. Possible values: o Auto o Manual ScalingPolicies -&gt; (list) A list of scaling policies that define how the capacity provider scales compute instances based on metrics and thresholds. Constraints: o min: 1 o max: 10 (structure) A scaling policy for the capacity provider that automatically adjusts capacity to maintain a target value for a specific metric. PredefinedMetricType -&gt; (string) [required] The predefined metric type to track for scaling deci- sions. Possible values: o LambdaCapacityProviderAverageCPUUtilization TargetValue -&gt; (double) [required] The target value for the metric that the scaling policy attempts to maintain through scaling actions. Constraints: o min: 0 o max: 100 Shorthand Syntax: MaxVCpuCount=integer,ScalingMode=string,ScalingPolicies=[{PredefinedMetricType=string,TargetValue=double},{PredefinedMetricType=string,TargetValue=double}] JSON Syntax: { "MaxVCpuCount": integer, "ScalingMode": "Auto"|"Manual", "ScalingPolicies": [ { "PredefinedMetricType": "LambdaCapacityProviderAverageCPUUtilization", "TargetValue": double } ... ] }
+    /// The scaling configuration that defines how the capacity provider scales compute instances, including maximum vCPU count and scaling policies. MaxVCpuCount -&gt; (integer) The maximum number of vCPUs that the capacity provider can provision across all compute instances. Constraints: • min: 2 • max: 15000 ScalingMode -&gt; (string) The scaling mode that determines how the capacity provider responds to changes in demand. Possible values: • Auto • Manual ScalingPolicies -&gt; (list) A list of scaling policies that define how the capacity provider scales compute instances based on metrics and thresholds. Constraints: • min: 1 • max: 10 (structure) A scaling policy for the capacity provider that automatically adjusts capacity to maintain a target value for a specific metric. PredefinedMetricType -&gt; (string) [required] The predefined metric type to track for scaling decisions. Possible values: • LambdaCapacityProviderAverageCPUUtilization TargetValue -&gt; (double) [required] The target value for the metric that the scaling policy attempts to maintain through scaling actions. Constraints: • min: 0 • max: 100 Shorthand Syntax: MaxVCpuCount=integer,ScalingMode=string,ScalingPolicies=[{PredefinedMetricType=string,TargetValue=double},{PredefinedMetricType=string,TargetValue=double}] JSON Syntax: { "MaxVCpuCount": integer, "ScalingMode": "Auto"|"Manual", "ScalingPolicies": [ { "PredefinedMetricType": "LambdaCapacityProviderAverageCPUUtilization", "TargetValue": double } ... ] }
     /// </summary>
     [CliOption("--capacity-provider-scaling-config")]
     public string? CapacityProviderScalingConfig { get; set; }
 
     /// <summary>
-    /// The ARN of the KMS key used to encrypt data associated with the ca- pacity provider. Constraints: o min: 0 o max: 10000 o pattern: arn:(aws[a-zA-Z-]*)?:[a-z0-9-.]+:.*
+    /// The ARN of the KMS key used to encrypt data associated with the capacity provider. Constraints: • min: 0 • max: 10000 • pattern: arn:(aws[a-zA-Z-]*)?:[a-z0-9-.]+:.*
     /// </summary>
     [CliOption("--kms-key-arn")]
     public string? KmsKeyArn { get; set; }
 
     /// <summary>
-    /// A list of tags to associate with the capacity provider. key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A list of tags to associate with the capacity provider. key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// The tag propagation configuration for the capacity provider. Speci- fies tags to apply to managed resources at launch. Mode -&gt; (string) The tag propagation mode. Set to Explicit to propagate the tags specified in ExplicitTags to managed resources. Set to None to disable tag propagation. Possible values: o None o Explicit ExplicitTags -&gt; (map) A list of tags to apply to managed resources when Mode is set to Explicit . You can specify up to 40 tags. Constraints: o min: 0 o max: 40 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Mode=string,ExplicitTags={KeyName1=string,KeyName2=string} JSON Syntax: { "Mode": "None"|"Explicit", "ExplicitTags": {"string": "string" ...} }
+    /// The tag propagation configuration for the capacity provider. Specifies tags to apply to managed resources at launch. Mode -&gt; (string) The tag propagation mode. Set to Explicit to propagate the tags specified in ExplicitTags to managed resources. Set to None to disable tag propagation. Possible values: • None • Explicit ExplicitTags -&gt; (map) A list of tags to apply to managed resources when Mode is set to Explicit . You can specify up to 40 tags. Constraints: • min: 0 • max: 40 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Mode=string,ExplicitTags={KeyName1=string,KeyName2=string} JSON Syntax: { "Mode": "None"|"Explicit", "ExplicitTags": {"string": "string" ...} }
     /// </summary>
     [CliOption("--propagate-tags")]
     public string? PropagateTags { get; set; }
 
     /// <summary>
-    /// The telemetry configuration for the capacity provider. Specifies logging settings for managed resources. LoggingConfig -&gt; (structure) The capacity provider's Amazon CloudWatch Logs configuration settings. SystemLogLevel -&gt; (string) Set this property to filter the system logs for your capacity provider that Lambda sends to CloudWatch. Lambda only sends system logs at the selected level of detail and lower, where DEBUG is the highest level and WARN is the lowest. Possible values: o DEBUG o INFO o WARN LogGroup -&gt; (string) The name of the Amazon CloudWatch log group the capacity provider sends logs to. By default, Lambda capacity providers send logs to a default log group named /aws/lambda/capac- ity-provider/&lt;capacity provider name&gt; . To use a different log group, enter an existing log group or enter a new log group name. Constraints: o min: 1 o max: 512 o pattern: [\.\-_/#A-Za-z0-9]+ Shorthand Syntax: LoggingConfig={SystemLogLevel=string,LogGroup=string} JSON Syntax: { "LoggingConfig": { "SystemLogLevel": "DEBUG"|"INFO"|"WARN", "LogGroup": "string" } }
+    /// The telemetry configuration for the capacity provider. Specifies logging settings for managed resources. LoggingConfig -&gt; (structure) The capacity provider's Amazon CloudWatch Logs configuration settings. SystemLogLevel -&gt; (string) Set this property to filter the system logs for your capacity provider that Lambda sends to CloudWatch. Lambda only sends system logs at the selected level of detail and lower, where DEBUG is the highest level and WARN is the lowest. Possible values: • DEBUG • INFO • WARN LogGroup -&gt; (string) The name of the Amazon CloudWatch log group the capacity provider sends logs to. By default, Lambda capacity providers send logs to a default log group named /aws/lambda/capacity-provider/&lt;capacity provider name&gt; . To use a different log group, enter an existing log group or enter a new log group name. Constraints: • min: 1 • max: 512 • pattern: [\.\-_/#A-Za-z0-9]+ Shorthand Syntax: LoggingConfig={SystemLogLevel=string,LogGroup=string} JSON Syntax: { "LoggingConfig": { "SystemLogLevel": "DEBUG"|"INFO"|"WARN", "LogGroup": "string" } }
     /// </summary>
     [CliOption("--telemetry-config")]
     public string? TelemetryConfig { get; set; }
@@ -139,6 +139,15 @@ public record AwsLambdaCreateCapacityProviderOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

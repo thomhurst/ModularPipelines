@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsDrsDeleteSourceNetworkOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Delete Source Network resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SourceNetworkId">ID of the Source Network to delete. Constraints: o min: 20 o max: 20 o pattern: sn-[0-9a-zA-Z]{17}</param>
+    /// <param name="SourceNetworkId">ID of the Source Network to delete. Constraints: • min: 20 • max: 20 • pattern: sn-[0-9a-zA-Z]{17}</param>
     public AwsDrsDeleteSourceNetworkOptions(
         string SourceNetworkId
     )
@@ -56,7 +57,7 @@ public record AwsDrsDeleteSourceNetworkOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ID of the Source Network to delete. Constraints: o min: 20 o max: 20 o pattern: sn-[0-9a-zA-Z]{17}
+    /// ID of the Source Network to delete. Constraints: • min: 20 • max: 20 • pattern: sn-[0-9a-zA-Z]{17}
     /// </summary>
     [CliOption("--source-network-id")]
     public string? SourceNetworkId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsDrsDeleteSourceNetworkOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

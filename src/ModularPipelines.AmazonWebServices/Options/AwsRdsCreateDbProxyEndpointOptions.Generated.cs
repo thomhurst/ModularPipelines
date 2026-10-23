@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +29,8 @@ public record AwsRdsCreateDbProxyEndpointOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Creates a DBProxyEndpoint . Only applies to proxies that are associated with Aurora DB clusters. You can use DB proxy endpoints to specify read/write or read-only access to the DB cluster. You can also use DB proxy endpoints to access a DB proxy through a different VPC than the proxy's default VPC. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DbProxyName">The name of the DB proxy associated with the DB proxy endpoint that you create. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*</param>
-    /// <param name="DbProxyEndpointName">The name of the DB proxy endpoint to create. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*</param>
+    /// <param name="DbProxyName">The name of the DB proxy associated with the DB proxy endpoint that you create. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*</param>
+    /// <param name="DbProxyEndpointName">The name of the DB proxy endpoint to create. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*</param>
     /// <param name="VpcSubnetIds">The VPC subnet IDs for the DB proxy endpoint that you create. You can specify a different set of subnet IDs than for the original DB proxy. (string) Syntax: "string" "string" ...</param>
     public AwsRdsCreateDbProxyEndpointOptions(
         string DbProxyName,
@@ -76,13 +77,13 @@ public record AwsRdsCreateDbProxyEndpointOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the DB proxy associated with the DB proxy endpoint that you create. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*
+    /// The name of the DB proxy associated with the DB proxy endpoint that you create. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*
     /// </summary>
     [CliOption("--db-proxy-name")]
     public string? DbProxyName { get; private init; }
 
     /// <summary>
-    /// The name of the DB proxy endpoint to create. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*
+    /// The name of the DB proxy endpoint to create. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*
     /// </summary>
     [CliOption("--db-proxy-endpoint-name")]
     public string? DbProxyEndpointName { get; private init; }
@@ -94,13 +95,13 @@ public record AwsRdsCreateDbProxyEndpointOptions : AwsOptions, IValidatableObjec
     public IEnumerable<string>? VpcSubnetIds { get; private init; }
 
     /// <summary>
-    /// The VPC security group IDs for the DB proxy endpoint that you cre- ate. You can specify a different set of security group IDs than for the original DB proxy. The default is the default security group for the VPC. (string) Syntax: "string" "string" ...
+    /// The VPC security group IDs for the DB proxy endpoint that you create. You can specify a different set of security group IDs than for the original DB proxy. The default is the default security group for the VPC. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--vpc-security-group-ids", GroupValues = true)]
     public IEnumerable<string>? VpcSecurityGroupIds { get; set; }
 
     /// <summary>
-    /// The role of the DB proxy endpoint. The role determines whether the endpoint can be used for read/write or only read operations. The de- fault is READ_WRITE . The only role that proxies for RDS for Mi- crosoft SQL Server support is READ_WRITE . Possible values: o READ_WRITE o READ_ONLY
+    /// The role of the DB proxy endpoint. The role determines whether the endpoint can be used for read/write or only read operations. The default is READ_WRITE . The only role that proxies for RDS for Microsoft SQL Server support is READ_WRITE . Possible values: • READ_WRITE • READ_ONLY
     /// </summary>
     [CliOption("--target-role")]
     public AwsRdsCreateDbProxyEndpointTargetRole? TargetRole { get; set; }
@@ -112,7 +113,7 @@ public record AwsRdsCreateDbProxyEndpointOptions : AwsOptions, IValidatableObjec
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// The network type of the DB proxy endpoint. The network type deter- mines the IP version that the proxy endpoint supports. Valid values: o IPV4 - The proxy endpoint supports IPv4 only. o IPV6 - The proxy endpoint supports IPv6 only. o DUAL - The proxy endpoint supports both IPv4 and IPv6. Default: IPV4 Constraints: o If you specify IPV6 or DUAL , the VPC and all subnets must have an IPv6 CIDR block. o If you specify IPV6 or DUAL , the VPC tenancy cannot be dedicated . Possible values: o IPV4 o IPV6 o DUAL
+    /// The network type of the DB proxy endpoint. The network type determines the IP version that the proxy endpoint supports. Valid values: • IPV4 - The proxy endpoint supports IPv4 only. • IPV6 - The proxy endpoint supports IPv6 only. • DUAL - The proxy endpoint supports both IPv4 and IPv6. Default: IPV4 Constraints: • If you specify IPV6 or DUAL , the VPC and all subnets must have an IPv6 CIDR block. • If you specify IPV6 or DUAL , the VPC tenancy cannot be dedicated . Possible values: • IPV4 • IPV6 • DUAL
     /// </summary>
     [CliOption("--endpoint-network-type")]
     public string? EndpointNetworkType { get; set; }
@@ -138,6 +139,15 @@ public record AwsRdsCreateDbProxyEndpointOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

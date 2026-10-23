@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsIottwinmakerUpdateWorkspaceOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Updates a workspace. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkspaceId">The ID of the workspace. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+</param>
+    /// <param name="WorkspaceId">The ID of the workspace. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+</param>
     public AwsIottwinmakerUpdateWorkspaceOptions(
         string WorkspaceId
     )
@@ -56,25 +57,25 @@ public record AwsIottwinmakerUpdateWorkspaceOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the workspace. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+
+    /// The ID of the workspace. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+
     /// </summary>
     [CliOption("--workspace-id")]
     public string? WorkspaceId { get; private init; }
 
     /// <summary>
-    /// The description of the workspace. Constraints: o min: 0 o max: 2048 o pattern: .*
+    /// The description of the workspace. Constraints: • min: 0 • max: 2048 • pattern: .*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The ARN of the execution role associated with the workspace. Constraints: o min: 20 o max: 2048 o pattern: arn:((aws)|(aws-cn)|(aws-us-gov)):iam::[0-9]{12}:role/.*
+    /// The ARN of the execution role associated with the workspace. Constraints: • min: 20 • max: 2048 • pattern: arn:((aws)|(aws-cn)|(aws-us-gov)):iam::[0-9]{12}:role/.*
     /// </summary>
     [CliOption("--role")]
     public string? Role { get; set; }
 
     /// <summary>
-    /// The ARN of the S3 bucket where resources associated with the work- space are stored. Constraints: o min: 0 o max: 1024 o pattern: .*(^arn:((aws)|(aws-cn)|(aws-us-gov)):s3:::)([a-zA-Z0-9_-]+$).*
+    /// The ARN of the S3 bucket where resources associated with the workspace are stored. Constraints: • min: 0 • max: 1024 • pattern: .*(^arn:((aws)|(aws-cn)|(aws-us-gov)):s3:::)([a-zA-Z0-9_-]+$).*
     /// </summary>
     [CliOption("--s3-location")]
     public string? S3Location { get; set; }
@@ -100,6 +101,15 @@ public record AwsIottwinmakerUpdateWorkspaceOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

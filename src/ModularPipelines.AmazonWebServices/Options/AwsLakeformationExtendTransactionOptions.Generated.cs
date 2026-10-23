@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsLakeformationExtendTransactionOptions : AwsOptions
 {
     /// <summary>
-    /// The transaction to extend. Constraints: o min: 1 o max: 255 o pattern: [\p{L}\p{N}\p{P}]*
+    /// The transaction to extend. Constraints: • min: 1 • max: 255 • pattern: [\p{L}\p{N}\p{P}]*
     /// </summary>
     [CliOption("--transaction-id")]
     public string? TransactionId { get; set; }
@@ -32,5 +32,14 @@ public record AwsLakeformationExtendTransactionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

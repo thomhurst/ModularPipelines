@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -152,7 +152,7 @@ public class AwsAmplifyuibuilder : IAwsAmplifyuibuilder
     }
 
     /// <summary>
-    /// Exports form configurations to code that is ready to integrate into an Amplify app. See also: AWS API Documentation export-forms is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: entities
+    /// Exports form configurations to code that is ready to integrate into an Amplify app. See also: AWS API Documentation export-forms is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: entities
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsAmplifyuibuilder : IAwsAmplifyuibuilder
     }
 
     /// <summary>
-    /// Exports theme configurations to code that is ready to integrate into an Amplify app. See also: AWS API Documentation export-themes is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: entities
+    /// Exports theme configurations to code that is ready to integrate into an Amplify app. See also: AWS API Documentation export-themes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: entities
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +272,7 @@ public class AwsAmplifyuibuilder : IAwsAmplifyuibuilder
     }
 
     /// <summary>
-    /// Retrieves a list of components for a specified Amplify app and backend environment. See also: AWS API Documentation list-components is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: entities
+    /// Retrieves a list of components for a specified Amplify app and backend environment. See also: AWS API Documentation list-components is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: entities
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -287,7 +287,7 @@ public class AwsAmplifyuibuilder : IAwsAmplifyuibuilder
     }
 
     /// <summary>
-    /// Retrieves a list of forms for a specified Amplify app and backend envi- ronment. See also: AWS API Documentation list-forms is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: entities
+    /// Retrieves a list of forms for a specified Amplify app and backend environment. See also: AWS API Documentation list-forms is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: entities
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -317,7 +317,7 @@ public class AwsAmplifyuibuilder : IAwsAmplifyuibuilder
     }
 
     /// <summary>
-    /// Retrieves a list of themes for a specified Amplify app and backend en- vironment. See also: AWS API Documentation list-themes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: entities
+    /// Retrieves a list of themes for a specified Amplify app and backend environment. See also: AWS API Documentation list-themes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: entities
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

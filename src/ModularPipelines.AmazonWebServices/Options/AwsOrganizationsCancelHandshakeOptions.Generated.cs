@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Cancels a Handshake . Only the account that sent a handshake can call this operation. The re- cipient of the handshake can't cancel it, but can use DeclineHandshake to decline. After a handshake is canceled, the recipient can no longer respond to the handshake. You can view canceled handshakes in API responses for 30 days before they are deleted. See also: AWS API Documentation
+/// Cancels a Handshake . Only the account that sent a handshake can call this operation. The recipient of the handshake can't cancel it, but can use DeclineHandshake to decline. After a handshake is canceled, the recipient can no longer respond to the handshake. You can view canceled handshakes in API responses for 30 days before they are deleted. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsOrganizationsCancelHandshakeOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Cancels a Handshake . Only the account that sent a handshake can call this operation. The re- cipient of the handshake can't cancel it, but can use DeclineHandshake to decline. After a handshake is canceled, the recipient can no longer respond to the handshake. You can view canceled handshakes in API responses for 30 days before they are deleted. See also: AWS API Documentation
+    /// Cancels a Handshake . Only the account that sent a handshake can call this operation. The recipient of the handshake can't cancel it, but can use DeclineHandshake to decline. After a handshake is canceled, the recipient can no longer respond to the handshake. You can view canceled handshakes in API responses for 30 days before they are deleted. See also: AWS API Documentation
     /// </summary>
-    /// <param name="HandshakeId">ID for the handshake that you want to cancel. You can get the ID from the ListHandshakesForOrganization operation. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lowercase letters or digits. Constraints: o max: 34 o pattern: ^h-[0-9a-z]{8,32}$</param>
+    /// <param name="HandshakeId">ID for the handshake that you want to cancel. You can get the ID from the ListHandshakesForOrganization operation. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lowercase letters or digits. Constraints: • max: 34 • pattern: ^h-[0-9a-z]{8,32}$</param>
     public AwsOrganizationsCancelHandshakeOptions(
         string HandshakeId
     )
@@ -56,7 +57,7 @@ public record AwsOrganizationsCancelHandshakeOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ID for the handshake that you want to cancel. You can get the ID from the ListHandshakesForOrganization operation. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lowercase letters or digits. Constraints: o max: 34 o pattern: ^h-[0-9a-z]{8,32}$
+    /// ID for the handshake that you want to cancel. You can get the ID from the ListHandshakesForOrganization operation. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lowercase letters or digits. Constraints: • max: 34 • pattern: ^h-[0-9a-z]{8,32}$
     /// </summary>
     [CliOption("--handshake-id")]
     public string? HandshakeId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsOrganizationsCancelHandshakeOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

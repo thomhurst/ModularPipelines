@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsGlueUpdateMlTransformOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates an existing machine learning transform. Call this operation to tune the algorithm parameters to achieve better results. After calling this operation, you can call the StartMLEvaluationTaskRun operation to assess how well your new parameters achieved your goals (such as improving the quality of your machine learning transform, or making it more cost-effective). See also: AWS API Documentation
     /// </summary>
-    /// <param name="TransformId">A unique identifier that was generated when the transform was cre- ated. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="TransformId">A unique identifier that was generated when the transform was created. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
     public AwsGlueUpdateMlTransformOptions(
         string TransformId
     )
@@ -57,49 +58,49 @@ public record AwsGlueUpdateMlTransformOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier that was generated when the transform was cre- ated. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// A unique identifier that was generated when the transform was created. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--transform-id")]
     public string? TransformId { get; private init; }
 
     /// <summary>
-    /// The unique name that you gave the transform when you created it. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The unique name that you gave the transform when you created it. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// A description of the transform. The default is an empty string. Constraints: o min: 0 o max: 2048 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// A description of the transform. The default is an empty string. Constraints: • min: 0 • max: 2048 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The configuration parameters that are specific to the transform type (algorithm) used. Conditionally dependent on the transform type. TransformType -&gt; (string) [required] The type of machine learning transform. For information about the types of machine learning transforms, see Creating Machine Learning Transforms . Possible values: o FIND_MATCHES FindMatchesParameters -&gt; (structure) The parameters for the find matches algorithm. PrimaryKeyColumnName -&gt; (string) The name of a column that uniquely identifies rows in the source table. Used to help identify matching records. Constraints: o min: 1 o max: 1024 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* PrecisionRecallTradeoff -&gt; (double) The value selected when tuning your transform for a balance between precision and recall. A value of 0.5 means no prefer- ence; a value of 1.0 means a bias purely for precision, and a value of 0.0 means a bias for recall. Because this is a tradeoff, choosing values close to 1.0 means very low recall, and choosing values close to 0.0 results in very low preci- sion. The precision metric indicates how often your model is cor- rect when it predicts a match. The recall metric indicates that for an actual match, how of- ten your model predicts the match. Constraints: o min: 0.0 o max: 1.0 AccuracyCostTradeoff -&gt; (double) The value that is selected when tuning your transform for a balance between accuracy and cost. A value of 0.5 means that the system balances accuracy and cost concerns. A value of 1.0 means a bias purely for accuracy, which typically results in a higher cost, sometimes substantially higher. A value of 0.0 means a bias purely for cost, which results in a less ac- curate FindMatches transform, sometimes with unacceptable ac- curacy. Accuracy measures how well the transform finds true positives and true negatives. Increasing accuracy requires more machine resources and cost. But it also results in increased recall. Cost measures how many compute resources, and thus money, are consumed to run the transform. Constraints: o min: 0.0 o max: 1.0 EnforceProvidedLabels -&gt; (boolean) The value to switch on or off to force the output to match the provided labels from users. If the value is True , the find matches transform forces the output to match the pro- vided labels. The results override the normal conflation re- sults. If the value is False , the find matches transform does not ensure all the labels provided are respected, and the results rely on the trained model. Note that setting this value to true may increase the confla- tion execution time. Shorthand Syntax: TransformType=string,FindMatchesParameters={PrimaryKeyColumnName=string,PrecisionRecallTradeoff=double,AccuracyCostTradeoff=double,EnforceProvidedLabels=boolean} JSON Syntax: { "TransformType": "FIND_MATCHES", "FindMatchesParameters": { "PrimaryKeyColumnName": "string", "PrecisionRecallTradeoff": double, "AccuracyCostTradeoff": double, "EnforceProvidedLabels": true|false } }
+    /// The configuration parameters that are specific to the transform type (algorithm) used. Conditionally dependent on the transform type. TransformType -&gt; (string) [required] The type of machine learning transform. For information about the types of machine learning transforms, see Creating Machine Learning Transforms . Possible values: • FIND_MATCHES FindMatchesParameters -&gt; (structure) The parameters for the find matches algorithm. PrimaryKeyColumnName -&gt; (string) The name of a column that uniquely identifies rows in the source table. Used to help identify matching records. Constraints: • min: 1 • max: 1024 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* PrecisionRecallTradeoff -&gt; (double) The value selected when tuning your transform for a balance between precision and recall. A value of 0.5 means no preference; a value of 1.0 means a bias purely for precision, and a value of 0.0 means a bias for recall. Because this is a tradeoff, choosing values close to 1.0 means very low recall, and choosing values close to 0.0 results in very low precision. The precision metric indicates how often your model is correct when it predicts a match. The recall metric indicates that for an actual match, how often your model predicts the match. Constraints: • min: 0.0 • max: 1.0 AccuracyCostTradeoff -&gt; (double) The value that is selected when tuning your transform for a balance between accuracy and cost. A value of 0.5 means that the system balances accuracy and cost concerns. A value of 1.0 means a bias purely for accuracy, which typically results in a higher cost, sometimes substantially higher. A value of 0.0 means a bias purely for cost, which results in a less accurate FindMatches transform, sometimes with unacceptable accuracy. Accuracy measures how well the transform finds true positives and true negatives. Increasing accuracy requires more machine resources and cost. But it also results in increased recall. Cost measures how many compute resources, and thus money, are consumed to run the transform. Constraints: • min: 0.0 • max: 1.0 EnforceProvidedLabels -&gt; (boolean) The value to switch on or off to force the output to match the provided labels from users. If the value is True , the find matches transform forces the output to match the provided labels. The results override the normal conflation results. If the value is False , the find matches transform does not ensure all the labels provided are respected, and the results rely on the trained model. Note that setting this value to true may increase the conflation execution time. Shorthand Syntax: TransformType=string,FindMatchesParameters={PrimaryKeyColumnName=string,PrecisionRecallTradeoff=double,AccuracyCostTradeoff=double,EnforceProvidedLabels=boolean} JSON Syntax: { "TransformType": "FIND_MATCHES", "FindMatchesParameters": { "PrimaryKeyColumnName": "string", "PrecisionRecallTradeoff": double, "AccuracyCostTradeoff": double, "EnforceProvidedLabels": true|false } }
     /// </summary>
     [CliOption("--parameters")]
     public string? Parameters { get; set; }
 
     /// <summary>
-    /// The name or Amazon Resource Name (ARN) of the IAM role with the re- quired permissions.
+    /// The name or Amazon Resource Name (ARN) of the IAM role with the required permissions.
     /// </summary>
     [CliOption("--role")]
     public string? Role { get; set; }
 
     /// <summary>
-    /// This value determines which version of Glue this machine learning transform is compatible with. Glue 1.0 is recommended for most cus- tomers. If the value is not set, the Glue compatibility defaults to Glue 0.9. For more information, see Glue Versions in the developer guide. Constraints: o min: 1 o max: 255 o pattern: ^(\w+\.)+\w+$
+    /// This value determines which version of Glue this machine learning transform is compatible with. Glue 1.0 is recommended for most customers. If the value is not set, the Glue compatibility defaults to Glue 0.9. For more information, see Glue Versions in the developer guide. Constraints: • min: 1 • max: 255 • pattern: ^(\w+\.)+\w+$
     /// </summary>
     [CliOption("--glue-version")]
     public string? GlueVersion { get; set; }
 
     /// <summary>
-    /// The number of Glue data processing units (DPUs) that are allocated to task runs for this transform. You can allocate from 2 to 100 DPUs; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of mem- ory. For more information, see the Glue pricing page . When the WorkerType field is set to a value other than Standard , the MaxCapacity field is set automatically and becomes read-only.
+    /// The number of Glue data processing units (DPUs) that are allocated to task runs for this transform. You can allocate from 2 to 100 DPUs; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the Glue pricing page . When the WorkerType field is set to a value other than Standard , the MaxCapacity field is set automatically and becomes read-only.
     /// </summary>
     [CliOption("--max-capacity")]
-    public int? MaxCapacity { get; set; }
+    public double? MaxCapacity { get; set; }
 
     /// <summary>
-    /// The type of predefined worker that is allocated when this task runs. Accepts a value of Standard, G.1X, or G.2X. o For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker. o For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker. o For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker. Possible values: o Standard o G.1X o G.2X o G.025X o G.4X o G.8X o Z.2X
+    /// The type of predefined worker that is allocated when this task runs. Accepts a value of Standard, G.1X, or G.2X. • For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker. • For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker. • For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker. Possible values: • Standard • G.1X • G.2X • G.025X • G.4X • G.8X • Z.2X
     /// </summary>
     [CliOption("--worker-type")]
     public AwsGlueUpdateMlTransformWorkerType? WorkerType { get; set; }
@@ -111,7 +112,7 @@ public record AwsGlueUpdateMlTransformOptions : AwsOptions, IValidatableObject
     public int? NumberOfWorkers { get; set; }
 
     /// <summary>
-    /// The timeout for a task run for this transform in minutes. This is the maximum time that a task run for this transform can consume re- sources before it is terminated and enters TIMEOUT status. The de- fault is 2,880 minutes (48 hours). Constraints: o min: 1
+    /// The timeout for a task run for this transform in minutes. This is the maximum time that a task run for this transform can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours). Constraints: • min: 1
     /// </summary>
     [CliOption("--timeout")]
     public int? Timeout { get; set; }
@@ -143,6 +144,15 @@ public record AwsGlueUpdateMlTransformOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

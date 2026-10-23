@@ -10,13 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Starts a job that terminates specific launched EC2 Test and Cutover in- stances. This command will not work for any Source Server with a life- cycle.state of TESTING, CUTTING_OVER, or CUTOVER. See also: AWS API Documentation
+/// Starts a job that terminates specific launched EC2 Test and Cutover instances. This command will not work for any Source Server with a lifecycle.state of TESTING, CUTTING_OVER, or CUTOVER. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +26,9 @@ public record AwsMgnTerminateTargetInstancesOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Starts a job that terminates specific launched EC2 Test and Cutover in- stances. This command will not work for any Source Server with a life- cycle.state of TESTING, CUTTING_OVER, or CUTOVER. See also: AWS API Documentation
+    /// Starts a job that terminates specific launched EC2 Test and Cutover instances. This command will not work for any Source Server with a lifecycle.state of TESTING, CUTTING_OVER, or CUTOVER. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SourceServerIds">Terminate Target instance by Source Server IDs. Constraints: o min: 1 o max: 200 (string) Constraints: o min: 19 o max: 19 o pattern: s-[0-9a-zA-Z]{17} Syntax: "string" "string" ...</param>
+    /// <param name="SourceServerIds">Terminate Target instance by Source Server IDs. Constraints: • min: 1 • max: 200 (string) Constraints: • min: 19 • max: 19 • pattern: s-[0-9a-zA-Z]{17} Syntax: "string" "string" ...</param>
     public AwsMgnTerminateTargetInstancesOptions(
         IEnumerable<string> SourceServerIds
     )
@@ -68,19 +68,19 @@ public record AwsMgnTerminateTargetInstancesOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Terminate Target instance by Source Server IDs. Constraints: o min: 1 o max: 200 (string) Constraints: o min: 19 o max: 19 o pattern: s-[0-9a-zA-Z]{17} Syntax: "string" "string" ...
+    /// Terminate Target instance by Source Server IDs. Constraints: • min: 1 • max: 200 (string) Constraints: • min: 19 • max: 19 • pattern: s-[0-9a-zA-Z]{17} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--source-server-ids", GroupValues = true)]
     public IEnumerable<string>? SourceServerIds { get; private init; }
 
     /// <summary>
-    /// Terminate Target instance by Tags. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 0 o max: 256 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Terminate Target instance by Tags. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 0 • max: 256 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// Terminate Target instance by Account ID Constraints: o min: 12 o max: 12 o pattern: .*[0-9]{12,}.*
+    /// Terminate Target instance by Account ID Constraints: • min: 12 • max: 12 • pattern: .*[0-9]{12,}.*
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; set; }
@@ -106,6 +106,15 @@ public record AwsMgnTerminateTargetInstancesOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

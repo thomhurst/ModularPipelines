@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Accepts a proposal request to attach a virtual private gateway or tran- sit gateway to a Direct Connect gateway. See also: AWS API Documentation
+/// Accepts a proposal request to attach a virtual private gateway or transit gateway to a Direct Connect gateway. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsDirectconnectAcceptDirectConnectGatewayAssociationProposalOptio
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Accepts a proposal request to attach a virtual private gateway or tran- sit gateway to a Direct Connect gateway. See also: AWS API Documentation
+    /// Accepts a proposal request to attach a virtual private gateway or transit gateway to a Direct Connect gateway. See also: AWS API Documentation
     /// </summary>
     /// <param name="DirectConnectGatewayId">The ID of the Direct Connect gateway.</param>
     /// <param name="ProposalId">The ID of the request proposal.</param>
-    /// <param name="AssociatedGatewayOwnerAccount">The ID of the Amazon Web Services account that owns the virtual pri- vate gateway or transit gateway.</param>
+    /// <param name="AssociatedGatewayOwnerAccount">The ID of the Amazon Web Services account that owns the virtual private gateway or transit gateway.</param>
     public AwsDirectconnectAcceptDirectConnectGatewayAssociationProposalOptions(
         string DirectConnectGatewayId,
         string ProposalId,
@@ -76,13 +77,13 @@ public record AwsDirectconnectAcceptDirectConnectGatewayAssociationProposalOptio
     public string? ProposalId { get; private init; }
 
     /// <summary>
-    /// The ID of the Amazon Web Services account that owns the virtual pri- vate gateway or transit gateway.
+    /// The ID of the Amazon Web Services account that owns the virtual private gateway or transit gateway.
     /// </summary>
     [CliOption("--associated-gateway-owner-account")]
     public string? AssociatedGatewayOwnerAccount { get; private init; }
 
     /// <summary>
-    /// Overrides the Amazon VPC prefixes advertised to the Direct Connect gateway. For information about how to set the prefixes, see Allowed Prefixes in the Direct Connect User Guide . (structure) Information about a route filter prefix that a customer can ad- vertise through Border Gateway Protocol (BGP) over a public vir- tual interface. cidr -&gt; (string) The CIDR block for the advertised route. Separate multiple routes using commas. An IPv6 CIDR must use /64 or shorter. Shorthand Syntax: cidr=string ... JSON Syntax: [ { "cidr": "string" } ... ]
+    /// Overrides the Amazon VPC prefixes advertised to the Direct Connect gateway. For information about how to set the prefixes, see Allowed Prefixes in the Direct Connect User Guide . (structure) Information about a route filter prefix that a customer can advertise through Border Gateway Protocol (BGP) over a public virtual interface. cidr -&gt; (string) The CIDR block for the advertised route. Separate multiple routes using commas. An IPv6 CIDR must use /64 or shorter. Shorthand Syntax: cidr=string ... JSON Syntax: [ { "cidr": "string" } ... ]
     /// </summary>
     [CliOption("--override-allowed-prefixes-to-direct-connect-gateway", GroupValues = true)]
     public IEnumerable<string>? OverrideAllowedPrefixesToDirectConnectGateway { get; set; }
@@ -108,6 +109,15 @@ public record AwsDirectconnectAcceptDirectConnectGatewayAssociationProposalOptio
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

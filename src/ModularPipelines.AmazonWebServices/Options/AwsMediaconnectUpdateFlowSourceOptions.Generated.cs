@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the source of a flow. NOTE: Because UpdateFlowSources and UpdateFlow are separate operations, you can't change both the source type AND the flow size in a single request. o If you have a MEDIUM flow and you want to change the flow source to NDI: o First, use the UpdateFlow operation to upgrade the flow size to LARGE . o After that, you can then use the UpdateFlowSource operation to configure the NDI source. o If you're switching from an NDI source to a transport stream (TS) source and wa...
+/// Updates the source of a flow. NOTE: Because UpdateFlowSources and UpdateFlow are separate operations, you can't change both the source type AND the flow size in a single request. • If you have a MEDIUM flow and you want to change the flow source to NDI: • First, use the UpdateFlow operation to upgrade the flow size to LARGE . • After that, you can then use the UpdateFlowSource operation to configure the NDI source. • If you're switching from an NDI source to a transport stream (TS) source and wa...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsMediaconnectUpdateFlowSourceOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the source of a flow. NOTE: Because UpdateFlowSources and UpdateFlow are separate operations, you can't change both the source type AND the flow size in a single request. o If you have a MEDIUM flow and you want to change the flow source to NDI: o First, use the UpdateFlow operation to upgrade the flow size to LARGE . o After that, you can then use the UpdateFlowSource operation to configure the NDI source. o If you're switching from an NDI source to a transport stream (TS) source and wa...
+    /// Updates the source of a flow. NOTE: Because UpdateFlowSources and UpdateFlow are separate operations, you can't change both the source type AND the flow size in a single request. • If you have a MEDIUM flow and you want to change the flow source to NDI: • First, use the UpdateFlow operation to upgrade the flow size to LARGE . • After that, you can then use the UpdateFlowSource operation to configure the NDI source. • If you're switching from an NDI source to a transport stream (TS) source and wa...
     /// </summary>
-    /// <param name="FlowArn">The ARN of the flow that you want to update. Constraints: o pattern: arn:.+:mediaconnect.+:flow:.+</param>
-    /// <param name="SourceArn">The ARN of the source that you want to update. Constraints: o pattern: arn:.+:mediaconnect.+:source:.+</param>
+    /// <param name="FlowArn">The ARN of the flow that you want to update. Constraints: • pattern: arn:.+:mediaconnect.+:flow:.+</param>
+    /// <param name="SourceArn">The ARN of the source that you want to update. Constraints: • pattern: arn:.+:mediaconnect.+:source:.+</param>
     public AwsMediaconnectUpdateFlowSourceOptions(
         string FlowArn,
         string SourceArn
@@ -61,19 +62,19 @@ public record AwsMediaconnectUpdateFlowSourceOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the flow that you want to update. Constraints: o pattern: arn:.+:mediaconnect.+:flow:.+
+    /// The ARN of the flow that you want to update. Constraints: • pattern: arn:.+:mediaconnect.+:flow:.+
     /// </summary>
     [CliOption("--flow-arn")]
     public string? FlowArn { get; private init; }
 
     /// <summary>
-    /// The ARN of the source that you want to update. Constraints: o pattern: arn:.+:mediaconnect.+:source:.+
+    /// The ARN of the source that you want to update. Constraints: • pattern: arn:.+:mediaconnect.+:source:.+
     /// </summary>
     [CliOption("--source-arn")]
     public string? SourceArn { get; private init; }
 
     /// <summary>
-    /// The type of encryption that is used on the content ingested from the source. Algorithm -&gt; (string) The type of algorithm that is used for the encryption (such as aes128, aes192, or aes256). Possible values: o aes128 o aes192 o aes256 ConstantInitializationVector -&gt; (string) A 128-bit, 16-byte hex value represented by a 32-character string, to be used with the key for encrypting content. This pa- rameter is not valid for static key encryption. DeviceId -&gt; (string) The value of one of the devices that you configured with your digital rights management (DRM) platform key provider. This pa- rameter is required for SPEKE encryption and is not valid for static key encryption. KeyType -&gt; (string) The type of key that is used for the encryption. If no keyType is provided, the service will use the default setting (sta- tic-key). Possible values: o speke o static-key o srt-password Region -&gt; (string) The Amazon Web Services Region that the API Gateway proxy end- point was created in. This parameter is required for SPEKE en- cryption and is not valid for static key encryption. ResourceId -&gt; (string) An identifier for the content. The service sends this value to the key server to identify the current endpoint. The resource ID is also known as the content ID. This parameter is required for SPEKE encryption and is not valid for static key encryption. RoleArn -&gt; (string) The ARN of the role that you created during setup (when you set up MediaConnect as a trusted entity). SecretArn -&gt; (string) The ARN of the secret that you created in Secrets Manager to store the encryption key. This parameter is required for static key encryption and is not valid for SPEKE encryption. Url -&gt; (string) The URL from the API Gateway proxy that you set up to talk to your key server. This parameter is required for SPEKE encryption and is not valid for static key encryption. Shorthand Syntax: Algorithm=string,ConstantInitializationVector=string,DeviceId=string,KeyType=string,Region=string,ResourceId=string,RoleArn=string,SecretArn=string,Url=string JSON Syntax: { "Algorithm": "aes128"|"aes192"|"aes256", "ConstantInitializationVector": "string", "DeviceId": "string", "KeyType": "speke"|"static-key"|"srt-password", "Region": "string", "ResourceId": "string", "RoleArn": "string", "SecretArn": "string", "Url": "string" }
+    /// The type of encryption that is used on the content ingested from the source. Algorithm -&gt; (string) The type of algorithm that is used for the encryption (such as aes128, aes192, or aes256). Possible values: • aes128 • aes192 • aes256 ConstantInitializationVector -&gt; (string) A 128-bit, 16-byte hex value represented by a 32-character string, to be used with the key for encrypting content. This parameter is not valid for static key encryption. DeviceId -&gt; (string) The value of one of the devices that you configured with your digital rights management (DRM) platform key provider. This parameter is required for SPEKE encryption and is not valid for static key encryption. KeyType -&gt; (string) The type of key that is used for the encryption. If no keyType is provided, the service will use the default setting (static-key). Possible values: • speke • static-key • srt-password Region -&gt; (string) The Amazon Web Services Region that the API Gateway proxy endpoint was created in. This parameter is required for SPEKE encryption and is not valid for static key encryption. ResourceId -&gt; (string) An identifier for the content. The service sends this value to the key server to identify the current endpoint. The resource ID is also known as the content ID. This parameter is required for SPEKE encryption and is not valid for static key encryption. RoleArn -&gt; (string) The ARN of the role that you created during setup (when you set up MediaConnect as a trusted entity). SecretArn -&gt; (string) The ARN of the secret that you created in Secrets Manager to store the encryption key. This parameter is required for static key encryption and is not valid for SPEKE encryption. Url -&gt; (string) The URL from the API Gateway proxy that you set up to talk to your key server. This parameter is required for SPEKE encryption and is not valid for static key encryption. Shorthand Syntax: Algorithm=string,ConstantInitializationVector=string,DeviceId=string,KeyType=string,Region=string,ResourceId=string,RoleArn=string,SecretArn=string,Url=string JSON Syntax: { "Algorithm": "aes128"|"aes192"|"aes256", "ConstantInitializationVector": "string", "DeviceId": "string", "KeyType": "speke"|"static-key"|"srt-password", "Region": "string", "ResourceId": "string", "RoleArn": "string", "SecretArn": "string", "Url": "string" }
     /// </summary>
     [CliOption("--decryption")]
     public string? Decryption { get; set; }
@@ -85,13 +86,13 @@ public record AwsMediaconnectUpdateFlowSourceOptions : AwsOptions, IValidatableO
     public string? Description { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the entitlement that allows you to subscribe to the flow. The entitlement is set by the content origi- nator, and the ARN is generated as part of the originator's flow. Constraints: o pattern: arn:.+:mediaconnect.+:entitlement:.+
+    /// The Amazon Resource Name (ARN) of the entitlement that allows you to subscribe to the flow. The entitlement is set by the content originator, and the ARN is generated as part of the originator's flow. Constraints: • pattern: arn:.+:mediaconnect.+:entitlement:.+
     /// </summary>
     [CliOption("--entitlement-arn")]
     public string? EntitlementArn { get; set; }
 
     /// <summary>
-    /// The port that the flow listens on for incoming content. If the pro- tocol of the source is Zixi, the port must be set to 2088.
+    /// The port that the flow listens on for incoming content. If the protocol of the source is Zixi, the port must be set to 2088.
     /// </summary>
     [CliOption("--ingest-port")]
     public int? IngestPort { get; set; }
@@ -115,19 +116,19 @@ public record AwsMediaconnectUpdateFlowSourceOptions : AwsOptions, IValidatableO
     public int? MaxSyncBuffer { get; set; }
 
     /// <summary>
-    /// The media stream that is associated with the source, and the parame- ters for that association. (structure) The media stream that you want to associate with the source, and the parameters for that association. EncodingName -&gt; (string) [required] The format that was used to encode the data. For ancillary data streams, set the encoding name to smpte291. For audio streams, set the encoding name to pcm. For video, 2110 streams, set the encoding name to raw. For video, JPEG XS streams, set the encoding name to jxsv. Possible values: o jxsv o raw o smpte291 o pcm InputConfigurations -&gt; (list) The media streams that you want to associate with the source. (structure) The transport parameters that you want to associate with an incoming media stream. InputPort -&gt; (integer) [required] The port that you want the flow to listen on for an incoming media stream. Interface -&gt; (structure) [required] The VPC interface that you want to use for the incom- ing media stream. Name -&gt; (string) [required] The name of the VPC interface. MediaStreamName -&gt; (string) [required] The name of the media stream. JSON Syntax: [ { "EncodingName": "jxsv"|"raw"|"smpte291"|"pcm", "InputConfigurations": [ { "InputPort": integer, "Interface": { "Name": "string" } } ... ], "MediaStreamName": "string" } ... ]
+    /// The media stream that is associated with the source, and the parameters for that association. (structure) The media stream that you want to associate with the source, and the parameters for that association. EncodingName -&gt; (string) [required] The format that was used to encode the data. For ancillary data streams, set the encoding name to smpte291. For audio streams, set the encoding name to pcm. For video, 2110 streams, set the encoding name to raw. For video, JPEG XS streams, set the encoding name to jxsv. Possible values: • jxsv • raw • smpte291 • pcm InputConfigurations -&gt; (list) The media streams that you want to associate with the source. (structure) The transport parameters that you want to associate with an incoming media stream. InputPort -&gt; (integer) [required] The port that you want the flow to listen on for an incoming media stream. Interface -&gt; (structure) [required] The VPC interface that you want to use for the incoming media stream. Name -&gt; (string) [required] The name of the VPC interface. MediaStreamName -&gt; (string) [required] The name of the media stream. JSON Syntax: [ { "EncodingName": "jxsv"|"raw"|"smpte291"|"pcm", "InputConfigurations": [ { "InputPort": integer, "Interface": { "Name": "string" } } ... ], "MediaStreamName": "string" } ... ]
     /// </summary>
     [CliOption("--media-stream-source-configurations", GroupValues = true)]
     public IEnumerable<string>? MediaStreamSourceConfigurations { get; set; }
 
     /// <summary>
-    /// The minimum latency in milliseconds for SRT-based streams. In streams that use the SRT protocol, this value that you set on your MediaConnect source or output represents the minimal potential la- tency of that connection. The latency of the stream is set to the highest number between the senders minimum latency and the receivers minimum latency.
+    /// The minimum latency in milliseconds for SRT-based streams. In streams that use the SRT protocol, this value that you set on your MediaConnect source or output represents the minimal potential latency of that connection. The latency of the stream is set to the highest number between the senders minimum latency and the receivers minimum latency.
     /// </summary>
     [CliOption("--min-latency")]
     public int? MinLatency { get; set; }
 
     /// <summary>
-    /// The protocol that the source uses to deliver the content to Media- Connect. NOTE: Elemental MediaConnect no longer supports the Fujitsu QoS proto- col. This reference is maintained for legacy purposes only. Possible values: o zixi-push o rtp-fec o rtp o zixi-pull o rist o st2110-jpegxs o cdi o srt-listener o srt-caller o fujitsu-qos o udp o ndi-speed-hq
+    /// The protocol that the source uses to deliver the content to MediaConnect. NOTE: Elemental MediaConnect no longer supports the Fujitsu QoS protocol. This reference is maintained for legacy purposes only. Possible values: • zixi-push • rtp-fec • rtp • zixi-pull • rist • st2110-jpegxs • cdi • srt-listener • srt-caller • fujitsu-qos • udp • ndi-speed-hq
     /// </summary>
     [CliOption("--protocol")]
     public AwsMediaconnectUpdateFlowSourceProtocol? Protocol { get; set; }
@@ -139,7 +140,7 @@ public record AwsMediaconnectUpdateFlowSourceOptions : AwsOptions, IValidatableO
     public int? SenderControlPort { get; set; }
 
     /// <summary>
-    /// The IP address that the flow communicates with to initiate connec- tion with the sender.
+    /// The IP address that the flow communicates with to initiate connection with the sender.
     /// </summary>
     [CliOption("--sender-ip-address")]
     public string? SenderIpAddress { get; set; }
@@ -157,7 +158,7 @@ public record AwsMediaconnectUpdateFlowSourceOptions : AwsOptions, IValidatableO
     public int? SourceListenerPort { get; set; }
 
     /// <summary>
-    /// The stream ID that you want to use for this transport. This parame- ter applies only to Zixi and SRT caller-based streams.
+    /// The stream ID that you want to use for this transport. This parameter applies only to Zixi and SRT caller-based streams.
     /// </summary>
     [CliOption("--stream-id")]
     public string? StreamId { get; set; }
@@ -175,25 +176,25 @@ public record AwsMediaconnectUpdateFlowSourceOptions : AwsOptions, IValidatableO
     public string? WhitelistCidr { get; set; }
 
     /// <summary>
-    /// The source configuration for cloud flows receiving a stream from a bridge. BridgeArn -&gt; (string) The ARN of the bridge feeding this flow. Constraints: o pattern: arn:.+:mediaconnect.+:bridge:.+ VpcInterfaceAttachment -&gt; (structure) The name of the VPC interface attachment to use for this bridge source. VpcInterfaceName -&gt; (string) The name of the VPC interface to use for this resource. Shorthand Syntax: BridgeArn=string,VpcInterfaceAttachment={VpcInterfaceName=string} JSON Syntax: { "BridgeArn": "string", "VpcInterfaceAttachment": { "VpcInterfaceName": "string" } }
+    /// The source configuration for cloud flows receiving a stream from a bridge. BridgeArn -&gt; (string) The ARN of the bridge feeding this flow. Constraints: • pattern: arn:.+:mediaconnect.+:bridge:.+ VpcInterfaceAttachment -&gt; (structure) The name of the VPC interface attachment to use for this bridge source. VpcInterfaceName -&gt; (string) The name of the VPC interface to use for this resource. Shorthand Syntax: BridgeArn=string,VpcInterfaceAttachment={VpcInterfaceName=string} JSON Syntax: { "BridgeArn": "string", "VpcInterfaceAttachment": { "VpcInterfaceName": "string" } }
     /// </summary>
     [CliOption("--gateway-bridge-source")]
     public string? GatewayBridgeSource { get; set; }
 
     /// <summary>
-    /// The settings for the NDI source. This includes the exact name of the upstream NDI sender that you want to connect to your source. SourceName -&gt; (string) The exact name of an existing NDI sender that's registered with your discovery server. If included, the format of this name must be MACHINENAME (ProgramName) . Shorthand Syntax: SourceName=string JSON Syntax: { "SourceName": "string" }
+    /// The settings for the NDI source. This includes the exact name of the upstream NDI sender that you want to connect to your source. SourceName -&gt; (string) The exact name of an existing NDI sender that's registered with your discovery server. If included, the format of this name must be MACHINENAME (ProgramName) . AudioReferenceLevel -&gt; (integer) The audio reference level of the NDI sender, in decibels relative to full scale (dBFS). Common values are -20 (NDI and SMPTE) and -18 (EBU). If you don't specify this field, MediaConnect uses -20 . Constraints: • min: -40 • max: 0 Shorthand Syntax: SourceName=string,AudioReferenceLevel=integer JSON Syntax: { "SourceName": "string", "AudioReferenceLevel": integer }
     /// </summary>
     [CliOption("--ndi-source-settings")]
     public string? NdiSourceSettings { get; set; }
 
     /// <summary>
-    /// Indicates whether to enable or disable router integration for this flow source. Possible values: o ENABLED o DISABLED
+    /// Indicates whether to enable or disable router integration for this flow source. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--router-integration-state")]
     public AwsMediaconnectUpdateFlowSourceRouterIntegrationState? RouterIntegrationState { get; set; }
 
     /// <summary>
-    /// The encryption configuration for the flow source when router inte- gration is enabled. EncryptionKeyType -&gt; (string) The type of encryption key to use for flow transit encryption. Possible values: o SECRETS_MANAGER o AUTOMATIC EncryptionKeyConfiguration -&gt; (tagged union structure) [required] The configuration details for the encryption key. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: SecretsManager, Automatic. SecretsManager -&gt; (structure) The configuration settings for transit encryption using Se- crets Manager, including the secret ARN and role ARN. SecretArn -&gt; (string) [required] The ARN of the Secrets Manager secret used for transit encryption. Constraints: o pattern: arn:(aws[a-zA-Z-]*):secretsman- ager:[a-z0-9-]+:[0-9]{12}:secret:[a-zA-Z0-9/_+=.@-]+ RoleArn -&gt; (string) [required] The ARN of the IAM role assumed by MediaConnect to access the Secrets Manager secret. Constraints: o pattern: arn:(aws[a-zA-Z-]*):iam::[0-9]{12}:role/[a-zA-Z0-9_+=,.@-]+ Automatic -&gt; (structure) Configuration settings for automatic encryption key manage- ment, where MediaConnect handles key creation and rotation. Shorthand Syntax: EncryptionKeyType=string,EncryptionKeyConfiguration={SecretsManager={SecretArn=string,RoleArn=string},Automatic={}} JSON Syntax: { "EncryptionKeyType": "SECRETS_MANAGER"|"AUTOMATIC", "EncryptionKeyConfiguration": { "SecretsManager": { "SecretArn": "string", "RoleArn": "string" }, "Automatic": { } } }
+    /// The encryption configuration for the flow source when router integration is enabled. EncryptionKeyType -&gt; (string) The type of encryption key to use for flow transit encryption. Possible values: • SECRETS_MANAGER • AUTOMATIC EncryptionKeyConfiguration -&gt; (tagged union structure) [required] The configuration details for the encryption key. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: SecretsManager, Automatic. SecretsManager -&gt; (structure) The configuration settings for transit encryption using Secrets Manager, including the secret ARN and role ARN. SecretArn -&gt; (string) [required] The ARN of the Secrets Manager secret used for transit encryption. Constraints: • pattern: arn:(aws[a-zA-Z-]*):secretsmanager:[a-z0-9-]+:[0-9]{12}:secret:[a-zA-Z0-9/_+=.@-]+ RoleArn -&gt; (string) [required] The ARN of the IAM role assumed by MediaConnect to access the Secrets Manager secret. Constraints: • pattern: arn:(aws[a-zA-Z-]*):iam::[0-9]{12}:role/[a-zA-Z0-9_+=,.@-]+ Automatic -&gt; (structure) Configuration settings for automatic encryption key management, where MediaConnect handles key creation and rotation. Shorthand Syntax: EncryptionKeyType=string,EncryptionKeyConfiguration={SecretsManager={SecretArn=string,RoleArn=string},Automatic={}} JSON Syntax: { "EncryptionKeyType": "SECRETS_MANAGER"|"AUTOMATIC", "EncryptionKeyConfiguration": { "SecretsManager": { "SecretArn": "string", "RoleArn": "string" }, "Automatic": { } } }
     /// </summary>
     [CliOption("--router-integration-transit-decryption")]
     public string? RouterIntegrationTransitDecryption { get; set; }
@@ -219,6 +220,15 @@ public record AwsMediaconnectUpdateFlowSourceOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

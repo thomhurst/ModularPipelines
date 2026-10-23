@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of Synthetics canary runtime versions. For more informa- tion, see Canary Runtime Versions . See also: AWS API Documentation
+/// Returns a list of Synthetics canary runtime versions. For more information, see Canary Runtime Versions . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,14 +23,14 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSyntheticsDescribeRuntimeVersionsOptions : AwsOptions
 {
     /// <summary>
-    /// A token that indicates that there is more data available. You can use this token in a subsequent DescribeRuntimeVersions operation to retrieve the next set of results. Constraints: o min: 4 o max: 252
+    /// A token that indicates that there is more data available. You can use this token in a subsequent DescribeRuntimeVersions operation to retrieve the next set of results. Constraints: • min: 4 • max: 252
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// Specify this parameter to limit how many runs are returned each time you use the DescribeRuntimeVersions operation. If you omit this pa- rameter, the default of 100 is used. Constraints: o min: 1 o max: 100
+    /// Specify this parameter to limit how many runs are returned each time you use the DescribeRuntimeVersions operation. If you omit this parameter, the default of 100 is used. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -40,5 +40,14 @@ public record AwsSyntheticsDescribeRuntimeVersionsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

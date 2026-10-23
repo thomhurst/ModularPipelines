@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -62,7 +63,7 @@ public record AwsSesDescribeConfigurationSetOptions : AwsOptions, IValidatableOb
     public string? ConfigurationSetName { get; private init; }
 
     /// <summary>
-    /// A list of configuration set attributes to return. (string) Possible values: o eventDestinations o trackingOptions o deliveryOptions o reputationOptions Syntax: "string" "string" ...
+    /// A list of configuration set attributes to return. (string) Possible values: • eventDestinations • trackingOptions • deliveryOptions • reputationOptions Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--configuration-set-attribute-names", GroupValues = true)]
     public IEnumerable<string>? ConfigurationSetAttributeNames { get; set; }
@@ -88,6 +89,15 @@ public record AwsSesDescribeConfigurationSetOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

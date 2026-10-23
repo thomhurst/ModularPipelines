@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes your S3 Access Grants instance. You must first delete the ac- cess grants and locations before S3 Access Grants can delete the in- stance. See DeleteAccessGrant and DeleteAccessGrantsLocation . If you have associated an IAM Identity Center instance with your S3 Access Grants instance, you must first dissassociate the Identity Center in- stance from the S3 Access Grants instance before you can delete the S3 Access Grants instance. See AssociateAccessGrantsIdentityCenter and DissociateAcce...
+/// Deletes your S3 Access Grants instance. You must first delete the access grants and locations before S3 Access Grants can delete the instance. See DeleteAccessGrant and DeleteAccessGrantsLocation . If you have associated an IAM Identity Center instance with your S3 Access Grants instance, you must first dissassociate the Identity Center instance from the S3 Access Grants instance before you can delete the S3 Access Grants instance. See AssociateAccessGrantsIdentityCenter and DissociateAccessGran...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsS3controlDeleteAccessGrantsInstanceOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes your S3 Access Grants instance. You must first delete the ac- cess grants and locations before S3 Access Grants can delete the in- stance. See DeleteAccessGrant and DeleteAccessGrantsLocation . If you have associated an IAM Identity Center instance with your S3 Access Grants instance, you must first dissassociate the Identity Center in- stance from the S3 Access Grants instance before you can delete the S3 Access Grants instance. See AssociateAccessGrantsIdentityCenter and DissociateAcce...
+    /// Deletes your S3 Access Grants instance. You must first delete the access grants and locations before S3 Access Grants can delete the instance. See DeleteAccessGrant and DeleteAccessGrantsLocation . If you have associated an IAM Identity Center instance with your S3 Access Grants instance, you must first dissassociate the Identity Center instance from the S3 Access Grants instance before you can delete the S3 Access Grants instance. See AssociateAccessGrantsIdentityCenter and DissociateAccessGran...
     /// </summary>
-    /// <param name="AccountId">The Amazon Web Services account ID of the S3 Access Grants instance. Constraints: o max: 64 o pattern: ^\d{12}$</param>
+    /// <param name="AccountId">The Amazon Web Services account ID of the S3 Access Grants instance. Constraints: • max: 64 • pattern: ^\d{12}$</param>
     public AwsS3controlDeleteAccessGrantsInstanceOptions(
         string AccountId
     )
@@ -56,7 +57,7 @@ public record AwsS3controlDeleteAccessGrantsInstanceOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services account ID of the S3 Access Grants instance. Constraints: o max: 64 o pattern: ^\d{12}$
+    /// The Amazon Web Services account ID of the S3 Access Grants instance. Constraints: • max: 64 • pattern: ^\d{12}$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsS3controlDeleteAccessGrantsInstanceOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

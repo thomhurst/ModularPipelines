@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsCloudtrailRegisterOrganizationDelegatedAdminOptions : AwsOption
     /// <summary>
     /// Registers an organizations member account as the CloudTrail delegated administrator . See also: AWS API Documentation
     /// </summary>
-    /// <param name="MemberAccountId">An organization member account ID that you want to designate as a delegated administrator. Constraints: o min: 12 o max: 16 o pattern: \d+</param>
+    /// <param name="MemberAccountId">An organization member account ID that you want to designate as a delegated administrator. Constraints: • min: 12 • max: 16 • pattern: \d+</param>
     public AwsCloudtrailRegisterOrganizationDelegatedAdminOptions(
         string MemberAccountId
     )
@@ -56,7 +57,7 @@ public record AwsCloudtrailRegisterOrganizationDelegatedAdminOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// An organization member account ID that you want to designate as a delegated administrator. Constraints: o min: 12 o max: 16 o pattern: \d+
+    /// An organization member account ID that you want to designate as a delegated administrator. Constraints: • min: 12 • max: 16 • pattern: \d+
     /// </summary>
     [CliOption("--member-account-id")]
     public string? MemberAccountId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsCloudtrailRegisterOrganizationDelegatedAdminOptions : AwsOption
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

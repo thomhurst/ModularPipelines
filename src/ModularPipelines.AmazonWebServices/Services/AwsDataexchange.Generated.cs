@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -332,7 +332,7 @@ public class AwsDataexchange : IAwsDataexchange
     }
 
     /// <summary>
-    /// This operation lists a data set's revisions sorted by CreatedAt in de- scending order. See also: AWS API Documentation list-data-set-revisions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: Revision...
+    /// This operation lists a data set's revisions sorted by CreatedAt in descending order. See also: AWS API Documentation list-data-set-revisions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Revisions
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -347,7 +347,7 @@ public class AwsDataexchange : IAwsDataexchange
     }
 
     /// <summary>
-    /// This operation lists your data sets. When listing by origin OWNED, re- sults are sorted by CreatedAt in descending order. When listing by ori- gin ENTITLED, there is no order. See also: AWS API Documentation list-data-sets is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argume...
+    /// This operation lists your data sets. When listing by origin OWNED, results are sorted by CreatedAt in descending order. When listing by origin ENTITLED, there is no order. See also: AWS API Documentation list-data-sets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -377,7 +377,7 @@ public class AwsDataexchange : IAwsDataexchange
     }
 
     /// <summary>
-    /// This operation lists your jobs sorted by CreatedAt in descending order. See also: AWS API Documentation list-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagi- nation by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query ar- gument must extract data from the results of the following query ex- pressions: Jobs
+    /// This operation lists your jobs sorted by CreatedAt in descending order. See also: AWS API Documentation list-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Jobs
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -392,7 +392,7 @@ public class AwsDataexchange : IAwsDataexchange
     }
 
     /// <summary>
-    /// This operation returns information about all received data grants. See also: AWS API Documentation list-received-data-grants is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: DataGrantSummaries
+    /// This operation returns information about all received data grants. See also: AWS API Documentation list-received-data-grants is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: DataGrantSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -407,7 +407,7 @@ public class AwsDataexchange : IAwsDataexchange
     }
 
     /// <summary>
-    /// This operation lists a revision's assets sorted alphabetically in de- scending order. See also: AWS API Documentation list-revision-assets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Assets
+    /// This operation lists a revision's assets sorted alphabetically in descending order. See also: AWS API Documentation list-revision-assets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Assets
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

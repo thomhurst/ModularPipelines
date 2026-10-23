@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -30,7 +31,7 @@ public record AwsApigatewayGetIntegrationResponseOptions : AwsOptions, IValidata
     /// <param name="RestApiId">The string identifier of the associated RestApi.</param>
     /// <param name="ResourceId">Specifies a get integration response request's resource identifier.</param>
     /// <param name="HttpMethod">Specifies a get integration response request's HTTP method.</param>
-    /// <param name="StatusCode">Specifies a get integration response request's status code. Constraints: o pattern: [1-5]\d\d</param>
+    /// <param name="StatusCode">Specifies a get integration response request's status code. Constraints: • pattern: [1-5]\d\d</param>
     public AwsApigatewayGetIntegrationResponseOptions(
         string RestApiId,
         string ResourceId,
@@ -86,7 +87,7 @@ public record AwsApigatewayGetIntegrationResponseOptions : AwsOptions, IValidata
     public string? HttpMethod { get; private init; }
 
     /// <summary>
-    /// Specifies a get integration response request's status code. Constraints: o pattern: [1-5]\d\d
+    /// Specifies a get integration response request's status code. Constraints: • pattern: [1-5]\d\d
     /// </summary>
     [CliOption("--status-code")]
     public string? StatusCode { get; private init; }
@@ -112,6 +113,15 @@ public record AwsApigatewayGetIntegrationResponseOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

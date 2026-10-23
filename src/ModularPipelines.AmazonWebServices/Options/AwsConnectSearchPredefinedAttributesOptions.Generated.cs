@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Searches predefined attributes that meet certain criteria. A predefined attribute is made up of a name and a value. You can use predefined at- tributes for: o Routing proficiency (for example, agent certification) that has pre- defined values (for example, a list of possible certifications). For more information, see Create predefined attributes for routing con- tacts to agents . o Contact information that varies between transfers or conferences, such as the name of the business unit handling th...
+/// Searches predefined attributes that meet certain criteria. A predefined attribute is made up of a name and a value. You can use predefined attributes for: • Routing proficiency (for example, agent certification) that has predefined values (for example, a list of possible certifications). For more information, see Create predefined attributes for routing contacts to agents . • Contact information that varies between transfers or conferences, such as the name of the business unit handling the cont...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsConnectSearchPredefinedAttributesOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Searches predefined attributes that meet certain criteria. A predefined attribute is made up of a name and a value. You can use predefined at- tributes for: o Routing proficiency (for example, agent certification) that has pre- defined values (for example, a list of possible certifications). For more information, see Create predefined attributes for routing con- tacts to agents . o Contact information that varies between transfers or conferences, such as the name of the business unit handling th...
+    /// Searches predefined attributes that meet certain criteria. A predefined attribute is made up of a name and a value. You can use predefined attributes for: • Routing proficiency (for example, agent certification) that has predefined values (for example, a list of possible certifications). For more information, see Create predefined attributes for routing contacts to agents . • Contact information that varies between transfers or conferences, such as the name of the business unit handling the cont...
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
     public AwsConnectSearchPredefinedAttributesOptions(
         string InstanceId
     )
@@ -57,22 +58,19 @@ public record AwsConnectSearchPredefinedAttributesOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The search criteria to be used to return predefined attributes. OrConditions -&gt; (list) A list of conditions which would be applied together with an OR condition. (structure) The search criteria to be used to return predefined attrib- utes. OrConditions -&gt; (list) A list of conditions which would be applied together with an OR condition. ( ... recursive ... ) AndConditions -&gt; (list) A list of conditions which would be applied together with an AND condition. ( ... recursive ... ) StringCondition -&gt; (structure) A leaf node condition which can be used to specify a string condition. FieldName -&gt; (string) The name of the field in the string condition. Value -&gt; (string) The value of the string. ComparisonType -&gt; (string) The type of comparison to be made when evaluating the string condition. Possible values: o STARTS_WITH o CONTAINS o EXACT AndConditions -&gt; (list) A list of conditions which would be applied together with an AND condition. (structure) The search criteria to be used to return predefined attrib- utes. OrConditions -&gt; (list) A list of conditions which would be applied together with an OR condition. ( ... recursive ... ) AndConditions -&gt; (list) A list of conditions which would be applied together with an AND condition. ( ... recursive ... ) StringCondition -&gt; (structure) A leaf node condition which can be used to specify a string condition. FieldName -&gt; (string) The name of the field in the string condition. Value -&gt; (string) The value of the string. ComparisonType -&gt; (string) The type of comparison to be made when evaluating the string condition. Possible values: o STARTS_WITH o CONTAINS o EXACT StringCondition -&gt; (structure) A leaf node condition which can be used to specify a string con- dition. FieldName -&gt; (string) The name of the field in the string condition. Value -&gt; (string) The value of the string. ComparisonType -&gt; (string) The type of comparison to be made when evaluating the string condition. Possible values: o STARTS_WITH o CONTAINS o EXACT JSON Syntax: { "OrConditions": [ { "OrConditions": [ { ... recursive ... } ... ], "AndConditions": [ { ... recursive ... } ... ], "StringCondition": { "FieldName": "string", "Value": "string", "ComparisonType": "STARTS_WITH"|"CONTAINS"|"EXACT" } } ... ], "AndConditions": [ { "OrConditions": [ { ... recursive ... } ... ], "AndConditions": [ { ... recursive ... } ... ], "StringCondition": { "FieldName": "string", "Value": "string", "ComparisonType": "STARTS_WITH"|"CONTAINS"|"EXACT" } } ... ], "StringCondition": { "FieldName": "string", "Value": "string", "ComparisonType": "STARTS_WITH"|"CONTAINS"|"EXACT" } }
+    /// The search criteria to be used to return predefined attributes. OrConditions -&gt; (list) A list of conditions which would be applied together with an OR condition. (structure) The search criteria to be used to return predefined attributes. OrConditions -&gt; (list) A list of conditions which would be applied together with an OR condition. ( ... recursive ... ) AndConditions -&gt; (list) A list of conditions which would be applied together with an AND condition. ( ... recursive ... ) StringCondition -&gt; (structure) A leaf node condition which can be used to specify a string condition. FieldName -&gt; (string) The name of the field in the string condition. Value -&gt; (string) The value of the string. ComparisonType -&gt; (string) The type of comparison to be made when evaluating the string condition. Possible values: • STARTS_WITH • CONTAINS • EXACT AndConditions -&gt; (list) A list of conditions which would be applied together with an AND condition. (structure) The search criteria to be used to return predefined attributes. OrConditions -&gt; (list) A list of conditions which would be applied together with an OR condition. ( ... recursive ... ) AndConditions -&gt; (list) A list of conditions which would be applied together with an AND condition. ( ... recursive ... ) StringCondition -&gt; (structure) A leaf node condition which can be used to specify a string condition. FieldName -&gt; (string) The name of the field in the string condition. Value -&gt; (string) The value of the string. ComparisonType -&gt; (string) The type of comparison to be made when evaluating the string condition. Possible values: • STARTS_WITH • CONTAINS • EXACT StringCondition -&gt; (structure) A leaf node condition which can be used to specify a string condition. FieldName -&gt; (string) The name of the field in the string condition. Value -&gt; (string) The value of the string. ComparisonType -&gt; (string) The type of comparison to be made when evaluating the string condition. Possible values: • STARTS_WITH • CONTAINS • EXACT JSON Syntax: { "OrConditions": [ { "OrConditions": [ { ... recursive ... } ... ], "AndConditions": [ { ... recursive ... } ... ], "StringCondition": { "FieldName": "string", "Value": "string", "ComparisonType": "STARTS_WITH"|"CONTAINS"|"EXACT" } } ... ], "AndConditions": [ { "OrConditions": [ { ... recursive ... } ... ], "AndConditions": [ { ... recursive ... } ... ], "StringCondition": { "FieldName": "string", "Value": "string", "ComparisonType": "STARTS_WITH"|"CONTAINS"|"EXACT" } } ... ], "StringCondition": { "FieldName": "string", "Value": "string", "ComparisonType": "STARTS_WITH"|"CONTAINS"|"EXACT" } }
     /// </summary>
     [CliOption("--search-criteria")]
     public string? SearchCriteria { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -82,16 +80,19 @@ public record AwsConnectSearchPredefinedAttributesOptions : AwsOptions, IValidat
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -108,6 +109,15 @@ public record AwsConnectSearchPredefinedAttributesOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,8 +30,8 @@ public record AwsResiliencehubv2CreateReportOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// On-demand report creation. Idempotent duplicate requests with same clientToken return existing result. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ServiceArn">ARN identifier. Constraints: o min: 31 o pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}</param>
-    /// <param name="ReportType">The type of report to generate. Possible values: o FAILURE_MODE o TESTING</param>
+    /// <param name="ServiceArn">ARN identifier. Constraints: • min: 31 • pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}</param>
+    /// <param name="ReportType">The type of report to generate. Possible values: • FAILURE_MODE • TESTING</param>
     public AwsResiliencehubv2CreateReportOptions(
         string ServiceArn,
         AwsResiliencehubv2CreateReportReportType ReportType
@@ -61,19 +62,19 @@ public record AwsResiliencehubv2CreateReportOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ARN identifier. Constraints: o min: 31 o pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}
+    /// ARN identifier. Constraints: • min: 31 • pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}
     /// </summary>
     [CliOption("--service-arn")]
     public string? ServiceArn { get; private init; }
 
     /// <summary>
-    /// The type of report to generate. Possible values: o FAILURE_MODE o TESTING
+    /// The type of report to generate. Possible values: • FAILURE_MODE • TESTING
     /// </summary>
     [CliOption("--report-type")]
     public AwsResiliencehubv2CreateReportReportType? ReportType { get; private init; }
 
     /// <summary>
-    /// Idempotency token. Constraints: o min: 1 o max: 63 o pattern: [A-Za-z0-9_.-]{0,63}
+    /// Idempotency token. Constraints: • min: 1 • max: 63 • pattern: [A-Za-z0-9_.-]{0,63}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -100,6 +101,15 @@ public record AwsResiliencehubv2CreateReportOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

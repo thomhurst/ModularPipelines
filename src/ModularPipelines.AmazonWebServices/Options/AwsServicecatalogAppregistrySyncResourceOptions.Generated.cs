@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Syncs the resource with current AppRegistry records. Specifically, the resources AppRegistry system tags sync with its asso- ciated application. We remove the resource's AppRegistry system tags if it does not associate with the application. The caller must have per- missions to read and update the resource. See also: AWS API Documentation
+/// Syncs the resource with current AppRegistry records. Specifically, the resources AppRegistry system tags sync with its associated application. We remove the resource's AppRegistry system tags if it does not associate with the application. The caller must have permissions to read and update the resource. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsServicecatalogAppregistrySyncResourceOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Syncs the resource with current AppRegistry records. Specifically, the resources AppRegistry system tags sync with its asso- ciated application. We remove the resource's AppRegistry system tags if it does not associate with the application. The caller must have per- missions to read and update the resource. See also: AWS API Documentation
+    /// Syncs the resource with current AppRegistry records. Specifically, the resources AppRegistry system tags sync with its associated application. We remove the resource's AppRegistry system tags if it does not associate with the application. The caller must have permissions to read and update the resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceType">The type of resource of which the application will be associated. Possible values: o CFN_STACK o RESOURCE_TAG_VALUE</param>
-    /// <param name="Resource">An entity you can work with and specify with a name or ID. Examples include an Amazon EC2 instance, an Amazon Web Services CloudForma- tion stack, or an Amazon S3 bucket. Constraints: o min: 1 o max: 256 o pattern: \S+</param>
+    /// <param name="ResourceType">The type of resource of which the application will be associated. Possible values: • CFN_STACK • RESOURCE_TAG_VALUE</param>
+    /// <param name="Resource">An entity you can work with and specify with a name or ID. Examples include an Amazon EC2 instance, an Amazon Web Services CloudFormation stack, or an Amazon S3 bucket. Constraints: • min: 1 • max: 256 • pattern: \S+</param>
     public AwsServicecatalogAppregistrySyncResourceOptions(
         AwsServicecatalogAppregistrySyncResourceResourceType ResourceType,
         string Resource
@@ -60,13 +61,13 @@ public record AwsServicecatalogAppregistrySyncResourceOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The type of resource of which the application will be associated. Possible values: o CFN_STACK o RESOURCE_TAG_VALUE
+    /// The type of resource of which the application will be associated. Possible values: • CFN_STACK • RESOURCE_TAG_VALUE
     /// </summary>
     [CliOption("--resource-type")]
     public AwsServicecatalogAppregistrySyncResourceResourceType? ResourceType { get; private init; }
 
     /// <summary>
-    /// An entity you can work with and specify with a name or ID. Examples include an Amazon EC2 instance, an Amazon Web Services CloudForma- tion stack, or an Amazon S3 bucket. Constraints: o min: 1 o max: 256 o pattern: \S+
+    /// An entity you can work with and specify with a name or ID. Examples include an Amazon EC2 instance, an Amazon Web Services CloudFormation stack, or an Amazon S3 bucket. Constraints: • min: 1 • max: 256 • pattern: \S+
     /// </summary>
     [CliOption("--resource")]
     public string? Resource { get; private init; }
@@ -92,6 +93,15 @@ public record AwsServicecatalogAppregistrySyncResourceOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

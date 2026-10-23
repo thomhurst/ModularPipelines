@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsAppstreamStopImageBuilderOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Stops the specified image builder. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the image builder. Constraints: o min: 1</param>
+    /// <param name="Name">The name of the image builder. Constraints: • min: 1</param>
     public AwsAppstreamStopImageBuilderOptions(
         string Name
     )
@@ -56,7 +57,7 @@ public record AwsAppstreamStopImageBuilderOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the image builder. Constraints: o min: 1
+    /// The name of the image builder. Constraints: • min: 1
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
@@ -82,6 +83,15 @@ public record AwsAppstreamStopImageBuilderOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

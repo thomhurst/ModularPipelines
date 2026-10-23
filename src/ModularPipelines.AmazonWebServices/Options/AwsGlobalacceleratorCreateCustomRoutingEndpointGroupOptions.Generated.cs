@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Create an endpoint group for the specified listener for a custom rout- ing accelerator. An endpoint group is a collection of endpoints in one Amazon Web Services Region. See also: AWS API Documentation
+/// Create an endpoint group for the specified listener for a custom routing accelerator. An endpoint group is a collection of endpoints in one Amazon Web Services Region. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsGlobalacceleratorCreateCustomRoutingEndpointGroupOptions : AwsO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Create an endpoint group for the specified listener for a custom rout- ing accelerator. An endpoint group is a collection of endpoints in one Amazon Web Services Region. See also: AWS API Documentation
+    /// Create an endpoint group for the specified listener for a custom routing accelerator. An endpoint group is a collection of endpoints in one Amazon Web Services Region. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ListenerArn">The Amazon Resource Name (ARN) of the listener for a custom routing endpoint. Constraints: o max: 255</param>
-    /// <param name="EndpointGroupRegion">The Amazon Web Services Region where the endpoint group is located. A listener can have only one endpoint group in a specific Region. Constraints: o max: 255</param>
-    /// <param name="DestinationConfigurations">Sets the port range and protocol for all endpoints (virtual private cloud subnets) in a custom routing endpoint group to accept client traffic on. Constraints: o min: 1 o max: 100 (structure) For a custom routing accelerator, sets the port range and proto- col for all endpoints (virtual private cloud subnets) in an end- point group to accept client traffic on. FromPort -&gt; (integer) [required] The first port, inclusive, in the range of ports for the end- point group that is associated with a custom routing acceler- ator. Constraints: o min: 1 o max: 65535 ToPort -&gt; (integer) [required] The last port, inclusive, in the range of ports for the end- point group that is associated with a custom routing acceler- ator. Constraints: o min: 1 o max: 65535 Protocols -&gt; (list) [required] The protocol for the endpoint group that is associated with a custom routing accelerator. The protocol can be either TCP or UDP. Constraints: o min: 1 o max: 2 (string) Possible values: o TCP o UDP Shorthand Syntax: FromPort=integer,ToPort=integer,Protocols=string,string ... JSON Syntax: [ { "FromPort": integer, "ToPort": integer, "Protocols": ["TCP"|"UDP", ...] } ... ]</param>
+    /// <param name="ListenerArn">The Amazon Resource Name (ARN) of the listener for a custom routing endpoint. Constraints: • max: 255</param>
+    /// <param name="EndpointGroupRegion">The Amazon Web Services Region where the endpoint group is located. A listener can have only one endpoint group in a specific Region. Constraints: • max: 255</param>
+    /// <param name="DestinationConfigurations">Sets the port range and protocol for all endpoints (virtual private cloud subnets) in a custom routing endpoint group to accept client traffic on. Constraints: • min: 1 • max: 100 (structure) For a custom routing accelerator, sets the port range and protocol for all endpoints (virtual private cloud subnets) in an endpoint group to accept client traffic on. FromPort -&gt; (integer) [required] The first port, inclusive, in the range of ports for the endpoint group that is associated with a custom routing accelerator. Constraints: • min: 1 • max: 65535 ToPort -&gt; (integer) [required] The last port, inclusive, in the range of ports for the endpoint group that is associated with a custom routing accelerator. Constraints: • min: 1 • max: 65535 Protocols -&gt; (list) [required] The protocol for the endpoint group that is associated with a custom routing accelerator. The protocol can be either TCP or UDP. Constraints: • min: 1 • max: 2 (string) Possible values: • TCP • UDP Shorthand Syntax: FromPort=integer,ToPort=integer,Protocols=string,string ... JSON Syntax: [ { "FromPort": integer, "ToPort": integer, "Protocols": ["TCP"|"UDP", ...] } ... ]</param>
     public AwsGlobalacceleratorCreateCustomRoutingEndpointGroupOptions(
         string ListenerArn,
         string EndpointGroupRegion,
@@ -76,25 +77,25 @@ public record AwsGlobalacceleratorCreateCustomRoutingEndpointGroupOptions : AwsO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the listener for a custom routing endpoint. Constraints: o max: 255
+    /// The Amazon Resource Name (ARN) of the listener for a custom routing endpoint. Constraints: • max: 255
     /// </summary>
     [CliOption("--listener-arn")]
     public string? ListenerArn { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services Region where the endpoint group is located. A listener can have only one endpoint group in a specific Region. Constraints: o max: 255
+    /// The Amazon Web Services Region where the endpoint group is located. A listener can have only one endpoint group in a specific Region. Constraints: • max: 255
     /// </summary>
     [CliOption("--endpoint-group-region")]
     public string? EndpointGroupRegion { get; private init; }
 
     /// <summary>
-    /// Sets the port range and protocol for all endpoints (virtual private cloud subnets) in a custom routing endpoint group to accept client traffic on. Constraints: o min: 1 o max: 100 (structure) For a custom routing accelerator, sets the port range and proto- col for all endpoints (virtual private cloud subnets) in an end- point group to accept client traffic on. FromPort -&gt; (integer) [required] The first port, inclusive, in the range of ports for the end- point group that is associated with a custom routing acceler- ator. Constraints: o min: 1 o max: 65535 ToPort -&gt; (integer) [required] The last port, inclusive, in the range of ports for the end- point group that is associated with a custom routing acceler- ator. Constraints: o min: 1 o max: 65535 Protocols -&gt; (list) [required] The protocol for the endpoint group that is associated with a custom routing accelerator. The protocol can be either TCP or UDP. Constraints: o min: 1 o max: 2 (string) Possible values: o TCP o UDP Shorthand Syntax: FromPort=integer,ToPort=integer,Protocols=string,string ... JSON Syntax: [ { "FromPort": integer, "ToPort": integer, "Protocols": ["TCP"|"UDP", ...] } ... ]
+    /// Sets the port range and protocol for all endpoints (virtual private cloud subnets) in a custom routing endpoint group to accept client traffic on. Constraints: • min: 1 • max: 100 (structure) For a custom routing accelerator, sets the port range and protocol for all endpoints (virtual private cloud subnets) in an endpoint group to accept client traffic on. FromPort -&gt; (integer) [required] The first port, inclusive, in the range of ports for the endpoint group that is associated with a custom routing accelerator. Constraints: • min: 1 • max: 65535 ToPort -&gt; (integer) [required] The last port, inclusive, in the range of ports for the endpoint group that is associated with a custom routing accelerator. Constraints: • min: 1 • max: 65535 Protocols -&gt; (list) [required] The protocol for the endpoint group that is associated with a custom routing accelerator. The protocol can be either TCP or UDP. Constraints: • min: 1 • max: 2 (string) Possible values: • TCP • UDP Shorthand Syntax: FromPort=integer,ToPort=integer,Protocols=string,string ... JSON Syntax: [ { "FromPort": integer, "ToPort": integer, "Protocols": ["TCP"|"UDP", ...] } ... ]
     /// </summary>
     [CliOption("--destination-configurations", GroupValues = true)]
     public IEnumerable<string>? DestinationConfigurations { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotencythat is, the uniquenessof the request. Constraints: o max: 255
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotencythat is, the uniquenessof the request. Constraints: • max: 255
     /// </summary>
     [SecretValue]
     [CliOption("--idempotency-token")]
@@ -121,6 +122,15 @@ public record AwsGlobalacceleratorCreateCustomRoutingEndpointGroupOptions : AwsO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

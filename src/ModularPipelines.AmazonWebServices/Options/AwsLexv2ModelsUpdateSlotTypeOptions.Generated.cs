@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,10 +28,10 @@ public record AwsLexv2ModelsUpdateSlotTypeOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Updates the configuration of an existing slot type. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SlotTypeId">The unique identifier of the slot type to update. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
-    /// <param name="SlotTypeName">The new name of the slot type. Constraints: o min: 1 o max: 100 o pattern: ^([0-9a-zA-Z][_-]?){1,100}$</param>
-    /// <param name="BotId">The identifier of the bot that contains the slot type. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
-    /// <param name="BotVersion">The version of the bot that contains the slot type. Must be DRAFT . Constraints: o min: 5 o max: 5 o pattern: ^DRAFT$</param>
+    /// <param name="SlotTypeId">The unique identifier of the slot type to update. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="SlotTypeName">The new name of the slot type. Constraints: • min: 1 • max: 100 • pattern: ^([0-9a-zA-Z][_-]?){1,100}$</param>
+    /// <param name="BotId">The identifier of the bot that contains the slot type. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="BotVersion">The version of the bot that contains the slot type. Must be DRAFT . Constraints: • min: 5 • max: 5 • pattern: ^DRAFT$</param>
     /// <param name="LocaleId">The identifier of the language and locale that contains the slot type. The string must match one of the supported locales. For more information, see Supported languages .</param>
     public AwsLexv2ModelsUpdateSlotTypeOptions(
         string SlotTypeId,
@@ -72,25 +73,25 @@ public record AwsLexv2ModelsUpdateSlotTypeOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the slot type to update. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The unique identifier of the slot type to update. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--slot-type-id")]
     public string? SlotTypeId { get; private init; }
 
     /// <summary>
-    /// The new name of the slot type. Constraints: o min: 1 o max: 100 o pattern: ^([0-9a-zA-Z][_-]?){1,100}$
+    /// The new name of the slot type. Constraints: • min: 1 • max: 100 • pattern: ^([0-9a-zA-Z][_-]?){1,100}$
     /// </summary>
     [CliOption("--slot-type-name")]
     public string? SlotTypeName { get; private init; }
 
     /// <summary>
-    /// The identifier of the bot that contains the slot type. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The identifier of the bot that contains the slot type. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--bot-id")]
     public string? BotId { get; private init; }
 
     /// <summary>
-    /// The version of the bot that contains the slot type. Must be DRAFT . Constraints: o min: 5 o max: 5 o pattern: ^DRAFT$
+    /// The version of the bot that contains the slot type. Must be DRAFT . Constraints: • min: 5 • max: 5 • pattern: ^DRAFT$
     /// </summary>
     [CliOption("--bot-version")]
     public string? BotVersion { get; private init; }
@@ -102,19 +103,19 @@ public record AwsLexv2ModelsUpdateSlotTypeOptions : AwsOptions, IValidatableObje
     public string? LocaleId { get; private init; }
 
     /// <summary>
-    /// The new description of the slot type. Constraints: o min: 0 o max: 2000
+    /// The new description of the slot type. Constraints: • min: 0 • max: 2000
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// A new list of values and their optional synonyms that define the values that the slot type can take. Constraints: o min: 1 o max: 10000 (structure) Each slot type can have a set of values. Each SlotTypeValue rep- resents a value that the slot type can take. sampleValue -&gt; (structure) The value of the slot type entry. value -&gt; (string) [required] The value that can be used for a slot type. Constraints: o min: 1 o max: 140 synonyms -&gt; (list) Additional values related to the slot type entry. Constraints: o min: 1 o max: 10000 (structure) Defines one of the values for a slot type. value -&gt; (string) [required] The value that can be used for a slot type. Constraints: o min: 1 o max: 140 Shorthand Syntax: sampleValue={value=string},synonyms=[{value=string},{value=string}] ... JSON Syntax: [ { "sampleValue": { "value": "string" }, "synonyms": [ { "value": "string" } ... ] } ... ]
+    /// A new list of values and their optional synonyms that define the values that the slot type can take. Constraints: • min: 1 • max: 10000 (structure) Each slot type can have a set of values. Each SlotTypeValue represents a value that the slot type can take. sampleValue -&gt; (structure) The value of the slot type entry. value -&gt; (string) [required] The value that can be used for a slot type. Constraints: • min: 1 • max: 140 synonyms -&gt; (list) Additional values related to the slot type entry. Constraints: • min: 1 • max: 10000 (structure) Defines one of the values for a slot type. value -&gt; (string) [required] The value that can be used for a slot type. Constraints: • min: 1 • max: 140 Shorthand Syntax: sampleValue={value=string},synonyms=[{value=string},{value=string}] ... JSON Syntax: [ { "sampleValue": { "value": "string" }, "synonyms": [ { "value": "string" } ... ] } ... ]
     /// </summary>
     [CliOption("--slot-type-values", GroupValues = true)]
     public IEnumerable<string>? SlotTypeValues { get; set; }
 
     /// <summary>
-    /// The strategy that Amazon Lex should use when deciding on a value from the list of slot type values. resolutionStrategy -&gt; (string) [required] Determines the slot resolution strategy that Amazon Lex uses to return slot type values. The field can be set to one of the fol- lowing values: o ORIGINAL_VALUE - Returns the value entered by the user, if the user value is similar to the slot value. o TOP_RESOLUTION - If there is a resolution list for the slot, return the first value in the resolution list as the slot type value. If there is no resolution list, null is returned. If you don't specify the valueSelectionStrategy , the default is ORIGINAL_VALUE . Possible values: o OriginalValue o TopResolution o Concatenation regexFilter -&gt; (structure) A regular expression used to validate the value of a slot. pattern -&gt; (string) [required] A regular expression used to validate the value of a slot. Use a standard regular expression. Amazon Lex supports the following characters in the regular expression: o A-Z, a-z o 0-9 o Unicode characters (" u&lt;Unicode&gt;") Represent Unicode characters with four digits, for example " u0041" or " u005A". The following regular expression operators are not supported: o Infinite repeaters: * , +, or {x,} with no upper bound. System Message: WARNING/2 (&lt;string&gt;:, line 362) Inline emphasis start-string without end-string. o Wild card (.) Constraints: o min: 1 o max: 300 advancedRecognitionSetting -&gt; (structure) Provides settings that enable advanced recognition settings for slot values. You can use this to enable using slot values as a custom vocabulary for recognizing user utterances. audioRecognitionStrategy -&gt; (string) Enables using the slot values as a custom vocabulary for rec- ognizing user utterances. Possible values: o UseSlotValuesAsCustomVocabulary Shorthand Syntax: resolutionStrategy=string,regexFilter={pattern=string},advancedRecognitionSetting={audioRecognitionStrategy=string} JSON Syntax: { "resolutionStrategy": "OriginalValue"|"TopResolution"|"Concatenation", "regexFilter": { "pattern": "string" }, "advancedRecognitionSetting": { "audioRecognitionStrategy": "UseSlotValuesAsCustomVocabulary" } }
+    /// The strategy that Amazon Lex should use when deciding on a value from the list of slot type values. resolutionStrategy -&gt; (string) [required] Determines the slot resolution strategy that Amazon Lex uses to return slot type values. The field can be set to one of the following values: • ORIGINAL_VALUE - Returns the value entered by the user, if the user value is similar to the slot value. • TOP_RESOLUTION - If there is a resolution list for the slot, return the first value in the resolution list as the slot type value. If there is no resolution list, null is returned. If you don't specify the valueSelectionStrategy , the default is ORIGINAL_VALUE . Possible values: • OriginalValue • TopResolution • Concatenation regexFilter -&gt; (structure) A regular expression used to validate the value of a slot. pattern -&gt; (string) [required] A regular expression used to validate the value of a slot. Use a standard regular expression. Amazon Lex supports the following characters in the regular expression: • A-Z, a-z • 0-9 • Unicode characters (" u&lt;Unicode&gt;") Represent Unicode characters with four digits, for example " u0041" or " u005A". The following regular expression operators are not supported: • Infinite repeaters: * , +, or {x,} with no upper bound. System Message: WARNING/2 (&lt;string&gt;:, line 362) Inline emphasis start-string without end-string. • Wild card (.) Constraints: • min: 1 • max: 300 advancedRecognitionSetting -&gt; (structure) Provides settings that enable advanced recognition settings for slot values. You can use this to enable using slot values as a custom vocabulary for recognizing user utterances. audioRecognitionStrategy -&gt; (string) Enables using the slot values as a custom vocabulary for recognizing user utterances. Possible values: • UseSlotValuesAsCustomVocabulary Shorthand Syntax: resolutionStrategy=string,regexFilter={pattern=string},advancedRecognitionSetting={audioRecognitionStrategy=string} JSON Syntax: { "resolutionStrategy": "OriginalValue"|"TopResolution"|"Concatenation", "regexFilter": { "pattern": "string" }, "advancedRecognitionSetting": { "audioRecognitionStrategy": "UseSlotValuesAsCustomVocabulary" } }
     /// </summary>
     [CliOption("--value-selection-setting")]
     public string? ValueSelectionSetting { get; set; }
@@ -126,13 +127,13 @@ public record AwsLexv2ModelsUpdateSlotTypeOptions : AwsOptions, IValidatableObje
     public string? ParentSlotTypeSignature { get; set; }
 
     /// <summary>
-    /// Provides information about the external source of the slot type's definition. grammarSlotTypeSetting -&gt; (structure) Settings required for a slot type based on a grammar that you provide. source -&gt; (structure) The source of the grammar used to create the slot type. s3BucketName -&gt; (string) [required] The name of the Amazon S3 bucket that contains the gram- mar source. Constraints: o min: 3 o max: 63 o pattern: ^[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9]$ s3ObjectKey -&gt; (string) [required] The path to the grammar in the Amazon S3 bucket. Constraints: o min: 1 o max: 1024 o pattern: [\.\-\!\*\_\'\(\)a-zA-Z0-9][\.\-\!\*\_\'\(\)\/a-zA-Z0-9]*$ kmsKeyArn -&gt; (string) The KMS key required to decrypt the contents of the gram- mar, if any. Constraints: o min: 20 o max: 2048 o pattern: ^arn:[\w\-]+:kms:[\w\-]+:[\d]{12}:(?:key\/[\w\-]+|alias\/[a-zA-Z0-9:\/_\-]{1,256})$ Shorthand Syntax: grammarSlotTypeSetting={source={s3BucketName=string,s3ObjectKey=string,kmsKeyArn=string}} JSON Syntax: { "grammarSlotTypeSetting": { "source": { "s3BucketName": "string", "s3ObjectKey": "string", "kmsKeyArn": "string" } } }
+    /// Provides information about the external source of the slot type's definition. grammarSlotTypeSetting -&gt; (structure) Settings required for a slot type based on a grammar that you provide. source -&gt; (structure) The source of the grammar used to create the slot type. s3BucketName -&gt; (string) [required] The name of the Amazon S3 bucket that contains the grammar source. Constraints: • min: 3 • max: 63 • pattern: ^[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9]$ s3ObjectKey -&gt; (string) [required] The path to the grammar in the Amazon S3 bucket. Constraints: • min: 1 • max: 1024 • pattern: [\.\-\!\*\_\'\(\)a-zA-Z0-9][\.\-\!\*\_\'\(\)\/a-zA-Z0-9]*$ kmsKeyArn -&gt; (string) The KMS key required to decrypt the contents of the grammar, if any. Constraints: • min: 20 • max: 2048 • pattern: ^arn:[\w\-]+:kms:[\w\-]+:[\d]{12}:(?:key\/[\w\-]+|alias\/[a-zA-Z0-9:\/_\-]{1,256})$ Shorthand Syntax: grammarSlotTypeSetting={source={s3BucketName=string,s3ObjectKey=string,kmsKeyArn=string}} JSON Syntax: { "grammarSlotTypeSetting": { "source": { "s3BucketName": "string", "s3ObjectKey": "string", "kmsKeyArn": "string" } } }
     /// </summary>
     [CliOption("--external-source-setting")]
     public string? ExternalSourceSetting { get; set; }
 
     /// <summary>
-    /// Specifications for a composite slot type. subSlots -&gt; (list) Subslots in the composite slot. Constraints: o min: 0 o max: 6 (structure) Subslot type composition. name -&gt; (string) [required] Name of a constituent sub slot inside a composite slot. Constraints: o min: 1 o max: 100 o pattern: ^([0-9a-zA-Z][_-]?){1,100}$ slotTypeId -&gt; (string) [required] The unique identifier assigned to a slot type. This refers to either a built-in slot type or the unique slot- TypeId of a custom slot type. Constraints: o min: 1 o max: 25 o pattern: ^((AMAZON\.)[a-zA-Z_]+?|[0-9a-zA-Z]+)$ Shorthand Syntax: subSlots=[{name=string,slotTypeId=string},{name=string,slotTypeId=string}] JSON Syntax: { "subSlots": [ { "name": "string", "slotTypeId": "string" } ... ] }
+    /// Specifications for a composite slot type. subSlots -&gt; (list) Subslots in the composite slot. Constraints: • min: 0 • max: 6 (structure) Subslot type composition. name -&gt; (string) [required] Name of a constituent sub slot inside a composite slot. Constraints: • min: 1 • max: 100 • pattern: ^([0-9a-zA-Z][_-]?){1,100}$ slotTypeId -&gt; (string) [required] The unique identifier assigned to a slot type. This refers to either a built-in slot type or the unique slotTypeId of a custom slot type. Constraints: • min: 1 • max: 25 • pattern: ^((AMAZON\.)[a-zA-Z_]+?|[0-9a-zA-Z]+)$ Shorthand Syntax: subSlots=[{name=string,slotTypeId=string},{name=string,slotTypeId=string}] JSON Syntax: { "subSlots": [ { "name": "string", "slotTypeId": "string" } ... ] }
     /// </summary>
     [CliOption("--composite-slot-type-setting")]
     public string? CompositeSlotTypeSetting { get; set; }
@@ -158,6 +159,15 @@ public record AwsLexv2ModelsUpdateSlotTypeOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

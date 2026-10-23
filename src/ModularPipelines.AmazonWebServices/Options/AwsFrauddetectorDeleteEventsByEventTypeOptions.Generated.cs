@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsFrauddetectorDeleteEventsByEventTypeOptions : AwsOptions, IVali
     /// <summary>
     /// Deletes all events of a particular event type. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EventTypeName">The name of the event type. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$</param>
+    /// <param name="EventTypeName">The name of the event type. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$</param>
     public AwsFrauddetectorDeleteEventsByEventTypeOptions(
         string EventTypeName
     )
@@ -56,7 +57,7 @@ public record AwsFrauddetectorDeleteEventsByEventTypeOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the event type. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$
+    /// The name of the event type. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$
     /// </summary>
     [CliOption("--event-type-name")]
     public string? EventTypeName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsFrauddetectorDeleteEventsByEventTypeOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

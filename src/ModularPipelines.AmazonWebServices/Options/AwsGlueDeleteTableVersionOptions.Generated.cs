@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsGlueDeleteTableVersionOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes a specified version of a table. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DatabaseName">The database in the catalog in which the table resides. For Hive compatibility, this name is entirely lowercase. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
-    /// <param name="TableName">The name of the table. For Hive compatibility, this name is entirely lowercase. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
-    /// <param name="VersionId">The ID of the table version to be deleted. A VersionID is a string representation of an integer. Each version is incremented by 1. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="DatabaseName">The database in the catalog in which the table resides. For Hive compatibility, this name is entirely lowercase. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="TableName">The name of the table. For Hive compatibility, this name is entirely lowercase. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="VersionId">The ID of the table version to be deleted. A VersionID is a string representation of an integer. Each version is incremented by 1. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
     public AwsGlueDeleteTableVersionOptions(
         string DatabaseName,
         string TableName,
@@ -64,25 +65,25 @@ public record AwsGlueDeleteTableVersionOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The database in the catalog in which the table resides. For Hive compatibility, this name is entirely lowercase. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The database in the catalog in which the table resides. For Hive compatibility, this name is entirely lowercase. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--database-name")]
     public string? DatabaseName { get; private init; }
 
     /// <summary>
-    /// The name of the table. For Hive compatibility, this name is entirely lowercase. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The name of the table. For Hive compatibility, this name is entirely lowercase. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--table-name")]
     public string? TableName { get; private init; }
 
     /// <summary>
-    /// The ID of the table version to be deleted. A VersionID is a string representation of an integer. Each version is incremented by 1. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The ID of the table version to be deleted. A VersionID is a string representation of an integer. Each version is incremented by 1. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--version-id")]
     public string? VersionId { get; private init; }
 
     /// <summary>
-    /// The ID of the Data Catalog where the tables reside. If none is pro- vided, the Amazon Web Services account ID is used by default. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The ID of the Data Catalog where the tables reside. If none is provided, the Amazon Web Services account ID is used by default. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--catalog-id")]
     public string? CatalogId { get; set; }
@@ -108,6 +109,15 @@ public record AwsGlueDeleteTableVersionOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Stops a running batch evaluation. Sessions that have already been eval- uated retain their results. See also: AWS API Documentation
+/// Stops a running batch evaluation. Sessions that have already been evaluated retain their results. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsBedrockAgentcoreStopBatchEvaluationOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Stops a running batch evaluation. Sessions that have already been eval- uated retain their results. See also: AWS API Documentation
+    /// Stops a running batch evaluation. Sessions that have already been evaluated retain their results. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BatchEvaluationId">The unique identifier of the batch evaluation to stop. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}</param>
+    /// <param name="BatchEvaluationId">The unique identifier of the batch evaluation to stop. Constraints: • pattern: [a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}</param>
     public AwsBedrockAgentcoreStopBatchEvaluationOptions(
         string BatchEvaluationId
     )
@@ -56,7 +57,7 @@ public record AwsBedrockAgentcoreStopBatchEvaluationOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the batch evaluation to stop. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}
+    /// The unique identifier of the batch evaluation to stop. Constraints: • pattern: [a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}
     /// </summary>
     [CliOption("--batch-evaluation-id")]
     public string? BatchEvaluationId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsBedrockAgentcoreStopBatchEvaluationOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

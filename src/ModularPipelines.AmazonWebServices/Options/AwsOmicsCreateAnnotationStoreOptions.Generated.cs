@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,7 +29,7 @@ public record AwsOmicsCreateAnnotationStoreOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// WARNING: Amazon Web Services HealthOmics variant stores and annotation stores are no longer open to new customers. Existing customers can continue to use the service as normal. For more information, see Amazon Web Services HealthOmics variant store and annotation store availability change . Creates an annotation store. See also: AWS API Documentation
     /// </summary>
-    /// <param name="StoreFormat">The annotation file format of the store. Possible values: o GFF o TSV o VCF</param>
+    /// <param name="StoreFormat">The annotation file format of the store. Possible values: • GFF • TSV • VCF</param>
     public AwsOmicsCreateAnnotationStoreOptions(
         AwsOmicsCreateAnnotationStoreStoreFormat StoreFormat
     )
@@ -57,49 +57,49 @@ public record AwsOmicsCreateAnnotationStoreOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The annotation file format of the store. Possible values: o GFF o TSV o VCF
+    /// The annotation file format of the store. Possible values: • GFF • TSV • VCF
     /// </summary>
     [CliOption("--store-format")]
     public AwsOmicsCreateAnnotationStoreStoreFormat? StoreFormat { get; private init; }
 
     /// <summary>
-    /// The genome reference for the store's annotations. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: referenceArn. referenceArn -&gt; (string) The reference's ARN. Constraints: o min: 1 o max: 127 o pattern: arn:.+ Shorthand Syntax: referenceArn=string JSON Syntax: { "referenceArn": "string" }
+    /// The genome reference for the store's annotations. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: referenceArn. referenceArn -&gt; (string) The reference's ARN. Constraints: • min: 1 • max: 127 • pattern: arn:.+ Shorthand Syntax: referenceArn=string JSON Syntax: { "referenceArn": "string" }
     /// </summary>
     [CliOption("--reference")]
     public string? Reference { get; set; }
 
     /// <summary>
-    /// A name for the store. Constraints: o min: 3 o max: 255 o pattern: ([a-z]){1}([a-z0-9_]){2,254}
+    /// A name for the store. Constraints: • min: 3 • max: 255 • pattern: ([a-z]){1}([a-z0-9_]){2,254}
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// A description for the store. Constraints: o min: 0 o max: 500
+    /// A description for the store. Constraints: • min: 0 • max: 500
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Tags for the store. key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Tags for the store. key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// The name given to an annotation store version to distinguish it from other versions. Constraints: o min: 3 o max: 255 o pattern: ([a-z]){1}([a-z0-9_]){2,254}
+    /// The name given to an annotation store version to distinguish it from other versions. Constraints: • min: 3 • max: 255 • pattern: ([a-z]){1}([a-z0-9_]){2,254}
     /// </summary>
     [CliOption("--version-name")]
     public string? VersionName { get; set; }
 
     /// <summary>
-    /// Server-side encryption (SSE) settings for the store. type -&gt; (string) [required] The encryption type. Possible values: o KMS keyArn -&gt; (string) An encryption key ARN. Constraints: o min: 20 o max: 2048 o pattern: .*arn:([^: ]*):([^: ]*):([^: ]*):([0-9]{12}):([^: ]*).* Shorthand Syntax: type=string,keyArn=string JSON Syntax: { "type": "KMS", "keyArn": "string" }
+    /// Server-side encryption (SSE) settings for the store. type -&gt; (string) [required] The encryption type. Possible values: • KMS keyArn -&gt; (string) An encryption key ARN. Constraints: • min: 20 • max: 2048 • pattern: .*arn:([^: ]*):([^: ]*):([^: ]*):([0-9]{12}):([^: ]*).* Shorthand Syntax: type=string,keyArn=string JSON Syntax: { "type": "KMS", "keyArn": "string" }
     /// </summary>
     [CliOption("--sse-config")]
     public string? SseConfig { get; set; }
 
     /// <summary>
-    /// File parsing options for the annotation store. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: tsvStoreOptions. tsvStoreOptions -&gt; (structure) File settings for a TSV store. annotationType -&gt; (string) The store's annotation type. Possible values: o GENERIC o CHR_POS o CHR_POS_REF_ALT o CHR_START_END_ONE_BASE o CHR_START_END_REF_ALT_ONE_BASE o CHR_START_END_ZERO_BASE o CHR_START_END_REF_ALT_ZERO_BASE formatToHeader -&gt; (map) The store's header key to column name mapping. key -&gt; (string) Possible values: o CHR o START o END o REF o ALT o POS value -&gt; (string) Constraints: o min: 0 o max: 1000 schema -&gt; (list) The store's schema. Constraints: o min: 1 o max: 5000 (map) Constraints: o min: 1 o max: 1 key -&gt; (string) Constraints: o pattern: [a-z0-9_]{1,255} value -&gt; (string) Possible values: o LONG o INT o STRING o FLOAT o DOUBLE o BOOLEAN JSON Syntax: { "tsvStoreOptions": { "annotationType": "GENERIC"|"CHR_POS"|"CHR_POS_REF_ALT"|"CHR_START_END_ONE_BASE"|"CHR_START_END_REF_ALT_ONE_BASE"|"CHR_START_END_ZERO_BASE"|"CHR_START_END_REF_ALT_ZERO_BASE", "formatToHeader": {"CHR"|"START"|"END"|"REF"|"ALT"|"POS": "string" ...}, "schema": [ {"string": "LONG"|"INT"|"STRING"|"FLOAT"|"DOUBLE"|"BOOLEAN" ...} ... ] } }
+    /// File parsing options for the annotation store. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: tsvStoreOptions. tsvStoreOptions -&gt; (structure) File settings for a TSV store. annotationType -&gt; (string) The store's annotation type. Possible values: • GENERIC • CHR_POS • CHR_POS_REF_ALT • CHR_START_END_ONE_BASE • CHR_START_END_REF_ALT_ONE_BASE • CHR_START_END_ZERO_BASE • CHR_START_END_REF_ALT_ZERO_BASE formatToHeader -&gt; (map) The store's header key to column name mapping. key -&gt; (string) Possible values: • CHR • START • END • REF • ALT • POS value -&gt; (string) Constraints: • min: 0 • max: 1000 schema -&gt; (list) The store's schema. Constraints: • min: 1 • max: 5000 (map) Constraints: • min: 1 • max: 1 key -&gt; (string) Constraints: • pattern: [a-z0-9_]{1,255} value -&gt; (string) Possible values: • LONG • INT • STRING • FLOAT • DOUBLE • BOOLEAN JSON Syntax: { "tsvStoreOptions": { "annotationType": "GENERIC"|"CHR_POS"|"CHR_POS_REF_ALT"|"CHR_START_END_ONE_BASE"|"CHR_START_END_REF_ALT_ONE_BASE"|"CHR_START_END_ZERO_BASE"|"CHR_START_END_REF_ALT_ZERO_BASE", "formatToHeader": {"CHR"|"START"|"END"|"REF"|"ALT"|"POS": "string" ...}, "schema": [ {"string": "LONG"|"INT"|"STRING"|"FLOAT"|"DOUBLE"|"BOOLEAN" ...} ... ] } }
     /// </summary>
     [CliOption("--store-options")]
     public string? StoreOptions { get; set; }
@@ -125,6 +125,15 @@ public record AwsOmicsCreateAnnotationStoreOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsDsCreateLogSubscriptionOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a subscription to forward real-time Directory Service domain controller security logs to the specified Amazon CloudWatch log group in your Amazon Web Services account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DirectoryId">Identifier of the directory to which you want to subscribe and re- ceive real-time logs to your specified CloudWatch log group. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
-    /// <param name="LogGroupName">The name of the CloudWatch log group where the real-time domain con- troller logs are forwarded. Constraints: o min: 1 o max: 512 o pattern: [-._/#A-Za-z0-9]+</param>
+    /// <param name="DirectoryId">Identifier of the directory to which you want to subscribe and receive real-time logs to your specified CloudWatch log group. Constraints: • pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="LogGroupName">The name of the CloudWatch log group where the real-time domain controller logs are forwarded. Constraints: • min: 1 • max: 512 • pattern: [-._/#A-Za-z0-9]+</param>
     public AwsDsCreateLogSubscriptionOptions(
         string DirectoryId,
         string LogGroupName
@@ -60,13 +61,13 @@ public record AwsDsCreateLogSubscriptionOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Identifier of the directory to which you want to subscribe and re- ceive real-time logs to your specified CloudWatch log group. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// Identifier of the directory to which you want to subscribe and receive real-time logs to your specified CloudWatch log group. Constraints: • pattern: ^d-[0-9a-f]{10}$
     /// </summary>
     [CliOption("--directory-id")]
     public string? DirectoryId { get; private init; }
 
     /// <summary>
-    /// The name of the CloudWatch log group where the real-time domain con- troller logs are forwarded. Constraints: o min: 1 o max: 512 o pattern: [-._/#A-Za-z0-9]+
+    /// The name of the CloudWatch log group where the real-time domain controller logs are forwarded. Constraints: • min: 1 • max: 512 • pattern: [-._/#A-Za-z0-9]+
     /// </summary>
     [CliOption("--log-group-name")]
     public string? LogGroupName { get; private init; }
@@ -92,6 +93,15 @@ public record AwsDsCreateLogSubscriptionOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,9 +30,9 @@ public record AwsDeadlineUpdateQueueEnvironmentOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Updates the queue environment. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FarmId">The farm ID of the queue environment to update. Constraints: o pattern: farm-[0-9a-f]{32}</param>
-    /// <param name="QueueId">The queue ID of the queue environment to update. Constraints: o pattern: queue-[0-9a-f]{32}</param>
-    /// <param name="QueueEnvironmentId">The queue environment ID to update. Constraints: o pattern: queueenv-[0-9a-f]{32}</param>
+    /// <param name="FarmId">The farm ID of the queue environment to update. Constraints: • pattern: farm-[0-9a-f]{32}</param>
+    /// <param name="QueueId">The queue ID of the queue environment to update. Constraints: • pattern: queue-[0-9a-f]{32}</param>
+    /// <param name="QueueEnvironmentId">The queue environment ID to update. Constraints: • pattern: queueenv-[0-9a-f]{32}</param>
     public AwsDeadlineUpdateQueueEnvironmentOptions(
         string FarmId,
         string QueueId,
@@ -66,44 +67,44 @@ public record AwsDeadlineUpdateQueueEnvironmentOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The farm ID of the queue environment to update. Constraints: o pattern: farm-[0-9a-f]{32}
+    /// The farm ID of the queue environment to update. Constraints: • pattern: farm-[0-9a-f]{32}
     /// </summary>
     [CliOption("--farm-id")]
     public string? FarmId { get; private init; }
 
     /// <summary>
-    /// The queue ID of the queue environment to update. Constraints: o pattern: queue-[0-9a-f]{32}
+    /// The queue ID of the queue environment to update. Constraints: • pattern: queue-[0-9a-f]{32}
     /// </summary>
     [CliOption("--queue-id")]
     public string? QueueId { get; private init; }
 
     /// <summary>
-    /// The queue environment ID to update. Constraints: o pattern: queueenv-[0-9a-f]{32}
+    /// The queue environment ID to update. Constraints: • pattern: queueenv-[0-9a-f]{32}
     /// </summary>
     [CliOption("--queue-environment-id")]
     public string? QueueEnvironmentId { get; private init; }
 
     /// <summary>
-    /// The unique token which the server uses to recognize retries of the same request. Constraints: o min: 1 o max: 64
+    /// The unique token which the server uses to recognize retries of the same request. Constraints: • min: 1 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The priority to update. Constraints: o min: 0 o max: 10000
+    /// The priority to update. Constraints: • min: 0 • max: 10000
     /// </summary>
     [CliOption("--priority")]
     public int? Priority { get; set; }
 
     /// <summary>
-    /// The template type to update. Possible values: o JSON o YAML
+    /// The template type to update. Possible values: • JSON • YAML
     /// </summary>
     [CliOption("--template-type")]
     public AwsDeadlineUpdateQueueEnvironmentTemplateType? TemplateType { get; set; }
 
     /// <summary>
-    /// The template to update. Constraints: o min: 1 o max: 15000
+    /// The template to update. Constraints: • min: 1 • max: 15000
     /// </summary>
     [CliOption("--template")]
     public string? Template { get; set; }
@@ -129,6 +130,15 @@ public record AwsDeadlineUpdateQueueEnvironmentOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

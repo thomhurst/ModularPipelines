@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets the properties associated with a specific endpoint. Use this oper- ation to get the status of an endpoint. For information about end- points, see Managing endpoints . See also: AWS API Documentation
+/// Gets the properties associated with a specific endpoint. Use this operation to get the status of an endpoint. For information about endpoints, see Managing endpoints . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsComprehendDescribeEndpointOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets the properties associated with a specific endpoint. Use this oper- ation to get the status of an endpoint. For information about end- points, see Managing endpoints . See also: AWS API Documentation
+    /// Gets the properties associated with a specific endpoint. Use this operation to get the status of an endpoint. For information about endpoints, see Managing endpoints . See also: AWS API Documentation
     /// </summary>
-    /// <param name="EndpointArn">The Amazon Resource Number (ARN) of the endpoint being described. Constraints: o max: 256 o pattern: arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:(doc- ument-classifier-endpoint|entity-recognizer-end- point)/[a-zA-Z0-9](-*[a-zA-Z0-9])*</param>
+    /// <param name="EndpointArn">The Amazon Resource Number (ARN) of the endpoint being described. Constraints: • max: 256 • pattern: arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:(document-classifier-endpoint|entity-recognizer-endpoint)/[a-zA-Z0-9](-*[a-zA-Z0-9])*</param>
     public AwsComprehendDescribeEndpointOptions(
         string EndpointArn
     )
@@ -56,7 +57,7 @@ public record AwsComprehendDescribeEndpointOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Number (ARN) of the endpoint being described. Constraints: o max: 256 o pattern: arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:(doc- ument-classifier-endpoint|entity-recognizer-end- point)/[a-zA-Z0-9](-*[a-zA-Z0-9])*
+    /// The Amazon Resource Number (ARN) of the endpoint being described. Constraints: • max: 256 • pattern: arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:(document-classifier-endpoint|entity-recognizer-endpoint)/[a-zA-Z0-9](-*[a-zA-Z0-9])*
     /// </summary>
     [CliOption("--endpoint-arn")]
     public string? EndpointArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsComprehendDescribeEndpointOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

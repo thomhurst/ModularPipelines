@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -29,7 +30,7 @@ public record AwsLexRuntimeGetSessionOptions : AwsOptions, IValidatableObject
     /// </summary>
     /// <param name="BotName">The name of the bot that contains the session data.</param>
     /// <param name="BotAlias">The alias in use for the bot that contains the session data.</param>
-    /// <param name="UserId">The ID of the client application user. Amazon Lex uses this to iden- tify a user's conversation with your bot. Constraints: o min: 2 o max: 100 o pattern: [0-9a-zA-Z._:-]+</param>
+    /// <param name="UserId">The ID of the client application user. Amazon Lex uses this to identify a user's conversation with your bot. Constraints: • min: 2 • max: 100 • pattern: [0-9a-zA-Z._:-]+</param>
     public AwsLexRuntimeGetSessionOptions(
         string BotName,
         string BotAlias,
@@ -76,13 +77,13 @@ public record AwsLexRuntimeGetSessionOptions : AwsOptions, IValidatableObject
     public string? BotAlias { get; private init; }
 
     /// <summary>
-    /// The ID of the client application user. Amazon Lex uses this to iden- tify a user's conversation with your bot. Constraints: o min: 2 o max: 100 o pattern: [0-9a-zA-Z._:-]+
+    /// The ID of the client application user. Amazon Lex uses this to identify a user's conversation with your bot. Constraints: • min: 2 • max: 100 • pattern: [0-9a-zA-Z._:-]+
     /// </summary>
     [CliOption("--user-id")]
     public string? UserId { get; private init; }
 
     /// <summary>
-    /// A string used to filter the intents returned in the recentIntentSum- maryView structure. When you specify a filter, only intents with their checkpointLabel field set to that string are returned. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9-]+
+    /// A string used to filter the intents returned in the recentIntentSummaryView structure. When you specify a filter, only intents with their checkpointLabel field set to that string are returned. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--checkpoint-label-filter")]
     public string? CheckpointLabelFilter { get; set; }
@@ -108,6 +109,15 @@ public record AwsLexRuntimeGetSessionOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Provides identifying details of the resource being migrated so that it can be associated in the Application Discovery Service repository. This association occurs asynchronously after PutResourceAttributes returns. WARNING: o Keep in mind that subsequent calls to PutResourceAttributes will override previously stored attributes. For example, if it is first called with a MAC address, but later, it is desired to add an IP address, it will then be required to call it with both the IP and MAC addresse...
+/// Provides identifying details of the resource being migrated so that it can be associated in the Application Discovery Service repository. This association occurs asynchronously after PutResourceAttributes returns. WARNING: • Keep in mind that subsequent calls to PutResourceAttributes will override previously stored attributes. For example, if it is first called with a MAC address, but later, it is desired to add an IP address, it will then be required to call it with both the IP and MAC addresse...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsMghPutResourceAttributesOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Provides identifying details of the resource being migrated so that it can be associated in the Application Discovery Service repository. This association occurs asynchronously after PutResourceAttributes returns. WARNING: o Keep in mind that subsequent calls to PutResourceAttributes will override previously stored attributes. For example, if it is first called with a MAC address, but later, it is desired to add an IP address, it will then be required to call it with both the IP and MAC addresse...
+    /// Provides identifying details of the resource being migrated so that it can be associated in the Application Discovery Service repository. This association occurs asynchronously after PutResourceAttributes returns. WARNING: • Keep in mind that subsequent calls to PutResourceAttributes will override previously stored attributes. For example, if it is first called with a MAC address, but later, it is desired to add an IP address, it will then be required to call it with both the IP and MAC addresse...
     /// </summary>
-    /// <param name="ProgressUpdateStream">The name of the ProgressUpdateStream. Constraints: o min: 1 o max: 50 o pattern: [^/:|\000-\037]+</param>
-    /// <param name="MigrationTaskName">Unique identifier that references the migration task. Do not store personal data in this field. Constraints: o min: 1 o max: 256 o pattern: [^:|]+</param>
-    /// <param name="ResourceAttributeList">Information about the resource that is being migrated. This data will be used to map the task to a resource in the Application Dis- covery Service repository. NOTE: Takes the object array of ResourceAttribute where the Type field is reserved for the following values: IPV4_ADDRESS | IPV6_AD- DRESS | MAC_ADDRESS | FQDN | VM_MANAGER_ID | VM_MANAGED_OB- JECT_REFERENCE | VM_NAME | VM_PATH | BIOS_ID | MOTHERBOARD_SER- IAL_NUMBER where the identifying value can be a string up to 256 characters. WARNING: o If any "VM" related value is set for a ResourceAttribute ob- ject, it is required that VM_MANAGER_ID , as a minimum, is al- ways set. If VM_MANAGER_ID is not set, then all "VM" fields will be discarded and "VM" fields will not be used for match- ing the migration task to a server in Application Discovery Service repository. See the Example section below for a use case of specifying "VM" related values. o If a server you are trying to match has multiple IP or MAC ad- dresses, you should provide as many as you know in separate type/value pairs passed to the ResourceAttributeList parameter to maximize the chances of matching. Constraints: o min: 1 o max: 100 (structure) Attribute associated with a resource. Note the corresponding format required per type listed below: IPV4 x.x.x.x where x is an integer in the range [0,255] IPV6 y : y : y : y : y : y : y : y where y is a hexadecimal between 0 and FFFF. [0, FFFF] MAC_ADDRESS ^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$ FQDN ^[^&lt;&gt;{}\\\\/?,=\\p{Cntrl}]{1,256}$ Type -&gt; (string) [required] Type of resource. Possible values: o IPV4_ADDRESS o IPV6_ADDRESS o MAC_ADDRESS o FQDN o VM_MANAGER_ID o VM_MANAGED_OBJECT_REFERENCE o VM_NAME o VM_PATH o BIOS_ID o MOTHERBOARD_SERIAL_NUMBER Value -&gt; (string) [required] Value of the resource type. Constraints: o min: 1 o max: 256 o pattern: ^.{1,256}$ Shorthand Syntax: Type=string,Value=string ... JSON Syntax: [ { "Type": "IPV4_ADDRESS"|"IPV6_ADDRESS"|"MAC_ADDRESS"|"FQDN"|"VM_MANAGER_ID"|"VM_MANAGED_OBJECT_REFERENCE"|"VM_NAME"|"VM_PATH"|"BIOS_ID"|"MOTHERBOARD_SERIAL_NUMBER", "Value": "string" } ... ]</param>
+    /// <param name="ProgressUpdateStream">The name of the ProgressUpdateStream. Constraints: • min: 1 • max: 50 • pattern: [^/:|\000-\037]+</param>
+    /// <param name="MigrationTaskName">Unique identifier that references the migration task. Do not store personal data in this field. Constraints: • min: 1 • max: 256 • pattern: [^:|]+</param>
+    /// <param name="ResourceAttributeList">Information about the resource that is being migrated. This data will be used to map the task to a resource in the Application Discovery Service repository. NOTE: Takes the object array of ResourceAttribute where the Type field is reserved for the following values: IPV4_ADDRESS | IPV6_ADDRESS | MAC_ADDRESS | FQDN | VM_MANAGER_ID | VM_MANAGED_OBJECT_REFERENCE | VM_NAME | VM_PATH | BIOS_ID | MOTHERBOARD_SERIAL_NUMBER where the identifying value can be a string up to 256 characters. WARNING: • If any "VM" related value is set for a ResourceAttribute object, it is required that VM_MANAGER_ID , as a minimum, is always set. If VM_MANAGER_ID is not set, then all "VM" fields will be discarded and "VM" fields will not be used for matching the migration task to a server in Application Discovery Service repository. See the Example section below for a use case of specifying "VM" related values. • If a server you are trying to match has multiple IP or MAC addresses, you should provide as many as you know in separate type/value pairs passed to the ResourceAttributeList parameter to maximize the chances of matching. Constraints: • min: 1 • max: 100 (structure) Attribute associated with a resource. Note the corresponding format required per type listed below: IPV4 x.x.x.x where x is an integer in the range [0,255] IPV6 y : y : y : y : y : y : y : y where y is a hexadecimal between 0 and FFFF. [0, FFFF] MAC_ADDRESS ^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$ FQDN ^[^&lt;&gt;{}\\\\/?,=\\p{Cntrl}]{1,256}$ Type -&gt; (string) [required] Type of resource. Possible values: • IPV4_ADDRESS • IPV6_ADDRESS • MAC_ADDRESS • FQDN • VM_MANAGER_ID • VM_MANAGED_OBJECT_REFERENCE • VM_NAME • VM_PATH • BIOS_ID • MOTHERBOARD_SERIAL_NUMBER Value -&gt; (string) [required] Value of the resource type. Constraints: • min: 1 • max: 256 • pattern: ^.{1,256}$ Shorthand Syntax: Type=string,Value=string ... JSON Syntax: [ { "Type": "IPV4_ADDRESS"|"IPV6_ADDRESS"|"MAC_ADDRESS"|"FQDN"|"VM_MANAGER_ID"|"VM_MANAGED_OBJECT_REFERENCE"|"VM_NAME"|"VM_PATH"|"BIOS_ID"|"MOTHERBOARD_SERIAL_NUMBER", "Value": "string" } ... ]</param>
     public AwsMghPutResourceAttributesOptions(
         string ProgressUpdateStream,
         string MigrationTaskName,
@@ -75,19 +76,19 @@ public record AwsMghPutResourceAttributesOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the ProgressUpdateStream. Constraints: o min: 1 o max: 50 o pattern: [^/:|\000-\037]+
+    /// The name of the ProgressUpdateStream. Constraints: • min: 1 • max: 50 • pattern: [^/:|\000-\037]+
     /// </summary>
     [CliOption("--progress-update-stream")]
     public string? ProgressUpdateStream { get; private init; }
 
     /// <summary>
-    /// Unique identifier that references the migration task. Do not store personal data in this field. Constraints: o min: 1 o max: 256 o pattern: [^:|]+
+    /// Unique identifier that references the migration task. Do not store personal data in this field. Constraints: • min: 1 • max: 256 • pattern: [^:|]+
     /// </summary>
     [CliOption("--migration-task-name")]
     public string? MigrationTaskName { get; private init; }
 
     /// <summary>
-    /// Information about the resource that is being migrated. This data will be used to map the task to a resource in the Application Dis- covery Service repository. NOTE: Takes the object array of ResourceAttribute where the Type field is reserved for the following values: IPV4_ADDRESS | IPV6_AD- DRESS | MAC_ADDRESS | FQDN | VM_MANAGER_ID | VM_MANAGED_OB- JECT_REFERENCE | VM_NAME | VM_PATH | BIOS_ID | MOTHERBOARD_SER- IAL_NUMBER where the identifying value can be a string up to 256 characters. WARNING: o If any "VM" related value is set for a ResourceAttribute ob- ject, it is required that VM_MANAGER_ID , as a minimum, is al- ways set. If VM_MANAGER_ID is not set, then all "VM" fields will be discarded and "VM" fields will not be used for match- ing the migration task to a server in Application Discovery Service repository. See the Example section below for a use case of specifying "VM" related values. o If a server you are trying to match has multiple IP or MAC ad- dresses, you should provide as many as you know in separate type/value pairs passed to the ResourceAttributeList parameter to maximize the chances of matching. Constraints: o min: 1 o max: 100 (structure) Attribute associated with a resource. Note the corresponding format required per type listed below: IPV4 x.x.x.x where x is an integer in the range [0,255] IPV6 y : y : y : y : y : y : y : y where y is a hexadecimal between 0 and FFFF. [0, FFFF] MAC_ADDRESS ^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$ FQDN ^[^&lt;&gt;{}\\\\/?,=\\p{Cntrl}]{1,256}$ Type -&gt; (string) [required] Type of resource. Possible values: o IPV4_ADDRESS o IPV6_ADDRESS o MAC_ADDRESS o FQDN o VM_MANAGER_ID o VM_MANAGED_OBJECT_REFERENCE o VM_NAME o VM_PATH o BIOS_ID o MOTHERBOARD_SERIAL_NUMBER Value -&gt; (string) [required] Value of the resource type. Constraints: o min: 1 o max: 256 o pattern: ^.{1,256}$ Shorthand Syntax: Type=string,Value=string ... JSON Syntax: [ { "Type": "IPV4_ADDRESS"|"IPV6_ADDRESS"|"MAC_ADDRESS"|"FQDN"|"VM_MANAGER_ID"|"VM_MANAGED_OBJECT_REFERENCE"|"VM_NAME"|"VM_PATH"|"BIOS_ID"|"MOTHERBOARD_SERIAL_NUMBER", "Value": "string" } ... ]
+    /// Information about the resource that is being migrated. This data will be used to map the task to a resource in the Application Discovery Service repository. NOTE: Takes the object array of ResourceAttribute where the Type field is reserved for the following values: IPV4_ADDRESS | IPV6_ADDRESS | MAC_ADDRESS | FQDN | VM_MANAGER_ID | VM_MANAGED_OBJECT_REFERENCE | VM_NAME | VM_PATH | BIOS_ID | MOTHERBOARD_SERIAL_NUMBER where the identifying value can be a string up to 256 characters. WARNING: • If any "VM" related value is set for a ResourceAttribute object, it is required that VM_MANAGER_ID , as a minimum, is always set. If VM_MANAGER_ID is not set, then all "VM" fields will be discarded and "VM" fields will not be used for matching the migration task to a server in Application Discovery Service repository. See the Example section below for a use case of specifying "VM" related values. • If a server you are trying to match has multiple IP or MAC addresses, you should provide as many as you know in separate type/value pairs passed to the ResourceAttributeList parameter to maximize the chances of matching. Constraints: • min: 1 • max: 100 (structure) Attribute associated with a resource. Note the corresponding format required per type listed below: IPV4 x.x.x.x where x is an integer in the range [0,255] IPV6 y : y : y : y : y : y : y : y where y is a hexadecimal between 0 and FFFF. [0, FFFF] MAC_ADDRESS ^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$ FQDN ^[^&lt;&gt;{}\\\\/?,=\\p{Cntrl}]{1,256}$ Type -&gt; (string) [required] Type of resource. Possible values: • IPV4_ADDRESS • IPV6_ADDRESS • MAC_ADDRESS • FQDN • VM_MANAGER_ID • VM_MANAGED_OBJECT_REFERENCE • VM_NAME • VM_PATH • BIOS_ID • MOTHERBOARD_SERIAL_NUMBER Value -&gt; (string) [required] Value of the resource type. Constraints: • min: 1 • max: 256 • pattern: ^.{1,256}$ Shorthand Syntax: Type=string,Value=string ... JSON Syntax: [ { "Type": "IPV4_ADDRESS"|"IPV6_ADDRESS"|"MAC_ADDRESS"|"FQDN"|"VM_MANAGER_ID"|"VM_MANAGED_OBJECT_REFERENCE"|"VM_NAME"|"VM_PATH"|"BIOS_ID"|"MOTHERBOARD_SERIAL_NUMBER", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--resource-attribute-list", GroupValues = true)]
     public IEnumerable<string>? ResourceAttributeList { get; private init; }
@@ -119,6 +120,15 @@ public record AwsMghPutResourceAttributesOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns Amazon Web Services resource descriptions for running and deleted stacks. If StackName is specified, all the associated resources that are part of the stack are returned. If PhysicalResourceId is spec- ified, the associated resources of the stack that the resource belongs to are returned. NOTE: Only the first 100 resources will be returned. If your stack has more resources than this, you should use ListStackResources instead. For deleted stacks, DescribeStackResources returns resource in...
+/// Returns Amazon Web Services resource descriptions for running and deleted stacks. If StackName is specified, all the associated resources that are part of the stack are returned. If PhysicalResourceId is specified, the associated resources of the stack that the resource belongs to are returned. NOTE: Only the first 100 resources will be returned. If your stack has more resources than this, you should use ListStackResources instead. For deleted stacks, DescribeStackResources returns resource info...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsCloudformationDescribeStackResourcesOptions : AwsOptions
 {
     /// <summary>
-    /// The name or the unique stack ID that is associated with the stack, which aren't always interchangeable: o Running stacks: You can specify either the stack's name or its unique stack ID. o Deleted stacks: You must specify the unique stack ID. Required: Conditional. If you don't specify StackName , you must specify PhysicalResourceId .
+    /// The name or the unique stack ID that is associated with the stack, which aren't always interchangeable: • Running stacks: You can specify either the stack's name or its unique stack ID. • Deleted stacks: You must specify the unique stack ID. Required: Conditional. If you don't specify StackName , you must specify PhysicalResourceId .
     /// </summary>
     [CliOption("--stack-name")]
     public string? StackName { get; set; }
@@ -34,7 +34,7 @@ public record AwsCloudformationDescribeStackResourcesOptions : AwsOptions
     public string? LogicalResourceId { get; set; }
 
     /// <summary>
-    /// The name or unique identifier that corresponds to a physical in- stance ID of a resource supported by CloudFormation. For example, for an Amazon Elastic Compute Cloud (EC2) instance, PhysicalResourceId corresponds to the InstanceId . You can pass the EC2 InstanceId to DescribeStackResources to find which stack the in- stance belongs to and what other resources are part of the stack. Required: Conditional. If you don't specify PhysicalResourceId , you must specify StackName .
+    /// The name or unique identifier that corresponds to a physical instance ID of a resource supported by CloudFormation. For example, for an Amazon Elastic Compute Cloud (EC2) instance, PhysicalResourceId corresponds to the InstanceId . You can pass the EC2 InstanceId to DescribeStackResources to find which stack the instance belongs to and what other resources are part of the stack. Required: Conditional. If you don't specify PhysicalResourceId , you must specify StackName .
     /// </summary>
     [CliOption("--physical-resource-id")]
     public string? PhysicalResourceId { get; set; }
@@ -44,5 +44,14 @@ public record AwsCloudformationDescribeStackResourcesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

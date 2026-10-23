@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -73,19 +74,19 @@ public record AwsEksUpdateNodegroupVersionOptions : AwsOptions, IValidatableObje
     public string? NodegroupName { get; private init; }
 
     /// <summary>
-    /// The AMI version of the Amazon EKS optimized AMI to use for the up- date. By default, the latest available AMI version for the node group's Kubernetes version is used. For information about Linux ver- sions, see Amazon EKS optimized Amazon Linux AMI versions in the Amazon EKS User Guide . Amazon EKS managed node groups support the November 2022 and later releases of the Windows AMIs. For informa- tion about Windows versions, see Amazon EKS optimized Windows AMI versions in the Amazon EKS User Guide . If you specify launchTemplate , and your launch template uses a cus- tom AMI, then don't specify releaseVersion , or the node group up- date will fail. For more information about using launch templates with Amazon EKS, see Customizing managed nodes with launch templates in the Amazon EKS User Guide .
+    /// The AMI version of the Amazon EKS optimized AMI to use for the update. By default, the latest available AMI version for the node group's Kubernetes version is used. For information about Linux versions, see Amazon EKS optimized Amazon Linux AMI versions in the Amazon EKS User Guide . Amazon EKS managed node groups support the November 2022 and later releases of the Windows AMIs. For information about Windows versions, see Amazon EKS optimized Windows AMI versions in the Amazon EKS User Guide . If you specify launchTemplate , and your launch template uses a custom AMI, then don't specify releaseVersion , or the node group update will fail. For more information about using launch templates with Amazon EKS, see Customizing managed nodes with launch templates in the Amazon EKS User Guide .
     /// </summary>
     [CliOption("--release-version")]
     public string? ReleaseVersion { get; set; }
 
     /// <summary>
-    /// An object representing a node group's launch template specification. You can only update a node group using a launch template if the node group was originally deployed with a launch template. When updating, you must specify the same launch template ID or name that was used to create the node group. name -&gt; (string) The name of the launch template. You must specify either the launch template name or the launch template ID in the request, but not both. After node group cre- ation, you cannot use a different name. version -&gt; (string) The version number of the launch template to use. If no version is specified, then the template's default version is used. You can use a different version for node group updates. id -&gt; (string) The ID of the launch template. You must specify either the launch template ID or the launch template name in the request, but not both. After node group creation, you cannot use a different ID. Shorthand Syntax: name=string,version=string,id=string JSON Syntax: { "name": "string", "version": "string", "id": "string" }
+    /// An object representing a node group's launch template specification. You can only update a node group using a launch template if the node group was originally deployed with a launch template. When updating, you must specify the same launch template ID or name that was used to create the node group. name -&gt; (string) The name of the launch template. You must specify either the launch template name or the launch template ID in the request, but not both. After node group creation, you cannot use a different name. version -&gt; (string) The version number of the launch template to use. If no version is specified, then the template's default version is used. You can use a different version for node group updates. id -&gt; (string) The ID of the launch template. You must specify either the launch template ID or the launch template name in the request, but not both. After node group creation, you cannot use a different ID. Shorthand Syntax: name=string,version=string,id=string JSON Syntax: { "name": "string", "version": "string", "id": "string" }
     /// </summary>
     [CliOption("--launch-template")]
     public string? LaunchTemplate { get; set; }
 
     /// <summary>
-    /// Force the update if any Pod on the existing node group can't be drained due to a Pod disruption budget issue. If an update fails be- cause all Pods can't be drained, you can force the update after it fails to terminate the old node whether or not any Pod is running on the node.
+    /// Force the update if any Pod on the existing node group can't be drained due to a Pod disruption budget issue. If an update fails because all Pods can't be drained, you can force the update after it fails to terminate the old node whether or not any Pod is running on the node.
     /// </summary>
     [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }
@@ -124,6 +125,15 @@ public record AwsEksUpdateNodegroupVersionOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

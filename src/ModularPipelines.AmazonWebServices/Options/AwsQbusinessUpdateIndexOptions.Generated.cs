@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsQbusinessUpdateIndexOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates an Amazon Q Business index. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The identifier of the Amazon Q Business application connected to the index. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
-    /// <param name="IndexId">The identifier of the Amazon Q Business index. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
+    /// <param name="ApplicationId">The identifier of the Amazon Q Business application connected to the index. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
+    /// <param name="IndexId">The identifier of the Amazon Q Business index. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
     public AwsQbusinessUpdateIndexOptions(
         string ApplicationId,
         string IndexId
@@ -60,37 +61,37 @@ public record AwsQbusinessUpdateIndexOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Amazon Q Business application connected to the index. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
+    /// The identifier of the Amazon Q Business application connected to the index. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// The identifier of the Amazon Q Business index. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
+    /// The identifier of the Amazon Q Business index. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
     /// </summary>
     [CliOption("--index-id")]
     public string? IndexId { get; private init; }
 
     /// <summary>
-    /// The name of the Amazon Q Business index. Constraints: o min: 1 o max: 1000 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
+    /// The name of the Amazon Q Business index. Constraints: • min: 1 • max: 1000 • pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
     /// </summary>
     [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// The description of the Amazon Q Business index. Constraints: o min: 0 o max: 1000 o pattern: [\s\S]*
+    /// The description of the Amazon Q Business index. Constraints: • min: 0 • max: 1000 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The storage capacity units you want to provision for your Amazon Q Business index. You can add and remove capacity to fit your usage needs. units -&gt; (integer) The number of storage units configured for an Amazon Q Business index. Constraints: o min: 1 Shorthand Syntax: units=integer JSON Syntax: { "units": integer }
+    /// The storage capacity units you want to provision for your Amazon Q Business index. You can add and remove capacity to fit your usage needs. units -&gt; (integer) The number of storage units configured for an Amazon Q Business index. Constraints: • min: 1 Shorthand Syntax: units=integer JSON Syntax: { "units": integer }
     /// </summary>
     [CliOption("--capacity-configuration")]
     public string? CapacityConfiguration { get; set; }
 
     /// <summary>
-    /// Configuration information for document metadata or fields. Document metadata are fields or attributes associated with your documents. For example, the company department name associated with each docu- ment. For more information, see Understanding document attributes . Constraints: o min: 1 o max: 500 (structure) Configuration information for document attributes. Document at- tributes are metadata or fields associated with your documents. For example, the company department name associated with each document. For more information, see Understanding document attributes . name -&gt; (string) The name of the document attribute. Constraints: o min: 1 o max: 30 o pattern: [a-zA-Z0-9_][a-zA-Z0-9_-]* type -&gt; (string) The type of document attribute. Possible values: o STRING o STRING_LIST o NUMBER o DATE search -&gt; (string) Information about whether the document attribute can be used by an end user to search for information on their web experi- ence. Possible values: o ENABLED o DISABLED Shorthand Syntax: name=string,type=string,search=string ... JSON Syntax: [ { "name": "string", "type": "STRING"|"STRING_LIST"|"NUMBER"|"DATE", "search": "ENABLED"|"DISABLED" } ... ]
+    /// Configuration information for document metadata or fields. Document metadata are fields or attributes associated with your documents. For example, the company department name associated with each document. For more information, see Understanding document attributes . Constraints: • min: 1 • max: 500 (structure) Configuration information for document attributes. Document attributes are metadata or fields associated with your documents. For example, the company department name associated with each document. For more information, see Understanding document attributes . name -&gt; (string) The name of the document attribute. Constraints: • min: 1 • max: 30 • pattern: [a-zA-Z0-9_][a-zA-Z0-9_-]* type -&gt; (string) The type of document attribute. Possible values: • STRING • STRING_LIST • NUMBER • DATE search -&gt; (string) Information about whether the document attribute can be used by an end user to search for information on their web experience. Possible values: • ENABLED • DISABLED Shorthand Syntax: name=string,type=string,search=string ... JSON Syntax: [ { "name": "string", "type": "STRING"|"STRING_LIST"|"NUMBER"|"DATE", "search": "ENABLED"|"DISABLED" } ... ]
     /// </summary>
     [CliOption("--document-attribute-configurations", GroupValues = true)]
     public IEnumerable<string>? DocumentAttributeConfigurations { get; set; }
@@ -116,6 +117,15 @@ public record AwsQbusinessUpdateIndexOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

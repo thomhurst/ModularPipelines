@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the specified HSM. To specify an HSM, you can use its identi- fier (ID), the IP address of the HSM's elastic network interface (ENI), or the ID of the HSM's ENI. You need to specify only one of these val- ues. To find these values, use DescribeClusters . Cross-account use: No. You cannot perform this operation on an CloudHSM hsm in a different Amazon Web Services account. See also: AWS API Documentation
+/// Deletes the specified HSM. To specify an HSM, you can use its identifier (ID), the IP address of the HSM's elastic network interface (ENI), or the ID of the HSM's ENI. You need to specify only one of these values. To find these values, use DescribeClusters . Cross-account use: No. You cannot perform this operation on an CloudHSM hsm in a different Amazon Web Services account. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsCloudhsmv2DeleteHsmOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the specified HSM. To specify an HSM, you can use its identi- fier (ID), the IP address of the HSM's elastic network interface (ENI), or the ID of the HSM's ENI. You need to specify only one of these val- ues. To find these values, use DescribeClusters . Cross-account use: No. You cannot perform this operation on an CloudHSM hsm in a different Amazon Web Services account. See also: AWS API Documentation
+    /// Deletes the specified HSM. To specify an HSM, you can use its identifier (ID), the IP address of the HSM's elastic network interface (ENI), or the ID of the HSM's ENI. You need to specify only one of these values. To find these values, use DescribeClusters . Cross-account use: No. You cannot perform this operation on an CloudHSM hsm in a different Amazon Web Services account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClusterId">The identifier (ID) of the cluster that contains the HSM that you are deleting. Constraints: o pattern: cluster-[2-7a-zA-Z]{11,16}</param>
+    /// <param name="ClusterId">The identifier (ID) of the cluster that contains the HSM that you are deleting. Constraints: • pattern: cluster-[2-7a-zA-Z]{11,16}</param>
     public AwsCloudhsmv2DeleteHsmOptions(
         string ClusterId
     )
@@ -56,25 +57,25 @@ public record AwsCloudhsmv2DeleteHsmOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier (ID) of the cluster that contains the HSM that you are deleting. Constraints: o pattern: cluster-[2-7a-zA-Z]{11,16}
+    /// The identifier (ID) of the cluster that contains the HSM that you are deleting. Constraints: • pattern: cluster-[2-7a-zA-Z]{11,16}
     /// </summary>
     [CliOption("--cluster-id")]
     public string? ClusterId { get; private init; }
 
     /// <summary>
-    /// The identifier (ID) of the HSM that you are deleting. Constraints: o pattern: hsm-[2-7a-zA-Z]{11,16}
+    /// The identifier (ID) of the HSM that you are deleting. Constraints: • pattern: hsm-[2-7a-zA-Z]{11,16}
     /// </summary>
     [CliOption("--hsm-id")]
     public string? HsmId { get; set; }
 
     /// <summary>
-    /// The identifier (ID) of the elastic network interface (ENI) of the HSM that you are deleting. Constraints: o pattern: eni-[0-9a-fA-F]{8,17}
+    /// The identifier (ID) of the elastic network interface (ENI) of the HSM that you are deleting. Constraints: • pattern: eni-[0-9a-fA-F]{8,17}
     /// </summary>
     [CliOption("--eni-id")]
     public string? EniId { get; set; }
 
     /// <summary>
-    /// The IP address of the elastic network interface (ENI) of the HSM that you are deleting. Constraints: o pattern: \d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}
+    /// The IP address of the elastic network interface (ENI) of the HSM that you are deleting. Constraints: • pattern: \d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}
     /// </summary>
     [CliOption("--eni-ip")]
     public string? EniIp { get; set; }
@@ -100,6 +101,15 @@ public record AwsCloudhsmv2DeleteHsmOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

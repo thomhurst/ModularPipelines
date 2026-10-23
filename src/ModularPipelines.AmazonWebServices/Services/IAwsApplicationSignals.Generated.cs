@@ -6,14 +6,14 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Models;
+using ModularPipelines;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws applicationsignals commands.
+/// aws application-signals commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -22,14 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Services;
 public interface IAwsApplicationSignals
 {
     /// <summary>
-    /// Deletes multiple instrumentation configurations in a single request. Supports two mutually exclusive selection methods: o By scope: Delete all configurations matching a Service + Environment + InstrumentationType o By ARN list: Delete specific configurations by providing a list of resource ARNs See also: AWS API Documentation
+    /// Deletes multiple instrumentation configurations in a single request. Supports two mutually exclusive selection methods: • By scope: Delete all configurations matching a Service + Environment + InstrumentationType • By ARN list: Delete specific configurations by providing a list of resource ARNs See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchDeleteInstrumentationConfigurationsAsync(AwsApplicationSignalsBatchDeleteInstrumentationConfigurationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchDeleteInstrumentationConfigurationsAsync(AwsApplicationSignalsBatchDeleteInstrumentationConfigurationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Use this operation to retrieve one or more service level objective (SLO) budget reports . An error budget is the amount of time or requests in an unhealthy state that your service can accumulate during an interval before your overall SLO budget health is breached and the SLO is considered to be unmet. For example, an SLO with a threshold of 99.95% and a monthly interval translates to an error budget of 21.9 minutes of downtime in a 30-day month. Budget reports include a health indicator, the att...
@@ -38,18 +37,16 @@ public interface IAwsApplicationSignals
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchGetServiceLevelObjectiveBudgetReportAsync(AwsApplicationSignalsBatchGetServiceLevelObjectiveBudgetReportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchGetServiceLevelObjectiveBudgetReportAsync(AwsApplicationSignalsBatchGetServiceLevelObjectiveBudgetReportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Add or remove time window exclusions for one or more Service Level Ob- jectives (SLOs). See also: AWS API Documentation
+    /// Add or remove time window exclusions for one or more Service Level Objectives (SLOs). See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchUpdateExclusionWindowsAsync(AwsApplicationSignalsBatchUpdateExclusionWindowsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchUpdateExclusionWindowsAsync(AwsApplicationSignalsBatchUpdateExclusionWindowsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a dynamic instrumentation configuration for a specific code or endpoint location within a service and environment. Configurations are immutable after creation. For BREAKPOINT type configurations, they expire after 24 hours unless a shorter expiration is provided. For PROBE type configurations, they persist until explicitly deleted; an expiration cannot be set for PROBE configurations. If a configuration already exists for the same service, environment, signal type, and location, this ope...
@@ -58,18 +55,16 @@ public interface IAwsApplicationSignals
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateInstrumentationConfigurationAsync(AwsApplicationSignalsCreateInstrumentationConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateInstrumentationConfigurationAsync(AwsApplicationSignalsCreateInstrumentationConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates a service level objective (SLO), which can help you ensure that your critical business operations are meeting customer expectations. Use SLOs to set and track specific target levels for the reliability and availability of your applications and services. SLOs use service level indicators (SLIs) to calculate whether the application is per- forming at the level that you want. Create an SLO to set a target for a service or operations availability or latency. CloudWatch measures this target f...
+    /// Creates a service level objective (SLO), which can help you ensure that your critical business operations are meeting customer expectations. Use SLOs to set and track specific target levels for the reliability and availability of your applications and services. SLOs use service level indicators (SLIs) to calculate whether the application is performing at the level that you want. Create an SLO to set a target for a service or operations availability or latency. CloudWatch measures this target fre...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateServiceLevelObjectiveAsync(AwsApplicationSignalsCreateServiceLevelObjectiveOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateServiceLevelObjectiveAsync(AwsApplicationSignalsCreateServiceLevelObjectiveOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the grouping configuration for this account. This removes all custom grouping attribute definitions that were previously configured. See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsApplicationSignals
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteGroupingConfigurationAsync(AwsApplicationSignalsDeleteGroupingConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteGroupingConfigurationAsync(AwsApplicationSignalsDeleteGroupingConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified instrumentation configuration. SDKs remove the instrumentation during their next sync after the configuration is deleted or expires. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsApplicationSignals
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteInstrumentationConfigurationAsync(AwsApplicationSignalsDeleteInstrumentationConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteInstrumentationConfigurationAsync(AwsApplicationSignalsDeleteInstrumentationConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified service level objective. See also: AWS API Documentation
@@ -98,28 +91,25 @@ public interface IAwsApplicationSignals
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteServiceLevelObjectiveAsync(AwsApplicationSignalsDeleteServiceLevelObjectiveOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteServiceLevelObjectiveAsync(AwsApplicationSignalsDeleteServiceLevelObjectiveOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns the details of a single instrumentation configuration identi- fied by service, environment, signal type, and location. Use this to audit or display configuration details. See also: AWS API Documentation
+    /// Returns the details of a single instrumentation configuration identified by service, environment, signal type, and location. Use this to audit or display configuration details. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetInstrumentationConfigurationAsync(AwsApplicationSignalsGetInstrumentationConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetInstrumentationConfigurationAsync(AwsApplicationSignalsGetInstrumentationConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves the status history for a single instrumentation configuration during a specified time range. The response lists when the configura- tion was ACTIVE, READY, ERROR, or DISABLED. If no status or time window is provided, the operation defaults to AC- TIVE events from the last hour. See also: AWS API Documentation get-instrumentation-configuration-status is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable paginati...
+    /// Retrieves the status history for a single instrumentation configuration during a specified time range. The response lists when the configuration was ACTIVE, READY, ERROR, or DISABLED. If no status or time window is provided, the operation defaults to ACTIVE events from the last hour. See also: AWS API Documentation get-instrumentation-configuration-status is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetInstrumentationConfigurationStatusAsync(AwsApplicationSignalsGetInstrumentationConfigurationStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetInstrumentationConfigurationStatusAsync(AwsApplicationSignalsGetInstrumentationConfigurationStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about one SLO created in the account. See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsApplicationSignals
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetServiceLevelObjectiveAsync(AwsApplicationSignalsGetServiceLevelObjectiveOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetServiceLevelObjectiveAsync(AwsApplicationSignalsGetServiceLevelObjectiveOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about a service discovered by Application Signals. See also: AWS API Documentation
@@ -138,28 +127,25 @@ public interface IAwsApplicationSignals
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetServiceAsync(AwsApplicationSignalsGetServiceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetServiceAsync(AwsApplicationSignalsGetServiceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns a list of audit findings that provide automated analysis of service behavior and root cause analysis. These findings help identify the most significant observations about your services, including per- formance issues, anomalies, and potential problems. The findings are generated using heuristic algorithms based on established troubleshoot- ing patterns. See also: AWS API Documentation
+    /// Returns a list of audit findings that provide automated analysis of service behavior and root cause analysis. These findings help identify the most significant observations about your services, including performance issues, anomalies, and potential problems. The findings are generated using heuristic algorithms based on established troubleshooting patterns. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAuditFindingsAsync(AwsApplicationSignalsListAuditFindingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAuditFindingsAsync(AwsApplicationSignalsListAuditFindingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns a list of change events for a specific entity, such as deploy- ments, configuration changes, or other state-changing activities. This operation helps track the history of changes that may have affected service performance. See also: AWS API Documentation list-entity-events is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --que...
+    /// Returns a list of change events for a specific entity, such as deployments, configuration changes, or other state-changing activities. This operation helps track the history of changes that may have affected service performance. See also: AWS API Documentation list-entity-events is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListEntityEventsAsync(AwsApplicationSignalsListEntityEventsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListEntityEventsAsync(AwsApplicationSignalsListEntityEventsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the current grouping configuration for this account, including all custom grouping attribute definitions that have been configured. These definitions determine how services are logically grouped based on telemetry attributes, Amazon Web Services tags, or predefined mappings. See also: AWS API Documentation
@@ -168,18 +154,16 @@ public interface IAwsApplicationSignals
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListGroupingAttributeDefinitionsAsync(AwsApplicationSignalsListGroupingAttributeDefinitionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListGroupingAttributeDefinitionsAsync(AwsApplicationSignalsListGroupingAttributeDefinitionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns all active instrumentation configurations for a service and en- vironment. SDKs use this operation to sync configurations and apply client-side filters locally. Include the previous SyncedAt value to perform incremental syncs. When no changes are detected, the response sets Changed to false and omits configuration details. See also: AWS API Documentation list-instrumentation-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set...
+    /// Returns all active instrumentation configurations for a service and environment. SDKs use this operation to sync configurations and apply client-side filters locally. Include the previous SyncedAt value to perform incremental syncs. When no changes are detected, the response sets Changed to false and omits configuration details. See also: AWS API Documentation list-instrumentation-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set o...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListInstrumentationConfigurationsAsync(AwsApplicationSignalsListInstrumentationConfigurationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListInstrumentationConfigurationsAsync(AwsApplicationSignalsListInstrumentationConfigurationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of service dependencies of the service that you specify. A dependency is an infrastructure component that an operation of this service connects with. Dependencies can include Amazon Web Services services, Amazon Web Services resources, and third-party services. See also: AWS API Documentation list-service-dependencies is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi...
@@ -188,58 +172,43 @@ public interface IAwsApplicationSignals
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListServiceDependenciesAsync(AwsApplicationSignalsListServiceDependenciesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListServiceDependenciesAsync(AwsApplicationSignalsListServiceDependenciesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns the list of dependents that invoked the specified service dur- ing the provided time range. Dependents include other services, Cloud- Watch Synthetics canaries, and clients that are instrumented with CloudWatch RUM app monitors. See also: AWS API Documentation list-service-dependents is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text an...
+    /// Returns the list of dependents that invoked the specified service during the provided time range. Dependents include other services, CloudWatch Synthetics canaries, and clients that are instrumented with CloudWatch RUM app monitors. See also: AWS API Documentation list-service-dependents is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and th...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListServiceDependentsAsync(AwsApplicationSignalsListServiceDependentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListServiceDependentsAsync(AwsApplicationSignalsListServiceDependentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves all exclusion windows configured for a specific SLO. See also: AWS API Documentation list-service-level-objective-exclusion-windows is a paginated opera- tion. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must extract data from the results of the following query expressions: Exclusi...
+    /// Retrieves all exclusion windows configured for a specific SLO. See also: AWS API Documentation list-service-level-objective-exclusion-windows is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ExclusionWi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListServiceLevelObjectiveExclusionWindowsAsync(AwsApplicationSignalsListServiceLevelObjectiveExclusionWindowsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListServiceLevelObjectiveExclusionWindowsAsync(AwsApplicationSignalsListServiceLevelObjectiveExclusionWindowsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns a list of SLOs created in this account. See also: AWS API Documentation list-service-level-objectives is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: SloSummaries
+    /// Returns a list of SLOs created in this account. See also: AWS API Documentation list-service-level-objectives is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: SloSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListServiceLevelObjectivesAsync(AwsApplicationSignalsListServiceLevelObjectivesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListServiceLevelObjectivesAsync(AwsApplicationSignalsListServiceLevelObjectivesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns a list of the operations of this service that have been discov- ered by Application Signals. Only the operations that were invoked dur- ing the specified time range are returned. See also: AWS API Documentation list-service-operations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, th...
+    /// Returns a list of the operations of this service that have been discovered by Application Signals. Only the operations that were invoked during the specified time range are returned. See also: AWS API Documentation list-service-operations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListServiceOperationsAsync(AwsApplicationSignalsListServiceOperationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// Returns a list of services that have been discovered by Application Signals. A service represents a minimum logical and transactional unit that completes a business function. Services are discovered through Ap- plication Signals instrumentation. See also: AWS API Documentation list-services is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> ListServicesAsync(AwsApplicationSignalsListServicesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListServiceOperationsAsync(AwsApplicationSignalsListServiceOperationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about the last deployment and other change states of services. This API provides visibility into recent changes that may have affected service performance, helping with troubleshooting and change correlation. See also: AWS API Documentation list-service-states is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --quer...
@@ -248,8 +217,16 @@ public interface IAwsApplicationSignals
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListServiceStatesAsync(AwsApplicationSignalsListServiceStatesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListServiceStatesAsync(AwsApplicationSignalsListServiceStatesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Returns a list of services that have been discovered by Application Signals. A service represents a minimum logical and transactional unit that completes a business function. Services are discovered through Application Signals instrumentation. See also: AWS API Documentation list-services is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and t...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ListServicesAsync(AwsApplicationSignalsListServicesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Displays the tags associated with a CloudWatch resource. Tags can be assigned to service level objectives. See also: AWS API Documentation
@@ -258,48 +235,43 @@ public interface IAwsApplicationSignals
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsApplicationSignalsListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsApplicationSignalsListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates or updates the grouping configuration for this account. This operation allows you to define custom grouping attributes that deter- mine how services are logically grouped based on telemetry attributes, Amazon Web Services tags, or predefined mappings. These grouping at- tributes can then be used to organize and filter services in the Appli- cation Signals console and APIs. See also: AWS API Documentation
+    /// Creates or updates the grouping configuration for this account. This operation allows you to define custom grouping attributes that determine how services are logically grouped based on telemetry attributes, Amazon Web Services tags, or predefined mappings. These grouping attributes can then be used to organize and filter services in the Application Signals console and APIs. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutGroupingConfigurationAsync(AwsApplicationSignalsPutGroupingConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutGroupingConfigurationAsync(AwsApplicationSignalsPutGroupingConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Reports the status of one or more instrumentation configurations from SDK instances. Use this to record when configurations become ready, hit errors, become active, or are disabled by limits. Report READY , ERROR , and DISABLED when the status changes. Report AC- TIVE periodically (for example, every minute) while instrumentation is running. See also: AWS API Documentation
+    /// Reports the status of one or more instrumentation configurations from SDK instances. Use this to record when configurations become ready, hit errors, become active, or are disabled by limits. Report READY , ERROR , and DISABLED when the status changes. Report ACTIVE periodically (for example, every minute) while instrumentation is running. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ReportInstrumentationConfigurationStatusAsync(AwsApplicationSignalsReportInstrumentationConfigurationStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ReportInstrumentationConfigurationStatusAsync(AwsApplicationSignalsReportInstrumentationConfigurationStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Enables this Amazon Web Services account to be able to use CloudWatch Application Signals by creating the AWSServiceRoleForCloudWatchApplica- tionSignals service-linked role. This service- linked role has the fol- lowing permissions: o xray:GetServiceGraph o logs:StartQuery o logs:GetQueryResults o cloudwatch:GetMetricData o cloudwatch:ListMetrics o tag:GetResources o autoscaling:DescribeAutoScalingGroups A service-linked CloudTrail event channel is created to process Cloud- Trail events and ret...
+    /// Enables this Amazon Web Services account to be able to use CloudWatch Application Signals by creating the AWSServiceRoleForCloudWatchApplicationSignals service-linked role. This service- linked role has the following permissions: • xray:GetServiceGraph • logs:StartQuery • logs:GetQueryResults • cloudwatch:GetMetricData • cloudwatch:ListMetrics • tag:GetResources • autoscaling:DescribeAutoScalingGroups A service-linked CloudTrail event channel is created to process CloudTrail events and return ch...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartDiscoveryAsync(AwsApplicationSignalsStartDiscoveryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartDiscoveryAsync(AwsApplicationSignalsStartDiscoveryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Assigns one or more tags (key-value pairs) to the specified CloudWatch resource, such as a service level objective. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to ac- cess or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are in- terpreted strictly as strings of characters. You can use the TagResource action with an alarm that already has tag...
+    /// Assigns one or more tags (key-value pairs) to the specified CloudWatch resource, such as a service level objective. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource action with an alarm that already has tags. I...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsApplicationSignalsTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsApplicationSignalsTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes one or more tags from the specified resource. See also: AWS API Documentation
@@ -308,17 +280,15 @@ public interface IAwsApplicationSignals
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsApplicationSignalsUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsApplicationSignalsUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Updates an existing service level objective (SLO). If you omit parame- ters, the previous values of those parameters are retained. You cannot change from a period-based SLO to a request-based SLO, or change from a request-based SLO to a period-based SLO. See also: AWS API Documentation
+    /// Updates an existing service level objective (SLO). If you omit parameters, the previous values of those parameters are retained. You cannot change from a period-based SLO to a request-based SLO, or change from a request-based SLO to a period-based SLO. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateServiceLevelObjectiveAsync(AwsApplicationSignalsUpdateServiceLevelObjectiveOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateServiceLevelObjectiveAsync(AwsApplicationSignalsUpdateServiceLevelObjectiveOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

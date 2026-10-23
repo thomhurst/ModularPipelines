@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an IP access control group. An IP access control group provides you with the ability to control the IP addresses from which users are allowed to access their WorkSpaces. To specify the CIDR address ranges, add rules to your IP access control group and then associate the group with your directory. You can add rules when you create the group or at any time using AuthorizeIpRules . There is a default IP access control group associated with your direc- tory. If you don't associate an IP acce...
+/// Creates an IP access control group. An IP access control group provides you with the ability to control the IP addresses from which users are allowed to access their WorkSpaces. To specify the CIDR address ranges, add rules to your IP access control group and then associate the group with your directory. You can add rules when you create the group or at any time using AuthorizeIpRules . There is a default IP access control group associated with your directory. If you don't associate an IP access...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsWorkspacesCreateIpGroupOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an IP access control group. An IP access control group provides you with the ability to control the IP addresses from which users are allowed to access their WorkSpaces. To specify the CIDR address ranges, add rules to your IP access control group and then associate the group with your directory. You can add rules when you create the group or at any time using AuthorizeIpRules . There is a default IP access control group associated with your direc- tory. If you don't associate an IP acce...
+    /// Creates an IP access control group. An IP access control group provides you with the ability to control the IP addresses from which users are allowed to access their WorkSpaces. To specify the CIDR address ranges, add rules to your IP access control group and then associate the group with your directory. You can add rules when you create the group or at any time using AuthorizeIpRules . There is a default IP access control group associated with your directory. If you don't associate an IP access...
     /// </summary>
     /// <param name="GroupName">The name of the group.</param>
     public AwsWorkspacesCreateIpGroupOptions(
@@ -74,7 +75,7 @@ public record AwsWorkspacesCreateIpGroupOptions : AwsOptions, IValidatableObject
     public IEnumerable<string>? UserRules { get; set; }
 
     /// <summary>
-    /// The tags. Each WorkSpaces resource can have a maximum of 50 tags. (structure) Describes a tag. Key -&gt; (string) [required] The key of the tag. Constraints: o min: 1 o max: 127 Value -&gt; (string) The value of the tag. Constraints: o max: 255 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tags. Each WorkSpaces resource can have a maximum of 50 tags. (structure) Describes a tag. Key -&gt; (string) [required] The key of the tag. Constraints: • min: 1 • max: 127 Value -&gt; (string) The value of the tag. Constraints: • max: 255 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -100,6 +101,15 @@ public record AwsWorkspacesCreateIpGroupOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

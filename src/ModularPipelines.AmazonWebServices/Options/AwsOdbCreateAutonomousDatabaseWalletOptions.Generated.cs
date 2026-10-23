@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,7 +30,7 @@ public record AwsOdbCreateAutonomousDatabaseWalletOptions : AwsOptions, IValidat
     /// <summary>
     /// Creates a new wallet for the specified Autonomous Database. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AutonomousDatabaseId">The unique identifier of the Autonomous Database to create a wallet for. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})</param>
+    /// <param name="AutonomousDatabaseId">The unique identifier of the Autonomous Database to create a wallet for. Constraints: • min: 6 • max: 2048 • pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})</param>
     public AwsOdbCreateAutonomousDatabaseWalletOptions(
         string AutonomousDatabaseId
     )
@@ -58,39 +59,39 @@ public record AwsOdbCreateAutonomousDatabaseWalletOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the Autonomous Database to create a wallet for. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})
+    /// The unique identifier of the Autonomous Database to create a wallet for. Constraints: • min: 6 • max: 2048 • pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})
     /// </summary>
     [CliOption("--autonomous-database-id")]
     public string? AutonomousDatabaseId { get; private init; }
 
     /// <summary>
-    /// The type of wallet to create, either a regional wallet or an in- stance wallet. Possible values: o REGIONAL o INSTANCE
+    /// The type of wallet to create, either a regional wallet or an instance wallet. Possible values: • REGIONAL • INSTANCE
     /// </summary>
     [CliOption("--wallet-type")]
     public AwsOdbCreateAutonomousDatabaseWalletWalletType? WalletType { get; set; }
 
     /// <summary>
-    /// The password to encrypt the keys inside the wallet. Constraints: o min: 8
+    /// The password to encrypt the keys inside the wallet. Constraints: • min: 8
     /// </summary>
     [SecretValue]
     [CliOption("--password")]
     public string? Password { get; set; }
 
     /// <summary>
-    /// The source of the password for encrypting the wallet. When set to CUSTOMER_MANAGED_AWS_SECRET , the password is retrieved from an Ama- zon Web Services Secrets Manager secret. Possible values: o CUSTOMER_MANAGED_AWS_SECRET o API_REQUEST_PARAMETER
+    /// The source of the password for encrypting the wallet. When set to CUSTOMER_MANAGED_AWS_SECRET , the password is retrieved from an Amazon Web Services Secrets Manager secret. Possible values: • CUSTOMER_MANAGED_AWS_SECRET • API_REQUEST_PARAMETER
     /// </summary>
     [CliOption("--password-source")]
     public AwsOdbCreateAutonomousDatabaseWalletPasswordSource? PasswordSource { get; set; }
 
     /// <summary>
-    /// The configuration of the password source for the Autonomous Database wallet. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: customerManagedAwsSecret. customerManagedAwsSecret -&gt; (structure) The configuration for using a customer-managed Amazon Web Ser- vices Secrets Manager secret as the wallet password source. secretId -&gt; (string) The identifier or ARN of the Amazon Web Services Secrets Man- ager secret that contains the password. Constraints: o min: 1 o max: 2048 iamRoleArn -&gt; (string) The Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) role that OCI assumes to retrieve the secret value. Constraints: o min: 20 o max: 2048 o pattern: arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):iam::[0-9]{12}:role/.+ externalIdType -&gt; (string) The type of Oracle Cloud Identifier (OCID) used as the exter- nal ID when assuming the IAM role. The valid values depend on the operation. For the CreateAu- tonomousDatabase operation, only compartment_ocid and ten- ant_ocid are allowed. For the UpdateAutonomousDatabase and CreateAutonomousDatabaseWallet operations, database_ocid , compartment_ocid , and tenant_ocid are all allowed. Possible values: o database_ocid o compartment_ocid o tenant_ocid Shorthand Syntax: customerManagedAwsSecret={secretId=string,iamRoleArn=string,externalIdType=string} JSON Syntax: { "customerManagedAwsSecret": { "secretId": "string", "iamRoleArn": "string", "externalIdType": "database_ocid"|"compartment_ocid"|"tenant_ocid" } }
+    /// The configuration of the password source for the Autonomous Database wallet. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: customerManagedAwsSecret. customerManagedAwsSecret -&gt; (structure) The configuration for using a customer-managed Amazon Web Services Secrets Manager secret as the wallet password source. secretId -&gt; (string) The identifier or ARN of the Amazon Web Services Secrets Manager secret that contains the password. Constraints: • min: 1 • max: 2048 iamRoleArn -&gt; (string) The Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) role that OCI assumes to retrieve the secret value. Constraints: • min: 20 • max: 2048 • pattern: arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):iam::[0-9]{12}:role/.+ externalIdType -&gt; (string) The type of Oracle Cloud Identifier (OCID) used as the external ID when assuming the IAM role. The valid values depend on the operation. For the CreateAutonomousDatabase operation, only compartment_ocid and tenant_ocid are allowed. For the UpdateAutonomousDatabase and CreateAutonomousDatabaseWallet operations, database_ocid , compartment_ocid , and tenant_ocid are all allowed. Possible values: • database_ocid • compartment_ocid • tenant_ocid Shorthand Syntax: customerManagedAwsSecret={secretId=string,iamRoleArn=string,externalIdType=string} JSON Syntax: { "customerManagedAwsSecret": { "secretId": "string", "iamRoleArn": "string", "externalIdType": "database_ocid"|"compartment_ocid"|"tenant_ocid" } }
     /// </summary>
     [SecretValue]
     [CliOption("--password-source-configuration")]
     public string? PasswordSourceConfiguration { get; set; }
 
     /// <summary>
-    /// A client-provided token to ensure the idempotency of the request. Constraints: o min: 8 o max: 64 o pattern: [a-zA-Z0-9_\/.=-]+
+    /// A client-provided token to ensure the idempotency of the request. Constraints: • min: 8 • max: 64 • pattern: [a-zA-Z0-9_\/.=-]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -117,6 +118,15 @@ public record AwsOdbCreateAutonomousDatabaseWalletOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

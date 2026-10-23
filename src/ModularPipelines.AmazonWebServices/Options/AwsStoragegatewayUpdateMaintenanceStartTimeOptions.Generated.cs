@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates a gateway's maintenance window schedule, with settings for monthly or weekly cadence, specific day and time to begin maintenance, and which types of updates to apply. Time configuration uses the gate- way's time zone. You can pass values for a complete maintenance sched- ule, or update policy, or both. Previous values will persist for whichever setting you choose not to modify. If an incomplete or invalid maintenance schedule is passed, the entire request will be rejected with an error a...
+/// Updates a gateway's maintenance window schedule, with settings for monthly or weekly cadence, specific day and time to begin maintenance, and which types of updates to apply. Time configuration uses the gateway's time zone. You can pass values for a complete maintenance schedule, or update policy, or both. Previous values will persist for whichever setting you choose not to modify. If an incomplete or invalid maintenance schedule is passed, the entire request will be rejected with an error and n...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsStoragegatewayUpdateMaintenanceStartTimeOptions : AwsOptions, I
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates a gateway's maintenance window schedule, with settings for monthly or weekly cadence, specific day and time to begin maintenance, and which types of updates to apply. Time configuration uses the gate- way's time zone. You can pass values for a complete maintenance sched- ule, or update policy, or both. Previous values will persist for whichever setting you choose not to modify. If an incomplete or invalid maintenance schedule is passed, the entire request will be rejected with an error a...
+    /// Updates a gateway's maintenance window schedule, with settings for monthly or weekly cadence, specific day and time to begin maintenance, and which types of updates to apply. Time configuration uses the gateway's time zone. You can pass values for a complete maintenance schedule, or update policy, or both. Previous values will persist for whichever setting you choose not to modify. If an incomplete or invalid maintenance schedule is passed, the entire request will be rejected with an error and n...
     /// </summary>
-    /// <param name="GatewayArn">The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region. Constraints: o min: 50 o max: 500</param>
+    /// <param name="GatewayArn">The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region. Constraints: • min: 50 • max: 500</param>
     public AwsStoragegatewayUpdateMaintenanceStartTimeOptions(
         string GatewayArn
     )
@@ -56,37 +57,37 @@ public record AwsStoragegatewayUpdateMaintenanceStartTimeOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region. Constraints: o min: 50 o max: 500
+    /// The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region. Constraints: • min: 50 • max: 500
     /// </summary>
     [CliOption("--gateway-arn")]
     public string? GatewayArn { get; private init; }
 
     /// <summary>
-    /// The hour component of the maintenance start time represented as hh , where hh is the hour (00 to 23). The hour of the day is in the time zone of the gateway. Constraints: o min: 0 o max: 23
+    /// The hour component of the maintenance start time represented as hh , where hh is the hour (00 to 23). The hour of the day is in the time zone of the gateway. Constraints: • min: 0 • max: 23
     /// </summary>
     [CliOption("--hour-of-day")]
     public int? HourOfDay { get; set; }
 
     /// <summary>
-    /// The minute component of the maintenance start time represented as mm , where mm is the minute (00 to 59). The minute of the hour is in the time zone of the gateway. Constraints: o min: 0 o max: 59
+    /// The minute component of the maintenance start time represented as mm , where mm is the minute (00 to 59). The minute of the hour is in the time zone of the gateway. Constraints: • min: 0 • max: 59
     /// </summary>
     [CliOption("--minute-of-hour")]
     public int? MinuteOfHour { get; set; }
 
     /// <summary>
-    /// The day of the week component of the maintenance start time week represented as an ordinal number from 0 to 6, where 0 represents Sunday and 6 represents Saturday. Constraints: o min: 0 o max: 6
+    /// The day of the week component of the maintenance start time week represented as an ordinal number from 0 to 6, where 0 represents Sunday and 6 represents Saturday. Constraints: • min: 0 • max: 6
     /// </summary>
     [CliOption("--day-of-week")]
     public int? DayOfWeek { get; set; }
 
     /// <summary>
-    /// The day of the month component of the maintenance start time repre- sented as an ordinal number from 1 to 28, where 1 represents the first day of the month. It is not possible to set the maintenance schedule to start on days 29 through 31. Constraints: o min: 1 o max: 28
+    /// The day of the month component of the maintenance start time represented as an ordinal number from 1 to 28, where 1 represents the first day of the month. It is not possible to set the maintenance schedule to start on days 29 through 31. Constraints: • min: 1 • max: 28
     /// </summary>
     [CliOption("--day-of-month")]
     public int? DayOfMonth { get; set; }
 
     /// <summary>
-    /// A set of variables indicating the software update preferences for the gateway. Includes AutomaticUpdatePolicy field with the following inputs: ALL_VERSIONS - Enables regular gateway maintenance updates. EMERGENCY_VERSIONS_ONLY - Disables regular gateway maintenance updates. The gateway will still receive emergency version up- dates on rare occasions if necessary to remedy highly critical security or durability issues. You will be notified before an emergency version update is applied. These updates are applied during your gateway's scheduled maintenance window. AutomaticUpdatePolicy -&gt; (string) Indicates the automatic update policy for a gateway. ALL_VERSIONS - Enables regular gateway maintenance updates. EMERGENCY_VERSIONS_ONLY - Disables regular gateway mainte- nance updates. The gateway will still receive emergency ver- sion updates on rare occasions if necessary to remedy highly critical security or durability issues. You will be notified before an emergency version update is applied. These updates are applied during your gateway's scheduled maintenance win- dow. Possible values: o ALL_VERSIONS o EMERGENCY_VERSIONS_ONLY Shorthand Syntax: AutomaticUpdatePolicy=string JSON Syntax: { "AutomaticUpdatePolicy": "ALL_VERSIONS"|"EMERGENCY_VERSIONS_ONLY" }
+    /// A set of variables indicating the software update preferences for the gateway. Includes AutomaticUpdatePolicy field with the following inputs: ALL_VERSIONS - Enables regular gateway maintenance updates. EMERGENCY_VERSIONS_ONLY - Disables regular gateway maintenance updates. The gateway will still receive emergency version updates on rare occasions if necessary to remedy highly critical security or durability issues. You will be notified before an emergency version update is applied. These updates are applied during your gateway's scheduled maintenance window. AutomaticUpdatePolicy -&gt; (string) Indicates the automatic update policy for a gateway. ALL_VERSIONS - Enables regular gateway maintenance updates. EMERGENCY_VERSIONS_ONLY - Disables regular gateway maintenance updates. The gateway will still receive emergency version updates on rare occasions if necessary to remedy highly critical security or durability issues. You will be notified before an emergency version update is applied. These updates are applied during your gateway's scheduled maintenance window. Possible values: • ALL_VERSIONS • EMERGENCY_VERSIONS_ONLY Shorthand Syntax: AutomaticUpdatePolicy=string JSON Syntax: { "AutomaticUpdatePolicy": "ALL_VERSIONS"|"EMERGENCY_VERSIONS_ONLY" }
     /// </summary>
     [CliOption("--software-update-preferences")]
     public string? SoftwareUpdatePreferences { get; set; }
@@ -112,6 +113,15 @@ public record AwsStoragegatewayUpdateMaintenanceStartTimeOptions : AwsOptions, I
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

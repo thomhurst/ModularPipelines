@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the default patch baseline. Amazon Web Services Systems Man- ager supports creating multiple default patch baselines. For example, you can create a default patch baseline for each operating system. If you don't specify an operating system value, the default patch base- line for Windows is returned. See also: AWS API Documentation
+/// Retrieves the default patch baseline. Amazon Web Services Systems Manager supports creating multiple default patch baselines. For example, you can create a default patch baseline for each operating system. If you don't specify an operating system value, the default patch baseline for Windows is returned. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSsmGetDefaultPatchBaselineOptions : AwsOptions
 {
     /// <summary>
-    /// Returns the default patch baseline for the specified operating sys- tem. Possible values: o WINDOWS o AMAZON_LINUX o AMAZON_LINUX_2 o AMAZON_LINUX_2022 o UBUNTU o REDHAT_ENTERPRISE_LINUX o SUSE o CENTOS o ORACLE_LINUX o DEBIAN o MACOS o RASPBIAN o ROCKY_LINUX o ALMA_LINUX o AMAZON_LINUX_2023
+    /// Returns the default patch baseline for the specified operating system. Possible values: • WINDOWS • AMAZON_LINUX • AMAZON_LINUX_2 • AMAZON_LINUX_2022 • UBUNTU • REDHAT_ENTERPRISE_LINUX • SUSE • CENTOS • ORACLE_LINUX • DEBIAN • MACOS • RASPBIAN • ROCKY_LINUX • ALMA_LINUX • AMAZON_LINUX_2023
     /// </summary>
     [CliOption("--operating-system")]
     public AwsSsmGetDefaultPatchBaselineOperatingSystem? OperatingSystem { get; set; }
@@ -33,5 +33,14 @@ public record AwsSsmGetDefaultPatchBaselineOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

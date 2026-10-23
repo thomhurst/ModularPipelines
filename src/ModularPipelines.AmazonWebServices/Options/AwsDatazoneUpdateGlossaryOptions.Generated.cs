@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the business glossary in Amazon DataZone. Prerequisites: o The glossary must exist in the given domain. o The caller must have the datazone:UpdateGlossary permission to update it. o When updating the name, the new name must be unique within the do- main. o The glossary must not be deleted or in a terminal state. See also: AWS API Documentation
+/// Updates the business glossary in Amazon DataZone. Prerequisites: • The glossary must exist in the given domain. • The caller must have the datazone:UpdateGlossary permission to update it. • When updating the name, the new name must be unique within the domain. • The glossary must not be deleted or in a terminal state. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +28,10 @@ public record AwsDatazoneUpdateGlossaryOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the business glossary in Amazon DataZone. Prerequisites: o The glossary must exist in the given domain. o The caller must have the datazone:UpdateGlossary permission to update it. o When updating the name, the new name must be unique within the do- main. o The glossary must not be deleted or in a terminal state. See also: AWS API Documentation
+    /// Updates the business glossary in Amazon DataZone. Prerequisites: • The glossary must exist in the given domain. • The caller must have the datazone:UpdateGlossary permission to update it. • When updating the name, the new name must be unique within the domain. • The glossary must not be deleted or in a terminal state. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainIdentifier">The identifier of the Amazon DataZone domain in which a business glossary is to be updated. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="Identifier">The identifier of the business glossary to be updated. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="DomainIdentifier">The identifier of the Amazon DataZone domain in which a business glossary is to be updated. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="Identifier">The identifier of the business glossary to be updated. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}</param>
     public AwsDatazoneUpdateGlossaryOptions(
         string DomainIdentifier,
         string Identifier
@@ -62,37 +63,37 @@ public record AwsDatazoneUpdateGlossaryOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Amazon DataZone domain in which a business glossary is to be updated. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The identifier of the Amazon DataZone domain in which a business glossary is to be updated. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The identifier of the business glossary to be updated. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The identifier of the business glossary to be updated. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// The name to be updated as part of the UpdateGlossary action. Constraints: o min: 1 o max: 256
+    /// The name to be updated as part of the UpdateGlossary action. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The description to be updated as part of the UpdateGlossary action. Constraints: o min: 0 o max: 4096
+    /// The description to be updated as part of the UpdateGlossary action. Constraints: • min: 0 • max: 4096
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The status to be updated as part of the UpdateGlossary action. Possible values: o DISABLED o ENABLED
+    /// The status to be updated as part of the UpdateGlossary action. Possible values: • DISABLED • ENABLED
     /// </summary>
     [CliOption("--status")]
     public AwsDatazoneUpdateGlossaryStatus? Status { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that is provided to ensure the idempotency of the request. Constraints: o min: 1 o max: 128 o pattern: [\x21-\x7E]+
+    /// A unique, case-sensitive identifier that is provided to ensure the idempotency of the request. Constraints: • min: 1 • max: 128 • pattern: [\x21-\x7E]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -119,6 +120,15 @@ public record AwsDatazoneUpdateGlossaryOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

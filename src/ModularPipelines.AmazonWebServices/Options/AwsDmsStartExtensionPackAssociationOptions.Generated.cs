@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Queues the installation of the extension pack on your target database. If other requests created by Start* operations are already in the mi- gration project's queue, the installation begins after they complete. This operation requires a non-virtual target data provider. If the extension pack already exists, the operation reinstalls it. To ensure compatibility, reconvert your database objects if the version has changed since your last conversion. For more information, see Using extension packs in...
+/// Queues the installation of the extension pack on your target database. If other requests created by Start* operations are already in the migration project's queue, the installation begins after they complete. This operation requires a non-virtual target data provider. If the extension pack already exists, the operation reinstalls it. To ensure compatibility, reconvert your database objects if the version has changed since your last conversion. For more information, see Using extension packs in D...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsDmsStartExtensionPackAssociationOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Queues the installation of the extension pack on your target database. If other requests created by Start* operations are already in the mi- gration project's queue, the installation begins after they complete. This operation requires a non-virtual target data provider. If the extension pack already exists, the operation reinstalls it. To ensure compatibility, reconvert your database objects if the version has changed since your last conversion. For more information, see Using extension packs in...
+    /// Queues the installation of the extension pack on your target database. If other requests created by Start* operations are already in the migration project's queue, the installation begins after they complete. This operation requires a non-virtual target data provider. If the extension pack already exists, the operation reinstalls it. To ensure compatibility, reconvert your database objects if the version has changed since your last conversion. For more information, see Using extension packs in D...
     /// </summary>
-    /// <param name="MigrationProjectIdentifier">The migration project name or Amazon Resource Name (ARN). Constraints: o max: 255</param>
+    /// <param name="MigrationProjectIdentifier">The migration project name or Amazon Resource Name (ARN). Constraints: • max: 255</param>
     public AwsDmsStartExtensionPackAssociationOptions(
         string MigrationProjectIdentifier
     )
@@ -56,7 +57,7 @@ public record AwsDmsStartExtensionPackAssociationOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The migration project name or Amazon Resource Name (ARN). Constraints: o max: 255
+    /// The migration project name or Amazon Resource Name (ARN). Constraints: • max: 255
     /// </summary>
     [CliOption("--migration-project-identifier")]
     public string? MigrationProjectIdentifier { get; private init; }
@@ -82,6 +83,15 @@ public record AwsDmsStartExtensionPackAssociationOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

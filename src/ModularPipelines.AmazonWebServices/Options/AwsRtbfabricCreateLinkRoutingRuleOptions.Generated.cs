@@ -11,13 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a routing rule for a link. Routing rules use priority-based evaluation where lower priority num- bers are evaluated first. Each rule specifies conditions that must all match for the rule to apply. See also: AWS API Documentation
+/// Creates a routing rule for a link. Routing rules use priority-based evaluation where lower priority numbers are evaluated first. Each rule specifies conditions that must all match for the rule to apply. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,12 +27,12 @@ public record AwsRtbfabricCreateLinkRoutingRuleOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a routing rule for a link. Routing rules use priority-based evaluation where lower priority num- bers are evaluated first. Each rule specifies conditions that must all match for the rule to apply. See also: AWS API Documentation
+    /// Creates a routing rule for a link. Routing rules use priority-based evaluation where lower priority numbers are evaluated first. Each rule specifies conditions that must all match for the rule to apply. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GatewayId">The unique identifier of the gateway. Constraints: o min: 8 o max: 32 o pattern: rtb-gw-[a-z0-9-]{1,25}</param>
-    /// <param name="LinkId">The unique identifier of the link. Constraints: o min: 6 o max: 30 o pattern: link-[a-z0-9-]{1,25}</param>
-    /// <param name="Priority">The priority of the routing rule. Lower numbers are evaluated first. Valid values are 1 to 1000. Priority must be unique among non-deleted rules within a link. Constraints: o min: 1 o max: 1000</param>
-    /// <param name="Conditions">The conditions for the routing rule. All specified fields must match for the rule to apply. At least one condition field must be set. hostHeader -&gt; (string) The exact host header value to match. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z0-9._~-]+ hostHeaderWildcard -&gt; (string) A wildcard pattern for host header matching (for example, *.ex- ample.com ). Constraints: o min: 3 o max: 255 o pattern: [A-Za-z0-9._~*-]+ pathPrefix -&gt; (string) The path prefix to match. The request path must start with this value. Must start with / . Constraints: o min: 1 o max: 128 o pattern: /[A-Za-z0-9._~/-]* pathExact -&gt; (string) The exact path to match. Must start with / . Constraints: o min: 1 o max: 128 o pattern: /[A-Za-z0-9._~/-]* queryStringEquals -&gt; (structure) A query string key-value pair that must be present and match ex- actly. key -&gt; (string) [required] The key of the query string parameter to match. Must contain only RFC 3986 unreserved characters. Constraints: o min: 1 o max: 128 o pattern: [A-Za-z0-9._~-]+ value -&gt; (string) [required] The value of the query string parameter to match. Must con- tain only RFC 3986 unreserved characters. Constraints: o min: 1 o max: 128 o pattern: [A-Za-z0-9._~-]+ queryStringExists -&gt; (string) A query string key that must be present in the request (any value is accepted). Constraints: o min: 1 o max: 128 o pattern: [A-Za-z0-9._~-]+ Shorthand Syntax: hostHeader=string,hostHeaderWildcard=string,pathPrefix=string,pathExact=string,queryStringEquals={key=string,value=string},queryStringExists=string JSON Syntax: { "hostHeader": "string", "hostHeaderWildcard": "string", "pathPrefix": "string", "pathExact": "string", "queryStringEquals": { "key": "string", "value": "string" }, "queryStringExists": "string" }</param>
+    /// <param name="GatewayId">The unique identifier of the gateway. Constraints: • min: 8 • max: 32 • pattern: rtb-gw-[a-z0-9-]{1,25}</param>
+    /// <param name="LinkId">The unique identifier of the link. Constraints: • min: 6 • max: 30 • pattern: link-[a-z0-9-]{1,25}</param>
+    /// <param name="Priority">The priority of the routing rule. Lower numbers are evaluated first. Valid values are 1 to 1000. Priority must be unique among non-deleted rules within a link. Constraints: • min: 1 • max: 1000</param>
+    /// <param name="Conditions">The conditions for the routing rule. All specified fields must match for the rule to apply. At least one condition field must be set. hostHeader -&gt; (string) The exact host header value to match. Constraints: • min: 1 • max: 255 • pattern: [A-Za-z0-9._~-]+ hostHeaderWildcard -&gt; (string) A wildcard pattern for host header matching (for example, *.example.com ). Constraints: • min: 3 • max: 255 • pattern: [A-Za-z0-9._~*-]+ pathPrefix -&gt; (string) The path prefix to match. The request path must start with this value. Must start with / . Constraints: • min: 1 • max: 128 • pattern: /[A-Za-z0-9._~/-]* pathExact -&gt; (string) The exact path to match. Must start with / . Constraints: • min: 1 • max: 128 • pattern: /[A-Za-z0-9._~/-]* queryStringEquals -&gt; (structure) A query string key-value pair that must be present and match exactly. key -&gt; (string) [required] The key of the query string parameter to match. Must contain only RFC 3986 unreserved characters. Constraints: • min: 1 • max: 128 • pattern: [A-Za-z0-9._~-]+ value -&gt; (string) [required] The value of the query string parameter to match. Must contain only RFC 3986 unreserved characters. Constraints: • min: 1 • max: 128 • pattern: [A-Za-z0-9._~-]+ queryStringExists -&gt; (string) A query string key that must be present in the request (any value is accepted). Constraints: • min: 1 • max: 128 • pattern: [A-Za-z0-9._~-]+ Shorthand Syntax: hostHeader=string,hostHeaderWildcard=string,pathPrefix=string,pathExact=string,queryStringEquals={key=string,value=string},queryStringExists=string JSON Syntax: { "hostHeader": "string", "hostHeaderWildcard": "string", "pathPrefix": "string", "pathExact": "string", "queryStringEquals": { "key": "string", "value": "string" }, "queryStringExists": "string" }</param>
     public AwsRtbfabricCreateLinkRoutingRuleOptions(
         string GatewayId,
         string LinkId,
@@ -69,38 +69,38 @@ public record AwsRtbfabricCreateLinkRoutingRuleOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the gateway. Constraints: o min: 8 o max: 32 o pattern: rtb-gw-[a-z0-9-]{1,25}
+    /// The unique identifier of the gateway. Constraints: • min: 8 • max: 32 • pattern: rtb-gw-[a-z0-9-]{1,25}
     /// </summary>
     [CliOption("--gateway-id")]
     public string? GatewayId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the link. Constraints: o min: 6 o max: 30 o pattern: link-[a-z0-9-]{1,25}
+    /// The unique identifier of the link. Constraints: • min: 6 • max: 30 • pattern: link-[a-z0-9-]{1,25}
     /// </summary>
     [CliOption("--link-id")]
     public string? LinkId { get; private init; }
 
     /// <summary>
-    /// The priority of the routing rule. Lower numbers are evaluated first. Valid values are 1 to 1000. Priority must be unique among non-deleted rules within a link. Constraints: o min: 1 o max: 1000
+    /// The priority of the routing rule. Lower numbers are evaluated first. Valid values are 1 to 1000. Priority must be unique among non-deleted rules within a link. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--priority")]
     public int? Priority { get; private init; }
 
     /// <summary>
-    /// The conditions for the routing rule. All specified fields must match for the rule to apply. At least one condition field must be set. hostHeader -&gt; (string) The exact host header value to match. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z0-9._~-]+ hostHeaderWildcard -&gt; (string) A wildcard pattern for host header matching (for example, *.ex- ample.com ). Constraints: o min: 3 o max: 255 o pattern: [A-Za-z0-9._~*-]+ pathPrefix -&gt; (string) The path prefix to match. The request path must start with this value. Must start with / . Constraints: o min: 1 o max: 128 o pattern: /[A-Za-z0-9._~/-]* pathExact -&gt; (string) The exact path to match. Must start with / . Constraints: o min: 1 o max: 128 o pattern: /[A-Za-z0-9._~/-]* queryStringEquals -&gt; (structure) A query string key-value pair that must be present and match ex- actly. key -&gt; (string) [required] The key of the query string parameter to match. Must contain only RFC 3986 unreserved characters. Constraints: o min: 1 o max: 128 o pattern: [A-Za-z0-9._~-]+ value -&gt; (string) [required] The value of the query string parameter to match. Must con- tain only RFC 3986 unreserved characters. Constraints: o min: 1 o max: 128 o pattern: [A-Za-z0-9._~-]+ queryStringExists -&gt; (string) A query string key that must be present in the request (any value is accepted). Constraints: o min: 1 o max: 128 o pattern: [A-Za-z0-9._~-]+ Shorthand Syntax: hostHeader=string,hostHeaderWildcard=string,pathPrefix=string,pathExact=string,queryStringEquals={key=string,value=string},queryStringExists=string JSON Syntax: { "hostHeader": "string", "hostHeaderWildcard": "string", "pathPrefix": "string", "pathExact": "string", "queryStringEquals": { "key": "string", "value": "string" }, "queryStringExists": "string" }
+    /// The conditions for the routing rule. All specified fields must match for the rule to apply. At least one condition field must be set. hostHeader -&gt; (string) The exact host header value to match. Constraints: • min: 1 • max: 255 • pattern: [A-Za-z0-9._~-]+ hostHeaderWildcard -&gt; (string) A wildcard pattern for host header matching (for example, *.example.com ). Constraints: • min: 3 • max: 255 • pattern: [A-Za-z0-9._~*-]+ pathPrefix -&gt; (string) The path prefix to match. The request path must start with this value. Must start with / . Constraints: • min: 1 • max: 128 • pattern: /[A-Za-z0-9._~/-]* pathExact -&gt; (string) The exact path to match. Must start with / . Constraints: • min: 1 • max: 128 • pattern: /[A-Za-z0-9._~/-]* queryStringEquals -&gt; (structure) A query string key-value pair that must be present and match exactly. key -&gt; (string) [required] The key of the query string parameter to match. Must contain only RFC 3986 unreserved characters. Constraints: • min: 1 • max: 128 • pattern: [A-Za-z0-9._~-]+ value -&gt; (string) [required] The value of the query string parameter to match. Must contain only RFC 3986 unreserved characters. Constraints: • min: 1 • max: 128 • pattern: [A-Za-z0-9._~-]+ queryStringExists -&gt; (string) A query string key that must be present in the request (any value is accepted). Constraints: • min: 1 • max: 128 • pattern: [A-Za-z0-9._~-]+ Shorthand Syntax: hostHeader=string,hostHeaderWildcard=string,pathPrefix=string,pathExact=string,queryStringEquals={key=string,value=string},queryStringExists=string JSON Syntax: { "hostHeader": "string", "hostHeaderWildcard": "string", "pathPrefix": "string", "pathExact": "string", "queryStringEquals": { "key": "string", "value": "string" }, "queryStringExists": "string" }
     /// </summary>
     [CliOption("--conditions")]
     public string? Conditions { get; private init; }
 
     /// <summary>
-    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value . If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same clientToken , but with dif- ferent parameters, the retry fails with an IdempotentParameterMis- match error.
+    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value . If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same clientToken , but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// A map of the key-value pairs of the tag or tags to assign to the re- source. key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: (resourceArn|internalId|[a-zA-Z0-9+\-=._:/@]+) value -&gt; (string) Constraints: o min: 0 o max: 1600 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A map of the key-value pairs of the tag or tags to assign to the resource. key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: (resourceArn|internalId|[a-zA-Z0-9+\-=._:/@]+) value -&gt; (string) Constraints: • min: 0 • max: 1600 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -126,6 +126,15 @@ public record AwsRtbfabricCreateLinkRoutingRuleOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

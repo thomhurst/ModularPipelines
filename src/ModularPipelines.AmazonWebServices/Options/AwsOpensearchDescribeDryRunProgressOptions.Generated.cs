@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsOpensearchDescribeDryRunProgressOptions : AwsOptions, IValidata
     /// <summary>
     /// Describes the progress of a pre-update dry run analysis on an Amazon OpenSearch Service domain. For more information, see Determining whether a change will cause a blue/green deployment . See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">The name of the domain. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+</param>
+    /// <param name="DomainName">The name of the domain. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+</param>
     public AwsOpensearchDescribeDryRunProgressOptions(
         string DomainName
     )
@@ -56,13 +57,13 @@ public record AwsOpensearchDescribeDryRunProgressOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the domain. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+
+    /// The name of the domain. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the dry run. Constraints: o min: 36 o max: 36 o pattern: \p{XDigit}{8}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{12}
+    /// The unique identifier of the dry run. Constraints: • min: 36 • max: 36 • pattern: \p{XDigit}{8}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{12}
     /// </summary>
     [CliOption("--dry-run-id")]
     public string? DryRunId { get; set; }
@@ -94,6 +95,15 @@ public record AwsOpensearchDescribeDryRunProgressOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

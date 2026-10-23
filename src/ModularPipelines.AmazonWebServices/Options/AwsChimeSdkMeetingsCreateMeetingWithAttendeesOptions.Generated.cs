@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new Amazon Chime SDK meeting in the specified media Region, with attendees. For more information about specifying media Regions, see Available Regions and Using meeting Regions , both in the Amazon Chime SDK Developer Guide . For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime SDK Developer Guide . NOTE: If you use this API in conjuction with the and APIs, and you don't specify the MeetingFeatures.Content.MaxResolution or MeetingFea- ture...
+/// Creates a new Amazon Chime SDK meeting in the specified media Region, with attendees. For more information about specifying media Regions, see Available Regions and Using meeting Regions , both in the Amazon Chime SDK Developer Guide . For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime SDK Developer Guide . NOTE: If you use this API in conjuction with the and APIs, and you don't specify the MeetingFeatures.Content.MaxResolution or MeetingFeatures....
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +28,11 @@ public record AwsChimeSdkMeetingsCreateMeetingWithAttendeesOptions : AwsOptions,
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new Amazon Chime SDK meeting in the specified media Region, with attendees. For more information about specifying media Regions, see Available Regions and Using meeting Regions , both in the Amazon Chime SDK Developer Guide . For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime SDK Developer Guide . NOTE: If you use this API in conjuction with the and APIs, and you don't specify the MeetingFeatures.Content.MaxResolution or MeetingFea- ture...
+    /// Creates a new Amazon Chime SDK meeting in the specified media Region, with attendees. For more information about specifying media Regions, see Available Regions and Using meeting Regions , both in the Amazon Chime SDK Developer Guide . For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime SDK Developer Guide . NOTE: If you use this API in conjuction with the and APIs, and you don't specify the MeetingFeatures.Content.MaxResolution or MeetingFeatures....
     /// </summary>
-    /// <param name="MediaRegion">The Region in which to create the meeting. Available values: af-south-1 , ap-northeast-1 , ap-northeast-2 , ap-south-1 , ap-southeast-1 , ap-southeast-2 , ca-central-1 , eu-central-1 , eu-north-1 , eu-south-1 , eu-west-1 , eu-west-2 , eu-west-3 , sa-east-1 , us-east-1 , us-east-2 , us-west-1 , us-west-2 . Available values in Amazon Web Services GovCloud (US) Regions: us-gov-east-1 , us-gov-west-1 . Constraints: o min: 2 o max: 64</param>
-    /// <param name="ExternalMeetingId">The external meeting ID. Pattern: [-_&amp;@+=,(){}\[\]\/.:|'"#a-zA-Z0-9-\s]* Values that begin with aws: are reserved. You can't configure a value that uses this prefix. Case insensitive. Constraints: o min: 2 o max: 64</param>
-    /// <param name="Attendees">The attendee information, including attendees' IDs and join tokens. Constraints: o min: 1 o max: 20 (structure) The Amazon Chime SDK attendee fields to create, used with the BatchCreateAttendee action. ExternalUserId -&gt; (string) [required] The Amazon Chime SDK external user ID. An idempotency token. Links the attendee to an identity managed by a builder appli- cation. Pattern: [-_&amp;@+=,(){}\[\]\/.:|'"#a-zA-Z0-9-\s]* Values that begin with aws: are reserved. You can't configure a value that uses this prefix. Case insensitive. Constraints: o min: 2 o max: 64 Capabilities -&gt; (structure) A list of one or more capabilities. Audio -&gt; (string) [required] The audio capability assigned to an attendee. Possible values: o SendReceive o Send o Receive o None Video -&gt; (string) [required] The video capability assigned to an attendee. Possible values: o SendReceive o Send o Receive o None Content -&gt; (string) [required] The content capability assigned to an attendee. Possible values: o SendReceive o Send o Receive o None Shorthand Syntax: ExternalUserId=string,Capabilities={Audio=string,Video=string,Content=string} ... JSON Syntax: [ { "ExternalUserId": "string", "Capabilities": { "Audio": "SendReceive"|"Send"|"Receive"|"None", "Video": "SendReceive"|"Send"|"Receive"|"None", "Content": "SendReceive"|"Send"|"Receive"|"None" } } ... ]</param>
+    /// <param name="MediaRegion">The Region in which to create the meeting. Available values: af-south-1 , ap-northeast-1 , ap-northeast-2 , ap-south-1 , ap-southeast-1 , ap-southeast-2 , ca-central-1 , eu-central-1 , eu-north-1 , eu-south-1 , eu-west-1 , eu-west-2 , eu-west-3 , sa-east-1 , us-east-1 , us-east-2 , us-west-1 , us-west-2 . Available values in Amazon Web Services GovCloud (US) Regions: us-gov-east-1 , us-gov-west-1 . Constraints: • min: 2 • max: 64</param>
+    /// <param name="ExternalMeetingId">The external meeting ID. Pattern: [-_&amp;@+=,(){}\[\]\/.:|'"#a-zA-Z0-9-\s]* Values that begin with aws: are reserved. You can't configure a value that uses this prefix. Case insensitive. Constraints: • min: 2 • max: 64</param>
+    /// <param name="Attendees">The attendee information, including attendees' IDs and join tokens. Constraints: • min: 1 • max: 20 (structure) The Amazon Chime SDK attendee fields to create, used with the BatchCreateAttendee action. ExternalUserId -&gt; (string) [required] The Amazon Chime SDK external user ID. An idempotency token. Links the attendee to an identity managed by a builder application. Pattern: [-_&amp;@+=,(){}\[\]\/.:|'"#a-zA-Z0-9-\s]* Values that begin with aws: are reserved. You can't configure a value that uses this prefix. Case insensitive. Constraints: • min: 2 • max: 64 Capabilities -&gt; (structure) A list of one or more capabilities. Audio -&gt; (string) [required] The audio capability assigned to an attendee. Possible values: • SendReceive • Send • Receive • None Video -&gt; (string) [required] The video capability assigned to an attendee. Possible values: • SendReceive • Send • Receive • None Content -&gt; (string) [required] The content capability assigned to an attendee. Possible values: • SendReceive • Send • Receive • None Shorthand Syntax: ExternalUserId=string,Capabilities={Audio=string,Video=string,Content=string} ... JSON Syntax: [ { "ExternalUserId": "string", "Capabilities": { "Audio": "SendReceive"|"Send"|"Receive"|"None", "Video": "SendReceive"|"Send"|"Receive"|"None", "Content": "SendReceive"|"Send"|"Receive"|"None" } } ... ]</param>
     public AwsChimeSdkMeetingsCreateMeetingWithAttendeesOptions(
         string MediaRegion,
         string ExternalMeetingId,
@@ -77,68 +78,68 @@ public record AwsChimeSdkMeetingsCreateMeetingWithAttendeesOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Region in which to create the meeting. Available values: af-south-1 , ap-northeast-1 , ap-northeast-2 , ap-south-1 , ap-southeast-1 , ap-southeast-2 , ca-central-1 , eu-central-1 , eu-north-1 , eu-south-1 , eu-west-1 , eu-west-2 , eu-west-3 , sa-east-1 , us-east-1 , us-east-2 , us-west-1 , us-west-2 . Available values in Amazon Web Services GovCloud (US) Regions: us-gov-east-1 , us-gov-west-1 . Constraints: o min: 2 o max: 64
+    /// The Region in which to create the meeting. Available values: af-south-1 , ap-northeast-1 , ap-northeast-2 , ap-south-1 , ap-southeast-1 , ap-southeast-2 , ca-central-1 , eu-central-1 , eu-north-1 , eu-south-1 , eu-west-1 , eu-west-2 , eu-west-3 , sa-east-1 , us-east-1 , us-east-2 , us-west-1 , us-west-2 . Available values in Amazon Web Services GovCloud (US) Regions: us-gov-east-1 , us-gov-west-1 . Constraints: • min: 2 • max: 64
     /// </summary>
     [CliOption("--media-region")]
     public string? MediaRegion { get; private init; }
 
     /// <summary>
-    /// The external meeting ID. Pattern: [-_&amp;@+=,(){}\[\]\/.:|'"#a-zA-Z0-9-\s]* Values that begin with aws: are reserved. You can't configure a value that uses this prefix. Case insensitive. Constraints: o min: 2 o max: 64
+    /// The external meeting ID. Pattern: [-_&amp;@+=,(){}\[\]\/.:|'"#a-zA-Z0-9-\s]* Values that begin with aws: are reserved. You can't configure a value that uses this prefix. Case insensitive. Constraints: • min: 2 • max: 64
     /// </summary>
     [CliOption("--external-meeting-id")]
     public string? ExternalMeetingId { get; private init; }
 
     /// <summary>
-    /// The attendee information, including attendees' IDs and join tokens. Constraints: o min: 1 o max: 20 (structure) The Amazon Chime SDK attendee fields to create, used with the BatchCreateAttendee action. ExternalUserId -&gt; (string) [required] The Amazon Chime SDK external user ID. An idempotency token. Links the attendee to an identity managed by a builder appli- cation. Pattern: [-_&amp;@+=,(){}\[\]\/.:|'"#a-zA-Z0-9-\s]* Values that begin with aws: are reserved. You can't configure a value that uses this prefix. Case insensitive. Constraints: o min: 2 o max: 64 Capabilities -&gt; (structure) A list of one or more capabilities. Audio -&gt; (string) [required] The audio capability assigned to an attendee. Possible values: o SendReceive o Send o Receive o None Video -&gt; (string) [required] The video capability assigned to an attendee. Possible values: o SendReceive o Send o Receive o None Content -&gt; (string) [required] The content capability assigned to an attendee. Possible values: o SendReceive o Send o Receive o None Shorthand Syntax: ExternalUserId=string,Capabilities={Audio=string,Video=string,Content=string} ... JSON Syntax: [ { "ExternalUserId": "string", "Capabilities": { "Audio": "SendReceive"|"Send"|"Receive"|"None", "Video": "SendReceive"|"Send"|"Receive"|"None", "Content": "SendReceive"|"Send"|"Receive"|"None" } } ... ]
+    /// The attendee information, including attendees' IDs and join tokens. Constraints: • min: 1 • max: 20 (structure) The Amazon Chime SDK attendee fields to create, used with the BatchCreateAttendee action. ExternalUserId -&gt; (string) [required] The Amazon Chime SDK external user ID. An idempotency token. Links the attendee to an identity managed by a builder application. Pattern: [-_&amp;@+=,(){}\[\]\/.:|'"#a-zA-Z0-9-\s]* Values that begin with aws: are reserved. You can't configure a value that uses this prefix. Case insensitive. Constraints: • min: 2 • max: 64 Capabilities -&gt; (structure) A list of one or more capabilities. Audio -&gt; (string) [required] The audio capability assigned to an attendee. Possible values: • SendReceive • Send • Receive • None Video -&gt; (string) [required] The video capability assigned to an attendee. Possible values: • SendReceive • Send • Receive • None Content -&gt; (string) [required] The content capability assigned to an attendee. Possible values: • SendReceive • Send • Receive • None Shorthand Syntax: ExternalUserId=string,Capabilities={Audio=string,Video=string,Content=string} ... JSON Syntax: [ { "ExternalUserId": "string", "Capabilities": { "Audio": "SendReceive"|"Send"|"Receive"|"None", "Video": "SendReceive"|"Send"|"Receive"|"None", "Content": "SendReceive"|"Send"|"Receive"|"None" } } ... ]
     /// </summary>
     [CliOption("--attendees", GroupValues = true)]
     public IEnumerable<string>? Attendees { get; private init; }
 
     /// <summary>
-    /// The unique identifier for the client request. Use a different token for different meetings. Constraints: o min: 2 o max: 64 o pattern: [-_a-zA-Z0-9]*
+    /// The unique identifier for the client request. Use a different token for different meetings. Constraints: • min: 2 • max: 64 • pattern: [-_a-zA-Z0-9]*
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
     /// <summary>
-    /// Reserved. Constraints: o min: 2 o max: 64
+    /// Reserved. Constraints: • min: 2 • max: 64
     /// </summary>
     [CliOption("--meeting-host-id")]
     public string? MeetingHostId { get; set; }
 
     /// <summary>
-    /// Lists the audio and video features enabled for a meeting, such as echo reduction. Audio -&gt; (structure) The configuration settings for the audio features available to a meeting. EchoReduction -&gt; (string) Makes echo reduction available to clients who connect to the meeting. Possible values: o AVAILABLE o UNAVAILABLE Video -&gt; (structure) The configuration settings for the video features available to a meeting. MaxResolution -&gt; (string) The maximum video resolution for the meeting. Applies to all attendees. NOTE: Defaults to HD . To use FHD , you must also provide a MeetingFeatures:Attendee:MaxCount value and override the default size limit of 250 attendees. Possible values: o None o HD o FHD Content -&gt; (structure) The configuration settings for the content features available to a meeting. MaxResolution -&gt; (string) The maximum resolution for the meeting content. NOTE: Defaults to FHD . To use UHD , you must also provide a MeetingFeatures:Attendee:MaxCount value and override the default size limit of 250 attendees. Possible values: o None o FHD o UHD Attendee -&gt; (structure) The configuration settings for the attendee features available to a meeting. MaxCount -&gt; (integer) The maximum number of attendees allowed into the meeting. Constraints: o min: 1 o max: 250 Shorthand Syntax: Audio={EchoReduction=string},Video={MaxResolution=string},Content={MaxResolution=string},Attendee={MaxCount=integer} JSON Syntax: { "Audio": { "EchoReduction": "AVAILABLE"|"UNAVAILABLE" }, "Video": { "MaxResolution": "None"|"HD"|"FHD" }, "Content": { "MaxResolution": "None"|"FHD"|"UHD" }, "Attendee": { "MaxCount": integer } }
+    /// Lists the audio and video features enabled for a meeting, such as echo reduction. Audio -&gt; (structure) The configuration settings for the audio features available to a meeting. EchoReduction -&gt; (string) Makes echo reduction available to clients who connect to the meeting. Possible values: • AVAILABLE • UNAVAILABLE Video -&gt; (structure) The configuration settings for the video features available to a meeting. MaxResolution -&gt; (string) The maximum video resolution for the meeting. Applies to all attendees. NOTE: Defaults to HD . To use FHD , you must also provide a MeetingFeatures:Attendee:MaxCount value and override the default size limit of 250 attendees. Possible values: • None • HD • FHD Content -&gt; (structure) The configuration settings for the content features available to a meeting. MaxResolution -&gt; (string) The maximum resolution for the meeting content. NOTE: Defaults to FHD . To use UHD , you must also provide a MeetingFeatures:Attendee:MaxCount value and override the default size limit of 250 attendees. Possible values: • None • FHD • UHD Attendee -&gt; (structure) The configuration settings for the attendee features available to a meeting. MaxCount -&gt; (integer) The maximum number of attendees allowed into the meeting. Constraints: • min: 1 • max: 250 Shorthand Syntax: Audio={EchoReduction=string},Video={MaxResolution=string},Content={MaxResolution=string},Attendee={MaxCount=integer} JSON Syntax: { "Audio": { "EchoReduction": "AVAILABLE"|"UNAVAILABLE" }, "Video": { "MaxResolution": "None"|"HD"|"FHD" }, "Content": { "MaxResolution": "None"|"FHD"|"UHD" }, "Attendee": { "MaxCount": integer } }
     /// </summary>
     [CliOption("--meeting-features")]
     public string? MeetingFeatures { get; set; }
 
     /// <summary>
-    /// The configuration for resource targets to receive notifications when meeting and attendee events occur. LambdaFunctionArn -&gt; (string) The ARN of the Amazon Web Services Lambda function in the noti- fications configuration. Constraints: o min: 1 o max: 1024 o pattern: ^arn[\/\:\-\_\.a-zA-Z0-9]+$ SnsTopicArn -&gt; (string) The ARN of the SNS topic. Constraints: o min: 1 o max: 1024 o pattern: ^arn[\/\:\-\_\.a-zA-Z0-9]+$ SqsQueueArn -&gt; (string) The ARN of the SQS queue. Constraints: o min: 1 o max: 1024 o pattern: ^arn[\/\:\-\_\.a-zA-Z0-9]+$ Shorthand Syntax: LambdaFunctionArn=string,SnsTopicArn=string,SqsQueueArn=string JSON Syntax: { "LambdaFunctionArn": "string", "SnsTopicArn": "string", "SqsQueueArn": "string" }
+    /// The configuration for resource targets to receive notifications when meeting and attendee events occur. LambdaFunctionArn -&gt; (string) The ARN of the Amazon Web Services Lambda function in the notifications configuration. Constraints: • min: 1 • max: 1024 • pattern: ^arn[\/\:\-\_\.a-zA-Z0-9]+$ SnsTopicArn -&gt; (string) The ARN of the SNS topic. Constraints: • min: 1 • max: 1024 • pattern: ^arn[\/\:\-\_\.a-zA-Z0-9]+$ SqsQueueArn -&gt; (string) The ARN of the SQS queue. Constraints: • min: 1 • max: 1024 • pattern: ^arn[\/\:\-\_\.a-zA-Z0-9]+$ Shorthand Syntax: LambdaFunctionArn=string,SnsTopicArn=string,SqsQueueArn=string JSON Syntax: { "LambdaFunctionArn": "string", "SnsTopicArn": "string", "SqsQueueArn": "string" }
     /// </summary>
     [CliOption("--notifications-configuration")]
     public string? NotificationsConfiguration { get; set; }
 
     /// <summary>
-    /// When specified, replicates the media from the primary meeting to the new meeting. Constraints: o min: 2 o max: 64
+    /// When specified, replicates the media from the primary meeting to the new meeting. Constraints: • min: 2 • max: 64
     /// </summary>
     [CliOption("--primary-meeting-id")]
     public string? PrimaryMeetingId { get; set; }
 
     /// <summary>
-    /// A consistent and opaque identifier, created and maintained by the builder to represent a segment of their users. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 2 o max: 256 o pattern: ^(?!.*?(.)\1{3})[-_!@#$a-zA-Z0-9]*$ Syntax: "string" "string" ...
+    /// A consistent and opaque identifier, created and maintained by the builder to represent a segment of their users. Constraints: • min: 1 • max: 5 (string) Constraints: • min: 2 • max: 256 • pattern: ^(?!.*?(.)\1{3})[-_!@#$a-zA-Z0-9]*$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tenant-ids", GroupValues = true)]
     public IEnumerable<string>? TenantIds { get; set; }
 
     /// <summary>
-    /// The tags in the request. Constraints: o min: 0 o max: 50 (structure) A key-value pair that you define. Key -&gt; (string) [required] The tag's key. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z+-=._:/]+$ Value -&gt; (string) [required] The tag's value. Constraints: o min: 0 o max: 256 o pattern: [\s\w+-=\.:/@]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tags in the request. Constraints: • min: 0 • max: 50 (structure) A key-value pair that you define. Key -&gt; (string) [required] The tag's key. Constraints: • min: 1 • max: 128 • pattern: ^[a-zA-Z+-=._:/]+$ Value -&gt; (string) [required] The tag's value. Constraints: • min: 0 • max: 256 • pattern: [\s\w+-=\.:/@]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// The type of network for the media placement. Either IPv4 only or dual-stack (IPv4 and IPv6). Possible values: o Ipv4Only o DualStack
+    /// The type of network for the media placement. Either IPv4 only or dual-stack (IPv4 and IPv6). Possible values: • Ipv4Only • DualStack
     /// </summary>
     [CliOption("--media-placement-network-type")]
     public AwsChimeSdkMeetingsCreateMeetingWithAttendeesMediaPlacementNetworkType? MediaPlacementNetworkType { get; set; }
@@ -164,6 +165,15 @@ public record AwsChimeSdkMeetingsCreateMeetingWithAttendeesOptions : AwsOptions,
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

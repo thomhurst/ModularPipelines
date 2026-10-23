@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsSagemakerDescribeModelCardOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Describes the content, creation time, and security configuration of an Amazon SageMaker Model Card. WARNING: To retrieve only metadata about a model card without requiring kms:Decrypt permission on the associated customer-managed Amazon Web Services KMS key, set IncludedData to MetadataOnly . The default is AllData , which returns the full model card Content and requires kms:Decrypt permission when a customer-managed key is configured. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ModelCardName">The name or Amazon Resource Name (ARN) of the model card to de- scribe. Constraints: o min: 1 o max: 256 o pattern: (arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:[0-9]{12}:model-card/.*)?([a-zA-Z0-9](-*[a-zA-Z0-9]){0,62})</param>
+    /// <param name="ModelCardName">The name or Amazon Resource Name (ARN) of the model card to describe. Constraints: • min: 1 • max: 256 • pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:model-card/.*)?([a-zA-Z0-9](-*[a-zA-Z0-9]){0,62})</param>
     public AwsSagemakerDescribeModelCardOptions(
         string ModelCardName
     )
@@ -57,19 +58,19 @@ public record AwsSagemakerDescribeModelCardOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name or Amazon Resource Name (ARN) of the model card to de- scribe. Constraints: o min: 1 o max: 256 o pattern: (arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:[0-9]{12}:model-card/.*)?([a-zA-Z0-9](-*[a-zA-Z0-9]){0,62})
+    /// The name or Amazon Resource Name (ARN) of the model card to describe. Constraints: • min: 1 • max: 256 • pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:model-card/.*)?([a-zA-Z0-9](-*[a-zA-Z0-9]){0,62})
     /// </summary>
     [CliOption("--model-card-name")]
     public string? ModelCardName { get; private init; }
 
     /// <summary>
-    /// The version of the model card to describe. If a version is not pro- vided, then the latest version of the model card is described.
+    /// The version of the model card to describe. If a version is not provided, then the latest version of the model card is described.
     /// </summary>
     [CliOption("--model-card-version")]
     public int? ModelCardVersion { get; set; }
 
     /// <summary>
-    /// Specifies the level of model card data to include in the response. Use this parameter to call DescribeModelCard without requiring kms:Decrypt permission on the customer-managed Amazon Web Services KMS key. o AllData : Returns the full model card Content . This option re- quires kms:Decrypt permission on the customer-managed key, if one is associated with the model card. This is the default. o MetadataOnly : Returns the model card with sanitized Content that includes only a small set of unencrypted metadata fields. This op- tion does not require kms:Decrypt permission. For the list of fields preserved in the response, see Content . If you don't specify a value, SageMaker returns AllData . Possible values: o AllData o MetadataOnly
+    /// Specifies the level of model card data to include in the response. Use this parameter to call DescribeModelCard without requiring kms:Decrypt permission on the customer-managed Amazon Web Services KMS key. • AllData : Returns the full model card Content . This option requires kms:Decrypt permission on the customer-managed key, if one is associated with the model card. This is the default. • MetadataOnly : Returns the model card with sanitized Content that includes only a small set of unencrypted metadata fields. This option does not require kms:Decrypt permission. For the list of fields preserved in the response, see Content . If you don't specify a value, SageMaker returns AllData . Possible values: • AllData • MetadataOnly
     /// </summary>
     [CliOption("--included-data")]
     public AwsSagemakerDescribeModelCardIncludedData? IncludedData { get; set; }
@@ -95,6 +96,15 @@ public record AwsSagemakerDescribeModelCardOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsIottwinmakerListComponentTypesOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Lists all component types in a workspace. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkspaceId">The ID of the workspace. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+</param>
+    /// <param name="WorkspaceId">The ID of the workspace. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+</param>
     public AwsIottwinmakerListComponentTypesOptions(
         string WorkspaceId
     )
@@ -57,26 +58,26 @@ public record AwsIottwinmakerListComponentTypesOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the workspace. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+
+    /// The ID of the workspace. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+
     /// </summary>
     [CliOption("--workspace-id")]
     public string? WorkspaceId { get; private init; }
 
     /// <summary>
-    /// A list of objects that filter the request. (tagged union structure) An object that filters items in a list of component types. NOTE: Only one object is accepted as a valid input. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: extendsFrom, namespace, isAb- stract. extendsFrom -&gt; (string) The component type that the component types in the list ex- tend. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z_\.\-0-9:]+ namespace -&gt; (string) The namespace to which the component types in the list be- long. Constraints: o min: 1 o max: 256 o pattern: .* isAbstract -&gt; (boolean) A Boolean value that specifies whether the component types in the list are abstract. Shorthand Syntax: extendsFrom=string,namespace=string,isAbstract=boolean ... JSON Syntax: [ { "extendsFrom": "string", "namespace": "string", "isAbstract": true|false } ... ]
+    /// A list of objects that filter the request. (tagged union structure) An object that filters items in a list of component types. NOTE: Only one object is accepted as a valid input. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: extendsFrom, namespace, isAbstract. extendsFrom -&gt; (string) The component type that the component types in the list extend. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z_\.\-0-9:]+ namespace -&gt; (string) The namespace to which the component types in the list belong. Constraints: • min: 1 • max: 256 • pattern: .* isAbstract -&gt; (boolean) A Boolean value that specifies whether the component types in the list are abstract. Shorthand Syntax: extendsFrom=string,namespace=string,isAbstract=boolean ... JSON Syntax: [ { "extendsFrom": "string", "namespace": "string", "isAbstract": true|false } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
-    /// The string that specifies the next page of results. Constraints: o min: 0 o max: 17880 o pattern: .*
+    /// The string that specifies the next page of results. Constraints: • min: 0 • max: 17880 • pattern: .*
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return at one time. The default is 25. Valid Range: Minimum value of 1. Maximum value of 250. Constraints: o min: 0 o max: 200
+    /// The maximum number of results to return at one time. The default is 25. Valid Range: Minimum value of 1. Maximum value of 250. Constraints: • min: 0 • max: 200
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -102,6 +103,15 @@ public record AwsIottwinmakerListComponentTypesOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

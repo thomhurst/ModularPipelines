@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -63,19 +64,19 @@ public record AwsBatchUpdateConsumableResourceOptions : AwsOptions, IValidatable
     public string? ConsumableResource { get; private init; }
 
     /// <summary>
-    /// Indicates how the quantity of the consumable resource will be up- dated. Must be one of: o SET Sets the quantity of the resource to the value specified by the quantity parameter. o ADD Increases the quantity of the resource by the value speci- fied by the quantity parameter. o REMOVE Reduces the quantity of the resource by the value speci- fied by the quantity parameter.
+    /// Indicates how the quantity of the consumable resource will be updated. Must be one of: • SET Sets the quantity of the resource to the value specified by the quantity parameter. • ADD Increases the quantity of the resource by the value specified by the quantity parameter. • REMOVE Reduces the quantity of the resource by the value specified by the quantity parameter.
     /// </summary>
     [CliOption("--operation")]
     public string? Operation { get; set; }
 
     /// <summary>
-    /// The change in the total quantity of the consumable resource. The op- eration parameter determines whether the value specified here will be the new total quantity, or the amount by which the total quantity will be increased or reduced. Must be a non-negative value.
+    /// The change in the total quantity of the consumable resource. The operation parameter determines whether the value specified here will be the new total quantity, or the amount by which the total quantity will be increased or reduced. Must be a non-negative value.
     /// </summary>
     [CliOption("--quantity")]
-    public int? Quantity { get; set; }
+    public long? Quantity { get; set; }
 
     /// <summary>
-    /// If this parameter is specified and two update requests with identi- cal payloads and clientToken s are received, these requests are con- sidered the same request. Both requests will succeed, but the update will only happen once. A clientToken is valid for 8 hours. Constraints: o min: 1 o max: 64
+    /// If this parameter is specified and two update requests with identical payloads and clientToken s are received, these requests are considered the same request. Both requests will succeed, but the update will only happen once. A clientToken is valid for 8 hours. Constraints: • min: 1 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -102,6 +103,15 @@ public record AwsBatchUpdateConsumableResourceOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

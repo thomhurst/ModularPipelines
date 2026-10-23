@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes the association between one or more provided tags and a notifi- cation rule. See also: AWS API Documentation
+/// Removes the association between one or more provided tags and a notification rule. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsCodestarNotificationsUntagResourceOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes the association between one or more provided tags and a notifi- cation rule. See also: AWS API Documentation
+    /// Removes the association between one or more provided tags and a notification rule. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The Amazon Resource Name (ARN) of the notification rule from which to remove the tags. Constraints: o pattern: ^arn:aws[^:\s]*:codestar-notifications:[^:\s]+:\d{12}:no- tificationrule\/(.*\S)?$</param>
-    /// <param name="TagKeys">The key names of the tags to remove. (string) Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...</param>
+    /// <param name="Arn">The Amazon Resource Name (ARN) of the notification rule from which to remove the tags. Constraints: • pattern: ^arn:aws[^:\s]*:codestar-notifications:[^:\s]+:\d{12}:notificationrule\/(.*\S)?$</param>
+    /// <param name="TagKeys">The key names of the tags to remove. (string) Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...</param>
     public AwsCodestarNotificationsUntagResourceOptions(
         string Arn,
         IEnumerable<string> TagKeys
@@ -71,13 +72,13 @@ public record AwsCodestarNotificationsUntagResourceOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the notification rule from which to remove the tags. Constraints: o pattern: ^arn:aws[^:\s]*:codestar-notifications:[^:\s]+:\d{12}:no- tificationrule\/(.*\S)?$
+    /// The Amazon Resource Name (ARN) of the notification rule from which to remove the tags. Constraints: • pattern: ^arn:aws[^:\s]*:codestar-notifications:[^:\s]+:\d{12}:notificationrule\/(.*\S)?$
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// The key names of the tags to remove. (string) Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...
+    /// The key names of the tags to remove. (string) Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }
@@ -103,6 +104,15 @@ public record AwsCodestarNotificationsUntagResourceOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

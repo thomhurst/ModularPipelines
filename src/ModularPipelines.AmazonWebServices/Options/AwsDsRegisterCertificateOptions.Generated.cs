@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Registers a certificate for a secure LDAP or client certificate authen- tication. See also: AWS API Documentation
+/// Registers a certificate for a secure LDAP or client certificate authentication. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsDsRegisterCertificateOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Registers a certificate for a secure LDAP or client certificate authen- tication. See also: AWS API Documentation
+    /// Registers a certificate for a secure LDAP or client certificate authentication. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DirectoryId">The identifier of the directory. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
-    /// <param name="CertificateData">The certificate PEM string that needs to be registered. Constraints: o min: 1 o max: 8192</param>
+    /// <param name="DirectoryId">The identifier of the directory. Constraints: • pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="CertificateData">The certificate PEM string that needs to be registered. Constraints: • min: 1 • max: 8192</param>
     public AwsDsRegisterCertificateOptions(
         string DirectoryId,
         string CertificateData
@@ -61,25 +62,25 @@ public record AwsDsRegisterCertificateOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the directory. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// The identifier of the directory. Constraints: • pattern: ^d-[0-9a-f]{10}$
     /// </summary>
     [CliOption("--directory-id")]
     public string? DirectoryId { get; private init; }
 
     /// <summary>
-    /// The certificate PEM string that needs to be registered. Constraints: o min: 1 o max: 8192
+    /// The certificate PEM string that needs to be registered. Constraints: • min: 1 • max: 8192
     /// </summary>
     [CliOption("--certificate-data")]
     public string? CertificateData { get; private init; }
 
     /// <summary>
-    /// The function that the registered certificate performs. Valid values include ClientLDAPS or ClientCertAuth . The default value is ClientLDAPS . Possible values: o ClientCertAuth o ClientLDAPS
+    /// The function that the registered certificate performs. Valid values include ClientLDAPS or ClientCertAuth . The default value is ClientLDAPS . Possible values: • ClientCertAuth • ClientLDAPS
     /// </summary>
     [CliOption("--type")]
     public AwsDsRegisterCertificateType? Type { get; set; }
 
     /// <summary>
-    /// A ClientCertAuthSettings object that contains client certificate au- thentication settings. OCSPUrl -&gt; (string) Specifies the URL of the default OCSP server used to check for revocation status. A secondary value to any OCSP address found in the AIA extension of the user certificate. Constraints: o min: 1 o max: 1024 o pattern: ^(https?|ftp|file|ldaps?)://[-a-zA-Z0-9+&amp;@#/%?=~_|!:,.;()]*[-a-zA-Z0-9+&amp;@#/%=~_|()] Shorthand Syntax: OCSPUrl=string JSON Syntax: { "OCSPUrl": "string" }
+    /// A ClientCertAuthSettings object that contains client certificate authentication settings. OCSPUrl -&gt; (string) Specifies the URL of the default OCSP server used to check for revocation status. A secondary value to any OCSP address found in the AIA extension of the user certificate. Constraints: • min: 1 • max: 1024 • pattern: ^(https?|ftp|file|ldaps?)://[-a-zA-Z0-9+&amp;@#/%?=~_|!:,.;()]*[-a-zA-Z0-9+&amp;@#/%=~_|()] Shorthand Syntax: OCSPUrl=string JSON Syntax: { "OCSPUrl": "string" }
     /// </summary>
     [CliOption("--client-cert-auth-settings")]
     public string? ClientCertAuthSettings { get; set; }
@@ -105,6 +106,15 @@ public record AwsDsRegisterCertificateOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

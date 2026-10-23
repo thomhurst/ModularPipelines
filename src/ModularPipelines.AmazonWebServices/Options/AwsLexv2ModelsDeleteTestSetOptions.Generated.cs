@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsLexv2ModelsDeleteTestSetOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// The action to delete the selected test set. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TestSetId">The test set Id of the test set to be deleted. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="TestSetId">The test set Id of the test set to be deleted. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$</param>
     public AwsLexv2ModelsDeleteTestSetOptions(
         string TestSetId
     )
@@ -56,7 +57,7 @@ public record AwsLexv2ModelsDeleteTestSetOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The test set Id of the test set to be deleted. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The test set Id of the test set to be deleted. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--test-set-id")]
     public string? TestSetId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsLexv2ModelsDeleteTestSetOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

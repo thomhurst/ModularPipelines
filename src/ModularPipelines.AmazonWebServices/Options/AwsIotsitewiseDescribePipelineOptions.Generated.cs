@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves detailed information about a specific pipeline in a work- space. See also: AWS API Documentation
+/// Retrieves detailed information about a specific pipeline in a workspace. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsIotsitewiseDescribePipelineOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves detailed information about a specific pipeline in a work- space. See also: AWS API Documentation
+    /// Retrieves detailed information about a specific pipeline in a workspace. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkspaceName">The name of the workspace. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
-    /// <param name="PipelineName">The name of the pipeline. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="WorkspaceName">The name of the workspace. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="PipelineName">The name of the pipeline. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+</param>
     public AwsIotsitewiseDescribePipelineOptions(
         string WorkspaceName,
         string PipelineName
@@ -60,19 +61,19 @@ public record AwsIotsitewiseDescribePipelineOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the workspace. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The name of the workspace. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--workspace-name")]
     public string? WorkspaceName { get; private init; }
 
     /// <summary>
-    /// The name of the pipeline. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+
+    /// The name of the pipeline. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--pipeline-name")]
     public string? PipelineName { get; private init; }
 
     /// <summary>
-    /// The version number of the pipeline to retrieve. If not specified, returns the latest version. Constraints: o min: 1 o max: 10 o pattern: ^(0|([1-9]{1}\d*))$
+    /// The version number of the pipeline to retrieve. If not specified, returns the latest version. Constraints: • min: 1 • max: 10 • pattern: ^(0|([1-9]{1}\d*))$
     /// </summary>
     [CliOption("--pipeline-version")]
     public string? PipelineVersion { get; set; }
@@ -98,6 +99,15 @@ public record AwsIotsitewiseDescribePipelineOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

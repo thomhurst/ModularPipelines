@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Submits feedback about the status of an instance. The instance must be in the running state. If your experience with the instance differs from the instance status returned by DescribeInstanceStatus , use Re- portInstanceStatus to report your experience with the instance. Amazon EC2 collects this information to improve the accuracy of status checks. Use of this action does not change the value returned by DescribeIn- stanceStatus . See also: AWS API Documentation
+/// Submits feedback about the status of an instance. The instance must be in the running state. If your experience with the instance differs from the instance status returned by DescribeInstanceStatus , use ReportInstanceStatus to report your experience with the instance. Amazon EC2 collects this information to improve the accuracy of status checks. Use of this action does not change the value returned by DescribeInstanceStatus . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsEc2ReportInstanceStatusOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Submits feedback about the status of an instance. The instance must be in the running state. If your experience with the instance differs from the instance status returned by DescribeInstanceStatus , use Re- portInstanceStatus to report your experience with the instance. Amazon EC2 collects this information to improve the accuracy of status checks. Use of this action does not change the value returned by DescribeIn- stanceStatus . See also: AWS API Documentation
+    /// Submits feedback about the status of an instance. The instance must be in the running state. If your experience with the instance differs from the instance status returned by DescribeInstanceStatus , use ReportInstanceStatus to report your experience with the instance. Amazon EC2 collects this information to improve the accuracy of status checks. Use of this action does not change the value returned by DescribeInstanceStatus . See also: AWS API Documentation
     /// </summary>
     /// <param name="Instances">The instances. (string) Syntax: "string" "string" ...</param>
-    /// <param name="Status">The status of all instances listed. Possible values: o ok o impaired</param>
-    /// <param name="ReasonCodes">The reason codes that describe the health state of your instance. o instance-stuck-in-state : My instance is stuck in a state. o unresponsive : My instance is unresponsive. o not-accepting-credentials : My instance is not accepting my cre- dentials. o password-not-available : A password is not available for my in- stance. o performance-network : My instance is experiencing performance problems that I believe are network related. o performance-instance-store : My instance is experiencing perfor- mance problems that I believe are related to the instance stores. o performance-ebs-volume : My instance is experiencing performance problems that I believe are related to an EBS volume. o performance-other : My instance is experiencing performance prob- lems. o other : [explain using the description parameter] (string) Possible values: o instance-stuck-in-state o unresponsive o not-accepting-credentials o password-not-available o performance-network o performance-instance-store o performance-ebs-volume o performance-other o other Syntax: "string" "string" ...</param>
+    /// <param name="Status">The status of all instances listed. Possible values: • ok • impaired</param>
+    /// <param name="ReasonCodes">The reason codes that describe the health state of your instance. • instance-stuck-in-state : My instance is stuck in a state. • unresponsive : My instance is unresponsive. • not-accepting-credentials : My instance is not accepting my credentials. • password-not-available : A password is not available for my instance. • performance-network : My instance is experiencing performance problems that I believe are network related. • performance-instance-store : My instance is experiencing performance problems that I believe are related to the instance stores. • performance-ebs-volume : My instance is experiencing performance problems that I believe are related to an EBS volume. • performance-other : My instance is experiencing performance problems. • other : [explain using the description parameter] (string) Possible values: • instance-stuck-in-state • unresponsive • not-accepting-credentials • password-not-available • performance-network • performance-instance-store • performance-ebs-volume • performance-other • other Syntax: "string" "string" ...</param>
     public AwsEc2ReportInstanceStatusOptions(
         IEnumerable<string> Instances,
         AwsEc2ReportInstanceStatusStatus Status,
@@ -92,19 +93,19 @@ public record AwsEc2ReportInstanceStatusOptions : AwsOptions, IValidatableObject
     public IEnumerable<string>? Instances { get; private init; }
 
     /// <summary>
-    /// The status of all instances listed. Possible values: o ok o impaired
+    /// The status of all instances listed. Possible values: • ok • impaired
     /// </summary>
     [CliOption("--status")]
     public AwsEc2ReportInstanceStatusStatus? Status { get; private init; }
 
     /// <summary>
-    /// The reason codes that describe the health state of your instance. o instance-stuck-in-state : My instance is stuck in a state. o unresponsive : My instance is unresponsive. o not-accepting-credentials : My instance is not accepting my cre- dentials. o password-not-available : A password is not available for my in- stance. o performance-network : My instance is experiencing performance problems that I believe are network related. o performance-instance-store : My instance is experiencing perfor- mance problems that I believe are related to the instance stores. o performance-ebs-volume : My instance is experiencing performance problems that I believe are related to an EBS volume. o performance-other : My instance is experiencing performance prob- lems. o other : [explain using the description parameter] (string) Possible values: o instance-stuck-in-state o unresponsive o not-accepting-credentials o password-not-available o performance-network o performance-instance-store o performance-ebs-volume o performance-other o other Syntax: "string" "string" ...
+    /// The reason codes that describe the health state of your instance. • instance-stuck-in-state : My instance is stuck in a state. • unresponsive : My instance is unresponsive. • not-accepting-credentials : My instance is not accepting my credentials. • password-not-available : A password is not available for my instance. • performance-network : My instance is experiencing performance problems that I believe are network related. • performance-instance-store : My instance is experiencing performance problems that I believe are related to the instance stores. • performance-ebs-volume : My instance is experiencing performance problems that I believe are related to an EBS volume. • performance-other : My instance is experiencing performance problems. • other : [explain using the description parameter] (string) Possible values: • instance-stuck-in-state • unresponsive • not-accepting-credentials • password-not-available • performance-network • performance-instance-store • performance-ebs-volume • performance-other • other Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--reason-codes", GroupValues = true)]
     public IEnumerable<string>? ReasonCodes { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -148,6 +149,15 @@ public record AwsEc2ReportInstanceStatusOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

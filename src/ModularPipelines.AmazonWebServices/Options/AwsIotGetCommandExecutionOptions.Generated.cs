@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets information about the specific command execution on a single de- vice. See also: AWS API Documentation
+/// Gets information about the specific command execution on a single device. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsIotGetCommandExecutionOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets information about the specific command execution on a single de- vice. See also: AWS API Documentation
+    /// Gets information about the specific command execution on a single device. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ExecutionId">The unique identifier for the command execution. This information is returned as a response of the StartCommandExecution API request. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+</param>
-    /// <param name="TargetArn">The Amazon Resource Number (ARN) of the device on which the command execution is being performed. Constraints: o max: 2048</param>
+    /// <param name="ExecutionId">The unique identifier for the command execution. This information is returned as a response of the StartCommandExecution API request. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="TargetArn">The Amazon Resource Number (ARN) of the device on which the command execution is being performed. Constraints: • max: 2048</param>
     public AwsIotGetCommandExecutionOptions(
         string ExecutionId,
         string TargetArn
@@ -60,13 +61,13 @@ public record AwsIotGetCommandExecutionOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the command execution. This information is returned as a response of the StartCommandExecution API request. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+
+    /// The unique identifier for the command execution. This information is returned as a response of the StartCommandExecution API request. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--execution-id")]
     public string? ExecutionId { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Number (ARN) of the device on which the command execution is being performed. Constraints: o max: 2048
+    /// The Amazon Resource Number (ARN) of the device on which the command execution is being performed. Constraints: • max: 2048
     /// </summary>
     [CliOption("--target-arn")]
     public string? TargetArn { get; private init; }
@@ -98,6 +99,15 @@ public record AwsIotGetCommandExecutionOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

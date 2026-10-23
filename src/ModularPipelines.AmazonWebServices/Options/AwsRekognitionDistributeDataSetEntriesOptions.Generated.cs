@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: This operation applies only to Amazon Rekognition Custom Labels. Distributes the entries (images) in a training dataset across the training dataset and the test dataset for a project. DistributeDatase- tEntries moves 20% of the training dataset images to the test dataset. An entry is a JSON Line that describes an image. You supply the Amazon Resource Names (ARN) of a project's training dataset and test dataset. The training dataset must contain the images that you want to split. The test d...
+/// NOTE: This operation applies only to Amazon Rekognition Custom Labels. Distributes the entries (images) in a training dataset across the training dataset and the test dataset for a project. DistributeDatasetEntries moves 20% of the training dataset images to the test dataset. An entry is a JSON Line that describes an image. You supply the Amazon Resource Names (ARN) of a project's training dataset and test dataset. The training dataset must contain the images that you want to split. The test dat...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsRekognitionDistributeDataSetEntriesOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: This operation applies only to Amazon Rekognition Custom Labels. Distributes the entries (images) in a training dataset across the training dataset and the test dataset for a project. DistributeDatase- tEntries moves 20% of the training dataset images to the test dataset. An entry is a JSON Line that describes an image. You supply the Amazon Resource Names (ARN) of a project's training dataset and test dataset. The training dataset must contain the images that you want to split. The test d...
+    /// NOTE: This operation applies only to Amazon Rekognition Custom Labels. Distributes the entries (images) in a training dataset across the training dataset and the test dataset for a project. DistributeDatasetEntries moves 20% of the training dataset images to the test dataset. An entry is a JSON Line that describes an image. You supply the Amazon Resource Names (ARN) of a project's training dataset and test dataset. The training dataset must contain the images that you want to split. The test dat...
     /// </summary>
-    /// <param name="Datasets">The ARNS for the training dataset and test dataset that you want to use. The datasets must belong to the same project. The test dataset must be empty. Constraints: o min: 2 o max: 2 (structure) A training dataset or a test dataset used in a dataset distribu- tion operation. For more information, see DistributeDatasetEn- tries . Arn -&gt; (string) [required] The Amazon Resource Name (ARN) of the dataset that you want to use. Constraints: o min: 20 o max: 2048 o pattern: (^arn:[a-z\d-]+:rekogni- tion:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/dataset\/(train|test)\/[0-9]+$) Shorthand Syntax: Arn=string ... JSON Syntax: [ { "Arn": "string" } ... ]</param>
+    /// <param name="Datasets">The ARNS for the training dataset and test dataset that you want to use. The datasets must belong to the same project. The test dataset must be empty. Constraints: • min: 2 • max: 2 (structure) A training dataset or a test dataset used in a dataset distribution operation. For more information, see DistributeDatasetEntries . Arn -&gt; (string) [required] The Amazon Resource Name (ARN) of the dataset that you want to use. Constraints: • min: 20 • max: 2048 • pattern: (^arn:[a-z\d-]+:rekognition:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/dataset\/(train|test)\/[0-9]+$) Shorthand Syntax: Arn=string ... JSON Syntax: [ { "Arn": "string" } ... ]</param>
     public AwsRekognitionDistributeDataSetEntriesOptions(
         IEnumerable<string> Datasets
     )
@@ -67,7 +68,7 @@ public record AwsRekognitionDistributeDataSetEntriesOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARNS for the training dataset and test dataset that you want to use. The datasets must belong to the same project. The test dataset must be empty. Constraints: o min: 2 o max: 2 (structure) A training dataset or a test dataset used in a dataset distribu- tion operation. For more information, see DistributeDatasetEn- tries . Arn -&gt; (string) [required] The Amazon Resource Name (ARN) of the dataset that you want to use. Constraints: o min: 20 o max: 2048 o pattern: (^arn:[a-z\d-]+:rekogni- tion:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/dataset\/(train|test)\/[0-9]+$) Shorthand Syntax: Arn=string ... JSON Syntax: [ { "Arn": "string" } ... ]
+    /// The ARNS for the training dataset and test dataset that you want to use. The datasets must belong to the same project. The test dataset must be empty. Constraints: • min: 2 • max: 2 (structure) A training dataset or a test dataset used in a dataset distribution operation. For more information, see DistributeDatasetEntries . Arn -&gt; (string) [required] The Amazon Resource Name (ARN) of the dataset that you want to use. Constraints: • min: 20 • max: 2048 • pattern: (^arn:[a-z\d-]+:rekognition:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/dataset\/(train|test)\/[0-9]+$) Shorthand Syntax: Arn=string ... JSON Syntax: [ { "Arn": "string" } ... ]
     /// </summary>
     [CliOption("--datasets", GroupValues = true)]
     public IEnumerable<string>? Datasets { get; private init; }
@@ -93,6 +94,15 @@ public record AwsRekognitionDistributeDataSetEntriesOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Adds a specified tag to a specified rescore execution plan. A rescore execution plan is an Amazon Kendra Intelligent Ranking resource used for provisioning the Rescore API. If the tag already exists, the exist- ing value is replaced with the new value. See also: AWS API Documentation
+/// Adds a specified tag to a specified rescore execution plan. A rescore execution plan is an Amazon Kendra Intelligent Ranking resource used for provisioning the Rescore API. If the tag already exists, the existing value is replaced with the new value. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsKendraRankingTagResourceOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Adds a specified tag to a specified rescore execution plan. A rescore execution plan is an Amazon Kendra Intelligent Ranking resource used for provisioning the Rescore API. If the tag already exists, the exist- ing value is replaced with the new value. See also: AWS API Documentation
+    /// Adds a specified tag to a specified rescore execution plan. A rescore execution plan is an Amazon Kendra Intelligent Ranking resource used for provisioning the Rescore API. If the tag already exists, the existing value is replaced with the new value. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the rescore execution plan to tag. Constraints: o min: 1 o max: 1011</param>
-    /// <param name="Tags">A list of tag keys to add to a rescore execution plan. If a tag al- ready exists, the existing value is replaced with the new value. Constraints: o min: 0 o max: 200 (structure) A key-value pair that identifies or categorizes a rescore execu- tion plan. A rescore execution plan is an Amazon Kendra Intelli- gent Ranking resource used for provisioning the Rescore API. You can also use a tag to help control access to a rescore execution plan. A tag key and value can consist of Unicode letters, dig- its, white space, and any of the following symbols: _ . : / = + - @. Key -&gt; (string) [required] The key for the tag. Keys are not case sensitive and must be unique. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value associated with the tag. The value can be an empty string but it can't be null. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the rescore execution plan to tag. Constraints: • min: 1 • max: 1011</param>
+    /// <param name="Tags">A list of tag keys to add to a rescore execution plan. If a tag already exists, the existing value is replaced with the new value. Constraints: • min: 0 • max: 200 (structure) A key-value pair that identifies or categorizes a rescore execution plan. A rescore execution plan is an Amazon Kendra Intelligent Ranking resource used for provisioning the Rescore API. You can also use a tag to help control access to a rescore execution plan. A tag key and value can consist of Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @. Key -&gt; (string) [required] The key for the tag. Keys are not case sensitive and must be unique. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] The value associated with the tag. The value can be an empty string but it can't be null. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
     public AwsKendraRankingTagResourceOptions(
         string ResourceArn,
         IEnumerable<string> Tags
@@ -71,13 +72,13 @@ public record AwsKendraRankingTagResourceOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the rescore execution plan to tag. Constraints: o min: 1 o max: 1011
+    /// The Amazon Resource Name (ARN) of the rescore execution plan to tag. Constraints: • min: 1 • max: 1011
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// A list of tag keys to add to a rescore execution plan. If a tag al- ready exists, the existing value is replaced with the new value. Constraints: o min: 0 o max: 200 (structure) A key-value pair that identifies or categorizes a rescore execu- tion plan. A rescore execution plan is an Amazon Kendra Intelli- gent Ranking resource used for provisioning the Rescore API. You can also use a tag to help control access to a rescore execution plan. A tag key and value can consist of Unicode letters, dig- its, white space, and any of the following symbols: _ . : / = + - @. Key -&gt; (string) [required] The key for the tag. Keys are not case sensitive and must be unique. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value associated with the tag. The value can be an empty string but it can't be null. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of tag keys to add to a rescore execution plan. If a tag already exists, the existing value is replaced with the new value. Constraints: • min: 0 • max: 200 (structure) A key-value pair that identifies or categorizes a rescore execution plan. A rescore execution plan is an Amazon Kendra Intelligent Ranking resource used for provisioning the Rescore API. You can also use a tag to help control access to a rescore execution plan. A tag key and value can consist of Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @. Key -&gt; (string) [required] The key for the tag. Keys are not case sensitive and must be unique. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] The value associated with the tag. The value can be an empty string but it can't be null. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; private init; }
@@ -103,6 +104,15 @@ public record AwsKendraRankingTagResourceOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

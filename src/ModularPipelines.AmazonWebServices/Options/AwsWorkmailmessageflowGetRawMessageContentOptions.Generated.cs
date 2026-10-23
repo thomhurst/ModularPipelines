@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the raw content of an in-transit email message, in MIME for- mat. See also: AWS API Documentation
+/// Retrieves the raw content of an in-transit email message, in MIME format. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,9 +22,9 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsWorkmailmessageflowGetRawMessageContentOptions : AwsOptions
 {
     /// <summary>
-    /// Retrieves the raw content of an in-transit email message, in MIME for- mat. See also: AWS API Documentation
+    /// Retrieves the raw content of an in-transit email message, in MIME format. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MessageId">The identifier of the email message to retrieve. Constraints: o min: 1 o max: 120 o pattern: [a-z0-9\-]* outfile (string) [required] Filename where the content will be saved</param>
+    /// <param name="MessageId">The identifier of the email message to retrieve. Constraints: • min: 1 • max: 120 • pattern: [a-z0-9\-]* outfile (string) [required] Filename where the content will be saved</param>
     /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
     public AwsWorkmailmessageflowGetRawMessageContentOptions(
         string MessageId,
@@ -44,7 +44,7 @@ public record AwsWorkmailmessageflowGetRawMessageContentOptions : AwsOptions
     }
 
     /// <summary>
-    /// The identifier of the email message to retrieve. Constraints: o min: 1 o max: 120 o pattern: [a-z0-9\-]* outfile (string) [required] Filename where the content will be saved
+    /// The identifier of the email message to retrieve. Constraints: • min: 1 • max: 120 • pattern: [a-z0-9\-]* outfile (string) [required] Filename where the content will be saved
     /// </summary>
     [CliOption("--message-id")]
     public string MessageId { get; private init; }
@@ -54,5 +54,14 @@ public record AwsWorkmailmessageflowGetRawMessageContentOptions : AwsOptions
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
     public string Outfile { get; private init; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

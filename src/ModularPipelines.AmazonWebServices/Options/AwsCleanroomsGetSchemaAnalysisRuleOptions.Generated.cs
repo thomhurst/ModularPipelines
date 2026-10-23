@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +29,9 @@ public record AwsCleanroomsGetSchemaAnalysisRuleOptions : AwsOptions, IValidatab
     /// <summary>
     /// Retrieves a schema analysis rule. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CollaborationIdentifier">A unique identifier for the collaboration that the schema belongs to. Currently accepts a collaboration ID. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
-    /// <param name="Name">The name of the schema to retrieve the analysis rule for. Constraints: o min: 0 o max: 128 o pattern: [a-zA-Z0-9_](([a-zA-Z0-9_ ]+-)*([a-zA-Z0-9_ ]+))?</param>
-    /// <param name="Type">The type of the schema analysis rule to retrieve. Schema analysis rules are uniquely identified by a combination of the collaboration, the schema name, and their type. Possible values: o AGGREGATION o LIST o CUSTOM o ID_MAPPING_TABLE</param>
+    /// <param name="CollaborationIdentifier">A unique identifier for the collaboration that the schema belongs to. Currently accepts a collaboration ID. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="Name">The name of the schema to retrieve the analysis rule for. Constraints: • min: 0 • max: 128 • pattern: [a-zA-Z0-9_](([a-zA-Z0-9_ ]+-)*([a-zA-Z0-9_ ]+))?</param>
+    /// <param name="Type">The type of the schema analysis rule to retrieve. Schema analysis rules are uniquely identified by a combination of the collaboration, the schema name, and their type. Possible values: • AGGREGATION • LIST • CUSTOM • ID_MAPPING_TABLE</param>
     public AwsCleanroomsGetSchemaAnalysisRuleOptions(
         string CollaborationIdentifier,
         string Name,
@@ -64,19 +65,19 @@ public record AwsCleanroomsGetSchemaAnalysisRuleOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the collaboration that the schema belongs to. Currently accepts a collaboration ID. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// A unique identifier for the collaboration that the schema belongs to. Currently accepts a collaboration ID. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--collaboration-identifier")]
     public string? CollaborationIdentifier { get; private init; }
 
     /// <summary>
-    /// The name of the schema to retrieve the analysis rule for. Constraints: o min: 0 o max: 128 o pattern: [a-zA-Z0-9_](([a-zA-Z0-9_ ]+-)*([a-zA-Z0-9_ ]+))?
+    /// The name of the schema to retrieve the analysis rule for. Constraints: • min: 0 • max: 128 • pattern: [a-zA-Z0-9_](([a-zA-Z0-9_ ]+-)*([a-zA-Z0-9_ ]+))?
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The type of the schema analysis rule to retrieve. Schema analysis rules are uniquely identified by a combination of the collaboration, the schema name, and their type. Possible values: o AGGREGATION o LIST o CUSTOM o ID_MAPPING_TABLE
+    /// The type of the schema analysis rule to retrieve. Schema analysis rules are uniquely identified by a combination of the collaboration, the schema name, and their type. Possible values: • AGGREGATION • LIST • CUSTOM • ID_MAPPING_TABLE
     /// </summary>
     [CliOption("--type")]
     public AwsCleanroomsGetSchemaAnalysisRuleType? Type { get; private init; }
@@ -102,6 +103,15 @@ public record AwsCleanroomsGetSchemaAnalysisRuleOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

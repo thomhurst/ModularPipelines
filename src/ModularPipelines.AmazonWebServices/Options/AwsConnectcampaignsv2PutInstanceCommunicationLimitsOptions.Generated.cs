@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsConnectcampaignsv2PutInstanceCommunicationLimitsOptions : AwsOp
     /// <summary>
     /// Put the instance communication limits. This API is idempotent. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConnectInstanceId">Amazon Connect Instance Id Constraints: o min: 1 o max: 256 o pattern: [-_.a-zA-Z0-9]+</param>
-    /// <param name="CommunicationLimitsConfig">Instance Communication limits config allChannelSubtypes -&gt; (tagged union structure) Communication limits NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: communicationLimitsList. communicationLimitsList -&gt; (list) List of communication limit Constraints: o min: 0 o max: 2 (structure) Communication Limit maxCountPerRecipient -&gt; (integer) [required] Maximum number of contacts allowed for a given target within the given frequency. Constraints: o min: 1 frequency -&gt; (integer) [required] The number of days to consider with regards to this limit. Constraints: o min: 1 o max: 30 unit -&gt; (string) [required] The communication limit time unit. Possible values: o DAY JSON Syntax: { "allChannelSubtypes": { "communicationLimitsList": [ { "maxCountPerRecipient": integer, "frequency": integer, "unit": "DAY" } ... ] } }</param>
+    /// <param name="ConnectInstanceId">Amazon Connect Instance Id Constraints: • min: 1 • max: 256 • pattern: [-_.a-zA-Z0-9]+</param>
+    /// <param name="CommunicationLimitsConfig">Instance Communication limits config allChannelSubtypes -&gt; (tagged union structure) Communication limits NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: communicationLimitsList. communicationLimitsList -&gt; (list) List of communication limit Constraints: • min: 0 • max: 2 (structure) Communication Limit maxCountPerRecipient -&gt; (integer) [required] Maximum number of contacts allowed for a given target within the given frequency. Constraints: • min: 1 frequency -&gt; (integer) [required] The number of days to consider with regards to this limit. Constraints: • min: 1 • max: 30 unit -&gt; (string) [required] The communication limit time unit. Possible values: • DAY JSON Syntax: { "allChannelSubtypes": { "communicationLimitsList": [ { "maxCountPerRecipient": integer, "frequency": integer, "unit": "DAY" } ... ] } }</param>
     public AwsConnectcampaignsv2PutInstanceCommunicationLimitsOptions(
         string ConnectInstanceId,
         string CommunicationLimitsConfig
@@ -60,13 +61,13 @@ public record AwsConnectcampaignsv2PutInstanceCommunicationLimitsOptions : AwsOp
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Amazon Connect Instance Id Constraints: o min: 1 o max: 256 o pattern: [-_.a-zA-Z0-9]+
+    /// Amazon Connect Instance Id Constraints: • min: 1 • max: 256 • pattern: [-_.a-zA-Z0-9]+
     /// </summary>
     [CliOption("--connect-instance-id")]
     public string? ConnectInstanceId { get; private init; }
 
     /// <summary>
-    /// Instance Communication limits config allChannelSubtypes -&gt; (tagged union structure) Communication limits NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: communicationLimitsList. communicationLimitsList -&gt; (list) List of communication limit Constraints: o min: 0 o max: 2 (structure) Communication Limit maxCountPerRecipient -&gt; (integer) [required] Maximum number of contacts allowed for a given target within the given frequency. Constraints: o min: 1 frequency -&gt; (integer) [required] The number of days to consider with regards to this limit. Constraints: o min: 1 o max: 30 unit -&gt; (string) [required] The communication limit time unit. Possible values: o DAY JSON Syntax: { "allChannelSubtypes": { "communicationLimitsList": [ { "maxCountPerRecipient": integer, "frequency": integer, "unit": "DAY" } ... ] } }
+    /// Instance Communication limits config allChannelSubtypes -&gt; (tagged union structure) Communication limits NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: communicationLimitsList. communicationLimitsList -&gt; (list) List of communication limit Constraints: • min: 0 • max: 2 (structure) Communication Limit maxCountPerRecipient -&gt; (integer) [required] Maximum number of contacts allowed for a given target within the given frequency. Constraints: • min: 1 frequency -&gt; (integer) [required] The number of days to consider with regards to this limit. Constraints: • min: 1 • max: 30 unit -&gt; (string) [required] The communication limit time unit. Possible values: • DAY JSON Syntax: { "allChannelSubtypes": { "communicationLimitsList": [ { "maxCountPerRecipient": integer, "frequency": integer, "unit": "DAY" } ... ] } }
     /// </summary>
     [CliOption("--communication-limits-config")]
     public string? CommunicationLimitsConfig { get; private init; }
@@ -92,6 +93,15 @@ public record AwsConnectcampaignsv2PutInstanceCommunicationLimitsOptions : AwsOp
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

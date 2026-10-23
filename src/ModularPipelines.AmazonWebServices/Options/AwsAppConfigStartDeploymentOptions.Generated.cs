@@ -10,13 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Starts a deployment. NOTE: AppConfig Agent supports deploying feature flag or free-form config- uration data to specific segments or individual users during a grad- ual rollout. Entity-based gradual deployments ensure that once a user or segment receives a configuration version, they continue to receive that same version throughout the deployment period, regard- less of which compute resource serves their requests. For more in- formation, see Using AppConfig Agent for user-based or entity-based ...
+/// Starts a deployment. NOTE: AppConfig Agent supports deploying feature flag or free-form configuration data to specific segments or individual users during a gradual rollout. Entity-based gradual deployments ensure that once a user or segment receives a configuration version, they continue to receive that same version throughout the deployment period, regardless of which compute resource serves their requests. For more information, see Using AppConfig Agent for user-based or entity-based gradual ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,13 +26,13 @@ public record AwsAppConfigStartDeploymentOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Starts a deployment. NOTE: AppConfig Agent supports deploying feature flag or free-form config- uration data to specific segments or individual users during a grad- ual rollout. Entity-based gradual deployments ensure that once a user or segment receives a configuration version, they continue to receive that same version throughout the deployment period, regard- less of which compute resource serves their requests. For more in- formation, see Using AppConfig Agent for user-based or entity-based ...
+    /// Starts a deployment. NOTE: AppConfig Agent supports deploying feature flag or free-form configuration data to specific segments or individual users during a gradual rollout. Entity-based gradual deployments ensure that once a user or segment receives a configuration version, they continue to receive that same version throughout the deployment period, regardless of which compute resource serves their requests. For more information, see Using AppConfig Agent for user-based or entity-based gradual ...
     /// </summary>
-    /// <param name="ApplicationId">The application ID. Constraints: o min: 1 o max: 64</param>
-    /// <param name="EnvironmentId">The environment ID. Constraints: o min: 1 o max: 64</param>
-    /// <param name="DeploymentStrategyId">The deployment strategy ID. Constraints: o pattern: (^[a-z0-9]{4,7}$|^AppConfig\.[A-Za-z0-9]{9,40}$)</param>
-    /// <param name="ConfigurationProfileId">The configuration profile ID. Constraints: o min: 1 o max: 128</param>
-    /// <param name="ConfigurationVersion">The configuration version to deploy. If deploying an AppConfig hosted configuration version, you can specify either the version number or version label. For all other configurations, you must specify the version number. Constraints: o min: 1 o max: 1024</param>
+    /// <param name="ApplicationId">The application ID. Constraints: • min: 1 • max: 64</param>
+    /// <param name="EnvironmentId">The environment ID. Constraints: • min: 1 • max: 64</param>
+    /// <param name="DeploymentStrategyId">The deployment strategy ID. Constraints: • pattern: (^[a-z0-9]{4,7}$|^AppConfig\.[A-Za-z0-9]{9,40}$)</param>
+    /// <param name="ConfigurationProfileId">The configuration profile ID. Constraints: • min: 1 • max: 128</param>
+    /// <param name="ConfigurationVersion">The configuration version to deploy. If deploying an AppConfig hosted configuration version, you can specify either the version number or version label. For all other configurations, you must specify the version number. Constraints: • min: 1 • max: 1024</param>
     public AwsAppConfigStartDeploymentOptions(
         string ApplicationId,
         string EnvironmentId,
@@ -73,61 +73,61 @@ public record AwsAppConfigStartDeploymentOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The application ID. Constraints: o min: 1 o max: 64
+    /// The application ID. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// The environment ID. Constraints: o min: 1 o max: 64
+    /// The environment ID. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--environment-id")]
     public string? EnvironmentId { get; private init; }
 
     /// <summary>
-    /// The deployment strategy ID. Constraints: o pattern: (^[a-z0-9]{4,7}$|^AppConfig\.[A-Za-z0-9]{9,40}$)
+    /// The deployment strategy ID. Constraints: • pattern: (^[a-z0-9]{4,7}$|^AppConfig\.[A-Za-z0-9]{9,40}$)
     /// </summary>
     [CliOption("--deployment-strategy-id")]
     public string? DeploymentStrategyId { get; private init; }
 
     /// <summary>
-    /// The configuration profile ID. Constraints: o min: 1 o max: 128
+    /// The configuration profile ID. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--configuration-profile-id")]
     public string? ConfigurationProfileId { get; private init; }
 
     /// <summary>
-    /// The configuration version to deploy. If deploying an AppConfig hosted configuration version, you can specify either the version number or version label. For all other configurations, you must specify the version number. Constraints: o min: 1 o max: 1024
+    /// The configuration version to deploy. If deploying an AppConfig hosted configuration version, you can specify either the version number or version label. For all other configurations, you must specify the version number. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--configuration-version")]
     public string? ConfigurationVersion { get; private init; }
 
     /// <summary>
-    /// A description of the deployment. Constraints: o min: 0 o max: 1024
+    /// A description of the deployment. Constraints: • min: 0 • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Metadata to assign to the deployment. Tags help organize and catego- rize your AppConfig resources. Each tag consists of a key and an op- tional value, both of which you define. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Metadata to assign to the deployment. Tags help organize and categorize your AppConfig resources. Each tag consists of a key and an optional value, both of which you define. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// The KMS key identifier (key ID, key alias, or key ARN). AppConfig uses this ID to encrypt the configuration data using a customer man- aged key. Constraints: o min: 1 o max: 2048
+    /// The KMS key identifier (key ID, key alias, or key ARN). AppConfig uses this ID to encrypt the configuration data using a customer managed key. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--kms-key-identifier")]
     public string? KmsKeyIdentifier { get; set; }
 
     /// <summary>
-    /// A map of dynamic extension parameter names to values to pass to as- sociated extensions with PRE_START_DEPLOYMENT actions. Constraints: o min: 1 o max: 10 key -&gt; (string) Constraints: o pattern: ^([^#\n]{1,96})#([^\/#\n]{1,64})$ value -&gt; (string) Constraints: o min: 1 o max: 2048 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A map of dynamic extension parameter names to values to pass to associated extensions with PRE_START_DEPLOYMENT actions. Constraints: • min: 1 • max: 10 key -&gt; (string) Constraints: • pattern: ^([^#\n]{1,96})#([^\/#\n]{1,64})$ value -&gt; (string) Constraints: • min: 1 • max: 2048 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--dynamic-extension-parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? DynamicExtensionParameters { get; set; }
 
     /// <summary>
-    /// The number of the latest deployment. Use this value to ensure that the deployment starts from the expected state and to prevent con- flicting updates.
+    /// The number of the latest deployment. Use this value to ensure that the deployment starts from the expected state and to prevent conflicting updates.
     /// </summary>
     [CliOption("--latest-deployment-number")]
     public int? LatestDeploymentNumber { get; set; }
@@ -153,6 +153,15 @@ public record AwsAppConfigStartDeploymentOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

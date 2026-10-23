@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Send a WhatsApp message. For examples of sending a message using the Amazon Web Services CLI, see Sending messages in the * Amazon Web Ser- vices End User Messaging Social User Guide * . See also: AWS API Documentation
+/// Send a WhatsApp message. For examples of sending a message using the Amazon Web Services CLI, see Sending messages in the * Amazon Web Services End User Messaging Social User Guide * . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsSocialmessagingSendWhatsappMessageOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Send a WhatsApp message. For examples of sending a message using the Amazon Web Services CLI, see Sending messages in the * Amazon Web Ser- vices End User Messaging Social User Guide * . See also: AWS API Documentation
+    /// Send a WhatsApp message. For examples of sending a message using the Amazon Web Services CLI, see Sending messages in the * Amazon Web Services End User Messaging Social User Guide * . See also: AWS API Documentation
     /// </summary>
-    /// <param name="OriginationPhoneNumberId">The ID of the phone number used to send the WhatsApp message. If you are sending a media file only the originationPhoneNumberId used to upload the file can be used. Phone number identifiers are formatted as phone-number-id-01234567890123456789012345678901 . Use GetLinkedWhatsAppBusinessAccount to find a phone number's id. Constraints: o min: 1 o max: 115 o pattern: .*(^phone-number-id-.*$)|(^arn:.*:phone-num- ber-id/[0-9a-zA-Z]+$).*</param>
-    /// <param name="Message">The message to send through WhatsApp. The length is in KB. The mes- sage field passes through a WhatsApp Message object, see Messages in the WhatsApp Business Platform Cloud API Reference . Constraints: o min: 1 o max: 2048000</param>
-    /// <param name="MetaApiVersion">The API version for the request formatted as v{VersionNumber} . For a list of supported API versions and Amazon Web Services Regions, see ` Amazon Web Services End User Messaging Social API Service End- points &lt;- https://docs.aws.amazon.com/general/latest/gr/end-user-messag- ing.html&gt;`__ in the Amazon Web Services General Reference .</param>
+    /// <param name="OriginationPhoneNumberId">The ID of the phone number used to send the WhatsApp message. If you are sending a media file only the originationPhoneNumberId used to upload the file can be used. Phone number identifiers are formatted as phone-number-id-01234567890123456789012345678901 . Use GetLinkedWhatsAppBusinessAccount to find a phone number's id. Constraints: • min: 1 • max: 115 • pattern: .*(^phone-number-id-.*$)|(^arn:.*:phone-number-id/[0-9a-zA-Z]+$).*</param>
+    /// <param name="Message">The message to send through WhatsApp. The length is in KB. The message field passes through a WhatsApp Message object, see Messages in the WhatsApp Business Platform Cloud API Reference . Constraints: • min: 1 • max: 2048000</param>
+    /// <param name="MetaApiVersion">The API version for the request formatted as v{VersionNumber} . For a list of supported API versions and Amazon Web Services Regions, see ` Amazon Web Services End User Messaging Social API Service Endpoints &lt;https://docs.aws.amazon.com/general/latest/gr/end-user-messaging.html&gt;`__ in the Amazon Web Services General Reference .</param>
     public AwsSocialmessagingSendWhatsappMessageOptions(
         string OriginationPhoneNumberId,
         string Message,
@@ -64,19 +65,19 @@ public record AwsSocialmessagingSendWhatsappMessageOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the phone number used to send the WhatsApp message. If you are sending a media file only the originationPhoneNumberId used to upload the file can be used. Phone number identifiers are formatted as phone-number-id-01234567890123456789012345678901 . Use GetLinkedWhatsAppBusinessAccount to find a phone number's id. Constraints: o min: 1 o max: 115 o pattern: .*(^phone-number-id-.*$)|(^arn:.*:phone-num- ber-id/[0-9a-zA-Z]+$).*
+    /// The ID of the phone number used to send the WhatsApp message. If you are sending a media file only the originationPhoneNumberId used to upload the file can be used. Phone number identifiers are formatted as phone-number-id-01234567890123456789012345678901 . Use GetLinkedWhatsAppBusinessAccount to find a phone number's id. Constraints: • min: 1 • max: 115 • pattern: .*(^phone-number-id-.*$)|(^arn:.*:phone-number-id/[0-9a-zA-Z]+$).*
     /// </summary>
     [CliOption("--origination-phone-number-id")]
     public string? OriginationPhoneNumberId { get; private init; }
 
     /// <summary>
-    /// The message to send through WhatsApp. The length is in KB. The mes- sage field passes through a WhatsApp Message object, see Messages in the WhatsApp Business Platform Cloud API Reference . Constraints: o min: 1 o max: 2048000
+    /// The message to send through WhatsApp. The length is in KB. The message field passes through a WhatsApp Message object, see Messages in the WhatsApp Business Platform Cloud API Reference . Constraints: • min: 1 • max: 2048000
     /// </summary>
     [CliOption("--message")]
     public string? Message { get; private init; }
 
     /// <summary>
-    /// The API version for the request formatted as v{VersionNumber} . For a list of supported API versions and Amazon Web Services Regions, see ` Amazon Web Services End User Messaging Social API Service End- points &lt;- https://docs.aws.amazon.com/general/latest/gr/end-user-messag- ing.html&gt;`__ in the Amazon Web Services General Reference .
+    /// The API version for the request formatted as v{VersionNumber} . For a list of supported API versions and Amazon Web Services Regions, see ` Amazon Web Services End User Messaging Social API Service Endpoints &lt;https://docs.aws.amazon.com/general/latest/gr/end-user-messaging.html&gt;`__ in the Amazon Web Services General Reference .
     /// </summary>
     [CliOption("--meta-api-version")]
     public string? MetaApiVersion { get; private init; }
@@ -102,6 +103,15 @@ public record AwsSocialmessagingSendWhatsappMessageOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

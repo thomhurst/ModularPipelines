@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,9 +29,9 @@ public record AwsKafkaconnectCreateCustomPluginOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Creates a custom plugin using the specified properties. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ContentType">The type of the plugin file. Possible values: o JAR o ZIP</param>
+    /// <param name="ContentType">The type of the plugin file. Possible values: • JAR • ZIP</param>
     /// <param name="Location">Information about the location of a custom plugin. s3Location -&gt; (structure) [required] The S3 bucket Amazon Resource Name (ARN), file key, and object version of the plugin file stored in Amazon S3. bucketArn -&gt; (string) [required] The Amazon Resource Name (ARN) of an S3 bucket. fileKey -&gt; (string) [required] The file key for an object in an S3 bucket. objectVersion -&gt; (string) The version of an object in an S3 bucket. Shorthand Syntax: s3Location={bucketArn=string,fileKey=string,objectVersion=string} JSON Syntax: { "s3Location": { "bucketArn": "string", "fileKey": "string", "objectVersion": "string" } }</param>
-    /// <param name="Name">The name of the custom plugin. Constraints: o min: 1 o max: 128</param>
+    /// <param name="Name">The name of the custom plugin. Constraints: • min: 1 • max: 128</param>
     public AwsKafkaconnectCreateCustomPluginOptions(
         AwsKafkaconnectCreateCustomPluginContentType ContentType,
         string Location,
@@ -65,7 +65,7 @@ public record AwsKafkaconnectCreateCustomPluginOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The type of the plugin file. Possible values: o JAR o ZIP
+    /// The type of the plugin file. Possible values: • JAR • ZIP
     /// </summary>
     [CliOption("--content-type")]
     public AwsKafkaconnectCreateCustomPluginContentType? ContentType { get; private init; }
@@ -77,19 +77,19 @@ public record AwsKafkaconnectCreateCustomPluginOptions : AwsOptions, IValidatabl
     public string? Location { get; private init; }
 
     /// <summary>
-    /// The name of the custom plugin. Constraints: o min: 1 o max: 128
+    /// The name of the custom plugin. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// A summary description of the custom plugin. Constraints: o min: 0 o max: 1024
+    /// A summary description of the custom plugin. Constraints: • min: 0 • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The tags you want to attach to the custom plugin. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags you want to attach to the custom plugin. Constraints: • min: 0 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -115,6 +115,15 @@ public record AwsKafkaconnectCreateCustomPluginOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

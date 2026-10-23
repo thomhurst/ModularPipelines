@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,7 +30,7 @@ public record AwsS3controlListAccessGrantsOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Returns the list of access grants in your S3 Access Grants instance. Permissions You must have the s3:ListAccessGrants permission to use this operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountId">The Amazon Web Services account ID of the S3 Access Grants instance. Constraints: o max: 64 o pattern: ^\d{12}$</param>
+    /// <param name="AccountId">The Amazon Web Services account ID of the S3 Access Grants instance. Constraints: • max: 64 • pattern: ^\d{12}$</param>
     public AwsS3controlListAccessGrantsOptions(
         string AccountId
     )
@@ -58,50 +59,50 @@ public record AwsS3controlListAccessGrantsOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services account ID of the S3 Access Grants instance. Constraints: o max: 64 o pattern: ^\d{12}$
+    /// The Amazon Web Services account ID of the S3 Access Grants instance. Constraints: • max: 64 • pattern: ^\d{12}$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// A pagination token to request the next page of results. Pass this value into a subsequent List Access Grants request in order to re- trieve the next page of results.
+    /// A pagination token to request the next page of results. Pass this value into a subsequent List Access Grants request in order to retrieve the next page of results.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of access grants that you would like returned in the List Access Grants response. If the results include the pagina- tion token NextToken , make another call using the NextToken to de- termine if there are more results. Constraints: o min: 0 o max: 1000
+    /// The maximum number of access grants that you would like returned in the List Access Grants response. If the results include the pagination token NextToken , make another call using the NextToken to determine if there are more results. Constraints: • min: 0 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The type of the grantee to which access has been granted. It can be one of the following values: o IAM - An IAM user or role. o DIRECTORY_USER - Your corporate directory user. You can use this option if you have added your corporate identity directory to IAM Identity Center and associated the IAM Identity Center instance with your S3 Access Grants instance. o DIRECTORY_GROUP - Your corporate directory group. You can use this option if you have added your corporate identity directory to IAM Identity Center and associated the IAM Identity Center instance with your S3 Access Grants instance. Possible values: o DIRECTORY_USER o DIRECTORY_GROUP o IAM
+    /// The type of the grantee to which access has been granted. It can be one of the following values: • IAM - An IAM user or role. • DIRECTORY_USER - Your corporate directory user. You can use this option if you have added your corporate identity directory to IAM Identity Center and associated the IAM Identity Center instance with your S3 Access Grants instance. • DIRECTORY_GROUP - Your corporate directory group. You can use this option if you have added your corporate identity directory to IAM Identity Center and associated the IAM Identity Center instance with your S3 Access Grants instance. Possible values: • DIRECTORY_USER • DIRECTORY_GROUP • IAM
     /// </summary>
     [CliOption("--grantee-type")]
     public AwsS3controlListAccessGrantsGranteeType? GranteeType { get; set; }
 
     /// <summary>
-    /// The unique identifer of the Grantee . If the grantee type is IAM , the identifier is the IAM Amazon Resource Name (ARN) of the user or role. If the grantee type is a directory user or group, the identi- fier is 128-bit universally unique identifier (UUID) in the format a1b2c3d4-5678-90ab-cdef-EXAMPLE11111 . You can obtain this UUID from your Amazon Web Services IAM Identity Center instance.
+    /// The unique identifer of the Grantee . If the grantee type is IAM , the identifier is the IAM Amazon Resource Name (ARN) of the user or role. If the grantee type is a directory user or group, the identifier is 128-bit universally unique identifier (UUID) in the format a1b2c3d4-5678-90ab-cdef-EXAMPLE11111 . You can obtain this UUID from your Amazon Web Services IAM Identity Center instance.
     /// </summary>
     [CliOption("--grantee-identifier")]
     public string? GranteeIdentifier { get; set; }
 
     /// <summary>
-    /// The type of permission granted to your S3 data, which can be set to one of the following values: o READ Grant read-only access to the S3 data. o WRITE Grant write-only access to the S3 data. o READWRITE Grant both read and write access to the S3 data. Possible values: o READ o WRITE o READWRITE
+    /// The type of permission granted to your S3 data, which can be set to one of the following values: • READ Grant read-only access to the S3 data. • WRITE Grant write-only access to the S3 data. • READWRITE Grant both read and write access to the S3 data. Possible values: • READ • WRITE • READWRITE
     /// </summary>
     [CliOption("--permission")]
     public AwsS3controlListAccessGrantsPermission? Permission { get; set; }
 
     /// <summary>
-    /// The S3 path of the data to which you are granting access. It is the result of appending the Subprefix to the location scope. Constraints: o min: 1 o max: 2000 o pattern: ^.+$
+    /// The S3 path of the data to which you are granting access. It is the result of appending the Subprefix to the location scope. Constraints: • min: 1 • max: 2000 • pattern: ^.+$
     /// </summary>
     [CliOption("--grant-scope")]
     public string? GrantScope { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of an Amazon Web Services IAM Iden- tity Center application associated with your Identity Center in- stance. If the grant includes an application ARN, the grantee can only access the S3 data through this application. Constraints: o min: 10 o max: 1224 o pattern: arn:[^:]+:sso::\d{12}:application/.*$
+    /// The Amazon Resource Name (ARN) of an Amazon Web Services IAM Identity Center application associated with your Identity Center instance. If the grant includes an application ARN, the grantee can only access the S3 data through this application. Constraints: • min: 10 • max: 1224 • pattern: arn:[^:]+:sso::\d{12}:application/.*$
     /// </summary>
     [CliOption("--application-arn")]
     public string? ApplicationArn { get; set; }
@@ -127,6 +128,15 @@ public record AwsS3controlListAccessGrantsOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

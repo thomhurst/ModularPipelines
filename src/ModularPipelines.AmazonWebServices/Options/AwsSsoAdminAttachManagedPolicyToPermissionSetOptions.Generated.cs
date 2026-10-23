@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Attaches an Amazon Web Services managed policy ARN to a permission set. NOTE: If the permission set is already referenced by one or more account assignments, you will need to call `` ProvisionPermissionSet `` af- ter this operation. Calling ProvisionPermissionSet applies the cor- responding IAM policy updates to all assigned accounts. See also: AWS API Documentation
+/// Attaches an Amazon Web Services managed policy ARN to a permission set. NOTE: If the permission set is already referenced by one or more account assignments, you will need to call `` ProvisionPermissionSet `` after this operation. Calling ProvisionPermissionSet applies the corresponding IAM policy updates to all assigned accounts. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsSsoAdminAttachManagedPolicyToPermissionSetOptions : AwsOptions,
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Attaches an Amazon Web Services managed policy ARN to a permission set. NOTE: If the permission set is already referenced by one or more account assignments, you will need to call `` ProvisionPermissionSet `` af- ter this operation. Calling ProvisionPermissionSet applies the cor- responding IAM policy updates to all assigned accounts. See also: AWS API Documentation
+    /// Attaches an Amazon Web Services managed policy ARN to a permission set. NOTE: If the permission set is already referenced by one or more account assignments, you will need to call `` ProvisionPermissionSet `` after this operation. Calling ProvisionPermissionSet applies the corresponding IAM policy updates to all assigned accounts. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceArn">The ARN of the IAM Identity Center instance under which the opera- tion will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference . Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}</param>
-    /// <param name="PermissionSetArn">The ARN of the PermissionSet that the managed policy should be at- tached to. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::permission- Set/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}</param>
-    /// <param name="ManagedPolicyArn">The Amazon Web Services managed policy ARN to be attached to a per- mission set. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[a-z]{1,5}){0,3}:iam::aws:pol- icy((/[A-Za-z0-9\.,\+@=_-]+)*)/([A-Za-z0-9\.,\+=@_-]+)</param>
+    /// <param name="InstanceArn">The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference . Constraints: • min: 10 • max: 1224 • pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}</param>
+    /// <param name="PermissionSetArn">The ARN of the PermissionSet that the managed policy should be attached to. Constraints: • min: 10 • max: 1224 • pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}</param>
+    /// <param name="ManagedPolicyArn">The Amazon Web Services managed policy ARN to be attached to a permission set. Constraints: • min: 20 • max: 2048 • pattern: arn:aws(-[a-z]{1,5}){0,3}:iam::aws:policy((/[A-Za-z0-9\.,\+@=_-]+)*)/([A-Za-z0-9\.,\+=@_-]+)</param>
     public AwsSsoAdminAttachManagedPolicyToPermissionSetOptions(
         string InstanceArn,
         string PermissionSetArn,
@@ -64,19 +65,19 @@ public record AwsSsoAdminAttachManagedPolicyToPermissionSetOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the IAM Identity Center instance under which the opera- tion will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference . Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}
+    /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference . Constraints: • min: 10 • max: 1224 • pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}
     /// </summary>
     [CliOption("--instance-arn")]
     public string? InstanceArn { get; private init; }
 
     /// <summary>
-    /// The ARN of the PermissionSet that the managed policy should be at- tached to. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::permission- Set/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}
+    /// The ARN of the PermissionSet that the managed policy should be attached to. Constraints: • min: 10 • max: 1224 • pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}
     /// </summary>
     [CliOption("--permission-set-arn")]
     public string? PermissionSetArn { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services managed policy ARN to be attached to a per- mission set. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[a-z]{1,5}){0,3}:iam::aws:pol- icy((/[A-Za-z0-9\.,\+@=_-]+)*)/([A-Za-z0-9\.,\+=@_-]+)
+    /// The Amazon Web Services managed policy ARN to be attached to a permission set. Constraints: • min: 20 • max: 2048 • pattern: arn:aws(-[a-z]{1,5}){0,3}:iam::aws:policy((/[A-Za-z0-9\.,\+@=_-]+)*)/([A-Za-z0-9\.,\+=@_-]+)
     /// </summary>
     [CliOption("--managed-policy-arn")]
     public string? ManagedPolicyArn { get; private init; }
@@ -102,6 +103,15 @@ public record AwsSsoAdminAttachManagedPolicyToPermissionSetOptions : AwsOptions,
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

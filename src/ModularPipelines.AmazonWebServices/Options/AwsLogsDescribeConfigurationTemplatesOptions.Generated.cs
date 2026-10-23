@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Use this operation to return the valid and default values that are used when creating delivery sources, delivery destinations, and deliveries. For more information about deliveries, see CreateDelivery . See also: AWS API Documentation describe-configuration-templates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argumen...
+/// Use this operation to return the valid and default values that are used when creating delivery sources, delivery destinations, and deliveries. For more information about deliveries, see CreateDelivery . See also: AWS API Documentation describe-configuration-templates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,34 +23,31 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsLogsDescribeConfigurationTemplatesOptions : AwsOptions
 {
     /// <summary>
-    /// Use this parameter to filter the response to include only the con- figuration templates that apply to the Amazon Web Services service that you specify here. Constraints: o min: 1 o max: 255 o pattern: [\w_-]*
+    /// Use this parameter to filter the response to include only the configuration templates that apply to the Amazon Web Services service that you specify here. Constraints: • min: 1 • max: 255 • pattern: [\w_-]*
     /// </summary>
     [CliOption("--service")]
     public string? Service { get; set; }
 
     /// <summary>
-    /// Use this parameter to filter the response to include only the con- figuration templates that apply to the log types that you specify here. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 255 o pattern: [\w]* Syntax: "string" "string" ...
+    /// Use this parameter to filter the response to include only the configuration templates that apply to the log types that you specify here. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 255 • pattern: [\w]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--log-types", GroupValues = true)]
     public IEnumerable<string>? LogTypes { get; set; }
 
     /// <summary>
-    /// Use this parameter to filter the response to include only the con- figuration templates that apply to the resource types that you spec- ify here. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 255 o pattern: [\w-_]* Syntax: "string" "string" ...
+    /// Use this parameter to filter the response to include only the configuration templates that apply to the resource types that you specify here. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 255 • pattern: [\w-_]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--resource-types", GroupValues = true)]
     public IEnumerable<string>? ResourceTypes { get; set; }
 
     /// <summary>
-    /// Use this parameter to filter the response to include only the con- figuration templates that apply to the delivery destination types that you specify here. Constraints: o min: 1 o max: 4 (string) Possible values: o S3 o CWL o FH o XRAY Syntax: "string" "string" ...
+    /// Use this parameter to filter the response to include only the configuration templates that apply to the delivery destination types that you specify here. Constraints: • min: 1 • max: 4 (string) Possible values: • S3 • CWL • FH • XRAY Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--delivery-destination-types", GroupValues = true)]
     public IEnumerable<string>? DeliveryDestinationTypes { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -60,15 +57,27 @@ public record AwsLogsDescribeConfigurationTemplatesOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 50
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

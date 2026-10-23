@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a cross-account readiness authorization. This lets you autho- rize another account to work with Route 53 Application Recovery Con- troller, for example, to check the readiness status of resources in a separate account. See also: AWS API Documentation
+/// Creates a cross-account readiness authorization. This lets you authorize another account to work with Route 53 Application Recovery Controller, for example, to check the readiness status of resources in a separate account. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsRoute53RecoveryReadinessCreateCrossAccountAuthorizationOptions 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a cross-account readiness authorization. This lets you autho- rize another account to work with Route 53 Application Recovery Con- troller, for example, to check the readiness status of resources in a separate account. See also: AWS API Documentation
+    /// Creates a cross-account readiness authorization. This lets you authorize another account to work with Route 53 Application Recovery Controller, for example, to check the readiness status of resources in a separate account. See also: AWS API Documentation
     /// </summary>
     /// <param name="CrossAccountAuthorization">The cross-account authorization.</param>
     public AwsRoute53RecoveryReadinessCreateCrossAccountAuthorizationOptions(
@@ -82,6 +83,15 @@ public record AwsRoute53RecoveryReadinessCreateCrossAccountAuthorizationOptions 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

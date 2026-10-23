@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsConfigserviceDeleteConfigurationRecorderOptions : AwsOptions, I
     /// <summary>
     /// Deletes the customer managed configuration recorder. This operation does not delete the configuration information that was previously recorded. You will be able to access the previously recorded information by using the GetResourceConfigHistory operation, but you will not be able to access this information in the Config console until you have created a new customer managed configuration recorder. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConfigurationRecorderName">The name of the customer managed configuration recorder that you want to delete. You can retrieve the name of your configuration recorders by using the DescribeConfigurationRecorders operation. Constraints: o min: 1 o max: 256</param>
+    /// <param name="ConfigurationRecorderName">The name of the customer managed configuration recorder that you want to delete. You can retrieve the name of your configuration recorders by using the DescribeConfigurationRecorders operation. Constraints: • min: 1 • max: 256</param>
     public AwsConfigserviceDeleteConfigurationRecorderOptions(
         string ConfigurationRecorderName
     )
@@ -56,7 +57,7 @@ public record AwsConfigserviceDeleteConfigurationRecorderOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the customer managed configuration recorder that you want to delete. You can retrieve the name of your configuration recorders by using the DescribeConfigurationRecorders operation. Constraints: o min: 1 o max: 256
+    /// The name of the customer managed configuration recorder that you want to delete. You can retrieve the name of your configuration recorders by using the DescribeConfigurationRecorders operation. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--configuration-recorder-name")]
     public string? ConfigurationRecorderName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsConfigserviceDeleteConfigurationRecorderOptions : AwsOptions, I
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

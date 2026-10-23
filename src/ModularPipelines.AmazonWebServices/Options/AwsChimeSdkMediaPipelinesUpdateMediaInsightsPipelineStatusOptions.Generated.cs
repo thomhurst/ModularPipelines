@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +29,8 @@ public record AwsChimeSdkMediaPipelinesUpdateMediaInsightsPipelineStatusOptions 
     /// <summary>
     /// Updates the status of a media insights pipeline. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identifier">The unique identifier of the resource to be updated. Valid values include the ID and ARN of the media insights pipeline. Constraints: o max: 1024 o pattern: .*\S.*</param>
-    /// <param name="UpdateStatus">The requested status of the media insights pipeline. Possible values: o Pause o Resume</param>
+    /// <param name="Identifier">The unique identifier of the resource to be updated. Valid values include the ID and ARN of the media insights pipeline. Constraints: • max: 1024 • pattern: .*\S.*</param>
+    /// <param name="UpdateStatus">The requested status of the media insights pipeline. Possible values: • Pause • Resume</param>
     public AwsChimeSdkMediaPipelinesUpdateMediaInsightsPipelineStatusOptions(
         string Identifier,
         AwsChimeSdkMediaPipelinesUpdateMediaInsightsPipelineStatusUpdateStatus UpdateStatus
@@ -60,13 +61,13 @@ public record AwsChimeSdkMediaPipelinesUpdateMediaInsightsPipelineStatusOptions 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the resource to be updated. Valid values include the ID and ARN of the media insights pipeline. Constraints: o max: 1024 o pattern: .*\S.*
+    /// The unique identifier of the resource to be updated. Valid values include the ID and ARN of the media insights pipeline. Constraints: • max: 1024 • pattern: .*\S.*
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// The requested status of the media insights pipeline. Possible values: o Pause o Resume
+    /// The requested status of the media insights pipeline. Possible values: • Pause • Resume
     /// </summary>
     [CliOption("--update-status")]
     public AwsChimeSdkMediaPipelinesUpdateMediaInsightsPipelineStatusUpdateStatus? UpdateStatus { get; private init; }
@@ -92,6 +93,15 @@ public record AwsChimeSdkMediaPipelinesUpdateMediaInsightsPipelineStatusOptions 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

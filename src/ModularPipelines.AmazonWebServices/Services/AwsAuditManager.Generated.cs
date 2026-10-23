@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -32,7 +32,7 @@ public class AwsAuditManager : IAwsAuditManager
     #region Commands
 
     /// <summary>
-    /// Associates an evidence folder to an assessment report in an Audit Man- ager assessment. See also: AWS API Documentation
+    /// Associates an evidence folder to an assessment report in an Audit Manager assessment. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsAuditManager : IAwsAuditManager
     }
 
     /// <summary>
-    /// Associates a list of evidence to an assessment report in an Audit Man- ager assessment. See also: AWS API Documentation
+    /// Associates a list of evidence to an assessment report in an Audit Manager assessment. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsAuditManager : IAwsAuditManager
     }
 
     /// <summary>
-    /// Adds one or more pieces of evidence to a control in an Audit Manager assessment. You can import manual evidence from any S3 bucket by specifying the S3 URI of the object. You can also upload a file from your browser, or en- ter plain text in response to a risk assessment question. The following restrictions apply to this action: o manualEvidence can be only one of the following: evidenceFileName , s3ResourcePath , or textResponse o Maximum size of an individual evidence file: 100 MB o Number of ...
+    /// Adds one or more pieces of evidence to a control in an Audit Manager assessment. You can import manual evidence from any S3 bucket by specifying the S3 URI of the object. You can also upload a file from your browser, or enter plain text in response to a risk assessment question. The following restrictions apply to this action: • manualEvidence can be only one of the following: evidenceFileName , s3ResourcePath , or textResponse • Maximum size of an individual evidence file: 100 MB • Number of da...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +227,7 @@ public class AwsAuditManager : IAwsAuditManager
     }
 
     /// <summary>
-    /// Deletes an assessment report in Audit Manager. When you run the DeleteAssessmentReport operation, Audit Manager at- tempts to delete the following data: o The specified assessment report thats stored in your S3 bucket o The associated metadata thats stored in Audit Manager If Audit Manager cant access the assessment report in your S3 bucket, the report isnt deleted. In this event, the DeleteAssessmentReport op- eration doesnt fail. Instead, it proceeds to delete the associated metadata only. You...
+    /// Deletes an assessment report in Audit Manager. When you run the DeleteAssessmentReport operation, Audit Manager attempts to delete the following data: • The specified assessment report thats stored in your S3 bucket • The associated metadata thats stored in Audit Manager If Audit Manager cant access the assessment report in your S3 bucket, the report isnt deleted. In this event, the DeleteAssessmentReport operation doesnt fail. Instead, it proceeds to delete the associated metadata only. You mus...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -242,7 +242,7 @@ public class AwsAuditManager : IAwsAuditManager
     }
 
     /// <summary>
-    /// Deletes a custom control in Audit Manager. WARNING: When you invoke this operation, the custom control is deleted from any frameworks or assessments that its currently part of. As a re- sult, Audit Manager will stop collecting evidence for that custom control in all of your assessments. This includes assessments that you previously created before you deleted the custom control. See also: AWS API Documentation
+    /// Deletes a custom control in Audit Manager. WARNING: When you invoke this operation, the custom control is deleted from any frameworks or assessments that its currently part of. As a result, Audit Manager will stop collecting evidence for that custom control in all of your assessments. This includes assessments that you previously created before you deleted the custom control. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -257,7 +257,7 @@ public class AwsAuditManager : IAwsAuditManager
     }
 
     /// <summary>
-    /// Deregisters an account in Audit Manager. NOTE: Before you deregister, you can use the UpdateSettings API operation to set your preferred data retention policy. By default, Audit Man- ager retains your data. If you want to delete your data, you can use the DeregistrationPolicy attribute to request the deletion of your data. For more information about data retention, see Data Protection in the Audit Manager User Guide . See also: AWS API Documentation
+    /// Deregisters an account in Audit Manager. NOTE: Before you deregister, you can use the UpdateSettings API operation to set your preferred data retention policy. By default, Audit Manager retains your data. If you want to delete your data, you can use the DeregistrationPolicy attribute to request the deletion of your data. For more information about data retention, see Data Protection in the Audit Manager User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +272,7 @@ public class AwsAuditManager : IAwsAuditManager
     }
 
     /// <summary>
-    /// Removes the specified Amazon Web Services account as a delegated admin- istrator for Audit Manager. When you remove a delegated administrator from your Audit Manager set- tings, you continue to have access to the evidence that you previously collected under that account. This is also the case when you deregister a delegated administrator from Organizations. However, Audit Manager stops collecting and attaching evidence to that delegated administrator account moving forward. WARNING: Keep in mind...
+    /// Removes the specified Amazon Web Services account as a delegated administrator for Audit Manager. When you remove a delegated administrator from your Audit Manager settings, you continue to have access to the evidence that you previously collected under that account. This is also the case when you deregister a delegated administrator from Organizations. However, Audit Manager stops collecting and attaching evidence to that delegated administrator account moving forward. WARNING: Keep in mind the...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -422,7 +422,7 @@ public class AwsAuditManager : IAwsAuditManager
     }
 
     /// <summary>
-    /// Creates a presigned Amazon S3 URL that can be used to upload a file as manual evidence. For instructions on how to use this operation, see Upload a file from your browser in the Audit Manager User Guide . The following restrictions apply to this operation: o Maximum size of an individual evidence file: 100 MB o Number of daily manual evidence uploads per control: 100 o Supported file formats: See Supported file types for manual evidence in the Audit Manager User Guide For more information about ...
+    /// Creates a presigned Amazon S3 URL that can be used to upload a file as manual evidence. For instructions on how to use this operation, see Upload a file from your browser in the Audit Manager User Guide . The following restrictions apply to this operation: • Maximum size of an individual evidence file: 100 MB • Number of daily manual evidence uploads per control: 100 • Supported file formats: See Supported file types for manual evidence in the Audit Manager User Guide For more information about ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -527,7 +527,7 @@ public class AwsAuditManager : IAwsAuditManager
     }
 
     /// <summary>
-    /// Gets the name of the delegated Amazon Web Services administrator ac- count for a specified organization. See also: AWS API Documentation
+    /// Gets the name of the delegated Amazon Web Services administrator account for a specified organization. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -542,7 +542,7 @@ public class AwsAuditManager : IAwsAuditManager
     }
 
     /// <summary>
-    /// Gets a list of the Amazon Web Services services from which Audit Man- ager can collect evidence. Audit Manager defines which Amazon Web Services services are in scope for an assessment. Audit Manager infers this scope by examining the as- sessments controls and their data sources, and then mapping this infor- mation to one or more of the corresponding Amazon Web Services services that are in this list. NOTE: For information about why it's no longer possible to specify ser- vices in scope manuall...
+    /// Gets a list of the Amazon Web Services services from which Audit Manager can collect evidence. Audit Manager defines which Amazon Web Services services are in scope for an assessment. Audit Manager infers this scope by examining the assessments controls and their data sources, and then mapping this information to one or more of the corresponding Amazon Web Services services that are in this list. NOTE: For information about why it's no longer possible to specify services in scope manually, see I...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -572,7 +572,7 @@ public class AwsAuditManager : IAwsAuditManager
     }
 
     /// <summary>
-    /// Lists the latest analytics data for controls within a specific control domain and a specific active assessment. NOTE: Control insights are listed only if the control belongs to the con- trol domain and assessment that was specified. Moreover, the control must have collected evidence on the lastUpdated date of controlIn- sightsByAssessment . If neither of these conditions are met, no data is listed for that control. See also: AWS API Documentation
+    /// Lists the latest analytics data for controls within a specific control domain and a specific active assessment. NOTE: Control insights are listed only if the control belongs to the control domain and assessment that was specified. Moreover, the control must have collected evidence on the lastUpdated date of controlInsightsByAssessment . If neither of these conditions are met, no data is listed for that control. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -602,7 +602,7 @@ public class AwsAuditManager : IAwsAuditManager
     }
 
     /// <summary>
-    /// Returns a list of the frameworks that are available in the Audit Man- ager framework library. See also: AWS API Documentation
+    /// Returns a list of the frameworks that are available in the Audit Manager framework library. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -647,7 +647,7 @@ public class AwsAuditManager : IAwsAuditManager
     }
 
     /// <summary>
-    /// Lists analytics data for control domains within a specified active as- sessment. Audit Manager supports the control domains that are provided by Amazon Web Services Control Catalog. For information about how to find a list of available control domains, see ` ListDomains https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListDomains.html`__ in the Amazon Web Services Control Catalog API Reference. NOTE: A control domain is listed only if at least one of the controls within that do...
+    /// Lists analytics data for control domains within a specified active assessment. Audit Manager supports the control domains that are provided by Amazon Web Services Control Catalog. For information about how to find a list of available control domains, see ` ListDomains https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListDomains.html`__ in the Amazon Web Services Control Catalog API Reference. NOTE: A control domain is listed only if at least one of the controls within that doma...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -677,7 +677,7 @@ public class AwsAuditManager : IAwsAuditManager
     }
 
     /// <summary>
-    /// Lists the latest analytics data for controls within a specific control domain across all active assessments. NOTE: Control insights are listed only if the control belongs to the con- trol domain that was specified and the control collected evidence on the lastUpdated date of controlInsightsMetadata . If neither of these conditions are met, no data is listed for that control. See also: AWS API Documentation
+    /// Lists the latest analytics data for controls within a specific control domain across all active assessments. NOTE: Control insights are listed only if the control belongs to the control domain that was specified and the control collected evidence on the lastUpdated date of controlInsightsMetadata . If neither of these conditions are met, no data is listed for that control. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

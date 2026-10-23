@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Reboots a cluster. This action is taken as soon as possible. It results in a momentary outage to the cluster, during which the cluster status is set to rebooting . A cluster event is created when the reboot is completed. Any pending cluster modifications (see ModifyCluster ) are applied at this reboot. For more information about managing clusters, go to Amazon Redshift Clusters in the Amazon Redshift Cluster Manage- ment Guide . See also: AWS API Documentation
+/// Reboots a cluster. This action is taken as soon as possible. It results in a momentary outage to the cluster, during which the cluster status is set to rebooting . A cluster event is created when the reboot is completed. Any pending cluster modifications (see ModifyCluster ) are applied at this reboot. For more information about managing clusters, go to Amazon Redshift Clusters in the Amazon Redshift Cluster Management Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsRedshiftRebootClusterOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Reboots a cluster. This action is taken as soon as possible. It results in a momentary outage to the cluster, during which the cluster status is set to rebooting . A cluster event is created when the reboot is completed. Any pending cluster modifications (see ModifyCluster ) are applied at this reboot. For more information about managing clusters, go to Amazon Redshift Clusters in the Amazon Redshift Cluster Manage- ment Guide . See also: AWS API Documentation
+    /// Reboots a cluster. This action is taken as soon as possible. It results in a momentary outage to the cluster, during which the cluster status is set to rebooting . A cluster event is created when the reboot is completed. Any pending cluster modifications (see ModifyCluster ) are applied at this reboot. For more information about managing clusters, go to Amazon Redshift Clusters in the Amazon Redshift Cluster Management Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClusterIdentifier">The cluster identifier. Constraints: o max: 2147483647</param>
+    /// <param name="ClusterIdentifier">The cluster identifier. Constraints: • max: 2147483647</param>
     public AwsRedshiftRebootClusterOptions(
         string ClusterIdentifier
     )
@@ -56,7 +57,7 @@ public record AwsRedshiftRebootClusterOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The cluster identifier. Constraints: o max: 2147483647
+    /// The cluster identifier. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--cluster-identifier")]
     public string? ClusterIdentifier { get; private init; }
@@ -82,6 +83,15 @@ public record AwsRedshiftRebootClusterOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

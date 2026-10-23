@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsNeptuneDeleteDbParameterGroupOptions : AwsOptions, IValidatable
     /// <summary>
     /// Deletes a specified DBParameterGroup. The DBParameterGroup to be deleted can't be associated with any DB instances. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DbParameterGroupName">The name of the DB parameter group. Constraints: o Must be the name of an existing DB parameter group o You can't delete a default DB parameter group o Cannot be associated with any DB instances</param>
+    /// <param name="DbParameterGroupName">The name of the DB parameter group. Constraints: • Must be the name of an existing DB parameter group • You can't delete a default DB parameter group • Cannot be associated with any DB instances</param>
     public AwsNeptuneDeleteDbParameterGroupOptions(
         string DbParameterGroupName
     )
@@ -56,7 +57,7 @@ public record AwsNeptuneDeleteDbParameterGroupOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the DB parameter group. Constraints: o Must be the name of an existing DB parameter group o You can't delete a default DB parameter group o Cannot be associated with any DB instances
+    /// The name of the DB parameter group. Constraints: • Must be the name of an existing DB parameter group • You can't delete a default DB parameter group • Cannot be associated with any DB instances
     /// </summary>
     [CliOption("--db-parameter-group-name")]
     public string? DbParameterGroupName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsNeptuneDeleteDbParameterGroupOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

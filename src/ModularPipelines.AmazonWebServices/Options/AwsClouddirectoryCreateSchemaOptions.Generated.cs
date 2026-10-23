@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new schema in a development state. A schema can exist in three phases: o Development: This is a mutable phase of the schema. All new schemas are in the development phase. Once the schema is finalized, it can be published. o Published: Published schemas are immutable and have a version associ- ated with them. o Applied: Applied schemas are mutable in a way that allows you to add new schema facets. You can also add new, nonrequired attributes to existing schema facets. You can apply only...
+/// Creates a new schema in a development state. A schema can exist in three phases: • Development: This is a mutable phase of the schema. All new schemas are in the development phase. Once the schema is finalized, it can be published. • Published: Published schemas are immutable and have a version associated with them. • Applied: Applied schemas are mutable in a way that allows you to add new schema facets. You can also add new, nonrequired attributes to existing schema facets. You can apply only p...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsClouddirectoryCreateSchemaOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new schema in a development state. A schema can exist in three phases: o Development: This is a mutable phase of the schema. All new schemas are in the development phase. Once the schema is finalized, it can be published. o Published: Published schemas are immutable and have a version associ- ated with them. o Applied: Applied schemas are mutable in a way that allows you to add new schema facets. You can also add new, nonrequired attributes to existing schema facets. You can apply only...
+    /// Creates a new schema in a development state. A schema can exist in three phases: • Development: This is a mutable phase of the schema. All new schemas are in the development phase. Once the schema is finalized, it can be published. • Published: Published schemas are immutable and have a version associated with them. • Applied: Applied schemas are mutable in a way that allows you to add new schema facets. You can also add new, nonrequired attributes to existing schema facets. You can apply only p...
     /// </summary>
-    /// <param name="Name">The name that is associated with the schema. This is unique to each account and in each region. Constraints: o min: 1 o max: 32 o pattern: ^[a-zA-Z0-9._-]*$</param>
+    /// <param name="Name">The name that is associated with the schema. This is unique to each account and in each region. Constraints: • min: 1 • max: 32 • pattern: ^[a-zA-Z0-9._-]*$</param>
     public AwsClouddirectoryCreateSchemaOptions(
         string Name
     )
@@ -56,7 +57,7 @@ public record AwsClouddirectoryCreateSchemaOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name that is associated with the schema. This is unique to each account and in each region. Constraints: o min: 1 o max: 32 o pattern: ^[a-zA-Z0-9._-]*$
+    /// The name that is associated with the schema. This is unique to each account and in each region. Constraints: • min: 1 • max: 32 • pattern: ^[a-zA-Z0-9._-]*$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
@@ -82,6 +83,15 @@ public record AwsClouddirectoryCreateSchemaOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

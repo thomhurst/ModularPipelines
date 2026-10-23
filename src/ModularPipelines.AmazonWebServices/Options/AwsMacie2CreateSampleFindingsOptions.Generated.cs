@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsMacie2CreateSampleFindingsOptions : AwsOptions
 {
     /// <summary>
-    /// An array of finding types, one for each type of sample finding to create. To create a sample of every type of finding that Amazon Ma- cie supports, don't include this array in your request. (string) The type of finding. For details about each type, see Types of findings in the Amazon Macie User Guide . Possible values are: Possible values: o SensitiveData:S3Object/Multiple o SensitiveData:S3Object/Financial o SensitiveData:S3Object/Personal o SensitiveData:S3Object/Credentials o SensitiveData:S3Object/CustomIdentifier o Policy:IAMUser/S3BucketPublic o Policy:IAMUser/S3BucketSharedExternally o Policy:IAMUser/S3BucketReplicatedExternally o Policy:IAMUser/S3BucketEncryptionDisabled o Policy:IAMUser/S3BlockPublicAccessDisabled o Policy:IAMUser/S3BucketSharedWithCloudFront Syntax: "string" "string" ...
+    /// An array of finding types, one for each type of sample finding to create. To create a sample of every type of finding that Amazon Macie supports, don't include this array in your request. (string) The type of finding. For details about each type, see Types of findings in the Amazon Macie User Guide . Possible values are: Possible values: • SensitiveData:S3Object/Multiple • SensitiveData:S3Object/Financial • SensitiveData:S3Object/Personal • SensitiveData:S3Object/Credentials • SensitiveData:S3Object/CustomIdentifier • Policy:IAMUser/S3BucketPublic • Policy:IAMUser/S3BucketSharedExternally • Policy:IAMUser/S3BucketReplicatedExternally • Policy:IAMUser/S3BucketEncryptionDisabled • Policy:IAMUser/S3BlockPublicAccessDisabled • Policy:IAMUser/S3BucketSharedWithCloudFront Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--finding-types", GroupValues = true)]
     public IEnumerable<string>? FindingTypes { get; set; }
@@ -32,5 +32,14 @@ public record AwsMacie2CreateSampleFindingsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

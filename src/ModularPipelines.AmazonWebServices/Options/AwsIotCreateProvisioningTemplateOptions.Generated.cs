@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +29,9 @@ public record AwsIotCreateProvisioningTemplateOptions : AwsOptions, IValidatable
     /// <summary>
     /// Creates a provisioning template. Requires permission to access the CreateProvisioningTemplate action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TemplateName">The name of the provisioning template. Constraints: o min: 1 o max: 36 o pattern: ^[0-9A-Za-z_-]+$</param>
-    /// <param name="TemplateBody">The JSON formatted contents of the provisioning template. Constraints: o min: 0 o max: 10240 o pattern: [\s\S]*</param>
-    /// <param name="ProvisioningRoleArn">The role ARN for the role associated with the provisioning template. This IoT role grants permission to provision a device. Constraints: o min: 20 o max: 2048</param>
+    /// <param name="TemplateName">The name of the provisioning template. Constraints: • min: 1 • max: 36 • pattern: ^[0-9A-Za-z_-]+$</param>
+    /// <param name="TemplateBody">The JSON formatted contents of the provisioning template. Constraints: • min: 0 • max: 10240 • pattern: [\s\S]*</param>
+    /// <param name="ProvisioningRoleArn">The role ARN for the role associated with the provisioning template. This IoT role grants permission to provision a device. Constraints: • min: 20 • max: 2048</param>
     public AwsIotCreateProvisioningTemplateOptions(
         string TemplateName,
         string TemplateBody,
@@ -65,25 +66,25 @@ public record AwsIotCreateProvisioningTemplateOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the provisioning template. Constraints: o min: 1 o max: 36 o pattern: ^[0-9A-Za-z_-]+$
+    /// The name of the provisioning template. Constraints: • min: 1 • max: 36 • pattern: ^[0-9A-Za-z_-]+$
     /// </summary>
     [CliOption("--template-name")]
     public string? TemplateName { get; private init; }
 
     /// <summary>
-    /// The JSON formatted contents of the provisioning template. Constraints: o min: 0 o max: 10240 o pattern: [\s\S]*
+    /// The JSON formatted contents of the provisioning template. Constraints: • min: 0 • max: 10240 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--template-body")]
     public string? TemplateBody { get; private init; }
 
     /// <summary>
-    /// The role ARN for the role associated with the provisioning template. This IoT role grants permission to provision a device. Constraints: o min: 20 o max: 2048
+    /// The role ARN for the role associated with the provisioning template. This IoT role grants permission to provision a device. Constraints: • min: 20 • max: 2048
     /// </summary>
     [CliOption("--provisioning-role-arn")]
     public string? ProvisioningRoleArn { get; private init; }
 
     /// <summary>
-    /// The description of the provisioning template. Constraints: o min: 0 o max: 500 o pattern: [^\p{C}]*
+    /// The description of the provisioning template. Constraints: • min: 0 • max: 500 • pattern: [^\p{C}]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
@@ -95,19 +96,19 @@ public record AwsIotCreateProvisioningTemplateOptions : AwsOptions, IValidatable
     public bool? Enabled { get; set; }
 
     /// <summary>
-    /// Creates a pre-provisioning hook template. Only supports template of type FLEET_PROVISIONING . For more information about provisioning template types, see type . payloadVersion -&gt; (string) The payload that was sent to the target function. Note: Only Lambda functions are currently supported. Constraints: o min: 10 o max: 32 o pattern: ^[0-9-]+$ targetArn -&gt; (string) [required] The ARN of the target function. Note: Only Lambda functions are currently supported. Constraints: o max: 2048 Shorthand Syntax: payloadVersion=string,targetArn=string JSON Syntax: { "payloadVersion": "string", "targetArn": "string" }
+    /// Creates a pre-provisioning hook template. Only supports template of type FLEET_PROVISIONING . For more information about provisioning template types, see type . payloadVersion -&gt; (string) The payload that was sent to the target function. Note: Only Lambda functions are currently supported. Constraints: • min: 10 • max: 32 • pattern: ^[0-9-]+$ targetArn -&gt; (string) [required] The ARN of the target function. Note: Only Lambda functions are currently supported. Constraints: • max: 2048 Shorthand Syntax: payloadVersion=string,targetArn=string JSON Syntax: { "payloadVersion": "string", "targetArn": "string" }
     /// </summary>
     [CliOption("--pre-provisioning-hook")]
     public string? PreProvisioningHook { get; set; }
 
     /// <summary>
-    /// Metadata which can be used to manage the provisioning template. NOTE: For URI Request parameters use format: ...key1=value1&amp;key2=value2... For the CLI command-line parameter use format: &amp;&amp;tags "key1=value1&amp;key2=value2..." For the cli-input-json file use format: "tags": "key1=value1&amp;key2=value2..." (structure) A set of key/value pairs that are used to manage the resource. Key -&gt; (string) [required] The tag's key. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) The tag's value. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Metadata which can be used to manage the provisioning template. NOTE: For URI Request parameters use format: ...key1=value1&amp;key2=value2... For the CLI command-line parameter use format: &amp;&amp;tags "key1=value1&amp;key2=value2..." For the cli-input-json file use format: "tags": "key1=value1&amp;key2=value2..." (structure) A set of key/value pairs that are used to manage the resource. Key -&gt; (string) [required] The tag's key. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) The tag's value. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// The type you define in a provisioning template. You can create a template with only one type. You can't change the template type af- ter its creation. The default value is FLEET_PROVISIONING . For more information about provisioning template, see: Provisioning template . Possible values: o FLEET_PROVISIONING o JITP
+    /// The type you define in a provisioning template. You can create a template with only one type. You can't change the template type after its creation. The default value is FLEET_PROVISIONING . For more information about provisioning template, see: Provisioning template . Possible values: • FLEET_PROVISIONING • JITP
     /// </summary>
     [CliOption("--type")]
     public AwsIotCreateProvisioningTemplateType? Type { get; set; }
@@ -133,6 +134,15 @@ public record AwsIotCreateProvisioningTemplateOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

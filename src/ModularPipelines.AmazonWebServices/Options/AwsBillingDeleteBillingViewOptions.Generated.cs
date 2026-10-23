@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsBillingDeleteBillingViewOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Deletes the specified billing view. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The Amazon Resource Name (ARN) that can be used to uniquely identify the billing view. Constraints: o pattern: arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[a-zA-Z0-9/:_\+=\.\-@]{0,75}[a-zA-Z0-9]</param>
+    /// <param name="Arn">The Amazon Resource Name (ARN) that can be used to uniquely identify the billing view. Constraints: • pattern: arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[a-zA-Z0-9/:_\+=\.\-@]{0,75}[a-zA-Z0-9]</param>
     public AwsBillingDeleteBillingViewOptions(
         string Arn
     )
@@ -56,7 +57,7 @@ public record AwsBillingDeleteBillingViewOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) that can be used to uniquely identify the billing view. Constraints: o pattern: arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[a-zA-Z0-9/:_\+=\.\-@]{0,75}[a-zA-Z0-9]
+    /// The Amazon Resource Name (ARN) that can be used to uniquely identify the billing view. Constraints: • pattern: arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[a-zA-Z0-9/:_\+=\.\-@]{0,75}[a-zA-Z0-9]
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
@@ -88,6 +89,15 @@ public record AwsBillingDeleteBillingViewOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

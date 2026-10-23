@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsChatbotUpdateChimeWebhookConfigurationOptions : AwsOptions, IVa
     /// <summary>
     /// Updates a Amazon Chime webhook configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ChatConfigurationArn">The Amazon Resource Name (ARN) of the ChimeWebhookConfiguration to update. Constraints: o min: 19 o max: 1169 o pattern: arn:aws:(wheatley|chat- bot):[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}</param>
+    /// <param name="ChatConfigurationArn">The Amazon Resource Name (ARN) of the ChimeWebhookConfiguration to update. Constraints: • min: 19 • max: 1169 • pattern: arn:aws:(wheatley|chatbot):[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}</param>
     public AwsChatbotUpdateChimeWebhookConfigurationOptions(
         string ChatConfigurationArn
     )
@@ -56,37 +57,37 @@ public record AwsChatbotUpdateChimeWebhookConfigurationOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the ChimeWebhookConfiguration to update. Constraints: o min: 19 o max: 1169 o pattern: arn:aws:(wheatley|chat- bot):[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}
+    /// The Amazon Resource Name (ARN) of the ChimeWebhookConfiguration to update. Constraints: • min: 19 • max: 1169 • pattern: arn:aws:(wheatley|chatbot):[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}
     /// </summary>
     [CliOption("--chat-configuration-arn")]
     public string? ChatConfigurationArn { get; private init; }
 
     /// <summary>
-    /// A description of the webhook. We recommend using the convention RoomName/WebhookName . For more information, see Tutorial: Get started with Amazon Chime in the AWS Chatbot Administrator Guide . Constraints: o min: 1 o max: 255
+    /// A description of the webhook. We recommend using the convention RoomName/WebhookName . For more information, see Tutorial: Get started with Amazon Chime in the AWS Chatbot Administrator Guide . Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--webhook-description")]
     public string? WebhookDescription { get; set; }
 
     /// <summary>
-    /// The URL for the Amazon Chime webhook. Constraints: o min: 1 o max: 255 o pattern: https://hooks\.chime\.aws/incomingweb- hooks/[A-Za-z0-9\-]+?\?token=[A-Za-z0-9\-]+
+    /// The URL for the Amazon Chime webhook. Constraints: • min: 1 • max: 255 • pattern: https://hooks\.chime\.aws/incomingwebhooks/[A-Za-z0-9\-]+?\?token=[A-Za-z0-9\-]+
     /// </summary>
     [CliOption("--webhook-url")]
     public string? WebhookUrl { get; set; }
 
     /// <summary>
-    /// The ARNs of the SNS topics that deliver notifications to AWS Chat- bot. (string) Constraints: o min: 12 o max: 1224 o pattern: arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023} Syntax: "string" "string" ...
+    /// The ARNs of the SNS topics that deliver notifications to AWS Chatbot. (string) Constraints: • min: 12 • max: 1224 • pattern: arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--sns-topic-arns", GroupValues = true)]
     public IEnumerable<string>? SnsTopicArns { get; set; }
 
     /// <summary>
-    /// A user-defined role that AWS Chatbot assumes. This is not the ser- vice-linked role. For more information, see IAM policies for AWS Chatbot in the AWS Chatbot Administrator Guide . Constraints: o min: 12 o max: 1224 o pattern: arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}
+    /// A user-defined role that AWS Chatbot assumes. This is not the service-linked role. For more information, see IAM policies for AWS Chatbot in the AWS Chatbot Administrator Guide . Constraints: • min: 12 • max: 1224 • pattern: arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}
     /// </summary>
     [CliOption("--iam-role-arn")]
     public string? IamRoleArn { get; set; }
 
     /// <summary>
-    /// Logging levels include ERROR , INFO , or NONE . Constraints: o min: 4 o max: 5 o pattern: (ERROR|INFO|NONE)
+    /// Logging levels include ERROR , INFO , or NONE . Constraints: • min: 4 • max: 5 • pattern: (ERROR|INFO|NONE)
     /// </summary>
     [CliOption("--logging-level")]
     public string? LoggingLevel { get; set; }
@@ -112,6 +113,15 @@ public record AwsChatbotUpdateChimeWebhookConfigurationOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

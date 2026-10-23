@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Models;
+using ModularPipelines;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -22,14 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Services;
 public interface IAwsOpensearch
 {
     /// <summary>
-    /// Allows the destination Amazon OpenSearch Service domain owner to accept an inbound cross-cluster search connection request. For more informa- tion, see Cross-cluster search for Amazon OpenSearch Service . See also: AWS API Documentation
+    /// Allows the destination Amazon OpenSearch Service domain owner to accept an inbound cross-cluster search connection request. For more information, see Cross-cluster search for Amazon OpenSearch Service . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AcceptInboundConnectionAsync(AwsOpensearchAcceptInboundConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AcceptInboundConnectionAsync(AwsOpensearchAcceptInboundConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new direct-query data source to the specified domain. For more information, see Creating Amazon OpenSearch Service data source integrations with Amazon S3 . See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AddDataSourceAsync(AwsOpensearchAddDataSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AddDataSourceAsync(AwsOpensearchAddDataSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds a new data source in Amazon OpenSearch Service so that you can perform direct queries on external data. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AddDirectQueryDataSourceAsync(AwsOpensearchAddDirectQueryDataSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AddDirectQueryDataSourceAsync(AwsOpensearchAddDirectQueryDataSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Attaches tags to an existing Amazon OpenSearch Service domain, data source, or application. Tags are a set of case-sensitive key-value pairs. A domain, data source, or application can have up to 10 tags. For more information, see Tagging Amazon OpenSearch Service resources . See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AddTagsAsync(AwsOpensearchAddTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AddTagsAsync(AwsOpensearchAddTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates a package with an Amazon OpenSearch Service domain. For more information, see Custom packages for Amazon OpenSearch Service . See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociatePackageAsync(AwsOpensearchAssociatePackageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociatePackageAsync(AwsOpensearchAssociatePackageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Operation in the Amazon OpenSearch Service API for associating multiple packages with a domain simultaneously. See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociatePackagesAsync(AwsOpensearchAssociatePackagesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociatePackagesAsync(AwsOpensearchAssociatePackagesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Attaches a data source to an OpenSearch application. The data source must be an Amazon OpenSearch Service domain. If both the application and the data source are active, the attachment completes immediately with a status of ATTACHED . Otherwise, the operation returns PENDING and completes the attachment automatically once both become active. If the attachment cannot be completed, its status becomes FAILED . This operation is idempotent: If the data source is already attached or pending, the oper...
@@ -88,8 +82,7 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AttachDataSourceAsync(AwsOpensearchAttachDataSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AttachDataSourceAsync(AwsOpensearchAttachDataSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides access to an Amazon OpenSearch Service domain through the use of an interface VPC endpoint. See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AuthorizeVpcEndpointAccessAsync(AwsOpensearchAuthorizeVpcEndpointAccessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AuthorizeVpcEndpointAccessAsync(AwsOpensearchAuthorizeVpcEndpointAccessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Cancels a pending configuration change on an Amazon OpenSearch Service domain. See also: AWS API Documentation
@@ -108,18 +100,16 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelDomainConfigChangeAsync(AwsOpensearchCancelDomainConfigChangeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CancelDomainConfigChangeAsync(AwsOpensearchCancelDomainConfigChangeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Cancels a scheduled service software update for an Amazon OpenSearch Service domain. You can only perform this operation before the Automat- edUpdateDate and when the domain's UpdateStatus is PENDING_UPDATE . For more information, see Service software updates in Amazon OpenSearch Service . See also: AWS API Documentation
+    /// Cancels a scheduled service software update for an Amazon OpenSearch Service domain. You can only perform this operation before the AutomatedUpdateDate and when the domain's UpdateStatus is PENDING_UPDATE . For more information, see Service software updates in Amazon OpenSearch Service . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelServiceSoftwareUpdateAsync(AwsOpensearchCancelServiceSoftwareUpdateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CancelServiceSoftwareUpdateAsync(AwsOpensearchCancelServiceSoftwareUpdateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an OpenSearch UI application. For more information, see Using the OpenSearch user interface in Amazon OpenSearch Service . See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateApplicationAsync(AwsOpensearchCreateApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateApplicationAsync(AwsOpensearchCreateApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an Amazon OpenSearch Service domain. For more information, see Creating and managing Amazon OpenSearch Service domains . See also: AWS API Documentation
@@ -138,28 +127,25 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDomainAsync(AwsOpensearchCreateDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateDomainAsync(AwsOpensearchCreateDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates an OpenSearch index with optional automatic semantic enrichment for specified text fields. Automatic semantic enrichment enables seman- tic search capabilities without requiring machine learning expertise, improving search relevance by up to 20% by understanding search intent and contextual meaning beyond keyword matching. The semantic enrichment process has zero impact on search latency as sparse encodings are stored directly within the index during indexing. For more information, see A...
+    /// Creates an OpenSearch index with optional automatic semantic enrichment for specified text fields. Automatic semantic enrichment enables semantic search capabilities without requiring machine learning expertise, improving search relevance by up to 20% by understanding search intent and contextual meaning beyond keyword matching. The semantic enrichment process has zero impact on search latency as sparse encodings are stored directly within the index during indexing. For more information, see Aut...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateIndexAsync(AwsOpensearchCreateIndexOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateIndexAsync(AwsOpensearchCreateIndexOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates a new cross-cluster search connection from a source Amazon OpenSearch Service domain to a destination domain. For more informa- tion, see Cross-cluster search for Amazon OpenSearch Service . See also: AWS API Documentation
+    /// Creates a new cross-cluster search connection from a source Amazon OpenSearch Service domain to a destination domain. For more information, see Cross-cluster search for Amazon OpenSearch Service . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateOutboundConnectionAsync(AwsOpensearchCreateOutboundConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateOutboundConnectionAsync(AwsOpensearchCreateOutboundConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a package for use with Amazon OpenSearch Service domains. For more information, see Custom packages for Amazon OpenSearch Service . See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreatePackageAsync(AwsOpensearchCreatePackageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreatePackageAsync(AwsOpensearchCreatePackageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an Amazon OpenSearch Service-managed VPC endpoint. See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateVpcEndpointAsync(AwsOpensearchCreateVpcEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateVpcEndpointAsync(AwsOpensearchCreateVpcEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a specified OpenSearch application. See also: AWS API Documentation
@@ -188,8 +172,7 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteApplicationAsync(AwsOpensearchDeleteApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteApplicationAsync(AwsOpensearchDeleteApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a direct-query data source. For more information, see Deleting an Amazon OpenSearch Service data source with Amazon S3 . See also: AWS API Documentation
@@ -198,8 +181,7 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDataSourceAsync(AwsOpensearchDeleteDataSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteDataSourceAsync(AwsOpensearchDeleteDataSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a previously configured direct query data source from Amazon OpenSearch Service. See also: AWS API Documentation
@@ -208,8 +190,7 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDirectQueryDataSourceAsync(AwsOpensearchDeleteDirectQueryDataSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteDirectQueryDataSourceAsync(AwsOpensearchDeleteDirectQueryDataSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an Amazon OpenSearch Service domain and all of its data. You can't recover a domain after you delete it. See also: AWS API Documentation
@@ -218,38 +199,34 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDomainAsync(AwsOpensearchDeleteDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteDomainAsync(AwsOpensearchDeleteDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Allows the destination Amazon OpenSearch Service domain owner to delete an existing inbound cross-cluster search connection. For more informa- tion, see Cross-cluster search for Amazon OpenSearch Service . See also: AWS API Documentation
+    /// Allows the destination Amazon OpenSearch Service domain owner to delete an existing inbound cross-cluster search connection. For more information, see Cross-cluster search for Amazon OpenSearch Service . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteInboundConnectionAsync(AwsOpensearchDeleteInboundConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteInboundConnectionAsync(AwsOpensearchDeleteInboundConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deletes an OpenSearch index. This operation permanently removes the in- dex and cannot be undone. See also: AWS API Documentation
+    /// Deletes an OpenSearch index. This operation permanently removes the index and cannot be undone. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteIndexAsync(AwsOpensearchDeleteIndexOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteIndexAsync(AwsOpensearchDeleteIndexOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Allows the source Amazon OpenSearch Service domain owner to delete an existing outbound cross-cluster search connection. For more informa- tion, see Cross-cluster search for Amazon OpenSearch Service . See also: AWS API Documentation
+    /// Allows the source Amazon OpenSearch Service domain owner to delete an existing outbound cross-cluster search connection. For more information, see Cross-cluster search for Amazon OpenSearch Service . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteOutboundConnectionAsync(AwsOpensearchDeleteOutboundConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteOutboundConnectionAsync(AwsOpensearchDeleteOutboundConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an Amazon OpenSearch Service package. For more information, see Custom packages for Amazon OpenSearch Service . See also: AWS API Documentation
@@ -258,8 +235,7 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeletePackageAsync(AwsOpensearchDeletePackageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeletePackageAsync(AwsOpensearchDeletePackageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an Amazon OpenSearch Service-managed interface VPC endpoint. See also: AWS API Documentation
@@ -268,38 +244,34 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteVpcEndpointAsync(AwsOpensearchDeleteVpcEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteVpcEndpointAsync(AwsOpensearchDeleteVpcEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deregisters a capability from an OpenSearch UI application. This opera- tion removes the capability and its associated configuration. See also: AWS API Documentation
+    /// Deregisters a capability from an OpenSearch UI application. This operation removes the capability and its associated configuration. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeregisterCapabilityAsync(AwsOpensearchDeregisterCapabilityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeregisterCapabilityAsync(AwsOpensearchDeregisterCapabilityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns the current status and details of a specific data source at- tachment for an OpenSearch application. Throws a ResourceNotFoundExcep- tion if no attachment record exists for the specified application and data source combination. See also: AWS API Documentation
+    /// Returns the current status and details of a specific data source attachment for an OpenSearch application. Throws a ResourceNotFoundException if no attachment record exists for the specified application and data source combination. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeDataSourceAttachmentAsync(AwsOpensearchDescribeDataSourceAttachmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeDataSourceAttachmentAsync(AwsOpensearchDescribeDataSourceAttachmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns the list of optimizations that Auto-Tune has made to an Amazon OpenSearch Service domain. For more information, see Auto-Tune for Ama- zon OpenSearch Service . See also: AWS API Documentation
+    /// Returns the list of optimizations that Auto-Tune has made to an Amazon OpenSearch Service domain. For more information, see Auto-Tune for Amazon OpenSearch Service . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeDomainAutoTunesAsync(AwsOpensearchDescribeDomainAutoTunesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeDomainAutoTunesAsync(AwsOpensearchDescribeDomainAutoTunesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about the current blue/green deployment happening on an Amazon OpenSearch Service domain. For more information, see Making configuration changes in Amazon OpenSearch Service . See also: AWS API Documentation
@@ -308,8 +280,7 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeDomainChangeProgressAsync(AwsOpensearchDescribeDomainChangeProgressOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeDomainChangeProgressAsync(AwsOpensearchDescribeDomainChangeProgressOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the configuration of an Amazon OpenSearch Service domain. See also: AWS API Documentation
@@ -318,28 +289,25 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeDomainConfigAsync(AwsOpensearchDescribeDomainConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeDomainConfigAsync(AwsOpensearchDescribeDomainConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns information about domain and node health, the standby Avail- ability Zone, number of nodes per Availability Zone, and shard count per node. See also: AWS API Documentation
+    /// Returns information about domain and node health, the standby Availability Zone, number of nodes per Availability Zone, and shard count per node. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeDomainHealthAsync(AwsOpensearchDescribeDomainHealthOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeDomainHealthAsync(AwsOpensearchDescribeDomainHealthOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns information about domain and nodes, including data nodes, mas- ter nodes, ultrawarm nodes, Availability Zone(s), standby nodes, node configurations, and node states. See also: AWS API Documentation
+    /// Returns information about domain and nodes, including data nodes, master nodes, ultrawarm nodes, Availability Zone(s), standby nodes, node configurations, and node states. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeDomainNodesAsync(AwsOpensearchDescribeDomainNodesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeDomainNodesAsync(AwsOpensearchDescribeDomainNodesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the domain configuration for the specified Amazon OpenSearch Service domain, including the domain ID, domain service endpoint, and domain ARN. See also: AWS API Documentation
@@ -348,8 +316,7 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeDomainAsync(AwsOpensearchDescribeDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeDomainAsync(AwsOpensearchDescribeDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns domain configuration information about the specified Amazon OpenSearch Service domains. See also: AWS API Documentation
@@ -358,8 +325,7 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeDomainsAsync(AwsOpensearchDescribeDomainsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeDomainsAsync(AwsOpensearchDescribeDomainsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the progress of a pre-update dry run analysis on an Amazon OpenSearch Service domain. For more information, see Determining whether a change will cause a blue/green deployment . See also: AWS API Documentation
@@ -368,18 +334,16 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeDryRunProgressAsync(AwsOpensearchDescribeDryRunProgressOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeDryRunProgressAsync(AwsOpensearchDescribeDryRunProgressOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists all the inbound cross-cluster search connections for a destina- tion (remote) Amazon OpenSearch Service domain. For more information, see Cross-cluster search for Amazon OpenSearch Service . See also: AWS API Documentation
+    /// Lists all the inbound cross-cluster search connections for a destination (remote) Amazon OpenSearch Service domain. For more information, see Cross-cluster search for Amazon OpenSearch Service . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeInboundConnectionsAsync(AwsOpensearchDescribeInboundConnectionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeInboundConnectionsAsync(AwsOpensearchDescribeInboundConnectionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the details of an existing insight for an Amazon OpenSearch Service domain. Returns detailed fields associated with the specified insight, such as text descriptions and metric data. See also: AWS API Documentation
@@ -388,8 +352,7 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeInsightDetailsAsync(AwsOpensearchDescribeInsightDetailsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeInsightDetailsAsync(AwsOpensearchDescribeInsightDetailsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the instance count, storage, and master node limits for a given OpenSearch or Elasticsearch version and instance type. See also: AWS API Documentation
@@ -398,8 +361,7 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeInstanceTypeLimitsAsync(AwsOpensearchDescribeInstanceTypeLimitsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeInstanceTypeLimitsAsync(AwsOpensearchDescribeInstanceTypeLimitsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all the outbound cross-cluster connections for a local (source) Amazon OpenSearch Service domain. For more information, see Cross-cluster search for Amazon OpenSearch Service . See also: AWS API Documentation
@@ -408,38 +370,34 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeOutboundConnectionsAsync(AwsOpensearchDescribeOutboundConnectionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeOutboundConnectionsAsync(AwsOpensearchDescribeOutboundConnectionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Describes all packages available to OpenSearch Service. For more infor- mation, see Custom packages for Amazon OpenSearch Service . See also: AWS API Documentation
+    /// Describes all packages available to OpenSearch Service. For more information, see Custom packages for Amazon OpenSearch Service . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribePackagesAsync(AwsOpensearchDescribePackagesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribePackagesAsync(AwsOpensearchDescribePackagesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Describes the available Amazon OpenSearch Service Reserved Instance of- ferings for a given Region. For more information, see Reserved In- stances in Amazon OpenSearch Service . See also: AWS API Documentation
+    /// Describes the available Amazon OpenSearch Service Reserved Instance offerings for a given Region. For more information, see Reserved Instances in Amazon OpenSearch Service . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeReservedInstanceOfferingsAsync(AwsOpensearchDescribeReservedInstanceOfferingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeReservedInstanceOfferingsAsync(AwsOpensearchDescribeReservedInstanceOfferingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Describes the Amazon OpenSearch Service instances that you have re- served in a given Region. For more information, see Reserved Instances in Amazon OpenSearch Service . See also: AWS API Documentation
+    /// Describes the Amazon OpenSearch Service instances that you have reserved in a given Region. For more information, see Reserved Instances in Amazon OpenSearch Service . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeReservedInstancesAsync(AwsOpensearchDescribeReservedInstancesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeReservedInstancesAsync(AwsOpensearchDescribeReservedInstancesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes one or more Amazon OpenSearch Service-managed VPC endpoints. See also: AWS API Documentation
@@ -448,8 +406,7 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeVpcEndpointsAsync(AwsOpensearchDescribeVpcEndpointsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeVpcEndpointsAsync(AwsOpensearchDescribeVpcEndpointsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes a data source from an OpenSearch application. The application must be in the ACTIVE state. This operation removes the data source saved object from the application and deletes the attachment record. Throws a ConflictException if the specified data source has a PENDING attachment, and a ResourceNotFoundException if the data source is not currently attached to the application. See also: AWS API Documentation
@@ -458,18 +415,16 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DetachDataSourceAsync(AwsOpensearchDetachDataSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DetachDataSourceAsync(AwsOpensearchDetachDataSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Removes a package from the specified Amazon OpenSearch Service domain. The package can't be in use with any OpenSearch index for the dissocia- tion to succeed. The package is still available in OpenSearch Service for association later. For more information, see Custom packages for Amazon OpenSearch Service . See also: AWS API Documentation
+    /// Removes a package from the specified Amazon OpenSearch Service domain. The package can't be in use with any OpenSearch index for the dissociation to succeed. The package is still available in OpenSearch Service for association later. For more information, see Custom packages for Amazon OpenSearch Service . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DissociatePackageAsync(AwsOpensearchDissociatePackageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DissociatePackageAsync(AwsOpensearchDissociatePackageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Dissociates multiple packages from a domain simultaneously. See also: AWS API Documentation
@@ -478,18 +433,16 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DissociatePackagesAsync(AwsOpensearchDissociatePackagesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DissociatePackagesAsync(AwsOpensearchDissociatePackagesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves the configuration and status of an existing OpenSearch appli- cation. See also: AWS API Documentation
+    /// Retrieves the configuration and status of an existing OpenSearch application. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetApplicationAsync(AwsOpensearchGetApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetApplicationAsync(AwsOpensearchGetApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about a registered capability for an OpenSearch UI application, including its configuration and current status. See also: AWS API Documentation
@@ -498,8 +451,7 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCapabilityAsync(AwsOpensearchGetCapabilityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCapabilityAsync(AwsOpensearchGetCapabilityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a map of OpenSearch or Elasticsearch versions and the versions you can upgrade them to. See also: AWS API Documentation
@@ -508,8 +460,7 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCompatibleVersionsAsync(AwsOpensearchGetCompatibleVersionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCompatibleVersionsAsync(AwsOpensearchGetCompatibleVersionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about a direct query data source. See also: AWS API Documentation
@@ -518,8 +469,7 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDataSourceAsync(AwsOpensearchGetDataSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDataSourceAsync(AwsOpensearchGetDataSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the ARN of the current default application. If the default application isn't set, the operation returns a resource not found error. See also: AWS API Documentation
@@ -528,8 +478,7 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDefaultApplicationSettingAsync(AwsOpensearchGetDefaultApplicationSettingOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDefaultApplicationSettingAsync(AwsOpensearchGetDefaultApplicationSettingOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns detailed configuration information for a specific direct query data source in Amazon OpenSearch Service. See also: AWS API Documentation
@@ -538,8 +487,7 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDirectQueryDataSourceAsync(AwsOpensearchGetDirectQueryDataSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDirectQueryDataSourceAsync(AwsOpensearchGetDirectQueryDataSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The status of the maintenance action. See also: AWS API Documentation
@@ -548,8 +496,7 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDomainMaintenanceStatusAsync(AwsOpensearchGetDomainMaintenanceStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDomainMaintenanceStatusAsync(AwsOpensearchGetDomainMaintenanceStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about an OpenSearch index including its schema and semantic enrichment configuration. Use this operation to view the current index structure and semantic search settings. See also: AWS API Documentation get-index uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Sh...
@@ -558,8 +505,7 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetIndexAsync(AwsOpensearchGetIndexOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetIndexAsync(AwsOpensearchGetIndexOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the current status and progress of a migration job, including the number of exported and imported objects and error details if the migration failed. See also: AWS API Documentation
@@ -568,8 +514,7 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMigrationAsync(AwsOpensearchGetMigrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMigrationAsync(AwsOpensearchGetMigrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of Amazon OpenSearch Service package versions, along with their creation time, commit message, and plugin properties (if the package is a zip plugin package). For more information, see Custom packages for Amazon OpenSearch Service . See also: AWS API Documentation
@@ -578,8 +523,7 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPackageVersionHistoryAsync(AwsOpensearchGetPackageVersionHistoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetPackageVersionHistoryAsync(AwsOpensearchGetPackageVersionHistoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the complete history of the last 10 upgrades performed on an Amazon OpenSearch Service domain. See also: AWS API Documentation
@@ -588,28 +532,25 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetUpgradeHistoryAsync(AwsOpensearchGetUpgradeHistoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetUpgradeHistoryAsync(AwsOpensearchGetUpgradeHistoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns the most recent status of the last upgrade or upgrade eligibil- ity check performed on an Amazon OpenSearch Service domain. See also: AWS API Documentation
+    /// Returns the most recent status of the last upgrade or upgrade eligibility check performed on an Amazon OpenSearch Service domain. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetUpgradeStatusAsync(AwsOpensearchGetUpgradeStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetUpgradeStatusAsync(AwsOpensearchGetUpgradeStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Submits feedback for an existing insight in an Amazon OpenSearch Ser- vice domain. Allows users to provide a thumbs up or thumbs down rating and optional text feedback for a specific insight. See also: AWS API Documentation
+    /// Submits feedback for an existing insight in an Amazon OpenSearch Service domain. Allows users to provide a thumbs up or thumbs down rating and optional text feedback for a specific insight. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> InsightFeedbackAsync(AwsOpensearchInsightFeedbackOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> InsightFeedbackAsync(AwsOpensearchInsightFeedbackOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all OpenSearch applications under your account. See also: AWS API Documentation list-applications is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ApplicationSummaries
@@ -618,8 +559,7 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListApplicationsAsync(AwsOpensearchListApplicationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListApplicationsAsync(AwsOpensearchListApplicationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a paginated list of all data source attachments for an OpenSearch application, including attachments in all states (PENDING , ATTACHED , and FAILED ). See also: AWS API Documentation
@@ -628,18 +568,16 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDataSourceAttachmentsAsync(AwsOpensearchListDataSourceAttachmentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDataSourceAttachmentsAsync(AwsOpensearchListDataSourceAttachmentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists direct-query data sources for a specific domain. For more infor- mation, see For more information, see Working with Amazon OpenSearch Service direct queries with Amazon S3 . See also: AWS API Documentation
+    /// Lists direct-query data sources for a specific domain. For more information, see For more information, see Working with Amazon OpenSearch Service direct queries with Amazon S3 . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDataSourcesAsync(AwsOpensearchListDataSourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDataSourcesAsync(AwsOpensearchListDataSourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists an inventory of all the direct query data sources that you have configured within Amazon OpenSearch Service. See also: AWS API Documentation
@@ -648,8 +586,7 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDirectQueryDataSourcesAsync(AwsOpensearchListDirectQueryDataSourcesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDirectQueryDataSourcesAsync(AwsOpensearchListDirectQueryDataSourcesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// A list of maintenance actions for the domain. See also: AWS API Documentation
@@ -658,8 +595,7 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDomainMaintenancesAsync(AwsOpensearchListDomainMaintenancesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDomainMaintenancesAsync(AwsOpensearchListDomainMaintenancesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the names of all Amazon OpenSearch Service domains owned by the current user in the active Region. See also: AWS API Documentation
@@ -668,8 +604,7 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDomainNamesAsync(AwsOpensearchListDomainNamesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDomainNamesAsync(AwsOpensearchListDomainNamesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all Amazon OpenSearch Service domains associated with a given package. For more information, see Custom packages for Amazon OpenSearch Service . See also: AWS API Documentation
@@ -678,8 +613,7 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDomainsForPackageAsync(AwsOpensearchListDomainsForPackageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDomainsForPackageAsync(AwsOpensearchListDomainsForPackageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists insights for an Amazon OpenSearch Service domain or Amazon Web Services account. Returns a paginated list of insights based on the specified entity, filters, time range, and sort order. See also: AWS API Documentation
@@ -688,8 +622,7 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListInsightsAsync(AwsOpensearchListInsightsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListInsightsAsync(AwsOpensearchListInsightsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all instance types and available features for a given OpenSearch or Elasticsearch version. See also: AWS API Documentation
@@ -698,8 +631,7 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListInstanceTypeDetailsAsync(AwsOpensearchListInstanceTypeDetailsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListInstanceTypeDetailsAsync(AwsOpensearchListInstanceTypeDetailsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists migration jobs for an Amazon OpenSearch Service application. You can filter results by migration status. Use pagination to ensure that the operation returns quickly and successfully. See also: AWS API Documentation
@@ -708,8 +640,7 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListMigrationsAsync(AwsOpensearchListMigrationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListMigrationsAsync(AwsOpensearchListMigrationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all packages associated with an Amazon OpenSearch Service domain. For more information, see Custom packages for Amazon OpenSearch Service . See also: AWS API Documentation
@@ -718,18 +649,16 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPackagesForDomainAsync(AwsOpensearchListPackagesForDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPackagesForDomainAsync(AwsOpensearchListPackagesForDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves a list of configuration changes that are scheduled for a do- main. These changes can be service software updates or blue/green Auto-Tune enhancements . See also: AWS API Documentation
+    /// Retrieves a list of configuration changes that are scheduled for a domain. These changes can be service software updates or blue/green Auto-Tune enhancements . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListScheduledActionsAsync(AwsOpensearchListScheduledActionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListScheduledActionsAsync(AwsOpensearchListScheduledActionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns all resource tags for an Amazon OpenSearch Service domain, data source, or application. For more information, see Tagging Amazon OpenSearch Service resources . See also: AWS API Documentation
@@ -738,8 +667,7 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsAsync(AwsOpensearchListTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsAsync(AwsOpensearchListTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all versions of OpenSearch and Elasticsearch that Amazon OpenSearch Service supports. See also: AWS API Documentation
@@ -748,8 +676,7 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListVersionsAsync(AwsOpensearchListVersionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListVersionsAsync(AwsOpensearchListVersionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about each Amazon Web Services principal that is allowed to access a given Amazon OpenSearch Service domain through the use of an interface VPC endpoint. See also: AWS API Documentation
@@ -758,18 +685,16 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListVpcEndpointAccessAsync(AwsOpensearchListVpcEndpointAccessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListVpcEndpointAccessAsync(AwsOpensearchListVpcEndpointAccessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves all Amazon OpenSearch Service-managed VPC endpoints associ- ated with a particular domain. See also: AWS API Documentation
+    /// Retrieves all Amazon OpenSearch Service-managed VPC endpoints associated with a particular domain. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListVpcEndpointsForDomainAsync(AwsOpensearchListVpcEndpointsForDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListVpcEndpointsForDomainAsync(AwsOpensearchListVpcEndpointsForDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves all Amazon OpenSearch Service-managed VPC endpoints in the current Amazon Web Services account and Region. See also: AWS API Documentation
@@ -778,8 +703,7 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListVpcEndpointsAsync(AwsOpensearchListVpcEndpointsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListVpcEndpointsAsync(AwsOpensearchListVpcEndpointsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Allows you to purchase Amazon OpenSearch Service Reserved Instances. See also: AWS API Documentation
@@ -788,28 +712,25 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PurchaseReservedInstanceOfferingAsync(AwsOpensearchPurchaseReservedInstanceOfferingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PurchaseReservedInstanceOfferingAsync(AwsOpensearchPurchaseReservedInstanceOfferingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Sets the default application to the application with the specified ARN. To remove the default application, use the GetDefaultApplicationSetting operation to get the current default and then call the PutDefaultAppli- cationSetting with the current applications ARN and the setAsDefault parameter set to false . See also: AWS API Documentation
+    /// Sets the default application to the application with the specified ARN. To remove the default application, use the GetDefaultApplicationSetting operation to get the current default and then call the PutDefaultApplicationSetting with the current applications ARN and the setAsDefault parameter set to false . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutDefaultApplicationSettingAsync(AwsOpensearchPutDefaultApplicationSettingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutDefaultApplicationSettingAsync(AwsOpensearchPutDefaultApplicationSettingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Registers a capability for an OpenSearch UI application. Use this oper- ation to enable specific capabilities, such as AI features, for a given application. The capability configuration defines the type and settings of the capability to register. For more information about the AI fea- tures, see Agentic AI for OpenSearch UI . See also: AWS API Documentation
+    /// Registers a capability for an OpenSearch UI application. Use this operation to enable specific capabilities, such as AI features, for a given application. The capability configuration defines the type and settings of the capability to register. For more information about the AI features, see Agentic AI for OpenSearch UI . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RegisterCapabilityAsync(AwsOpensearchRegisterCapabilityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RegisterCapabilityAsync(AwsOpensearchRegisterCapabilityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Allows the remote Amazon OpenSearch Service domain owner to reject an inbound cross-cluster connection request. See also: AWS API Documentation
@@ -818,18 +739,16 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RejectInboundConnectionAsync(AwsOpensearchRejectInboundConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RejectInboundConnectionAsync(AwsOpensearchRejectInboundConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Removes the specified set of tags from an Amazon OpenSearch Service do- main, data source, or application. For more information, see Tagging Amazon OpenSearch Service resources . See also: AWS API Documentation
+    /// Removes the specified set of tags from an Amazon OpenSearch Service domain, data source, or application. For more information, see Tagging Amazon OpenSearch Service resources . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RemoveTagsAsync(AwsOpensearchRemoveTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RemoveTagsAsync(AwsOpensearchRemoveTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Revokes access to an Amazon OpenSearch Service domain that was provided through an interface VPC endpoint. See also: AWS API Documentation
@@ -838,18 +757,16 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RevokeVpcEndpointAccessAsync(AwsOpensearchRevokeVpcEndpointAccessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RevokeVpcEndpointAccessAsync(AwsOpensearchRevokeVpcEndpointAccessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Rolls back a service software update for a domain to the previous ver- sion. For more information, see Service software updates in Amazon OpenSearch Service . See also: AWS API Documentation
+    /// Rolls back a service software update for a domain to the previous version. For more information, see Service software updates in Amazon OpenSearch Service . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RollbackServiceSoftwareUpdateAsync(AwsOpensearchRollbackServiceSoftwareUpdateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RollbackServiceSoftwareUpdateAsync(AwsOpensearchRollbackServiceSoftwareUpdateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts the node maintenance process on the data node. These processes can include a node reboot, an Opensearch or Elasticsearch process restart, or a Dashboard or Kibana restart. See also: AWS API Documentation
@@ -858,18 +775,16 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartDomainMaintenanceAsync(AwsOpensearchStartDomainMaintenanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartDomainMaintenanceAsync(AwsOpensearchStartDomainMaintenanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Initiates a migration job to migrate saved objects from a data source to an Amazon OpenSearch Service application workspace. Saved objects include dashboards, visualizations, index patterns, and searches. You can specify export filters to control the scope of the migration and a conflict resolution strategy for handling existing objects in the tar- get workspace. See also: AWS API Documentation
+    /// Initiates a migration job to migrate saved objects from a data source to an Amazon OpenSearch Service application workspace. Saved objects include dashboards, visualizations, index patterns, and searches. You can specify export filters to control the scope of the migration and a conflict resolution strategy for handling existing objects in the target workspace. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartMigrationAsync(AwsOpensearchStartMigrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartMigrationAsync(AwsOpensearchStartMigrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Schedules a service software update for an Amazon OpenSearch Service domain. For more information, see Service software updates in Amazon OpenSearch Service . See also: AWS API Documentation
@@ -878,18 +793,16 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartServiceSoftwareUpdateAsync(AwsOpensearchStartServiceSoftwareUpdateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartServiceSoftwareUpdateAsync(AwsOpensearchStartServiceSoftwareUpdateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Updates the configuration and settings of an existing OpenSearch appli- cation. See also: AWS API Documentation
+    /// Updates the configuration and settings of an existing OpenSearch application. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateApplicationAsync(AwsOpensearchUpdateApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateApplicationAsync(AwsOpensearchUpdateApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a direct-query data source. For more information, see Working with Amazon OpenSearch Service data source integrations with Amazon S3 . See also: AWS API Documentation
@@ -898,8 +811,7 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateDataSourceAsync(AwsOpensearchUpdateDataSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateDataSourceAsync(AwsOpensearchUpdateDataSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the configuration or properties of an existing direct query data source in Amazon OpenSearch Service. See also: AWS API Documentation
@@ -908,8 +820,7 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateDirectQueryDataSourceAsync(AwsOpensearchUpdateDirectQueryDataSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateDirectQueryDataSourceAsync(AwsOpensearchUpdateDirectQueryDataSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the cluster configuration of the specified Amazon OpenSearch Service domain. See also: AWS API Documentation
@@ -918,18 +829,16 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateDomainConfigAsync(AwsOpensearchUpdateDomainConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateDomainConfigAsync(AwsOpensearchUpdateDomainConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Updates an existing OpenSearch index schema and semantic enrichment configuration. This operation allows modification of field mappings and semantic search settings for text fields. Changes to semantic enrich- ment configuration will apply to newly ingested documents. See also: AWS API Documentation update-index uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested ...
+    /// Updates an existing OpenSearch index schema and semantic enrichment configuration. This operation allows modification of field mappings and semantic search settings for text fields. Changes to semantic enrichment configuration will apply to newly ingested documents. See also: AWS API Documentation update-index uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested pa...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateIndexAsync(AwsOpensearchUpdateIndexOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateIndexAsync(AwsOpensearchUpdateIndexOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a package for use with Amazon OpenSearch Service domains. For more information, see Custom packages for Amazon OpenSearch Service . See also: AWS API Documentation
@@ -938,8 +847,7 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdatePackageAsync(AwsOpensearchUpdatePackageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdatePackageAsync(AwsOpensearchUpdatePackageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the scope of a package. Scope of the package defines users who can view and associate a package. See also: AWS API Documentation
@@ -948,8 +856,7 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdatePackageScopeAsync(AwsOpensearchUpdatePackageScopeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdatePackageScopeAsync(AwsOpensearchUpdatePackageScopeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Reschedules a planned domain configuration change for a later time. This change can be a scheduled service software update or a blue/green Auto-Tune enhancement . See also: AWS API Documentation
@@ -958,8 +865,7 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateScheduledActionAsync(AwsOpensearchUpdateScheduledActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateScheduledActionAsync(AwsOpensearchUpdateScheduledActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies an Amazon OpenSearch Service-managed interface VPC endpoint. See also: AWS API Documentation
@@ -968,8 +874,7 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateVpcEndpointAsync(AwsOpensearchUpdateVpcEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateVpcEndpointAsync(AwsOpensearchUpdateVpcEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Allows you to either upgrade your Amazon OpenSearch Service domain or perform an upgrade eligibility check to a compatible version of OpenSearch or Elasticsearch. See also: AWS API Documentation
@@ -978,7 +883,6 @@ public interface IAwsOpensearch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpgradeDomainAsync(AwsOpensearchUpgradeDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpgradeDomainAsync(AwsOpensearchUpgradeDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

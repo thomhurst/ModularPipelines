@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsAcmDeleteAcmeDomainValidationOptions : AwsOptions, IValidatable
     /// <summary>
     /// Deletes a domain validation. After deletion, the ACME endpoint can no longer issue certificates for the associated domain. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AcmeDomainValidationArn">The Amazon Resource Name (ARN) of the ACME domain validation to delete. Constraints: o min: 1 o max: 200 o pattern: arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-end- point/[a-zA-Z0-9-]+/acme-domain-validation/[a-zA-Z0-9-]+</param>
+    /// <param name="AcmeDomainValidationArn">The Amazon Resource Name (ARN) of the ACME domain validation to delete. Constraints: • min: 1 • max: 200 • pattern: arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-endpoint/[a-zA-Z0-9-]+/acme-domain-validation/[a-zA-Z0-9-]+</param>
     public AwsAcmDeleteAcmeDomainValidationOptions(
         string AcmeDomainValidationArn
     )
@@ -56,7 +57,7 @@ public record AwsAcmDeleteAcmeDomainValidationOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the ACME domain validation to delete. Constraints: o min: 1 o max: 200 o pattern: arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-end- point/[a-zA-Z0-9-]+/acme-domain-validation/[a-zA-Z0-9-]+
+    /// The Amazon Resource Name (ARN) of the ACME domain validation to delete. Constraints: • min: 1 • max: 200 • pattern: arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-endpoint/[a-zA-Z0-9-]+/acme-domain-validation/[a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--acme-domain-validation-arn")]
     public string? AcmeDomainValidationArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsAcmDeleteAcmeDomainValidationOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

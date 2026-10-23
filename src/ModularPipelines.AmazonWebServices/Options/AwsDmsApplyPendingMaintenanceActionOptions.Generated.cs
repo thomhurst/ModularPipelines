@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -30,7 +31,7 @@ public record AwsDmsApplyPendingMaintenanceActionOptions : AwsOptions, IValidata
     /// </summary>
     /// <param name="ReplicationInstanceArn">The Amazon Resource Name (ARN) of the DMS resource that the pending maintenance action applies to.</param>
     /// <param name="ApplyAction">The pending maintenance action to apply to this resource. Valid values: os-upgrade , system-update , db-upgrade , os-patch</param>
-    /// <param name="OptInType">A value that specifies the type of opt-in request, or undoes an opt-in request. You can't undo an opt-in request of type immediate . Valid values: o immediate - Apply the maintenance action immediately. o next-maintenance - Apply the maintenance action during the next maintenance window for the resource. o undo-opt-in - Cancel any existing next-maintenance opt-in re- quests.</param>
+    /// <param name="OptInType">A value that specifies the type of opt-in request, or undoes an opt-in request. You can't undo an opt-in request of type immediate . Valid values: • immediate - Apply the maintenance action immediately. • next-maintenance - Apply the maintenance action during the next maintenance window for the resource. • undo-opt-in - Cancel any existing next-maintenance opt-in requests.</param>
     public AwsDmsApplyPendingMaintenanceActionOptions(
         string ReplicationInstanceArn,
         AwsDmsApplyPendingMaintenanceActionApplyAction ApplyAction,
@@ -76,7 +77,7 @@ public record AwsDmsApplyPendingMaintenanceActionOptions : AwsOptions, IValidata
     public AwsDmsApplyPendingMaintenanceActionApplyAction? ApplyAction { get; private init; }
 
     /// <summary>
-    /// A value that specifies the type of opt-in request, or undoes an opt-in request. You can't undo an opt-in request of type immediate . Valid values: o immediate - Apply the maintenance action immediately. o next-maintenance - Apply the maintenance action during the next maintenance window for the resource. o undo-opt-in - Cancel any existing next-maintenance opt-in re- quests.
+    /// A value that specifies the type of opt-in request, or undoes an opt-in request. You can't undo an opt-in request of type immediate . Valid values: • immediate - Apply the maintenance action immediately. • next-maintenance - Apply the maintenance action during the next maintenance window for the resource. • undo-opt-in - Cancel any existing next-maintenance opt-in requests.
     /// </summary>
     [CliOption("--opt-in-type")]
     public string? OptInType { get; private init; }
@@ -102,6 +103,15 @@ public record AwsDmsApplyPendingMaintenanceActionOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

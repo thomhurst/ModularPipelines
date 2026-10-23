@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists the resources that you added to a resource share or the resources that are shared with you. NOTE: Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally re- turn an empty set of results even when there are more results avail- able. The NextToken response parameter value is null only when there are no more results to display. See also: AWS API Documentation list-resources is a paginated operation. Multiple API cal...
+/// Lists the resources that you added to a resource share or the resources that are shared with you. NOTE: Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display. See also: AWS API Documentation list-resources is a paginated operation. Multiple API calls m...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +28,9 @@ public record AwsRamListResourcesOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists the resources that you added to a resource share or the resources that are shared with you. NOTE: Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally re- turn an empty set of results even when there are more results avail- able. The NextToken response parameter value is null only when there are no more results to display. See also: AWS API Documentation list-resources is a paginated operation. Multiple API cal...
+    /// Lists the resources that you added to a resource share or the resources that are shared with you. NOTE: Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display. See also: AWS API Documentation list-resources is a paginated operation. Multiple API calls m...
     /// </summary>
-    /// <param name="ResourceOwner">Specifies that you want to list only the resource shares that match the following: o ** SELF ** resources that your account shares with other accounts System Message: WARNING/2 (&lt;string&gt;:, line 95) Inline strong start-string without end-string. o ** OTHER-ACCOUNTS ** resources that other accounts share with your account System Message: WARNING/2 (&lt;string&gt;:, line 97) Inline strong start-string without end-string. Possible values: o SELF o OTHER-ACCOUNTS</param>
+    /// <param name="ResourceOwner">Specifies that you want to list only the resource shares that match the following: o ** SELF ** resources that your account shares with other accounts System Message: WARNING/2 (&lt;string&gt;:, line 95) Inline strong start-string without end-string. o ** OTHER-ACCOUNTS ** resources that other accounts share with your account System Message: WARNING/2 (&lt;string&gt;:, line 97) Inline strong start-string without end-string. Possible values: • SELF • OTHER-ACCOUNTS</param>
     public AwsRamListResourcesOptions(
         AwsRamListResourcesResourceOwner ResourceOwner
     )
@@ -57,7 +58,7 @@ public record AwsRamListResourcesOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies that you want to list only the resource shares that match the following: o ** SELF ** resources that your account shares with other accounts System Message: WARNING/2 (&lt;string&gt;:, line 95) Inline strong start-string without end-string. o ** OTHER-ACCOUNTS ** resources that other accounts share with your account System Message: WARNING/2 (&lt;string&gt;:, line 97) Inline strong start-string without end-string. Possible values: o SELF o OTHER-ACCOUNTS
+    /// Specifies that you want to list only the resource shares that match the following: o ** SELF ** resources that your account shares with other accounts System Message: WARNING/2 (&lt;string&gt;:, line 95) Inline strong start-string without end-string. o ** OTHER-ACCOUNTS ** resources that other accounts share with your account System Message: WARNING/2 (&lt;string&gt;:, line 97) Inline strong start-string without end-string. Possible values: • SELF • OTHER-ACCOUNTS
     /// </summary>
     [CliOption("--resource-owner")]
     public AwsRamListResourcesResourceOwner? ResourceOwner { get; private init; }
@@ -69,13 +70,13 @@ public record AwsRamListResourcesOptions : AwsOptions, IValidatableObject
     public string? Principal { get; set; }
 
     /// <summary>
-    /// Specifies that you want to list only the resource shares that in- clude resources of the specified resource type. For valid values, query the ListResourceTypes operation.
+    /// Specifies that you want to list only the resource shares that include resources of the specified resource type. For valid values, query the ListResourceTypes operation.
     /// </summary>
     [CliOption("--resource-type")]
     public string? ResourceType { get; set; }
 
     /// <summary>
-    /// Specifies that you want to list only the resource shares that in- clude resources with the specified Amazon Resource Names (ARNs) . (string) Syntax: "string" "string" ...
+    /// Specifies that you want to list only the resource shares that include resources with the specified Amazon Resource Names (ARNs) . (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--resource-arns", GroupValues = true)]
     public IEnumerable<string>? ResourceArns { get; set; }
@@ -87,16 +88,13 @@ public record AwsRamListResourcesOptions : AwsOptions, IValidatableObject
     public IEnumerable<string>? ResourceShareArns { get; set; }
 
     /// <summary>
-    /// Specifies that you want the results to include only resources that have the specified scope. o ALL the results include both global and regional resources or re- source types. o GLOBAL the results include only global resources or resource types. o REGIONAL the results include only regional resources or resource types. The default value is ALL . Possible values: o ALL o REGIONAL o GLOBAL
+    /// Specifies that you want the results to include only resources that have the specified scope. • ALL the results include both global and regional resources or resource types. • GLOBAL the results include only global resources or resource types. • REGIONAL the results include only regional resources or resource types. The default value is ALL . Possible values: • ALL • REGIONAL • GLOBAL
     /// </summary>
     [CliOption("--resource-region-scope")]
     public AwsRamListResourcesResourceRegionScope? ResourceRegionScope { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -106,16 +104,19 @@ public record AwsRamListResourcesOptions : AwsOptions, IValidatableObject
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 500
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -132,6 +133,15 @@ public record AwsRamListResourcesOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

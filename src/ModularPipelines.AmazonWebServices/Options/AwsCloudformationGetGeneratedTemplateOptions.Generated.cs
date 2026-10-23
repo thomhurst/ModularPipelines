@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsCloudformationGetGeneratedTemplateOptions : AwsOptions, IValida
     /// <summary>
     /// Retrieves a generated template. If the template is in an InProgress or Pending status then the template returned will be the template when the template was last in a Complete status. If the template has not yet been in a Complete status then an empty template will be returned. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GeneratedTemplateName">The name or Amazon Resource Name (ARN) of the generated template. The format is arn:${Partition}:cloudformation:${Region}:${Ac- count}:generatedtemplate/${Id} . For example, `` arn:aws:cloudformation:us-east-1 :123456789012 :generatedtem- plate/2e8465c1-9a80-43ea-a3a3-4f2d692fe6dc `` . System Message: WARNING/2 (&lt;string&gt;:, line 96) Inline literal start-string without end-string. Constraints: o min: 1 o max: 128</param>
+    /// <param name="GeneratedTemplateName">The name or Amazon Resource Name (ARN) of the generated template. The format is arn:${Partition}:cloudformation:${Region}:${Account}:generatedtemplate/${Id} . For example, `` arn:aws:cloudformation:us-east-1 :123456789012 :generatedtemplate/2e8465c1-9a80-43ea-a3a3-4f2d692fe6dc `` . System Message: WARNING/2 (&lt;string&gt;:, line 96) Inline literal start-string without end-string. Constraints: • min: 1 • max: 128</param>
     public AwsCloudformationGetGeneratedTemplateOptions(
         string GeneratedTemplateName
     )
@@ -57,13 +58,13 @@ public record AwsCloudformationGetGeneratedTemplateOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name or Amazon Resource Name (ARN) of the generated template. The format is arn:${Partition}:cloudformation:${Region}:${Ac- count}:generatedtemplate/${Id} . For example, `` arn:aws:cloudformation:us-east-1 :123456789012 :generatedtem- plate/2e8465c1-9a80-43ea-a3a3-4f2d692fe6dc `` . System Message: WARNING/2 (&lt;string&gt;:, line 96) Inline literal start-string without end-string. Constraints: o min: 1 o max: 128
+    /// The name or Amazon Resource Name (ARN) of the generated template. The format is arn:${Partition}:cloudformation:${Region}:${Account}:generatedtemplate/${Id} . For example, `` arn:aws:cloudformation:us-east-1 :123456789012 :generatedtemplate/2e8465c1-9a80-43ea-a3a3-4f2d692fe6dc `` . System Message: WARNING/2 (&lt;string&gt;:, line 96) Inline literal start-string without end-string. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--generated-template-name")]
     public string? GeneratedTemplateName { get; private init; }
 
     /// <summary>
-    /// The language to use to retrieve for the generated template. Sup- ported values are: o JSON o YAML Possible values: o JSON o YAML
+    /// The language to use to retrieve for the generated template. Supported values are: • JSON • YAML Possible values: • JSON • YAML
     /// </summary>
     [CliOption("--format")]
     public AwsCloudformationGetGeneratedTemplateFormat? Format { get; set; }
@@ -89,6 +90,15 @@ public record AwsCloudformationGetGeneratedTemplateOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

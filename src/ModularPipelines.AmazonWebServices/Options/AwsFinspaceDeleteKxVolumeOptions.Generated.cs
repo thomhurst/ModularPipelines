@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a volume. You can only delete a volume if it's not attached to a cluster or a dataview. When a volume is deleted, any data on the vol- ume is lost. This action is irreversible. See also: AWS API Documentation
+/// Deletes a volume. You can only delete a volume if it's not attached to a cluster or a dataview. When a volume is deleted, any data on the volume is lost. This action is irreversible. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsFinspaceDeleteKxVolumeOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a volume. You can only delete a volume if it's not attached to a cluster or a dataview. When a volume is deleted, any data on the vol- ume is lost. This action is irreversible. See also: AWS API Documentation
+    /// Deletes a volume. You can only delete a volume if it's not attached to a cluster or a dataview. When a volume is deleted, any data on the volume is lost. This action is irreversible. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EnvironmentId">A unique identifier for the kdb environment, whose clusters can at- tach to the volume. Constraints: o min: 1 o max: 32 o pattern: ^[a-z0-9]+$</param>
-    /// <param name="VolumeName">The name of the volume that you want to delete. Constraints: o min: 3 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$</param>
+    /// <param name="EnvironmentId">A unique identifier for the kdb environment, whose clusters can attach to the volume. Constraints: • min: 1 • max: 32 • pattern: ^[a-z0-9]+$</param>
+    /// <param name="VolumeName">The name of the volume that you want to delete. Constraints: • min: 3 • max: 63 • pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$</param>
     public AwsFinspaceDeleteKxVolumeOptions(
         string EnvironmentId,
         string VolumeName
@@ -61,19 +62,19 @@ public record AwsFinspaceDeleteKxVolumeOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the kdb environment, whose clusters can at- tach to the volume. Constraints: o min: 1 o max: 32 o pattern: ^[a-z0-9]+$
+    /// A unique identifier for the kdb environment, whose clusters can attach to the volume. Constraints: • min: 1 • max: 32 • pattern: ^[a-z0-9]+$
     /// </summary>
     [CliOption("--environment-id")]
     public string? EnvironmentId { get; private init; }
 
     /// <summary>
-    /// The name of the volume that you want to delete. Constraints: o min: 3 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$
+    /// The name of the volume that you want to delete. Constraints: • min: 3 • max: 63 • pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$
     /// </summary>
     [CliOption("--volume-name")]
     public string? VolumeName { get; private init; }
 
     /// <summary>
-    /// A token that ensures idempotency. This token expires in 10 minutes. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-]+$
+    /// A token that ensures idempotency. This token expires in 10 minutes. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9-]+$
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -100,6 +101,15 @@ public record AwsFinspaceDeleteKxVolumeOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a subnet group. A subnet group is a collection of subnets (typ- ically private) that you can designate for your clusters running in an Amazon Virtual Private Cloud (VPC) environment. When you create a clus- ter in an Amazon VPC, you must specify a subnet group. MemoryDB uses that subnet group to choose a subnet and IP addresses within that sub- net to associate with your nodes. For more information, see Subnets and subnet groups . See also: AWS API Documentation
+/// Creates a subnet group. A subnet group is a collection of subnets (typically private) that you can designate for your clusters running in an Amazon Virtual Private Cloud (VPC) environment. When you create a cluster in an Amazon VPC, you must specify a subnet group. MemoryDB uses that subnet group to choose a subnet and IP addresses within that subnet to associate with your nodes. For more information, see Subnets and subnet groups . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsMemorydbCreateSubnetGroupOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a subnet group. A subnet group is a collection of subnets (typ- ically private) that you can designate for your clusters running in an Amazon Virtual Private Cloud (VPC) environment. When you create a clus- ter in an Amazon VPC, you must specify a subnet group. MemoryDB uses that subnet group to choose a subnet and IP addresses within that sub- net to associate with your nodes. For more information, see Subnets and subnet groups . See also: AWS API Documentation
+    /// Creates a subnet group. A subnet group is a collection of subnets (typically private) that you can designate for your clusters running in an Amazon Virtual Private Cloud (VPC) environment. When you create a cluster in an Amazon VPC, you must specify a subnet group. MemoryDB uses that subnet group to choose a subnet and IP addresses within that subnet to associate with your nodes. For more information, see Subnets and subnet groups . See also: AWS API Documentation
     /// </summary>
     /// <param name="SubnetGroupName">The name of the subnet group.</param>
     /// <param name="SubnetIds">A list of VPC subnet IDs for the subnet group. (string) Syntax: "string" "string" ...</param>
@@ -89,7 +90,7 @@ public record AwsMemorydbCreateSubnetGroupOptions : AwsOptions, IValidatableObje
     public string? Description { get; set; }
 
     /// <summary>
-    /// A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted. Constraints: o max: 200 (structure) A tag that can be added to an MemoryDB resource. Tags are com- posed of a Key/Value pair. You can use tags to categorize and track all your MemoryDB resources. When you add or remove tags on clusters, those actions will be replicated to all nodes in the cluster. A tag with a null Value is permitted. For more in- formation, see Tagging your MemoryDB resources Key -&gt; (string) The key for the tag. May not be null. Value -&gt; (string) The tag's value. May be null. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted. Constraints: • max: 200 (structure) A tag that can be added to an MemoryDB resource. Tags are composed of a Key/Value pair. You can use tags to categorize and track all your MemoryDB resources. When you add or remove tags on clusters, those actions will be replicated to all nodes in the cluster. A tag with a null Value is permitted. For more information, see Tagging your MemoryDB resources Key -&gt; (string) The key for the tag. May not be null. Value -&gt; (string) The tag's value. May be null. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -115,6 +116,15 @@ public record AwsMemorydbCreateSubnetGroupOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -23,13 +23,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsIotUpdatePackageConfigurationOptions : AwsOptions
 {
     /// <summary>
-    /// Configuration to manage job's package version reporting. This up- dates the thing's reserved named shadow that the job targets. enabled -&gt; (boolean) Indicates whether the Job is enabled or not. roleArn -&gt; (string) The Amazon Resource Name (ARN) of the role that grants permis- sion to the IoT jobs service to update the reserved named shadow when the job successfully completes. Constraints: o min: 20 o max: 2048 Shorthand Syntax: enabled=boolean,roleArn=string JSON Syntax: { "enabled": true|false, "roleArn": "string" }
+    /// Configuration to manage job's package version reporting. This updates the thing's reserved named shadow that the job targets. enabled -&gt; (boolean) Indicates whether the Job is enabled or not. roleArn -&gt; (string) The Amazon Resource Name (ARN) of the role that grants permission to the IoT jobs service to update the reserved named shadow when the job successfully completes. Constraints: • min: 20 • max: 2048 Shorthand Syntax: enabled=boolean,roleArn=string JSON Syntax: { "enabled": true|false, "roleArn": "string" }
     /// </summary>
     [CliOption("--version-update-by-jobs-config")]
     public string? VersionUpdateByJobsConfig { get; set; }
 
     /// <summary>
-    /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required. Constraints: o min: 36 o max: 64 o pattern: \S{36,64}
+    /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required. Constraints: • min: 36 • max: 64 • pattern: \S{36,64}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -40,5 +40,14 @@ public record AwsIotUpdatePackageConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

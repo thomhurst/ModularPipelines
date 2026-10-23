@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsBcmDashboardsTagResourceOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Adds or updates tags for a specified dashboard resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The unique identifier for the resource. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z0-9]*:bcm-dashboards::[0-9]{12}:(dash- board|scheduled-report)/(\*|[-a-z0-9]+)</param>
-    /// <param name="ResourceTags">The tags to add to the dashboard resource. Constraints: o min: 0 o max: 200 (structure) A key-value pair that can be attached to a dashboard for organi- zation and management purposes. key -&gt; (string) [required] The key of the tag to be attached to the dashboard resource. Constraints: o min: 1 o max: 128 o pattern: [\S\s]* value -&gt; (string) [required] The value of the tag to be attached to the dashboard re- source. Constraints: o min: 0 o max: 256 o pattern: [\S\s]* Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]</param>
+    /// <param name="ResourceArn">The unique identifier for the resource. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z0-9]*:bcm-dashboards::[0-9]{12}:(dashboard|scheduled-report)/(\*|[-a-z0-9]+)</param>
+    /// <param name="ResourceTags">The tags to add to the dashboard resource. Constraints: • min: 0 • max: 200 (structure) A key-value pair that can be attached to a dashboard for organization and management purposes. key -&gt; (string) [required] The key of the tag to be attached to the dashboard resource. Constraints: • min: 1 • max: 128 • pattern: [\S\s]* value -&gt; (string) [required] The value of the tag to be attached to the dashboard resource. Constraints: • min: 0 • max: 256 • pattern: [\S\s]* Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]</param>
     public AwsBcmDashboardsTagResourceOptions(
         string ResourceArn,
         IEnumerable<string> ResourceTags
@@ -71,13 +72,13 @@ public record AwsBcmDashboardsTagResourceOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the resource. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z0-9]*:bcm-dashboards::[0-9]{12}:(dash- board|scheduled-report)/(\*|[-a-z0-9]+)
+    /// The unique identifier for the resource. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z0-9]*:bcm-dashboards::[0-9]{12}:(dashboard|scheduled-report)/(\*|[-a-z0-9]+)
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The tags to add to the dashboard resource. Constraints: o min: 0 o max: 200 (structure) A key-value pair that can be attached to a dashboard for organi- zation and management purposes. key -&gt; (string) [required] The key of the tag to be attached to the dashboard resource. Constraints: o min: 1 o max: 128 o pattern: [\S\s]* value -&gt; (string) [required] The value of the tag to be attached to the dashboard re- source. Constraints: o min: 0 o max: 256 o pattern: [\S\s]* Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// The tags to add to the dashboard resource. Constraints: • min: 0 • max: 200 (structure) A key-value pair that can be attached to a dashboard for organization and management purposes. key -&gt; (string) [required] The key of the tag to be attached to the dashboard resource. Constraints: • min: 1 • max: 128 • pattern: [\S\s]* value -&gt; (string) [required] The value of the tag to be attached to the dashboard resource. Constraints: • min: 0 • max: 256 • pattern: [\S\s]* Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--resource-tags", GroupValues = true)]
     public IEnumerable<string>? ResourceTags { get; private init; }
@@ -103,6 +104,15 @@ public record AwsBcmDashboardsTagResourceOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsAmplifyGetArtifactUrlOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Returns the artifact info that corresponds to an artifact id. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ArtifactId">The unique ID for an artifact. Constraints: o max: 255 o pattern: (?s).*</param>
+    /// <param name="ArtifactId">The unique ID for an artifact. Constraints: • max: 255 • pattern: (?s).*</param>
     public AwsAmplifyGetArtifactUrlOptions(
         string ArtifactId
     )
@@ -56,7 +57,7 @@ public record AwsAmplifyGetArtifactUrlOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique ID for an artifact. Constraints: o max: 255 o pattern: (?s).*
+    /// The unique ID for an artifact. Constraints: • max: 255 • pattern: (?s).*
     /// </summary>
     [CliOption("--artifact-id")]
     public string? ArtifactId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsAmplifyGetArtifactUrlOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

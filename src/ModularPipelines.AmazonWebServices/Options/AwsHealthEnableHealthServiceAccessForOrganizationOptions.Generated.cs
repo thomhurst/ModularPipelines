@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Enables Health to work with Organizations. You can use the organiza- tional view feature to aggregate events from all Amazon Web Services accounts in your organization in a centralized location. This operation also creates a service-linked role for the management account in the organization. NOTE: To call this operation, you must meet the following requirements: o You must have a Business, Enterprise On-Ramp, or Enterprise Sup- port plan from Amazon Web Services Support to use the Health API. If...
+/// Enables Health to work with Organizations. You can use the organizational view feature to aggregate events from all Amazon Web Services accounts in your organization in a centralized location. This operation also creates a service-linked role for the management account in the organization. NOTE: To call this operation, you must meet the following requirements: • You must have a Business, Enterprise On-Ramp, or Enterprise Support plan from Amazon Web Services Support to use the Health API. If you...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,5 +26,14 @@ public record AwsHealthEnableHealthServiceAccessForOrganizationOptions : AwsOpti
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

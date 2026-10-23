@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsAppConfigGetExperimentDefinitionOptions : AwsOptions, IValidata
     /// <summary>
     /// Retrieves information about an experiment definition. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationIdentifier">The application ID or name. Constraints: o min: 1 o max: 2048</param>
-    /// <param name="ExperimentDefinitionIdentifier">The experiment definition ID or name. Constraints: o min: 1 o max: 2048</param>
+    /// <param name="ApplicationIdentifier">The application ID or name. Constraints: • min: 1 • max: 2048</param>
+    /// <param name="ExperimentDefinitionIdentifier">The experiment definition ID or name. Constraints: • min: 1 • max: 2048</param>
     public AwsAppConfigGetExperimentDefinitionOptions(
         string ApplicationIdentifier,
         string ExperimentDefinitionIdentifier
@@ -60,13 +61,13 @@ public record AwsAppConfigGetExperimentDefinitionOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The application ID or name. Constraints: o min: 1 o max: 2048
+    /// The application ID or name. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--application-identifier")]
     public string? ApplicationIdentifier { get; private init; }
 
     /// <summary>
-    /// The experiment definition ID or name. Constraints: o min: 1 o max: 2048
+    /// The experiment definition ID or name. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--experiment-definition-identifier")]
     public string? ExperimentDefinitionIdentifier { get; private init; }
@@ -92,6 +93,15 @@ public record AwsAppConfigGetExperimentDefinitionOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

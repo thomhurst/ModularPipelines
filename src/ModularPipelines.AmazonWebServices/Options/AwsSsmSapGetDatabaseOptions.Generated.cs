@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets the SAP HANA database of an application registered with AWS Sys- tems Manager for SAP. See also: AWS API Documentation
+/// Gets the SAP HANA database of an application registered with AWS Systems Manager for SAP. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,25 +22,25 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSsmSapGetDatabaseOptions : AwsOptions
 {
     /// <summary>
-    /// The ID of the application. Constraints: o min: 1 o max: 60 o pattern: [\w\d\.-]+
+    /// The ID of the application. Constraints: • min: 1 • max: 60 • pattern: [\w\d\.-]+
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; set; }
 
     /// <summary>
-    /// The ID of the component. Constraints: o min: 1 o max: 100 o pattern: [\w\d-]+
+    /// The ID of the component. Constraints: • min: 1 • max: 100 • pattern: [\w\d-]+
     /// </summary>
     [CliOption("--component-id")]
     public string? ComponentId { get; set; }
 
     /// <summary>
-    /// The ID of the database. Constraints: o min: 1 o max: 300 o pattern: .*[\w\d]+
+    /// The ID of the database. Constraints: • min: 1 • max: 300 • pattern: .*[\w\d]+
     /// </summary>
     [CliOption("--database-id")]
     public string? DatabaseId { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the database. Constraints: o pattern: arn:(.+:){2,4}.+$|^arn:(.+:){1,3}.+\/.+
+    /// The Amazon Resource Name (ARN) of the database. Constraints: • pattern: arn:(.+:){2,4}.+$|^arn:(.+:){1,3}.+\/.+
     /// </summary>
     [CliOption("--database-arn")]
     public string? DatabaseArn { get; set; }
@@ -50,5 +50,14 @@ public record AwsSsmSapGetDatabaseOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

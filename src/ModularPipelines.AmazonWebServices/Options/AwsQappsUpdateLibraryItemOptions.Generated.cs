@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +29,8 @@ public record AwsQappsUpdateLibraryItemOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates the library item for an Amazon Q App. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The unique identifier of the Amazon Q Business application environ- ment instance.</param>
-    /// <param name="LibraryItemId">The unique identifier of the library item to update. Constraints: o pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12}</param>
+    /// <param name="InstanceId">The unique identifier of the Amazon Q Business application environment instance.</param>
+    /// <param name="LibraryItemId">The unique identifier of the library item to update. Constraints: • pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12}</param>
     public AwsQappsUpdateLibraryItemOptions(
         string InstanceId,
         string LibraryItemId
@@ -61,25 +62,25 @@ public record AwsQappsUpdateLibraryItemOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the Amazon Q Business application environ- ment instance.
+    /// The unique identifier of the Amazon Q Business application environment instance.
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the library item to update. Constraints: o pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12}
+    /// The unique identifier of the library item to update. Constraints: • pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12}
     /// </summary>
     [CliOption("--library-item-id")]
     public string? LibraryItemId { get; private init; }
 
     /// <summary>
-    /// The new status to set for the library item, such as "Published" or "Hidden". Possible values: o PUBLISHED o DISABLED
+    /// The new status to set for the library item, such as "Published" or "Hidden". Possible values: • PUBLISHED • DISABLED
     /// </summary>
     [CliOption("--status")]
     public AwsQappsUpdateLibraryItemStatus? Status { get; set; }
 
     /// <summary>
-    /// The new categories to associate with the library item. Constraints: o min: 0 o max: 3 (string) Constraints: o pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12} Syntax: "string" "string" ...
+    /// The new categories to associate with the library item. Constraints: • min: 0 • max: 3 (string) Constraints: • pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--categories", GroupValues = true)]
     public IEnumerable<string>? Categories { get; set; }
@@ -105,6 +106,15 @@ public record AwsQappsUpdateLibraryItemOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

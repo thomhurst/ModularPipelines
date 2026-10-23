@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsIotUpdateScheduledAuditOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates a scheduled audit, including which checks are performed and how often the audit takes place. Requires permission to access the UpdateScheduledAudit action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ScheduledAuditName">The name of the scheduled audit. (Max. 128 chars) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="ScheduledAuditName">The name of the scheduled audit. (Max. 128 chars) Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_-]+</param>
     public AwsIotUpdateScheduledAuditOptions(
         string ScheduledAuditName
     )
@@ -57,31 +58,31 @@ public record AwsIotUpdateScheduledAuditOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the scheduled audit. (Max. 128 chars) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_-]+
+    /// The name of the scheduled audit. (Max. 128 chars) Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--scheduled-audit-name")]
     public string? ScheduledAuditName { get; private init; }
 
     /// <summary>
-    /// How often the scheduled audit takes place, either DAILY , WEEKLY , BIWEEKLY , or MONTHLY . The start time of each audit is determined by the system. Possible values: o DAILY o WEEKLY o BIWEEKLY o MONTHLY
+    /// How often the scheduled audit takes place, either DAILY , WEEKLY , BIWEEKLY , or MONTHLY . The start time of each audit is determined by the system. Possible values: • DAILY • WEEKLY • BIWEEKLY • MONTHLY
     /// </summary>
     [CliOption("--frequency")]
     public AwsIotUpdateScheduledAuditFrequency? Frequency { get; set; }
 
     /// <summary>
-    /// The day of the month on which the scheduled audit takes place. This can be 1 through 31 or LAST . This field is required if the fre- quency parameter is set to MONTHLY . If days 29-31 are specified, and the month does not have that many days, the audit takes place on the "LAST" day of the month. Constraints: o pattern: ^([1-9]|[12][0-9]|3[01])$|^LAST$
+    /// The day of the month on which the scheduled audit takes place. This can be 1 through 31 or LAST . This field is required if the frequency parameter is set to MONTHLY . If days 29-31 are specified, and the month does not have that many days, the audit takes place on the "LAST" day of the month. Constraints: • pattern: ^([1-9]|[12][0-9]|3[01])$|^LAST$
     /// </summary>
     [CliOption("--day-of-month")]
     public string? DayOfMonth { get; set; }
 
     /// <summary>
-    /// The day of the week on which the scheduled audit takes place. This can be one of SUN , MON , TUE , WED , THU , FRI , or SAT . This field is required if the "frequency" parameter is set to WEEKLY or BIWEEKLY . Possible values: o SUN o MON o TUE o WED o THU o FRI o SAT
+    /// The day of the week on which the scheduled audit takes place. This can be one of SUN , MON , TUE , WED , THU , FRI , or SAT . This field is required if the "frequency" parameter is set to WEEKLY or BIWEEKLY . Possible values: • SUN • MON • TUE • WED • THU • FRI • SAT
     /// </summary>
     [CliOption("--day-of-week")]
     public AwsIotUpdateScheduledAuditDayOfWeek? DayOfWeek { get; set; }
 
     /// <summary>
-    /// Which checks are performed during the scheduled audit. Checks must be enabled for your account. (Use DescribeAccountAuditConfiguration to see the list of all checks, including those that are enabled or use UpdateAccountAuditConfiguration to select which checks are en- abled.) (string) An audit check name. Checks must be enabled for your account. (Use DescribeAccountAuditConfiguration to see the list of all checks, including those that are enabled or use UpdateAccountAu- ditConfiguration to select which checks are enabled.) Syntax: "string" "string" ...
+    /// Which checks are performed during the scheduled audit. Checks must be enabled for your account. (Use DescribeAccountAuditConfiguration to see the list of all checks, including those that are enabled or use UpdateAccountAuditConfiguration to select which checks are enabled.) (string) An audit check name. Checks must be enabled for your account. (Use DescribeAccountAuditConfiguration to see the list of all checks, including those that are enabled or use UpdateAccountAuditConfiguration to select which checks are enabled.) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--target-check-names", GroupValues = true)]
     public IEnumerable<string>? TargetCheckNames { get; set; }
@@ -107,6 +108,15 @@ public record AwsIotUpdateScheduledAuditOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

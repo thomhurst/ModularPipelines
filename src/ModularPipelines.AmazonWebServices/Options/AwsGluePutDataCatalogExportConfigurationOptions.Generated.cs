@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,7 +30,7 @@ public record AwsGluePutDataCatalogExportConfigurationOptions : AwsOptions, IVal
     /// <summary>
     /// Creates or updates the export configuration for the Glue Data Catalog. Use this operation to enable or disable the export of catalog metadata to S3 Tables. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ExportSetting">The export setting for the data catalog. Specify ENABLED to start exporting catalog metadata to S3 Tables, or DISABLED to stop export- ing. This field is required. Possible values: o ENABLED o DISABLED</param>
+    /// <param name="ExportSetting">The export setting for the data catalog. Specify ENABLED to start exporting catalog metadata to S3 Tables, or DISABLED to stop exporting. This field is required. Possible values: • ENABLED • DISABLED</param>
     public AwsGluePutDataCatalogExportConfigurationOptions(
         AwsGluePutDataCatalogExportConfigurationExportSetting ExportSetting
     )
@@ -57,19 +58,19 @@ public record AwsGluePutDataCatalogExportConfigurationOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The export setting for the data catalog. Specify ENABLED to start exporting catalog metadata to S3 Tables, or DISABLED to stop export- ing. This field is required. Possible values: o ENABLED o DISABLED
+    /// The export setting for the data catalog. Specify ENABLED to start exporting catalog metadata to S3 Tables, or DISABLED to stop exporting. This field is required. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--export-setting")]
     public AwsGluePutDataCatalogExportConfigurationExportSetting? ExportSetting { get; private init; }
 
     /// <summary>
-    /// The encryption configuration for the exported data. If not speci- fied, the default encryption settings are used. SseAlgorithm -&gt; (string) The server-side encryption algorithm used for the exported data. Valid values are AES256 and aws:kms . KmsKeyArn -&gt; (string) The ARN of the KMS key used to encrypt the exported data. Constraints: o pattern: arn:aws[-a-z0-9]*:kms:[-a-z0-9]*:[0-9]{12}:key/.+ Shorthand Syntax: SseAlgorithm=string,KmsKeyArn=string JSON Syntax: { "SseAlgorithm": "string", "KmsKeyArn": "string" }
+    /// The encryption configuration for the exported data. If not specified, the default encryption settings are used. SseAlgorithm -&gt; (string) The server-side encryption algorithm used for the exported data. Valid values are AES256 and aws:kms . KmsKeyArn -&gt; (string) The ARN of the KMS key used to encrypt the exported data. Constraints: • pattern: arn:aws[-a-z0-9]*:kms:[-a-z0-9]*:[0-9]{12}:key/.+ Shorthand Syntax: SseAlgorithm=string,KmsKeyArn=string JSON Syntax: { "SseAlgorithm": "string", "KmsKeyArn": "string" }
     /// </summary>
     [CliOption("--encryption-configuration")]
     public string? EncryptionConfiguration { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -96,6 +97,15 @@ public record AwsGluePutDataCatalogExportConfigurationOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the specified registration type definitions. You can use De- scribeRegistrationTypeDefinitions to view the requirements for creat- ing, filling out, and submitting each registration type. See also: AWS API Documentation describe-registration-type-definitions is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argume...
+/// Retrieves the specified registration type definitions. You can use DescribeRegistrationTypeDefinitions to view the requirements for creating, filling out, and submitting each registration type. See also: AWS API Documentation describe-registration-type-definitions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,22 +23,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsPinpointSmsVoiceV2DescribeRegistrationTypeDefinitionsOptions : AwsOptions
 {
     /// <summary>
-    /// The type of registration form. The list of RegistrationTypes can be found using the DescribeRegistrationTypeDefinitions action. Constraints: o min: 0 o max: 5 (string) Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_]+ Syntax: "string" "string" ...
+    /// The type of registration form. The list of RegistrationTypes can be found using the DescribeRegistrationTypeDefinitions action. Constraints: • min: 0 • max: 5 (string) Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9_]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--registration-types", GroupValues = true)]
     public IEnumerable<string>? RegistrationTypes { get; set; }
 
     /// <summary>
-    /// An array of RegistrationFilter objects to filter the results. Constraints: o min: 0 o max: 20 (structure) The filter definition for filtering registration types that meets a specified criteria. Name -&gt; (string) [required] The name of the attribute to filter on. Possible values: o supported-association-resource-type o supported-association-iso-country-code Values -&gt; (list) [required] An array of values to filter on. Constraints: o min: 1 o max: 20 (string) Constraints: o min: 1 o max: 128 o pattern: [/\.:A-Za-z0-9+_-]+ Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "supported-association-resource-type"|"supported-association-iso-country-code", "Values": ["string", ...] } ... ]
+    /// An array of RegistrationFilter objects to filter the results. Constraints: • min: 0 • max: 20 (structure) The filter definition for filtering registration types that meets a specified criteria. Name -&gt; (string) [required] The name of the attribute to filter on. Possible values: • supported-association-resource-type • supported-association-iso-country-code Values -&gt; (list) [required] An array of values to filter on. Constraints: • min: 1 • max: 20 (string) Constraints: • min: 1 • max: 128 • pattern: [/\.:A-Za-z0-9+_-]+ Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "supported-association-resource-type"|"supported-association-iso-country-code", "Values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -48,15 +45,27 @@ public record AwsPinpointSmsVoiceV2DescribeRegistrationTypeDefinitionsOptions : 
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

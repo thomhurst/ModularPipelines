@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsFrauddetectorDeleteDetectorOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Deletes the detector. Before deleting a detector, you must first delete all detector versions and rule versions associated with the detector. When you delete a detector, Amazon Fraud Detector permanently deletes the detector and the data is no longer stored in Amazon Fraud Detector. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DetectorId">The ID of the detector to delete. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$</param>
+    /// <param name="DetectorId">The ID of the detector to delete. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$</param>
     public AwsFrauddetectorDeleteDetectorOptions(
         string DetectorId
     )
@@ -56,7 +57,7 @@ public record AwsFrauddetectorDeleteDetectorOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the detector to delete. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$
+    /// The ID of the detector to delete. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$
     /// </summary>
     [CliOption("--detector-id")]
     public string? DetectorId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsFrauddetectorDeleteDetectorOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

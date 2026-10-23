@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Called by an SaaS partner to create a partner event source. This opera- tion is not used by Amazon Web Services customers. Each partner event source can be used by one Amazon Web Services ac- count to create a matching partner event bus in that Amazon Web Ser- vices account. A SaaS partner must create one partner event source for each Amazon Web Services account that wants to receive those event types. A partner event source creates events based on resources within the SaaS partner's service or ...
+/// Called by an SaaS partner to create a partner event source. This operation is not used by Amazon Web Services customers. Each partner event source can be used by one Amazon Web Services account to create a matching partner event bus in that Amazon Web Services account. A SaaS partner must create one partner event source for each Amazon Web Services account that wants to receive those event types. A partner event source creates events based on resources within the SaaS partner's service or applic...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsEventsCreatePartnerEventSourceOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Called by an SaaS partner to create a partner event source. This opera- tion is not used by Amazon Web Services customers. Each partner event source can be used by one Amazon Web Services ac- count to create a matching partner event bus in that Amazon Web Ser- vices account. A SaaS partner must create one partner event source for each Amazon Web Services account that wants to receive those event types. A partner event source creates events based on resources within the SaaS partner's service or ...
+    /// Called by an SaaS partner to create a partner event source. This operation is not used by Amazon Web Services customers. Each partner event source can be used by one Amazon Web Services account to create a matching partner event bus in that Amazon Web Services account. A SaaS partner must create one partner event source for each Amazon Web Services account that wants to receive those event types. A partner event source creates events based on resources within the SaaS partner's service or applic...
     /// </summary>
-    /// <param name="Name">The name of the partner event source. This name must be unique and must be in the format `` partner_name /event_namespace /event_name `` . The Amazon Web Services account that wants to use this partner event source must create a partner event bus with a name that matches the name of the partner event source. Constraints: o min: 1 o max: 256 o pattern: aws\.partner(/[\.\-_A-Za-z0-9]+){2,}</param>
-    /// <param name="Account">The Amazon Web Services account ID that is permitted to create a matching partner event bus for this partner event source. Constraints: o min: 12 o max: 12 o pattern: \d{12}</param>
+    /// <param name="Name">The name of the partner event source. This name must be unique and must be in the format `` partner_name /event_namespace /event_name `` . The Amazon Web Services account that wants to use this partner event source must create a partner event bus with a name that matches the name of the partner event source. Constraints: • min: 1 • max: 256 • pattern: aws\.partner(/[\.\-_A-Za-z0-9]+){2,}</param>
+    /// <param name="Account">The Amazon Web Services account ID that is permitted to create a matching partner event bus for this partner event source. Constraints: • min: 12 • max: 12 • pattern: \d{12}</param>
     public AwsEventsCreatePartnerEventSourceOptions(
         string Name,
         string Account
@@ -60,13 +61,13 @@ public record AwsEventsCreatePartnerEventSourceOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the partner event source. This name must be unique and must be in the format `` partner_name /event_namespace /event_name `` . The Amazon Web Services account that wants to use this partner event source must create a partner event bus with a name that matches the name of the partner event source. Constraints: o min: 1 o max: 256 o pattern: aws\.partner(/[\.\-_A-Za-z0-9]+){2,}
+    /// The name of the partner event source. This name must be unique and must be in the format `` partner_name /event_namespace /event_name `` . The Amazon Web Services account that wants to use this partner event source must create a partner event bus with a name that matches the name of the partner event source. Constraints: • min: 1 • max: 256 • pattern: aws\.partner(/[\.\-_A-Za-z0-9]+){2,}
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services account ID that is permitted to create a matching partner event bus for this partner event source. Constraints: o min: 12 o max: 12 o pattern: \d{12}
+    /// The Amazon Web Services account ID that is permitted to create a matching partner event bus for this partner event source. Constraints: • min: 12 • max: 12 • pattern: \d{12}
     /// </summary>
     [CliOption("--account")]
     public string? Account { get; private init; }
@@ -92,6 +93,15 @@ public record AwsEventsCreatePartnerEventSourceOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsConnectStopContactStreamingOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Ends message streaming on a specified contact. To restart message streaming on that contact, call the StartContactStreaming API. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="ContactId">The identifier of the contact. This is the identifier of the contact that is associated with the first interaction with the contact cen- ter. Constraints: o min: 1 o max: 256</param>
-    /// <param name="StreamingId">The identifier of the streaming configuration enabled. Constraints: o min: 1 o max: 100</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="ContactId">The identifier of the contact. This is the identifier of the contact that is associated with the first interaction with the contact center. Constraints: • min: 1 • max: 256</param>
+    /// <param name="StreamingId">The identifier of the streaming configuration enabled. Constraints: • min: 1 • max: 100</param>
     public AwsConnectStopContactStreamingOptions(
         string InstanceId,
         string ContactId,
@@ -64,19 +65,19 @@ public record AwsConnectStopContactStreamingOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The identifier of the contact. This is the identifier of the contact that is associated with the first interaction with the contact cen- ter. Constraints: o min: 1 o max: 256
+    /// The identifier of the contact. This is the identifier of the contact that is associated with the first interaction with the contact center. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--contact-id")]
     public string? ContactId { get; private init; }
 
     /// <summary>
-    /// The identifier of the streaming configuration enabled. Constraints: o min: 1 o max: 100
+    /// The identifier of the streaming configuration enabled. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--streaming-id")]
     public string? StreamingId { get; private init; }
@@ -102,6 +103,15 @@ public record AwsConnectStopContactStreamingOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

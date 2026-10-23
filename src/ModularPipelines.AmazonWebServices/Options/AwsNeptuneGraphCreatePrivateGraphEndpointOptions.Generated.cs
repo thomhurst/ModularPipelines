@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsNeptuneGraphCreatePrivateGraphEndpointOptions : AwsOptions, IVa
     /// <summary>
     /// Create a private graph endpoint to allow private access to the graph from within a VPC. You can attach security groups to the private graph endpoint. NOTE: VPC endpoint charges apply. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GraphIdentifier">The unique identifier of the Neptune Analytics graph. Constraints: o pattern: g-[a-z0-9]{10}</param>
+    /// <param name="GraphIdentifier">The unique identifier of the Neptune Analytics graph. Constraints: • pattern: g-[a-z0-9]{10}</param>
     public AwsNeptuneGraphCreatePrivateGraphEndpointOptions(
         string GraphIdentifier
     )
@@ -56,25 +57,25 @@ public record AwsNeptuneGraphCreatePrivateGraphEndpointOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the Neptune Analytics graph. Constraints: o pattern: g-[a-z0-9]{10}
+    /// The unique identifier of the Neptune Analytics graph. Constraints: • pattern: g-[a-z0-9]{10}
     /// </summary>
     [CliOption("--graph-identifier")]
     public string? GraphIdentifier { get; private init; }
 
     /// <summary>
-    /// The VPC in which the private graph endpoint needs to be created. Constraints: o pattern: vpc-[a-z0-9]+
+    /// The VPC in which the private graph endpoint needs to be created. Constraints: • pattern: vpc-[a-z0-9]+
     /// </summary>
     [CliOption("--vpc-id")]
     public string? VpcId { get; set; }
 
     /// <summary>
-    /// Subnets in which private graph endpoint ENIs are created. Constraints: o min: 1 o max: 6 (string) Constraints: o pattern: subnet-[a-z0-9]+ Syntax: "string" "string" ...
+    /// Subnets in which private graph endpoint ENIs are created. Constraints: • min: 1 • max: 6 (string) Constraints: • pattern: subnet-[a-z0-9]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--subnet-ids", GroupValues = true)]
     public IEnumerable<string>? SubnetIds { get; set; }
 
     /// <summary>
-    /// Security groups to be attached to the private graph endpoint. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: sg-[a-z0-9]+ Syntax: "string" "string" ...
+    /// Security groups to be attached to the private graph endpoint. Constraints: • min: 1 • max: 10 (string) Constraints: • pattern: sg-[a-z0-9]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--vpc-security-group-ids", GroupValues = true)]
     public IEnumerable<string>? VpcSecurityGroupIds { get; set; }
@@ -100,6 +101,15 @@ public record AwsNeptuneGraphCreatePrivateGraphEndpointOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

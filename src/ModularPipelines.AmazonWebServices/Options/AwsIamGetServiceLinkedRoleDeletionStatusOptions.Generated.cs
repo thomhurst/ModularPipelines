@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the status of your service-linked role deletion. After you use DeleteServiceLinkedRole to submit a service-linked role for dele- tion, you can use the DeletionTaskId parameter in GetServiceLinke- dRoleDeletionStatus to check the status of the deletion. If the dele- tion fails, this operation returns the reason that it failed, if that information is returned by the service. See also: AWS API Documentation
+/// Retrieves the status of your service-linked role deletion. After you use DeleteServiceLinkedRole to submit a service-linked role for deletion, you can use the DeletionTaskId parameter in GetServiceLinkedRoleDeletionStatus to check the status of the deletion. If the deletion fails, this operation returns the reason that it failed, if that information is returned by the service. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsIamGetServiceLinkedRoleDeletionStatusOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves the status of your service-linked role deletion. After you use DeleteServiceLinkedRole to submit a service-linked role for dele- tion, you can use the DeletionTaskId parameter in GetServiceLinke- dRoleDeletionStatus to check the status of the deletion. If the dele- tion fails, this operation returns the reason that it failed, if that information is returned by the service. See also: AWS API Documentation
+    /// Retrieves the status of your service-linked role deletion. After you use DeleteServiceLinkedRole to submit a service-linked role for deletion, you can use the DeletionTaskId parameter in GetServiceLinkedRoleDeletionStatus to check the status of the deletion. If the deletion fails, this operation returns the reason that it failed, if that information is returned by the service. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DeletionTaskId">The deletion task identifier. This identifier is returned by the DeleteServiceLinkedRole operation in the format task/aws-ser- vice-role/&lt;service-principal-name&gt;/&lt;role-name&gt;/&lt;task-uuid&gt; . Constraints: o min: 1 o max: 1000</param>
+    /// <param name="DeletionTaskId">The deletion task identifier. This identifier is returned by the DeleteServiceLinkedRole operation in the format task/aws-service-role/&lt;service-principal-name&gt;/&lt;role-name&gt;/&lt;task-uuid&gt; . Constraints: • min: 1 • max: 1000</param>
     public AwsIamGetServiceLinkedRoleDeletionStatusOptions(
         string DeletionTaskId
     )
@@ -56,7 +57,7 @@ public record AwsIamGetServiceLinkedRoleDeletionStatusOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The deletion task identifier. This identifier is returned by the DeleteServiceLinkedRole operation in the format task/aws-ser- vice-role/&lt;service-principal-name&gt;/&lt;role-name&gt;/&lt;task-uuid&gt; . Constraints: o min: 1 o max: 1000
+    /// The deletion task identifier. This identifier is returned by the DeleteServiceLinkedRole operation in the format task/aws-service-role/&lt;service-principal-name&gt;/&lt;role-name&gt;/&lt;task-uuid&gt; . Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--deletion-task-id")]
     public string? DeletionTaskId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsIamGetServiceLinkedRoleDeletionStatusOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

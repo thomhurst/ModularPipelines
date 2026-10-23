@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a container recipe. The request fails with ResourceDependen- cyException if the recipe is shared with other accounts, or if an image pipeline references it. See also: AWS API Documentation
+/// Deletes a container recipe. The request fails with ResourceDependencyException if the recipe is shared with other accounts, or if an image pipeline references it. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsImagebuilderDeleteContainerRecipeOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a container recipe. The request fails with ResourceDependen- cyException if the recipe is shared with other accounts, or if an image pipeline references it. See also: AWS API Documentation
+    /// Deletes a container recipe. The request fails with ResourceDependencyException if the recipe is shared with other accounts, or if an image pipeline references it. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ContainerRecipeArn">The Amazon Resource Name (ARN) of the container recipe to delete. Constraints: o pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):con- tainer-recipe/[a-z0-9-_]+/(?:[0-9]+|x)\.(?:[0-9]+|x)\.(?:[0-9]+|x)$</param>
+    /// <param name="ContainerRecipeArn">The Amazon Resource Name (ARN) of the container recipe to delete. Constraints: • pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):container-recipe/[a-z0-9-_]+/(?:[0-9]+|x)\.(?:[0-9]+|x)\.(?:[0-9]+|x)$</param>
     public AwsImagebuilderDeleteContainerRecipeOptions(
         string ContainerRecipeArn
     )
@@ -56,7 +57,7 @@ public record AwsImagebuilderDeleteContainerRecipeOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the container recipe to delete. Constraints: o pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):con- tainer-recipe/[a-z0-9-_]+/(?:[0-9]+|x)\.(?:[0-9]+|x)\.(?:[0-9]+|x)$
+    /// The Amazon Resource Name (ARN) of the container recipe to delete. Constraints: • pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):container-recipe/[a-z0-9-_]+/(?:[0-9]+|x)\.(?:[0-9]+|x)\.(?:[0-9]+|x)$
     /// </summary>
     [CliOption("--container-recipe-arn")]
     public string? ContainerRecipeArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsImagebuilderDeleteContainerRecipeOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

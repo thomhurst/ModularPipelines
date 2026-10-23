@@ -10,13 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Assigns one or more tags (key-value pairs) to the specified Amazon Ver- ified Permissions resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with cer- tain tag values. In Verified Permissions, policy stores can be tagged. Tags don't have any semantic meaning to Amazon Web Services and are in- terpreted strictly as strings of characters. You can use the TagResource act...
+/// Assigns one or more tags (key-value pairs) to the specified Amazon Verified Permissions resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. In Verified Permissions, policy stores can be tagged. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource action wi...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +26,10 @@ public record AwsVerifiedpermissionsTagResourceOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Assigns one or more tags (key-value pairs) to the specified Amazon Ver- ified Permissions resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with cer- tain tag values. In Verified Permissions, policy stores can be tagged. Tags don't have any semantic meaning to Amazon Web Services and are in- terpreted strictly as strings of characters. You can use the TagResource act...
+    /// Assigns one or more tags (key-value pairs) to the specified Amazon Verified Permissions resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. In Verified Permissions, policy stores can be tagged. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource action wi...
     /// </summary>
-    /// <param name="ResourceArn">The ARN of the resource that you're adding tags to. Constraints: o min: 1 o max: 2048</param>
-    /// <param name="Tags">The list of key-value pairs to associate with the resource. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    /// <param name="ResourceArn">The ARN of the resource that you're adding tags to. Constraints: • min: 1 • max: 2048</param>
+    /// <param name="Tags">The list of key-value pairs to associate with the resource. Constraints: • min: 0 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
     public AwsVerifiedpermissionsTagResourceOptions(
         string ResourceArn,
         IReadOnlyList<KeyValue> Tags
@@ -72,13 +72,13 @@ public record AwsVerifiedpermissionsTagResourceOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the resource that you're adding tags to. Constraints: o min: 1 o max: 2048
+    /// The ARN of the resource that you're adding tags to. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The list of key-value pairs to associate with the resource. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The list of key-value pairs to associate with the resource. Constraints: • min: 0 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; private init; }
@@ -104,6 +104,15 @@ public record AwsVerifiedpermissionsTagResourceOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

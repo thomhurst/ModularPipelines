@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsMedicalImagingDeleteDatastoreOptions : AwsOptions, IValidatable
     /// <summary>
     /// Delete a data store. NOTE: Before a data store can be deleted, you must first delete all image sets within it. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DatastoreId">The data store identifier. Constraints: o pattern: [0-9a-z]{32}</param>
+    /// <param name="DatastoreId">The data store identifier. Constraints: • pattern: [0-9a-z]{32}</param>
     public AwsMedicalImagingDeleteDatastoreOptions(
         string DatastoreId
     )
@@ -56,7 +57,7 @@ public record AwsMedicalImagingDeleteDatastoreOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The data store identifier. Constraints: o pattern: [0-9a-z]{32}
+    /// The data store identifier. Constraints: • pattern: [0-9a-z]{32}
     /// </summary>
     [CliOption("--datastore-id")]
     public string? DatastoreId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsMedicalImagingDeleteDatastoreOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

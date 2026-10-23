@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsIvsUpdateChannelOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates a channel's configuration. Live channels cannot be updated. You must stop the ongoing stream, update the channel, and restart the stream for the changes to take effect. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">ARN of the channel to be updated. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+</param>
+    /// <param name="Arn">ARN of the channel to be updated. Constraints: • min: 1 • max: 128 • pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+</param>
     public AwsIvsUpdateChannelOptions(
         string Arn
     )
@@ -57,25 +58,25 @@ public record AwsIvsUpdateChannelOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ARN of the channel to be updated. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+
+    /// ARN of the channel to be updated. Constraints: • min: 1 • max: 128 • pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// Channel name. Constraints: o min: 0 o max: 128 o pattern: [a-zA-Z0-9-_]*
+    /// Channel name. Constraints: • min: 0 • max: 128 • pattern: [a-zA-Z0-9-_]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// Channel latency mode. Use NORMAL to broadcast and deliver live video up to Full HD. Use LOW for near-real-time interaction with viewers. Possible values: o NORMAL o LOW
+    /// Channel latency mode. Use NORMAL to broadcast and deliver live video up to Full HD. Use LOW for near-real-time interaction with viewers. Possible values: • NORMAL • LOW
     /// </summary>
     [CliOption("--latency-mode")]
     public AwsIvsUpdateChannelLatencyMode? LatencyMode { get; set; }
 
     /// <summary>
-    /// Channel type, which determines the allowable resolution and bitrate. If you exceed the allowable input resolution or bitrate, the stream probably will disconnect immediately. Default: STANDARD . For de- tails, see Channel Types . Possible values: o BASIC o STANDARD o ADVANCED_SD o ADVANCED_HD
+    /// Channel type, which determines the allowable resolution and bitrate. If you exceed the allowable input resolution or bitrate, the stream probably will disconnect immediately. Default: STANDARD . For details, see Channel Types . Possible values: • BASIC • STANDARD • ADVANCED_SD • ADVANCED_HD
     /// </summary>
     [CliOption("--type")]
     public AwsIvsUpdateChannelType? Type { get; set; }
@@ -87,7 +88,7 @@ public record AwsIvsUpdateChannelOptions : AwsOptions, IValidatableObject
     public bool? Authorized { get; set; }
 
     /// <summary>
-    /// Recording-configuration ARN. A valid ARN value here both specifies the ARN and enables recording. If this is set to an empty string, recording is disabled. Constraints: o min: 0 o max: 128 o pattern: ^$|^arn:aws:ivs:[a-z0-9-]+:[0-9]+:recording-configura- tion/[a-zA-Z0-9-]+$
+    /// Recording-configuration ARN. A valid ARN value here both specifies the ARN and enables recording. If this is set to an empty string, recording is disabled. Constraints: • min: 0 • max: 128 • pattern: ^$|^arn:aws:ivs:[a-z0-9-]+:[0-9]+:recording-configuration/[a-zA-Z0-9-]+$
     /// </summary>
     [CliOption("--recording-configuration-arn")]
     public string? RecordingConfigurationArn { get; set; }
@@ -99,31 +100,31 @@ public record AwsIvsUpdateChannelOptions : AwsOptions, IValidatableObject
     public bool? InsecureIngest { get; set; }
 
     /// <summary>
-    /// Optional transcode preset for the channel. This is selectable only for ADVANCED_HD and ADVANCED_SD channel types. For those channel types, the default preset is HIGHER_BANDWIDTH_DELIVERY . For other channel types (BASIC and STANDARD ), preset is the empty string ("" ). Possible values: o HIGHER_BANDWIDTH_DELIVERY o CONSTRAINED_BANDWIDTH_DELIVERY
+    /// Optional transcode preset for the channel. This is selectable only for ADVANCED_HD and ADVANCED_SD channel types. For those channel types, the default preset is HIGHER_BANDWIDTH_DELIVERY . For other channel types (BASIC and STANDARD ), preset is the empty string ("" ). Possible values: • HIGHER_BANDWIDTH_DELIVERY • CONSTRAINED_BANDWIDTH_DELIVERY
     /// </summary>
     [CliOption("--preset")]
     public AwsIvsUpdateChannelPreset? Preset { get; set; }
 
     /// <summary>
-    /// Playback-restriction-policy ARN. A valid ARN value here both speci- fies the ARN and enables playback restriction. If this is set to an empty string, playback restriction policy is disabled. Constraints: o min: 0 o max: 128 o pattern: ^$|^arn:aws:ivs:[a-z0-9-]+:[0-9]+:playback-restric- tion-policy/[a-zA-Z0-9-]+$
+    /// Playback-restriction-policy ARN. A valid ARN value here both specifies the ARN and enables playback restriction. If this is set to an empty string, playback restriction policy is disabled. Constraints: • min: 0 • max: 128 • pattern: ^$|^arn:aws:ivs:[a-z0-9-]+:[0-9]+:playback-restriction-policy/[a-zA-Z0-9-]+$
     /// </summary>
     [CliOption("--playback-restriction-policy-arn")]
     public string? PlaybackRestrictionPolicyArn { get; set; }
 
     /// <summary>
-    /// Object specifying multitrack input configuration. Default: no multi- track input configuration is specified. enabled -&gt; (boolean) Indicates whether multitrack input is enabled. Can be set to true only if channel type is STANDARD . Setting enabled to true with any other channel type will cause an exception. If true , then policy , maximumResolution , and containerFormat are re- quired, and containerFormat must be set to FRAGMENTED_MP4 . De- fault: false . policy -&gt; (string) Indicates whether multitrack input is allowed or required. Re- quired if enabled is true . Possible values: o ALLOW o REQUIRE maximumResolution -&gt; (string) Maximum resolution for multitrack input. Required if enabled is true . Possible values: o SD o HD o FULL_HD Shorthand Syntax: enabled=boolean,policy=string,maximumResolution=string JSON Syntax: { "enabled": true|false, "policy": "ALLOW"|"REQUIRE", "maximumResolution": "SD"|"HD"|"FULL_HD" }
+    /// Object specifying multitrack input configuration. Default: no multitrack input configuration is specified. enabled -&gt; (boolean) Indicates whether multitrack input is enabled. Can be set to true only if channel type is STANDARD . Setting enabled to true with any other channel type will cause an exception. If true , then policy , maximumResolution , and containerFormat are required, and containerFormat must be set to FRAGMENTED_MP4 . Default: false . policy -&gt; (string) Indicates whether multitrack input is allowed or required. Required if enabled is true . Possible values: • ALLOW • REQUIRE maximumResolution -&gt; (string) Maximum resolution for multitrack input. Required if enabled is true . Possible values: • SD • HD • FULL_HD Shorthand Syntax: enabled=boolean,policy=string,maximumResolution=string JSON Syntax: { "enabled": true|false, "policy": "ALLOW"|"REQUIRE", "maximumResolution": "SD"|"HD"|"FULL_HD" }
     /// </summary>
     [CliOption("--multitrack-input-configuration")]
     public string? MultitrackInputConfiguration { get; set; }
 
     /// <summary>
-    /// Indicates which content-packaging format is used (MPEG-TS or fMP4). If multitrackInputConfiguration is specified and enabled is true , then containerFormat is required and must be set to FRAGMENTED_MP4 . Otherwise, containerFormat may be set to TS or FRAGMENTED_MP4 . De- fault: TS . Possible values: o TS o FRAGMENTED_MP4
+    /// Indicates which content-packaging format is used (MPEG-TS or fMP4). If multitrackInputConfiguration is specified and enabled is true , then containerFormat is required and must be set to FRAGMENTED_MP4 . Otherwise, containerFormat may be set to TS or FRAGMENTED_MP4 . Default: TS . Possible values: • TS • FRAGMENTED_MP4
     /// </summary>
     [CliOption("--container-format")]
     public AwsIvsUpdateChannelContainerFormat? ContainerFormat { get; set; }
 
     /// <summary>
-    /// ARN of the ad configuration associated with the channel. Constraints: o min: 0 o max: 128 o pattern: ^$|^arn:aws:ivs:[a-z0-9-]+:[0-9]+:ad-configura- tion/[a-zA-Z0-9-]+$
+    /// ARN of the ad configuration associated with the channel. Constraints: • min: 0 • max: 128 • pattern: ^$|^arn:aws:ivs:[a-z0-9-]+:[0-9]+:ad-configuration/[a-zA-Z0-9-]+$
     /// </summary>
     [CliOption("--ad-configuration-arn")]
     public string? AdConfigurationArn { get; set; }
@@ -149,6 +150,15 @@ public record AwsIvsUpdateChannelOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

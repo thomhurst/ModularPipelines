@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsNetworkflowmonitorGetScopeOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Gets information about a scope, including the name, status, tags, and target details. The scope in Network Flow Monitor is an account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ScopeId">The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identi- fier that includes all the resources for a specific root account. A scope ID is returned from a CreateScope API call. Constraints: o min: 1</param>
+    /// <param name="ScopeId">The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account. A scope ID is returned from a CreateScope API call. Constraints: • min: 1</param>
     public AwsNetworkflowmonitorGetScopeOptions(
         string ScopeId
     )
@@ -56,7 +57,7 @@ public record AwsNetworkflowmonitorGetScopeOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identi- fier that includes all the resources for a specific root account. A scope ID is returned from a CreateScope API call. Constraints: o min: 1
+    /// The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account. A scope ID is returned from a CreateScope API call. Constraints: • min: 1
     /// </summary>
     [CliOption("--scope-id")]
     public string? ScopeId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsNetworkflowmonitorGetScopeOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

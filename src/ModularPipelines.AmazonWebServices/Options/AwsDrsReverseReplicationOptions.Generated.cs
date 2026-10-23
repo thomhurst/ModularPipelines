@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Start replication to origin / target region - applies only to protected instances that originated in EC2. For recovery instances on target re- gion - starts replication back to origin region. For failback instances on origin region - starts replication to target region to re-protect them. See also: AWS API Documentation
+/// Start replication to origin / target region - applies only to protected instances that originated in EC2. For recovery instances on target region - starts replication back to origin region. For failback instances on origin region - starts replication to target region to re-protect them. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsDrsReverseReplicationOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Start replication to origin / target region - applies only to protected instances that originated in EC2. For recovery instances on target re- gion - starts replication back to origin region. For failback instances on origin region - starts replication to target region to re-protect them. See also: AWS API Documentation
+    /// Start replication to origin / target region - applies only to protected instances that originated in EC2. For recovery instances on target region - starts replication back to origin region. For failback instances on origin region - starts replication to target region to re-protect them. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RecoveryInstanceId">The ID of the Recovery Instance that we want to reverse the replica- tion for. Constraints: o min: 10 o max: 19 o pattern: i-[0-9a-fA-F]{8,}</param>
+    /// <param name="RecoveryInstanceId">The ID of the Recovery Instance that we want to reverse the replication for. Constraints: • min: 10 • max: 19 • pattern: i-[0-9a-fA-F]{8,}</param>
     public AwsDrsReverseReplicationOptions(
         string RecoveryInstanceId
     )
@@ -56,7 +57,7 @@ public record AwsDrsReverseReplicationOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Recovery Instance that we want to reverse the replica- tion for. Constraints: o min: 10 o max: 19 o pattern: i-[0-9a-fA-F]{8,}
+    /// The ID of the Recovery Instance that we want to reverse the replication for. Constraints: • min: 10 • max: 19 • pattern: i-[0-9a-fA-F]{8,}
     /// </summary>
     [CliOption("--recovery-instance-id")]
     public string? RecoveryInstanceId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsDrsReverseReplicationOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

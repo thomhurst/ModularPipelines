@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves a list of read sets from a sequence store ID and returns the metadata in JSON format. See also: AWS API Documentation list-read-sets is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: readSe...
+/// Retrieves a list of read sets from a sequence store ID and returns the metadata in JSON format. See also: AWS API Documentation list-read-sets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: readSets
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsOmicsListReadSetsOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves a list of read sets from a sequence store ID and returns the metadata in JSON format. See also: AWS API Documentation list-read-sets is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: readSe...
+    /// Retrieves a list of read sets from a sequence store ID and returns the metadata in JSON format. See also: AWS API Documentation list-read-sets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: readSets
     /// </summary>
-    /// <param name="SequenceStoreId">The jobs' sequence store ID. Constraints: o min: 10 o max: 36 o pattern: [0-9]+</param>
+    /// <param name="SequenceStoreId">The jobs' sequence store ID. Constraints: • min: 10 • max: 36 • pattern: [0-9]+</param>
     public AwsOmicsListReadSetsOptions(
         string SequenceStoreId
     )
@@ -57,22 +58,19 @@ public record AwsOmicsListReadSetsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The jobs' sequence store ID. Constraints: o min: 10 o max: 36 o pattern: [0-9]+
+    /// The jobs' sequence store ID. Constraints: • min: 10 • max: 36 • pattern: [0-9]+
     /// </summary>
     [CliOption("--sequence-store-id")]
     public string? SequenceStoreId { get; private init; }
 
     /// <summary>
-    /// A filter to apply to the list. name -&gt; (string) A name to filter on. Constraints: o min: 1 o max: 127 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+ status -&gt; (string) A status to filter on. Possible values: o ARCHIVED o ACTIVATING o ACTIVE o DELETING o DELETED o PROCESSING_UPLOAD o UPLOAD_FAILED referenceArn -&gt; (string) A genome reference ARN to filter on. Constraints: o min: 0 o max: 127 o pattern: $|^arn:.+ createdAfter -&gt; (timestamp) The filter's start date. createdBefore -&gt; (timestamp) The filter's end date. sampleId -&gt; (string) The read set source's sample ID. Constraints: o min: 1 o max: 127 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+ subjectId -&gt; (string) The read set source's subject ID. Constraints: o min: 1 o max: 127 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+ generatedFrom -&gt; (string) Where the source originated. Constraints: o min: 1 o max: 127 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+ creationType -&gt; (string) The creation type of the read set. Possible values: o IMPORT o UPLOAD Shorthand Syntax: name=string,status=string,referenceArn=string,createdAfter=timestamp,createdBefore=timestamp,sampleId=string,subjectId=string,generatedFrom=string,creationType=string JSON Syntax: { "name": "string", "status": "ARCHIVED"|"ACTIVATING"|"ACTIVE"|"DELETING"|"DELETED"|"PROCESSING_UPLOAD"|"UPLOAD_FAILED", "referenceArn": "string", "createdAfter": timestamp, "createdBefore": timestamp, "sampleId": "string", "subjectId": "string", "generatedFrom": "string", "creationType": "IMPORT"|"UPLOAD" }
+    /// A filter to apply to the list. name -&gt; (string) A name to filter on. Constraints: • min: 1 • max: 127 • pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+ status -&gt; (string) A status to filter on. Possible values: • ARCHIVED • ACTIVATING • ACTIVE • DELETING • DELETED • PROCESSING_UPLOAD • UPLOAD_FAILED referenceArn -&gt; (string) A genome reference ARN to filter on. Constraints: • min: 0 • max: 127 • pattern: $|^arn:.+ createdAfter -&gt; (timestamp) The filter's start date. createdBefore -&gt; (timestamp) The filter's end date. sampleId -&gt; (string) The read set source's sample ID. Constraints: • min: 1 • max: 127 • pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+ subjectId -&gt; (string) The read set source's subject ID. Constraints: • min: 1 • max: 127 • pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+ generatedFrom -&gt; (string) Where the source originated. Constraints: • min: 1 • max: 127 • pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+ creationType -&gt; (string) The creation type of the read set. Possible values: • IMPORT • UPLOAD Shorthand Syntax: name=string,status=string,referenceArn=string,createdAfter=timestamp,createdBefore=timestamp,sampleId=string,subjectId=string,generatedFrom=string,creationType=string JSON Syntax: { "name": "string", "status": "ARCHIVED"|"ACTIVATING"|"ACTIVE"|"DELETING"|"DELETED"|"PROCESSING_UPLOAD"|"UPLOAD_FAILED", "referenceArn": "string", "createdAfter": timestamp, "createdBefore": timestamp, "sampleId": "string", "subjectId": "string", "generatedFrom": "string", "creationType": "IMPORT"|"UPLOAD" }
     /// </summary>
     [CliOption("--filter")]
     public string? Filter { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -82,16 +80,19 @@ public record AwsOmicsListReadSetsOptions : AwsOptions, IValidatableObject
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -108,6 +109,15 @@ public record AwsOmicsListReadSetsOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

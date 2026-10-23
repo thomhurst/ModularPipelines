@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modifies the instance tenancy attribute of the specified VPC. You can change the instance tenancy attribute of a VPC to default only. You cannot change the instance tenancy attribute to dedicated . After you modify the tenancy of the VPC, any new instances that you launch into the VPC have a tenancy of default , unless you specify oth- erwise during launch. The tenancy of any existing instances in the VPC is not affected. For more information, see Dedicated Instances in the Amazon EC2 User Guide...
+/// Modifies the instance tenancy attribute of the specified VPC. You can change the instance tenancy attribute of a VPC to default only. You cannot change the instance tenancy attribute to dedicated . After you modify the tenancy of the VPC, any new instances that you launch into the VPC have a tenancy of default , unless you specify otherwise during launch. The tenancy of any existing instances in the VPC is not affected. For more information, see Dedicated Instances in the Amazon EC2 User Guide ....
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsEc2ModifyVpcTenancyOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Modifies the instance tenancy attribute of the specified VPC. You can change the instance tenancy attribute of a VPC to default only. You cannot change the instance tenancy attribute to dedicated . After you modify the tenancy of the VPC, any new instances that you launch into the VPC have a tenancy of default , unless you specify oth- erwise during launch. The tenancy of any existing instances in the VPC is not affected. For more information, see Dedicated Instances in the Amazon EC2 User Guide...
+    /// Modifies the instance tenancy attribute of the specified VPC. You can change the instance tenancy attribute of a VPC to default only. You cannot change the instance tenancy attribute to dedicated . After you modify the tenancy of the VPC, any new instances that you launch into the VPC have a tenancy of default , unless you specify otherwise during launch. The tenancy of any existing instances in the VPC is not affected. For more information, see Dedicated Instances in the Amazon EC2 User Guide ....
     /// </summary>
     /// <param name="VpcId">The ID of the VPC.</param>
-    /// <param name="InstanceTenancy">The instance tenancy attribute for the VPC. Possible values: o default</param>
+    /// <param name="InstanceTenancy">The instance tenancy attribute for the VPC. Possible values: • default</param>
     public AwsEc2ModifyVpcTenancyOptions(
         string VpcId,
         string InstanceTenancy
@@ -66,13 +67,13 @@ public record AwsEc2ModifyVpcTenancyOptions : AwsOptions, IValidatableObject
     public string? VpcId { get; private init; }
 
     /// <summary>
-    /// The instance tenancy attribute for the VPC. Possible values: o default
+    /// The instance tenancy attribute for the VPC. Possible values: • default
     /// </summary>
     [CliOption("--instance-tenancy")]
     public string? InstanceTenancy { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -98,6 +99,15 @@ public record AwsEc2ModifyVpcTenancyOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

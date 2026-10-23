@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsSsmDeletePatchBaselineOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes a patch baseline. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BaselineId">The ID of the patch baseline to delete. Constraints: o min: 20 o max: 128 o pattern: ^[a-zA-Z0-9_\-:/]{20,128}$</param>
+    /// <param name="BaselineId">The ID of the patch baseline to delete. Constraints: • min: 20 • max: 128 • pattern: ^[a-zA-Z0-9_\-:/]{20,128}$</param>
     public AwsSsmDeletePatchBaselineOptions(
         string BaselineId
     )
@@ -56,7 +57,7 @@ public record AwsSsmDeletePatchBaselineOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the patch baseline to delete. Constraints: o min: 20 o max: 128 o pattern: ^[a-zA-Z0-9_\-:/]{20,128}$
+    /// The ID of the patch baseline to delete. Constraints: • min: 20 • max: 128 • pattern: ^[a-zA-Z0-9_\-:/]{20,128}$
     /// </summary>
     [CliOption("--baseline-id")]
     public string? BaselineId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSsmDeletePatchBaselineOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

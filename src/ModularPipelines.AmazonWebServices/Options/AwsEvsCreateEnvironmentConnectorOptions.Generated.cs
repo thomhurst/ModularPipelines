@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a connector for an Amazon EVS environment. A connector allows the Amazon EVS control plane to interface with VCF appliances using a fully qualified domain name. You can create only one connector of each type per environment. For en- vironments where Amazon EVS installs VCF, the SDDC_MANAGER connector is created automatically. NOTE: Amazon EVS requires an active connector to SDDC Manager or VCF Oper- ations Manager to monitor environment health and license compliance. See also: AWS API Do...
+/// Creates a connector for an Amazon EVS environment. A connector allows the Amazon EVS control plane to interface with VCF appliances using a fully qualified domain name. You can create only one connector of each type per environment. For environments where Amazon EVS installs VCF, the SDDC_MANAGER connector is created automatically. NOTE: Amazon EVS requires an active connector to SDDC Manager or VCF Operations Manager to monitor environment health and license compliance. See also: AWS API Docume...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,12 +28,12 @@ public record AwsEvsCreateEnvironmentConnectorOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a connector for an Amazon EVS environment. A connector allows the Amazon EVS control plane to interface with VCF appliances using a fully qualified domain name. You can create only one connector of each type per environment. For en- vironments where Amazon EVS installs VCF, the SDDC_MANAGER connector is created automatically. NOTE: Amazon EVS requires an active connector to SDDC Manager or VCF Oper- ations Manager to monitor environment health and license compliance. See also: AWS API Do...
+    /// Creates a connector for an Amazon EVS environment. A connector allows the Amazon EVS control plane to interface with VCF appliances using a fully qualified domain name. You can create only one connector of each type per environment. For environments where Amazon EVS installs VCF, the SDDC_MANAGER connector is created automatically. NOTE: Amazon EVS requires an active connector to SDDC Manager or VCF Operations Manager to monitor environment health and license compliance. See also: AWS API Docume...
     /// </summary>
-    /// <param name="EnvironmentId">A unique ID for the environment to create the connector in. Constraints: o pattern: (env-[a-zA-Z0-9]{10})</param>
-    /// <param name="Type">The type of connector to create. o OPERATIONS_MANAGER : Connector to an Operations Manager appliance. Required for VCF 9x environments. o SDDC_MANAGER : Connector to an SDDC Manager appliance. Required for VCF 5.x environments. o VCENTER : Connector to a vCenter Server appliance. Required for features that depend on vCenter, such as Windows Server li- cense-included. Possible values: o OPERATIONS_MANAGER o SDDC_MANAGER o VCENTER</param>
-    /// <param name="ApplianceFqdn">The fully qualified domain name (FQDN) of the VCF appliance that the connector targets. Constraints: o min: 1 o max: 253 o pattern: [a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(\.[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*</param>
-    /// <param name="SecretIdentifier">The ARN or name of the Amazon Web Services Secrets Manager secret that stores the credentials for the VCF appliance. SDDC_MANAGER re- quires an apiKey field; OPERATIONS_MANAGER and VCENTER require user- name and password fields. WARNING: Do not use credentials with Administrator privileges. We recom- mend using a service account with read-only permissions. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws:secretsmanager:[a-z0-9-]+:[0-9]{12}:se- cret:[a-zA-Z0-9/_+=.@!-]+|[a-zA-Z0-9/_+=.@!-]+)</param>
+    /// <param name="EnvironmentId">A unique ID for the environment to create the connector in. Constraints: • pattern: (env-[a-zA-Z0-9]{10})</param>
+    /// <param name="Type">The type of connector to create. • OPERATIONS_MANAGER : Connector to an Operations Manager appliance. Required for VCF 9x environments. • SDDC_MANAGER : Connector to an SDDC Manager appliance. Required for VCF 5.x environments. • VCENTER : Connector to a vCenter Server appliance. Required for features that depend on vCenter, such as Windows Server license-included. Possible values: • OPERATIONS_MANAGER • SDDC_MANAGER • VCENTER</param>
+    /// <param name="ApplianceFqdn">The fully qualified domain name (FQDN) of the VCF appliance that the connector targets. Constraints: • min: 1 • max: 253 • pattern: [a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(\.[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*</param>
+    /// <param name="SecretIdentifier">The ARN or name of the Amazon Web Services Secrets Manager secret that stores the credentials for the VCF appliance. SDDC_MANAGER requires an apiKey field; OPERATIONS_MANAGER and VCENTER require username and password fields. WARNING: Do not use credentials with Administrator privileges. We recommend using a service account with read-only permissions. Constraints: • min: 1 • max: 2048 • pattern: (arn:aws:secretsmanager:[a-z0-9-]+:[0-9]{12}:secret:[a-zA-Z0-9/_+=.@!-]+|[a-zA-Z0-9/_+=.@!-]+)</param>
     public AwsEvsCreateEnvironmentConnectorOptions(
         string EnvironmentId,
         AwsEvsCreateEnvironmentConnectorType Type,
@@ -69,31 +70,31 @@ public record AwsEvsCreateEnvironmentConnectorOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique ID for the environment to create the connector in. Constraints: o pattern: (env-[a-zA-Z0-9]{10})
+    /// A unique ID for the environment to create the connector in. Constraints: • pattern: (env-[a-zA-Z0-9]{10})
     /// </summary>
     [CliOption("--environment-id")]
     public string? EnvironmentId { get; private init; }
 
     /// <summary>
-    /// The type of connector to create. o OPERATIONS_MANAGER : Connector to an Operations Manager appliance. Required for VCF 9x environments. o SDDC_MANAGER : Connector to an SDDC Manager appliance. Required for VCF 5.x environments. o VCENTER : Connector to a vCenter Server appliance. Required for features that depend on vCenter, such as Windows Server li- cense-included. Possible values: o OPERATIONS_MANAGER o SDDC_MANAGER o VCENTER
+    /// The type of connector to create. • OPERATIONS_MANAGER : Connector to an Operations Manager appliance. Required for VCF 9x environments. • SDDC_MANAGER : Connector to an SDDC Manager appliance. Required for VCF 5.x environments. • VCENTER : Connector to a vCenter Server appliance. Required for features that depend on vCenter, such as Windows Server license-included. Possible values: • OPERATIONS_MANAGER • SDDC_MANAGER • VCENTER
     /// </summary>
     [CliOption("--type")]
     public AwsEvsCreateEnvironmentConnectorType? Type { get; private init; }
 
     /// <summary>
-    /// The fully qualified domain name (FQDN) of the VCF appliance that the connector targets. Constraints: o min: 1 o max: 253 o pattern: [a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(\.[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*
+    /// The fully qualified domain name (FQDN) of the VCF appliance that the connector targets. Constraints: • min: 1 • max: 253 • pattern: [a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(\.[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*
     /// </summary>
     [CliOption("--appliance-fqdn")]
     public string? ApplianceFqdn { get; private init; }
 
     /// <summary>
-    /// The ARN or name of the Amazon Web Services Secrets Manager secret that stores the credentials for the VCF appliance. SDDC_MANAGER re- quires an apiKey field; OPERATIONS_MANAGER and VCENTER require user- name and password fields. WARNING: Do not use credentials with Administrator privileges. We recom- mend using a service account with read-only permissions. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws:secretsmanager:[a-z0-9-]+:[0-9]{12}:se- cret:[a-zA-Z0-9/_+=.@!-]+|[a-zA-Z0-9/_+=.@!-]+)
+    /// The ARN or name of the Amazon Web Services Secrets Manager secret that stores the credentials for the VCF appliance. SDDC_MANAGER requires an apiKey field; OPERATIONS_MANAGER and VCENTER require username and password fields. WARNING: Do not use credentials with Administrator privileges. We recommend using a service account with read-only permissions. Constraints: • min: 1 • max: 2048 • pattern: (arn:aws:secretsmanager:[a-z0-9-]+:[0-9]{12}:secret:[a-zA-Z0-9/_+=.@!-]+|[a-zA-Z0-9/_+=.@!-]+)
     /// </summary>
     [CliOption("--secret-identifier")]
     public string? SecretIdentifier { get; private init; }
 
     /// <summary>
-    /// NOTE: This parameter is not used in Amazon EVS currently. If you sup- ply input for this parameter, it will have no effect. A unique, case-sensitive identifier that you provide to ensure the idempotency of the connector creation request. If you do not specify a client token, a randomly generated token is used for the request to ensure idempotency. Constraints: o min: 1 o max: 100 o pattern: [!-~]+
+    /// NOTE: This parameter is not used in Amazon EVS currently. If you supply input for this parameter, it will have no effect. A unique, case-sensitive identifier that you provide to ensure the idempotency of the connector creation request. If you do not specify a client token, a randomly generated token is used for the request to ensure idempotency. Constraints: • min: 1 • max: 100 • pattern: [!-~]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -120,6 +121,15 @@ public record AwsEvsCreateEnvironmentConnectorOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

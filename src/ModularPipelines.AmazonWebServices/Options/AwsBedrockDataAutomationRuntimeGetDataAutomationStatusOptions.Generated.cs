@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsBedrockDataAutomationRuntimeGetDataAutomationStatusOptions : Aw
     /// <summary>
     /// API used to get data automation status. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InvocationArn">Invocation arn. Constraints: o min: 1 o max: 128 o pattern: arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:[0-9]{12}:data-au- tomation-invocation/[a-zA-Z0-9-_]+</param>
+    /// <param name="InvocationArn">Invocation arn. Constraints: • min: 1 • max: 128 • pattern: arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:[0-9]{12}:data-automation-invocation/[a-zA-Z0-9-_]+</param>
     public AwsBedrockDataAutomationRuntimeGetDataAutomationStatusOptions(
         string InvocationArn
     )
@@ -56,7 +57,7 @@ public record AwsBedrockDataAutomationRuntimeGetDataAutomationStatusOptions : Aw
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Invocation arn. Constraints: o min: 1 o max: 128 o pattern: arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:[0-9]{12}:data-au- tomation-invocation/[a-zA-Z0-9-_]+
+    /// Invocation arn. Constraints: • min: 1 • max: 128 • pattern: arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:[0-9]{12}:data-automation-invocation/[a-zA-Z0-9-_]+
     /// </summary>
     [CliOption("--invocation-arn")]
     public string? InvocationArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsBedrockDataAutomationRuntimeGetDataAutomationStatusOptions : Aw
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

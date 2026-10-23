@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsSagemakerUpdatePipelineOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates a pipeline. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PipelineName">The name of the pipeline to update. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,255}</param>
+    /// <param name="PipelineName">The name of the pipeline to update. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,255}</param>
     public AwsSagemakerUpdatePipelineOptions(
         string PipelineName
     )
@@ -56,43 +57,43 @@ public record AwsSagemakerUpdatePipelineOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the pipeline to update. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,255}
+    /// The name of the pipeline to update. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,255}
     /// </summary>
     [CliOption("--pipeline-name")]
     public string? PipelineName { get; private init; }
 
     /// <summary>
-    /// The display name of the pipeline. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,255}
+    /// The display name of the pipeline. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,255}
     /// </summary>
     [CliOption("--pipeline-display-name")]
     public string? PipelineDisplayName { get; set; }
 
     /// <summary>
-    /// The JSON pipeline definition. Constraints: o min: 1 o max: 1048576 o pattern: .*(?:[ \r\n\t].*)*
+    /// The JSON pipeline definition. Constraints: • min: 1 • max: 1048576 • pattern: .*(?:[ \r\n\t].*)*
     /// </summary>
     [CliOption("--pipeline-definition")]
     public string? PipelineDefinition { get; set; }
 
     /// <summary>
-    /// The location of the pipeline definition stored in Amazon S3. If specified, SageMaker will retrieve the pipeline definition from this location. Bucket -&gt; (string) [required] Name of the S3 bucket. Constraints: o min: 3 o max: 63 o pattern: [a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9] ObjectKey -&gt; (string) [required] The object key (or key name) uniquely identifies the object in an S3 bucket. Constraints: o min: 1 o max: 1024 o pattern: .+ VersionId -&gt; (string) Version Id of the pipeline definition file. If not specified, Amazon SageMaker will retrieve the latest version. Constraints: o min: 1 o max: 1024 o pattern: .+ Shorthand Syntax: Bucket=string,ObjectKey=string,VersionId=string JSON Syntax: { "Bucket": "string", "ObjectKey": "string", "VersionId": "string" }
+    /// The location of the pipeline definition stored in Amazon S3. If specified, SageMaker will retrieve the pipeline definition from this location. Bucket -&gt; (string) [required] Name of the S3 bucket. Constraints: • min: 3 • max: 63 • pattern: [a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9] ObjectKey -&gt; (string) [required] The object key (or key name) uniquely identifies the object in an S3 bucket. Constraints: • min: 1 • max: 1024 • pattern: .+ VersionId -&gt; (string) Version Id of the pipeline definition file. If not specified, Amazon SageMaker will retrieve the latest version. Constraints: • min: 1 • max: 1024 • pattern: .+ Shorthand Syntax: Bucket=string,ObjectKey=string,VersionId=string JSON Syntax: { "Bucket": "string", "ObjectKey": "string", "VersionId": "string" }
     /// </summary>
     [CliOption("--pipeline-definition-s3-location")]
     public string? PipelineDefinitionS3Location { get; set; }
 
     /// <summary>
-    /// The description of the pipeline. Constraints: o min: 0 o max: 3072 o pattern: .*
+    /// The description of the pipeline. Constraints: • min: 0 • max: 3072 • pattern: .*
     /// </summary>
     [CliOption("--pipeline-description")]
     public string? PipelineDescription { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) that the pipeline uses to execute. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+
+    /// The Amazon Resource Name (ARN) that the pipeline uses to execute. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
     /// <summary>
-    /// If specified, it applies to all executions of this pipeline by de- fault. MaxParallelExecutionSteps -&gt; (integer) [required] The max number of steps that can be executed in parallel. Constraints: o min: 1 Shorthand Syntax: MaxParallelExecutionSteps=integer JSON Syntax: { "MaxParallelExecutionSteps": integer }
+    /// If specified, it applies to all executions of this pipeline by default. MaxParallelExecutionSteps -&gt; (integer) [required] The max number of steps that can be executed in parallel. Constraints: • min: 1 Shorthand Syntax: MaxParallelExecutionSteps=integer JSON Syntax: { "MaxParallelExecutionSteps": integer }
     /// </summary>
     [CliOption("--parallelism-configuration")]
     public string? ParallelismConfiguration { get; set; }
@@ -118,6 +119,15 @@ public record AwsSagemakerUpdatePipelineOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

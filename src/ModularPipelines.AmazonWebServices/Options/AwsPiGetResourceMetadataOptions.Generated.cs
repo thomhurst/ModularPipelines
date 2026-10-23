@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieve the metadata for different features. For example, the metadata might indicate that a feature is turned on or off on a specific DB in- stance. See also: AWS API Documentation
+/// Retrieve the metadata for different features. For example, the metadata might indicate that a feature is turned on or off on a specific DB instance. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsPiGetResourceMetadataOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieve the metadata for different features. For example, the metadata might indicate that a feature is turned on or off on a specific DB in- stance. See also: AWS API Documentation
+    /// Retrieve the metadata for different features. For example, the metadata might indicate that a feature is turned on or off on a specific DB instance. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ServiceType">The Amazon Web Services service for which Performance Insights re- turns metrics. Possible values: o RDS o DOCDB</param>
-    /// <param name="Identifier">An immutable identifier for a data source that is unique for an Ama- zon Web Services Region. Performance Insights gathers metrics from this data source. To use a DB instance as a data source, specify its DbiResourceId value. For example, specify db-ABCDE- FGHIJKLMNOPQRSTU1VW2X . Constraints: o min: 0 o max: 256 o pattern: ^[a-zA-Z0-9-]+$</param>
+    /// <param name="ServiceType">The Amazon Web Services service for which Performance Insights returns metrics. Possible values: • RDS • DOCDB</param>
+    /// <param name="Identifier">An immutable identifier for a data source that is unique for an Amazon Web Services Region. Performance Insights gathers metrics from this data source. To use a DB instance as a data source, specify its DbiResourceId value. For example, specify db-ABCDEFGHIJKLMNOPQRSTU1VW2X . Constraints: • min: 0 • max: 256 • pattern: ^[a-zA-Z0-9-]+$</param>
     public AwsPiGetResourceMetadataOptions(
         AwsPiGetResourceMetadataServiceType ServiceType,
         string Identifier
@@ -60,13 +61,13 @@ public record AwsPiGetResourceMetadataOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services service for which Performance Insights re- turns metrics. Possible values: o RDS o DOCDB
+    /// The Amazon Web Services service for which Performance Insights returns metrics. Possible values: • RDS • DOCDB
     /// </summary>
     [CliOption("--service-type")]
     public AwsPiGetResourceMetadataServiceType? ServiceType { get; private init; }
 
     /// <summary>
-    /// An immutable identifier for a data source that is unique for an Ama- zon Web Services Region. Performance Insights gathers metrics from this data source. To use a DB instance as a data source, specify its DbiResourceId value. For example, specify db-ABCDE- FGHIJKLMNOPQRSTU1VW2X . Constraints: o min: 0 o max: 256 o pattern: ^[a-zA-Z0-9-]+$
+    /// An immutable identifier for a data source that is unique for an Amazon Web Services Region. Performance Insights gathers metrics from this data source. To use a DB instance as a data source, specify its DbiResourceId value. For example, specify db-ABCDEFGHIJKLMNOPQRSTU1VW2X . Constraints: • min: 0 • max: 256 • pattern: ^[a-zA-Z0-9-]+$
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
@@ -92,6 +93,15 @@ public record AwsPiGetResourceMetadataOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

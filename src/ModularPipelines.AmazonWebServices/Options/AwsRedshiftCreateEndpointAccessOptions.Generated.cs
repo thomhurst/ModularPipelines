@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsRedshiftCreateEndpointAccessOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Creates a Redshift-managed VPC endpoint. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EndpointName">The Redshift-managed VPC endpoint name. An endpoint name must contain 1-30 characters. Valid characters are A-Z, a-z, 0-9, and hyphen(-). The first character must be a letter. The name can't contain two consecutive hyphens or end with a hyphen. Constraints: o max: 2147483647</param>
-    /// <param name="SubnetGroupName">The subnet group from which Amazon Redshift chooses the subnet to deploy the endpoint. Constraints: o max: 2147483647</param>
+    /// <param name="EndpointName">The Redshift-managed VPC endpoint name. An endpoint name must contain 1-30 characters. Valid characters are A-Z, a-z, 0-9, and hyphen(-). The first character must be a letter. The name can't contain two consecutive hyphens or end with a hyphen. Constraints: • max: 2147483647</param>
+    /// <param name="SubnetGroupName">The subnet group from which Amazon Redshift chooses the subnet to deploy the endpoint. Constraints: • max: 2147483647</param>
     public AwsRedshiftCreateEndpointAccessOptions(
         string EndpointName,
         string SubnetGroupName
@@ -60,31 +61,31 @@ public record AwsRedshiftCreateEndpointAccessOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Redshift-managed VPC endpoint name. An endpoint name must contain 1-30 characters. Valid characters are A-Z, a-z, 0-9, and hyphen(-). The first character must be a letter. The name can't contain two consecutive hyphens or end with a hyphen. Constraints: o max: 2147483647
+    /// The Redshift-managed VPC endpoint name. An endpoint name must contain 1-30 characters. Valid characters are A-Z, a-z, 0-9, and hyphen(-). The first character must be a letter. The name can't contain two consecutive hyphens or end with a hyphen. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--endpoint-name")]
     public string? EndpointName { get; private init; }
 
     /// <summary>
-    /// The subnet group from which Amazon Redshift chooses the subnet to deploy the endpoint. Constraints: o max: 2147483647
+    /// The subnet group from which Amazon Redshift chooses the subnet to deploy the endpoint. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--subnet-group-name")]
     public string? SubnetGroupName { get; private init; }
 
     /// <summary>
-    /// The cluster identifier of the cluster to access. Constraints: o max: 2147483647
+    /// The cluster identifier of the cluster to access. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--cluster-identifier")]
     public string? ClusterIdentifier { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services account ID of the owner of the cluster. This is only required if the cluster is in another Amazon Web Services account. Constraints: o max: 2147483647
+    /// The Amazon Web Services account ID of the owner of the cluster. This is only required if the cluster is in another Amazon Web Services account. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--resource-owner")]
     public string? ResourceOwner { get; set; }
 
     /// <summary>
-    /// The security group that defines the ports, protocols, and sources for inbound traffic that you are authorizing into your endpoint. (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...
+    /// The security group that defines the ports, protocols, and sources for inbound traffic that you are authorizing into your endpoint. (string) Constraints: • max: 2147483647 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--vpc-security-group-ids", GroupValues = true)]
     public IEnumerable<string>? VpcSecurityGroupIds { get; set; }
@@ -110,6 +111,15 @@ public record AwsRedshiftCreateEndpointAccessOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

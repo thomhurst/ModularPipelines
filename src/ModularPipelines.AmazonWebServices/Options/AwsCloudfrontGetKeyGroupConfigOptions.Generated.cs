@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets a key group configuration. To get a key group configuration, you must provide the key group's identifier. If the key group is referenced in a distribution's cache behavior, you can get the key group's identifier using ListDistribu- tions or GetDistribution . If the key group is not referenced in a cache behavior, you can get the identifier using ListKeyGroups . See also: AWS API Documentation
+/// Gets a key group configuration. To get a key group configuration, you must provide the key group's identifier. If the key group is referenced in a distribution's cache behavior, you can get the key group's identifier using ListDistributions or GetDistribution . If the key group is not referenced in a cache behavior, you can get the identifier using ListKeyGroups . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsCloudfrontGetKeyGroupConfigOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets a key group configuration. To get a key group configuration, you must provide the key group's identifier. If the key group is referenced in a distribution's cache behavior, you can get the key group's identifier using ListDistribu- tions or GetDistribution . If the key group is not referenced in a cache behavior, you can get the identifier using ListKeyGroups . See also: AWS API Documentation
+    /// Gets a key group configuration. To get a key group configuration, you must provide the key group's identifier. If the key group is referenced in a distribution's cache behavior, you can get the key group's identifier using ListDistributions or GetDistribution . If the key group is not referenced in a cache behavior, you can get the identifier using ListKeyGroups . See also: AWS API Documentation
     /// </summary>
     /// <param name="Id">The identifier of the key group whose configuration you are getting. To get the identifier, use ListKeyGroups .</param>
     public AwsCloudfrontGetKeyGroupConfigOptions(
@@ -82,6 +83,15 @@ public record AwsCloudfrontGetKeyGroupConfigOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

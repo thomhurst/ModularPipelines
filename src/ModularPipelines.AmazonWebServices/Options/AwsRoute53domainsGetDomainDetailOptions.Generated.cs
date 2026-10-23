@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This operation returns detailed information about a specified domain that is associated with the current Amazon Web Services account. Con- tact information for the domain is also returned as part of the output. See also: AWS API Documentation
+/// This operation returns detailed information about a specified domain that is associated with the current Amazon Web Services account. Contact information for the domain is also returned as part of the output. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsRoute53domainsGetDomainDetailOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This operation returns detailed information about a specified domain that is associated with the current Amazon Web Services account. Con- tact information for the domain is also returned as part of the output. See also: AWS API Documentation
+    /// This operation returns detailed information about a specified domain that is associated with the current Amazon Web Services account. Contact information for the domain is also returned as part of the output. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">The name of the domain that you want to get detailed information about. Constraints: o max: 255</param>
+    /// <param name="DomainName">The name of the domain that you want to get detailed information about. Constraints: • max: 255</param>
     public AwsRoute53domainsGetDomainDetailOptions(
         string DomainName
     )
@@ -56,7 +57,7 @@ public record AwsRoute53domainsGetDomainDetailOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the domain that you want to get detailed information about. Constraints: o max: 255
+    /// The name of the domain that you want to get detailed information about. Constraints: • max: 255
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsRoute53domainsGetDomainDetailOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

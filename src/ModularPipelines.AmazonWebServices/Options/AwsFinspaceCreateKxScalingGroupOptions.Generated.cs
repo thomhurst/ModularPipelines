@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -29,10 +29,10 @@ public record AwsFinspaceCreateKxScalingGroupOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Creates a new scaling group. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EnvironmentId">A unique identifier for the kdb environment, where you want to cre- ate the scaling group. Constraints: o min: 1 o max: 32 o pattern: ^[a-z0-9]+$</param>
-    /// <param name="ScalingGroupName">A unique identifier for the kdb scaling group. Constraints: o min: 3 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$</param>
-    /// <param name="HostType">The memory and CPU capabilities of the scaling group host on which FinSpace Managed kdb clusters will be placed. You can add one of the following values: o kx.sg.large The host type with a configuration of 16 GiB memory and 2 vCPUs. o kx.sg.xlarge The host type with a configuration of 32 GiB memory and 4 vCPUs. o kx.sg.2xlarge The host type with a configuration of 64 GiB memory and 8 vCPUs. o kx.sg.4xlarge The host type with a configuration of 108 GiB mem- ory and 16 vCPUs. o kx.sg.8xlarge The host type with a configuration of 216 GiB mem- ory and 32 vCPUs. o kx.sg.16xlarge The host type with a configuration of 432 GiB mem- ory and 64 vCPUs. o kx.sg.32xlarge The host type with a configuration of 864 GiB mem- ory and 128 vCPUs. o kx.sg1.16xlarge The host type with a configuration of 1949 GiB memory and 64 vCPUs. o kx.sg1.24xlarge The host type with a configuration of 2948 GiB memory and 96 vCPUs. Constraints: o min: 1 o max: 32 o pattern: ^[a-zA-Z0-9._]+</param>
-    /// <param name="AvailabilityZoneId">The identifier of the availability zones. Constraints: o min: 8 o max: 12 o pattern: ^[a-zA-Z0-9-]+$</param>
+    /// <param name="EnvironmentId">A unique identifier for the kdb environment, where you want to create the scaling group. Constraints: • min: 1 • max: 32 • pattern: ^[a-z0-9]+$</param>
+    /// <param name="ScalingGroupName">A unique identifier for the kdb scaling group. Constraints: • min: 3 • max: 63 • pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$</param>
+    /// <param name="HostType">The memory and CPU capabilities of the scaling group host on which FinSpace Managed kdb clusters will be placed. You can add one of the following values: • kx.sg.large The host type with a configuration of 16 GiB memory and 2 vCPUs. • kx.sg.xlarge The host type with a configuration of 32 GiB memory and 4 vCPUs. • kx.sg.2xlarge The host type with a configuration of 64 GiB memory and 8 vCPUs. • kx.sg.4xlarge The host type with a configuration of 108 GiB memory and 16 vCPUs. • kx.sg.8xlarge The host type with a configuration of 216 GiB memory and 32 vCPUs. • kx.sg.16xlarge The host type with a configuration of 432 GiB memory and 64 vCPUs. • kx.sg.32xlarge The host type with a configuration of 864 GiB memory and 128 vCPUs. • kx.sg1.16xlarge The host type with a configuration of 1949 GiB memory and 64 vCPUs. • kx.sg1.24xlarge The host type with a configuration of 2948 GiB memory and 96 vCPUs. Constraints: • min: 1 • max: 32 • pattern: ^[a-zA-Z0-9._]+</param>
+    /// <param name="AvailabilityZoneId">The identifier of the availability zones. Constraints: • min: 8 • max: 12 • pattern: ^[a-zA-Z0-9-]+$</param>
     public AwsFinspaceCreateKxScalingGroupOptions(
         string EnvironmentId,
         string ScalingGroupName,
@@ -70,38 +70,38 @@ public record AwsFinspaceCreateKxScalingGroupOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the kdb environment, where you want to cre- ate the scaling group. Constraints: o min: 1 o max: 32 o pattern: ^[a-z0-9]+$
+    /// A unique identifier for the kdb environment, where you want to create the scaling group. Constraints: • min: 1 • max: 32 • pattern: ^[a-z0-9]+$
     /// </summary>
     [CliOption("--environment-id")]
     public string? EnvironmentId { get; private init; }
 
     /// <summary>
-    /// A unique identifier for the kdb scaling group. Constraints: o min: 3 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$
+    /// A unique identifier for the kdb scaling group. Constraints: • min: 3 • max: 63 • pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$
     /// </summary>
     [CliOption("--scaling-group-name")]
     public string? ScalingGroupName { get; private init; }
 
     /// <summary>
-    /// The memory and CPU capabilities of the scaling group host on which FinSpace Managed kdb clusters will be placed. You can add one of the following values: o kx.sg.large The host type with a configuration of 16 GiB memory and 2 vCPUs. o kx.sg.xlarge The host type with a configuration of 32 GiB memory and 4 vCPUs. o kx.sg.2xlarge The host type with a configuration of 64 GiB memory and 8 vCPUs. o kx.sg.4xlarge The host type with a configuration of 108 GiB mem- ory and 16 vCPUs. o kx.sg.8xlarge The host type with a configuration of 216 GiB mem- ory and 32 vCPUs. o kx.sg.16xlarge The host type with a configuration of 432 GiB mem- ory and 64 vCPUs. o kx.sg.32xlarge The host type with a configuration of 864 GiB mem- ory and 128 vCPUs. o kx.sg1.16xlarge The host type with a configuration of 1949 GiB memory and 64 vCPUs. o kx.sg1.24xlarge The host type with a configuration of 2948 GiB memory and 96 vCPUs. Constraints: o min: 1 o max: 32 o pattern: ^[a-zA-Z0-9._]+
+    /// The memory and CPU capabilities of the scaling group host on which FinSpace Managed kdb clusters will be placed. You can add one of the following values: • kx.sg.large The host type with a configuration of 16 GiB memory and 2 vCPUs. • kx.sg.xlarge The host type with a configuration of 32 GiB memory and 4 vCPUs. • kx.sg.2xlarge The host type with a configuration of 64 GiB memory and 8 vCPUs. • kx.sg.4xlarge The host type with a configuration of 108 GiB memory and 16 vCPUs. • kx.sg.8xlarge The host type with a configuration of 216 GiB memory and 32 vCPUs. • kx.sg.16xlarge The host type with a configuration of 432 GiB memory and 64 vCPUs. • kx.sg.32xlarge The host type with a configuration of 864 GiB memory and 128 vCPUs. • kx.sg1.16xlarge The host type with a configuration of 1949 GiB memory and 64 vCPUs. • kx.sg1.24xlarge The host type with a configuration of 2948 GiB memory and 96 vCPUs. Constraints: • min: 1 • max: 32 • pattern: ^[a-zA-Z0-9._]+
     /// </summary>
     [CliOption("--host-type")]
     public string? HostType { get; private init; }
 
     /// <summary>
-    /// The identifier of the availability zones. Constraints: o min: 8 o max: 12 o pattern: ^[a-zA-Z0-9-]+$
+    /// The identifier of the availability zones. Constraints: • min: 8 • max: 12 • pattern: ^[a-zA-Z0-9-]+$
     /// </summary>
     [CliOption("--availability-zone-id")]
     public string? AvailabilityZoneId { get; private init; }
 
     /// <summary>
-    /// A token that ensures idempotency. This token expires in 10 minutes. Constraints: o min: 1 o max: 36 o pattern: .*\S.*
+    /// A token that ensures idempotency. This token expires in 10 minutes. Constraints: • min: 1 • max: 36 • pattern: .*\S.*
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// A list of key-value pairs to label the scaling group. You can add up to 50 tags to a scaling group. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9+-=._:@ ]+$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A list of key-value pairs to label the scaling group. You can add up to 50 tags to a scaling group. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z0-9+-=._:@ ]+$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -127,6 +127,15 @@ public record AwsFinspaceCreateKxScalingGroupOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

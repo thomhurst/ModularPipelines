@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,9 +29,9 @@ public record AwsM2CreateDeploymentOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates and starts a deployment to deploy an application into a runtime environment. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The application identifier. Constraints: o pattern: ^\S{1,80}$</param>
-    /// <param name="ApplicationVersion">The version of the application to deploy. Constraints: o min: 1</param>
-    /// <param name="EnvironmentId">The identifier of the runtime environment where you want to deploy this application. Constraints: o pattern: ^\S{1,80}$</param>
+    /// <param name="ApplicationId">The application identifier. Constraints: • pattern: ^\S{1,80}$</param>
+    /// <param name="ApplicationVersion">The version of the application to deploy. Constraints: • min: 1</param>
+    /// <param name="EnvironmentId">The identifier of the runtime environment where you want to deploy this application. Constraints: • pattern: ^\S{1,80}$</param>
     public AwsM2CreateDeploymentOptions(
         string ApplicationId,
         int ApplicationVersion,
@@ -64,25 +65,25 @@ public record AwsM2CreateDeploymentOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The application identifier. Constraints: o pattern: ^\S{1,80}$
+    /// The application identifier. Constraints: • pattern: ^\S{1,80}$
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// The version of the application to deploy. Constraints: o min: 1
+    /// The version of the application to deploy. Constraints: • min: 1
     /// </summary>
     [CliOption("--application-version")]
     public int? ApplicationVersion { get; private init; }
 
     /// <summary>
-    /// The identifier of the runtime environment where you want to deploy this application. Constraints: o pattern: ^\S{1,80}$
+    /// The identifier of the runtime environment where you want to deploy this application. Constraints: • pattern: ^\S{1,80}$
     /// </summary>
     [CliOption("--environment-id")]
     public string? EnvironmentId { get; private init; }
 
     /// <summary>
-    /// Unique, case-sensitive identifier you provide to ensure the idempo- tency of the request to create a deployment. The service generates the clientToken when the API call is triggered. The token expires after one hour, so if you retry the API within this timeframe with the same clientToken, you will get the same response. The service also handles deleting the clientToken after it expires. Constraints: o min: 0 o max: 128 o pattern: ^[!-~]+$
+    /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request to create a deployment. The service generates the clientToken when the API call is triggered. The token expires after one hour, so if you retry the API within this timeframe with the same clientToken, you will get the same response. The service also handles deleting the clientToken after it expires. Constraints: • min: 0 • max: 128 • pattern: ^[!-~]+$
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -109,6 +110,15 @@ public record AwsM2CreateDeploymentOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

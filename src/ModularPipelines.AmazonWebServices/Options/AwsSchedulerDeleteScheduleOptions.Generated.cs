@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsSchedulerDeleteScheduleOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes the specified schedule. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the schedule to delete. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-zA-Z-_.]+$</param>
+    /// <param name="Name">The name of the schedule to delete. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-zA-Z-_.]+$</param>
     public AwsSchedulerDeleteScheduleOptions(
         string Name
     )
@@ -57,20 +58,20 @@ public record AwsSchedulerDeleteScheduleOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the schedule to delete. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-zA-Z-_.]+$
+    /// The name of the schedule to delete. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-zA-Z-_.]+$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// Unique, case-sensitive identifier you provide to ensure the idempo- tency of the request. If you do not specify a client token, Event- Bridge Scheduler uses a randomly generated token for the request to ensure idempotency. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-_]+$
+    /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request. If you do not specify a client token, EventBridge Scheduler uses a randomly generated token for the request to ensure idempotency. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9-_]+$
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The name of the schedule group associated with this schedule. If you omit this, the default schedule group is used. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-zA-Z-_.]+$
+    /// The name of the schedule group associated with this schedule. If you omit this, the default schedule group is used. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-zA-Z-_.]+$
     /// </summary>
     [CliOption("--group-name")]
     public string? GroupName { get; set; }
@@ -96,6 +97,15 @@ public record AwsSchedulerDeleteScheduleOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -63,7 +64,7 @@ public record AwsEc2ModifyTrafficMirrorFilterRuleOptions : AwsOptions, IValidata
     public string? TrafficMirrorFilterRuleId { get; private init; }
 
     /// <summary>
-    /// The type of traffic to assign to the rule. Possible values: o ingress o egress
+    /// The type of traffic to assign to the rule. Possible values: • ingress • egress
     /// </summary>
     [CliOption("--traffic-direction")]
     public AwsEc2ModifyTrafficMirrorFilterRuleTrafficDirection? TrafficDirection { get; set; }
@@ -75,7 +76,7 @@ public record AwsEc2ModifyTrafficMirrorFilterRuleOptions : AwsOptions, IValidata
     public int? RuleNumber { get; set; }
 
     /// <summary>
-    /// The action to assign to the rule. Possible values: o accept o reject
+    /// The action to assign to the rule. Possible values: • accept • reject
     /// </summary>
     [CliOption("--rule-action")]
     public AwsEc2ModifyTrafficMirrorFilterRuleRuleAction? RuleAction { get; set; }
@@ -117,13 +118,13 @@ public record AwsEc2ModifyTrafficMirrorFilterRuleOptions : AwsOptions, IValidata
     public string? Description { get; set; }
 
     /// <summary>
-    /// The properties that you want to remove from the Traffic Mirror fil- ter rule. When you remove a property from a Traffic Mirror filter rule, the property is set to the default. (string) Possible values: o destination-port-range o source-port-range o protocol o description Syntax: "string" "string" ...
+    /// The properties that you want to remove from the Traffic Mirror filter rule. When you remove a property from a Traffic Mirror filter rule, the property is set to the default. (string) Possible values: • destination-port-range • source-port-range • protocol • description Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--remove-fields", GroupValues = true)]
     public IEnumerable<string>? RemoveFields { get; set; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -149,6 +150,15 @@ public record AwsEc2ModifyTrafficMirrorFilterRuleOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

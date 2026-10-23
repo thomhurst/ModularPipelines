@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a global table from an existing table. A global table creates a replication relationship between two or more DynamoDB tables with the same table name in the provided Regions. WARNING: This documentation is for version 2017.11.29 (Legacy) of global ta- bles, which should be avoided for new global tables. Customers should use Global Tables version 2019.11.21 (Current) when possible, because it provides greater flexibility, higher efficiency, and con- sumes less write capacity than 2017.11....
+/// Creates a global table from an existing table. A global table creates a replication relationship between two or more DynamoDB tables with the same table name in the provided Regions. WARNING: This documentation is for version 2017.11.29 (Legacy) of global tables, which should be avoided for new global tables. Customers should use Global Tables version 2019.11.21 (Current) when possible, because it provides greater flexibility, higher efficiency, and consumes less write capacity than 2017.11.29 (...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsDynamodbCreateGlobalTableOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a global table from an existing table. A global table creates a replication relationship between two or more DynamoDB tables with the same table name in the provided Regions. WARNING: This documentation is for version 2017.11.29 (Legacy) of global ta- bles, which should be avoided for new global tables. Customers should use Global Tables version 2019.11.21 (Current) when possible, because it provides greater flexibility, higher efficiency, and con- sumes less write capacity than 2017.11....
+    /// Creates a global table from an existing table. A global table creates a replication relationship between two or more DynamoDB tables with the same table name in the provided Regions. WARNING: This documentation is for version 2017.11.29 (Legacy) of global tables, which should be avoided for new global tables. Customers should use Global Tables version 2019.11.21 (Current) when possible, because it provides greater flexibility, higher efficiency, and consumes less write capacity than 2017.11.29 (...
     /// </summary>
-    /// <param name="GlobalTableName">The global table name. Constraints: o min: 3 o max: 255 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="GlobalTableName">The global table name. Constraints: • min: 3 • max: 255 • pattern: [a-zA-Z0-9_.-]+</param>
     /// <param name="ReplicationGroup">The Regions where the global table needs to be created. (structure) Represents the properties of a replica. RegionName -&gt; (string) The Region where the replica needs to be created. Shorthand Syntax: RegionName=string ... JSON Syntax: [ { "RegionName": "string" } ... ]</param>
     public AwsDynamodbCreateGlobalTableOptions(
         string GlobalTableName,
@@ -71,7 +72,7 @@ public record AwsDynamodbCreateGlobalTableOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The global table name. Constraints: o min: 3 o max: 255 o pattern: [a-zA-Z0-9_.-]+
+    /// The global table name. Constraints: • min: 3 • max: 255 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--global-table-name")]
     public string? GlobalTableName { get; private init; }
@@ -103,6 +104,15 @@ public record AwsDynamodbCreateGlobalTableOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsCeDeleteAnomalySubscriptionOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Deletes a cost anomaly subscription. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SubscriptionArn">The unique identifier of the cost anomaly subscription that you want to delete. Constraints: o min: 0 o max: 1024 o pattern: [\S\s]*</param>
+    /// <param name="SubscriptionArn">The unique identifier of the cost anomaly subscription that you want to delete. Constraints: • min: 0 • max: 1024 • pattern: [\S\s]*</param>
     public AwsCeDeleteAnomalySubscriptionOptions(
         string SubscriptionArn
     )
@@ -56,7 +57,7 @@ public record AwsCeDeleteAnomalySubscriptionOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the cost anomaly subscription that you want to delete. Constraints: o min: 0 o max: 1024 o pattern: [\S\s]*
+    /// The unique identifier of the cost anomaly subscription that you want to delete. Constraints: • min: 0 • max: 1024 • pattern: [\S\s]*
     /// </summary>
     [CliOption("--subscription-arn")]
     public string? SubscriptionArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsCeDeleteAnomalySubscriptionOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

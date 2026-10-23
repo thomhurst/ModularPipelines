@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the configuration of an existing endpoint for a model from Ama- zon Bedrock Marketplace. See also: AWS API Documentation
+/// Updates the configuration of an existing endpoint for a model from Amazon Bedrock Marketplace. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsBedrockUpdateMarketplaceModelEndpointOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the configuration of an existing endpoint for a model from Ama- zon Bedrock Marketplace. See also: AWS API Documentation
+    /// Updates the configuration of an existing endpoint for a model from Amazon Bedrock Marketplace. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EndpointArn">The Amazon Resource Name (ARN) of the endpoint you want to update. Constraints: o min: 0 o max: 2048</param>
-    /// <param name="EndpointConfig">The new configuration for the endpoint, including the number and type of instances to use. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: sageMaker. sageMaker -&gt; (structure) The configuration specific to Amazon SageMaker for the endpoint. initialInstanceCount -&gt; (integer) [required] The number of Amazon EC2 compute instances to deploy for ini- tial endpoint creation. Constraints: o min: 1 instanceType -&gt; (string) [required] The Amazon EC2 compute instance type to deploy for hosting the model. Constraints: o min: 1 o max: 50 executionRole -&gt; (string) [required] The ARN of the IAM role that Amazon SageMaker can assume to access model artifacts and docker image for deployment on Amazon EC2 compute instances or for batch transform jobs. Constraints: o min: 0 o max: 2048 o pattern: arn:aws(-[^:]+)?:iam::([0-9]{12})?:role/.+ kmsEncryptionKey -&gt; (string) The Amazon Web Services KMS key that Amazon SageMaker uses to encrypt data on the storage volume attached to the Amazon EC2 compute instance that hosts the endpoint. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws(-[^:]+)?:kms:[a-zA-Z0-9-]*:[0-9]{12}:((key/[a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+)))|([a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+) vpc -&gt; (structure) The VPC configuration for the endpoint. subnetIds -&gt; (list) [required] An array of IDs for each subnet in the VPC to use. Constraints: o min: 1 o max: 16 (string) Constraints: o min: 0 o max: 32 o pattern: [-0-9a-zA-Z]+ securityGroupIds -&gt; (list) [required] An array of IDs for each security group in the VPC to use. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 0 o max: 32 o pattern: [-0-9a-zA-Z]+ JSON Syntax: { "sageMaker": { "initialInstanceCount": integer, "instanceType": "string", "executionRole": "string", "kmsEncryptionKey": "string", "vpc": { "subnetIds": ["string", ...], "securityGroupIds": ["string", ...] } } }</param>
+    /// <param name="EndpointArn">The Amazon Resource Name (ARN) of the endpoint you want to update. Constraints: • min: 0 • max: 2048</param>
+    /// <param name="EndpointConfig">The new configuration for the endpoint, including the number and type of instances to use. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: sageMaker. sageMaker -&gt; (structure) The configuration specific to Amazon SageMaker for the endpoint. initialInstanceCount -&gt; (integer) [required] The number of Amazon EC2 compute instances to deploy for initial endpoint creation. Constraints: • min: 1 instanceType -&gt; (string) [required] The Amazon EC2 compute instance type to deploy for hosting the model. Constraints: • min: 1 • max: 50 executionRole -&gt; (string) [required] The ARN of the IAM role that Amazon SageMaker can assume to access model artifacts and docker image for deployment on Amazon EC2 compute instances or for batch transform jobs. Constraints: • min: 0 • max: 2048 • pattern: arn:aws(-[^:]+)?:iam::([0-9]{12})?:role/.+ kmsEncryptionKey -&gt; (string) The Amazon Web Services KMS key that Amazon SageMaker uses to encrypt data on the storage volume attached to the Amazon EC2 compute instance that hosts the endpoint. Constraints: • min: 1 • max: 2048 • pattern: (arn:aws(-[^:]+)?:kms:[a-zA-Z0-9-]*:[0-9]{12}:((key/[a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+)))|([a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+) vpc -&gt; (structure) The VPC configuration for the endpoint. subnetIds -&gt; (list) [required] An array of IDs for each subnet in the VPC to use. Constraints: • min: 1 • max: 16 (string) Constraints: • min: 0 • max: 32 • pattern: [-0-9a-zA-Z]+ securityGroupIds -&gt; (list) [required] An array of IDs for each security group in the VPC to use. Constraints: • min: 1 • max: 5 (string) Constraints: • min: 0 • max: 32 • pattern: [-0-9a-zA-Z]+ JSON Syntax: { "sageMaker": { "initialInstanceCount": integer, "instanceType": "string", "executionRole": "string", "kmsEncryptionKey": "string", "vpc": { "subnetIds": ["string", ...], "securityGroupIds": ["string", ...] } } }</param>
     public AwsBedrockUpdateMarketplaceModelEndpointOptions(
         string EndpointArn,
         string EndpointConfig
@@ -61,19 +62,19 @@ public record AwsBedrockUpdateMarketplaceModelEndpointOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the endpoint you want to update. Constraints: o min: 0 o max: 2048
+    /// The Amazon Resource Name (ARN) of the endpoint you want to update. Constraints: • min: 0 • max: 2048
     /// </summary>
     [CliOption("--endpoint-arn")]
     public string? EndpointArn { get; private init; }
 
     /// <summary>
-    /// The new configuration for the endpoint, including the number and type of instances to use. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: sageMaker. sageMaker -&gt; (structure) The configuration specific to Amazon SageMaker for the endpoint. initialInstanceCount -&gt; (integer) [required] The number of Amazon EC2 compute instances to deploy for ini- tial endpoint creation. Constraints: o min: 1 instanceType -&gt; (string) [required] The Amazon EC2 compute instance type to deploy for hosting the model. Constraints: o min: 1 o max: 50 executionRole -&gt; (string) [required] The ARN of the IAM role that Amazon SageMaker can assume to access model artifacts and docker image for deployment on Amazon EC2 compute instances or for batch transform jobs. Constraints: o min: 0 o max: 2048 o pattern: arn:aws(-[^:]+)?:iam::([0-9]{12})?:role/.+ kmsEncryptionKey -&gt; (string) The Amazon Web Services KMS key that Amazon SageMaker uses to encrypt data on the storage volume attached to the Amazon EC2 compute instance that hosts the endpoint. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws(-[^:]+)?:kms:[a-zA-Z0-9-]*:[0-9]{12}:((key/[a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+)))|([a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+) vpc -&gt; (structure) The VPC configuration for the endpoint. subnetIds -&gt; (list) [required] An array of IDs for each subnet in the VPC to use. Constraints: o min: 1 o max: 16 (string) Constraints: o min: 0 o max: 32 o pattern: [-0-9a-zA-Z]+ securityGroupIds -&gt; (list) [required] An array of IDs for each security group in the VPC to use. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 0 o max: 32 o pattern: [-0-9a-zA-Z]+ JSON Syntax: { "sageMaker": { "initialInstanceCount": integer, "instanceType": "string", "executionRole": "string", "kmsEncryptionKey": "string", "vpc": { "subnetIds": ["string", ...], "securityGroupIds": ["string", ...] } } }
+    /// The new configuration for the endpoint, including the number and type of instances to use. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: sageMaker. sageMaker -&gt; (structure) The configuration specific to Amazon SageMaker for the endpoint. initialInstanceCount -&gt; (integer) [required] The number of Amazon EC2 compute instances to deploy for initial endpoint creation. Constraints: • min: 1 instanceType -&gt; (string) [required] The Amazon EC2 compute instance type to deploy for hosting the model. Constraints: • min: 1 • max: 50 executionRole -&gt; (string) [required] The ARN of the IAM role that Amazon SageMaker can assume to access model artifacts and docker image for deployment on Amazon EC2 compute instances or for batch transform jobs. Constraints: • min: 0 • max: 2048 • pattern: arn:aws(-[^:]+)?:iam::([0-9]{12})?:role/.+ kmsEncryptionKey -&gt; (string) The Amazon Web Services KMS key that Amazon SageMaker uses to encrypt data on the storage volume attached to the Amazon EC2 compute instance that hosts the endpoint. Constraints: • min: 1 • max: 2048 • pattern: (arn:aws(-[^:]+)?:kms:[a-zA-Z0-9-]*:[0-9]{12}:((key/[a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+)))|([a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+) vpc -&gt; (structure) The VPC configuration for the endpoint. subnetIds -&gt; (list) [required] An array of IDs for each subnet in the VPC to use. Constraints: • min: 1 • max: 16 (string) Constraints: • min: 0 • max: 32 • pattern: [-0-9a-zA-Z]+ securityGroupIds -&gt; (list) [required] An array of IDs for each security group in the VPC to use. Constraints: • min: 1 • max: 5 (string) Constraints: • min: 0 • max: 32 • pattern: [-0-9a-zA-Z]+ JSON Syntax: { "sageMaker": { "initialInstanceCount": integer, "instanceType": "string", "executionRole": "string", "kmsEncryptionKey": "string", "vpc": { "subnetIds": ["string", ...], "securityGroupIds": ["string", ...] } } }
     /// </summary>
     [CliOption("--endpoint-config")]
     public string? EndpointConfig { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This token is listed as not required be- cause Amazon Web Services SDKs automatically generate it for you and set this parameter. If you're not using the Amazon Web Services SDK or the CLI, you must provide this token or the action will fail. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9]([-a-zA-Z0-9]{0,254}[a-zA-Z0-9])?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This token is listed as not required because Amazon Web Services SDKs automatically generate it for you and set this parameter. If you're not using the Amazon Web Services SDK or the CLI, you must provide this token or the action will fail. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9]([-a-zA-Z0-9]{0,254}[a-zA-Z0-9])?
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
@@ -100,6 +101,15 @@ public record AwsBedrockUpdateMarketplaceModelEndpointOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

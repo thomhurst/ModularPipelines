@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Information about all active and terminated step executions in an Au- tomation workflow. See also: AWS API Documentation describe-automation-step-executions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expre...
+/// Information about all active and terminated step executions in an Automation workflow. See also: AWS API Documentation describe-automation-step-executions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsSsmDescribeAutomationStepExecutionsOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Information about all active and terminated step executions in an Au- tomation workflow. See also: AWS API Documentation describe-automation-step-executions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expre...
+    /// Information about all active and terminated step executions in an Automation workflow. See also: AWS API Documentation describe-automation-step-executions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions...
     /// </summary>
-    /// <param name="AutomationExecutionId">The Automation execution ID for which you want step execution de- scriptions. Constraints: o min: 36 o max: 36</param>
+    /// <param name="AutomationExecutionId">The Automation execution ID for which you want step execution descriptions. Constraints: • min: 36 • max: 36</param>
     public AwsSsmDescribeAutomationStepExecutionsOptions(
         string AutomationExecutionId
     )
@@ -57,13 +58,13 @@ public record AwsSsmDescribeAutomationStepExecutionsOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Automation execution ID for which you want step execution de- scriptions. Constraints: o min: 36 o max: 36
+    /// The Automation execution ID for which you want step execution descriptions. Constraints: • min: 36 • max: 36
     /// </summary>
     [CliOption("--automation-execution-id")]
     public string? AutomationExecutionId { get; private init; }
 
     /// <summary>
-    /// One or more filters to limit the number of step executions returned by the request. Constraints: o min: 1 o max: 6 (structure) A filter to limit the amount of step execution information re- turned by the call. Key -&gt; (string) [required] One or more keys to limit the results. Possible values: o StartTimeBefore o StartTimeAfter o StepExecutionStatus o StepExecutionId o StepName o Action o ParentStepExecutionId o ParentStepIteration o ParentStepIteratorValue Values -&gt; (list) [required] The values of the filter key. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 150 Shorthand Syntax: Key=string,Values=string,string ... JSON Syntax: [ { "Key": "StartTimeBefore"|"StartTimeAfter"|"StepExecutionStatus"|"StepExecutionId"|"StepName"|"Action"|"ParentStepExecutionId"|"ParentStepIteration"|"ParentStepIteratorValue", "Values": ["string", ...] } ... ]
+    /// One or more filters to limit the number of step executions returned by the request. Constraints: • min: 1 • max: 6 (structure) A filter to limit the amount of step execution information returned by the call. Key -&gt; (string) [required] One or more keys to limit the results. Possible values: • StartTimeBefore • StartTimeAfter • StepExecutionStatus • StepExecutionId • StepName • Action • ParentStepExecutionId • ParentStepIteration • ParentStepIteratorValue Values -&gt; (list) [required] The values of the filter key. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 150 Shorthand Syntax: Key=string,Values=string,string ... JSON Syntax: [ { "Key": "StartTimeBefore"|"StartTimeAfter"|"StepExecutionStatus"|"StepExecutionId"|"StepName"|"Action"|"ParentStepExecutionId"|"ParentStepIteration"|"ParentStepIteratorValue", "Values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
@@ -77,9 +78,6 @@ public record AwsSsmDescribeAutomationStepExecutionsOptions : AwsOptions, IValid
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
-
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
@@ -88,16 +86,19 @@ public record AwsSsmDescribeAutomationStepExecutionsOptions : AwsOptions, IValid
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 50
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -114,6 +115,15 @@ public record AwsSsmDescribeAutomationStepExecutionsOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

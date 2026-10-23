@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,7 +30,7 @@ public record AwsSyntheticsGetCanaryRunsOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Retrieves a list of runs for a specified canary. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the canary that you want to see runs for. Constraints: o min: 1 o max: 255 o pattern: ^[0-9a-z_\-]+$</param>
+    /// <param name="Name">The name of the canary that you want to see runs for. Constraints: • min: 1 • max: 255 • pattern: ^[0-9a-z_\-]+$</param>
     public AwsSyntheticsGetCanaryRunsOptions(
         string Name
     )
@@ -58,32 +59,32 @@ public record AwsSyntheticsGetCanaryRunsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the canary that you want to see runs for. Constraints: o min: 1 o max: 255 o pattern: ^[0-9a-z_\-]+$
+    /// The name of the canary that you want to see runs for. Constraints: • min: 1 • max: 255 • pattern: ^[0-9a-z_\-]+$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// A token that indicates that there is more data available. You can use this token in a subsequent GetCanaryRuns operation to retrieve the next set of results. NOTE: When auto retry is enabled for the canary, the first subsequent retry is suffixed with * 1 indicating its the first retry and the next subsequent try is suffixed with * 2. System Message: WARNING/2 (&lt;string&gt;:, line 102) Inline emphasis start-string without end-string. System Message: WARNING/2 (&lt;string&gt;:, line 102) Inline emphasis start-string without end-string. Constraints: o min: 4 o max: 252
+    /// A token that indicates that there is more data available. You can use this token in a subsequent GetCanaryRuns operation to retrieve the next set of results. NOTE: When auto retry is enabled for the canary, the first subsequent retry is suffixed with * 1 indicating its the first retry and the next subsequent try is suffixed with * 2. System Message: WARNING/2 (&lt;string&gt;:, line 102) Inline emphasis start-string without end-string. System Message: WARNING/2 (&lt;string&gt;:, line 102) Inline emphasis start-string without end-string. Constraints: • min: 4 • max: 252
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// Specify this parameter to limit how many runs are returned each time you use the GetCanaryRuns operation. If you omit this parameter, the default of 100 is used. Constraints: o min: 1 o max: 100
+    /// Specify this parameter to limit how many runs are returned each time you use the GetCanaryRuns operation. If you omit this parameter, the default of 100 is used. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The DryRunId associated with an existing canarys dry run. You can use this DryRunId to retrieve information about the dry run. Constraints: o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
+    /// The DryRunId associated with an existing canarys dry run. You can use this DryRunId to retrieve information about the dry run. Constraints: • pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
     /// </summary>
     [CliOption("--dry-run-id")]
     public string? DryRunId { get; set; }
 
     /// <summary>
-    /// o When you provide RunType=CANARY_RUN and dryRunId , you will get an exception o When a value is not provided for RunType , the default value is CANARY_RUN o When CANARY_RUN is provided, all canary runs excluding dry runs are returned o When DRY_RUN is provided, all dry runs excluding canary runs are returned Possible values: o CANARY_RUN o DRY_RUN
+    /// • When you provide RunType=CANARY_RUN and dryRunId , you will get an exception • When a value is not provided for RunType , the default value is CANARY_RUN • When CANARY_RUN is provided, all canary runs excluding dry runs are returned • When DRY_RUN is provided, all dry runs excluding canary runs are returned Possible values: • CANARY_RUN • DRY_RUN
     /// </summary>
     [CliOption("--run-type")]
     public AwsSyntheticsGetCanaryRunsRunType? RunType { get; set; }
@@ -109,6 +110,15 @@ public record AwsSyntheticsGetCanaryRunsOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

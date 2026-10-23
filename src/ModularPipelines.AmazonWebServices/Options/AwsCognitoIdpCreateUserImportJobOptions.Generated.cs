@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a user import job. You can import users into user pools from a comma-separated values (CSV) file without adding Amazon Cognito MAU costs to your Amazon Web Services bill. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more o Signing Amazon Web Services API Requests o Usin...
+/// Creates a user import job. You can import users into user pools from a comma-separated values (CSV) file without adding Amazon Cognito MAU costs to your Amazon Web Services bill. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more • Signing Amazon Web Services API Requests • Using ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsCognitoIdpCreateUserImportJobOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a user import job. You can import users into user pools from a comma-separated values (CSV) file without adding Amazon Cognito MAU costs to your Amazon Web Services bill. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more o Signing Amazon Web Services API Requests o Usin...
+    /// Creates a user import job. You can import users into user pools from a comma-separated values (CSV) file without adding Amazon Cognito MAU costs to your Amazon Web Services bill. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more • Signing Amazon Web Services API Requests • Using ...
     /// </summary>
-    /// <param name="JobName">A friendly name for the user import job. Constraints: o min: 1 o max: 128 o pattern: [\w\s+=,.@-]+</param>
-    /// <param name="UserPoolId">The ID of the user pool that you want to import users into. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+</param>
-    /// <param name="CloudWatchLogsRoleArn">You must specify an IAM role that has permission to log import-job results to Amazon CloudWatch Logs. This parameter is the ARN of that role. Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=/,.@-]+:[\w+=/,.@-]+:([\w+=/,.@-]*)?:[0-9]+:[\w+=/,.@-]+(:[\w+=/,.@-]+)?(:[\w+=/,.@-]+)?</param>
+    /// <param name="JobName">A friendly name for the user import job. Constraints: • min: 1 • max: 128 • pattern: [\w\s+=,.@-]+</param>
+    /// <param name="UserPoolId">The ID of the user pool that you want to import users into. Constraints: • min: 1 • max: 55 • pattern: [\w-]+_[0-9a-zA-Z]+</param>
+    /// <param name="CloudWatchLogsRoleArn">You must specify an IAM role that has permission to log import-job results to Amazon CloudWatch Logs. This parameter is the ARN of that role. Constraints: • min: 20 • max: 2048 • pattern: arn:[\w+=/,.@-]+:[\w+=/,.@-]+:([\w+=/,.@-]*)?:[0-9]+:[\w+=/,.@-]+(:[\w+=/,.@-]+)?(:[\w+=/,.@-]+)?</param>
     public AwsCognitoIdpCreateUserImportJobOptions(
         string JobName,
         string UserPoolId,
@@ -64,25 +65,25 @@ public record AwsCognitoIdpCreateUserImportJobOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A friendly name for the user import job. Constraints: o min: 1 o max: 128 o pattern: [\w\s+=,.@-]+
+    /// A friendly name for the user import job. Constraints: • min: 1 • max: 128 • pattern: [\w\s+=,.@-]+
     /// </summary>
     [CliOption("--job-name")]
     public string? JobName { get; private init; }
 
     /// <summary>
-    /// The ID of the user pool that you want to import users into. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+
+    /// The ID of the user pool that you want to import users into. Constraints: • min: 1 • max: 55 • pattern: [\w-]+_[0-9a-zA-Z]+
     /// </summary>
     [CliOption("--user-pool-id")]
     public string? UserPoolId { get; private init; }
 
     /// <summary>
-    /// You must specify an IAM role that has permission to log import-job results to Amazon CloudWatch Logs. This parameter is the ARN of that role. Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=/,.@-]+:[\w+=/,.@-]+:([\w+=/,.@-]*)?:[0-9]+:[\w+=/,.@-]+(:[\w+=/,.@-]+)?(:[\w+=/,.@-]+)?
+    /// You must specify an IAM role that has permission to log import-job results to Amazon CloudWatch Logs. This parameter is the ARN of that role. Constraints: • min: 20 • max: 2048 • pattern: arn:[\w+=/,.@-]+:[\w+=/,.@-]+:([\w+=/,.@-]*)?:[0-9]+:[\w+=/,.@-]+(:[\w+=/,.@-]+)?(:[\w+=/,.@-]+)?
     /// </summary>
     [CliOption("--cloud-watch-logs-role-arn")]
     public string? CloudWatchLogsRoleArn { get; private init; }
 
     /// <summary>
-    /// The password hashing algorithm used to generate the hashes in the CSV file for this import job. Valid values: BCRYPT | SCRYPT | ARGON2ID | PBKDF2_SHA256 Possible values: o BCRYPT o SCRYPT o ARGON2ID o PBKDF2_SHA256
+    /// The password hashing algorithm used to generate the hashes in the CSV file for this import job. Valid values: BCRYPT | SCRYPT | ARGON2ID | PBKDF2_SHA256 Possible values: • BCRYPT • SCRYPT • ARGON2ID • PBKDF2_SHA256
     /// </summary>
     [CliOption("--password-hashing-algorithm")]
     public string? PasswordHashingAlgorithm { get; set; }
@@ -108,6 +109,15 @@ public record AwsCognitoIdpCreateUserImportJobOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

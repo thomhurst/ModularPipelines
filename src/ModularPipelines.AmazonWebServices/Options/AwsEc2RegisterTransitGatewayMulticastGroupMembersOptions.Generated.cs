@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Registers members (network interfaces) with the transit gateway multi- cast group. A member is a network interface associated with a supported EC2 instance that receives multicast traffic. For more information, see Multicast on transit gateways in the Amazon Web Services Transit Gate- ways Guide . After you add the members, use SearchTransitGatewayMulticastGroups to verify that the members were added to the transit gateway multicast group. See also: AWS API Documentation
+/// Registers members (network interfaces) with the transit gateway multicast group. A member is a network interface associated with a supported EC2 instance that receives multicast traffic. For more information, see Multicast on transit gateways in the Amazon Web Services Transit Gateways Guide . After you add the members, use SearchTransitGatewayMulticastGroups to verify that the members were added to the transit gateway multicast group. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsEc2RegisterTransitGatewayMulticastGroupMembersOptions : AwsOpti
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Registers members (network interfaces) with the transit gateway multi- cast group. A member is a network interface associated with a supported EC2 instance that receives multicast traffic. For more information, see Multicast on transit gateways in the Amazon Web Services Transit Gate- ways Guide . After you add the members, use SearchTransitGatewayMulticastGroups to verify that the members were added to the transit gateway multicast group. See also: AWS API Documentation
+    /// Registers members (network interfaces) with the transit gateway multicast group. A member is a network interface associated with a supported EC2 instance that receives multicast traffic. For more information, see Multicast on transit gateways in the Amazon Web Services Transit Gateways Guide . After you add the members, use SearchTransitGatewayMulticastGroups to verify that the members were added to the transit gateway multicast group. See also: AWS API Documentation
     /// </summary>
     /// <param name="TransitGatewayMulticastDomainId">The ID of the transit gateway multicast domain.</param>
-    /// <param name="NetworkInterfaceIds">The group members' network interface IDs to register with the tran- sit gateway multicast group. (string) Syntax: "string" "string" ...</param>
+    /// <param name="NetworkInterfaceIds">The group members' network interface IDs to register with the transit gateway multicast group. (string) Syntax: "string" "string" ...</param>
     public AwsEc2RegisterTransitGatewayMulticastGroupMembersOptions(
         string TransitGatewayMulticastDomainId,
         IEnumerable<string> NetworkInterfaceIds
@@ -77,7 +78,7 @@ public record AwsEc2RegisterTransitGatewayMulticastGroupMembersOptions : AwsOpti
     public string? TransitGatewayMulticastDomainId { get; private init; }
 
     /// <summary>
-    /// The group members' network interface IDs to register with the tran- sit gateway multicast group. (string) Syntax: "string" "string" ...
+    /// The group members' network interface IDs to register with the transit gateway multicast group. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--network-interface-ids", GroupValues = true)]
     public IEnumerable<string>? NetworkInterfaceIds { get; private init; }
@@ -89,7 +90,7 @@ public record AwsEc2RegisterTransitGatewayMulticastGroupMembersOptions : AwsOpti
     public string? GroupIpAddress { get; set; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -115,6 +116,15 @@ public record AwsEc2RegisterTransitGatewayMulticastGroupMembersOptions : AwsOpti
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

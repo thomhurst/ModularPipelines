@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +28,7 @@ public record AwsDataexchangeCreateRevisionOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// This operation creates a revision for a data set. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DataSetId">The unique identifier for a data set. Constraints: o pattern: [a-zA-Z0-9]{30,40}</param>
+    /// <param name="DataSetId">The unique identifier for a data set. Constraints: • pattern: [a-zA-Z0-9]{30,40}</param>
     public AwsDataexchangeCreateRevisionOptions(
         string DataSetId
     )
@@ -57,19 +57,19 @@ public record AwsDataexchangeCreateRevisionOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for a data set. Constraints: o pattern: [a-zA-Z0-9]{30,40}
+    /// The unique identifier for a data set. Constraints: • pattern: [a-zA-Z0-9]{30,40}
     /// </summary>
     [CliOption("--data-set-id")]
     public string? DataSetId { get; private init; }
 
     /// <summary>
-    /// An optional comment about the revision. Constraints: o min: 0 o max: 16384
+    /// An optional comment about the revision. Constraints: • min: 0 • max: 16384
     /// </summary>
     [CliOption("--comment")]
     public string? Comment { get; set; }
 
     /// <summary>
-    /// A revision tag is an optional label that you can assign to a revi- sion when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to these data sets and revisions. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A revision tag is an optional label that you can assign to a revision when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to these data sets and revisions. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -95,6 +95,15 @@ public record AwsDataexchangeCreateRevisionOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

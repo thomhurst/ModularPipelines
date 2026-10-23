@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws wait commands.
+/// aws rtbfabric wait commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsRtbfabricWait
@@ -32,7 +32,7 @@ public class AwsRtbfabricWait
     #region Commands
 
     /// <summary>
-    /// Wait until JMESPath query status returns ASSOCIATED when polling with get-certificate-association. It will poll every 15 seconds until a suc- cessful state has been reached. This will exit with a return code of 255 after 8 failed checks. See also: AWS API Documentation
+    /// Wait until JMESPath query status returns ASSOCIATED when polling with get-certificate-association. It will poll every 15 seconds until a successful state has been reached. This will exit with a return code of 255 after 8 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsRtbfabricWait
     }
 
     /// <summary>
-    /// Wait until JMESPath query status returns ACTIVE when polling with get-inbound-external-link. It will poll every 30 seconds until a suc- cessful state has been reached. This will exit with a return code of 255 after 5 failed checks. See also: AWS API Documentation
+    /// Wait until JMESPath query status returns ACTIVE when polling with get-inbound-external-link. It will poll every 30 seconds until a successful state has been reached. This will exit with a return code of 255 after 5 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsRtbfabricWait
     }
 
     /// <summary>
-    /// Wait until JMESPath query status returns DELETED when polling with get-inbound-external-link. It will poll every 30 seconds until a suc- cessful state has been reached. This will exit with a return code of 255 after 5 failed checks. See also: AWS API Documentation
+    /// Wait until JMESPath query status returns DELETED when polling with get-inbound-external-link. It will poll every 30 seconds until a successful state has been reached. This will exit with a return code of 255 after 5 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsRtbfabricWait
     }
 
     /// <summary>
-    /// Wait until JMESPath query status returns ACTIVE when polling with get-outbound-external-link. It will poll every 30 seconds until a suc- cessful state has been reached. This will exit with a return code of 255 after 5 failed checks. See also: AWS API Documentation
+    /// Wait until JMESPath query status returns ACTIVE when polling with get-outbound-external-link. It will poll every 30 seconds until a successful state has been reached. This will exit with a return code of 255 after 5 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsRtbfabricWait
     }
 
     /// <summary>
-    /// Wait until JMESPath query status returns DELETED when polling with get-outbound-external-link. It will poll every 30 seconds until a suc- cessful state has been reached. This will exit with a return code of 255 after 5 failed checks. See also: AWS API Documentation
+    /// Wait until JMESPath query status returns DELETED when polling with get-outbound-external-link. It will poll every 30 seconds until a successful state has been reached. This will exit with a return code of 255 after 5 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves information about the maintenance window targets or tasks that a managed node is associated with. See also: AWS API Documentation describe-maintenance-windows-for-target is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of th...
+/// Retrieves information about the maintenance window targets or tasks that a managed node is associated with. See also: AWS API Documentation describe-maintenance-windows-for-target is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the fo...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +28,10 @@ public record AwsSsmDescribeMaintenanceWindowsForTargetOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves information about the maintenance window targets or tasks that a managed node is associated with. See also: AWS API Documentation describe-maintenance-windows-for-target is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of th...
+    /// Retrieves information about the maintenance window targets or tasks that a managed node is associated with. See also: AWS API Documentation describe-maintenance-windows-for-target is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the fo...
     /// </summary>
-    /// <param name="Targets">The managed node ID or key-value pair to retrieve information about. Constraints: o min: 0 o max: 5 (structure) An array of search criteria that targets managed nodes using a key-value pair that you specify. NOTE: One or more targets must be specified for maintenance window Run Command-type tasks. Depending on the task, targets are optional for other maintenance window task types (Automation, Lambda, and Step Functions). For more information about run- ning tasks that don't specify targets, see Registering main- tenance window tasks without targets in the Amazon Web Ser- vices Systems Manager User Guide . Supported formats include the following. For all Systems Manager tools: o Key=tag-key,Values=tag-value-1,tag-value-2 For Automation and Change Manager: o Key=tag:tag-key,Values=tag-value o Key=ResourceGroup,Values=resource-group-name o Key=ParameterValues,Values=value-1,value-2,value-3 o To target all instances in the Amazon Web Services Region: o Key=AWS::EC2::Instance,Values=* o Key=InstanceIds,Values=* For Run Command and Maintenance Windows: o Key=InstanceIds,Values=instance-id-1,instance-id-2,in- stance-id-3 o Key=tag:tag-key,Values=tag-value-1,tag-value-2 o Key=resource-groups:Name,Values=resource-group-name o Additionally, Maintenance Windows support targeting resource types: o Key=resource-groups:ResourceTypeFilters,Values=re- source-type-1,resource-type-2 For State Manager: o Key=InstanceIds,Values=instance-id-1,instance-id-2,in- stance-id-3 o Key=tag:tag-key,Values=tag-value-1,tag-value-2 o To target all instances in the Amazon Web Services Region: o Key=InstanceIds,Values=* For more information about how to send commands that target man- aged nodes using Key,Value parameters, see Targeting multiple managed nodes in the Amazon Web Services Systems Manager User Guide . Key -&gt; (string) User-defined criteria for sending commands that target man- aged nodes that meet the criteria. Constraints: o min: 1 o max: 163 o pattern: ^[\p{L}\p{Z}\p{N}_.:/=\-@]*$|resource-groups:Re- sourceTypeFilters|resource-groups:Name Values -&gt; (list) User-defined criteria that maps to Key . For example, if you specified tag:ServerRole , you could specify value:WebServer to run a command on instances that include EC2 tags of ServerRole,WebServer . Depending on the type of target, the maximum number of values for a key might be lower than the global maximum of 50. Constraints: o min: 0 o max: 50 (string) Shorthand Syntax: Key=string,Values=string,string ... JSON Syntax: [ { "Key": "string", "Values": ["string", ...] } ... ]</param>
-    /// <param name="ResourceType">The type of resource you want to retrieve information about. For ex- ample, INSTANCE . Possible values: o INSTANCE o RESOURCE_GROUP</param>
+    /// <param name="Targets">The managed node ID or key-value pair to retrieve information about. Constraints: • min: 0 • max: 5 (structure) An array of search criteria that targets managed nodes using a key-value pair that you specify. NOTE: One or more targets must be specified for maintenance window Run Command-type tasks. Depending on the task, targets are optional for other maintenance window task types (Automation, Lambda, and Step Functions). For more information about running tasks that don't specify targets, see Registering maintenance window tasks without targets in the Amazon Web Services Systems Manager User Guide . Supported formats include the following. For all Systems Manager tools: • Key=tag-key,Values=tag-value-1,tag-value-2 For Automation and Change Manager: • Key=tag:tag-key,Values=tag-value • Key=ResourceGroup,Values=resource-group-name • Key=ParameterValues,Values=value-1,value-2,value-3 • To target all instances in the Amazon Web Services Region: • Key=AWS::EC2::Instance,Values=* • Key=InstanceIds,Values=* For Run Command and Maintenance Windows: • Key=InstanceIds,Values=instance-id-1,instance-id-2,instance-id-3 • Key=tag:tag-key,Values=tag-value-1,tag-value-2 • Key=resource-groups:Name,Values=resource-group-name • Additionally, Maintenance Windows support targeting resource types: • Key=resource-groups:ResourceTypeFilters,Values=resource-type-1,resource-type-2 For State Manager: • Key=InstanceIds,Values=instance-id-1,instance-id-2,instance-id-3 • Key=tag:tag-key,Values=tag-value-1,tag-value-2 • To target all instances in the Amazon Web Services Region: • Key=InstanceIds,Values=* For more information about how to send commands that target managed nodes using Key,Value parameters, see Targeting multiple managed nodes in the Amazon Web Services Systems Manager User Guide . Key -&gt; (string) User-defined criteria for sending commands that target managed nodes that meet the criteria. Constraints: • min: 1 • max: 163 • pattern: ^[\p{L}\p{Z}\p{N}_.:/=\-@]*$|resource-groups:ResourceTypeFilters|resource-groups:Name Values -&gt; (list) User-defined criteria that maps to Key . For example, if you specified tag:ServerRole , you could specify value:WebServer to run a command on instances that include EC2 tags of ServerRole,WebServer . Depending on the type of target, the maximum number of values for a key might be lower than the global maximum of 50. Constraints: • min: 0 • max: 50 (string) Shorthand Syntax: Key=string,Values=string,string ... JSON Syntax: [ { "Key": "string", "Values": ["string", ...] } ... ]</param>
+    /// <param name="ResourceType">The type of resource you want to retrieve information about. For example, INSTANCE . Possible values: • INSTANCE • RESOURCE_GROUP</param>
     public AwsSsmDescribeMaintenanceWindowsForTargetOptions(
         IEnumerable<string> Targets,
         AwsSsmDescribeMaintenanceWindowsForTargetResourceType ResourceType
@@ -72,22 +73,19 @@ public record AwsSsmDescribeMaintenanceWindowsForTargetOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The managed node ID or key-value pair to retrieve information about. Constraints: o min: 0 o max: 5 (structure) An array of search criteria that targets managed nodes using a key-value pair that you specify. NOTE: One or more targets must be specified for maintenance window Run Command-type tasks. Depending on the task, targets are optional for other maintenance window task types (Automation, Lambda, and Step Functions). For more information about run- ning tasks that don't specify targets, see Registering main- tenance window tasks without targets in the Amazon Web Ser- vices Systems Manager User Guide . Supported formats include the following. For all Systems Manager tools: o Key=tag-key,Values=tag-value-1,tag-value-2 For Automation and Change Manager: o Key=tag:tag-key,Values=tag-value o Key=ResourceGroup,Values=resource-group-name o Key=ParameterValues,Values=value-1,value-2,value-3 o To target all instances in the Amazon Web Services Region: o Key=AWS::EC2::Instance,Values=* o Key=InstanceIds,Values=* For Run Command and Maintenance Windows: o Key=InstanceIds,Values=instance-id-1,instance-id-2,in- stance-id-3 o Key=tag:tag-key,Values=tag-value-1,tag-value-2 o Key=resource-groups:Name,Values=resource-group-name o Additionally, Maintenance Windows support targeting resource types: o Key=resource-groups:ResourceTypeFilters,Values=re- source-type-1,resource-type-2 For State Manager: o Key=InstanceIds,Values=instance-id-1,instance-id-2,in- stance-id-3 o Key=tag:tag-key,Values=tag-value-1,tag-value-2 o To target all instances in the Amazon Web Services Region: o Key=InstanceIds,Values=* For more information about how to send commands that target man- aged nodes using Key,Value parameters, see Targeting multiple managed nodes in the Amazon Web Services Systems Manager User Guide . Key -&gt; (string) User-defined criteria for sending commands that target man- aged nodes that meet the criteria. Constraints: o min: 1 o max: 163 o pattern: ^[\p{L}\p{Z}\p{N}_.:/=\-@]*$|resource-groups:Re- sourceTypeFilters|resource-groups:Name Values -&gt; (list) User-defined criteria that maps to Key . For example, if you specified tag:ServerRole , you could specify value:WebServer to run a command on instances that include EC2 tags of ServerRole,WebServer . Depending on the type of target, the maximum number of values for a key might be lower than the global maximum of 50. Constraints: o min: 0 o max: 50 (string) Shorthand Syntax: Key=string,Values=string,string ... JSON Syntax: [ { "Key": "string", "Values": ["string", ...] } ... ]
+    /// The managed node ID or key-value pair to retrieve information about. Constraints: • min: 0 • max: 5 (structure) An array of search criteria that targets managed nodes using a key-value pair that you specify. NOTE: One or more targets must be specified for maintenance window Run Command-type tasks. Depending on the task, targets are optional for other maintenance window task types (Automation, Lambda, and Step Functions). For more information about running tasks that don't specify targets, see Registering maintenance window tasks without targets in the Amazon Web Services Systems Manager User Guide . Supported formats include the following. For all Systems Manager tools: • Key=tag-key,Values=tag-value-1,tag-value-2 For Automation and Change Manager: • Key=tag:tag-key,Values=tag-value • Key=ResourceGroup,Values=resource-group-name • Key=ParameterValues,Values=value-1,value-2,value-3 • To target all instances in the Amazon Web Services Region: • Key=AWS::EC2::Instance,Values=* • Key=InstanceIds,Values=* For Run Command and Maintenance Windows: • Key=InstanceIds,Values=instance-id-1,instance-id-2,instance-id-3 • Key=tag:tag-key,Values=tag-value-1,tag-value-2 • Key=resource-groups:Name,Values=resource-group-name • Additionally, Maintenance Windows support targeting resource types: • Key=resource-groups:ResourceTypeFilters,Values=resource-type-1,resource-type-2 For State Manager: • Key=InstanceIds,Values=instance-id-1,instance-id-2,instance-id-3 • Key=tag:tag-key,Values=tag-value-1,tag-value-2 • To target all instances in the Amazon Web Services Region: • Key=InstanceIds,Values=* For more information about how to send commands that target managed nodes using Key,Value parameters, see Targeting multiple managed nodes in the Amazon Web Services Systems Manager User Guide . Key -&gt; (string) User-defined criteria for sending commands that target managed nodes that meet the criteria. Constraints: • min: 1 • max: 163 • pattern: ^[\p{L}\p{Z}\p{N}_.:/=\-@]*$|resource-groups:ResourceTypeFilters|resource-groups:Name Values -&gt; (list) User-defined criteria that maps to Key . For example, if you specified tag:ServerRole , you could specify value:WebServer to run a command on instances that include EC2 tags of ServerRole,WebServer . Depending on the type of target, the maximum number of values for a key might be lower than the global maximum of 50. Constraints: • min: 0 • max: 50 (string) Shorthand Syntax: Key=string,Values=string,string ... JSON Syntax: [ { "Key": "string", "Values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--targets", GroupValues = true)]
     public IEnumerable<string>? Targets { get; private init; }
 
     /// <summary>
-    /// The type of resource you want to retrieve information about. For ex- ample, INSTANCE . Possible values: o INSTANCE o RESOURCE_GROUP
+    /// The type of resource you want to retrieve information about. For example, INSTANCE . Possible values: • INSTANCE • RESOURCE_GROUP
     /// </summary>
     [CliOption("--resource-type")]
     public AwsSsmDescribeMaintenanceWindowsForTargetResourceType? ResourceType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -97,16 +95,19 @@ public record AwsSsmDescribeMaintenanceWindowsForTargetOptions : AwsOptions, IVa
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -123,6 +124,15 @@ public record AwsSsmDescribeMaintenanceWindowsForTargetOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

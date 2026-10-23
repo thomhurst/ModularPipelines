@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsGlueUpdateBlueprintOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates a registered blueprint. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the blueprint. Constraints: o min: 1 o max: 128 o pattern: [\.\-_A-Za-z0-9]+</param>
-    /// <param name="BlueprintLocation">Specifies a path in Amazon S3 where the blueprint is published. Constraints: o min: 1 o max: 8192 o pattern: ^s3://([^/]+)/([^/]+/)*([^/]+)$</param>
+    /// <param name="Name">The name of the blueprint. Constraints: • min: 1 • max: 128 • pattern: [\.\-_A-Za-z0-9]+</param>
+    /// <param name="BlueprintLocation">Specifies a path in Amazon S3 where the blueprint is published. Constraints: • min: 1 • max: 8192 • pattern: ^s3://([^/]+)/([^/]+/)*([^/]+)$</param>
     public AwsGlueUpdateBlueprintOptions(
         string Name,
         string BlueprintLocation
@@ -60,19 +61,19 @@ public record AwsGlueUpdateBlueprintOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the blueprint. Constraints: o min: 1 o max: 128 o pattern: [\.\-_A-Za-z0-9]+
+    /// The name of the blueprint. Constraints: • min: 1 • max: 128 • pattern: [\.\-_A-Za-z0-9]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// Specifies a path in Amazon S3 where the blueprint is published. Constraints: o min: 1 o max: 8192 o pattern: ^s3://([^/]+)/([^/]+/)*([^/]+)$
+    /// Specifies a path in Amazon S3 where the blueprint is published. Constraints: • min: 1 • max: 8192 • pattern: ^s3://([^/]+)/([^/]+/)*([^/]+)$
     /// </summary>
     [CliOption("--blueprint-location")]
     public string? BlueprintLocation { get; private init; }
 
     /// <summary>
-    /// A description of the blueprint. Constraints: o min: 1 o max: 512
+    /// A description of the blueprint. Constraints: • min: 1 • max: 512
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
@@ -98,6 +99,15 @@ public record AwsGlueUpdateBlueprintOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsWorkspacesCreateStandbyWorkspacesOptions : AwsOptions, IValidat
     /// <summary>
     /// Creates a standby WorkSpace in a secondary Region. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PrimaryRegion">The Region of the primary WorkSpace. Constraints: o min: 1 o max: 31 o pattern: ^[-0-9a-z]{1,31}$</param>
-    /// <param name="StandbyWorkspaces">Information about the standby WorkSpace to be created. (structure) Describes a standby WorkSpace. PrimaryWorkspaceId -&gt; (string) [required] The identifier of the standby WorkSpace. Constraints: o pattern: ^ws-[0-9a-z]{8,63}$ VolumeEncryptionKey -&gt; (string) The volume encryption key of the standby WorkSpace. DirectoryId -&gt; (string) [required] The identifier of the directory for the standby WorkSpace. Constraints: o min: 10 o max: 65 o pattern: ^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$) Tags -&gt; (list) The tags associated with the standby WorkSpace. (structure) Describes a tag. Key -&gt; (string) [required] The key of the tag. Constraints: o min: 1 o max: 127 Value -&gt; (string) The value of the tag. Constraints: o max: 255 DataReplication -&gt; (string) Indicates whether data replication is enabled, and if en- abled, the type of data replication. Possible values: o NO_REPLICATION o PRIMARY_AS_SOURCE Shorthand Syntax: PrimaryWorkspaceId=string,VolumeEncryptionKey=string,DirectoryId=string,Tags=[{Key=string,Value=string},{Key=string,Value=string}],DataReplication=string ... JSON Syntax: [ { "PrimaryWorkspaceId": "string", "VolumeEncryptionKey": "string", "DirectoryId": "string", "Tags": [ { "Key": "string", "Value": "string" } ... ], "DataReplication": "NO_REPLICATION"|"PRIMARY_AS_SOURCE" } ... ]</param>
+    /// <param name="PrimaryRegion">The Region of the primary WorkSpace. Constraints: • min: 1 • max: 31 • pattern: ^[-0-9a-z]{1,31}$</param>
+    /// <param name="StandbyWorkspaces">Information about the standby WorkSpace to be created. (structure) Describes a standby WorkSpace. PrimaryWorkspaceId -&gt; (string) [required] The identifier of the standby WorkSpace. Constraints: • pattern: ^ws-[0-9a-z]{8,63}$ VolumeEncryptionKey -&gt; (string) The volume encryption key of the standby WorkSpace. DirectoryId -&gt; (string) [required] The identifier of the directory for the standby WorkSpace. Constraints: • min: 10 • max: 65 • pattern: ^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$) Tags -&gt; (list) The tags associated with the standby WorkSpace. (structure) Describes a tag. Key -&gt; (string) [required] The key of the tag. Constraints: • min: 1 • max: 127 Value -&gt; (string) The value of the tag. Constraints: • max: 255 DataReplication -&gt; (string) Indicates whether data replication is enabled, and if enabled, the type of data replication. Possible values: • NO_REPLICATION • PRIMARY_AS_SOURCE Shorthand Syntax: PrimaryWorkspaceId=string,VolumeEncryptionKey=string,DirectoryId=string,Tags=[{Key=string,Value=string},{Key=string,Value=string}],DataReplication=string ... JSON Syntax: [ { "PrimaryWorkspaceId": "string", "VolumeEncryptionKey": "string", "DirectoryId": "string", "Tags": [ { "Key": "string", "Value": "string" } ... ], "DataReplication": "NO_REPLICATION"|"PRIMARY_AS_SOURCE" } ... ]</param>
     public AwsWorkspacesCreateStandbyWorkspacesOptions(
         string PrimaryRegion,
         IEnumerable<string> StandbyWorkspaces
@@ -71,13 +72,13 @@ public record AwsWorkspacesCreateStandbyWorkspacesOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Region of the primary WorkSpace. Constraints: o min: 1 o max: 31 o pattern: ^[-0-9a-z]{1,31}$
+    /// The Region of the primary WorkSpace. Constraints: • min: 1 • max: 31 • pattern: ^[-0-9a-z]{1,31}$
     /// </summary>
     [CliOption("--primary-region")]
     public string? PrimaryRegion { get; private init; }
 
     /// <summary>
-    /// Information about the standby WorkSpace to be created. (structure) Describes a standby WorkSpace. PrimaryWorkspaceId -&gt; (string) [required] The identifier of the standby WorkSpace. Constraints: o pattern: ^ws-[0-9a-z]{8,63}$ VolumeEncryptionKey -&gt; (string) The volume encryption key of the standby WorkSpace. DirectoryId -&gt; (string) [required] The identifier of the directory for the standby WorkSpace. Constraints: o min: 10 o max: 65 o pattern: ^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$) Tags -&gt; (list) The tags associated with the standby WorkSpace. (structure) Describes a tag. Key -&gt; (string) [required] The key of the tag. Constraints: o min: 1 o max: 127 Value -&gt; (string) The value of the tag. Constraints: o max: 255 DataReplication -&gt; (string) Indicates whether data replication is enabled, and if en- abled, the type of data replication. Possible values: o NO_REPLICATION o PRIMARY_AS_SOURCE Shorthand Syntax: PrimaryWorkspaceId=string,VolumeEncryptionKey=string,DirectoryId=string,Tags=[{Key=string,Value=string},{Key=string,Value=string}],DataReplication=string ... JSON Syntax: [ { "PrimaryWorkspaceId": "string", "VolumeEncryptionKey": "string", "DirectoryId": "string", "Tags": [ { "Key": "string", "Value": "string" } ... ], "DataReplication": "NO_REPLICATION"|"PRIMARY_AS_SOURCE" } ... ]
+    /// Information about the standby WorkSpace to be created. (structure) Describes a standby WorkSpace. PrimaryWorkspaceId -&gt; (string) [required] The identifier of the standby WorkSpace. Constraints: • pattern: ^ws-[0-9a-z]{8,63}$ VolumeEncryptionKey -&gt; (string) The volume encryption key of the standby WorkSpace. DirectoryId -&gt; (string) [required] The identifier of the directory for the standby WorkSpace. Constraints: • min: 10 • max: 65 • pattern: ^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$) Tags -&gt; (list) The tags associated with the standby WorkSpace. (structure) Describes a tag. Key -&gt; (string) [required] The key of the tag. Constraints: • min: 1 • max: 127 Value -&gt; (string) The value of the tag. Constraints: • max: 255 DataReplication -&gt; (string) Indicates whether data replication is enabled, and if enabled, the type of data replication. Possible values: • NO_REPLICATION • PRIMARY_AS_SOURCE Shorthand Syntax: PrimaryWorkspaceId=string,VolumeEncryptionKey=string,DirectoryId=string,Tags=[{Key=string,Value=string},{Key=string,Value=string}],DataReplication=string ... JSON Syntax: [ { "PrimaryWorkspaceId": "string", "VolumeEncryptionKey": "string", "DirectoryId": "string", "Tags": [ { "Key": "string", "Value": "string" } ... ], "DataReplication": "NO_REPLICATION"|"PRIMARY_AS_SOURCE" } ... ]
     /// </summary>
     [CliOption("--standby-workspaces", GroupValues = true)]
     public IEnumerable<string>? StandbyWorkspaces { get; private init; }
@@ -103,6 +104,15 @@ public record AwsWorkspacesCreateStandbyWorkspacesOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

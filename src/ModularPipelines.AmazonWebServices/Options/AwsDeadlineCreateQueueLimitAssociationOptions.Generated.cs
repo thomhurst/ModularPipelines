@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associates a limit with a particular queue. After the limit is associ- ated, all workers for jobs that specify the limit associated with the queue are subject to the limit. You can't associate two limits with the same amountRequirementName to the same queue. See also: AWS API Documentation
+/// Associates a limit with a particular queue. After the limit is associated, all workers for jobs that specify the limit associated with the queue are subject to the limit. You can't associate two limits with the same amountRequirementName to the same queue. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsDeadlineCreateQueueLimitAssociationOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associates a limit with a particular queue. After the limit is associ- ated, all workers for jobs that specify the limit associated with the queue are subject to the limit. You can't associate two limits with the same amountRequirementName to the same queue. See also: AWS API Documentation
+    /// Associates a limit with a particular queue. After the limit is associated, all workers for jobs that specify the limit associated with the queue are subject to the limit. You can't associate two limits with the same amountRequirementName to the same queue. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FarmId">The unique identifier of the farm that contains the queue and limit to associate. Constraints: o pattern: farm-[0-9a-f]{32}</param>
-    /// <param name="QueueId">The unique identifier of the queue to associate with the limit. Constraints: o pattern: queue-[0-9a-f]{32}</param>
-    /// <param name="LimitId">The unique identifier of the limit to associate with the queue. Constraints: o pattern: limit-[0-9a-f]{32}</param>
+    /// <param name="FarmId">The unique identifier of the farm that contains the queue and limit to associate. Constraints: • pattern: farm-[0-9a-f]{32}</param>
+    /// <param name="QueueId">The unique identifier of the queue to associate with the limit. Constraints: • pattern: queue-[0-9a-f]{32}</param>
+    /// <param name="LimitId">The unique identifier of the limit to associate with the queue. Constraints: • pattern: limit-[0-9a-f]{32}</param>
     public AwsDeadlineCreateQueueLimitAssociationOptions(
         string FarmId,
         string QueueId,
@@ -64,19 +65,19 @@ public record AwsDeadlineCreateQueueLimitAssociationOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the farm that contains the queue and limit to associate. Constraints: o pattern: farm-[0-9a-f]{32}
+    /// The unique identifier of the farm that contains the queue and limit to associate. Constraints: • pattern: farm-[0-9a-f]{32}
     /// </summary>
     [CliOption("--farm-id")]
     public string? FarmId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the queue to associate with the limit. Constraints: o pattern: queue-[0-9a-f]{32}
+    /// The unique identifier of the queue to associate with the limit. Constraints: • pattern: queue-[0-9a-f]{32}
     /// </summary>
     [CliOption("--queue-id")]
     public string? QueueId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the limit to associate with the queue. Constraints: o pattern: limit-[0-9a-f]{32}
+    /// The unique identifier of the limit to associate with the queue. Constraints: • pattern: limit-[0-9a-f]{32}
     /// </summary>
     [CliOption("--limit-id")]
     public string? LimitId { get; private init; }
@@ -102,6 +103,15 @@ public record AwsDeadlineCreateQueueLimitAssociationOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

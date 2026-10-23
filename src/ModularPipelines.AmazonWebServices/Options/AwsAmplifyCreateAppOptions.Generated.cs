@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -30,7 +30,7 @@ public record AwsAmplifyCreateAppOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a new Amplify app. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the Amplify app. Constraints: o min: 1 o max: 255 o pattern: (?s).+</param>
+    /// <param name="Name">The name of the Amplify app. Constraints: • min: 1 • max: 255 • pattern: (?s).+</param>
     public AwsAmplifyCreateAppOptions(
         string Name
     )
@@ -59,57 +59,57 @@ public record AwsAmplifyCreateAppOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the Amplify app. Constraints: o min: 1 o max: 255 o pattern: (?s).+
+    /// The name of the Amplify app. Constraints: • min: 1 • max: 255 • pattern: (?s).+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The description of the Amplify app. Constraints: o max: 1000 o pattern: (?s).*
+    /// The description of the Amplify app. Constraints: • max: 1000 • pattern: (?s).*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The Git repository for the Amplify app. Constraints: o max: 1000 o pattern: (?s).*
+    /// The Git repository for the Amplify app. Constraints: • max: 1000 • pattern: (?s).*
     /// </summary>
     [CliOption("--repository")]
     public string? Repository { get; set; }
 
     /// <summary>
-    /// The platform for the Amplify app. For a static app, set the platform type to WEB . For a dynamic server-side rendered (SSR) app, set the platform type to WEB_COMPUTE . For an app requiring Amplify Host- ing's original SSR support only, set the platform type to WEB_DY- NAMIC . If you are deploying an SSG only app with Next.js version 14 or later, you must set the platform type to WEB_COMPUTE and set the ar- tifacts baseDirectory to .next in the application's build settings. For an example of the build specification settings, see Amplify build settings for a Next.js 14 SSG application in the Amplify Host- ing User Guide . Possible values: o WEB o WEB_DYNAMIC o WEB_COMPUTE
+    /// The platform for the Amplify app. For a static app, set the platform type to WEB . For a dynamic server-side rendered (SSR) app, set the platform type to WEB_COMPUTE . For an app requiring Amplify Hosting's original SSR support only, set the platform type to WEB_DYNAMIC . If you are deploying an SSG only app with Next.js version 14 or later, you must set the platform type to WEB_COMPUTE and set the artifacts baseDirectory to .next in the application's build settings. For an example of the build specification settings, see Amplify build settings for a Next.js 14 SSG application in the Amplify Hosting User Guide . Possible values: • WEB • WEB_DYNAMIC • WEB_COMPUTE
     /// </summary>
     [CliOption("--platform")]
     public AwsAmplifyCreateAppPlatform? Platform { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the IAM role to assign to an SSR app. The SSR Compute role allows the Amplify Hosting compute service to securely access specific Amazon Web Services resources based on the role's permissions. For more information about the SSR Compute role, see Adding an SSR Compute role in the Amplify User Guide . Constraints: o min: 0 o max: 1000 o pattern: (?s).*
+    /// The Amazon Resource Name (ARN) of the IAM role to assign to an SSR app. The SSR Compute role allows the Amplify Hosting compute service to securely access specific Amazon Web Services resources based on the role's permissions. For more information about the SSR Compute role, see Adding an SSR Compute role in the Amplify User Guide . Constraints: • min: 0 • max: 1000 • pattern: (?s).*
     /// </summary>
     [CliOption("--compute-role-arn")]
     public string? ComputeRoleArn { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the IAM service role for the Am- plify app. Constraints: o min: 0 o max: 1000 o pattern: (?s).*
+    /// The Amazon Resource Name (ARN) of the IAM service role for the Amplify app. Constraints: • min: 0 • max: 1000 • pattern: (?s).*
     /// </summary>
     [CliOption("--iam-service-role-arn")]
     public string? IamServiceRoleArn { get; set; }
 
     /// <summary>
-    /// The OAuth token for a third-party source control system for an Am- plify app. The OAuth token is used to create a webhook and a read-only deploy key using SSH cloning. The OAuth token is not stored. Use oauthToken for repository providers other than GitHub, such as Bitbucket or CodeCommit. To authorize access to GitHub as your repository provider, use accessToken . You must specify either oauthToken or accessToken when you create a new app. Existing Amplify apps deployed from a GitHub repository using OAuth continue to work with CI/CD. However, we strongly recommend that you migrate these apps to use the GitHub App. For more information, see Migrating an existing OAuth app to the Amplify GitHub App in the Am- plify User Guide . Constraints: o max: 4096 o pattern: (?s).*
+    /// The OAuth token for a third-party source control system for an Amplify app. The OAuth token is used to create a webhook and a read-only deploy key using SSH cloning. The OAuth token is not stored. Use oauthToken for repository providers other than GitHub, such as Bitbucket or CodeCommit. To authorize access to GitHub as your repository provider, use accessToken . You must specify either oauthToken or accessToken when you create a new app. Existing Amplify apps deployed from a GitHub repository using OAuth continue to work with CI/CD. However, we strongly recommend that you migrate these apps to use the GitHub App. For more information, see Migrating an existing OAuth app to the Amplify GitHub App in the Amplify User Guide . Constraints: • max: 4096 • pattern: (?s).*
     /// </summary>
     [SecretValue]
     [CliOption("--oauth-token")]
     public string? OauthToken { get; set; }
 
     /// <summary>
-    /// The personal access token for a GitHub repository for an Amplify app. The personal access token is used to authorize access to a GitHub repository using the Amplify GitHub App. The token is not stored. Use accessToken for GitHub repositories only. To authorize access to a repository provider such as Bitbucket or CodeCommit, use oauthTo- ken . You must specify either accessToken or oauthToken when you create a new app. Existing Amplify apps deployed from a GitHub repository using OAuth continue to work with CI/CD. However, we strongly recommend that you migrate these apps to use the GitHub App. For more information, see Migrating an existing OAuth app to the Amplify GitHub App in the Am- plify User Guide . Constraints: o min: 1 o max: 4096 o pattern: (?s).+
+    /// The personal access token for a GitHub repository for an Amplify app. The personal access token is used to authorize access to a GitHub repository using the Amplify GitHub App. The token is not stored. Use accessToken for GitHub repositories only. To authorize access to a repository provider such as Bitbucket or CodeCommit, use oauthToken . You must specify either accessToken or oauthToken when you create a new app. Existing Amplify apps deployed from a GitHub repository using OAuth continue to work with CI/CD. However, we strongly recommend that you migrate these apps to use the GitHub App. For more information, see Migrating an existing OAuth app to the Amplify GitHub App in the Amplify User Guide . Constraints: • min: 1 • max: 4096 • pattern: (?s).+
     /// </summary>
     [SecretValue]
     [CliOption("--access-token")]
     public string? AccessToken { get; set; }
 
     /// <summary>
-    /// The environment variables map for an Amplify app. For a list of the environment variables that are accessible to Am- plify by default, see Amplify Environment variables in the Amplify Hosting User Guide . key -&gt; (string) Constraints: o max: 255 o pattern: (?s).* value -&gt; (string) Constraints: o max: 5500 o pattern: (?s).* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The environment variables map for an Amplify app. For a list of the environment variables that are accessible to Amplify by default, see Amplify Environment variables in the Amplify Hosting User Guide . key -&gt; (string) Constraints: • max: 255 • pattern: (?s).* value -&gt; (string) Constraints: • max: 5500 • pattern: (?s).* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--environment-variables", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? EnvironmentVariables { get; set; }
@@ -133,32 +133,32 @@ public record AwsAmplifyCreateAppOptions : AwsOptions, IValidatableObject
     public bool? EnableBasicAuth { get; set; }
 
     /// <summary>
-    /// The credentials for basic authorization for an Amplify app. You must base64-encode the authorization credentials and provide them in the format user:password . Constraints: o max: 2000 o pattern: (?s).*
+    /// The credentials for basic authorization for an Amplify app. You must base64-encode the authorization credentials and provide them in the format user:password . Constraints: • max: 2000 • pattern: (?s).*
     /// </summary>
     [SecretValue]
     [CliOption("--basic-auth-credentials")]
     public string? BasicAuthCredentials { get; set; }
 
     /// <summary>
-    /// The custom rewrite and redirect rules for an Amplify app. (structure) Describes a custom rewrite or redirect rule. source -&gt; (string) [required] The source pattern for a URL rewrite or redirect rule. Constraints: o min: 1 o max: 2048 o pattern: (?s).+ target -&gt; (string) [required] The target pattern for a URL rewrite or redirect rule. Constraints: o min: 1 o max: 2048 o pattern: (?s).+ status -&gt; (string) The status code for a URL rewrite or redirect rule. 200 Represents a 200 rewrite rule. 301 Represents a 301 (moved permanently) redirect rule. This and all future requests should be directed to the target URL. 302 Represents a 302 temporary redirect rule. 404 Represents a 404 redirect rule. 404-200 Represents a 404 rewrite rule. Constraints: o min: 3 o max: 7 o pattern: .{3,7} condition -&gt; (string) The condition for a URL rewrite or redirect rule, such as a country code. Constraints: o min: 0 o max: 2048 o pattern: (?s).* Shorthand Syntax: source=string,target=string,status=string,condition=string ... JSON Syntax: [ { "source": "string", "target": "string", "status": "string", "condition": "string" } ... ]
+    /// The custom rewrite and redirect rules for an Amplify app. (structure) Describes a custom rewrite or redirect rule. source -&gt; (string) [required] The source pattern for a URL rewrite or redirect rule. Constraints: • min: 1 • max: 2048 • pattern: (?s).+ target -&gt; (string) [required] The target pattern for a URL rewrite or redirect rule. Constraints: • min: 1 • max: 2048 • pattern: (?s).+ status -&gt; (string) The status code for a URL rewrite or redirect rule. 200 Represents a 200 rewrite rule. 301 Represents a 301 (moved permanently) redirect rule. This and all future requests should be directed to the target URL. 302 Represents a 302 temporary redirect rule. 404 Represents a 404 redirect rule. 404-200 Represents a 404 rewrite rule. Constraints: • min: 3 • max: 7 • pattern: .{3,7} condition -&gt; (string) The condition for a URL rewrite or redirect rule, such as a country code. Constraints: • min: 0 • max: 2048 • pattern: (?s).* Shorthand Syntax: source=string,target=string,status=string,condition=string ... JSON Syntax: [ { "source": "string", "target": "string", "status": "string", "condition": "string" } ... ]
     /// </summary>
     [CliOption("--custom-rules", GroupValues = true)]
     public IEnumerable<string>? CustomRules { get; set; }
 
     /// <summary>
-    /// The tag for an Amplify app. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tag for an Amplify app. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// The build specification (build spec) for an Amplify app. Constraints: o min: 1 o max: 25000 o pattern: (?s).+
+    /// The build specification (build spec) for an Amplify app. Constraints: • min: 1 • max: 25000 • pattern: (?s).+
     /// </summary>
     [CliOption("--build-spec")]
     public string? BuildSpec { get; set; }
 
     /// <summary>
-    /// The custom HTTP headers for an Amplify app. Constraints: o min: 0 o max: 25000 o pattern: (?s).*
+    /// The custom HTTP headers for an Amplify app. Constraints: • min: 0 • max: 25000 • pattern: (?s).*
     /// </summary>
     [CliOption("--custom-headers")]
     public string? CustomHeaders { get; set; }
@@ -170,25 +170,25 @@ public record AwsAmplifyCreateAppOptions : AwsOptions, IValidatableObject
     public bool? EnableAutoBranchCreation { get; set; }
 
     /// <summary>
-    /// The automated branch creation glob patterns for an Amplify app. (string) Constraints: o min: 1 o max: 2048 o pattern: (?s).+ Syntax: "string" "string" ...
+    /// The automated branch creation glob patterns for an Amplify app. (string) Constraints: • min: 1 • max: 2048 • pattern: (?s).+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--auto-branch-creation-patterns", GroupValues = true)]
     public IEnumerable<string>? AutoBranchCreationPatterns { get; set; }
 
     /// <summary>
-    /// The automated branch creation configuration for an Amplify app. stage -&gt; (string) Describes the current stage for the autocreated branch. Possible values: o PRODUCTION o BETA o DEVELOPMENT o EXPERIMENTAL o PULL_REQUEST framework -&gt; (string) The framework for the autocreated branch. Constraints: o max: 255 o pattern: (?s).* enableAutoBuild -&gt; (boolean) Enables auto building for the autocreated branch. environmentVariables -&gt; (map) The environment variables for the autocreated branch. key -&gt; (string) Constraints: o max: 255 o pattern: (?s).* value -&gt; (string) Constraints: o max: 5500 o pattern: (?s).* basicAuthCredentials -&gt; (string) The basic authorization credentials for the autocreated branch. You must base64-encode the authorization credentials and provide them in the format user:password . Constraints: o max: 2000 o pattern: (?s).* enableBasicAuth -&gt; (boolean) Enables basic authorization for the autocreated branch. enablePerformanceMode -&gt; (boolean) Enables performance mode for the branch. Performance mode optimizes for faster hosting performance by keeping content cached at the edge for a longer interval. When performance mode is enabled, hosting configuration or code changes can take up to 10 minutes to roll out. buildSpec -&gt; (string) The build specification (build spec) for the autocreated branch. Constraints: o min: 1 o max: 25000 o pattern: (?s).+ enablePullRequestPreview -&gt; (boolean) Enables pull request previews for the autocreated branch. pullRequestEnvironmentName -&gt; (string) The Amplify environment name for the pull request. Constraints: o max: 20 o pattern: (?s).* Shorthand Syntax: stage=string,framework=string,enableAutoBuild=boolean,environmentVariables={KeyName1=string,KeyName2=string},basicAuthCredentials=string,enableBasicAuth=boolean,enablePerformanceMode=boolean,buildSpec=string,enablePullRequestPreview=boolean,pullRequestEnvironmentName=string JSON Syntax: { "stage": "PRODUCTION"|"BETA"|"DEVELOPMENT"|"EXPERIMENTAL"|"PULL_REQUEST", "framework": "string", "enableAutoBuild": true|false, "environmentVariables": {"string": "string" ...}, "basicAuthCredentials": "string", "enableBasicAuth": true|false, "enablePerformanceMode": true|false, "buildSpec": "string", "enablePullRequestPreview": true|false, "pullRequestEnvironmentName": "string" }
+    /// The automated branch creation configuration for an Amplify app. stage -&gt; (string) Describes the current stage for the autocreated branch. Possible values: • PRODUCTION • BETA • DEVELOPMENT • EXPERIMENTAL • PULL_REQUEST framework -&gt; (string) The framework for the autocreated branch. Constraints: • max: 255 • pattern: (?s).* enableAutoBuild -&gt; (boolean) Enables auto building for the autocreated branch. environmentVariables -&gt; (map) The environment variables for the autocreated branch. key -&gt; (string) Constraints: • max: 255 • pattern: (?s).* value -&gt; (string) Constraints: • max: 5500 • pattern: (?s).* basicAuthCredentials -&gt; (string) The basic authorization credentials for the autocreated branch. You must base64-encode the authorization credentials and provide them in the format user:password . Constraints: • max: 2000 • pattern: (?s).* enableBasicAuth -&gt; (boolean) Enables basic authorization for the autocreated branch. enablePerformanceMode -&gt; (boolean) Enables performance mode for the branch. Performance mode optimizes for faster hosting performance by keeping content cached at the edge for a longer interval. When performance mode is enabled, hosting configuration or code changes can take up to 10 minutes to roll out. buildSpec -&gt; (string) The build specification (build spec) for the autocreated branch. Constraints: • min: 1 • max: 25000 • pattern: (?s).+ enablePullRequestPreview -&gt; (boolean) Enables pull request previews for the autocreated branch. pullRequestEnvironmentName -&gt; (string) The Amplify environment name for the pull request. Constraints: • max: 20 • pattern: (?s).* Shorthand Syntax: stage=string,framework=string,enableAutoBuild=boolean,environmentVariables={KeyName1=string,KeyName2=string},basicAuthCredentials=string,enableBasicAuth=boolean,enablePerformanceMode=boolean,buildSpec=string,enablePullRequestPreview=boolean,pullRequestEnvironmentName=string JSON Syntax: { "stage": "PRODUCTION"|"BETA"|"DEVELOPMENT"|"EXPERIMENTAL"|"PULL_REQUEST", "framework": "string", "enableAutoBuild": true|false, "environmentVariables": {"string": "string" ...}, "basicAuthCredentials": "string", "enableBasicAuth": true|false, "enablePerformanceMode": true|false, "buildSpec": "string", "enablePullRequestPreview": true|false, "pullRequestEnvironmentName": "string" }
     /// </summary>
     [CliOption("--auto-branch-creation-config")]
     public string? AutoBranchCreationConfig { get; set; }
 
     /// <summary>
-    /// Describes the configuration details that apply to the jobs for an Amplify app. buildComputeType -&gt; (string) [required] Specifies the size of the build instance. Amplify supports three instance sizes: STANDARD_8GB , LARGE_16GB , and XLARGE_72GB . If you don't specify a value, Amplify uses the STANDARD_8GB de- fault. The following list describes the CPU, memory, and storage capac- ity for each build instance type: STANDARD_8GB o vCPUs: 4 o Memory: 8 GiB o Disk space: 128 GB LARGE_16GB o vCPUs: 8 o Memory: 16 GiB o Disk space: 128 GB XLARGE_72GB o vCPUs: 36 o Memory: 72 GiB o Disk space: 256 GB Possible values: o STANDARD_8GB o LARGE_16GB o XLARGE_72GB Shorthand Syntax: buildComputeType=string JSON Syntax: { "buildComputeType": "STANDARD_8GB"|"LARGE_16GB"|"XLARGE_72GB" }
+    /// Describes the configuration details that apply to the jobs for an Amplify app. buildComputeType -&gt; (string) [required] Specifies the size of the build instance. Amplify supports three instance sizes: STANDARD_8GB , LARGE_16GB , and XLARGE_72GB . If you don't specify a value, Amplify uses the STANDARD_8GB default. The following list describes the CPU, memory, and storage capacity for each build instance type: STANDARD_8GB • vCPUs: 4 • Memory: 8 GiB • Disk space: 128 GB LARGE_16GB • vCPUs: 8 • Memory: 16 GiB • Disk space: 128 GB XLARGE_72GB • vCPUs: 36 • Memory: 72 GiB • Disk space: 256 GB Possible values: • STANDARD_8GB • LARGE_16GB • XLARGE_72GB Shorthand Syntax: buildComputeType=string JSON Syntax: { "buildComputeType": "STANDARD_8GB"|"LARGE_16GB"|"XLARGE_72GB" }
     /// </summary>
     [CliOption("--job-config")]
     public string? JobConfig { get; set; }
 
     /// <summary>
-    /// The cache configuration for the Amplify app. type -&gt; (string) [required] The type of cache configuration to use for an Amplify app. The AMPLIFY_MANAGED cache configuration automatically applies an optimized cache configuration for your app based on its plat- form, routing rules, and rewrite rules. The AMPLIFY_MANAGED_NO_COOKIES cache configuration type is the same as AMPLIFY_MANAGED , except that it excludes all cookies from the cache key. This is the default setting. Possible values: o AMPLIFY_MANAGED o AMPLIFY_MANAGED_NO_COOKIES Shorthand Syntax: type=string JSON Syntax: { "type": "AMPLIFY_MANAGED"|"AMPLIFY_MANAGED_NO_COOKIES" }
+    /// The cache configuration for the Amplify app. type -&gt; (string) [required] The type of cache configuration to use for an Amplify app. The AMPLIFY_MANAGED cache configuration automatically applies an optimized cache configuration for your app based on its platform, routing rules, and rewrite rules. The AMPLIFY_MANAGED_NO_COOKIES cache configuration type is the same as AMPLIFY_MANAGED , except that it excludes all cookies from the cache key. This is the default setting. Possible values: • AMPLIFY_MANAGED • AMPLIFY_MANAGED_NO_COOKIES Shorthand Syntax: type=string JSON Syntax: { "type": "AMPLIFY_MANAGED"|"AMPLIFY_MANAGED_NO_COOKIES" }
     /// </summary>
     [CliOption("--cache-config")]
     public string? CacheConfig { get; set; }
@@ -214,6 +214,15 @@ public record AwsAmplifyCreateAppOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -47,7 +47,7 @@ public class AwsConnectcampaignsv2 : IAwsConnectcampaignsv2
     }
 
     /// <summary>
-    /// Deletes the channel subtype config of a campaign. This API is idempo- tent. See also: AWS API Documentation
+    /// Deletes the channel subtype config of a campaign. This API is idempotent. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsConnectcampaignsv2 : IAwsConnectcampaignsv2
     }
 
     /// <summary>
-    /// Deletes the communication time config for a campaign. This API is idem- potent. See also: AWS API Documentation
+    /// Deletes the communication time config for a campaign. This API is idempotent. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -257,7 +257,7 @@ public class AwsConnectcampaignsv2 : IAwsConnectcampaignsv2
     }
 
     /// <summary>
-    /// Provides summary information about the campaigns under the specified Amazon Connect account. See also: AWS API Documentation list-campaigns is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: campaignS...
+    /// Provides summary information about the campaigns under the specified Amazon Connect account. See also: AWS API Documentation list-campaigns is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: campaignSumma...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +272,7 @@ public class AwsConnectcampaignsv2 : IAwsConnectcampaignsv2
     }
 
     /// <summary>
-    /// Provides summary information about the integration under the specified Connect instance. See also: AWS API Documentation list-connect-instance-integrations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expres...
+    /// Provides summary information about the integration under the specified Connect instance. See also: AWS API Documentation list-connect-instance-integrations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expression...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -317,7 +317,7 @@ public class AwsConnectcampaignsv2 : IAwsConnectcampaignsv2
     }
 
     /// <summary>
-    /// Put or update the integration for the specified Amazon Connect in- stance. See also: AWS API Documentation
+    /// Put or update the integration for the specified Amazon Connect instance. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -347,7 +347,7 @@ public class AwsConnectcampaignsv2 : IAwsConnectcampaignsv2
     }
 
     /// <summary>
-    /// Creates outbound requests for the specified campaign Amazon Connect ac- count. This API is idempotent. See also: AWS API Documentation
+    /// Creates outbound requests for the specified campaign Amazon Connect account. This API is idempotent. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -467,7 +467,7 @@ public class AwsConnectcampaignsv2 : IAwsConnectcampaignsv2
     }
 
     /// <summary>
-    /// Updates the channel subtype config of a campaign. This API is idempo- tent. See also: AWS API Documentation
+    /// Updates the channel subtype config of a campaign. This API is idempotent. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -497,7 +497,7 @@ public class AwsConnectcampaignsv2 : IAwsConnectcampaignsv2
     }
 
     /// <summary>
-    /// Updates the communication time config for a campaign. This API is idem- potent. See also: AWS API Documentation
+    /// Updates the communication time config for a campaign. This API is idempotent. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -527,7 +527,7 @@ public class AwsConnectcampaignsv2 : IAwsConnectcampaignsv2
     }
 
     /// <summary>
-    /// Updates the campaign flow associated with a campaign. This API is idem- potent. See also: AWS API Documentation
+    /// Updates the campaign flow associated with a campaign. This API is idempotent. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

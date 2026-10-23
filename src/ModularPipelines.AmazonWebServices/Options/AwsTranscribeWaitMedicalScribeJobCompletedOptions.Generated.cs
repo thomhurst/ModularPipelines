@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Wait until JMESPath query MedicalScribeJob.MedicalScribeJobStatus re- turns COMPLETED when polling with get-medical-scribe-job. It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 180 failed checks. See also: AWS API Documentation
+/// Wait until JMESPath query MedicalScribeJob.MedicalScribeJobStatus returns COMPLETED when polling with get-medical-scribe-job. It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 180 failed checks. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsTranscribeWaitMedicalScribeJobCompletedOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Wait until JMESPath query MedicalScribeJob.MedicalScribeJobStatus re- turns COMPLETED when polling with get-medical-scribe-job. It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 180 failed checks. See also: AWS API Documentation
+    /// Wait until JMESPath query MedicalScribeJob.MedicalScribeJobStatus returns COMPLETED when polling with get-medical-scribe-job. It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 180 failed checks. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MedicalScribeJobName">The name of the Medical Scribe job you want information about. Job names are case sensitive. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z._-]+</param>
+    /// <param name="MedicalScribeJobName">The name of the Medical Scribe job you want information about. Job names are case sensitive. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z._-]+</param>
     public AwsTranscribeWaitMedicalScribeJobCompletedOptions(
         string MedicalScribeJobName
     )
@@ -56,7 +57,7 @@ public record AwsTranscribeWaitMedicalScribeJobCompletedOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the Medical Scribe job you want information about. Job names are case sensitive. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z._-]+
+    /// The name of the Medical Scribe job you want information about. Job names are case sensitive. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z._-]+
     /// </summary>
     [CliOption("--medical-scribe-job-name")]
     public string? MedicalScribeJobName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsTranscribeWaitMedicalScribeJobCompletedOptions : AwsOptions, IV
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

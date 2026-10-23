@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API works with the following fleet types: EC2 (FleetIQ) Terminates a game server group and permanently deletes the game server group record. You have several options for how these resources are im- pacted when deleting the game server group. Depending on the type of delete operation selected, this operation might affect these resources: o The game server group o The corresponding Auto Scaling group o All game servers that are currently running in the group To delete a game server group, ide...
+/// This API works with the following fleet types: EC2 (FleetIQ) Terminates a game server group and permanently deletes the game server group record. You have several options for how these resources are impacted when deleting the game server group. Depending on the type of delete operation selected, this operation might affect these resources: • The game server group • The corresponding Auto Scaling group • All game servers that are currently running in the group To delete a game server group, ident...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsGameliftDeleteGameServerGroupOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API works with the following fleet types: EC2 (FleetIQ) Terminates a game server group and permanently deletes the game server group record. You have several options for how these resources are im- pacted when deleting the game server group. Depending on the type of delete operation selected, this operation might affect these resources: o The game server group o The corresponding Auto Scaling group o All game servers that are currently running in the group To delete a game server group, ide...
+    /// This API works with the following fleet types: EC2 (FleetIQ) Terminates a game server group and permanently deletes the game server group record. You have several options for how these resources are impacted when deleting the game server group. Depending on the type of delete operation selected, this operation might affect these resources: • The game server group • The corresponding Auto Scaling group • All game servers that are currently running in the group To delete a game server group, ident...
     /// </summary>
-    /// <param name="GameServerGroupName">A unique identifier for the game server group. Use either the name or ARN value. Constraints: o min: 1 o max: 256 o pattern: ^([a-zA-Z0-9-\.]+|arn:.*:gameserver- group\/[a-zA-Z0-9-\.]+)$</param>
+    /// <param name="GameServerGroupName">A unique identifier for the game server group. Use either the name or ARN value. Constraints: • min: 1 • max: 256 • pattern: ^([a-zA-Z0-9-\.]+|arn:.*:gameservergroup\/[a-zA-Z0-9-\.]+)$</param>
     public AwsGameliftDeleteGameServerGroupOptions(
         string GameServerGroupName
     )
@@ -57,13 +58,13 @@ public record AwsGameliftDeleteGameServerGroupOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the game server group. Use either the name or ARN value. Constraints: o min: 1 o max: 256 o pattern: ^([a-zA-Z0-9-\.]+|arn:.*:gameserver- group\/[a-zA-Z0-9-\.]+)$
+    /// A unique identifier for the game server group. Use either the name or ARN value. Constraints: • min: 1 • max: 256 • pattern: ^([a-zA-Z0-9-\.]+|arn:.*:gameservergroup\/[a-zA-Z0-9-\.]+)$
     /// </summary>
     [CliOption("--game-server-group-name")]
     public string? GameServerGroupName { get; private init; }
 
     /// <summary>
-    /// The type of delete to perform. Options include the following: o SAFE_DELETE (default) Terminates the game server group and Amazon EC2 Auto Scaling group only when it has no game servers that are in UTILIZED status. o FORCE_DELETE Terminates the game server group, including all ac- tive game servers regardless of their utilization status, and the Amazon EC2 Auto Scaling group. o RETAIN Does a safe delete of the game server group but retains the Amazon EC2 Auto Scaling group as is. Possible values: o SAFE_DELETE o FORCE_DELETE o RETAIN
+    /// The type of delete to perform. Options include the following: • SAFE_DELETE (default) Terminates the game server group and Amazon EC2 Auto Scaling group only when it has no game servers that are in UTILIZED status. • FORCE_DELETE Terminates the game server group, including all active game servers regardless of their utilization status, and the Amazon EC2 Auto Scaling group. • RETAIN Does a safe delete of the game server group but retains the Amazon EC2 Auto Scaling group as is. Possible values: • SAFE_DELETE • FORCE_DELETE • RETAIN
     /// </summary>
     [CliOption("--delete-option")]
     public AwsGameliftDeleteGameServerGroupDeleteOption? DeleteOption { get; set; }
@@ -89,6 +90,15 @@ public record AwsGameliftDeleteGameServerGroupOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

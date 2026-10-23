@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsSesv2DeleteTenantResourceAssociationOptions : AwsOptions, IVali
     /// <summary>
     /// Delete an association between a tenant and a resource. When you delete a tenant-resource association, the resource itself is not deleted, only its association with the specific tenant is removed. After removal, the resource will no longer be available for use with that tenant's email sending operations. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TenantName">The name of the tenant to remove the resource association from. Constraints: o min: 1</param>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource to remove from the tenant association. Constraints: o min: 1</param>
+    /// <param name="TenantName">The name of the tenant to remove the resource association from. Constraints: • min: 1</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource to remove from the tenant association. Constraints: • min: 1</param>
     public AwsSesv2DeleteTenantResourceAssociationOptions(
         string TenantName,
         string ResourceArn
@@ -60,13 +61,13 @@ public record AwsSesv2DeleteTenantResourceAssociationOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the tenant to remove the resource association from. Constraints: o min: 1
+    /// The name of the tenant to remove the resource association from. Constraints: • min: 1
     /// </summary>
     [CliOption("--tenant-name")]
     public string? TenantName { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource to remove from the tenant association. Constraints: o min: 1
+    /// The Amazon Resource Name (ARN) of the resource to remove from the tenant association. Constraints: • min: 1
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
@@ -92,6 +93,15 @@ public record AwsSesv2DeleteTenantResourceAssociationOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

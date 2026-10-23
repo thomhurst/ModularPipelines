@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Changes the visibility timeout of a specified message in a queue to a new value. The default visibility timeout for a message is 30 seconds. The minimum is 0 seconds. The maximum is 12 hours. For more informa- tion, see Visibility Timeout in the Amazon SQS Developer Guide . For example, if the default timeout for a queue is 60 seconds, 15 sec- onds have elapsed since you received the message, and you send a ChangeMessageVisibility call with VisibilityTimeout set to 10 seconds, the 10 seconds beg...
+/// Changes the visibility timeout of a specified message in a queue to a new value. The default visibility timeout for a message is 30 seconds. The minimum is 0 seconds. The maximum is 12 hours. For more information, see Visibility Timeout in the Amazon SQS Developer Guide . For example, if the default timeout for a queue is 60 seconds, 15 seconds have elapsed since you received the message, and you send a ChangeMessageVisibility call with VisibilityTimeout set to 10 seconds, the 10 seconds begin t...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsSqsChangeMessageVisibilityOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Changes the visibility timeout of a specified message in a queue to a new value. The default visibility timeout for a message is 30 seconds. The minimum is 0 seconds. The maximum is 12 hours. For more informa- tion, see Visibility Timeout in the Amazon SQS Developer Guide . For example, if the default timeout for a queue is 60 seconds, 15 sec- onds have elapsed since you received the message, and you send a ChangeMessageVisibility call with VisibilityTimeout set to 10 seconds, the 10 seconds beg...
+    /// Changes the visibility timeout of a specified message in a queue to a new value. The default visibility timeout for a message is 30 seconds. The minimum is 0 seconds. The maximum is 12 hours. For more information, see Visibility Timeout in the Amazon SQS Developer Guide . For example, if the default timeout for a queue is 60 seconds, 15 seconds have elapsed since you received the message, and you send a ChangeMessageVisibility call with VisibilityTimeout set to 10 seconds, the 10 seconds begin t...
     /// </summary>
     /// <param name="QueueUrl">The URL of the Amazon SQS queue whose message's visibility is changed. Queue URLs and names are case-sensitive.</param>
-    /// <param name="ReceiptHandle">The receipt handle associated with the message, whose visibility timeout is changed. This parameter is returned by the `` Re- ceiveMessage `` action.</param>
+    /// <param name="ReceiptHandle">The receipt handle associated with the message, whose visibility timeout is changed. This parameter is returned by the `` ReceiveMessage `` action.</param>
     /// <param name="VisibilityTimeout">The new value for the message's visibility timeout (in seconds). Values range: 0 to 43200 . Maximum: 12 hours.</param>
     public AwsSqsChangeMessageVisibilityOptions(
         string QueueUrl,
@@ -69,7 +70,7 @@ public record AwsSqsChangeMessageVisibilityOptions : AwsOptions, IValidatableObj
     public string? QueueUrl { get; private init; }
 
     /// <summary>
-    /// The receipt handle associated with the message, whose visibility timeout is changed. This parameter is returned by the `` Re- ceiveMessage `` action.
+    /// The receipt handle associated with the message, whose visibility timeout is changed. This parameter is returned by the `` ReceiveMessage `` action.
     /// </summary>
     [CliOption("--receipt-handle")]
     public string? ReceiptHandle { get; private init; }
@@ -101,6 +102,15 @@ public record AwsSqsChangeMessageVisibilityOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

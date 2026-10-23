@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a Systems Manager resource policy. A resource policy helps you to define the IAM entity (for example, an Amazon Web Services account) that can manage your Systems Manager resources. The following resources support Systems Manager resource policies. o OpsItemGroup - The resource policy for OpsItemGroup enables Amazon Web Services accounts to view and interact with OpsCenter operational work items (OpsItems). o Parameter - The resource policy is used to share a parameter with other account...
+/// Deletes a Systems Manager resource policy. A resource policy helps you to define the IAM entity (for example, an Amazon Web Services account) that can manage your Systems Manager resources. The following resources support Systems Manager resource policies. • OpsItemGroup - The resource policy for OpsItemGroup enables Amazon Web Services accounts to view and interact with OpsCenter operational work items (OpsItems). • Parameter - The resource policy is used to share a parameter with other account...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsSsmDeleteResourcePolicyOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a Systems Manager resource policy. A resource policy helps you to define the IAM entity (for example, an Amazon Web Services account) that can manage your Systems Manager resources. The following resources support Systems Manager resource policies. o OpsItemGroup - The resource policy for OpsItemGroup enables Amazon Web Services accounts to view and interact with OpsCenter operational work items (OpsItems). o Parameter - The resource policy is used to share a parameter with other account...
+    /// Deletes a Systems Manager resource policy. A resource policy helps you to define the IAM entity (for example, an Amazon Web Services account) that can manage your Systems Manager resources. The following resources support Systems Manager resource policies. • OpsItemGroup - The resource policy for OpsItemGroup enables Amazon Web Services accounts to view and interact with OpsCenter operational work items (OpsItems). • Parameter - The resource policy is used to share a parameter with other account...
     /// </summary>
-    /// <param name="ResourceArn">Amazon Resource Name (ARN) of the resource to which the policies are attached. Constraints: o min: 20 o max: 2048</param>
+    /// <param name="ResourceArn">Amazon Resource Name (ARN) of the resource to which the policies are attached. Constraints: • min: 20 • max: 2048</param>
     /// <param name="PolicyId">The policy ID.</param>
     /// <param name="PolicyHash">ID of the current policy version. The hash helps to prevent multiple calls from attempting to overwrite a policy.</param>
     public AwsSsmDeleteResourcePolicyOptions(
@@ -65,7 +66,7 @@ public record AwsSsmDeleteResourcePolicyOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Amazon Resource Name (ARN) of the resource to which the policies are attached. Constraints: o min: 20 o max: 2048
+    /// Amazon Resource Name (ARN) of the resource to which the policies are attached. Constraints: • min: 20 • max: 2048
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
@@ -83,7 +84,7 @@ public record AwsSsmDeleteResourcePolicyOptions : AwsOptions, IValidatableObject
     public string? PolicyHash { get; private init; }
 
     /// <summary>
-    /// Specifies the intended outcome of the operation. Applies only to the Document resource type. The operation ignores this parameter for other resource types. Optional. Defaults to RemoveSharing . o RemoveSharing Deletes the resource policy and removes sharing of the document. o RollbackMigration Reverts the document to Custom sharing, pre- serving existing consumer access, instead of removing the policy. Possible values: o RemoveSharing o RollbackMigration
+    /// Specifies the intended outcome of the operation. Applies only to the Document resource type. The operation ignores this parameter for other resource types. Optional. Defaults to RemoveSharing . • RemoveSharing Deletes the resource policy and removes sharing of the document. • RollbackMigration Reverts the document to Custom sharing, preserving existing consumer access, instead of removing the policy. Possible values: • RemoveSharing • RollbackMigration
     /// </summary>
     [CliOption("--deletion-mode")]
     public AwsSsmDeleteResourcePolicyDeletionMode? DeletionMode { get; set; }
@@ -109,6 +110,15 @@ public record AwsSsmDeleteResourcePolicyOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsAppstreamDeleteImagePermissionsOptions : AwsOptions, IValidatab
     /// <summary>
     /// Deletes permissions for the specified private image. After you delete permissions for an image, AWS accounts to which you previously granted these permissions can no longer use the image. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the private image. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$</param>
-    /// <param name="SharedAccountId">The 12-digit identifier of the AWS account for which to delete image permissions. Constraints: o pattern: ^\d+$</param>
+    /// <param name="Name">The name of the private image. Constraints: • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$</param>
+    /// <param name="SharedAccountId">The 12-digit identifier of the AWS account for which to delete image permissions. Constraints: • pattern: ^\d+$</param>
     public AwsAppstreamDeleteImagePermissionsOptions(
         string Name,
         string SharedAccountId
@@ -60,13 +61,13 @@ public record AwsAppstreamDeleteImagePermissionsOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the private image. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
+    /// The name of the private image. Constraints: • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The 12-digit identifier of the AWS account for which to delete image permissions. Constraints: o pattern: ^\d+$
+    /// The 12-digit identifier of the AWS account for which to delete image permissions. Constraints: • pattern: ^\d+$
     /// </summary>
     [CliOption("--shared-account-id")]
     public string? SharedAccountId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsAppstreamDeleteImagePermissionsOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

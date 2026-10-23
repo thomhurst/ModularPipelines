@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Changes the size of the cluster. You can change the cluster's type, or change the number or type of nodes. The default behavior is to use the elastic resize method. With an elastic resize, your cluster is avail- able for read and write operations more quickly than with the classic resize method. Elastic resize operations have the following restrictions: o You can only resize clusters of the following types: o dc2.large o dc2.8xlarge o rg.large o rg.xlarge o rg.4xlarge o rg.12xlarge o ra3.large o...
+/// Changes the size of the cluster. You can change the cluster's type, or change the number or type of nodes. The default behavior is to use the elastic resize method. With an elastic resize, your cluster is available for read and write operations more quickly than with the classic resize method. Elastic resize operations have the following restrictions: • You can only resize clusters of the following types: • dc2.large • dc2.8xlarge • rg.large • rg.xlarge • rg.4xlarge • rg.12xlarge • ra3.large • r...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsRedshiftResizeClusterOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Changes the size of the cluster. You can change the cluster's type, or change the number or type of nodes. The default behavior is to use the elastic resize method. With an elastic resize, your cluster is avail- able for read and write operations more quickly than with the classic resize method. Elastic resize operations have the following restrictions: o You can only resize clusters of the following types: o dc2.large o dc2.8xlarge o rg.large o rg.xlarge o rg.4xlarge o rg.12xlarge o ra3.large o...
+    /// Changes the size of the cluster. You can change the cluster's type, or change the number or type of nodes. The default behavior is to use the elastic resize method. With an elastic resize, your cluster is available for read and write operations more quickly than with the classic resize method. Elastic resize operations have the following restrictions: • You can only resize clusters of the following types: • dc2.large • dc2.8xlarge • rg.large • rg.xlarge • rg.4xlarge • rg.12xlarge • ra3.large • r...
     /// </summary>
-    /// <param name="ClusterIdentifier">The unique identifier for the cluster to resize. Constraints: o max: 2147483647</param>
+    /// <param name="ClusterIdentifier">The unique identifier for the cluster to resize. Constraints: • max: 2147483647</param>
     public AwsRedshiftResizeClusterOptions(
         string ClusterIdentifier
     )
@@ -56,25 +57,25 @@ public record AwsRedshiftResizeClusterOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the cluster to resize. Constraints: o max: 2147483647
+    /// The unique identifier for the cluster to resize. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--cluster-identifier")]
     public string? ClusterIdentifier { get; private init; }
 
     /// <summary>
-    /// The new cluster type for the specified cluster. Constraints: o max: 2147483647
+    /// The new cluster type for the specified cluster. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--cluster-type")]
     public string? ClusterType { get; set; }
 
     /// <summary>
-    /// The new node type for the nodes you are adding. If not specified, the cluster's current node type is used. Constraints: o max: 2147483647
+    /// The new node type for the nodes you are adding. If not specified, the cluster's current node type is used. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--node-type")]
     public string? NodeType { get; set; }
 
     /// <summary>
-    /// The new number of nodes for the cluster. If not specified, the clus- ter's current number of nodes is used.
+    /// The new number of nodes for the cluster. If not specified, the cluster's current number of nodes is used.
     /// </summary>
     [CliOption("--number-of-nodes")]
     public int? NumberOfNodes { get; set; }
@@ -86,13 +87,13 @@ public record AwsRedshiftResizeClusterOptions : AwsOptions, IValidatableObject
     public bool? Classic { get; set; }
 
     /// <summary>
-    /// The identifier of the reserved node. Constraints: o max: 2147483647
+    /// The identifier of the reserved node. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--reserved-node-id")]
     public string? ReservedNodeId { get; set; }
 
     /// <summary>
-    /// The identifier of the target reserved node offering. Constraints: o max: 2147483647
+    /// The identifier of the target reserved node offering. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--target-reserved-node-offering-id")]
     public string? TargetReservedNodeOfferingId { get; set; }
@@ -118,6 +119,15 @@ public record AwsRedshiftResizeClusterOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

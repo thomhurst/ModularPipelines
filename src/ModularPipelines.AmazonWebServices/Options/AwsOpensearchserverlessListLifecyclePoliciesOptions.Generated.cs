@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsOpensearchserverlessListLifecyclePoliciesOptions : AwsOptions, 
     /// <summary>
     /// Returns a list of OpenSearch Serverless lifecycle policies. For more information, see Viewing data lifecycle policies . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Type">The type of lifecycle policy. Possible values: o retention</param>
+    /// <param name="Type">The type of lifecycle policy. Possible values: • retention</param>
     public AwsOpensearchserverlessListLifecyclePoliciesOptions(
         string Type
     )
@@ -57,26 +58,26 @@ public record AwsOpensearchserverlessListLifecyclePoliciesOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The type of lifecycle policy. Possible values: o retention
+    /// The type of lifecycle policy. Possible values: • retention
     /// </summary>
     [CliOption("--type")]
     public string? Type { get; private init; }
 
     /// <summary>
-    /// Resource filters that policies can apply to. Currently, the only supported resource type is index . Constraints: o min: 1 o max: 1000 (string) Syntax: "string" "string" ...
+    /// Resource filters that policies can apply to. Currently, the only supported resource type is index . Constraints: • min: 1 • max: 1000 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--resources", GroupValues = true)]
     public IEnumerable<string>? Resources { get; set; }
 
     /// <summary>
-    /// If your initial ListLifecyclePolicies operation returns a nextToken , you can include the returned nextToken in subsequent ListLifecy- clePolicies operations, which returns results in the next page.
+    /// If your initial ListLifecyclePolicies operation returns a nextToken , you can include the returned nextToken in subsequent ListLifecyclePolicies operations, which returns results in the next page.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// An optional parameter that specifies the maximum number of results to return. You can use use nextToken to get the next page of re- sults. The default is 10. Constraints: o min: 1 o max: 100
+    /// An optional parameter that specifies the maximum number of results to return. You can use use nextToken to get the next page of results. The default is 10. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -102,6 +103,15 @@ public record AwsOpensearchserverlessListLifecyclePoliciesOptions : AwsOptions, 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

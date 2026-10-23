@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the instance protection settings of the specified instances. This operation cannot be called on instances in a warm pool. For more information, see Use instance scale-in protection in the Ama- zon EC2 Auto Scaling User Guide . If you exceed your maximum limit of instance IDs, which is 50 per Auto Scaling group, the call fails. See also: AWS API Documentation
+/// Updates the instance protection settings of the specified instances. This operation cannot be called on instances in a warm pool. For more information, see Use instance scale-in protection in the Amazon EC2 Auto Scaling User Guide . If you exceed your maximum limit of instance IDs, which is 50 per Auto Scaling group, the call fails. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsAutoscalingSetInstanceProtectionOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the instance protection settings of the specified instances. This operation cannot be called on instances in a warm pool. For more information, see Use instance scale-in protection in the Ama- zon EC2 Auto Scaling User Guide . If you exceed your maximum limit of instance IDs, which is 50 per Auto Scaling group, the call fails. See also: AWS API Documentation
+    /// Updates the instance protection settings of the specified instances. This operation cannot be called on instances in a warm pool. For more information, see Use instance scale-in protection in the Amazon EC2 Auto Scaling User Guide . If you exceed your maximum limit of instance IDs, which is 50 per Auto Scaling group, the call fails. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceIds">One or more instance IDs. You can specify up to 50 instances. (string) Constraints: o min: 1 o max: 19 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Syntax: "string" "string" ...</param>
-    /// <param name="AutoScalingGroupName">The name of the Auto Scaling group. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
-    /// <param name="ProtectedFromScaleIn"></param>
+    /// <param name="InstanceIds">One or more instance IDs. You can specify up to 50 instances. (string) Constraints: • min: 1 • max: 19 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Syntax: "string" "string" ...</param>
+    /// <param name="AutoScalingGroupName">The name of the Auto Scaling group. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
+    /// <param name="ProtectedFromScaleIn">Indicates whether the instance is protected from termination by Amazon EC2 Auto Scaling when scaling in.</param>
     public AwsAutoscalingSetInstanceProtectionOptions(
         IEnumerable<string> InstanceIds,
         string AutoScalingGroupName,
@@ -74,17 +75,20 @@ public record AwsAutoscalingSetInstanceProtectionOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// One or more instance IDs. You can specify up to 50 instances. (string) Constraints: o min: 1 o max: 19 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Syntax: "string" "string" ...
+    /// One or more instance IDs. You can specify up to 50 instances. (string) Constraints: • min: 1 • max: 19 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--instance-ids", GroupValues = true)]
     public IEnumerable<string>? InstanceIds { get; private init; }
 
     /// <summary>
-    /// The name of the Auto Scaling group. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// The name of the Auto Scaling group. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
     [CliOption("--auto-scaling-group-name")]
     public string? AutoScalingGroupName { get; private init; }
 
+    /// <summary>
+    /// Indicates whether the instance is protected from termination by Amazon EC2 Auto Scaling when scaling in.
+    /// </summary>
     [CliFlag("--protected-from-scale-in", NegatedName = "--no-protected-from-scale-in")]
     public bool? ProtectedFromScaleIn { get; private init; }
 
@@ -109,6 +113,15 @@ public record AwsAutoscalingSetInstanceProtectionOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

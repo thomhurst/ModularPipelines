@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the tags associated with the specified Amazon Verified Permis- sions resource. In Verified Permissions, policy stores can be tagged. See also: AWS API Documentation
+/// Returns the tags associated with the specified Amazon Verified Permissions resource. In Verified Permissions, policy stores can be tagged. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsVerifiedpermissionsListTagsForResourceOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the tags associated with the specified Amazon Verified Permis- sions resource. In Verified Permissions, policy stores can be tagged. See also: AWS API Documentation
+    /// Returns the tags associated with the specified Amazon Verified Permissions resource. In Verified Permissions, policy stores can be tagged. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The ARN of the resource for which you want to view tags. Constraints: o min: 1 o max: 2048</param>
+    /// <param name="ResourceArn">The ARN of the resource for which you want to view tags. Constraints: • min: 1 • max: 2048</param>
     public AwsVerifiedpermissionsListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +57,7 @@ public record AwsVerifiedpermissionsListTagsForResourceOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the resource for which you want to view tags. Constraints: o min: 1 o max: 2048
+    /// The ARN of the resource for which you want to view tags. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsVerifiedpermissionsListTagsForResourceOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

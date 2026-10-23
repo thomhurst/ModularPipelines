@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the prevalidation configuration of an existing domain valida- tion. See also: AWS API Documentation
+/// Updates the prevalidation configuration of an existing domain validation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsAcmUpdateAcmeDomainValidationOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the prevalidation configuration of an existing domain valida- tion. See also: AWS API Documentation
+    /// Updates the prevalidation configuration of an existing domain validation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AcmeDomainValidationArn">The Amazon Resource Name (ARN) of the ACME domain validation to up- date. Constraints: o min: 1 o max: 200 o pattern: arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-end- point/[a-zA-Z0-9-]+/acme-domain-validation/[a-zA-Z0-9-]+</param>
+    /// <param name="AcmeDomainValidationArn">The Amazon Resource Name (ARN) of the ACME domain validation to update. Constraints: • min: 1 • max: 200 • pattern: arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-endpoint/[a-zA-Z0-9-]+/acme-domain-validation/[a-zA-Z0-9-]+</param>
     public AwsAcmUpdateAcmeDomainValidationOptions(
         string AcmeDomainValidationArn
     )
@@ -56,13 +57,13 @@ public record AwsAcmUpdateAcmeDomainValidationOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the ACME domain validation to up- date. Constraints: o min: 1 o max: 200 o pattern: arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-end- point/[a-zA-Z0-9-]+/acme-domain-validation/[a-zA-Z0-9-]+
+    /// The Amazon Resource Name (ARN) of the ACME domain validation to update. Constraints: • min: 1 • max: 200 • pattern: arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-endpoint/[a-zA-Z0-9-]+/acme-domain-validation/[a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--acme-domain-validation-arn")]
     public string? AcmeDomainValidationArn { get; private init; }
 
     /// <summary>
-    /// The updated prevalidation options. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: DnsPrevalidation. DnsPrevalidation -&gt; (structure) DNS-based prevalidation options. DomainScope -&gt; (structure) The scope of domains covered by this prevalidation. ExactDomain -&gt; (string) Whether validation applies to the exact domain. Possible values: o ENABLED o DISABLED Subdomains -&gt; (string) Whether validation applies to subdomains. Possible values: o ENABLED o DISABLED Wildcards -&gt; (string) Whether validation applies to wildcard domains. Possible values: o ENABLED o DISABLED HostedZoneId -&gt; (string) The Route 53 hosted zone ID for DNS validation. Constraints: o min: 1 o max: 32 o pattern: Z[A-Z0-9]+ Shorthand Syntax: DnsPrevalidation={DomainScope={ExactDomain=string,Subdomains=string,Wildcards=string},HostedZoneId=string} JSON Syntax: { "DnsPrevalidation": { "DomainScope": { "ExactDomain": "ENABLED"|"DISABLED", "Subdomains": "ENABLED"|"DISABLED", "Wildcards": "ENABLED"|"DISABLED" }, "HostedZoneId": "string" } }
+    /// The updated prevalidation options. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: DnsPrevalidation. DnsPrevalidation -&gt; (structure) DNS-based prevalidation options. DomainScope -&gt; (structure) The scope of domains covered by this prevalidation. ExactDomain -&gt; (string) Whether validation applies to the exact domain. Possible values: • ENABLED • DISABLED Subdomains -&gt; (string) Whether validation applies to subdomains. Possible values: • ENABLED • DISABLED Wildcards -&gt; (string) Whether validation applies to wildcard domains. Possible values: • ENABLED • DISABLED HostedZoneId -&gt; (string) The Route 53 hosted zone ID for DNS validation. Constraints: • min: 1 • max: 32 • pattern: Z[A-Z0-9]+ Shorthand Syntax: DnsPrevalidation={DomainScope={ExactDomain=string,Subdomains=string,Wildcards=string},HostedZoneId=string} JSON Syntax: { "DnsPrevalidation": { "DomainScope": { "ExactDomain": "ENABLED"|"DISABLED", "Subdomains": "ENABLED"|"DISABLED", "Wildcards": "ENABLED"|"DISABLED" }, "HostedZoneId": "string" } }
     /// </summary>
     [CliOption("--prevalidation-options")]
     public string? PrevalidationOptions { get; set; }
@@ -88,6 +89,15 @@ public record AwsAcmUpdateAcmeDomainValidationOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

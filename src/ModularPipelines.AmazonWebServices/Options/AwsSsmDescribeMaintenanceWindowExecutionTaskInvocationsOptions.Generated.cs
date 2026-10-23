@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the individual task executions (one per target) for a partic- ular task run as part of a maintenance window execution. See also: AWS API Documentation describe-maintenance-window-execution-task-invocations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must e...
+/// Retrieves the individual task executions (one per target) for a particular task run as part of a maintenance window execution. See also: AWS API Documentation describe-maintenance-window-execution-task-invocations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extra...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsSsmDescribeMaintenanceWindowExecutionTaskInvocationsOptions : A
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves the individual task executions (one per target) for a partic- ular task run as part of a maintenance window execution. See also: AWS API Documentation describe-maintenance-window-execution-task-invocations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must e...
+    /// Retrieves the individual task executions (one per target) for a particular task run as part of a maintenance window execution. See also: AWS API Documentation describe-maintenance-window-execution-task-invocations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extra...
     /// </summary>
-    /// <param name="WindowExecutionId">The ID of the maintenance window execution the task is part of. Constraints: o min: 36 o max: 36 o pattern: ^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$</param>
-    /// <param name="TaskId">The ID of the specific task in the maintenance window task that should be retrieved. Constraints: o min: 36 o max: 36 o pattern: ^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$</param>
+    /// <param name="WindowExecutionId">The ID of the maintenance window execution the task is part of. Constraints: • min: 36 • max: 36 • pattern: ^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$</param>
+    /// <param name="TaskId">The ID of the specific task in the maintenance window task that should be retrieved. Constraints: • min: 36 • max: 36 • pattern: ^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$</param>
     public AwsSsmDescribeMaintenanceWindowExecutionTaskInvocationsOptions(
         string WindowExecutionId,
         string TaskId
@@ -61,28 +62,25 @@ public record AwsSsmDescribeMaintenanceWindowExecutionTaskInvocationsOptions : A
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the maintenance window execution the task is part of. Constraints: o min: 36 o max: 36 o pattern: ^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$
+    /// The ID of the maintenance window execution the task is part of. Constraints: • min: 36 • max: 36 • pattern: ^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$
     /// </summary>
     [CliOption("--window-execution-id")]
     public string? WindowExecutionId { get; private init; }
 
     /// <summary>
-    /// The ID of the specific task in the maintenance window task that should be retrieved. Constraints: o min: 36 o max: 36 o pattern: ^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$
+    /// The ID of the specific task in the maintenance window task that should be retrieved. Constraints: • min: 36 • max: 36 • pattern: ^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$
     /// </summary>
     [CliOption("--task-id")]
     public string? TaskId { get; private init; }
 
     /// <summary>
-    /// Optional filters used to scope down the returned task invocations. The supported filter key is STATUS with the corresponding values PENDING , IN_PROGRESS , SUCCESS , FAILED , TIMED_OUT , CANCELLING , and CANCELLED . Constraints: o min: 0 o max: 5 (structure) Filter used in the request. Supported filter keys depend on the API operation that includes the filter. API operations that use MaintenanceWindowFilter&gt; include the following: o DescribeMaintenanceWindowExecutions o DescribeMaintenanceWindowExecutionTaskInvocations o DescribeMaintenanceWindowExecutionTasks o DescribeMaintenanceWindows o DescribeMaintenanceWindowTargets o DescribeMaintenanceWindowTasks Key -&gt; (string) The name of the filter. Constraints: o min: 1 o max: 128 Values -&gt; (list) The filter values. (string) Constraints: o min: 1 o max: 256 Shorthand Syntax: Key=string,Values=string,string ... JSON Syntax: [ { "Key": "string", "Values": ["string", ...] } ... ]
+    /// Optional filters used to scope down the returned task invocations. The supported filter key is STATUS with the corresponding values PENDING , IN_PROGRESS , SUCCESS , FAILED , TIMED_OUT , CANCELLING , and CANCELLED . Constraints: • min: 0 • max: 5 (structure) Filter used in the request. Supported filter keys depend on the API operation that includes the filter. API operations that use MaintenanceWindowFilter&gt; include the following: • DescribeMaintenanceWindowExecutions • DescribeMaintenanceWindowExecutionTaskInvocations • DescribeMaintenanceWindowExecutionTasks • DescribeMaintenanceWindows • DescribeMaintenanceWindowTargets • DescribeMaintenanceWindowTasks Key -&gt; (string) The name of the filter. Constraints: • min: 1 • max: 128 Values -&gt; (list) The filter values. (string) Constraints: • min: 1 • max: 256 Shorthand Syntax: Key=string,Values=string,string ... JSON Syntax: [ { "Key": "string", "Values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -92,16 +90,19 @@ public record AwsSsmDescribeMaintenanceWindowExecutionTaskInvocationsOptions : A
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 10 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 10 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -118,6 +119,15 @@ public record AwsSsmDescribeMaintenanceWindowExecutionTaskInvocationsOptions : A
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -30,7 +31,7 @@ public record AwsEc2ModifyIpamPolicyAllocationRulesOptions : AwsOptions, IValida
     /// </summary>
     /// <param name="IpamPolicyId">The ID of the IPAM policy whose allocation rules you want to modify.</param>
     /// <param name="Locale">The locale for which to modify the allocation rules.</param>
-    /// <param name="ResourceType">The resource type for which to modify the allocation rules. The Amazon Web Services service or resource type that can use IP ad- dresses through IPAM policies. Supported services and resource types include: o Elastic IP addresses Possible values: o alb o eip o rds o rnat</param>
+    /// <param name="ResourceType">The resource type for which to modify the allocation rules. The Amazon Web Services service or resource type that can use IP addresses through IPAM policies. Supported services and resource types include: • Elastic IP addresses Possible values: • alb • eip • rds • rnat</param>
     public AwsEc2ModifyIpamPolicyAllocationRulesOptions(
         string IpamPolicyId,
         string Locale,
@@ -76,19 +77,19 @@ public record AwsEc2ModifyIpamPolicyAllocationRulesOptions : AwsOptions, IValida
     public string? Locale { get; private init; }
 
     /// <summary>
-    /// The resource type for which to modify the allocation rules. The Amazon Web Services service or resource type that can use IP ad- dresses through IPAM policies. Supported services and resource types include: o Elastic IP addresses Possible values: o alb o eip o rds o rnat
+    /// The resource type for which to modify the allocation rules. The Amazon Web Services service or resource type that can use IP addresses through IPAM policies. Supported services and resource types include: • Elastic IP addresses Possible values: • alb • eip • rds • rnat
     /// </summary>
     [CliOption("--resource-type")]
     public AwsEc2ModifyIpamPolicyAllocationRulesResourceType? ResourceType { get; private init; }
 
     /// <summary>
-    /// A check for whether you have the required permissions for the action without actually making the request and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// A check for whether you have the required permissions for the action without actually making the request and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// The new allocation rules to apply to the IPAM policy. Allocation rules are optional configurations within an IPAM policy that map Amazon Web Services resource types to specific IPAM pools. If no rules are defined, the resource types default to using Ama- zon-provided IP addresses. (structure) Information about a requested IPAM policy allocation rule. Allocation rules are optional configurations within an IPAM pol- icy that map Amazon Web Services resource types to specific IPAM pools. If no rules are defined, the resource types default to using Amazon-provided IP addresses. SourceIpamPoolId -&gt; (string) The ID of the source IPAM pool for the requested allocation rule. An IPAM pool is a collection of IP addresses in IPAM that can be allocated to Amazon Web Services resources. Shorthand Syntax: SourceIpamPoolId=string ... JSON Syntax: [ { "SourceIpamPoolId": "string" } ... ]
+    /// The new allocation rules to apply to the IPAM policy. Allocation rules are optional configurations within an IPAM policy that map Amazon Web Services resource types to specific IPAM pools. If no rules are defined, the resource types default to using Amazon-provided IP addresses. (structure) Information about a requested IPAM policy allocation rule. Allocation rules are optional configurations within an IPAM policy that map Amazon Web Services resource types to specific IPAM pools. If no rules are defined, the resource types default to using Amazon-provided IP addresses. SourceIpamPoolId -&gt; (string) The ID of the source IPAM pool for the requested allocation rule. An IPAM pool is a collection of IP addresses in IPAM that can be allocated to Amazon Web Services resources. Shorthand Syntax: SourceIpamPoolId=string ... JSON Syntax: [ { "SourceIpamPoolId": "string" } ... ]
     /// </summary>
     [CliOption("--allocation-rules", GroupValues = true)]
     public IEnumerable<string>? AllocationRules { get; set; }
@@ -114,6 +115,15 @@ public record AwsEc2ModifyIpamPolicyAllocationRulesOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

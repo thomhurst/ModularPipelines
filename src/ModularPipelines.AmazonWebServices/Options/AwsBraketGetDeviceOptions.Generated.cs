@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the devices available in Amazon Braket. NOTE: For backwards compatibility with older versions of BraketSchemas, OpenQASM information is omitted from GetDevice API calls. To get this information the user-agent needs to present a recent version of the BraketSchemas (1.8.0 or later). The Braket SDK automatically re- ports this for you. If you do not see OpenQASM results in the GetDe- vice response when using a Braket SDK, you may need to set AWS_EXE- CUTION_ENV environment variable to con...
+/// Retrieves the devices available in Amazon Braket. NOTE: For backwards compatibility with older versions of BraketSchemas, OpenQASM information is omitted from GetDevice API calls. To get this information the user-agent needs to present a recent version of the BraketSchemas (1.8.0 or later). The Braket SDK automatically reports this for you. If you do not see OpenQASM results in the GetDevice response when using a Braket SDK, you may need to set AWS_EXECUTION_ENV environment variable to configure...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsBraketGetDeviceOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves the devices available in Amazon Braket. NOTE: For backwards compatibility with older versions of BraketSchemas, OpenQASM information is omitted from GetDevice API calls. To get this information the user-agent needs to present a recent version of the BraketSchemas (1.8.0 or later). The Braket SDK automatically re- ports this for you. If you do not see OpenQASM results in the GetDe- vice response when using a Braket SDK, you may need to set AWS_EXE- CUTION_ENV environment variable to con...
+    /// Retrieves the devices available in Amazon Braket. NOTE: For backwards compatibility with older versions of BraketSchemas, OpenQASM information is omitted from GetDevice API calls. To get this information the user-agent needs to present a recent version of the BraketSchemas (1.8.0 or later). The Braket SDK automatically reports this for you. If you do not see OpenQASM results in the GetDevice response when using a Braket SDK, you may need to set AWS_EXECUTION_ENV environment variable to configure...
     /// </summary>
-    /// <param name="DeviceArn">The ARN of the device to retrieve. Constraints: o min: 1 o max: 256</param>
+    /// <param name="DeviceArn">The ARN of the device to retrieve. Constraints: • min: 1 • max: 256</param>
     public AwsBraketGetDeviceOptions(
         string DeviceArn
     )
@@ -56,7 +57,7 @@ public record AwsBraketGetDeviceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the device to retrieve. Constraints: o min: 1 o max: 256
+    /// The ARN of the device to retrieve. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--device-arn")]
     public string? DeviceArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsBraketGetDeviceOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

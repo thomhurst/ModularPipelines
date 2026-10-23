@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists Neptune ML model-training jobs. See Model training using the ``modeltraining` command &lt;- https://docs.aws.amazon.com/neptune/latest/userguide/machine-learn- ing-api-modeltraining.html&gt;`__ . When invoking this operation in a Neptune cluster that has IAM authen- tication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:neptune-db:ListMLModelTrainingJobs IAM action in that clus- ter. See also: AWS API Documentation
+/// Lists Neptune ML model-training jobs. See Model training using the ``modeltraining` command &lt;https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-api-modeltraining.html&gt;`__ . When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:neptune-db:ListMLModelTrainingJobs IAM action in that cluster. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,13 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsNeptunedataListMlModelTrainingJobsOptions : AwsOptions
 {
     /// <summary>
-    /// The maximum number of items to return (from 1 to 1024; the default is 10). Constraints: o min: 1 o max: 1024
+    /// The maximum number of items to return (from 1 to 1024; the default is 10). Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
     /// <summary>
-    /// The ARN of an IAM role that provides Neptune access to SageMaker and Amazon S3 resources. This must be listed in your DB cluster parame- ter group or an error will occur.
+    /// The ARN of an IAM role that provides Neptune access to SageMaker and Amazon S3 resources. This must be listed in your DB cluster parameter group or an error will occur.
     /// </summary>
     [CliOption("--neptune-iam-role-arn")]
     public string? NeptuneIamRoleArn { get; set; }
@@ -38,5 +38,14 @@ public record AwsNeptunedataListMlModelTrainingJobsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

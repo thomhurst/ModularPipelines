@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -80,7 +81,7 @@ public record AwsDaxUpdateClusterOptions : AwsOptions, IValidatableObject
     public string? NotificationTopicArn { get; set; }
 
     /// <summary>
-    /// The current state of the topic. A value of active means that notifi- cations will be sent to the topic. A value of inactive means that notifications will not be sent to the topic.
+    /// The current state of the topic. A value of active means that notifications will be sent to the topic. A value of inactive means that notifications will not be sent to the topic.
     /// </summary>
     [CliOption("--notification-topic-status")]
     public string? NotificationTopicStatus { get; set; }
@@ -92,7 +93,7 @@ public record AwsDaxUpdateClusterOptions : AwsOptions, IValidatableObject
     public string? ParameterGroupName { get; set; }
 
     /// <summary>
-    /// A list of user-specified security group IDs to be assigned to each node in the DAX cluster. If this parameter is not specified, DAX as- signs the default VPC security group to each node. (string) Syntax: "string" "string" ...
+    /// A list of user-specified security group IDs to be assigned to each node in the DAX cluster. If this parameter is not specified, DAX assigns the default VPC security group to each node. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--security-group-ids", GroupValues = true)]
     public IEnumerable<string>? SecurityGroupIds { get; set; }
@@ -118,6 +119,15 @@ public record AwsDaxUpdateClusterOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsM2GetApplicationVersionOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Returns details about a specific version of a specific application. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The unique identifier of the application. Constraints: o pattern: ^\S{1,80}$</param>
-    /// <param name="ApplicationVersion">The specific version of the application. Constraints: o min: 1</param>
+    /// <param name="ApplicationId">The unique identifier of the application. Constraints: • pattern: ^\S{1,80}$</param>
+    /// <param name="ApplicationVersion">The specific version of the application. Constraints: • min: 1</param>
     public AwsM2GetApplicationVersionOptions(
         string ApplicationId,
         int ApplicationVersion
@@ -59,13 +60,13 @@ public record AwsM2GetApplicationVersionOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the application. Constraints: o pattern: ^\S{1,80}$
+    /// The unique identifier of the application. Constraints: • pattern: ^\S{1,80}$
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// The specific version of the application. Constraints: o min: 1
+    /// The specific version of the application. Constraints: • min: 1
     /// </summary>
     [CliOption("--application-version")]
     public int? ApplicationVersion { get; private init; }
@@ -91,6 +92,15 @@ public record AwsM2GetApplicationVersionOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsPinpointUpdateAdmChannelOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Enables the ADM channel for an application or updates the status and settings of the ADM channel for an application. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AdmChannelRequest">Specifies the status and settings of the ADM (Amazon Device Messag- ing) channel for an application. ClientId -&gt; (string) [required] The Client ID that you received from Amazon to send messages by using ADM. ClientSecret -&gt; (string) [required] The Client Secret that you received from Amazon to send messages by using ADM. Enabled -&gt; (boolean) Specifies whether to enable the ADM channel for the application. Shorthand Syntax: ClientId=string,ClientSecret=string,Enabled=boolean JSON Syntax: { "ClientId": "string", "ClientSecret": "string", "Enabled": true|false }</param>
-    /// <param name="ApplicationId">The unique identifier for the application. This identifier is dis- played as the Project ID on the Amazon Pinpoint console.</param>
+    /// <param name="AdmChannelRequest">Specifies the status and settings of the ADM (Amazon Device Messaging) channel for an application. ClientId -&gt; (string) [required] The Client ID that you received from Amazon to send messages by using ADM. ClientSecret -&gt; (string) [required] The Client Secret that you received from Amazon to send messages by using ADM. Enabled -&gt; (boolean) Specifies whether to enable the ADM channel for the application. Shorthand Syntax: ClientId=string,ClientSecret=string,Enabled=boolean JSON Syntax: { "ClientId": "string", "ClientSecret": "string", "Enabled": true|false }</param>
+    /// <param name="ApplicationId">The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.</param>
     public AwsPinpointUpdateAdmChannelOptions(
         string AdmChannelRequest,
         string ApplicationId
@@ -60,13 +61,13 @@ public record AwsPinpointUpdateAdmChannelOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the status and settings of the ADM (Amazon Device Messag- ing) channel for an application. ClientId -&gt; (string) [required] The Client ID that you received from Amazon to send messages by using ADM. ClientSecret -&gt; (string) [required] The Client Secret that you received from Amazon to send messages by using ADM. Enabled -&gt; (boolean) Specifies whether to enable the ADM channel for the application. Shorthand Syntax: ClientId=string,ClientSecret=string,Enabled=boolean JSON Syntax: { "ClientId": "string", "ClientSecret": "string", "Enabled": true|false }
+    /// Specifies the status and settings of the ADM (Amazon Device Messaging) channel for an application. ClientId -&gt; (string) [required] The Client ID that you received from Amazon to send messages by using ADM. ClientSecret -&gt; (string) [required] The Client Secret that you received from Amazon to send messages by using ADM. Enabled -&gt; (boolean) Specifies whether to enable the ADM channel for the application. Shorthand Syntax: ClientId=string,ClientSecret=string,Enabled=boolean JSON Syntax: { "ClientId": "string", "ClientSecret": "string", "Enabled": true|false }
     /// </summary>
     [CliOption("--adm-channel-request")]
     public string? AdmChannelRequest { get; private init; }
 
     /// <summary>
-    /// The unique identifier for the application. This identifier is dis- played as the Project ID on the Amazon Pinpoint console.
+    /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsPinpointUpdateAdmChannelOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

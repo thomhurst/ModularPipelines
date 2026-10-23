@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsTaxsettingsDeleteTaxRegistrationOptions : AwsOptions
 {
     /// <summary>
-    /// Unique account identifier for the TRN information that needs to be deleted. If this isn't passed, the account ID corresponding to the credentials of the API caller will be used for this parameter. Constraints: o min: 12 o max: 12 o pattern: \d+
+    /// Unique account identifier for the TRN information that needs to be deleted. If this isn't passed, the account ID corresponding to the credentials of the API caller will be used for this parameter. Constraints: • min: 12 • max: 12 • pattern: \d+
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; set; }
@@ -32,5 +32,14 @@ public record AwsTaxsettingsDeleteTaxRegistrationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

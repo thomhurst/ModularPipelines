@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an alias , or a friendly name, for an Amazon Web Services Pay- ment Cryptography key. You can use an alias to identify a key in the console and when you call cryptographic operations such as EncryptData or DecryptData . You can associate the alias with any key in the same Amazon Web Ser- vices Region. Each alias is associated with only one key at a time, but a key can have multiple aliases. You can't create an alias without a key. The alias must be unique in the account and Amazon Web Se...
+/// Creates an alias , or a friendly name, for an Amazon Web Services Payment Cryptography key. You can use an alias to identify a key in the console and when you call cryptographic operations such as EncryptData or DecryptData . You can associate the alias with any key in the same Amazon Web Services Region. Each alias is associated with only one key at a time, but a key can have multiple aliases. You can't create an alias without a key. The alias must be unique in the account and Amazon Web Servic...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsPaymentCryptographyCreateAliasOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an alias , or a friendly name, for an Amazon Web Services Pay- ment Cryptography key. You can use an alias to identify a key in the console and when you call cryptographic operations such as EncryptData or DecryptData . You can associate the alias with any key in the same Amazon Web Ser- vices Region. Each alias is associated with only one key at a time, but a key can have multiple aliases. You can't create an alias without a key. The alias must be unique in the account and Amazon Web Se...
+    /// Creates an alias , or a friendly name, for an Amazon Web Services Payment Cryptography key. You can use an alias to identify a key in the console and when you call cryptographic operations such as EncryptData or DecryptData . You can associate the alias with any key in the same Amazon Web Services Region. Each alias is associated with only one key at a time, but a key can have multiple aliases. You can't create an alias without a key. The alias must be unique in the account and Amazon Web Servic...
     /// </summary>
-    /// <param name="AliasName">A friendly name that you can use to refer to a key. An alias must begin with alias/ followed by a name, for example alias/ExampleAlias . It can contain only alphanumeric characters, forward slashes (/), underscores (_), and dashes (-). WARNING: Don't include personal, confidential or sensitive information in this field. This field may be displayed in plaintext in Cloud- Trail logs and other output. Constraints: o min: 7 o max: 256 o pattern: alias/[a-zA-Z0-9/_-]+</param>
+    /// <param name="AliasName">A friendly name that you can use to refer to a key. An alias must begin with alias/ followed by a name, for example alias/ExampleAlias . It can contain only alphanumeric characters, forward slashes (/), underscores (_), and dashes (-). WARNING: Don't include personal, confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output. Constraints: • min: 7 • max: 256 • pattern: alias/[a-zA-Z0-9/_-]+</param>
     public AwsPaymentCryptographyCreateAliasOptions(
         string AliasName
     )
@@ -56,13 +57,13 @@ public record AwsPaymentCryptographyCreateAliasOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A friendly name that you can use to refer to a key. An alias must begin with alias/ followed by a name, for example alias/ExampleAlias . It can contain only alphanumeric characters, forward slashes (/), underscores (_), and dashes (-). WARNING: Don't include personal, confidential or sensitive information in this field. This field may be displayed in plaintext in Cloud- Trail logs and other output. Constraints: o min: 7 o max: 256 o pattern: alias/[a-zA-Z0-9/_-]+
+    /// A friendly name that you can use to refer to a key. An alias must begin with alias/ followed by a name, for example alias/ExampleAlias . It can contain only alphanumeric characters, forward slashes (/), underscores (_), and dashes (-). WARNING: Don't include personal, confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output. Constraints: • min: 7 • max: 256 • pattern: alias/[a-zA-Z0-9/_-]+
     /// </summary>
     [CliOption("--alias-name")]
     public string? AliasName { get; private init; }
 
     /// <summary>
-    /// The KeyARN of the key to associate with the alias. Constraints: o min: 70 o max: 150 o pattern: arn:aws:payment-cryptogra- phy:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:key/[0-9a-zA-Z]{16,64}
+    /// The KeyARN of the key to associate with the alias. Constraints: • min: 70 • max: 150 • pattern: arn:aws:payment-cryptography:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:key/[0-9a-zA-Z]{16,64}
     /// </summary>
     [CliOption("--key-arn")]
     public string? KeyArn { get; set; }
@@ -88,6 +89,15 @@ public record AwsPaymentCryptographyCreateAliasOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

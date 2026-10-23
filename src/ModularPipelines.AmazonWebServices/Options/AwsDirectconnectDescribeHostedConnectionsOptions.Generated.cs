@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists the hosted connections that have been provisioned on the speci- fied interconnect or link aggregation group (LAG). NOTE: Intended for use by Direct Connect Partners only. See also: AWS API Documentation
+/// Lists the hosted connections that have been provisioned on the specified interconnect or link aggregation group (LAG). NOTE: Intended for use by Direct Connect Partners only. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +27,7 @@ public record AwsDirectconnectDescribeHostedConnectionsOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists the hosted connections that have been provisioned on the speci- fied interconnect or link aggregation group (LAG). NOTE: Intended for use by Direct Connect Partners only. See also: AWS API Documentation
+    /// Lists the hosted connections that have been provisioned on the specified interconnect or link aggregation group (LAG). NOTE: Intended for use by Direct Connect Partners only. See also: AWS API Documentation
     /// </summary>
     /// <param name="ConnectionId">The ID of the interconnect or LAG.</param>
     public AwsDirectconnectDescribeHostedConnectionsOptions(
@@ -63,7 +64,7 @@ public record AwsDirectconnectDescribeHostedConnectionsOptions : AwsOptions, IVa
     public string? ConnectionId { get; private init; }
 
     /// <summary>
-    /// The maximum number of results to return with a single call. To re- trieve the remaining results, make another call with the returned nextToken value. If MaxResults is given a value larger than 100, only 100 results are returned.
+    /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value. If MaxResults is given a value larger than 100, only 100 results are returned.
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -96,6 +97,15 @@ public record AwsDirectconnectDescribeHostedConnectionsOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

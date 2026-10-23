@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsDirectconnectListResiliencyGroupAssociationsOptions : AwsOption
     /// <summary>
     /// Lists the connection associations for the specified resiliency group. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResiliencyGroupId">The ID of the resiliency group. Constraints: o min: 22 o max: 22 o pattern: ^(dxrg|DXRG)-[0-9a-zA-Z]{17}$</param>
+    /// <param name="ResiliencyGroupId">The ID of the resiliency group. Constraints: • min: 22 • max: 22 • pattern: ^(dxrg|DXRG)-[0-9a-zA-Z]{17}$</param>
     public AwsDirectconnectListResiliencyGroupAssociationsOptions(
         string ResiliencyGroupId
     )
@@ -57,13 +58,13 @@ public record AwsDirectconnectListResiliencyGroupAssociationsOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the resiliency group. Constraints: o min: 22 o max: 22 o pattern: ^(dxrg|DXRG)-[0-9a-zA-Z]{17}$
+    /// The ID of the resiliency group. Constraints: • min: 22 • max: 22 • pattern: ^(dxrg|DXRG)-[0-9a-zA-Z]{17}$
     /// </summary>
     [CliOption("--resiliency-group-id")]
     public string? ResiliencyGroupId { get; private init; }
 
     /// <summary>
-    /// The maximum number of results to return with a single call. To re- trieve the remaining results, make another call with the returned nextToken value. If MaxResults is given a value larger than 100, only 100 results are returned.
+    /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value. If MaxResults is given a value larger than 100, only 100 results are returned.
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -96,6 +97,15 @@ public record AwsDirectconnectListResiliencyGroupAssociationsOptions : AwsOption
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

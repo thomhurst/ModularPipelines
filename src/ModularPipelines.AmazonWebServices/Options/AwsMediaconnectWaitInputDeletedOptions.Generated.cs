@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsMediaconnectWaitInputDeletedOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Wait until the Input is deleted It will poll every 3 seconds until a successful state has been reached. This will exit with a return code of 255 after 40 failed checks. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The Amazon Resource Name (ARN) of the router input to retrieve in- formation about. Constraints: o pattern: arn:(aws[a-zA-Z-]*):mediacon- nect:[a-z0-9-]+:[0-9]{12}:routerInput:[a-z0-9]{12}</param>
+    /// <param name="Arn">The Amazon Resource Name (ARN) of the router input to retrieve information about. Constraints: • pattern: arn:(aws[a-zA-Z-]*):mediaconnect:[a-z0-9-]+:[0-9]{12}:routerInput:[a-z0-9]{12}</param>
     public AwsMediaconnectWaitInputDeletedOptions(
         string Arn
     )
@@ -56,7 +57,7 @@ public record AwsMediaconnectWaitInputDeletedOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the router input to retrieve in- formation about. Constraints: o pattern: arn:(aws[a-zA-Z-]*):mediacon- nect:[a-z0-9-]+:[0-9]{12}:routerInput:[a-z0-9]{12}
+    /// The Amazon Resource Name (ARN) of the router input to retrieve information about. Constraints: • pattern: arn:(aws[a-zA-Z-]*):mediaconnect:[a-z0-9-]+:[0-9]{12}:routerInput:[a-z0-9]{12}
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsMediaconnectWaitInputDeletedOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

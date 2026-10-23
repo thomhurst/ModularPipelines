@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Analyzes and accumulates test report values for the specified test re- ports. See also: AWS API Documentation
+/// Analyzes and accumulates test report values for the specified test reports. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsCodebuildGetReportGroupTrendOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Analyzes and accumulates test report values for the specified test re- ports. See also: AWS API Documentation
+    /// Analyzes and accumulates test report values for the specified test reports. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ReportGroupArn">The ARN of the report group that contains the reports to analyze. Constraints: o min: 1</param>
-    /// <param name="TrendField">The test report value to accumulate. This must be one of the follow- ing values: Test reports: DURATION Accumulate the test run times for the specified reports. PASS_RATE Accumulate the percentage of tests that passed for the specified test reports. TOTAL Accumulate the total number of tests for the specified test reports. Code coverage reports: BRANCH_COVERAGE Accumulate the branch coverage percentages for the specified test reports. BRANCHES_COVERED Accumulate the branches covered values for the specified test re- ports. BRANCHES_MISSED Accumulate the branches missed values for the specified test re- ports. LINE_COVERAGE Accumulate the line coverage percentages for the specified test re- ports. LINES_COVERED Accumulate the lines covered values for the specified test reports. LINES_MISSED Accumulate the lines not covered values for the specified test re- ports. Possible values: o PASS_RATE o DURATION o TOTAL o LINE_COVERAGE o LINES_COVERED o LINES_MISSED o BRANCH_COVERAGE o BRANCHES_COVERED o BRANCHES_MISSED</param>
+    /// <param name="ReportGroupArn">The ARN of the report group that contains the reports to analyze. Constraints: • min: 1</param>
+    /// <param name="TrendField">The test report value to accumulate. This must be one of the following values: Test reports: DURATION Accumulate the test run times for the specified reports. PASS_RATE Accumulate the percentage of tests that passed for the specified test reports. TOTAL Accumulate the total number of tests for the specified test reports. Code coverage reports: BRANCH_COVERAGE Accumulate the branch coverage percentages for the specified test reports. BRANCHES_COVERED Accumulate the branches covered values for the specified test reports. BRANCHES_MISSED Accumulate the branches missed values for the specified test reports. LINE_COVERAGE Accumulate the line coverage percentages for the specified test reports. LINES_COVERED Accumulate the lines covered values for the specified test reports. LINES_MISSED Accumulate the lines not covered values for the specified test reports. Possible values: • PASS_RATE • DURATION • TOTAL • LINE_COVERAGE • LINES_COVERED • LINES_MISSED • BRANCH_COVERAGE • BRANCHES_COVERED • BRANCHES_MISSED</param>
     public AwsCodebuildGetReportGroupTrendOptions(
         string ReportGroupArn,
         AwsCodebuildGetReportGroupTrendTrendField TrendField
@@ -60,19 +61,19 @@ public record AwsCodebuildGetReportGroupTrendOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the report group that contains the reports to analyze. Constraints: o min: 1
+    /// The ARN of the report group that contains the reports to analyze. Constraints: • min: 1
     /// </summary>
     [CliOption("--report-group-arn")]
     public string? ReportGroupArn { get; private init; }
 
     /// <summary>
-    /// The test report value to accumulate. This must be one of the follow- ing values: Test reports: DURATION Accumulate the test run times for the specified reports. PASS_RATE Accumulate the percentage of tests that passed for the specified test reports. TOTAL Accumulate the total number of tests for the specified test reports. Code coverage reports: BRANCH_COVERAGE Accumulate the branch coverage percentages for the specified test reports. BRANCHES_COVERED Accumulate the branches covered values for the specified test re- ports. BRANCHES_MISSED Accumulate the branches missed values for the specified test re- ports. LINE_COVERAGE Accumulate the line coverage percentages for the specified test re- ports. LINES_COVERED Accumulate the lines covered values for the specified test reports. LINES_MISSED Accumulate the lines not covered values for the specified test re- ports. Possible values: o PASS_RATE o DURATION o TOTAL o LINE_COVERAGE o LINES_COVERED o LINES_MISSED o BRANCH_COVERAGE o BRANCHES_COVERED o BRANCHES_MISSED
+    /// The test report value to accumulate. This must be one of the following values: Test reports: DURATION Accumulate the test run times for the specified reports. PASS_RATE Accumulate the percentage of tests that passed for the specified test reports. TOTAL Accumulate the total number of tests for the specified test reports. Code coverage reports: BRANCH_COVERAGE Accumulate the branch coverage percentages for the specified test reports. BRANCHES_COVERED Accumulate the branches covered values for the specified test reports. BRANCHES_MISSED Accumulate the branches missed values for the specified test reports. LINE_COVERAGE Accumulate the line coverage percentages for the specified test reports. LINES_COVERED Accumulate the lines covered values for the specified test reports. LINES_MISSED Accumulate the lines not covered values for the specified test reports. Possible values: • PASS_RATE • DURATION • TOTAL • LINE_COVERAGE • LINES_COVERED • LINES_MISSED • BRANCH_COVERAGE • BRANCHES_COVERED • BRANCHES_MISSED
     /// </summary>
     [CliOption("--trend-field")]
     public AwsCodebuildGetReportGroupTrendTrendField? TrendField { get; private init; }
 
     /// <summary>
-    /// The number of reports to analyze. This operation always retrieves the most recent reports. If this parameter is omitted, the most recent 100 reports are ana- lyzed. Constraints: o min: 1 o max: 100
+    /// The number of reports to analyze. This operation always retrieves the most recent reports. If this parameter is omitted, the most recent 100 reports are analyzed. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--num-of-reports")]
     public int? NumOfReports { get; set; }
@@ -98,6 +99,15 @@ public record AwsCodebuildGetReportGroupTrendOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

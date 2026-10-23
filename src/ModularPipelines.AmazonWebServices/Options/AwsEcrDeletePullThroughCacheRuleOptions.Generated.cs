@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsEcrDeletePullThroughCacheRuleOptions : AwsOptions, IValidatable
     /// <summary>
     /// Deletes a pull through cache rule. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EcrRepositoryPrefix">The Amazon ECR repository prefix associated with the pull through cache rule to delete. Constraints: o min: 2 o max: 30 o pattern: ^([a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*\/?|ROOT)$</param>
+    /// <param name="EcrRepositoryPrefix">The Amazon ECR repository prefix associated with the pull through cache rule to delete. Constraints: • min: 2 • max: 30 • pattern: ^([a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*\/?|ROOT)$</param>
     public AwsEcrDeletePullThroughCacheRuleOptions(
         string EcrRepositoryPrefix
     )
@@ -56,13 +57,13 @@ public record AwsEcrDeletePullThroughCacheRuleOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon ECR repository prefix associated with the pull through cache rule to delete. Constraints: o min: 2 o max: 30 o pattern: ^([a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*\/?|ROOT)$
+    /// The Amazon ECR repository prefix associated with the pull through cache rule to delete. Constraints: • min: 2 • max: 30 • pattern: ^([a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*\/?|ROOT)$
     /// </summary>
     [CliOption("--ecr-repository-prefix")]
     public string? EcrRepositoryPrefix { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services account ID associated with the registry that contains the pull through cache rule. If you do not specify a reg- istry, the default registry is assumed. Constraints: o pattern: [0-9]{12}
+    /// The Amazon Web Services account ID associated with the registry that contains the pull through cache rule. If you do not specify a registry, the default registry is assumed. Constraints: • pattern: [0-9]{12}
     /// </summary>
     [CliOption("--registry-id")]
     public string? RegistryId { get; set; }
@@ -88,6 +89,15 @@ public record AwsEcrDeletePullThroughCacheRuleOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

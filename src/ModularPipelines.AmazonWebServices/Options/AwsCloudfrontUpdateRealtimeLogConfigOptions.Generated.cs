@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates a real-time log configuration. When you update a real-time log configuration, all the parameters are updated with the values provided in the request. You cannot update some parameters independent of others. To update a real-time log configura- tion: o Call GetRealtimeLogConfig to get the current real-time log configura- tion. o Locally modify the parameters in the real-time log configuration that you want to update. o Call this API (UpdateRealtimeLogConfig ) by providing the entire real-...
+/// Updates a real-time log configuration. When you update a real-time log configuration, all the parameters are updated with the values provided in the request. You cannot update some parameters independent of others. To update a real-time log configuration: • Call GetRealtimeLogConfig to get the current real-time log configuration. • Locally modify the parameters in the real-time log configuration that you want to update. • Call this API (UpdateRealtimeLogConfig ) by providing the entire real-time...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsCloudfrontUpdateRealtimeLogConfigOptions : AwsOptions
 {
     /// <summary>
-    /// Contains information about the Amazon Kinesis data stream where you are sending real-time log data. (structure) Contains information about the Amazon Kinesis data stream where you're sending real-time log data in a real-time log configura- tion. StreamType -&gt; (string) [required] The type of data stream where you are sending real-time log data. The only valid value is Kinesis . KinesisStreamConfig -&gt; (structure) Contains information about the Amazon Kinesis data stream where you are sending real-time log data in a real-time log configuration. RoleARN -&gt; (string) [required] The Amazon Resource Name (ARN) of an Identity and Access Management (IAM) role that CloudFront can use to send real-time log data to your Kinesis data stream. For more information the IAM role, see Real-time log con- figuration IAM role in the Amazon CloudFront Developer Guide . StreamARN -&gt; (string) [required] The Amazon Resource Name (ARN) of the Kinesis data stream where you are sending real-time log data. Shorthand Syntax: StreamType=string,KinesisStreamConfig={RoleARN=string,StreamARN=string} ... JSON Syntax: [ { "StreamType": "string", "KinesisStreamConfig": { "RoleARN": "string", "StreamARN": "string" } } ... ]
+    /// Contains information about the Amazon Kinesis data stream where you are sending real-time log data. (structure) Contains information about the Amazon Kinesis data stream where you're sending real-time log data in a real-time log configuration. StreamType -&gt; (string) [required] The type of data stream where you are sending real-time log data. The only valid value is Kinesis . KinesisStreamConfig -&gt; (structure) Contains information about the Amazon Kinesis data stream where you are sending real-time log data in a real-time log configuration. RoleARN -&gt; (string) [required] The Amazon Resource Name (ARN) of an Identity and Access Management (IAM) role that CloudFront can use to send real-time log data to your Kinesis data stream. For more information the IAM role, see Real-time log configuration IAM role in the Amazon CloudFront Developer Guide . StreamARN -&gt; (string) [required] The Amazon Resource Name (ARN) of the Kinesis data stream where you are sending real-time log data. Shorthand Syntax: StreamType=string,KinesisStreamConfig={RoleARN=string,StreamARN=string} ... JSON Syntax: [ { "StreamType": "string", "KinesisStreamConfig": { "RoleARN": "string", "StreamARN": "string" } } ... ]
     /// </summary>
     [CliOption("--end-points", GroupValues = true)]
     public IEnumerable<string>? EndPoints { get; set; }
@@ -46,15 +46,24 @@ public record AwsCloudfrontUpdateRealtimeLogConfigOptions : AwsOptions
     public string? Arn { get; set; }
 
     /// <summary>
-    /// The sampling rate for this real-time log configuration. The sampling rate determines the percentage of viewer requests that are repre- sented in the real-time log data. You must provide an integer be- tween 1 and 100, inclusive.
+    /// The sampling rate for this real-time log configuration. The sampling rate determines the percentage of viewer requests that are represented in the real-time log data. You must provide an integer between 1 and 100, inclusive.
     /// </summary>
     [CliOption("--sampling-rate")]
-    public int? SamplingRate { get; set; }
+    public long? SamplingRate { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

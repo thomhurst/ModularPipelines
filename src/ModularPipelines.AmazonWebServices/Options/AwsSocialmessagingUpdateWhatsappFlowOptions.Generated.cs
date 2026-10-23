@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the metadata of a WhatsApp Flow, such as its name or cate- gories. This does not update the Flow JSON definition. Use UpdateWhatsAppFlowAssets to update the Flow JSON. See also: AWS API Documentation
+/// Updates the metadata of a WhatsApp Flow, such as its name or categories. This does not update the Flow JSON definition. Use UpdateWhatsAppFlowAssets to update the Flow JSON. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsSocialmessagingUpdateWhatsappFlowOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the metadata of a WhatsApp Flow, such as its name or cate- gories. This does not update the Flow JSON definition. Use UpdateWhatsAppFlowAssets to update the Flow JSON. See also: AWS API Documentation
+    /// Updates the metadata of a WhatsApp Flow, such as its name or categories. This does not update the Flow JSON definition. Use UpdateWhatsAppFlowAssets to update the Flow JSON. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the WhatsApp Business Account associated with this Flow. Constraints: o min: 1 o max: 115 o pattern: .*(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$).*</param>
-    /// <param name="FlowId">The unique identifier of the Flow to update. Constraints: o min: 1 o max: 100 o pattern: [0-9]+</param>
+    /// <param name="Id">The ID of the WhatsApp Business Account associated with this Flow. Constraints: • min: 1 • max: 115 • pattern: .*(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$).*</param>
+    /// <param name="FlowId">The unique identifier of the Flow to update. Constraints: • min: 1 • max: 100 • pattern: [0-9]+</param>
     public AwsSocialmessagingUpdateWhatsappFlowOptions(
         string Id,
         string FlowId
@@ -60,37 +61,37 @@ public record AwsSocialmessagingUpdateWhatsappFlowOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the WhatsApp Business Account associated with this Flow. Constraints: o min: 1 o max: 115 o pattern: .*(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$).*
+    /// The ID of the WhatsApp Business Account associated with this Flow. Constraints: • min: 1 • max: 115 • pattern: .*(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$).*
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the Flow to update. Constraints: o min: 1 o max: 100 o pattern: [0-9]+
+    /// The unique identifier of the Flow to update. Constraints: • min: 1 • max: 100 • pattern: [0-9]+
     /// </summary>
     [CliOption("--flow-id")]
     public string? FlowId { get; private init; }
 
     /// <summary>
-    /// The updated name for the Flow. Constraints: o min: 1 o max: 200
+    /// The updated name for the Flow. Constraints: • min: 1 • max: 200
     /// </summary>
     [CliOption("--flow-name")]
     public string? FlowName { get; set; }
 
     /// <summary>
-    /// The updated categories for the Flow. Constraints: o min: 1 o max: 9 (string) The category that classifies the business purpose of a WhatsApp Flow. Possible values: o SIGN_UP o SIGN_IN o APPOINTMENT_BOOKING o LEAD_GENERATION o SHOPPING o CONTACT_US o CUSTOMER_SUPPORT o SURVEY o OTHER Syntax: "string" "string" ...
+    /// The updated categories for the Flow. Constraints: • min: 1 • max: 9 (string) The category that classifies the business purpose of a WhatsApp Flow. Possible values: • SIGN_UP • SIGN_IN • APPOINTMENT_BOOKING • LEAD_GENERATION • SHOPPING • CONTACT_US • CUSTOMER_SUPPORT • SURVEY • OTHER Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--categories", GroupValues = true)]
     public IEnumerable<string>? Categories { get; set; }
 
     /// <summary>
-    /// The updated HTTPS endpoint for a data exchange Flow. Constraints: o min: 1 o max: 2048
+    /// The updated HTTPS endpoint for a data exchange Flow. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--endpoint-uri")]
     public string? EndpointUri { get; set; }
 
     /// <summary>
-    /// The ID of the Meta application to attach to the Flow. Constraints: o min: 1 o max: 100
+    /// The ID of the Meta application to attach to the Flow. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--meta-app-id")]
     public string? MetaAppId { get; set; }
@@ -116,6 +117,15 @@ public record AwsSocialmessagingUpdateWhatsappFlowOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

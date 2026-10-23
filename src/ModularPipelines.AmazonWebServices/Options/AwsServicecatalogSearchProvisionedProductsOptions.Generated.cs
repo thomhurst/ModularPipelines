@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -25,19 +25,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsServicecatalogSearchProvisionedProductsOptions : AwsOptions
 {
     /// <summary>
-    /// The language code. o jp - Japanese o zh - Chinese Constraints: o max: 100
+    /// The language code. • jp - Japanese • zh - Chinese Constraints: • max: 100
     /// </summary>
     [CliOption("--accept-language")]
     public string? AcceptLanguage { get; set; }
 
     /// <summary>
-    /// The access level to use to obtain results. The default is Account . Key -&gt; (string) The access level. o Account - Filter results based on the account. o Role - Filter results based on the federated role of the spec- ified user. o User - Filter results based on the specified user. Possible values: o Account o Role o User Value -&gt; (string) The user to which the access level applies. The only supported value is self . Shorthand Syntax: Key=string,Value=string JSON Syntax: { "Key": "Account"|"Role"|"User", "Value": "string" }
+    /// The access level to use to obtain results. The default is Account . Key -&gt; (string) The access level. • Account - Filter results based on the account. • Role - Filter results based on the federated role of the specified user. • User - Filter results based on the specified user. Possible values: • Account • Role • User Value -&gt; (string) The user to which the access level applies. The only supported value is self . Shorthand Syntax: Key=string,Value=string JSON Syntax: { "Key": "Account"|"Role"|"User", "Value": "string" }
     /// </summary>
     [CliOption("--access-level-filter")]
     public string? AccessLevelFilter { get; set; }
 
     /// <summary>
-    /// The search filters. When the key is SearchQuery , the searchable fields are arn , creat- edTime , id , lastRecordId , idempotencyToken , name , physicalId , productId , provisioningArtifactId , type , status , tags , userArn , userArnSession , lastProvisioningRecordId , lastSuccessfulProvi- sioningRecordId , productName , and provisioningArtifactName . Example: "SearchQuery":["status:AVAILABLE"] key -&gt; (string) Possible values: o SearchQuery value -&gt; (list) (string) Shorthand Syntax: KeyName1=string,string,KeyName2=string,string Where valid key names are: SearchQuery JSON Syntax: {"SearchQuery": ["string", ...] ...}
+    /// The search filters. When the key is SearchQuery , the searchable fields are arn , createdTime , id , lastRecordId , idempotencyToken , name , physicalId , productId , provisioningArtifactId , type , status , tags , userArn , userArnSession , lastProvisioningRecordId , lastSuccessfulProvisioningRecordId , productName , and provisioningArtifactName . Example: "SearchQuery":["status:AVAILABLE"] key -&gt; (string) Possible values: • SearchQuery value -&gt; (list) (string) Shorthand Syntax: KeyName1=string,string,KeyName2=string,string Where valid key names are: SearchQuery JSON Syntax: {"SearchQuery": ["string", ...] ...}
     /// </summary>
     [CliOption("--filters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Filters { get; set; }
@@ -49,19 +49,19 @@ public record AwsServicecatalogSearchProvisionedProductsOptions : AwsOptions
     public string? SortBy { get; set; }
 
     /// <summary>
-    /// The sort order. If no value is specified, the results are not sorted. Possible values: o ASCENDING o DESCENDING
+    /// The sort order. If no value is specified, the results are not sorted. Possible values: • ASCENDING • DESCENDING
     /// </summary>
     [CliOption("--sort-order")]
     public AwsServicecatalogSearchProvisionedProductsSortOrder? SortOrder { get; set; }
 
     /// <summary>
-    /// The maximum number of items to return with this call. Constraints: o min: 0 o max: 100
+    /// The maximum number of items to return with this call. Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The page token for the next set of results. To retrieve the first set of results, use null. Constraints: o max: 2024 o pattern: [\u0009\u000a\u000d\u0020-\uD7FF\uE000-\uFFFD]*
+    /// The page token for the next set of results. To retrieve the first set of results, use null. Constraints: • max: 2024 • pattern: [\u0009\u000a\u000d\u0020-\uD7FF\uE000-\uFFFD]*
     /// </summary>
     [SecretValue]
     [CliOption("--page-token")]
@@ -72,5 +72,14 @@ public record AwsServicecatalogSearchProvisionedProductsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

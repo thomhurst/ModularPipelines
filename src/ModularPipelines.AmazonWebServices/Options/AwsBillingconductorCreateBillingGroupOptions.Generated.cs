@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -29,9 +29,9 @@ public record AwsBillingconductorCreateBillingGroupOptions : AwsOptions, IValida
     /// <summary>
     /// Creates a billing group that resembles a consolidated billing family that Amazon Web Services charges, based off of the predefined pricing plan computation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The billing group name. The names must be unique. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_\+=\.\-@]+</param>
-    /// <param name="AccountGrouping">The set of accounts that will be under the billing group. The set of accounts resemble the linked accounts in a consolidated billing fam- ily. LinkedAccountIds -&gt; (list) The account IDs that make up the billing group. Account IDs must be a part of the consolidated billing family, and not associated with another billing group. Constraints: o min: 0 o max: 30 (string) Constraints: o pattern: [0-9]{12} AutoAssociate -&gt; (boolean) Specifies if this billing group will automatically associate newly added Amazon Web Services accounts that join your consoli- dated billing family. ResponsibilityTransferArn -&gt; (string) The Amazon Resource Name (ARN) that identifies the transfer re- lationship owned by the Bill Transfer account (caller account). When specified, the PrimaryAccountId is no longer required. Constraints: o pattern: arn:[a-z0-9][a-z0-9-.]{0,62}:organiza- tions::\d{12}:transfer/o-[a-z0-9]{10,32}/(billing)/(in- bound|outbound)/rt-[0-9a-z]{8,32} Shorthand Syntax: LinkedAccountIds=string,string,AutoAssociate=boolean,ResponsibilityTransferArn=string JSON Syntax: { "LinkedAccountIds": ["string", ...], "AutoAssociate": true|false, "ResponsibilityTransferArn": "string" }</param>
-    /// <param name="ComputationPreference">The preferences and settings that will be used to compute the Amazon Web Services charges for a billing group. PricingPlanArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the pricing plan that's used to compute the Amazon Web Services charges for a billing group. Constraints: o pattern: arn:aws(-cn)?:billingconductor::(aws|[0-9]{12}):pric- ingplan/(BasicPricingPlan|Passthrough|[a-zA-Z0-9]{10}) Shorthand Syntax: PricingPlanArn=string JSON Syntax: { "PricingPlanArn": "string" }</param>
+    /// <param name="Name">The billing group name. The names must be unique. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_\+=\.\-@]+</param>
+    /// <param name="AccountGrouping">The set of accounts that will be under the billing group. The set of accounts resemble the linked accounts in a consolidated billing family. LinkedAccountIds -&gt; (list) The account IDs that make up the billing group. Account IDs must be a part of the consolidated billing family, and not associated with another billing group. Constraints: • min: 0 • max: 30 (string) Constraints: • pattern: [0-9]{12} AutoAssociate -&gt; (boolean) Specifies if this billing group will automatically associate newly added Amazon Web Services accounts that join your consolidated billing family. ResponsibilityTransferArn -&gt; (string) The Amazon Resource Name (ARN) that identifies the transfer relationship owned by the Bill Transfer account (caller account). When specified, the PrimaryAccountId is no longer required. Constraints: • pattern: arn:[a-z0-9][a-z0-9-.]{0,62}:organizations::\d{12}:transfer/o-[a-z0-9]{10,32}/(billing)/(inbound|outbound)/rt-[0-9a-z]{8,32} Shorthand Syntax: LinkedAccountIds=string,string,AutoAssociate=boolean,ResponsibilityTransferArn=string JSON Syntax: { "LinkedAccountIds": ["string", ...], "AutoAssociate": true|false, "ResponsibilityTransferArn": "string" }</param>
+    /// <param name="ComputationPreference">The preferences and settings that will be used to compute the Amazon Web Services charges for a billing group. PricingPlanArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the pricing plan that's used to compute the Amazon Web Services charges for a billing group. Constraints: • pattern: arn:aws(-cn)?:billingconductor::(aws|[0-9]{12}):pricingplan/(BasicPricingPlan|Passthrough|[a-zA-Z0-9]{10}) Shorthand Syntax: PricingPlanArn=string JSON Syntax: { "PricingPlanArn": "string" }</param>
     public AwsBillingconductorCreateBillingGroupOptions(
         string Name,
         string AccountGrouping,
@@ -66,44 +66,44 @@ public record AwsBillingconductorCreateBillingGroupOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The billing group name. The names must be unique. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_\+=\.\-@]+
+    /// The billing group name. The names must be unique. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_\+=\.\-@]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The set of accounts that will be under the billing group. The set of accounts resemble the linked accounts in a consolidated billing fam- ily. LinkedAccountIds -&gt; (list) The account IDs that make up the billing group. Account IDs must be a part of the consolidated billing family, and not associated with another billing group. Constraints: o min: 0 o max: 30 (string) Constraints: o pattern: [0-9]{12} AutoAssociate -&gt; (boolean) Specifies if this billing group will automatically associate newly added Amazon Web Services accounts that join your consoli- dated billing family. ResponsibilityTransferArn -&gt; (string) The Amazon Resource Name (ARN) that identifies the transfer re- lationship owned by the Bill Transfer account (caller account). When specified, the PrimaryAccountId is no longer required. Constraints: o pattern: arn:[a-z0-9][a-z0-9-.]{0,62}:organiza- tions::\d{12}:transfer/o-[a-z0-9]{10,32}/(billing)/(in- bound|outbound)/rt-[0-9a-z]{8,32} Shorthand Syntax: LinkedAccountIds=string,string,AutoAssociate=boolean,ResponsibilityTransferArn=string JSON Syntax: { "LinkedAccountIds": ["string", ...], "AutoAssociate": true|false, "ResponsibilityTransferArn": "string" }
+    /// The set of accounts that will be under the billing group. The set of accounts resemble the linked accounts in a consolidated billing family. LinkedAccountIds -&gt; (list) The account IDs that make up the billing group. Account IDs must be a part of the consolidated billing family, and not associated with another billing group. Constraints: • min: 0 • max: 30 (string) Constraints: • pattern: [0-9]{12} AutoAssociate -&gt; (boolean) Specifies if this billing group will automatically associate newly added Amazon Web Services accounts that join your consolidated billing family. ResponsibilityTransferArn -&gt; (string) The Amazon Resource Name (ARN) that identifies the transfer relationship owned by the Bill Transfer account (caller account). When specified, the PrimaryAccountId is no longer required. Constraints: • pattern: arn:[a-z0-9][a-z0-9-.]{0,62}:organizations::\d{12}:transfer/o-[a-z0-9]{10,32}/(billing)/(inbound|outbound)/rt-[0-9a-z]{8,32} Shorthand Syntax: LinkedAccountIds=string,string,AutoAssociate=boolean,ResponsibilityTransferArn=string JSON Syntax: { "LinkedAccountIds": ["string", ...], "AutoAssociate": true|false, "ResponsibilityTransferArn": "string" }
     /// </summary>
     [CliOption("--account-grouping")]
     public string? AccountGrouping { get; private init; }
 
     /// <summary>
-    /// The preferences and settings that will be used to compute the Amazon Web Services charges for a billing group. PricingPlanArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the pricing plan that's used to compute the Amazon Web Services charges for a billing group. Constraints: o pattern: arn:aws(-cn)?:billingconductor::(aws|[0-9]{12}):pric- ingplan/(BasicPricingPlan|Passthrough|[a-zA-Z0-9]{10}) Shorthand Syntax: PricingPlanArn=string JSON Syntax: { "PricingPlanArn": "string" }
+    /// The preferences and settings that will be used to compute the Amazon Web Services charges for a billing group. PricingPlanArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the pricing plan that's used to compute the Amazon Web Services charges for a billing group. Constraints: • pattern: arn:aws(-cn)?:billingconductor::(aws|[0-9]{12}):pricingplan/(BasicPricingPlan|Passthrough|[a-zA-Z0-9]{10}) Shorthand Syntax: PricingPlanArn=string JSON Syntax: { "PricingPlanArn": "string" }
     /// </summary>
     [CliOption("--computation-preference")]
     public string? ComputationPreference { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you specify to ensure idem- potency of the request. Idempotency ensures that an API request com- pletes no more than one time. With an idempotent request, if the original request completes successfully, any subsequent retries com- plete successfully without performing any further actions. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-]+
+    /// A unique, case-sensitive identifier that you specify to ensure idempotency of the request. Idempotency ensures that an API request completes no more than one time. With an idempotent request, if the original request completes successfully, any subsequent retries complete successfully without performing any further actions. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The account ID that serves as the main account in a billing group. Constraints: o pattern: [0-9]{12}
+    /// The account ID that serves as the main account in a billing group. Constraints: • pattern: [0-9]{12}
     /// </summary>
     [CliOption("--primary-account-id")]
     public string? PrimaryAccountId { get; set; }
 
     /// <summary>
-    /// The description of the billing group. Constraints: o min: 0 o max: 1024
+    /// The description of the billing group. Constraints: • min: 0 • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// A map that contains tag keys and tag values that are attached to a billing group. This feature isn't available during the beta. Constraints: o min: 1 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A map that contains tag keys and tag values that are attached to a billing group. This feature isn't available during the beta. Constraints: • min: 1 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -129,6 +129,15 @@ public record AwsBillingconductorCreateBillingGroupOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

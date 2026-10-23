@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsCodebuildGetResourcePolicyOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Gets a resource policy that is identified by its resource ARN. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The ARN of the resource that is associated with the resource policy. Constraints: o min: 1</param>
+    /// <param name="ResourceArn">The ARN of the resource that is associated with the resource policy. Constraints: • min: 1</param>
     public AwsCodebuildGetResourcePolicyOptions(
         string ResourceArn
     )
@@ -56,7 +57,7 @@ public record AwsCodebuildGetResourcePolicyOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the resource that is associated with the resource policy. Constraints: o min: 1
+    /// The ARN of the resource that is associated with the resource policy. Constraints: • min: 1
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsCodebuildGetResourcePolicyOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

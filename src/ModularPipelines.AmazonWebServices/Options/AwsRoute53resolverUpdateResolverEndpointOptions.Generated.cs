@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the name, or endpoint type for an inbound or an outbound Re- solver endpoint. You can only update between IPV4 and DUALSTACK, IPV6 endpoint type can't be updated to other type. See also: AWS API Documentation
+/// Updates the name, or endpoint type for an inbound or an outbound Resolver endpoint. You can only update between IPV4 and DUALSTACK, IPV6 endpoint type can't be updated to other type. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsRoute53resolverUpdateResolverEndpointOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the name, or endpoint type for an inbound or an outbound Re- solver endpoint. You can only update between IPV4 and DUALSTACK, IPV6 endpoint type can't be updated to other type. See also: AWS API Documentation
+    /// Updates the name, or endpoint type for an inbound or an outbound Resolver endpoint. You can only update between IPV4 and DUALSTACK, IPV6 endpoint type can't be updated to other type. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResolverEndpointId">The ID of the Resolver endpoint that you want to update. Constraints: o min: 1 o max: 64</param>
+    /// <param name="ResolverEndpointId">The ID of the Resolver endpoint that you want to update. Constraints: • min: 1 • max: 64</param>
     public AwsRoute53resolverUpdateResolverEndpointOptions(
         string ResolverEndpointId
     )
@@ -57,55 +58,55 @@ public record AwsRoute53resolverUpdateResolverEndpointOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Resolver endpoint that you want to update. Constraints: o min: 1 o max: 64
+    /// The ID of the Resolver endpoint that you want to update. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--resolver-endpoint-id")]
     public string? ResolverEndpointId { get; private init; }
 
     /// <summary>
-    /// The name of the Resolver endpoint that you want to update. Constraints: o max: 64 o pattern: (?!^[0-9]+$)([a-zA-Z0-9\-_' ']+)
+    /// The name of the Resolver endpoint that you want to update. Constraints: • max: 64 • pattern: (?!^[0-9]+$)([a-zA-Z0-9\-_' ']+)
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// Specifies the endpoint type for what type of IP address the endpoint uses to forward DNS queries. Updating to IPV6 type isn't currently supported. Possible values: o IPV6 o IPV4 o DUALSTACK
+    /// Specifies the endpoint type for what type of IP address the endpoint uses to forward DNS queries. Updating to IPV6 type isn't currently supported. Possible values: • IPV6 • IPV4 • DUALSTACK
     /// </summary>
     [CliOption("--resolver-endpoint-type")]
     public AwsRoute53resolverUpdateResolverEndpointResolverEndpointType? ResolverEndpointType { get; set; }
 
     /// <summary>
-    /// Specifies the IPv6 address when you update the Resolver endpoint from IPv4 to dual-stack. If you don't specify an IPv6 address, one will be automatically chosen from your subnet. Constraints: o min: 0 o max: 50 (structure) Provides information about the IP address type in response to UpdateResolverEndpoint . IpId -&gt; (string) [required] The ID of the IP address, specified by the ResolverEndpointId . Constraints: o min: 1 o max: 64 Ipv6 -&gt; (string) [required] The IPv6 address that you want to use for DNS queries. Constraints: o min: 7 o max: 39 Shorthand Syntax: IpId=string,Ipv6=string ... JSON Syntax: [ { "IpId": "string", "Ipv6": "string" } ... ]
+    /// Specifies the IPv6 address when you update the Resolver endpoint from IPv4 to dual-stack. If you don't specify an IPv6 address, one will be automatically chosen from your subnet. Constraints: • min: 0 • max: 50 (structure) Provides information about the IP address type in response to UpdateResolverEndpoint . IpId -&gt; (string) [required] The ID of the IP address, specified by the ResolverEndpointId . Constraints: • min: 1 • max: 64 Ipv6 -&gt; (string) [required] The IPv6 address that you want to use for DNS queries. Constraints: • min: 7 • max: 39 Shorthand Syntax: IpId=string,Ipv6=string ... JSON Syntax: [ { "IpId": "string", "Ipv6": "string" } ... ]
     /// </summary>
     [CliOption("--update-ip-addresses", GroupValues = true)]
     public IEnumerable<string>? UpdateIpAddresses { get; set; }
 
     /// <summary>
-    /// The protocols you want to use for the endpoint. DoH-FIPS is applica- ble for default inbound endpoints only. For a default inbound endpoint you can apply the protocols as fol- lows: o Do53 and DoH in combination. o Do53 and DoH-FIPS in combination. o Do53 alone. o DoH alone. o DoH-FIPS alone. o None, which is treated as Do53. For a delegation inbound endpoint you can use Do53 only. For an outbound endpoint you can apply the protocols as follows: o Do53 and DoH in combination. o Do53 alone. o DoH alone. o None, which is treated as Do53. WARNING: You can't change the protocol of an inbound endpoint directly from only Do53 to only DoH, or DoH-FIPS. This is to prevent a sudden disruption to incoming traffic that relies on Do53. To change the protocol from Do53 to DoH, or DoH-FIPS, you must first enable both Do53 and DoH, or Do53 and DoH-FIPS, to make sure that all incoming traffic has transferred to using the DoH protocol, or DoH-FIPS, and then remove the Do53. Constraints: o min: 1 o max: 2 (string) Possible values: o DoH o Do53 o DoH-FIPS Syntax: "string" "string" ...
+    /// The protocols you want to use for the endpoint. DoH-FIPS is applicable for default inbound endpoints only. For a default inbound endpoint you can apply the protocols as follows: • Do53 and DoH in combination. • Do53 and DoH-FIPS in combination. • Do53 alone. • DoH alone. • DoH-FIPS alone. • None, which is treated as Do53. For a delegation inbound endpoint you can use Do53 only. For an outbound endpoint you can apply the protocols as follows: • Do53 and DoH in combination. • Do53 alone. • DoH alone. • None, which is treated as Do53. WARNING: You can't change the protocol of an inbound endpoint directly from only Do53 to only DoH, or DoH-FIPS. This is to prevent a sudden disruption to incoming traffic that relies on Do53. To change the protocol from Do53 to DoH, or DoH-FIPS, you must first enable both Do53 and DoH, or Do53 and DoH-FIPS, to make sure that all incoming traffic has transferred to using the DoH protocol, or DoH-FIPS, and then remove the Do53. Constraints: • min: 1 • max: 2 (string) Possible values: • DoH • Do53 • DoH-FIPS Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--protocols", GroupValues = true)]
     public IEnumerable<string>? Protocols { get; set; }
 
     /// <summary>
-    /// Updates whether RNI enhanced metrics are enabled for the Resolver endpoints. When set to true, one-minute granular metrics are pub- lished in CloudWatch for each RNI associated with this endpoint. When set to false, metrics are not published. NOTE: Standard CloudWatch pricing and charges are applied for using the Route 53 Resolver endpoint RNI enhanced metrics. For more information, see Detailed metrics .
+    /// Updates whether RNI enhanced metrics are enabled for the Resolver endpoints. When set to true, one-minute granular metrics are published in CloudWatch for each RNI associated with this endpoint. When set to false, metrics are not published. NOTE: Standard CloudWatch pricing and charges are applied for using the Route 53 Resolver endpoint RNI enhanced metrics. For more information, see Detailed metrics .
     /// </summary>
     [CliFlag("--rni-enhanced-metrics-enabled", NegatedName = "--no-rni-enhanced-metrics-enabled")]
     public bool? RniEnhancedMetricsEnabled { get; set; }
 
     /// <summary>
-    /// rics-enabled (boolean) Updates whether target name server metrics are enabled for the out- bound Resolver endpoints. When set to true, one-minute granular met- rics are published in CloudWatch for each target name server associ- ated with this endpoint. When set to false, metrics are not pub- lished. This setting is not supported for inbound Resolver end- points. NOTE: Standard CloudWatch pricing and charges are applied for using the Route 53 Resolver endpoint target name server metrics. For more information, see Detailed metrics .
+    /// Updates whether target name server metrics are enabled for the outbound Resolver endpoints. When set to true, one-minute granular metrics are published in CloudWatch for each target name server associated with this endpoint. When set to false, metrics are not published. This setting is not supported for inbound Resolver endpoints. NOTE: Standard CloudWatch pricing and charges are applied for using the Route 53 Resolver endpoint target name server metrics. For more information, see Detailed metrics .
     /// </summary>
     [CliFlag("--target-name-server-metrics-enabled", NegatedName = "--no-target-name-server-metrics-enabled")]
     public bool? TargetNameServerMetricsEnabled { get; set; }
 
     /// <summary>
-    /// Specifies whether DNS64 is enabled for the inbound Resolver end- point. When set to true , Route 53 Resolver synthesizes AAAA (IPv6) records for IPv4-only services by prepending the 64:ff9b::/96 prefix to the IPv4 address. This enables IPv6-only clients that send queries through the inbound endpoint to reach IPv4-only services. DNS64 works with NAT64 to provide complete IPv6-to-IPv4 translation.
+    /// Specifies whether DNS64 is enabled for the inbound Resolver endpoint. When set to true , Route 53 Resolver synthesizes AAAA (IPv6) records for IPv4-only services by prepending the 64:ff9b::/96 prefix to the IPv4 address. This enables IPv6-only clients that send queries through the inbound endpoint to reach IPv4-only services. DNS64 works with NAT64 to provide complete IPv6-to-IPv4 translation.
     /// </summary>
     [CliFlag("--dns64-enabled", NegatedName = "--no-dns64-enabled")]
     public bool? Dns64Enabled { get; set; }
 
     /// <summary>
-    /// Specifies whether IPv6 internet access is enabled for the outbound Resolver endpoint. When set to true , the endpoint elastic network interfaces (ENIs) can forward DNS queries to public IPv6 targets through an internet gateway. WARNING: When you enable IPv6 internet access, use network controls like security groups, NACLs, or egress-only internet gateways to pro- tect the endpoint ENIs from unsolicited ingress traffic. Be aware that some network controls can affect DNS query throughput due to connection tracking. For more information, see Amazon EC2 security group connection tracking and Resolver endpoint scaling .
+    /// Specifies whether IPv6 internet access is enabled for the outbound Resolver endpoint. When set to true , the endpoint elastic network interfaces (ENIs) can forward DNS queries to public IPv6 targets through an internet gateway. WARNING: When you enable IPv6 internet access, use network controls like security groups, NACLs, or egress-only internet gateways to protect the endpoint ENIs from unsolicited ingress traffic. Be aware that some network controls can affect DNS query throughput due to connection tracking. For more information, see Amazon EC2 security group connection tracking and Resolver endpoint scaling .
     /// </summary>
     [CliFlag("--ipv6-internet-access-enabled", NegatedName = "--no-ipv6-internet-access-enabled")]
     public bool? Ipv6InternetAccessEnabled { get; set; }
@@ -131,6 +132,15 @@ public record AwsRoute53resolverUpdateResolverEndpointOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

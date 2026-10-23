@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of TLS security policies that you can apply to Lightsail load balancers. For more information about load balancer TLS security policies, see Configuring TLS security policies on your Amazon Lightsail load bal- ancers in the Amazon Lightsail Developer Guide . See also: AWS API Documentation
+/// Returns a list of TLS security policies that you can apply to Lightsail load balancers. For more information about load balancer TLS security policies, see Configuring TLS security policies on your Amazon Lightsail load balancers in the Amazon Lightsail Developer Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsLightsailGetLoadBalancerTlsPoliciesOptions : AwsOptions
 {
     /// <summary>
-    /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetLoadBalancerTlsPolicies request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subse- quent request.
+    /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetLoadBalancerTlsPolicies request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
     /// </summary>
     [SecretValue]
     [CliOption("--page-token")]
@@ -34,5 +34,14 @@ public record AwsLightsailGetLoadBalancerTlsPoliciesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

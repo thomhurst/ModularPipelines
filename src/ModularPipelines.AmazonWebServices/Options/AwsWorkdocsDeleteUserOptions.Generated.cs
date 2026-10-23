@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsWorkdocsDeleteUserOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes the specified user from a Simple AD or Microsoft AD directory. WARNING: Deleting a user immediately and permanently deletes all content in that user's folder structure. Site retention policies do NOT apply to this type of deletion. See also: AWS API Documentation
     /// </summary>
-    /// <param name="UserId">The ID of the user. Constraints: o min: 1 o max: 256 o pattern: [&amp;\w+-.@]+</param>
+    /// <param name="UserId">The ID of the user. Constraints: • min: 1 • max: 256 • pattern: [&amp;\w+-.@]+</param>
     public AwsWorkdocsDeleteUserOptions(
         string UserId
     )
@@ -57,13 +58,13 @@ public record AwsWorkdocsDeleteUserOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the user. Constraints: o min: 1 o max: 256 o pattern: [&amp;\w+-.@]+
+    /// The ID of the user. Constraints: • min: 1 • max: 256 • pattern: [&amp;\w+-.@]+
     /// </summary>
     [CliOption("--user-id")]
     public string? UserId { get; private init; }
 
     /// <summary>
-    /// Amazon WorkDocs authentication token. Do not set this field when us- ing administrative API actions, as in accessing the API using Amazon Web Services credentials. Constraints: o min: 1 o max: 8199
+    /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using Amazon Web Services credentials. Constraints: • min: 1 • max: 8199
     /// </summary>
     [SecretValue]
     [CliOption("--authentication-token")]
@@ -90,6 +91,15 @@ public record AwsWorkdocsDeleteUserOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

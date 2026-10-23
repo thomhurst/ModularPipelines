@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -63,7 +64,7 @@ public record AwsCloudformationDescribeStackSetOptions : AwsOptions, IValidatabl
     public string? StackSetName { get; private init; }
 
     /// <summary>
-    /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for StackSets with self-man- aged permissions. o If you are signed in to the management account, specify SELF . o If you are signed in to a delegated administrator account, specify DELEGATED_ADMIN . Your Amazon Web Services account must be regis- tered as a delegated administrator in the management account. For more information, see Register a delegated administrator in the CloudFormation User Guide . Possible values: o SELF o DELEGATED_ADMIN
+    /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for StackSets with self-managed permissions. • If you are signed in to the management account, specify SELF . • If you are signed in to a delegated administrator account, specify DELEGATED_ADMIN . Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see Register a delegated administrator in the CloudFormation User Guide . Possible values: • SELF • DELEGATED_ADMIN
     /// </summary>
     [CliOption("--call-as")]
     public AwsCloudformationDescribeStackSetCallAs? CallAs { get; set; }
@@ -89,6 +90,15 @@ public record AwsCloudformationDescribeStackSetOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

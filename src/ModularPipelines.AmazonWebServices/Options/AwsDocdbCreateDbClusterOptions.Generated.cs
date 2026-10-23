@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsDocdbCreateDbClusterOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a new Amazon DocumentDB cluster. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DbClusterIdentifier">The cluster identifier. This parameter is stored as a lowercase string. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens. o The first character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. Example: my-cluster</param>
+    /// <param name="DbClusterIdentifier">The cluster identifier. This parameter is stored as a lowercase string. Constraints: • Must contain from 1 to 63 letters, numbers, or hyphens. • The first character must be a letter. • Cannot end with a hyphen or contain two consecutive hyphens. Example: my-cluster</param>
     /// <param name="Engine">The name of the database engine to be used for this cluster. Valid values: docdb</param>
     public AwsDocdbCreateDbClusterOptions(
         string DbClusterIdentifier,
@@ -61,7 +62,7 @@ public record AwsDocdbCreateDbClusterOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The cluster identifier. This parameter is stored as a lowercase string. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens. o The first character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. Example: my-cluster
+    /// The cluster identifier. This parameter is stored as a lowercase string. Constraints: • Must contain from 1 to 63 letters, numbers, or hyphens. • The first character must be a letter. • Cannot end with a hyphen or contain two consecutive hyphens. Example: my-cluster
     /// </summary>
     [CliOption("--db-cluster-identifier")]
     public string? DbClusterIdentifier { get; private init; }
@@ -73,19 +74,19 @@ public record AwsDocdbCreateDbClusterOptions : AwsOptions, IValidatableObject
     public string? Engine { get; private init; }
 
     /// <summary>
-    /// A list of Amazon EC2 Availability Zones that instances in the clus- ter can be created in. (string) Syntax: "string" "string" ...
+    /// A list of Amazon EC2 Availability Zones that instances in the cluster can be created in. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--availability-zones", GroupValues = true)]
     public IEnumerable<string>? AvailabilityZones { get; set; }
 
     /// <summary>
-    /// The number of days for which automated backups are retained. You must specify a minimum value of 1. Default: 1 Constraints: o Must be a value from 1 to 35.
+    /// The number of days for which automated backups are retained. You must specify a minimum value of 1. Default: 1 Constraints: • Must be a value from 1 to 35.
     /// </summary>
     [CliOption("--backup-retention-period")]
     public int? BackupRetentionPeriod { get; set; }
 
     /// <summary>
-    /// The name of the cluster parameter group to associate with this clus- ter.
+    /// The name of the cluster parameter group to associate with this cluster.
     /// </summary>
     [CliOption("--db-cluster-parameter-group-name")]
     public string? DbClusterParameterGroupName { get; set; }
@@ -103,19 +104,19 @@ public record AwsDocdbCreateDbClusterOptions : AwsOptions, IValidatableObject
     public string? DbSubnetGroupName { get; set; }
 
     /// <summary>
-    /// The version number of the database engine to use. The --engine-ver- sion will default to the latest major engine version. For production workloads, we recommend explicitly declaring this parameter with the intended major engine version.
+    /// The version number of the database engine to use. The --engine-version will default to the latest major engine version. For production workloads, we recommend explicitly declaring this parameter with the intended major engine version.
     /// </summary>
     [CliOption("--engine-version")]
     public string? EngineVersion { get; set; }
 
     /// <summary>
-    /// The port number on which the instances in the cluster accept connec- tions.
+    /// The port number on which the instances in the cluster accept connections.
     /// </summary>
     [CliOption("--port")]
     public int? Port { get; set; }
 
     /// <summary>
-    /// The name of the master user for the cluster. Constraints: o Must be from 1 to 63 letters or numbers. o The first character must be a letter. o Cannot be a reserved word for the chosen database engine.
+    /// The name of the master user for the cluster. Constraints: • Must be from 1 to 63 letters or numbers. • The first character must be a letter. • Cannot be a reserved word for the chosen database engine.
     /// </summary>
     [CliOption("--master-username")]
     public string? MasterUsername { get; set; }
@@ -128,7 +129,7 @@ public record AwsDocdbCreateDbClusterOptions : AwsOptions, IValidatableObject
     public string? MasterUserPassword { get; set; }
 
     /// <summary>
-    /// The daily time range during which automated backups are created if automated backups are enabled using the BackupRetentionPeriod para- meter. The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Web Services Region. Constraints: o Must be in the format hh24:mi-hh24:mi . o Must be in Universal Coordinated Time (UTC). o Must not conflict with the preferred maintenance window. o Must be at least 30 minutes.
+    /// The daily time range during which automated backups are created if automated backups are enabled using the BackupRetentionPeriod parameter. The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Web Services Region. Constraints: • Must be in the format hh24:mi-hh24:mi . • Must be in Universal Coordinated Time (UTC). • Must not conflict with the preferred maintenance window. • Must be at least 30 minutes.
     /// </summary>
     [CliOption("--preferred-backup-window")]
     public string? PreferredBackupWindow { get; set; }
@@ -152,7 +153,7 @@ public record AwsDocdbCreateDbClusterOptions : AwsOptions, IValidatableObject
     public bool? StorageEncrypted { get; set; }
 
     /// <summary>
-    /// The KMS key identifier for an encrypted cluster. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a cluster using the same Amazon Web Services account that owns the KMS encryption key that is used to encrypt the new cluster, you can use the KMS key alias instead of the ARN for the KMS encryption key. If an encryption key is not specified in KmsKeyId : o If the StorageEncrypted parameter is true , Amazon DocumentDB uses your default encryption key. KMS creates the default encryption key for your Amazon Web Services account. Your Amazon Web Services account has a different default encryption key for each Amazon Web Services Regions.
+    /// The KMS key identifier for an encrypted cluster. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a cluster using the same Amazon Web Services account that owns the KMS encryption key that is used to encrypt the new cluster, you can use the KMS key alias instead of the ARN for the KMS encryption key. If an encryption key is not specified in KmsKeyId : • If the StorageEncrypted parameter is true , Amazon DocumentDB uses your default encryption key. KMS creates the default encryption key for your Amazon Web Services account. Your Amazon Web Services account has a different default encryption key for each Amazon Web Services Regions.
     /// </summary>
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
@@ -176,19 +177,19 @@ public record AwsDocdbCreateDbClusterOptions : AwsOptions, IValidatableObject
     public bool? DeletionProtection { get; set; }
 
     /// <summary>
-    /// The cluster identifier of the new global cluster. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][0-9A-Za-z-:._]*
+    /// The cluster identifier of the new global cluster. Constraints: • min: 1 • max: 255 • pattern: [A-Za-z][0-9A-Za-z-:._]*
     /// </summary>
     [CliOption("--global-cluster-identifier")]
     public string? GlobalClusterIdentifier { get; set; }
 
     /// <summary>
-    /// The storage type to associate with the DB cluster. For information on storage types for Amazon DocumentDB clusters, see Cluster storage configurations in the Amazon DocumentDB Developer Guide . Valid values for storage type - standard | iopt1 Default value is standard NOTE: When you create an Amazon DocumentDB cluster with the storage type set to iopt1 , the storage type is returned in the re- sponse. The storage type isn't returned when you set it to stan- dard .
+    /// The storage type to associate with the DB cluster. For information on storage types for Amazon DocumentDB clusters, see Cluster storage configurations in the Amazon DocumentDB Developer Guide . Valid values for storage type - standard | iopt1 Default value is standard NOTE: When you create an Amazon DocumentDB cluster with the storage type set to iopt1 , the storage type is returned in the response. The storage type isn't returned when you set it to standard .
     /// </summary>
     [CliOption("--storage-type")]
     public string? StorageType { get; set; }
 
     /// <summary>
-    /// Contains the scaling configuration of an Amazon DocumentDB Server- less cluster. MinCapacity -&gt; (double) The minimum number of Amazon DocumentDB capacity units (DCUs) for an instance in an Amazon DocumentDB Serverless cluster. You can specify DCU values in half-step increments, such as 8, 8.5, 9, and so on. MaxCapacity -&gt; (double) The maximum number of Amazon DocumentDB capacity units (DCUs) for an instance in an Amazon DocumentDB Serverless cluster. You can specify DCU values in half-step increments, such as 32, 32.5, 33, and so on. Shorthand Syntax: MinCapacity=double,MaxCapacity=double JSON Syntax: { "MinCapacity": double, "MaxCapacity": double }
+    /// Contains the scaling configuration of an Amazon DocumentDB Serverless cluster. MinCapacity -&gt; (double) The minimum number of Amazon DocumentDB capacity units (DCUs) for an instance in an Amazon DocumentDB Serverless cluster. You can specify DCU values in half-step increments, such as 8, 8.5, 9, and so on. MaxCapacity -&gt; (double) The maximum number of Amazon DocumentDB capacity units (DCUs) for an instance in an Amazon DocumentDB Serverless cluster. You can specify DCU values in half-step increments, such as 32, 32.5, 33, and so on. Shorthand Syntax: MinCapacity=double,MaxCapacity=double JSON Syntax: { "MinCapacity": double, "MaxCapacity": double }
     /// </summary>
     [CliOption("--serverless-v2-scaling-configuration")]
     public string? ServerlessV2ScalingConfiguration { get; set; }
@@ -200,7 +201,7 @@ public record AwsDocdbCreateDbClusterOptions : AwsOptions, IValidatableObject
     public bool? ManageMasterUserPassword { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services KMS key identifier to encrypt a secret that is automatically generated and managed in Amazon Web Services Se- crets Manager. This setting is valid only if the master user pass- word is managed by Amazon DocumentDB in Amazon Web Services Secrets Manager for the DB cluster. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a dif- ferent Amazon Web Services account, specify the key ARN or alias ARN. If you don't specify MasterUserSecretKmsKeyId , then the aws/se- cretsmanager KMS key is used to encrypt the secret. If the secret is in a different Amazon Web Services account, then you can't use the aws/secretsmanager KMS key to encrypt the secret, and you must use a customer managed KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
+    /// The Amazon Web Services KMS key identifier to encrypt a secret that is automatically generated and managed in Amazon Web Services Secrets Manager. This setting is valid only if the master user password is managed by Amazon DocumentDB in Amazon Web Services Secrets Manager for the DB cluster. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. If you don't specify MasterUserSecretKmsKeyId , then the aws/secretsmanager KMS key is used to encrypt the secret. If the secret is in a different Amazon Web Services account, then you can't use the aws/secretsmanager KMS key to encrypt the secret, and you must use a customer managed KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
     /// </summary>
     [CliOption("--master-user-secret-kms-key-id")]
     public string? MasterUserSecretKmsKeyId { get; set; }
@@ -244,6 +245,15 @@ public record AwsDocdbCreateDbClusterOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

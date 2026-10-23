@@ -24,80 +24,80 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSavingsplansDescribeSavingsPlansOfferingsOptions : AwsOptions
 {
     /// <summary>
-    /// The IDs of the offerings. (string) Constraints: o pattern: [a-f0-9]+(-[a-f0-9]+)* Syntax: "string" "string" ...
+    /// The IDs of the offerings. (string) Constraints: • pattern: [a-f0-9]+(-[a-f0-9]+)* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--offering-ids", GroupValues = true)]
     public IEnumerable<string>? OfferingIds { get; set; }
 
     /// <summary>
-    /// The payment options. (string) Possible values: o All Upfront o Partial Upfront o No Upfront Syntax: "string" "string" ...
+    /// The payment options. (string) Possible values: • All Upfront • Partial Upfront • No Upfront Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--payment-options", GroupValues = true)]
     public IEnumerable<string>? PaymentOptions { get; set; }
 
     /// <summary>
-    /// The product type. Possible values: o EC2 o Fargate o Lambda o SageMaker o RDS o DSQL o DynamoDB o ElastiCache o DocDB o Neptune o Timestream o Keyspaces o DMS o OpenSearch
+    /// The product type. Possible values: • EC2 • Fargate • Lambda • SageMaker • RDS • DSQL • DynamoDB • ElastiCache • DocDB • Neptune • Timestream • Keyspaces • DMS • OpenSearch
     /// </summary>
     [CliOption("--product-type")]
     public AwsSavingsplansDescribeSavingsPlansOfferingsProductType? ProductType { get; set; }
 
     /// <summary>
-    /// The plan types. (string) Possible values: o Compute o EC2Instance o SageMaker o Database Syntax: "string" "string" ...
+    /// The plan types. (string) Possible values: • Compute • EC2Instance • SageMaker • Database Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--plan-types", GroupValues = true)]
     public IEnumerable<string>? PlanTypes { get; set; }
 
     /// <summary>
-    /// The duration, in seconds. (long) Constraints: o min: 0 Syntax: long long ...
+    /// The duration, in seconds. (long) Constraints: • min: 0 Syntax: long long ...
     /// </summary>
     [CliOption("--durations", GroupValues = true)]
     public IEnumerable<string>? Durations { get; set; }
 
     /// <summary>
-    /// The currencies. (string) Possible values: o CNY o USD o EUR Syntax: "string" "string" ...
+    /// The currencies. (string) Possible values: • CNY • USD • EUR Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--currencies", GroupValues = true)]
     public IEnumerable<string>? Currencies { get; set; }
 
     /// <summary>
-    /// The descriptions. (string) Constraints: o pattern: ^[a-zA-Z0-9_\- ]+$ Syntax: "string" "string" ...
+    /// The descriptions. (string) Constraints: • pattern: ^[a-zA-Z0-9_\- ]+$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--descriptions", GroupValues = true)]
     public IEnumerable<string>? Descriptions { get; set; }
 
     /// <summary>
-    /// The services. (string) Constraints: o max: 255 o pattern: ^[a-zA-Z]+$ Syntax: "string" "string" ...
+    /// The services. (string) Constraints: • max: 255 • pattern: ^[a-zA-Z]+$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--service-codes", GroupValues = true)]
     public IEnumerable<string>? ServiceCodes { get; set; }
 
     /// <summary>
-    /// The usage details of the line item in the billing report. (string) Constraints: o max: 255 o pattern: ^[a-zA-Z0-9_ \/.:-]+$ Syntax: "string" "string" ...
+    /// The usage details of the line item in the billing report. (string) Constraints: • max: 255 • pattern: ^[a-zA-Z0-9_ \/.:-]+$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--usage-types", GroupValues = true)]
     public IEnumerable<string>? UsageTypes { get; set; }
 
     /// <summary>
-    /// The specific Amazon Web Services operation for the line item in the billing report. (string) Constraints: o max: 255 o pattern: ^[a-zA-Z0-9_ \/.:-]*$ Syntax: "string" "string" ...
+    /// The specific Amazon Web Services operation for the line item in the billing report. (string) Constraints: • max: 255 • pattern: ^[a-zA-Z0-9_ \/.:-]*$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--operations", GroupValues = true)]
     public IEnumerable<string>? Operations { get; set; }
 
     /// <summary>
-    /// The filters. (structure) Information about a Savings Plan offering filter. name -&gt; (string) The filter name. Possible values: o region o instanceFamily values -&gt; (list) The filter values. (string) Constraints: o pattern: ^[a-zA-Z0-9_ \/.\:\-\(\)]+$ Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "region"|"instanceFamily", "values": ["string", ...] } ... ]
+    /// The filters. (structure) Information about a Savings Plan offering filter. name -&gt; (string) The filter name. Possible values: • region • instanceFamily values -&gt; (list) The filter values. (string) Constraints: • pattern: ^[a-zA-Z0-9_ \/.\:\-\(\)]+$ Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "region"|"instanceFamily", "values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
-    /// The token for the next page of results. Constraints: o max: 1024 o pattern: ^[A-Za-z0-9/=\+]+$
+    /// The token for the next page of results. Constraints: • max: 1024 • pattern: ^[A-Za-z0-9/=\+]+$
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return with a single call. To re- trieve additional results, make another call with the returned token value. Constraints: o min: 0 o max: 1000
+    /// The maximum number of results to return with a single call. To retrieve additional results, make another call with the returned token value. Constraints: • min: 0 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -107,5 +107,14 @@ public record AwsSavingsplansDescribeSavingsPlansOfferingsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieve details of an EnabledBaseline resource by specifying its iden- tifier. See also: AWS API Documentation get-enabled-baseline uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+/// Retrieve details of an EnabledBaseline resource by specifying its identifier. See also: AWS API Documentation get-enabled-baseline uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsControltowerGetEnabledBaselineOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieve details of an EnabledBaseline resource by specifying its iden- tifier. See also: AWS API Documentation get-enabled-baseline uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Retrieve details of an EnabledBaseline resource by specifying its identifier. See also: AWS API Documentation get-enabled-baseline uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
-    /// <param name="EnabledBaselineIdentifier">Identifier of the EnabledBaseline resource to be retrieved, in ARN format. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[0-9a-zA-Z_\-:\/]+</param>
+    /// <param name="EnabledBaselineIdentifier">Identifier of the EnabledBaseline resource to be retrieved, in ARN format. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[0-9a-zA-Z_\-:\/]+</param>
     public AwsControltowerGetEnabledBaselineOptions(
         string EnabledBaselineIdentifier
     )
@@ -56,7 +57,7 @@ public record AwsControltowerGetEnabledBaselineOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Identifier of the EnabledBaseline resource to be retrieved, in ARN format. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[0-9a-zA-Z_\-:\/]+
+    /// Identifier of the EnabledBaseline resource to be retrieved, in ARN format. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[0-9a-zA-Z_\-:\/]+
     /// </summary>
     [CliOption("--enabled-baseline-identifier")]
     public string? EnabledBaselineIdentifier { get; private init; }
@@ -82,6 +83,15 @@ public record AwsControltowerGetEnabledBaselineOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsDynamodbEnableKinesisStreamingDestinationOptions : AwsOptions, 
     /// <summary>
     /// Starts table data replication to the specified Kinesis data stream at a timestamp chosen during the enable workflow. If this operation doesn't return results immediately, use DescribeKinesisStreamingDestination to check if streaming to the Kinesis data stream is ACTIVE. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TableName">The name of the DynamoDB table. You can also provide the Amazon Re- source Name (ARN) of the table in this parameter. Constraints: o min: 1 o max: 1024</param>
-    /// <param name="StreamArn">The ARN for a Kinesis data stream. Constraints: o min: 37 o max: 1024</param>
+    /// <param name="TableName">The name of the DynamoDB table. You can also provide the Amazon Resource Name (ARN) of the table in this parameter. Constraints: • min: 1 • max: 1024</param>
+    /// <param name="StreamArn">The ARN for a Kinesis data stream. Constraints: • min: 37 • max: 1024</param>
     public AwsDynamodbEnableKinesisStreamingDestinationOptions(
         string TableName,
         string StreamArn
@@ -60,19 +61,19 @@ public record AwsDynamodbEnableKinesisStreamingDestinationOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the DynamoDB table. You can also provide the Amazon Re- source Name (ARN) of the table in this parameter. Constraints: o min: 1 o max: 1024
+    /// The name of the DynamoDB table. You can also provide the Amazon Resource Name (ARN) of the table in this parameter. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--table-name")]
     public string? TableName { get; private init; }
 
     /// <summary>
-    /// The ARN for a Kinesis data stream. Constraints: o min: 37 o max: 1024
+    /// The ARN for a Kinesis data stream. Constraints: • min: 37 • max: 1024
     /// </summary>
     [CliOption("--stream-arn")]
     public string? StreamArn { get; private init; }
 
     /// <summary>
-    /// The source for the Kinesis streaming information that is being en- abled. ApproximateCreationDateTimePrecision -&gt; (string) Toggle for the precision of Kinesis data stream timestamp. The values are either MILLISECOND or MICROSECOND . Possible values: o MILLISECOND o MICROSECOND Shorthand Syntax: ApproximateCreationDateTimePrecision=string JSON Syntax: { "ApproximateCreationDateTimePrecision": "MILLISECOND"|"MICROSECOND" }
+    /// The source for the Kinesis streaming information that is being enabled. ApproximateCreationDateTimePrecision -&gt; (string) Toggle for the precision of Kinesis data stream timestamp. The values are either MILLISECOND or MICROSECOND . Possible values: • MILLISECOND • MICROSECOND Shorthand Syntax: ApproximateCreationDateTimePrecision=string JSON Syntax: { "ApproximateCreationDateTimePrecision": "MILLISECOND"|"MICROSECOND" }
     /// </summary>
     [CliOption("--enable-kinesis-streaming-configuration")]
     public string? EnableKinesisStreamingConfiguration { get; set; }
@@ -98,6 +99,15 @@ public record AwsDynamodbEnableKinesisStreamingDestinationOptions : AwsOptions, 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

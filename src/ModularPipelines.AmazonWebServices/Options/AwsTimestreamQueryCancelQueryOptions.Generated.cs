@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsTimestreamQueryCancelQueryOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Cancels a query that has been issued. Cancellation is provided only if the query has not completed running before the cancellation request was issued. Because cancellation is an idempotent operation, subsequent cancellation requests will return a CancellationMessage , indicating that the query has already been canceled. See code sample for details. See also: AWS API Documentation
     /// </summary>
-    /// <param name="QueryId">The ID of the query that needs to be cancelled. QueryID is returned as part of the query result. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9]+</param>
+    /// <param name="QueryId">The ID of the query that needs to be cancelled. QueryID is returned as part of the query result. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9]+</param>
     public AwsTimestreamQueryCancelQueryOptions(
         string QueryId
     )
@@ -56,7 +57,7 @@ public record AwsTimestreamQueryCancelQueryOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the query that needs to be cancelled. QueryID is returned as part of the query result. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9]+
+    /// The ID of the query that needs to be cancelled. QueryID is returned as part of the query result. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9]+
     /// </summary>
     [CliOption("--query-id")]
     public string? QueryId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsTimestreamQueryCancelQueryOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

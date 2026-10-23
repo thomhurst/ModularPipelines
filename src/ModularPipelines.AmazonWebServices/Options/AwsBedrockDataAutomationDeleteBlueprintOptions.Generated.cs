@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsBedrockDataAutomationDeleteBlueprintOptions : AwsOptions, IVali
     /// <summary>
     /// Deletes an existing Amazon Bedrock Data Automation Blueprint See also: AWS API Documentation
     /// </summary>
-    /// <param name="BlueprintArn">ARN generated at the server side when a Blueprint is created Constraints: o min: 0 o max: 128 o pattern: arn:aws(|-cn|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):blue- print/(bedrock-data-automation-pub- lic-[a-zA-Z0-9-_]{1,30}|[a-zA-Z0-9-]{12,36})</param>
+    /// <param name="BlueprintArn">ARN generated at the server side when a Blueprint is created Constraints: • min: 0 • max: 128 • pattern: arn:aws(|-cn|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):blueprint/(bedrock-data-automation-public-[a-zA-Z0-9-_]{1,30}|[a-zA-Z0-9-]{12,36})</param>
     public AwsBedrockDataAutomationDeleteBlueprintOptions(
         string BlueprintArn
     )
@@ -56,13 +57,13 @@ public record AwsBedrockDataAutomationDeleteBlueprintOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ARN generated at the server side when a Blueprint is created Constraints: o min: 0 o max: 128 o pattern: arn:aws(|-cn|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):blue- print/(bedrock-data-automation-pub- lic-[a-zA-Z0-9-_]{1,30}|[a-zA-Z0-9-]{12,36})
+    /// ARN generated at the server side when a Blueprint is created Constraints: • min: 0 • max: 128 • pattern: arn:aws(|-cn|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):blueprint/(bedrock-data-automation-public-[a-zA-Z0-9-_]{1,30}|[a-zA-Z0-9-]{12,36})
     /// </summary>
     [CliOption("--blueprint-arn")]
     public string? BlueprintArn { get; private init; }
 
     /// <summary>
-    /// Optional field to delete a specific Blueprint version Constraints: o min: 1 o max: 128 o pattern: [0-9]*
+    /// Optional field to delete a specific Blueprint version Constraints: • min: 1 • max: 128 • pattern: [0-9]*
     /// </summary>
     [CliOption("--blueprint-version")]
     public string? BlueprintVersion { get; set; }
@@ -88,6 +89,15 @@ public record AwsBedrockDataAutomationDeleteBlueprintOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

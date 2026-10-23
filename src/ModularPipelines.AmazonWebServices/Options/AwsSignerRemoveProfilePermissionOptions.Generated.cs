@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsSignerRemoveProfilePermissionOptions : AwsOptions, IValidatable
     /// <summary>
     /// Removes cross-account permissions from a signing profile. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProfileName">A human-readable name for the signing profile with permissions to be removed. Constraints: o min: 2 o max: 64 o pattern: ^[a-zA-Z0-9_]{2,}</param>
-    /// <param name="RevisionId">An identifier for the current revision of the signing profile per- missions.</param>
+    /// <param name="ProfileName">A human-readable name for the signing profile with permissions to be removed. Constraints: • min: 2 • max: 64 • pattern: ^[a-zA-Z0-9_]{2,}</param>
+    /// <param name="RevisionId">An identifier for the current revision of the signing profile permissions.</param>
     /// <param name="StatementId">A unique identifier for the cross-account permissions statement.</param>
     public AwsSignerRemoveProfilePermissionOptions(
         string ProfileName,
@@ -64,13 +65,13 @@ public record AwsSignerRemoveProfilePermissionOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A human-readable name for the signing profile with permissions to be removed. Constraints: o min: 2 o max: 64 o pattern: ^[a-zA-Z0-9_]{2,}
+    /// A human-readable name for the signing profile with permissions to be removed. Constraints: • min: 2 • max: 64 • pattern: ^[a-zA-Z0-9_]{2,}
     /// </summary>
     [CliOption("--profile-name")]
     public string? ProfileName { get; private init; }
 
     /// <summary>
-    /// An identifier for the current revision of the signing profile per- missions.
+    /// An identifier for the current revision of the signing profile permissions.
     /// </summary>
     [CliOption("--revision-id")]
     public string? RevisionId { get; private init; }
@@ -102,6 +103,15 @@ public record AwsSignerRemoveProfilePermissionOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

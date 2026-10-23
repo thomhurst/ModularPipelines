@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an activity. An activity is a task that you write in any pro- gramming language and host on any machine that has access to Step Func- tions. Activities must poll Step Functions using the GetActivityTask API action and respond using SendTask* API actions. This function lets Step Functions know the existence of your activity and returns an iden- tifier for use in a state machine and when polling from the activity. NOTE: This operation is eventually consistent. The results are best effort a...
+/// Creates an activity. An activity is a task that you write in any programming language and host on any machine that has access to Step Functions. Activities must poll Step Functions using the GetActivityTask API action and respond using SendTask* API actions. This function lets Step Functions know the existence of your activity and returns an identifier for use in a state machine and when polling from the activity. NOTE: This operation is eventually consistent. The results are best effort and may...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsStepfunctionsCreateActivityOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an activity. An activity is a task that you write in any pro- gramming language and host on any machine that has access to Step Func- tions. Activities must poll Step Functions using the GetActivityTask API action and respond using SendTask* API actions. This function lets Step Functions know the existence of your activity and returns an iden- tifier for use in a state machine and when polling from the activity. NOTE: This operation is eventually consistent. The results are best effort a...
+    /// Creates an activity. An activity is a task that you write in any programming language and host on any machine that has access to Step Functions. Activities must poll Step Functions using the GetActivityTask API action and respond using SendTask* API actions. This function lets Step Functions know the existence of your activity and returns an identifier for use in a state machine and when polling from the activity. NOTE: This operation is eventually consistent. The results are best effort and may...
     /// </summary>
-    /// <param name="Name">The name of the activity to create. This name must be unique for your Amazon Web Services account and region. A name must not contain: o white space o brackets &lt; &gt; { } [ ] o wildcard characters ? * o special characters " # % \ ^ | ~ ` $ &amp; , ; : / o control characters (U+0000-001F , U+007F-009F , U+FFFE-FFFF ) o surrogates (U+D800-DFFF ) o invalid characters (U+10FFFF ) To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _. Constraints: o min: 1 o max: 80</param>
+    /// <param name="Name">The name of the activity to create. This name must be unique for your Amazon Web Services account and region. A name must not contain: • white space • brackets &lt; &gt; { } [ ] • wildcard characters ? * • special characters " # % \ ^ | ~ ` $ &amp; , ; : / • control characters (U+0000-001F , U+007F-009F , U+FFFE-FFFF ) • surrogates (U+D800-DFFF ) • invalid characters (U+10FFFF ) To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _. Constraints: • min: 1 • max: 80</param>
     public AwsStepfunctionsCreateActivityOptions(
         string Name
     )
@@ -56,19 +57,19 @@ public record AwsStepfunctionsCreateActivityOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the activity to create. This name must be unique for your Amazon Web Services account and region. A name must not contain: o white space o brackets &lt; &gt; { } [ ] o wildcard characters ? * o special characters " # % \ ^ | ~ ` $ &amp; , ; : / o control characters (U+0000-001F , U+007F-009F , U+FFFE-FFFF ) o surrogates (U+D800-DFFF ) o invalid characters (U+10FFFF ) To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _. Constraints: o min: 1 o max: 80
+    /// The name of the activity to create. This name must be unique for your Amazon Web Services account and region. A name must not contain: • white space • brackets &lt; &gt; { } [ ] • wildcard characters ? * • special characters " # % \ ^ | ~ ` $ &amp; , ; : / • control characters (U+0000-001F , U+007F-009F , U+FFFE-FFFF ) • surrogates (U+D800-DFFF ) • invalid characters (U+10FFFF ) To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _. Constraints: • min: 1 • max: 80
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The list of tags to add to a resource. An array of key-value pairs. For more information, see Using Cost Allocation Tags in the Amazon Web Services Billing and Cost Manage- ment User Guide , and Controlling Access Using IAM Tags . Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @ . (structure) Tags are key-value pairs that can be associated with Step Func- tions state machines and activities. An array of key-value pairs. For more information, see Using Cost Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide , and Controlling Access Using IAM Tags . Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @ . key -&gt; (string) The key of a tag. Constraints: o min: 1 o max: 128 value -&gt; (string) The value of a tag. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// The list of tags to add to a resource. An array of key-value pairs. For more information, see Using Cost Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide , and Controlling Access Using IAM Tags . Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @ . (structure) Tags are key-value pairs that can be associated with Step Functions state machines and activities. An array of key-value pairs. For more information, see Using Cost Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide , and Controlling Access Using IAM Tags . Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @ . key -&gt; (string) The key of a tag. Constraints: • min: 1 • max: 128 value -&gt; (string) The value of a tag. Constraints: • min: 0 • max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Settings to configure server-side encryption. kmsKeyId -&gt; (string) An alias, alias ARN, key ID, or key ARN of a symmetric encryp- tion KMS key to encrypt data. To specify a KMS key in a differ- ent Amazon Web Services account, you must use the key ARN or alias ARN. Constraints: o min: 1 o max: 2048 kmsDataKeyReusePeriodSeconds -&gt; (integer) Maximum duration that Step Functions will reuse data keys. When the period expires, Step Functions will call GenerateDataKey . Only applies to customer managed keys. Constraints: o min: 60 o max: 900 type -&gt; (string) [required] Encryption type Possible values: o AWS_OWNED_KEY o CUSTOMER_MANAGED_KMS_KEY Shorthand Syntax: kmsKeyId=string,kmsDataKeyReusePeriodSeconds=integer,type=string JSON Syntax: { "kmsKeyId": "string", "kmsDataKeyReusePeriodSeconds": integer, "type": "AWS_OWNED_KEY"|"CUSTOMER_MANAGED_KMS_KEY" }
+    /// Settings to configure server-side encryption. kmsKeyId -&gt; (string) An alias, alias ARN, key ID, or key ARN of a symmetric encryption KMS key to encrypt data. To specify a KMS key in a different Amazon Web Services account, you must use the key ARN or alias ARN. Constraints: • min: 1 • max: 2048 kmsDataKeyReusePeriodSeconds -&gt; (integer) Maximum duration that Step Functions will reuse data keys. When the period expires, Step Functions will call GenerateDataKey . Only applies to customer managed keys. Constraints: • min: 60 • max: 900 type -&gt; (string) [required] Encryption type Possible values: • AWS_OWNED_KEY • CUSTOMER_MANAGED_KMS_KEY Shorthand Syntax: kmsKeyId=string,kmsDataKeyReusePeriodSeconds=integer,type=string JSON Syntax: { "kmsKeyId": "string", "kmsDataKeyReusePeriodSeconds": integer, "type": "AWS_OWNED_KEY"|"CUSTOMER_MANAGED_KMS_KEY" }
     /// </summary>
     [CliOption("--encryption-configuration")]
     public string? EncryptionConfiguration { get; set; }
@@ -94,6 +95,15 @@ public record AwsStepfunctionsCreateActivityOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

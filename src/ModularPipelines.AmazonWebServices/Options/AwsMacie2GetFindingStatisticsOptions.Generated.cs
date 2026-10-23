@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsMacie2GetFindingStatisticsOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Retrieves (queries) aggregated statistical data about findings. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GroupBy">The finding property to use to group the query results. Valid values are: o classificationDetails.jobId - The unique identifier for the clas- sification job that produced the finding. o resourcesAffected.s3Bucket.name - The name of the S3 bucket that the finding applies to. o severity.description - The severity level of the finding, such as High or Medium. o type - The type of finding, such as Policy:IAMUser/S3BucketPublic and SensitiveData:S3Object/Personal. Possible values: o resourcesAffected.s3Bucket.name o type o classificationDetails.jobId o severity.description</param>
+    /// <param name="GroupBy">The finding property to use to group the query results. Valid values are: • classificationDetails.jobId - The unique identifier for the classification job that produced the finding. • resourcesAffected.s3Bucket.name - The name of the S3 bucket that the finding applies to. • severity.description - The severity level of the finding, such as High or Medium. • type - The type of finding, such as Policy:IAMUser/S3BucketPublic and SensitiveData:S3Object/Personal. Possible values: • resourcesAffected.s3Bucket.name • type • classificationDetails.jobId • severity.description</param>
     public AwsMacie2GetFindingStatisticsOptions(
         AwsMacie2GetFindingStatisticsGroupBy GroupBy
     )
@@ -56,13 +57,13 @@ public record AwsMacie2GetFindingStatisticsOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The finding property to use to group the query results. Valid values are: o classificationDetails.jobId - The unique identifier for the clas- sification job that produced the finding. o resourcesAffected.s3Bucket.name - The name of the S3 bucket that the finding applies to. o severity.description - The severity level of the finding, such as High or Medium. o type - The type of finding, such as Policy:IAMUser/S3BucketPublic and SensitiveData:S3Object/Personal. Possible values: o resourcesAffected.s3Bucket.name o type o classificationDetails.jobId o severity.description
+    /// The finding property to use to group the query results. Valid values are: • classificationDetails.jobId - The unique identifier for the classification job that produced the finding. • resourcesAffected.s3Bucket.name - The name of the S3 bucket that the finding applies to. • severity.description - The severity level of the finding, such as High or Medium. • type - The type of finding, such as Policy:IAMUser/S3BucketPublic and SensitiveData:S3Object/Personal. Possible values: • resourcesAffected.s3Bucket.name • type • classificationDetails.jobId • severity.description
     /// </summary>
     [CliOption("--group-by")]
     public AwsMacie2GetFindingStatisticsGroupBy? GroupBy { get; private init; }
 
     /// <summary>
-    /// The criteria to use to filter the query results. criterion -&gt; (map) A condition that specifies the property, operator, and one or more values to use to filter the results. key -&gt; (string) value -&gt; (structure) Specifies the operator to use in a property-based condition that filters the results of a query for findings. For de- tailed information and examples of each operator, see Fundamentals of filtering findings in the Amazon Macie User Guide . eq -&gt; (list) The value for the property matches (equals) the specified value. If you specify multiple values, Macie uses OR logic to join the values. (string) eqExactMatch -&gt; (list) The value for the property exclusively matches (equals an exact match for) all the specified values. If you specify multiple values, Amazon Macie uses AND logic to join the values. You can use this operator with the following properties: customDataIdentifiers.detections.arn, customDataIdenti- fiers.detections.name, resourcesAf- fected.s3Bucket.tags.key, resourcesAf- fected.s3Bucket.tags.value, resourcesAffected.s3Ob- ject.tags.key, resourcesAffected.s3Object.tags.value, sensitiveData.category, and sensitiveData.detec- tions.type. (string) gt -&gt; (long) The value for the property is greater than the specified value. gte -&gt; (long) The value for the property is greater than or equal to the specified value. lt -&gt; (long) The value for the property is less than the specified value. lte -&gt; (long) The value for the property is less than or equal to the specified value. neq -&gt; (list) The value for the property doesn't match (doesn't equal) the specified value. If you specify multiple values, Ma- cie uses OR logic to join the values. (string) JSON Syntax: { "criterion": {"string": { "eq": ["string", ...], "eqExactMatch": ["string", ...], "gt": long, "gte": long, "lt": long, "lte": long, "neq": ["string", ...] } ...} }
+    /// The criteria to use to filter the query results. criterion -&gt; (map) A condition that specifies the property, operator, and one or more values to use to filter the results. key -&gt; (string) value -&gt; (structure) Specifies the operator to use in a property-based condition that filters the results of a query for findings. For detailed information and examples of each operator, see Fundamentals of filtering findings in the Amazon Macie User Guide . eq -&gt; (list) The value for the property matches (equals) the specified value. If you specify multiple values, Macie uses OR logic to join the values. (string) eqExactMatch -&gt; (list) The value for the property exclusively matches (equals an exact match for) all the specified values. If you specify multiple values, Amazon Macie uses AND logic to join the values. You can use this operator with the following properties: customDataIdentifiers.detections.arn, customDataIdentifiers.detections.name, resourcesAffected.s3Bucket.tags.key, resourcesAffected.s3Bucket.tags.value, resourcesAffected.s3Object.tags.key, resourcesAffected.s3Object.tags.value, sensitiveData.category, and sensitiveData.detections.type. (string) gt -&gt; (long) The value for the property is greater than the specified value. gte -&gt; (long) The value for the property is greater than or equal to the specified value. lt -&gt; (long) The value for the property is less than the specified value. lte -&gt; (long) The value for the property is less than or equal to the specified value. neq -&gt; (list) The value for the property doesn't match (doesn't equal) the specified value. If you specify multiple values, Macie uses OR logic to join the values. (string) JSON Syntax: { "criterion": {"string": { "eq": ["string", ...], "eqExactMatch": ["string", ...], "gt": long, "gte": long, "lt": long, "lte": long, "neq": ["string", ...] } ...} }
     /// </summary>
     [CliOption("--finding-criteria")]
     public string? FindingCriteria { get; set; }
@@ -74,7 +75,7 @@ public record AwsMacie2GetFindingStatisticsOptions : AwsOptions, IValidatableObj
     public int? Size { get; set; }
 
     /// <summary>
-    /// The criteria to use to sort the query results. attributeName -&gt; (string) The grouping to sort the results by. Valid values are: count, sort the results by the number of findings in each group of re- sults; and, groupKey, sort the results by the name of each group of results. Possible values: o groupKey o count orderBy -&gt; (string) The sort order to apply to the results, based on the value for the property specified by the attributeName property. Valid val- ues are: ASC, sort the results in ascending order; and, DESC, sort the results in descending order. Possible values: o ASC o DESC Shorthand Syntax: attributeName=string,orderBy=string JSON Syntax: { "attributeName": "groupKey"|"count", "orderBy": "ASC"|"DESC" }
+    /// The criteria to use to sort the query results. attributeName -&gt; (string) The grouping to sort the results by. Valid values are: count, sort the results by the number of findings in each group of results; and, groupKey, sort the results by the name of each group of results. Possible values: • groupKey • count orderBy -&gt; (string) The sort order to apply to the results, based on the value for the property specified by the attributeName property. Valid values are: ASC, sort the results in ascending order; and, DESC, sort the results in descending order. Possible values: • ASC • DESC Shorthand Syntax: attributeName=string,orderBy=string JSON Syntax: { "attributeName": "groupKey"|"count", "orderBy": "ASC"|"DESC" }
     /// </summary>
     [CliOption("--sort-criteria")]
     public string? SortCriteria { get; set; }
@@ -100,6 +101,15 @@ public record AwsMacie2GetFindingStatisticsOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

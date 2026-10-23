@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsLocationUpdateTrackerOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates the specified properties of a given tracker resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TrackerName">The name of the tracker resource to update. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+</param>
+    /// <param name="TrackerName">The name of the tracker resource to update. Constraints: • min: 1 • max: 100 • pattern: [-._\w]+</param>
     public AwsLocationUpdateTrackerOptions(
         string TrackerName
     )
@@ -57,13 +58,13 @@ public record AwsLocationUpdateTrackerOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the tracker resource to update. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+
+    /// The name of the tracker resource to update. Constraints: • min: 1 • max: 100 • pattern: [-._\w]+
     /// </summary>
     [CliOption("--tracker-name")]
     public string? TrackerName { get; private init; }
 
     /// <summary>
-    /// No longer used. If included, the only allowed value is RequestBase- dUsage . Possible values: o RequestBasedUsage o MobileAssetTracking o MobileAssetManagement
+    /// No longer used. If included, the only allowed value is RequestBasedUsage . Possible values: • RequestBasedUsage • MobileAssetTracking • MobileAssetManagement
     /// </summary>
     [CliOption("--pricing-plan")]
     public AwsLocationUpdateTrackerPricingPlan? PricingPlan { get; set; }
@@ -75,13 +76,13 @@ public record AwsLocationUpdateTrackerOptions : AwsOptions, IValidatableObject
     public string? PricingPlanDataSource { get; set; }
 
     /// <summary>
-    /// Updates the description for the tracker resource. Constraints: o min: 0 o max: 1000
+    /// Updates the description for the tracker resource. Constraints: • min: 0 • max: 1000
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Updates the position filtering for the tracker resource. Valid values: o TimeBased - Location updates are evaluated against linked geofence collections, but not every location update is stored. If your up- date frequency is more often than 30 seconds, only one update per 30 seconds is stored for each unique device ID. o DistanceBased - If the device has moved less than 30 m (98.4 ft), location updates are ignored. Location updates within this dis- tance are neither evaluated against linked geofence collections, nor stored. This helps control costs by reducing the number of ge- ofence evaluations and historical device positions to paginate through. Distance-based filtering can also reduce the effects of GPS noise when displaying device trajectories on a map. o AccuracyBased - If the device has moved less than the measured ac- curacy, location updates are ignored. For example, if two consecu- tive updates from a device have a horizontal accuracy of 5 m and 10 m, the second update is ignored if the device has moved less than 15 m. Ignored location updates are neither evaluated against linked geofence collections, nor stored. This helps educe the ef- fects of GPS noise when displaying device trajectories on a map, and can help control costs by reducing the number of geofence evaluations. Possible values: o TimeBased o DistanceBased o AccuracyBased
+    /// Updates the position filtering for the tracker resource. Valid values: • TimeBased - Location updates are evaluated against linked geofence collections, but not every location update is stored. If your update frequency is more often than 30 seconds, only one update per 30 seconds is stored for each unique device ID. • DistanceBased - If the device has moved less than 30 m (98.4 ft), location updates are ignored. Location updates within this distance are neither evaluated against linked geofence collections, nor stored. This helps control costs by reducing the number of geofence evaluations and historical device positions to paginate through. Distance-based filtering can also reduce the effects of GPS noise when displaying device trajectories on a map. • AccuracyBased - If the device has moved less than the measured accuracy, location updates are ignored. For example, if two consecutive updates from a device have a horizontal accuracy of 5 m and 10 m, the second update is ignored if the device has moved less than 15 m. Ignored location updates are neither evaluated against linked geofence collections, nor stored. This helps educe the effects of GPS noise when displaying device trajectories on a map, and can help control costs by reducing the number of geofence evaluations. Possible values: • TimeBased • DistanceBased • AccuracyBased
     /// </summary>
     [CliOption("--position-filtering")]
     public string? PositionFiltering { get; set; }
@@ -93,7 +94,7 @@ public record AwsLocationUpdateTrackerOptions : AwsOptions, IValidatableObject
     public bool? EventBridgeEnabled { get; set; }
 
     /// <summary>
-    /// tial-queries (boolean) Enables GeospatialQueries for a tracker that uses a Amazon Web Ser- vices KMS customer managed key . This parameter is only used if you are using a KMS customer managed key.
+    /// Enables GeospatialQueries for a tracker that uses a Amazon Web Services KMS customer managed key . This parameter is only used if you are using a KMS customer managed key.
     /// </summary>
     [CliFlag("--kms-key-enable-geospatial-queries", NegatedName = "--no-kms-key-enable-geospatial-queries")]
     public bool? KmsKeyEnableGeospatialQueries { get; set; }
@@ -119,6 +120,15 @@ public record AwsLocationUpdateTrackerOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

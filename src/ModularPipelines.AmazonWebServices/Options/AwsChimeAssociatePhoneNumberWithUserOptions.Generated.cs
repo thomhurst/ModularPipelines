@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -29,7 +30,7 @@ public record AwsChimeAssociatePhoneNumberWithUserOptions : AwsOptions, IValidat
     /// </summary>
     /// <param name="AccountId">The Amazon Chime account ID.</param>
     /// <param name="UserId">The user ID.</param>
-    /// <param name="E164PhoneNumber">The phone number, in E.164 format. Constraints: o pattern: ^\+?[1-9]\d{1,14}$</param>
+    /// <param name="E164PhoneNumber">The phone number, in E.164 format. Constraints: • pattern: ^\+?[1-9]\d{1,14}$</param>
     public AwsChimeAssociatePhoneNumberWithUserOptions(
         string AccountId,
         string UserId,
@@ -76,7 +77,7 @@ public record AwsChimeAssociatePhoneNumberWithUserOptions : AwsOptions, IValidat
     public string? UserId { get; private init; }
 
     /// <summary>
-    /// The phone number, in E.164 format. Constraints: o pattern: ^\+?[1-9]\d{1,14}$
+    /// The phone number, in E.164 format. Constraints: • pattern: ^\+?[1-9]\d{1,14}$
     /// </summary>
     [CliOption("--e164-phone-number")]
     public string? E164PhoneNumber { get; private init; }
@@ -102,6 +103,15 @@ public record AwsChimeAssociatePhoneNumberWithUserOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

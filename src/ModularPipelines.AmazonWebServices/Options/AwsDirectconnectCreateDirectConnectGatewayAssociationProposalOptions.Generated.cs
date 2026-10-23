@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsDirectconnectCreateDirectConnectGatewayAssociationProposalOptio
     /// Creates a proposal to associate the specified virtual private gateway or transit gateway with the specified Direct Connect gateway. You can associate a Direct Connect gateway and virtual private gateway or transit gateway that is owned by any Amazon Web Services account. See also: AWS API Documentation
     /// </summary>
     /// <param name="DirectConnectGatewayId">The ID of the Direct Connect gateway.</param>
-    /// <param name="DirectConnectGatewayOwnerAccount">The ID of the Amazon Web Services account that owns the Direct Con- nect gateway.</param>
+    /// <param name="DirectConnectGatewayOwnerAccount">The ID of the Amazon Web Services account that owns the Direct Connect gateway.</param>
     /// <param name="GatewayId">The ID of the virtual private gateway or transit gateway.</param>
     public AwsDirectconnectCreateDirectConnectGatewayAssociationProposalOptions(
         string DirectConnectGatewayId,
@@ -70,7 +71,7 @@ public record AwsDirectconnectCreateDirectConnectGatewayAssociationProposalOptio
     public string? DirectConnectGatewayId { get; private init; }
 
     /// <summary>
-    /// The ID of the Amazon Web Services account that owns the Direct Con- nect gateway.
+    /// The ID of the Amazon Web Services account that owns the Direct Connect gateway.
     /// </summary>
     [CliOption("--direct-connect-gateway-owner-account")]
     public string? DirectConnectGatewayOwnerAccount { get; private init; }
@@ -82,13 +83,13 @@ public record AwsDirectconnectCreateDirectConnectGatewayAssociationProposalOptio
     public string? GatewayId { get; private init; }
 
     /// <summary>
-    /// The Amazon VPC prefixes to advertise to the Direct Connect gateway. (structure) Information about a route filter prefix that a customer can ad- vertise through Border Gateway Protocol (BGP) over a public vir- tual interface. cidr -&gt; (string) The CIDR block for the advertised route. Separate multiple routes using commas. An IPv6 CIDR must use /64 or shorter. Shorthand Syntax: cidr=string ... JSON Syntax: [ { "cidr": "string" } ... ]
+    /// The Amazon VPC prefixes to advertise to the Direct Connect gateway. (structure) Information about a route filter prefix that a customer can advertise through Border Gateway Protocol (BGP) over a public virtual interface. cidr -&gt; (string) The CIDR block for the advertised route. Separate multiple routes using commas. An IPv6 CIDR must use /64 or shorter. Shorthand Syntax: cidr=string ... JSON Syntax: [ { "cidr": "string" } ... ]
     /// </summary>
     [CliOption("--add-allowed-prefixes-to-direct-connect-gateway", GroupValues = true)]
     public IEnumerable<string>? AddAllowedPrefixesToDirectConnectGateway { get; set; }
 
     /// <summary>
-    /// The Amazon VPC prefixes to no longer advertise to the Direct Connect gateway. (structure) Information about a route filter prefix that a customer can ad- vertise through Border Gateway Protocol (BGP) over a public vir- tual interface. cidr -&gt; (string) The CIDR block for the advertised route. Separate multiple routes using commas. An IPv6 CIDR must use /64 or shorter. Shorthand Syntax: cidr=string ... JSON Syntax: [ { "cidr": "string" } ... ]
+    /// The Amazon VPC prefixes to no longer advertise to the Direct Connect gateway. (structure) Information about a route filter prefix that a customer can advertise through Border Gateway Protocol (BGP) over a public virtual interface. cidr -&gt; (string) The CIDR block for the advertised route. Separate multiple routes using commas. An IPv6 CIDR must use /64 or shorter. Shorthand Syntax: cidr=string ... JSON Syntax: [ { "cidr": "string" } ... ]
     /// </summary>
     [CliOption("--remove-allowed-prefixes-to-direct-connect-gateway", GroupValues = true)]
     public IEnumerable<string>? RemoveAllowedPrefixesToDirectConnectGateway { get; set; }
@@ -114,6 +115,15 @@ public record AwsDirectconnectCreateDirectConnectGatewayAssociationProposalOptio
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

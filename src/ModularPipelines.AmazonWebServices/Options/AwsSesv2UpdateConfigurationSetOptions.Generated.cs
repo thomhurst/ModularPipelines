@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates an existing configuration set. This operation performs a partial update. Only the attributes that you include in the request are updated; any omitted attribute is left un- changed. See also: AWS API Documentation
+/// Updates an existing configuration set. This operation performs a partial update. Only the attributes that you include in the request are updated; any omitted attribute is left unchanged. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsSesv2UpdateConfigurationSetOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates an existing configuration set. This operation performs a partial update. Only the attributes that you include in the request are updated; any omitted attribute is left un- changed. See also: AWS API Documentation
+    /// Updates an existing configuration set. This operation performs a partial update. Only the attributes that you include in the request are updated; any omitted attribute is left unchanged. See also: AWS API Documentation
     /// </summary>
     /// <param name="ConfigurationSetName">The name of the configuration set to update.</param>
     public AwsSesv2UpdateConfigurationSetOptions(
@@ -62,7 +63,7 @@ public record AwsSesv2UpdateConfigurationSetOptions : AwsOptions, IValidatableOb
     public string? ConfigurationSetName { get; private init; }
 
     /// <summary>
-    /// The security options that apply to the MIME message itself for mes- sages sent with the configuration set. SigningScheme -&gt; (tagged union structure) The signing scheme that Amazon SES API v2 applies to messages sent with the configuration set. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: DefaultScheme, SmimeScheme. DefaultScheme -&gt; (structure) Use the default signing behavior. When you select this op- tion, Amazon SES API v2 doesn't add an S/MIME signature to messages sent with the configuration set. SmimeScheme -&gt; (structure) Sign messages sent with the configuration set using S/MIME. For signing to apply, the email identity used to send a mes- sage must have an active S/MIME certificate association. SignatureFormat -&gt; (string) The format of the S/MIME signature that Amazon SES API v2 applies to messages. Possible values: o DETACHED Shorthand Syntax: SigningScheme={DefaultScheme={},SmimeScheme={SignatureFormat=string}} JSON Syntax: { "SigningScheme": { "DefaultScheme": { }, "SmimeScheme": { "SignatureFormat": "DETACHED" } } }
+    /// The security options that apply to the MIME message itself for messages sent with the configuration set. SigningScheme -&gt; (tagged union structure) The signing scheme that Amazon SES API v2 applies to messages sent with the configuration set. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: DefaultScheme, SmimeScheme. DefaultScheme -&gt; (structure) Use the default signing behavior. When you select this option, Amazon SES API v2 doesn't add an S/MIME signature to messages sent with the configuration set. SmimeScheme -&gt; (structure) Sign messages sent with the configuration set using S/MIME. For signing to apply, the email identity used to send a message must have an active S/MIME certificate association. SignatureFormat -&gt; (string) The format of the S/MIME signature that Amazon SES API v2 applies to messages. Possible values: • DETACHED Shorthand Syntax: SigningScheme={DefaultScheme={},SmimeScheme={SignatureFormat=string}} JSON Syntax: { "SigningScheme": { "DefaultScheme": { }, "SmimeScheme": { "SignatureFormat": "DETACHED" } } }
     /// </summary>
     [CliOption("--message-security-options")]
     public string? MessageSecurityOptions { get; set; }
@@ -88,6 +89,15 @@ public record AwsSesv2UpdateConfigurationSetOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

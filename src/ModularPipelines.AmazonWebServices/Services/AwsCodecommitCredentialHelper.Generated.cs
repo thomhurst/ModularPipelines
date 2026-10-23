@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws credential-helper commands.
+/// aws codecommit credential-helper commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsCodecommitCredentialHelper
@@ -32,7 +32,7 @@ public class AwsCodecommitCredentialHelper
     #region Commands
 
     /// <summary>
-    /// Provide a SigV4 compatible user name and password for git smart HTTP These commands are consumed by git and should not used directly. Erase and Store are no-ops. Get is operation to generate credentials to au- thenticate AWS CodeCommit. Run "aws codecommit credential-helper help" for details
+    /// Provide a SigV4 compatible user name and password for git smart HTTP These commands are consumed by git and should not used directly. Erase and Store are no-ops. Get is operation to generate credentials to authenticate AWS CodeCommit. Run "aws codecommit credential-helper help" for details
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

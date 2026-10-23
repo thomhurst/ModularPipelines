@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a Network Firewall container association. The association moni- tors container lifecycle events in your Amazon ECS or Amazon EKS clus- ters and resolves running container addresses for use in firewall rules. See also: AWS API Documentation
+/// Creates a Network Firewall container association. The association monitors container lifecycle events in your Amazon ECS or Amazon EKS clusters and resolves running container addresses for use in firewall rules. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsNetworkFirewallCreateContainerAssociationOptions : AwsOptions, 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a Network Firewall container association. The association moni- tors container lifecycle events in your Amazon ECS or Amazon EKS clus- ters and resolves running container addresses for use in firewall rules. See also: AWS API Documentation
+    /// Creates a Network Firewall container association. The association monitors container lifecycle events in your Amazon ECS or Amazon EKS clusters and resolves running container addresses for use in firewall rules. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ContainerAssociationName">The descriptive name of the container association. You can't change the name of a container association after you create it. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9-]+$</param>
-    /// <param name="Type">The type of containers to monitor. You can't change the container type after creation. Valid values: o ECS - Amazon Elastic Container Service o EKS - Amazon Elastic Kubernetes Service Possible values: o ECS o EKS</param>
-    /// <param name="ContainerMonitoringConfigurations">The monitoring configurations for the container association. Each configuration specifies an Amazon ECS or Amazon EKS cluster to moni- tor and optional attribute filters to narrow which containers are tracked. (structure) Contains the monitoring configuration for a single cluster in a container association. Specifies the cluster ARN and optional attribute filters to narrow which containers are tracked. ClusterArn -&gt; (string) [required] The ARN of the Amazon ECS or Amazon EKS cluster to monitor. The cluster must be in the same Region and account as the container association. Constraints: o min: 1 o max: 256 o pattern: ^arn:aws.* AttributeFilters -&gt; (list) Key-value pairs that filter which containers are tracked. For Amazon EKS, you can filter by namespace and Kubernetes la- bels. For Amazon ECS, you can filter by container instance attributes (EC2 launch type only). (structure) A key-value filter pair used in container association monitoring configurations to narrow which containers are tracked. Key -&gt; (string) [required] The attribute key to filter on. Constraints: o min: 1 o max: 256 o pattern: \S+ Value -&gt; (string) [required] The attribute value to match. Constraints: o min: 1 o max: 256 o pattern: \S+ Shorthand Syntax: ClusterArn=string,AttributeFilters=[{Key=string,Value=string},{Key=string,Value=string}] ... JSON Syntax: [ { "ClusterArn": "string", "AttributeFilters": [ { "Key": "string", "Value": "string" } ... ] } ... ]</param>
+    /// <param name="ContainerAssociationName">The descriptive name of the container association. You can't change the name of a container association after you create it. Constraints: • min: 1 • max: 128 • pattern: ^[a-zA-Z0-9-]+$</param>
+    /// <param name="Type">The type of containers to monitor. You can't change the container type after creation. Valid values: • ECS - Amazon Elastic Container Service • EKS - Amazon Elastic Kubernetes Service Possible values: • ECS • EKS</param>
+    /// <param name="ContainerMonitoringConfigurations">The monitoring configurations for the container association. Each configuration specifies an Amazon ECS or Amazon EKS cluster to monitor and optional attribute filters to narrow which containers are tracked. (structure) Contains the monitoring configuration for a single cluster in a container association. Specifies the cluster ARN and optional attribute filters to narrow which containers are tracked. ClusterArn -&gt; (string) [required] The ARN of the Amazon ECS or Amazon EKS cluster to monitor. The cluster must be in the same Region and account as the container association. Constraints: • min: 1 • max: 256 • pattern: ^arn:aws.* AttributeFilters -&gt; (list) Key-value pairs that filter which containers are tracked. For Amazon EKS, you can filter by namespace and Kubernetes labels. For Amazon ECS, you can filter by container instance attributes (EC2 launch type only). (structure) A key-value filter pair used in container association monitoring configurations to narrow which containers are tracked. Key -&gt; (string) [required] The attribute key to filter on. Constraints: • min: 1 • max: 256 • pattern: \S+ Value -&gt; (string) [required] The attribute value to match. Constraints: • min: 1 • max: 256 • pattern: \S+ Shorthand Syntax: ClusterArn=string,AttributeFilters=[{Key=string,Value=string},{Key=string,Value=string}] ... JSON Syntax: [ { "ClusterArn": "string", "AttributeFilters": [ { "Key": "string", "Value": "string" } ... ] } ... ]</param>
     public AwsNetworkFirewallCreateContainerAssociationOptions(
         string ContainerAssociationName,
         string Type,
@@ -75,31 +76,31 @@ public record AwsNetworkFirewallCreateContainerAssociationOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The descriptive name of the container association. You can't change the name of a container association after you create it. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9-]+$
+    /// The descriptive name of the container association. You can't change the name of a container association after you create it. Constraints: • min: 1 • max: 128 • pattern: ^[a-zA-Z0-9-]+$
     /// </summary>
     [CliOption("--container-association-name")]
     public string? ContainerAssociationName { get; private init; }
 
     /// <summary>
-    /// The type of containers to monitor. You can't change the container type after creation. Valid values: o ECS - Amazon Elastic Container Service o EKS - Amazon Elastic Kubernetes Service Possible values: o ECS o EKS
+    /// The type of containers to monitor. You can't change the container type after creation. Valid values: • ECS - Amazon Elastic Container Service • EKS - Amazon Elastic Kubernetes Service Possible values: • ECS • EKS
     /// </summary>
     [CliOption("--type")]
     public string? Type { get; private init; }
 
     /// <summary>
-    /// The monitoring configurations for the container association. Each configuration specifies an Amazon ECS or Amazon EKS cluster to moni- tor and optional attribute filters to narrow which containers are tracked. (structure) Contains the monitoring configuration for a single cluster in a container association. Specifies the cluster ARN and optional attribute filters to narrow which containers are tracked. ClusterArn -&gt; (string) [required] The ARN of the Amazon ECS or Amazon EKS cluster to monitor. The cluster must be in the same Region and account as the container association. Constraints: o min: 1 o max: 256 o pattern: ^arn:aws.* AttributeFilters -&gt; (list) Key-value pairs that filter which containers are tracked. For Amazon EKS, you can filter by namespace and Kubernetes la- bels. For Amazon ECS, you can filter by container instance attributes (EC2 launch type only). (structure) A key-value filter pair used in container association monitoring configurations to narrow which containers are tracked. Key -&gt; (string) [required] The attribute key to filter on. Constraints: o min: 1 o max: 256 o pattern: \S+ Value -&gt; (string) [required] The attribute value to match. Constraints: o min: 1 o max: 256 o pattern: \S+ Shorthand Syntax: ClusterArn=string,AttributeFilters=[{Key=string,Value=string},{Key=string,Value=string}] ... JSON Syntax: [ { "ClusterArn": "string", "AttributeFilters": [ { "Key": "string", "Value": "string" } ... ] } ... ]
+    /// The monitoring configurations for the container association. Each configuration specifies an Amazon ECS or Amazon EKS cluster to monitor and optional attribute filters to narrow which containers are tracked. (structure) Contains the monitoring configuration for a single cluster in a container association. Specifies the cluster ARN and optional attribute filters to narrow which containers are tracked. ClusterArn -&gt; (string) [required] The ARN of the Amazon ECS or Amazon EKS cluster to monitor. The cluster must be in the same Region and account as the container association. Constraints: • min: 1 • max: 256 • pattern: ^arn:aws.* AttributeFilters -&gt; (list) Key-value pairs that filter which containers are tracked. For Amazon EKS, you can filter by namespace and Kubernetes labels. For Amazon ECS, you can filter by container instance attributes (EC2 launch type only). (structure) A key-value filter pair used in container association monitoring configurations to narrow which containers are tracked. Key -&gt; (string) [required] The attribute key to filter on. Constraints: • min: 1 • max: 256 • pattern: \S+ Value -&gt; (string) [required] The attribute value to match. Constraints: • min: 1 • max: 256 • pattern: \S+ Shorthand Syntax: ClusterArn=string,AttributeFilters=[{Key=string,Value=string},{Key=string,Value=string}] ... JSON Syntax: [ { "ClusterArn": "string", "AttributeFilters": [ { "Key": "string", "Value": "string" } ... ] } ... ]
     /// </summary>
     [CliOption("--container-monitoring-configurations", GroupValues = true)]
     public IEnumerable<string>? ContainerMonitoringConfigurations { get; private init; }
 
     /// <summary>
-    /// A description of the container association. Constraints: o max: 512 o pattern: ^.*$
+    /// A description of the container association. Constraints: • max: 512 • pattern: ^.*$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The key:value pairs to associate with the resource. Constraints: o min: 1 o max: 200 (structure) A key:value pair associated with an Amazon Web Services re- source. The key:value pair can be anything you define. Typi- cally, the tag key represents a category (such as "environment") and the tag value represents a specific value within that cate- gory (such as "test," "development," or "production"). You can add up to 50 tags to each Amazon Web Services resource. Key -&gt; (string) [required] The part of the key:value pair that defines a tag. You can use a tag key to describe a category of information, such as "customer." Tag keys are case-sensitive. Constraints: o min: 1 o max: 128 o pattern: ^.*$ Value -&gt; (string) [required] The part of the key:value pair that defines a tag. You can use a tag value to describe a specific value within a cate- gory, such as "companyA" or "companyB." Tag values are case-sensitive. Constraints: o min: 0 o max: 256 o pattern: ^.*$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The key:value pairs to associate with the resource. Constraints: • min: 1 • max: 200 (structure) A key:value pair associated with an Amazon Web Services resource. The key:value pair can be anything you define. Typically, the tag key represents a category (such as "environment") and the tag value represents a specific value within that category (such as "test," "development," or "production"). You can add up to 50 tags to each Amazon Web Services resource. Key -&gt; (string) [required] The part of the key:value pair that defines a tag. You can use a tag key to describe a category of information, such as "customer." Tag keys are case-sensitive. Constraints: • min: 1 • max: 128 • pattern: ^.*$ Value -&gt; (string) [required] The part of the key:value pair that defines a tag. You can use a tag value to describe a specific value within a category, such as "companyA" or "companyB." Tag values are case-sensitive. Constraints: • min: 0 • max: 256 • pattern: ^.*$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -125,6 +126,15 @@ public record AwsNetworkFirewallCreateContainerAssociationOptions : AwsOptions, 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

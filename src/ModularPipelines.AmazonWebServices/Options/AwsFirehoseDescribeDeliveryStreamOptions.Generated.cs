@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsFirehoseDescribeDeliveryStreamOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Describes the specified Firehose stream and its status. For example, after your Firehose stream is created, call DescribeDeliveryStream to see whether the Firehose stream is ACTIVE and therefore ready for data to be sent to it. If the status of a Firehose stream is CREATING_FAILED , this status doesn't change, and you can't invoke CreateDeliveryStream again on it. However, you can invoke the DeleteDeliveryStream operation to delete it. If the status is DELETING_FAILED , you can force deletion by...
     /// </summary>
-    /// <param name="DeliveryStreamName">The name of the Firehose stream. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="DeliveryStreamName">The name of the Firehose stream. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_.-]+</param>
     public AwsFirehoseDescribeDeliveryStreamOptions(
         string DeliveryStreamName
     )
@@ -56,19 +57,19 @@ public record AwsFirehoseDescribeDeliveryStreamOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the Firehose stream. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+
+    /// The name of the Firehose stream. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--delivery-stream-name")]
     public string? DeliveryStreamName { get; private init; }
 
     /// <summary>
-    /// The limit on the number of destinations to return. You can have one destination per Firehose stream. Constraints: o min: 1 o max: 10000
+    /// The limit on the number of destinations to return. You can have one destination per Firehose stream. Constraints: • min: 1 • max: 10000
     /// </summary>
     [CliOption("--limit")]
     public int? Limit { get; set; }
 
     /// <summary>
-    /// The ID of the destination to start returning the destination infor- mation. Firehose supports one destination per Firehose stream. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]+
+    /// The ID of the destination to start returning the destination information. Firehose supports one destination per Firehose stream. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--exclusive-start-destination-id")]
     public string? ExclusiveStartDestinationId { get; set; }
@@ -94,6 +95,15 @@ public record AwsFirehoseDescribeDeliveryStreamOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

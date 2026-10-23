@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a personal access token (PAT) for the current user. A personal access token (PAT) is similar to a password. It is associated with your user identity for use across all spaces and projects in Amazon CodeCat- alyst. You use PATs to access CodeCatalyst from resources that include integrated development environments (IDEs) and Git-based source reposi- tories. PATs represent you in Amazon CodeCatalyst and you can manage them in your user settings.For more information, see Managing personal ac...
+/// Creates a personal access token (PAT) for the current user. A personal access token (PAT) is similar to a password. It is associated with your user identity for use across all spaces and projects in Amazon CodeCatalyst. You use PATs to access CodeCatalyst from resources that include integrated development environments (IDEs) and Git-based source repositories. PATs represent you in Amazon CodeCatalyst and you can manage them in your user settings.For more information, see Managing personal access...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsCodecatalystCreateAccessTokenOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a personal access token (PAT) for the current user. A personal access token (PAT) is similar to a password. It is associated with your user identity for use across all spaces and projects in Amazon CodeCat- alyst. You use PATs to access CodeCatalyst from resources that include integrated development environments (IDEs) and Git-based source reposi- tories. PATs represent you in Amazon CodeCatalyst and you can manage them in your user settings.For more information, see Managing personal ac...
+    /// Creates a personal access token (PAT) for the current user. A personal access token (PAT) is similar to a password. It is associated with your user identity for use across all spaces and projects in Amazon CodeCatalyst. You use PATs to access CodeCatalyst from resources that include integrated development environments (IDEs) and Git-based source repositories. PATs represent you in Amazon CodeCatalyst and you can manage them in your user settings.For more information, see Managing personal access...
     /// </summary>
-    /// <param name="Name">The friendly name of the personal access token. Constraints: o min: 1 o max: 100</param>
+    /// <param name="Name">The friendly name of the personal access token. Constraints: • min: 1 • max: 100</param>
     public AwsCodecatalystCreateAccessTokenOptions(
         string Name
     )
@@ -56,7 +57,7 @@ public record AwsCodecatalystCreateAccessTokenOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The friendly name of the personal access token. Constraints: o min: 1 o max: 100
+    /// The friendly name of the personal access token. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
@@ -88,6 +89,15 @@ public record AwsCodecatalystCreateAccessTokenOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

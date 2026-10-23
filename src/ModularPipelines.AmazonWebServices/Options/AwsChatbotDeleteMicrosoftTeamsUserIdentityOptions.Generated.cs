@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsChatbotDeleteMicrosoftTeamsUserIdentityOptions : AwsOptions, IV
     /// <summary>
     /// Identifes a user level permission for a channel configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ChatConfigurationArn">The ARN of the MicrosoftTeamsChannelConfiguration associated with the user identity to delete. Constraints: o min: 19 o max: 1169 o pattern: arn:aws:(wheatley|chat- bot):[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}</param>
-    /// <param name="UserId">The Microsoft Teams user ID. Constraints: o min: 36 o max: 36 o pattern: [0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}</param>
+    /// <param name="ChatConfigurationArn">The ARN of the MicrosoftTeamsChannelConfiguration associated with the user identity to delete. Constraints: • min: 19 • max: 1169 • pattern: arn:aws:(wheatley|chatbot):[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}</param>
+    /// <param name="UserId">The Microsoft Teams user ID. Constraints: • min: 36 • max: 36 • pattern: [0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}</param>
     public AwsChatbotDeleteMicrosoftTeamsUserIdentityOptions(
         string ChatConfigurationArn,
         string UserId
@@ -60,13 +61,13 @@ public record AwsChatbotDeleteMicrosoftTeamsUserIdentityOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the MicrosoftTeamsChannelConfiguration associated with the user identity to delete. Constraints: o min: 19 o max: 1169 o pattern: arn:aws:(wheatley|chat- bot):[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}
+    /// The ARN of the MicrosoftTeamsChannelConfiguration associated with the user identity to delete. Constraints: • min: 19 • max: 1169 • pattern: arn:aws:(wheatley|chatbot):[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}
     /// </summary>
     [CliOption("--chat-configuration-arn")]
     public string? ChatConfigurationArn { get; private init; }
 
     /// <summary>
-    /// The Microsoft Teams user ID. Constraints: o min: 36 o max: 36 o pattern: [0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}
+    /// The Microsoft Teams user ID. Constraints: • min: 36 • max: 36 • pattern: [0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}
     /// </summary>
     [CliOption("--user-id")]
     public string? UserId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsChatbotDeleteMicrosoftTeamsUserIdentityOptions : AwsOptions, IV
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

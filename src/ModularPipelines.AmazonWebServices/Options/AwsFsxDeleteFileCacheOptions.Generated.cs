@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes an Amazon File Cache resource. After deletion, the cache no longer exists, and its data is gone. The DeleteFileCache operation returns while the cache has the DELETING status. You can check the cache deletion status by calling the DescribeFileCaches operation, which returns a list of caches in your account. If you pass the cache ID for a deleted cache, the De- scribeFileCaches operation returns a FileCacheNotFound error. WARNING: The data in a deleted cache is also deleted and can't be r...
+/// Deletes an Amazon File Cache resource. After deletion, the cache no longer exists, and its data is gone. The DeleteFileCache operation returns while the cache has the DELETING status. You can check the cache deletion status by calling the DescribeFileCaches operation, which returns a list of caches in your account. If you pass the cache ID for a deleted cache, the DescribeFileCaches operation returns a FileCacheNotFound error. WARNING: The data in a deleted cache is also deleted and can't be rec...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsFsxDeleteFileCacheOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes an Amazon File Cache resource. After deletion, the cache no longer exists, and its data is gone. The DeleteFileCache operation returns while the cache has the DELETING status. You can check the cache deletion status by calling the DescribeFileCaches operation, which returns a list of caches in your account. If you pass the cache ID for a deleted cache, the De- scribeFileCaches operation returns a FileCacheNotFound error. WARNING: The data in a deleted cache is also deleted and can't be r...
+    /// Deletes an Amazon File Cache resource. After deletion, the cache no longer exists, and its data is gone. The DeleteFileCache operation returns while the cache has the DELETING status. You can check the cache deletion status by calling the DescribeFileCaches operation, which returns a list of caches in your account. If you pass the cache ID for a deleted cache, the DescribeFileCaches operation returns a FileCacheNotFound error. WARNING: The data in a deleted cache is also deleted and can't be rec...
     /// </summary>
-    /// <param name="FileCacheId">The ID of the cache that's being deleted. Constraints: o min: 11 o max: 21 o pattern: ^(fc-[0-9a-f]{8,})$</param>
+    /// <param name="FileCacheId">The ID of the cache that's being deleted. Constraints: • min: 11 • max: 21 • pattern: ^(fc-[0-9a-f]{8,})$</param>
     public AwsFsxDeleteFileCacheOptions(
         string FileCacheId
     )
@@ -57,13 +58,13 @@ public record AwsFsxDeleteFileCacheOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the cache that's being deleted. Constraints: o min: 11 o max: 21 o pattern: ^(fc-[0-9a-f]{8,})$
+    /// The ID of the cache that's being deleted. Constraints: • min: 11 • max: 21 • pattern: ^(fc-[0-9a-f]{8,})$
     /// </summary>
     [CliOption("--file-cache-id")]
     public string? FileCacheId { get; private init; }
 
     /// <summary>
-    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Ama- zon Web Services SDK. Constraints: o min: 1 o max: 63 o pattern: [A-za-z0-9_.-]{0,63}$
+    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK. Constraints: • min: 1 • max: 63 • pattern: [A-za-z0-9_.-]{0,63}$
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
@@ -90,6 +91,15 @@ public record AwsFsxDeleteFileCacheOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

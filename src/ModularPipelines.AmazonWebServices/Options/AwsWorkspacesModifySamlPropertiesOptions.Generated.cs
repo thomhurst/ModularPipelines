@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modifies multiple properties related to SAML 2.0 authentication, in- cluding the enablement status, user access URL, and relay state parame- ter name that are used for configuring federation with an SAML 2.0 identity provider. See also: AWS API Documentation
+/// Modifies multiple properties related to SAML 2.0 authentication, including the enablement status, user access URL, and relay state parameter name that are used for configuring federation with an SAML 2.0 identity provider. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsWorkspacesModifySamlPropertiesOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Modifies multiple properties related to SAML 2.0 authentication, in- cluding the enablement status, user access URL, and relay state parame- ter name that are used for configuring federation with an SAML 2.0 identity provider. See also: AWS API Documentation
+    /// Modifies multiple properties related to SAML 2.0 authentication, including the enablement status, user access URL, and relay state parameter name that are used for configuring federation with an SAML 2.0 identity provider. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceId">The directory identifier for which you want to configure SAML prop- erties. Constraints: o min: 10 o max: 65 o pattern: ^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)</param>
+    /// <param name="ResourceId">The directory identifier for which you want to configure SAML properties. Constraints: • min: 10 • max: 65 • pattern: ^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)</param>
     public AwsWorkspacesModifySamlPropertiesOptions(
         string ResourceId
     )
@@ -56,19 +57,19 @@ public record AwsWorkspacesModifySamlPropertiesOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The directory identifier for which you want to configure SAML prop- erties. Constraints: o min: 10 o max: 65 o pattern: ^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)
+    /// The directory identifier for which you want to configure SAML properties. Constraints: • min: 10 • max: 65 • pattern: ^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)
     /// </summary>
     [CliOption("--resource-id")]
     public string? ResourceId { get; private init; }
 
     /// <summary>
-    /// The properties for configuring SAML 2.0 authentication. Status -&gt; (string) Indicates the status of SAML 2.0 authentication. These statuses include the following. o If the setting is DISABLED , end users will be directed to lo- gin with their directory credentials. o If the setting is ENABLED , end users will be directed to lo- gin via the user access URL. Users attempting to connect to WorkSpaces from a client application that does not support SAML 2.0 authentication will not be able to connect. o If the setting is ENABLED_WITH_DIRECTORY_LOGIN_FALLBACK , end users will be directed to login via the user access URL on supported client applications, but will not prevent clients that do not support SAML 2.0 authentication from connecting as if SAML 2.0 authentication was disabled. Possible values: o DISABLED o ENABLED o ENABLED_WITH_DIRECTORY_LOGIN_FALLBACK UserAccessUrl -&gt; (string) The SAML 2.0 identity provider (IdP) user access URL is the URL a user would navigate to in their web browser in order to feder- ate from the IdP and directly access the application, without any SAML 2.0 service provider (SP) bindings. Constraints: o min: 8 o max: 200 o pattern: ^(http|https)\://\S+$ RelayStateParameterName -&gt; (string) The relay state parameter name supported by the SAML 2.0 iden- tity provider (IdP). When the end user is redirected to the user access URL from the WorkSpaces client application, this relay state parameter name is appended as a query parameter to the URL along with the relay state endpoint to return the user to the client application session. To use SAML 2.0 authentication with WorkSpaces, the IdP must support IdP-initiated deep linking for the relay state URL. Con- sult your IdP documentation for more information. Constraints: o min: 1 Shorthand Syntax: Status=string,UserAccessUrl=string,RelayStateParameterName=string JSON Syntax: { "Status": "DISABLED"|"ENABLED"|"ENABLED_WITH_DIRECTORY_LOGIN_FALLBACK", "UserAccessUrl": "string", "RelayStateParameterName": "string" }
+    /// The properties for configuring SAML 2.0 authentication. Status -&gt; (string) Indicates the status of SAML 2.0 authentication. These statuses include the following. • If the setting is DISABLED , end users will be directed to login with their directory credentials. • If the setting is ENABLED , end users will be directed to login via the user access URL. Users attempting to connect to WorkSpaces from a client application that does not support SAML 2.0 authentication will not be able to connect. • If the setting is ENABLED_WITH_DIRECTORY_LOGIN_FALLBACK , end users will be directed to login via the user access URL on supported client applications, but will not prevent clients that do not support SAML 2.0 authentication from connecting as if SAML 2.0 authentication was disabled. Possible values: • DISABLED • ENABLED • ENABLED_WITH_DIRECTORY_LOGIN_FALLBACK UserAccessUrl -&gt; (string) The SAML 2.0 identity provider (IdP) user access URL is the URL a user would navigate to in their web browser in order to federate from the IdP and directly access the application, without any SAML 2.0 service provider (SP) bindings. Constraints: • min: 8 • max: 200 • pattern: ^(http|https)\://\S+$ RelayStateParameterName -&gt; (string) The relay state parameter name supported by the SAML 2.0 identity provider (IdP). When the end user is redirected to the user access URL from the WorkSpaces client application, this relay state parameter name is appended as a query parameter to the URL along with the relay state endpoint to return the user to the client application session. To use SAML 2.0 authentication with WorkSpaces, the IdP must support IdP-initiated deep linking for the relay state URL. Consult your IdP documentation for more information. Constraints: • min: 1 Shorthand Syntax: Status=string,UserAccessUrl=string,RelayStateParameterName=string JSON Syntax: { "Status": "DISABLED"|"ENABLED"|"ENABLED_WITH_DIRECTORY_LOGIN_FALLBACK", "UserAccessUrl": "string", "RelayStateParameterName": "string" }
     /// </summary>
     [CliOption("--saml-properties")]
     public string? SamlProperties { get; set; }
 
     /// <summary>
-    /// The SAML properties to delete as part of your request. Specify one of the following options: o SAML_PROPERTIES_USER_ACCESS_URL to delete the user access URL. o SAML_PROPERTIES_RELAY_STATE_PARAMETER_NAME to delete the relay state parameter name. (string) Possible values: o SAML_PROPERTIES_USER_ACCESS_URL o SAML_PROPERTIES_RELAY_STATE_PARAMETER_NAME Syntax: "string" "string" ...
+    /// The SAML properties to delete as part of your request. Specify one of the following options: • SAML_PROPERTIES_USER_ACCESS_URL to delete the user access URL. • SAML_PROPERTIES_RELAY_STATE_PARAMETER_NAME to delete the relay state parameter name. (string) Possible values: • SAML_PROPERTIES_USER_ACCESS_URL • SAML_PROPERTIES_RELAY_STATE_PARAMETER_NAME Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--properties-to-delete", GroupValues = true)]
     public IEnumerable<string>? PropertiesToDelete { get; set; }
@@ -94,6 +95,15 @@ public record AwsWorkspacesModifySamlPropertiesOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

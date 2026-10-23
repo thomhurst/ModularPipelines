@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsS3vectorsUpdateIndexModeOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Updates the mode for an existing vector index. You can set the mode to ENHANCED for any vector index. You can set the mode to CLASSIC only for a vector index in a vector bucket created before September 30, 2026. This operation doesn't change the default index mode of the vector bucket or the mode of other vector indexes. Specify the vector index by using its Amazon Resource Name (ARN) or both the vector bucket name and vector index name. Permissions You must have the s3vectors:UpdateIndexMode pe...
     /// </summary>
-    /// <param name="IndexMode">The new mode for the vector index. Valid values: o CLASSIC - Applies metadata filters during the vector search. You can specify CLASSIC only for a vector index in a vector bucket created before September 30, 2026. o ENHANCED - Applies metadata filters before the vector search. Possible values: o CLASSIC o ENHANCED</param>
+    /// <param name="IndexMode">The new mode for the vector index. Valid values: • CLASSIC - Applies metadata filters during the vector search. You can specify CLASSIC only for a vector index in a vector bucket created before September 30, 2026. • ENHANCED - Applies metadata filters before the vector search. Possible values: • CLASSIC • ENHANCED</param>
     public AwsS3vectorsUpdateIndexModeOptions(
         string IndexMode
     )
@@ -56,25 +57,25 @@ public record AwsS3vectorsUpdateIndexModeOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The new mode for the vector index. Valid values: o CLASSIC - Applies metadata filters during the vector search. You can specify CLASSIC only for a vector index in a vector bucket created before September 30, 2026. o ENHANCED - Applies metadata filters before the vector search. Possible values: o CLASSIC o ENHANCED
+    /// The new mode for the vector index. Valid values: • CLASSIC - Applies metadata filters during the vector search. You can specify CLASSIC only for a vector index in a vector bucket created before September 30, 2026. • ENHANCED - Applies metadata filters before the vector search. Possible values: • CLASSIC • ENHANCED
     /// </summary>
     [CliOption("--index-mode")]
     public string? IndexMode { get; private init; }
 
     /// <summary>
-    /// The name of the vector bucket that contains the vector index. Constraints: o min: 3 o max: 63
+    /// The name of the vector bucket that contains the vector index. Constraints: • min: 3 • max: 63
     /// </summary>
     [CliOption("--vector-bucket-name")]
     public string? VectorBucketName { get; set; }
 
     /// <summary>
-    /// The name of the vector index to update. Constraints: o min: 3 o max: 63
+    /// The name of the vector index to update. Constraints: • min: 3 • max: 63
     /// </summary>
     [CliOption("--index-name")]
     public string? IndexName { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the vector index to update. Constraints: o pattern: arn:aws[-a-z0-9]*:s3vec- tors:[a-z0-9-]+:[0-9]{12}:bucket/[a-z0-9][a-z0-9-.]{1,61}[a-z0-9]/in- dex/[a-z0-9][a-z0-9-.]{1,61}[a-z0-9]
+    /// The Amazon Resource Name (ARN) of the vector index to update. Constraints: • pattern: arn:aws[-a-z0-9]*:s3vectors:[a-z0-9-]+:[0-9]{12}:bucket/[a-z0-9][a-z0-9-.]{1,61}[a-z0-9]/index/[a-z0-9][a-z0-9-.]{1,61}[a-z0-9]
     /// </summary>
     [CliOption("--index-arn")]
     public string? IndexArn { get; set; }
@@ -100,6 +101,15 @@ public record AwsS3vectorsUpdateIndexModeOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

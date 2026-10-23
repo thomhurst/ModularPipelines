@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsCodeguruprofilerGetRecommendationsOptions : AwsOptions, IValida
     /// <summary>
     /// Returns a list of ` Recommendation https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_Recommendation.html`__ objects that contain recommendations for a profiling group for a given time period. A list of ` Anomaly https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_Anomaly.html`__ objects that contains details about anomalies detected in the profiling group for the same time period is also returned. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EndTime">The start time of the profile to get analysis data about. You must specify startTime and endTime . This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisec- ond past June 1, 2020 1:15:02 PM UTC.</param>
-    /// <param name="ProfilingGroupName">The name of the profiling group to get analysis data about. Constraints: o min: 1 o max: 255 o pattern: ^[\w-]+$</param>
-    /// <param name="StartTime">The end time of the profile to get analysis data about. You must specify startTime and endTime . This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisec- ond past June 1, 2020 1:15:02 PM UTC.</param>
+    /// <param name="EndTime">The start time of the profile to get analysis data about. You must specify startTime and endTime . This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.</param>
+    /// <param name="ProfilingGroupName">The name of the profiling group to get analysis data about. Constraints: • min: 1 • max: 255 • pattern: ^[\w-]+$</param>
+    /// <param name="StartTime">The end time of the profile to get analysis data about. You must specify startTime and endTime . This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.</param>
     public AwsCodeguruprofilerGetRecommendationsOptions(
         string EndTime,
         string ProfilingGroupName,
@@ -64,25 +65,25 @@ public record AwsCodeguruprofilerGetRecommendationsOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The start time of the profile to get analysis data about. You must specify startTime and endTime . This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisec- ond past June 1, 2020 1:15:02 PM UTC.
+    /// The start time of the profile to get analysis data about. You must specify startTime and endTime . This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
     /// </summary>
     [CliOption("--end-time")]
     public string? EndTime { get; private init; }
 
     /// <summary>
-    /// The name of the profiling group to get analysis data about. Constraints: o min: 1 o max: 255 o pattern: ^[\w-]+$
+    /// The name of the profiling group to get analysis data about. Constraints: • min: 1 • max: 255 • pattern: ^[\w-]+$
     /// </summary>
     [CliOption("--profiling-group-name")]
     public string? ProfilingGroupName { get; private init; }
 
     /// <summary>
-    /// The end time of the profile to get analysis data about. You must specify startTime and endTime . This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisec- ond past June 1, 2020 1:15:02 PM UTC.
+    /// The end time of the profile to get analysis data about. You must specify startTime and endTime . This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
     /// </summary>
     [CliOption("--start-time")]
     public string? StartTime { get; private init; }
 
     /// <summary>
-    /// The language used to provide analysis. Specify using a string that is one of the following BCP 47 language codes. o de-DE - German, Germany o en-GB - English, United Kingdom o en-US - English, United States o es-ES - Spanish, Spain o fr-FR - French, France o it-IT - Italian, Italy o ja-JP - Japanese, Japan o ko-KR - Korean, Republic of Korea o pt-BR - Portugese, Brazil o zh-CN - Chinese, China o zh-TW - Chinese, Taiwan
+    /// The language used to provide analysis. Specify using a string that is one of the following BCP 47 language codes. • de-DE - German, Germany • en-GB - English, United Kingdom • en-US - English, United States • es-ES - Spanish, Spain • fr-FR - French, France • it-IT - Italian, Italy • ja-JP - Japanese, Japan • ko-KR - Korean, Republic of Korea • pt-BR - Portugese, Brazil • zh-CN - Chinese, China • zh-TW - Chinese, Taiwan
     /// </summary>
     [CliOption("--locale")]
     public string? Locale { get; set; }
@@ -108,6 +109,15 @@ public record AwsCodeguruprofilerGetRecommendationsOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

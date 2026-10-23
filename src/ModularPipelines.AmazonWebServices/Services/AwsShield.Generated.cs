@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -32,7 +32,7 @@ public class AwsShield : IAwsShield
     #region Commands
 
     /// <summary>
-    /// Authorizes the Shield Response Team (SRT) to access the specified Ama- zon S3 bucket containing log data such as Application Load Balancer ac- cess logs, CloudFront logs, or logs from third party sources. You can associate up to 10 Amazon S3 buckets with your subscription. To use the services of the SRT and make an AssociateDRTLogBucket re- quest, you must be subscribed to the Business Support plan or the Enterprise Support plan . See also: AWS API Documentation
+    /// Authorizes the Shield Response Team (SRT) to access the specified Amazon S3 bucket containing log data such as Application Load Balancer access logs, CloudFront logs, or logs from third party sources. You can associate up to 10 Amazon S3 buckets with your subscription. To use the services of the SRT and make an AssociateDRTLogBucket request, you must be subscribed to the Business Support plan or the Enterprise Support plan . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsShield : IAwsShield
     }
 
     /// <summary>
-    /// Authorizes the Shield Response Team (SRT) using the specified role, to access your Amazon Web Services account to assist with DDoS attack mit- igation during potential attacks. This enables the SRT to inspect your WAF configuration and create or update WAF rules and web ACLs. You can associate only one RoleArn with your subscription. If you sub- mit an AssociateDRTRole request for an account that already has an as- sociated role, the new RoleArn will replace the existing RoleArn . Prior to makin...
+    /// Authorizes the Shield Response Team (SRT) using the specified role, to access your Amazon Web Services account to assist with DDoS attack mitigation during potential attacks. This enables the SRT to inspect your WAF configuration and create or update WAF rules and web ACLs. You can associate only one RoleArn with your subscription. If you submit an AssociateDRTRole request for an account that already has an associated role, the new RoleArn will replace the existing RoleArn . Prior to making the ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsShield : IAwsShield
     }
 
     /// <summary>
-    /// Adds health-based detection to the Shield Advanced protection for a re- source. Shield Advanced health-based detection uses the health of your Amazon Web Services resource to improve responsiveness and accuracy in attack detection and response. You define the health check in Route 53 and then associate it with your Shield Advanced protection. For more information, see Shield Advanced Health-Based Detection in the WAF Developer Guide . See also: AWS API Documentation
+    /// Adds health-based detection to the Shield Advanced protection for a resource. Shield Advanced health-based detection uses the health of your Amazon Web Services resource to improve responsiveness and accuracy in attack detection and response. You define the health check in Route 53 and then associate it with your Shield Advanced protection. For more information, see Shield Advanced Health-Based Detection in the WAF Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsShield : IAwsShield
     }
 
     /// <summary>
-    /// Initializes proactive engagement and sets the list of contacts for the Shield Response Team (SRT) to use. You must provide at least one phone number in the emergency contact list. After you have initialized proactive engagement using this call, to disable or enable proactive engagement, use the calls DisableProac- tiveEngagement and EnableProactiveEngagement . NOTE: This call defines the list of email addresses and phone numbers that the SRT can use to contact you for escalations to the SRT and ...
+    /// Initializes proactive engagement and sets the list of contacts for the Shield Response Team (SRT) to use. You must provide at least one phone number in the emergency contact list. After you have initialized proactive engagement using this call, to disable or enable proactive engagement, use the calls DisableProactiveEngagement and EnableProactiveEngagement . NOTE: This call defines the list of email addresses and phone numbers that the SRT can use to contact you for escalations to the SRT and to...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsShield : IAwsShield
     }
 
     /// <summary>
-    /// Enables Shield Advanced for a specific Amazon Web Services resource. The resource can be an Amazon CloudFront distribution, Amazon Route 53 hosted zone, Global Accelerator standard accelerator, Elastic IP Ad- dress, Application Load Balancer, or a Classic Load Balancer. You can protect Amazon EC2 instances and Network Load Balancers by association with protected Amazon EC2 Elastic IP addresses. You can add protection to only a single resource with each CreatePro- tection request. You can add pro...
+    /// Enables Shield Advanced for a specific Amazon Web Services resource. The resource can be an Amazon CloudFront distribution, Amazon Route 53 hosted zone, Global Accelerator standard accelerator, Elastic IP Address, Application Load Balancer, or a Classic Load Balancer. You can protect Amazon EC2 instances and Network Load Balancers by association with protected Amazon EC2 Elastic IP addresses. You can add protection to only a single resource with each CreateProtection request. You can add protect...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsShield : IAwsShield
     }
 
     /// <summary>
-    /// Activates Shield Advanced for an account. NOTE: For accounts that are members of an Organizations organization, Shield Advanced subscriptions are billed against the organization's payer account, regardless of whether the payer account itself is subscribed. When you initially create a subscription, your subscription is set to be automatically renewed at the end of the existing subscription pe- riod. You can change this by submitting an UpdateSubscription request. See also: AWS API Documentation
+    /// Activates Shield Advanced for an account. NOTE: For accounts that are members of an Organizations organization, Shield Advanced subscriptions are billed against the organization's payer account, regardless of whether the payer account itself is subscribed. When you initially create a subscription, your subscription is set to be automatically renewed at the end of the existing subscription period. You can change this by submitting an UpdateSubscription request. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsShield : IAwsShield
     }
 
     /// <summary>
-    /// Provides information about the number and type of attacks Shield has detected in the last year for all resources that belong to your ac- count, regardless of whether you've defined Shield protections for them. This operation is available to Shield customers as well as to Shield Advanced customers. The operation returns data for the time range of midnight UTC, one year ago, to midnight UTC, today. For example, if the current time is 2020-10-26 15:39:32 PDT , equal to 2020-10-26 22:39:32 UTC , the...
+    /// Provides information about the number and type of attacks Shield has detected in the last year for all resources that belong to your account, regardless of whether you've defined Shield protections for them. This operation is available to Shield customers as well as to Shield Advanced customers. The operation returns data for the time range of midnight UTC, one year ago, to midnight UTC, today. For example, if the current time is 2020-10-26 15:39:32 PDT , equal to 2020-10-26 22:39:32 UTC , then ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsShield : IAwsShield
     }
 
     /// <summary>
-    /// A list of email addresses and phone numbers that the Shield Response Team (SRT) can use to contact you if you have proactive engagement en- abled, for escalations to the SRT and to initiate proactive customer support. See also: AWS API Documentation
+    /// A list of email addresses and phone numbers that the Shield Response Team (SRT) can use to contact you if you have proactive engagement enabled, for escalations to the SRT and to initiate proactive customer support. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -287,7 +287,7 @@ public class AwsShield : IAwsShield
     }
 
     /// <summary>
-    /// Removes authorization from the Shield Response Team (SRT) to notify contacts about escalations to the SRT and to initiate proactive cus- tomer support. See also: AWS API Documentation
+    /// Removes authorization from the Shield Response Team (SRT) to notify contacts about escalations to the SRT and to initiate proactive customer support. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -317,7 +317,7 @@ public class AwsShield : IAwsShield
     }
 
     /// <summary>
-    /// Removes the Shield Response Team's (SRT) access to your Amazon Web Ser- vices account. See also: AWS API Documentation
+    /// Removes the Shield Response Team's (SRT) access to your Amazon Web Services account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -332,7 +332,7 @@ public class AwsShield : IAwsShield
     }
 
     /// <summary>
-    /// Removes health-based detection from the Shield Advanced protection for a resource. Shield Advanced health-based detection uses the health of your Amazon Web Services resource to improve responsiveness and accu- racy in attack detection and response. You define the health check in Route 53 and then associate or disasso- ciate it with your Shield Advanced protection. For more information, see Shield Advanced Health-Based Detection in the WAF Developer Guide . See also: AWS API Documentation
+    /// Removes health-based detection from the Shield Advanced protection for a resource. Shield Advanced health-based detection uses the health of your Amazon Web Services resource to improve responsiveness and accuracy in attack detection and response. You define the health check in Route 53 and then associate or disassociate it with your Shield Advanced protection. For more information, see Shield Advanced Health-Based Detection in the WAF Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -347,7 +347,7 @@ public class AwsShield : IAwsShield
     }
 
     /// <summary>
-    /// Enable the Shield Advanced automatic application layer DDoS mitigation for the protected resource. NOTE: This feature is available for Amazon CloudFront distributions and Application Load Balancers only. This causes Shield Advanced to create, verify, and apply WAF rules for DDoS attacks that it detects for the resource. Shield Advanced applies the rules in a Shield rule group inside the web ACL that you've associ- ated with the resource. For information about how automatic mitigation works and t...
+    /// Enable the Shield Advanced automatic application layer DDoS mitigation for the protected resource. NOTE: This feature is available for Amazon CloudFront distributions and Application Load Balancers only. This causes Shield Advanced to create, verify, and apply WAF rules for DDoS attacks that it detects for the resource. Shield Advanced applies the rules in a Shield rule group inside the web ACL that you've associated with the resource. For information about how automatic mitigation works and the...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public class AwsShield : IAwsShield
     }
 
     /// <summary>
-    /// Authorizes the Shield Response Team (SRT) to use email and phone to no- tify contacts about escalations to the SRT and to initiate proactive customer support. See also: AWS API Documentation
+    /// Authorizes the Shield Response Team (SRT) to use email and phone to notify contacts about escalations to the SRT and to initiate proactive customer support. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -392,7 +392,7 @@ public class AwsShield : IAwsShield
     }
 
     /// <summary>
-    /// Returns all ongoing DDoS attacks or all DDoS attacks during a specified time period. See also: AWS API Documentation list-attacks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: AttackSummaries
+    /// Returns all ongoing DDoS attacks or all DDoS attacks during a specified time period. See also: AWS API Documentation list-attacks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: AttackSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -407,7 +407,7 @@ public class AwsShield : IAwsShield
     }
 
     /// <summary>
-    /// Retrieves ProtectionGroup objects for the account. You can retrieve all protection groups or you can provide filtering criteria and re- trieve just the subset of protection groups that match the criteria. See also: AWS API Documentation
+    /// Retrieves ProtectionGroup objects for the account. You can retrieve all protection groups or you can provide filtering criteria and retrieve just the subset of protection groups that match the criteria. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -512,7 +512,7 @@ public class AwsShield : IAwsShield
     }
 
     /// <summary>
-    /// Updates the details of the list of email addresses and phone numbers that the Shield Response Team (SRT) can use to contact you if you have proactive engagement enabled, for escalations to the SRT and to initi- ate proactive customer support. See also: AWS API Documentation
+    /// Updates the details of the list of email addresses and phone numbers that the Shield Response Team (SRT) can use to contact you if you have proactive engagement enabled, for escalations to the SRT and to initiate proactive customer support. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -527,7 +527,7 @@ public class AwsShield : IAwsShield
     }
 
     /// <summary>
-    /// Updates an existing protection group. A protection group is a grouping of protected resources so they can be handled as a collective. This re- source grouping improves the accuracy of detection and reduces false positives. See also: AWS API Documentation
+    /// Updates an existing protection group. A protection group is a grouping of protected resources so they can be handled as a collective. This resource grouping improves the accuracy of detection and reduces false positives. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

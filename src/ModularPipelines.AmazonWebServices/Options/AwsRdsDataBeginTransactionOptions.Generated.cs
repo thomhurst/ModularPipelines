@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Starts a SQL transaction. NOTE: A transaction can run for a maximum of 24 hours. A transaction is terminated and rolled back automatically after 24 hours. A transaction times out if no calls use its transaction ID in three minutes. If a transaction times out before it's committed, it's rolled back automatically. For Aurora MySQL, DDL statements inside a transaction cause an im- plicit commit. We recommend that you run each MySQL DDL statement in a separate ExecuteStatement call with continueAfte...
+/// Starts a SQL transaction. NOTE: A transaction can run for a maximum of 24 hours. A transaction is terminated and rolled back automatically after 24 hours. A transaction times out if no calls use its transaction ID in three minutes. If a transaction times out before it's committed, it's rolled back automatically. For Aurora MySQL, DDL statements inside a transaction cause an implicit commit. We recommend that you run each MySQL DDL statement in a separate ExecuteStatement call with continueAfterT...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsRdsDataBeginTransactionOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Starts a SQL transaction. NOTE: A transaction can run for a maximum of 24 hours. A transaction is terminated and rolled back automatically after 24 hours. A transaction times out if no calls use its transaction ID in three minutes. If a transaction times out before it's committed, it's rolled back automatically. For Aurora MySQL, DDL statements inside a transaction cause an im- plicit commit. We recommend that you run each MySQL DDL statement in a separate ExecuteStatement call with continueAfte...
+    /// Starts a SQL transaction. NOTE: A transaction can run for a maximum of 24 hours. A transaction is terminated and rolled back automatically after 24 hours. A transaction times out if no calls use its transaction ID in three minutes. If a transaction times out before it's committed, it's rolled back automatically. For Aurora MySQL, DDL statements inside a transaction cause an implicit commit. We recommend that you run each MySQL DDL statement in a separate ExecuteStatement call with continueAfterT...
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster. Constraints: o min: 11 o max: 570</param>
-    /// <param name="SecretArn">The name or ARN of the secret that enables access to the DB cluster. Constraints: o min: 11 o max: 570</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster. Constraints: • min: 11 • max: 570</param>
+    /// <param name="SecretArn">The name or ARN of the secret that enables access to the DB cluster. Constraints: • min: 11 • max: 570</param>
     public AwsRdsDataBeginTransactionOptions(
         string ResourceArn,
         string SecretArn
@@ -60,25 +61,25 @@ public record AwsRdsDataBeginTransactionOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster. Constraints: o min: 11 o max: 570
+    /// The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster. Constraints: • min: 11 • max: 570
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The name or ARN of the secret that enables access to the DB cluster. Constraints: o min: 11 o max: 570
+    /// The name or ARN of the secret that enables access to the DB cluster. Constraints: • min: 11 • max: 570
     /// </summary>
     [CliOption("--secret-arn")]
     public string? SecretArn { get; private init; }
 
     /// <summary>
-    /// The name of the database. Constraints: o min: 0 o max: 64
+    /// The name of the database. Constraints: • min: 0 • max: 64
     /// </summary>
     [CliOption("--database")]
     public string? Database { get; set; }
 
     /// <summary>
-    /// The name of the database schema. Constraints: o min: 0 o max: 64
+    /// The name of the database schema. Constraints: • min: 0 • max: 64
     /// </summary>
     [CliOption("--schema")]
     public string? Schema { get; set; }
@@ -104,6 +105,15 @@ public record AwsRdsDataBeginTransactionOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

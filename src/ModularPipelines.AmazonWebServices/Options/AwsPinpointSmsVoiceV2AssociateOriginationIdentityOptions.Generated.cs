@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associates the specified origination identity with a pool. If the origination identity is a phone number and is already associated with another pool, an error is returned. A sender ID can be associated with multiple pools. If the origination identity configuration doesn't match the pool's con- figuration, an error is returned. See also: AWS API Documentation
+/// Associates the specified origination identity with a pool. If the origination identity is a phone number and is already associated with another pool, an error is returned. A sender ID can be associated with multiple pools. If the origination identity configuration doesn't match the pool's configuration, an error is returned. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsPinpointSmsVoiceV2AssociateOriginationIdentityOptions : AwsOpti
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associates the specified origination identity with a pool. If the origination identity is a phone number and is already associated with another pool, an error is returned. A sender ID can be associated with multiple pools. If the origination identity configuration doesn't match the pool's con- figuration, an error is returned. See also: AWS API Documentation
+    /// Associates the specified origination identity with a pool. If the origination identity is a phone number and is already associated with another pool, an error is returned. A sender ID can be associated with multiple pools. If the origination identity configuration doesn't match the pool's configuration, an error is returned. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PoolId">The pool to update with the new Identity. This value can be either the PoolId or PoolArn, and you can find these values using DescribePools . WARNING: If you are using a shared End User Messaging SMS; resource then you must use the full Amazon Resource Name(ARN). Constraints: o min: 0 o max: 256 o pattern: [A-Za-z0-9_:/-]*</param>
-    /// <param name="OriginationIdentity">The origination identity to use, such as PhoneNumberId, PhoneNumber- Arn, SenderId, or SenderIdArn. You can use DescribePhoneNumbers to find the values for PhoneNumberId and PhoneNumberArn, while De- scribeSenderIds can be used to get the values for SenderId and SenderIdArn. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+</param>
+    /// <param name="PoolId">The pool to update with the new Identity. This value can be either the PoolId or PoolArn, and you can find these values using DescribePools . WARNING: If you are using a shared End User Messaging SMS; resource then you must use the full Amazon Resource Name(ARN). Constraints: • min: 0 • max: 256 • pattern: [A-Za-z0-9_:/-]*</param>
+    /// <param name="OriginationIdentity">The origination identity to use, such as PhoneNumberId, PhoneNumberArn, SenderId, or SenderIdArn. You can use DescribePhoneNumbers to find the values for PhoneNumberId and PhoneNumberArn, while DescribeSenderIds can be used to get the values for SenderId and SenderIdArn. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+</param>
     public AwsPinpointSmsVoiceV2AssociateOriginationIdentityOptions(
         string PoolId,
         string OriginationIdentity
@@ -61,25 +62,25 @@ public record AwsPinpointSmsVoiceV2AssociateOriginationIdentityOptions : AwsOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The pool to update with the new Identity. This value can be either the PoolId or PoolArn, and you can find these values using DescribePools . WARNING: If you are using a shared End User Messaging SMS; resource then you must use the full Amazon Resource Name(ARN). Constraints: o min: 0 o max: 256 o pattern: [A-Za-z0-9_:/-]*
+    /// The pool to update with the new Identity. This value can be either the PoolId or PoolArn, and you can find these values using DescribePools . WARNING: If you are using a shared End User Messaging SMS; resource then you must use the full Amazon Resource Name(ARN). Constraints: • min: 0 • max: 256 • pattern: [A-Za-z0-9_:/-]*
     /// </summary>
     [CliOption("--pool-id")]
     public string? PoolId { get; private init; }
 
     /// <summary>
-    /// The origination identity to use, such as PhoneNumberId, PhoneNumber- Arn, SenderId, or SenderIdArn. You can use DescribePhoneNumbers to find the values for PhoneNumberId and PhoneNumberArn, while De- scribeSenderIds can be used to get the values for SenderId and SenderIdArn. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// The origination identity to use, such as PhoneNumberId, PhoneNumberArn, SenderId, or SenderIdArn. You can use DescribePhoneNumbers to find the values for PhoneNumberId and PhoneNumberArn, while DescribeSenderIds can be used to get the values for SenderId and SenderIdArn. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+
     /// </summary>
     [CliOption("--origination-identity")]
     public string? OriginationIdentity { get; private init; }
 
     /// <summary>
-    /// The new two-character code, in ISO 3166-1 alpha-2 format, for the country or region of the origination identity. This field is op- tional and is not required for origination identity types that are not country-specific, such as RCS agents. Constraints: o min: 2 o max: 2 o pattern: [A-Z]{2}
+    /// The new two-character code, in ISO 3166-1 alpha-2 format, for the country or region of the origination identity. This field is optional and is not required for origination identity types that are not country-specific, such as RCS agents. Constraints: • min: 2 • max: 2 • pattern: [A-Z]{2}
     /// </summary>
     [CliOption("--iso-country-code")]
     public string? IsoCountryCode { get; set; }
 
     /// <summary>
-    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempo- tency. Constraints: o min: 1 o max: 64 o pattern: [!-~]+
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency. Constraints: • min: 1 • max: 64 • pattern: [!-~]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -106,6 +107,15 @@ public record AwsPinpointSmsVoiceV2AssociateOriginationIdentityOptions : AwsOpti
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

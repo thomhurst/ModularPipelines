@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// The information about the recovery points of the type specified by a resource Amazon Resource Name (ARN). NOTE: For Amazon EFS and Amazon EC2, this action only lists recovery points created by Backup. See also: AWS API Documentation list-recovery-points-by-resource is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument ...
+/// The information about the recovery points of the type specified by a resource Amazon Resource Name (ARN). NOTE: For Amazon EFS and Amazon EC2, this action only lists recovery points created by Backup. See also: AWS API Documentation list-recovery-points-by-resource is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +27,7 @@ public record AwsBackupListRecoveryPointsByResourceOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// The information about the recovery points of the type specified by a resource Amazon Resource Name (ARN). NOTE: For Amazon EFS and Amazon EC2, this action only lists recovery points created by Backup. See also: AWS API Documentation list-recovery-points-by-resource is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument ...
+    /// The information about the recovery points of the type specified by a resource Amazon Resource Name (ARN). NOTE: For Amazon EFS and Amazon EC2, this action only lists recovery points created by Backup. See also: AWS API Documentation list-recovery-points-by-resource is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a...
     /// </summary>
     /// <param name="ResourceArn">An ARN that uniquely identifies a resource. The format of the ARN depends on the resource type.</param>
     public AwsBackupListRecoveryPointsByResourceOptions(
@@ -63,16 +64,13 @@ public record AwsBackupListRecoveryPointsByResourceOptions : AwsOptions, IValida
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// This attribute filters recovery points based on ownership. If this is set to TRUE , the response will contain recovery points associated with the selected resources that are managed by Backup. If this is set to FALSE , the response will contain all recovery points associated with the selected resource, except for EBS snap- shots copied within the same Region and account. Type: Boolean
+    /// This attribute filters recovery points based on ownership. If this is set to TRUE , the response will contain recovery points associated with the selected resources that are managed by Backup. If this is set to FALSE , the response will contain all recovery points associated with the selected resource, except for EBS snapshots copied within the same Region and account. Type: Boolean
     /// </summary>
     [CliFlag("--managed-by-aws-backup-only", NegatedName = "--no-managed-by-aws-backup-only")]
     public bool? ManagedByAwsBackupOnly { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -82,16 +80,19 @@ public record AwsBackupListRecoveryPointsByResourceOptions : AwsOptions, IValida
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 1000
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -108,6 +109,15 @@ public record AwsBackupListRecoveryPointsByResourceOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

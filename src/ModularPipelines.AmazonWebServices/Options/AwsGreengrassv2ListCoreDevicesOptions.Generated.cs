@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves a paginated list of Greengrass core devices. NOTE: IoT Greengrass relies on individual devices to send status updates to the Amazon Web Services Cloud. If the IoT Greengrass Core soft- ware isn't running on the device, or if device isn't connected to the Amazon Web Services Cloud, then the reported status of that de- vice might not reflect its current status. The status timestamp in- dicates when the device status was last updated. Core devices send status updates at the following time...
+/// Retrieves a paginated list of Greengrass core devices. NOTE: IoT Greengrass relies on individual devices to send status updates to the Amazon Web Services Cloud. If the IoT Greengrass Core software isn't running on the device, or if device isn't connected to the Amazon Web Services Cloud, then the reported status of that device might not reflect its current status. The status timestamp indicates when the device status was last updated. Core devices send status updates at the following times: • W...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -24,28 +24,25 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsGreengrassv2ListCoreDevicesOptions : AwsOptions
 {
     /// <summary>
-    /// The ARN of the IoT thing group by which to filter. If you specify this parameter, the list includes only core devices that have suc- cessfully deployed a deployment that targets the thing group. When you remove a core device from a thing group, the list continues to include that core device. Constraints: o pattern: arn:[^:]*:iot:[^:]*:[0-9]+:thinggroup/.+
+    /// The ARN of the IoT thing group by which to filter. If you specify this parameter, the list includes only core devices that have successfully deployed a deployment that targets the thing group. When you remove a core device from a thing group, the list continues to include that core device. Constraints: • pattern: arn:[^:]*:iot:[^:]*:[0-9]+:thinggroup/.+
     /// </summary>
     [CliOption("--thing-group-arn")]
     public string? ThingGroupArn { get; set; }
 
     /// <summary>
-    /// The core device status by which to filter. If you specify this para- meter, the list includes only core devices that have this status. Choose one of the following options: o HEALTHY The IoT Greengrass Core software and all components run on the core device without issue. o UNHEALTHY The IoT Greengrass Core software or a component is in a failed state on the core device. Possible values: o HEALTHY o UNHEALTHY
+    /// The core device status by which to filter. If you specify this parameter, the list includes only core devices that have this status. Choose one of the following options: • HEALTHY The IoT Greengrass Core software and all components run on the core device without issue. • UNHEALTHY The IoT Greengrass Core software or a component is in a failed state on the core device. Possible values: • HEALTHY • UNHEALTHY
     /// </summary>
     [CliOption("--status")]
     public AwsGreengrassv2ListCoreDevicesStatus? Status { get; set; }
 
     /// <summary>
-    /// The runtime to be used by the core device. The runtime can be: o aws_nucleus_classic o aws_nucleus_lite Constraints: o min: 1 o max: 255
+    /// The runtime to be used by the core device. The runtime can be: • aws_nucleus_classic • aws_nucleus_lite Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--runtime")]
     public string? Runtime { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -55,15 +52,27 @@ public record AwsGreengrassv2ListCoreDevicesOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

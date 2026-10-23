@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists transfers that allow an account outside your organization to man- age the specified responsibilities for your organization. This opera- tion returns both transfer invitations and transfers. NOTE: When calling List* operations, always check the NextToken response parameter value, even if you receive an empty result set. These op- erations can occasionally return an empty set of results even when more results are available. Continue making requests until NextToken returns null. A null NextTo...
+/// Lists transfers that allow an account outside your organization to manage the specified responsibilities for your organization. This operation returns both transfer invitations and transfers. NOTE: When calling List* operations, always check the NextToken response parameter value, even if you receive an empty result set. These operations can occasionally return an empty set of results even when more results are available. Continue making requests until NextToken returns null. A null NextToken va...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsOrganizationsListOutboundResponsibilityTransfersOptions : AwsOp
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists transfers that allow an account outside your organization to man- age the specified responsibilities for your organization. This opera- tion returns both transfer invitations and transfers. NOTE: When calling List* operations, always check the NextToken response parameter value, even if you receive an empty result set. These op- erations can occasionally return an empty set of results even when more results are available. Continue making requests until NextToken returns null. A null NextTo...
+    /// Lists transfers that allow an account outside your organization to manage the specified responsibilities for your organization. This operation returns both transfer invitations and transfers. NOTE: When calling List* operations, always check the NextToken response parameter value, even if you receive an empty result set. These operations can occasionally return an empty set of results even when more results are available. Continue making requests until NextToken returns null. A null NextToken va...
     /// </summary>
-    /// <param name="Type">The type of responsibility. Currently, only BILLING is supported. Possible values: o BILLING</param>
+    /// <param name="Type">The type of responsibility. Currently, only BILLING is supported. Possible values: • BILLING</param>
     public AwsOrganizationsListOutboundResponsibilityTransfersOptions(
         string Type
     )
@@ -57,20 +58,20 @@ public record AwsOrganizationsListOutboundResponsibilityTransfersOptions : AwsOp
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The type of responsibility. Currently, only BILLING is supported. Possible values: o BILLING
+    /// The type of responsibility. Currently, only BILLING is supported. Possible values: • BILLING
     /// </summary>
     [CliOption("--type")]
     public string? Type { get; private init; }
 
     /// <summary>
-    /// The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indi- cates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the out- put should continue from. Constraints: o max: 100000 o pattern: [\s\S]*
+    /// The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from. Constraints: • max: 100000 • pattern: [\s\S]*
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of items to return in the response. If more re- sults exist than the specified MaxResults value, a token is included in the response so that you can retrieve the remaining results. Constraints: o min: 1 o max: 20
+    /// The maximum number of items to return in the response. If more results exist than the specified MaxResults value, a token is included in the response so that you can retrieve the remaining results. Constraints: • min: 1 • max: 20
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -96,6 +97,15 @@ public record AwsOrganizationsListOutboundResponsibilityTransfersOptions : AwsOp
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

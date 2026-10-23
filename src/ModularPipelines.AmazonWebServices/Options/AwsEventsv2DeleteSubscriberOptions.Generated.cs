@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsEventsv2DeleteSubscriberOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Deletes a subscriber. Events are no longer delivered to its target. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SubscriberArn">The Amazon Resource Name (ARN) that uniquely identifies a sub- scriber. Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[a-z0-9]+)*:events:[a-z][a-z0-9]*(-[a-z0-9]+)*:([0-9]{12}):sub- scriber\/[A-Za-z0-9][\.\-_A-Za-z0-9]{0,255}\/[a-z0-9]{25}</param>
+    /// <param name="SubscriberArn">The Amazon Resource Name (ARN) that uniquely identifies a subscriber. Constraints: • min: 1 • max: 1011 • pattern: arn:aws(-[a-z0-9]+)*:events:[a-z][a-z0-9]*(-[a-z0-9]+)*:([0-9]{12}):subscriber\/[A-Za-z0-9][\.\-_A-Za-z0-9]{0,255}\/[a-z0-9]{25}</param>
     public AwsEventsv2DeleteSubscriberOptions(
         string SubscriberArn
     )
@@ -56,7 +57,7 @@ public record AwsEventsv2DeleteSubscriberOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) that uniquely identifies a sub- scriber. Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[a-z0-9]+)*:events:[a-z][a-z0-9]*(-[a-z0-9]+)*:([0-9]{12}):sub- scriber\/[A-Za-z0-9][\.\-_A-Za-z0-9]{0,255}\/[a-z0-9]{25}
+    /// The Amazon Resource Name (ARN) that uniquely identifies a subscriber. Constraints: • min: 1 • max: 1011 • pattern: arn:aws(-[a-z0-9]+)*:events:[a-z][a-z0-9]*(-[a-z0-9]+)*:([0-9]{12}):subscriber\/[A-Za-z0-9][\.\-_A-Za-z0-9]{0,255}\/[a-z0-9]{25}
     /// </summary>
     [CliOption("--subscriber-arn")]
     public string? SubscriberArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsEventsv2DeleteSubscriberOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

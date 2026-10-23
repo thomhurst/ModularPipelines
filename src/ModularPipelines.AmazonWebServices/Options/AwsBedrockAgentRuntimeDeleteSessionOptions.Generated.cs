@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsBedrockAgentRuntimeDeleteSessionOptions : AwsOptions, IValidata
     /// <summary>
     /// Deletes a session that you ended. You can't delete a session with an ACTIVE status. To delete an active session, you must first end it with the EndSession API operation. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions . See also: AWS API Documentation
     /// </summary>
-    /// <param name="SessionIdentifier">The unique identifier for the session to be deleted. You can specify either the session's sessionId or its Amazon Resource Name (ARN). Constraints: o pattern: ^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]+:[0-9]{12}:ses- sion/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})|([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})$</param>
+    /// <param name="SessionIdentifier">The unique identifier for the session to be deleted. You can specify either the session's sessionId or its Amazon Resource Name (ARN). Constraints: • pattern: ^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]+:[0-9]{12}:session/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})|([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})$</param>
     public AwsBedrockAgentRuntimeDeleteSessionOptions(
         string SessionIdentifier
     )
@@ -56,7 +57,7 @@ public record AwsBedrockAgentRuntimeDeleteSessionOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the session to be deleted. You can specify either the session's sessionId or its Amazon Resource Name (ARN). Constraints: o pattern: ^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]+:[0-9]{12}:ses- sion/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})|([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})$
+    /// The unique identifier for the session to be deleted. You can specify either the session's sessionId or its Amazon Resource Name (ARN). Constraints: • pattern: ^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]+:[0-9]{12}:session/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})|([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})$
     /// </summary>
     [CliOption("--session-identifier")]
     public string? SessionIdentifier { get; private init; }
@@ -82,6 +83,15 @@ public record AwsBedrockAgentRuntimeDeleteSessionOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

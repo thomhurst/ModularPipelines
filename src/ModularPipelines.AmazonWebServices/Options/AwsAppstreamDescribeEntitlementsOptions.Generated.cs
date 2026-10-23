@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsAppstreamDescribeEntitlementsOptions : AwsOptions, IValidatable
     /// <summary>
     /// Retrieves a list that describes one of more entitlements. See also: AWS API Documentation
     /// </summary>
-    /// <param name="StackName">The name of the stack with which the entitlement is associated. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$</param>
+    /// <param name="StackName">The name of the stack with which the entitlement is associated. Constraints: • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$</param>
     public AwsAppstreamDescribeEntitlementsOptions(
         string StackName
     )
@@ -57,19 +58,19 @@ public record AwsAppstreamDescribeEntitlementsOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the stack with which the entitlement is associated. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
+    /// The name of the stack with which the entitlement is associated. Constraints: • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
     /// </summary>
     [CliOption("--stack-name")]
     public string? StackName { get; private init; }
 
     /// <summary>
-    /// The name of the entitlement. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
+    /// The name of the entitlement. Constraints: • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The pagination token used to retrieve the next page of results for this operation. Constraints: o min: 1
+    /// The pagination token used to retrieve the next page of results for this operation. Constraints: • min: 1
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -102,6 +103,15 @@ public record AwsAppstreamDescribeEntitlementsOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

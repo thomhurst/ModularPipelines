@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a Lightsail load balancer and all its associated SSL/TLS cer- tificates. Once the load balancer is deleted, you will need to create a new load balancer, create a new certificate, and verify domain owner- ship again. The delete load balancer operation supports tag-based access control via resource tags applied to the resource identified by load balancer name . For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
+/// Deletes a Lightsail load balancer and all its associated SSL/TLS certificates. Once the load balancer is deleted, you will need to create a new load balancer, create a new certificate, and verify domain ownership again. The delete load balancer operation supports tag-based access control via resource tags applied to the resource identified by load balancer name . For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsLightsailDeleteLoadBalancerOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a Lightsail load balancer and all its associated SSL/TLS cer- tificates. Once the load balancer is deleted, you will need to create a new load balancer, create a new certificate, and verify domain owner- ship again. The delete load balancer operation supports tag-based access control via resource tags applied to the resource identified by load balancer name . For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
+    /// Deletes a Lightsail load balancer and all its associated SSL/TLS certificates. Once the load balancer is deleted, you will need to create a new load balancer, create a new certificate, and verify domain ownership again. The delete load balancer operation supports tag-based access control via resource tags applied to the resource identified by load balancer name . For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="LoadBalancerName">The name of the load balancer you want to delete. Constraints: o pattern: \w[\w\-]*\w</param>
+    /// <param name="LoadBalancerName">The name of the load balancer you want to delete. Constraints: • pattern: \w[\w\-]*\w</param>
     public AwsLightsailDeleteLoadBalancerOptions(
         string LoadBalancerName
     )
@@ -56,7 +57,7 @@ public record AwsLightsailDeleteLoadBalancerOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the load balancer you want to delete. Constraints: o pattern: \w[\w\-]*\w
+    /// The name of the load balancer you want to delete. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--load-balancer-name")]
     public string? LoadBalancerName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsLightsailDeleteLoadBalancerOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

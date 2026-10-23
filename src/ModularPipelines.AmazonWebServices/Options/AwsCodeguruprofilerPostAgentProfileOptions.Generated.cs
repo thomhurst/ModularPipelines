@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -29,8 +30,8 @@ public record AwsCodeguruprofilerPostAgentProfileOptions : AwsOptions, IValidata
     /// Submits profiling data to an aggregated profile of a profiling group. To get an aggregated profile that is created with this profiling data, use ` GetProfile https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_GetProfile.html`__ . See also: AWS API Documentation
     /// </summary>
     /// <param name="AgentProfile">The submitted profiling data.</param>
-    /// <param name="ContentType">The format of the submitted profiling data. The format maps to the Accept and Content-Type headers of the HTTP request. You can specify one of the following: or the default . &lt;ul&gt; &lt;li&gt; &lt;p&gt; &lt;code&gt;application/json&lt;/code&gt; standard JSON for- mat &lt;/p&gt; &lt;/li&gt; &lt;li&gt; &lt;p&gt; &lt;code&gt;application/x-amzn-ion&lt;/code&gt; the Amazon Ion data format. For more information, see &lt;a href="http://amzn.github.io/ion-docs/"&gt;Amazon Ion&lt;/a&gt;. &lt;/p&gt; &lt;/li&gt; &lt;/ul&gt;</param>
-    /// <param name="ProfilingGroupName">The name of the profiling group with the aggregated profile that re- ceives the submitted profiling data. Constraints: o min: 1 o max: 255 o pattern: ^[\w-]+$</param>
+    /// <param name="ContentType">The format of the submitted profiling data. The format maps to the Accept and Content-Type headers of the HTTP request. You can specify one of the following: or the default . &lt;ul&gt; &lt;li&gt; &lt;p&gt; &lt;code&gt;application/json&lt;/code&gt; standard JSON format &lt;/p&gt; &lt;/li&gt; &lt;li&gt; &lt;p&gt; &lt;code&gt;application/x-amzn-ion&lt;/code&gt; the Amazon Ion data format. For more information, see &lt;a href="http://amzn.github.io/ion-docs/"&gt;Amazon Ion&lt;/a&gt;. &lt;/p&gt; &lt;/li&gt; &lt;/ul&gt;</param>
+    /// <param name="ProfilingGroupName">The name of the profiling group with the aggregated profile that receives the submitted profiling data. Constraints: • min: 1 • max: 255 • pattern: ^[\w-]+$</param>
     public AwsCodeguruprofilerPostAgentProfileOptions(
         string AgentProfile,
         string ContentType,
@@ -71,19 +72,19 @@ public record AwsCodeguruprofilerPostAgentProfileOptions : AwsOptions, IValidata
     public string? AgentProfile { get; private init; }
 
     /// <summary>
-    /// The format of the submitted profiling data. The format maps to the Accept and Content-Type headers of the HTTP request. You can specify one of the following: or the default . &lt;ul&gt; &lt;li&gt; &lt;p&gt; &lt;code&gt;application/json&lt;/code&gt; standard JSON for- mat &lt;/p&gt; &lt;/li&gt; &lt;li&gt; &lt;p&gt; &lt;code&gt;application/x-amzn-ion&lt;/code&gt; the Amazon Ion data format. For more information, see &lt;a href="http://amzn.github.io/ion-docs/"&gt;Amazon Ion&lt;/a&gt;. &lt;/p&gt; &lt;/li&gt; &lt;/ul&gt;
+    /// The format of the submitted profiling data. The format maps to the Accept and Content-Type headers of the HTTP request. You can specify one of the following: or the default . &lt;ul&gt; &lt;li&gt; &lt;p&gt; &lt;code&gt;application/json&lt;/code&gt; standard JSON format &lt;/p&gt; &lt;/li&gt; &lt;li&gt; &lt;p&gt; &lt;code&gt;application/x-amzn-ion&lt;/code&gt; the Amazon Ion data format. For more information, see &lt;a href="http://amzn.github.io/ion-docs/"&gt;Amazon Ion&lt;/a&gt;. &lt;/p&gt; &lt;/li&gt; &lt;/ul&gt;
     /// </summary>
     [CliOption("--content-type")]
     public string? ContentType { get; private init; }
 
     /// <summary>
-    /// The name of the profiling group with the aggregated profile that re- ceives the submitted profiling data. Constraints: o min: 1 o max: 255 o pattern: ^[\w-]+$
+    /// The name of the profiling group with the aggregated profile that receives the submitted profiling data. Constraints: • min: 1 • max: 255 • pattern: ^[\w-]+$
     /// </summary>
     [CliOption("--profiling-group-name")]
     public string? ProfilingGroupName { get; private init; }
 
     /// <summary>
-    /// Amazon CodeGuru Profiler uses this universally unique identifier (UUID) to prevent the accidental submission of duplicate profiling data if there are failures and retries. Constraints: o min: 1 o max: 64 o pattern: ^[\w-]+$
+    /// Amazon CodeGuru Profiler uses this universally unique identifier (UUID) to prevent the accidental submission of duplicate profiling data if there are failures and retries. Constraints: • min: 1 • max: 64 • pattern: ^[\w-]+$
     /// </summary>
     [SecretValue]
     [CliOption("--profile-token")]
@@ -110,6 +111,15 @@ public record AwsCodeguruprofilerPostAgentProfileOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

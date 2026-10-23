@@ -31,25 +31,25 @@ public record AwsSecurityhubListConnectorsV2Options : AwsOptions
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of results to be returned. Constraints: o min: 1 o max: 100
+    /// The maximum number of results to be returned. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The name of the third-party provider. Possible values: o JIRA_CLOUD o SERVICENOW o AZURE
+    /// The name of the third-party provider. Possible values: • JIRA_CLOUD • SERVICENOW • AZURE
     /// </summary>
     [CliOption("--provider-name")]
     public AwsSecurityhubListConnectorsV2ProviderName? ProviderName { get; set; }
 
     /// <summary>
-    /// The status for the connectorV2. Possible values: o CONNECTED o DEGRADED o FAILED_TO_CONNECT o PENDING_AUTHORIZATION o PENDING_CONFIGURATION o UNKNOWN
+    /// The status for the connectorV2. Possible values: • CONNECTED • DEGRADED • FAILED_TO_CONNECT • PENDING_AUTHORIZATION • PENDING_CONFIGURATION • UNKNOWN
     /// </summary>
     [CliOption("--connector-status")]
     public AwsSecurityhubListConnectorsV2ConnectorStatus? ConnectorStatus { get; set; }
 
     /// <summary>
-    /// The enablement status to filter connectors by. Possible values: o ENABLED o PENDING_ENABLEMENT o FAILED_TO_ENABLE o PENDING_UPDATE o FAILED_TO_UPDATE o PENDING_DELETION o FAILED_TO_DELETE
+    /// The enablement status to filter connectors by. Possible values: • ENABLED • PENDING_ENABLEMENT • FAILED_TO_ENABLE • PENDING_UPDATE • FAILED_TO_UPDATE • PENDING_DELETION • FAILED_TO_DELETE
     /// </summary>
     [CliOption("--enablement-status")]
     public AwsSecurityhubListConnectorsV2EnablementStatus? EnablementStatus { get; set; }
@@ -59,5 +59,14 @@ public record AwsSecurityhubListConnectorsV2Options : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

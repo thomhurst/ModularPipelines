@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the subscription permission and all notification settings for accounts that are already enabled in Amazon Security Lake. When you run DeleteSubscriber , the subscriber will no longer consume data from Se- curity Lake and the subscriber is removed. This operation deletes the subscriber and removes access to data in the current Amazon Web Ser- vices Region. See also: AWS API Documentation
+/// Deletes the subscription permission and all notification settings for accounts that are already enabled in Amazon Security Lake. When you run DeleteSubscriber , the subscriber will no longer consume data from Security Lake and the subscriber is removed. This operation deletes the subscriber and removes access to data in the current Amazon Web Services Region. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsSecuritylakeDeleteSubscriberOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the subscription permission and all notification settings for accounts that are already enabled in Amazon Security Lake. When you run DeleteSubscriber , the subscriber will no longer consume data from Se- curity Lake and the subscriber is removed. This operation deletes the subscriber and removes access to data in the current Amazon Web Ser- vices Region. See also: AWS API Documentation
+    /// Deletes the subscription permission and all notification settings for accounts that are already enabled in Amazon Security Lake. When you run DeleteSubscriber , the subscriber will no longer consume data from Security Lake and the subscriber is removed. This operation deletes the subscriber and removes access to data in the current Amazon Web Services Region. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SubscriberId">A value created by Security Lake that uniquely identifies your DeleteSubscriber API request. Constraints: o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
+    /// <param name="SubscriberId">A value created by Security Lake that uniquely identifies your DeleteSubscriber API request. Constraints: • pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
     public AwsSecuritylakeDeleteSubscriberOptions(
         string SubscriberId
     )
@@ -56,7 +57,7 @@ public record AwsSecuritylakeDeleteSubscriberOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A value created by Security Lake that uniquely identifies your DeleteSubscriber API request. Constraints: o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
+    /// A value created by Security Lake that uniquely identifies your DeleteSubscriber API request. Constraints: • pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
     /// </summary>
     [CliOption("--subscriber-id")]
     public string? SubscriberId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSecuritylakeDeleteSubscriberOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

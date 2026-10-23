@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Enables ingress to a DBSecurityGroup using one of two forms of autho- rization. First, EC2 or VPC security groups can be added to the DBSecu- rityGroup if the application using the database is running on EC2 or VPC instances. Second, IP ranges are available if the application ac- cessing your database is running on the internet. Required parameters for this API are one of CIDR range, EC2SecurityGroupId for VPC, or (EC2SecurityGroupOwnerId and either EC2SecurityGroupName or EC2Securi- tyGroupId f...
+/// Enables ingress to a DBSecurityGroup using one of two forms of authorization. First, EC2 or VPC security groups can be added to the DBSecurityGroup if the application using the database is running on EC2 or VPC instances. Second, IP ranges are available if the application accessing your database is running on the internet. Required parameters for this API are one of CIDR range, EC2SecurityGroupId for VPC, or (EC2SecurityGroupOwnerId and either EC2SecurityGroupName or EC2SecurityGroupId for non-V...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsRdsAuthorizeDbSecurityGroupIngressOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Enables ingress to a DBSecurityGroup using one of two forms of autho- rization. First, EC2 or VPC security groups can be added to the DBSecu- rityGroup if the application using the database is running on EC2 or VPC instances. Second, IP ranges are available if the application ac- cessing your database is running on the internet. Required parameters for this API are one of CIDR range, EC2SecurityGroupId for VPC, or (EC2SecurityGroupOwnerId and either EC2SecurityGroupName or EC2Securi- tyGroupId f...
+    /// Enables ingress to a DBSecurityGroup using one of two forms of authorization. First, EC2 or VPC security groups can be added to the DBSecurityGroup if the application using the database is running on EC2 or VPC instances. Second, IP ranges are available if the application accessing your database is running on the internet. Required parameters for this API are one of CIDR range, EC2SecurityGroupId for VPC, or (EC2SecurityGroupOwnerId and either EC2SecurityGroupName or EC2SecurityGroupId for non-V...
     /// </summary>
     /// <param name="DbSecurityGroupName">The name of the DB security group to add authorization to.</param>
     public AwsRdsAuthorizeDbSecurityGroupIngressOptions(
@@ -68,19 +69,19 @@ public record AwsRdsAuthorizeDbSecurityGroupIngressOptions : AwsOptions, IValida
     public string? Cidrip { get; set; }
 
     /// <summary>
-    /// Name of the EC2 security group to authorize. For VPC DB security groups, EC2SecurityGroupId must be provided. Otherwise, EC2Security- GroupOwnerId and either EC2SecurityGroupName or EC2SecurityGroupId must be provided.
+    /// Name of the EC2 security group to authorize. For VPC DB security groups, EC2SecurityGroupId must be provided. Otherwise, EC2SecurityGroupOwnerId and either EC2SecurityGroupName or EC2SecurityGroupId must be provided.
     /// </summary>
     [CliOption("--ec2-security-group-name")]
     public string? Ec2SecurityGroupName { get; set; }
 
     /// <summary>
-    /// Id of the EC2 security group to authorize. For VPC DB security groups, EC2SecurityGroupId must be provided. Otherwise, EC2Security- GroupOwnerId and either EC2SecurityGroupName or EC2SecurityGroupId must be provided.
+    /// Id of the EC2 security group to authorize. For VPC DB security groups, EC2SecurityGroupId must be provided. Otherwise, EC2SecurityGroupOwnerId and either EC2SecurityGroupName or EC2SecurityGroupId must be provided.
     /// </summary>
     [CliOption("--ec2-security-group-id")]
     public string? Ec2SecurityGroupId { get; set; }
 
     /// <summary>
-    /// Amazon Web Services account number of the owner of the EC2 security group specified in the EC2SecurityGroupName parameter. The Amazon Web Services access key ID isn't an acceptable value. For VPC DB se- curity groups, EC2SecurityGroupId must be provided. Otherwise, EC2SecurityGroupOwnerId and either EC2SecurityGroupName or EC2Secu- rityGroupId must be provided.
+    /// Amazon Web Services account number of the owner of the EC2 security group specified in the EC2SecurityGroupName parameter. The Amazon Web Services access key ID isn't an acceptable value. For VPC DB security groups, EC2SecurityGroupId must be provided. Otherwise, EC2SecurityGroupOwnerId and either EC2SecurityGroupName or EC2SecurityGroupId must be provided.
     /// </summary>
     [CliOption("--ec2-security-group-owner-id")]
     public string? Ec2SecurityGroupOwnerId { get; set; }
@@ -106,6 +107,15 @@ public record AwsRdsAuthorizeDbSecurityGroupIngressOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

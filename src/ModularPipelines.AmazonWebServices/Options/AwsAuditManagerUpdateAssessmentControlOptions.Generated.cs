@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +29,9 @@ public record AwsAuditManagerUpdateAssessmentControlOptions : AwsOptions, IValid
     /// <summary>
     /// Updates a control within an assessment in Audit Manager. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AssessmentId">The unique identifier for the assessment. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
-    /// <param name="ControlSetId">The unique identifier for the control set. Constraints: o min: 1 o max: 300 o pattern: ^[\w\W\s\S]*$</param>
-    /// <param name="ControlId">The unique identifier for the control. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
+    /// <param name="AssessmentId">The unique identifier for the assessment. Constraints: • min: 36 • max: 36 • pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
+    /// <param name="ControlSetId">The unique identifier for the control set. Constraints: • min: 1 • max: 300 • pattern: ^[\w\W\s\S]*$</param>
+    /// <param name="ControlId">The unique identifier for the control. Constraints: • min: 36 • max: 36 • pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
     public AwsAuditManagerUpdateAssessmentControlOptions(
         string AssessmentId,
         string ControlSetId,
@@ -65,31 +66,31 @@ public record AwsAuditManagerUpdateAssessmentControlOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the assessment. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
+    /// The unique identifier for the assessment. Constraints: • min: 36 • max: 36 • pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
     /// </summary>
     [CliOption("--assessment-id")]
     public string? AssessmentId { get; private init; }
 
     /// <summary>
-    /// The unique identifier for the control set. Constraints: o min: 1 o max: 300 o pattern: ^[\w\W\s\S]*$
+    /// The unique identifier for the control set. Constraints: • min: 1 • max: 300 • pattern: ^[\w\W\s\S]*$
     /// </summary>
     [CliOption("--control-set-id")]
     public string? ControlSetId { get; private init; }
 
     /// <summary>
-    /// The unique identifier for the control. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
+    /// The unique identifier for the control. Constraints: • min: 36 • max: 36 • pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
     /// </summary>
     [CliOption("--control-id")]
     public string? ControlId { get; private init; }
 
     /// <summary>
-    /// The status of the control. Possible values: o UNDER_REVIEW o REVIEWED o INACTIVE
+    /// The status of the control. Possible values: • UNDER_REVIEW • REVIEWED • INACTIVE
     /// </summary>
     [CliOption("--control-status")]
     public AwsAuditManagerUpdateAssessmentControlControlStatus? ControlStatus { get; set; }
 
     /// <summary>
-    /// The comment body text for the control. Constraints: o max: 500 o pattern: ^[\w\W\s\S]*$
+    /// The comment body text for the control. Constraints: • max: 500 • pattern: ^[\w\W\s\S]*$
     /// </summary>
     [CliOption("--comment-body")]
     public string? CommentBody { get; set; }
@@ -115,6 +116,15 @@ public record AwsAuditManagerUpdateAssessmentControlOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

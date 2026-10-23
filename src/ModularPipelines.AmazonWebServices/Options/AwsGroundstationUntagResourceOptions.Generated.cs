@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsGroundstationUntagResourceOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Deassigns a resource tag. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">ARN of a resource. Constraints: o min: 5 o max: 1024 o pattern: (arn:aws:)[\s\S]{0,1024}</param>
-    /// <param name="TagKeys">Keys of a resource tag. Constraints: o min: 0 o max: 500 (string) Constraints: o min: 1 o pattern: [\s\S]+ Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArn">ARN of a resource. Constraints: • min: 5 • max: 1024 • pattern: (arn:aws:)[\s\S]{0,1024}</param>
+    /// <param name="TagKeys">Keys of a resource tag. Constraints: • min: 0 • max: 500 (string) Constraints: • min: 1 • pattern: [\s\S]+ Syntax: "string" "string" ...</param>
     public AwsGroundstationUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -71,13 +72,13 @@ public record AwsGroundstationUntagResourceOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ARN of a resource. Constraints: o min: 5 o max: 1024 o pattern: (arn:aws:)[\s\S]{0,1024}
+    /// ARN of a resource. Constraints: • min: 5 • max: 1024 • pattern: (arn:aws:)[\s\S]{0,1024}
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// Keys of a resource tag. Constraints: o min: 0 o max: 500 (string) Constraints: o min: 1 o pattern: [\s\S]+ Syntax: "string" "string" ...
+    /// Keys of a resource tag. Constraints: • min: 0 • max: 500 (string) Constraints: • min: 1 • pattern: [\s\S]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }
@@ -103,6 +104,15 @@ public record AwsGroundstationUntagResourceOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists the CloudFront distributions that are associated with the speci- fied resource that you own. See also: AWS API Documentation
+/// Lists the CloudFront distributions that are associated with the specified resource that you own. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsCloudfrontListDistributionsByOwnedResourceOptions : AwsOptions,
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists the CloudFront distributions that are associated with the speci- fied resource that you own. See also: AWS API Documentation
+    /// Lists the CloudFront distributions that are associated with the specified resource that you own. See also: AWS API Documentation
     /// </summary>
     /// <param name="ResourceArn">The ARN of the CloudFront resource that you've shared with other Amazon Web Services accounts.</param>
     public AwsCloudfrontListDistributionsByOwnedResourceOptions(
@@ -94,6 +95,15 @@ public record AwsCloudfrontListDistributionsByOwnedResourceOptions : AwsOptions,
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

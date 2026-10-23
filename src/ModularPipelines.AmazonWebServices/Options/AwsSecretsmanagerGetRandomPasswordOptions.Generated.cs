@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Generates a random password. We recommend that you specify the maximum length and include every character type that the system you are gener- ating a password for can support. By default, Secrets Manager uses up- percase and lowercase letters, numbers, and the following characters in passwords: !\"#$%&amp;'()*+,-./:;&lt;=&gt;?@[\\]^_`{|}~ Secrets Manager generates a CloudTrail log entry when you call this ac- tion. Required permissions: secretsmanager:GetRandomPassword . For more information, see IAM poli...
+/// Generates a random password. We recommend that you specify the maximum length and include every character type that the system you are generating a password for can support. By default, Secrets Manager uses uppercase and lowercase letters, numbers, and the following characters in passwords: !\"#$%&amp;'()*+,-./:;&lt;=&gt;?@[\\]^_`{|}~ Secrets Manager generates a CloudTrail log entry when you call this action. Required permissions: secretsmanager:GetRandomPassword . For more information, see IAM policy act...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,13 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSecretsmanagerGetRandomPasswordOptions : AwsOptions
 {
     /// <summary>
-    /// The length of the password. If you don't include this parameter, the default length is 32 characters. Constraints: o min: 1 o max: 4096
+    /// The length of the password. If you don't include this parameter, the default length is 32 characters. Constraints: • min: 1 • max: 4096
     /// </summary>
     [CliOption("--password-length")]
-    public int? PasswordLength { get; set; }
+    public long? PasswordLength { get; set; }
 
     /// <summary>
-    /// A string of the characters that you don't want in the password. Constraints: o min: 0 o max: 4096
+    /// A string of the characters that you don't want in the password. Constraints: • min: 0 • max: 4096
     /// </summary>
     [CliOption("--exclude-characters")]
     public string? ExcludeCharacters { get; set; }
@@ -64,7 +64,7 @@ public record AwsSecretsmanagerGetRandomPasswordOptions : AwsOptions
     public bool? IncludeSpace { get; set; }
 
     /// <summary>
-    /// Specifies whether to include at least one upper and lowercase let- ter, one number, and one punctuation. If you don't include this switch, the password contains at least one of every character type.
+    /// Specifies whether to include at least one upper and lowercase letter, one number, and one punctuation. If you don't include this switch, the password contains at least one of every character type.
     /// </summary>
     [CliFlag("--require-each-included-type", NegatedName = "--no-require-each-included-type")]
     public bool? RequireEachIncludedType { get; set; }
@@ -74,5 +74,14 @@ public record AwsSecretsmanagerGetRandomPasswordOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

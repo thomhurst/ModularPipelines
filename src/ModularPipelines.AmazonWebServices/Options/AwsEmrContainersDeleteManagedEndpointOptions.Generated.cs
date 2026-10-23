@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a managed endpoint. A managed endpoint is a gateway that con- nects Amazon EMR Studio to Amazon EMR on EKS so that Amazon EMR Studio can communicate with your virtual cluster. See also: AWS API Documentation
+/// Deletes a managed endpoint. A managed endpoint is a gateway that connects Amazon EMR Studio to Amazon EMR on EKS so that Amazon EMR Studio can communicate with your virtual cluster. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsEmrContainersDeleteManagedEndpointOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a managed endpoint. A managed endpoint is a gateway that con- nects Amazon EMR Studio to Amazon EMR on EKS so that Amazon EMR Studio can communicate with your virtual cluster. See also: AWS API Documentation
+    /// Deletes a managed endpoint. A managed endpoint is a gateway that connects Amazon EMR Studio to Amazon EMR on EKS so that Amazon EMR Studio can communicate with your virtual cluster. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the managed endpoint. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+</param>
-    /// <param name="VirtualClusterId">The ID of the endpoint's virtual cluster. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+</param>
+    /// <param name="Id">The ID of the managed endpoint. Constraints: • min: 1 • max: 64 • pattern: [0-9a-z]+</param>
+    /// <param name="VirtualClusterId">The ID of the endpoint's virtual cluster. Constraints: • min: 1 • max: 64 • pattern: [0-9a-z]+</param>
     public AwsEmrContainersDeleteManagedEndpointOptions(
         string Id,
         string VirtualClusterId
@@ -60,13 +61,13 @@ public record AwsEmrContainersDeleteManagedEndpointOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the managed endpoint. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+
+    /// The ID of the managed endpoint. Constraints: • min: 1 • max: 64 • pattern: [0-9a-z]+
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The ID of the endpoint's virtual cluster. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+
+    /// The ID of the endpoint's virtual cluster. Constraints: • min: 1 • max: 64 • pattern: [0-9a-z]+
     /// </summary>
     [CliOption("--virtual-cluster-id")]
     public string? VirtualClusterId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsEmrContainersDeleteManagedEndpointOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

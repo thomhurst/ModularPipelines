@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsDsDisableSsoOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Disables single-sign on for a directory. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DirectoryId">The identifier of the directory for which to disable single-sign on. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="DirectoryId">The identifier of the directory for which to disable single-sign on. Constraints: • pattern: ^d-[0-9a-f]{10}$</param>
     public AwsDsDisableSsoOptions(
         string DirectoryId
     )
@@ -57,19 +58,19 @@ public record AwsDsDisableSsoOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the directory for which to disable single-sign on. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// The identifier of the directory for which to disable single-sign on. Constraints: • pattern: ^d-[0-9a-f]{10}$
     /// </summary>
     [CliOption("--directory-id")]
     public string? DirectoryId { get; private init; }
 
     /// <summary>
-    /// The username of an alternate account to use to disable single-sign on. This is only used for AD Connector directories. This account must have privileges to remove a service principal name. If the AD Connector service account does not have privileges to re- move a service principal name, you can specify an alternate account with the UserName and Password parameters. These credentials are only used to disable single sign-on and are not stored by the ser- vice. The AD Connector service account is not changed. Constraints: o min: 1 o pattern: [a-zA-Z0-9._-]+
+    /// The username of an alternate account to use to disable single-sign on. This is only used for AD Connector directories. This account must have privileges to remove a service principal name. If the AD Connector service account does not have privileges to remove a service principal name, you can specify an alternate account with the UserName and Password parameters. These credentials are only used to disable single sign-on and are not stored by the service. The AD Connector service account is not changed. Constraints: • min: 1 • pattern: [a-zA-Z0-9._-]+
     /// </summary>
     [CliOption("--user-name")]
     public string? UserName { get; set; }
 
     /// <summary>
-    /// The password of an alternate account to use to disable single-sign on. This is only used for AD Connector directories. For more infor- mation, see the UserName parameter. Constraints: o min: 1 o max: 128
+    /// The password of an alternate account to use to disable single-sign on. This is only used for AD Connector directories. For more information, see the UserName parameter. Constraints: • min: 1 • max: 128
     /// </summary>
     [SecretValue]
     [CliOption("--password")]
@@ -96,6 +97,15 @@ public record AwsDsDisableSsoOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

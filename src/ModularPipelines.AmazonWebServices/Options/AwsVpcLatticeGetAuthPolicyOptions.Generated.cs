@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsVpcLatticeGetAuthPolicyOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Retrieves information about the auth policy for the specified service or service network. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceIdentifier">The ID or ARN of the service network or service. Constraints: o min: 17 o max: 200 o pattern: ((((sn)|(svc)|(rcfg))-[0-9a-z]{17})|(arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:((ser- vicenetwork/sn)|(resourceconfiguration/rcfg)|(ser- vice/svc))-[0-9a-z]{17}))</param>
+    /// <param name="ResourceIdentifier">The ID or ARN of the service network or service. Constraints: • min: 17 • max: 200 • pattern: ((((sn)|(svc)|(rcfg))-[0-9a-z]{17})|(arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:((servicenetwork/sn)|(resourceconfiguration/rcfg)|(service/svc))-[0-9a-z]{17}))</param>
     public AwsVpcLatticeGetAuthPolicyOptions(
         string ResourceIdentifier
     )
@@ -56,7 +57,7 @@ public record AwsVpcLatticeGetAuthPolicyOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID or ARN of the service network or service. Constraints: o min: 17 o max: 200 o pattern: ((((sn)|(svc)|(rcfg))-[0-9a-z]{17})|(arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:((ser- vicenetwork/sn)|(resourceconfiguration/rcfg)|(ser- vice/svc))-[0-9a-z]{17}))
+    /// The ID or ARN of the service network or service. Constraints: • min: 17 • max: 200 • pattern: ((((sn)|(svc)|(rcfg))-[0-9a-z]{17})|(arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:((servicenetwork/sn)|(resourceconfiguration/rcfg)|(service/svc))-[0-9a-z]{17}))
     /// </summary>
     [CliOption("--resource-identifier")]
     public string? ResourceIdentifier { get; private init; }
@@ -82,6 +83,15 @@ public record AwsVpcLatticeGetAuthPolicyOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

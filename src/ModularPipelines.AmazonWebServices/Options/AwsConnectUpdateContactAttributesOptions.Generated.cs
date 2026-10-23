@@ -10,13 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates or updates user-defined contact attributes associated with the specified contact. You can create or update user-defined attributes for both ongoing and completed contacts. For example, while the call is active, you can up- date the customer's name or the reason the customer called. You can add notes about steps that the agent took during the call that display to the next agent that takes the call. You can also update attributes for a contact using data from your CRM application and save ...
+/// Creates or updates user-defined contact attributes associated with the specified contact. You can create or update user-defined attributes for both ongoing and completed contacts. For example, while the call is active, you can update the customer's name or the reason the customer called. You can add notes about steps that the agent took during the call that display to the next agent that takes the call. You can also update attributes for a contact using data from your CRM application and save th...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +26,11 @@ public record AwsConnectUpdateContactAttributesOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates or updates user-defined contact attributes associated with the specified contact. You can create or update user-defined attributes for both ongoing and completed contacts. For example, while the call is active, you can up- date the customer's name or the reason the customer called. You can add notes about steps that the agent took during the call that display to the next agent that takes the call. You can also update attributes for a contact using data from your CRM application and save ...
+    /// Creates or updates user-defined contact attributes associated with the specified contact. You can create or update user-defined attributes for both ongoing and completed contacts. For example, while the call is active, you can update the customer's name or the reason the customer called. You can add notes about steps that the agent took during the call that display to the next agent that takes the call. You can also update attributes for a contact using data from your CRM application and save th...
     /// </summary>
-    /// <param name="InitialContactId">The identifier of the contact. This is the identifier of the contact associated with the first interaction with the contact center. Constraints: o min: 1 o max: 256</param>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="Attributes">The Connect Customer attributes. These attributes can be accessed in flows just like any other contact attributes. You can have up to 32,768 UTF-8 bytes across all attributes for a contact. Attribute keys can include only alphanumeric, dash, and un- derscore characters. In the Set contact attributes block, when the attributes for a con- tact exceed 32 KB, the contact is routed down the Error branch of the flow. As a mitigation, consider the following options: o Remove unnecessary attributes by setting their values to empty. o If the attributes are only used in one flow and don't need to be referred to outside of that flow (for example, by a Lambda or an- other flow), then use flow attributes. This way you aren't need- lessly persisting the 32 KB of information from one flow to an- other. For more information, see Flow block: Set contact attrib- utes in the Connect Customer Administrator Guide . key -&gt; (string) Constraints: o min: 1 o max: 32767 value -&gt; (string) Constraints: o min: 0 o max: 32767 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    /// <param name="InitialContactId">The identifier of the contact. This is the identifier of the contact associated with the first interaction with the contact center. Constraints: • min: 1 • max: 256</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="Attributes">The Connect Customer attributes. These attributes can be accessed in flows just like any other contact attributes. You can have up to 32,768 UTF-8 bytes across all attributes for a contact. Attribute keys can include only alphanumeric, dash, and underscore characters. In the Set contact attributes block, when the attributes for a contact exceed 32 KB, the contact is routed down the Error branch of the flow. As a mitigation, consider the following options: • Remove unnecessary attributes by setting their values to empty. • If the attributes are only used in one flow and don't need to be referred to outside of that flow (for example, by a Lambda or another flow), then use flow attributes. This way you aren't needlessly persisting the 32 KB of information from one flow to another. For more information, see Flow block: Set contact attributes in the Connect Customer Administrator Guide . key -&gt; (string) Constraints: • min: 1 • max: 32767 value -&gt; (string) Constraints: • min: 0 • max: 32767 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
     public AwsConnectUpdateContactAttributesOptions(
         string InitialContactId,
         string InstanceId,
@@ -76,19 +76,19 @@ public record AwsConnectUpdateContactAttributesOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the contact. This is the identifier of the contact associated with the first interaction with the contact center. Constraints: o min: 1 o max: 256
+    /// The identifier of the contact. This is the identifier of the contact associated with the first interaction with the contact center. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--initial-contact-id")]
     public string? InitialContactId { get; private init; }
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The Connect Customer attributes. These attributes can be accessed in flows just like any other contact attributes. You can have up to 32,768 UTF-8 bytes across all attributes for a contact. Attribute keys can include only alphanumeric, dash, and un- derscore characters. In the Set contact attributes block, when the attributes for a con- tact exceed 32 KB, the contact is routed down the Error branch of the flow. As a mitigation, consider the following options: o Remove unnecessary attributes by setting their values to empty. o If the attributes are only used in one flow and don't need to be referred to outside of that flow (for example, by a Lambda or an- other flow), then use flow attributes. This way you aren't need- lessly persisting the 32 KB of information from one flow to an- other. For more information, see Flow block: Set contact attrib- utes in the Connect Customer Administrator Guide . key -&gt; (string) Constraints: o min: 1 o max: 32767 value -&gt; (string) Constraints: o min: 0 o max: 32767 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The Connect Customer attributes. These attributes can be accessed in flows just like any other contact attributes. You can have up to 32,768 UTF-8 bytes across all attributes for a contact. Attribute keys can include only alphanumeric, dash, and underscore characters. In the Set contact attributes block, when the attributes for a contact exceed 32 KB, the contact is routed down the Error branch of the flow. As a mitigation, consider the following options: • Remove unnecessary attributes by setting their values to empty. • If the attributes are only used in one flow and don't need to be referred to outside of that flow (for example, by a Lambda or another flow), then use flow attributes. This way you aren't needlessly persisting the 32 KB of information from one flow to another. For more information, see Flow block: Set contact attributes in the Connect Customer Administrator Guide . key -&gt; (string) Constraints: • min: 1 • max: 32767 value -&gt; (string) Constraints: • min: 0 • max: 32767 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--attributes", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Attributes { get; private init; }
@@ -114,6 +114,15 @@ public record AwsConnectUpdateContactAttributesOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

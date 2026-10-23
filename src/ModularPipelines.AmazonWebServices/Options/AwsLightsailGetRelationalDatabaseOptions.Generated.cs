@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsLightsailGetRelationalDatabaseOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Returns information about a specific database in Amazon Lightsail. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RelationalDatabaseName">The name of the database that you are looking up. Constraints: o pattern: \w[\w\-]*\w</param>
+    /// <param name="RelationalDatabaseName">The name of the database that you are looking up. Constraints: • pattern: \w[\w\-]*\w</param>
     public AwsLightsailGetRelationalDatabaseOptions(
         string RelationalDatabaseName
     )
@@ -56,7 +57,7 @@ public record AwsLightsailGetRelationalDatabaseOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the database that you are looking up. Constraints: o pattern: \w[\w\-]*\w
+    /// The name of the database that you are looking up. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--relational-database-name")]
     public string? RelationalDatabaseName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsLightsailGetRelationalDatabaseOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

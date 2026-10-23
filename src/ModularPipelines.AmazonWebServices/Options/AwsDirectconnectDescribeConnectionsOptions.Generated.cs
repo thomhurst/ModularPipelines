@@ -29,7 +29,7 @@ public record AwsDirectconnectDescribeConnectionsOptions : AwsOptions
     public string? ConnectionId { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return with a single call. To re- trieve the remaining results, make another call with the returned nextToken value. If MaxResults is given a value larger than 100, only 100 results are returned.
+    /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value. If MaxResults is given a value larger than 100, only 100 results are returned.
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -46,5 +46,14 @@ public record AwsDirectconnectDescribeConnectionsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

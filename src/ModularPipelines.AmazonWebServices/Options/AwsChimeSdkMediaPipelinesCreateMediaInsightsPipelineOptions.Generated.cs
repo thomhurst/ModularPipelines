@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -29,7 +29,7 @@ public record AwsChimeSdkMediaPipelinesCreateMediaInsightsPipelineOptions : AwsO
     /// <summary>
     /// Creates a media insights pipeline. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MediaInsightsPipelineConfigurationArn">The ARN of the pipeline's configuration. Constraints: o min: 1 o max: 1024 o pattern: ^arn[\/\:\-\_\.a-zA-Z0-9]+$</param>
+    /// <param name="MediaInsightsPipelineConfigurationArn">The ARN of the pipeline's configuration. Constraints: • min: 1 • max: 1024 • pattern: ^arn[\/\:\-\_\.a-zA-Z0-9]+$</param>
     public AwsChimeSdkMediaPipelinesCreateMediaInsightsPipelineOptions(
         string MediaInsightsPipelineConfigurationArn
     )
@@ -58,43 +58,43 @@ public record AwsChimeSdkMediaPipelinesCreateMediaInsightsPipelineOptions : AwsO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the pipeline's configuration. Constraints: o min: 1 o max: 1024 o pattern: ^arn[\/\:\-\_\.a-zA-Z0-9]+$
+    /// The ARN of the pipeline's configuration. Constraints: • min: 1 • max: 1024 • pattern: ^arn[\/\:\-\_\.a-zA-Z0-9]+$
     /// </summary>
     [CliOption("--media-insights-pipeline-configuration-arn")]
     public string? MediaInsightsPipelineConfigurationArn { get; private init; }
 
     /// <summary>
-    /// The runtime configuration for the Kinesis video stream source of the media insights pipeline. Streams -&gt; (list) [required] The streams in the source runtime configuration of a Kinesis video stream. Constraints: o min: 1 o max: 2 (structure) The configuration settings for a stream. StreamArn -&gt; (string) [required] The ARN of the stream. Constraints: o min: 1 o max: 1024 o pattern: arn:[a-z\d-]+:kine- sisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+ FragmentNumber -&gt; (string) The unique identifier of the fragment to begin process- ing. Constraints: o min: 1 o max: 128 o pattern: ^[0-9]+$ StreamChannelDefinition -&gt; (structure) [required] The streaming channel definition in the stream configura- tion. NumberOfChannels -&gt; (integer) [required] The number of channels in a streaming channel. Constraints: o min: 1 o max: 2 ChannelDefinitions -&gt; (list) The definitions of the channels in a streaming chan- nel. Constraints: o min: 1 o max: 2 (structure) Defines an audio channel in a Kinesis video stream. ChannelId -&gt; (integer) [required] The channel ID. Constraints: o min: 0 o max: 1 ParticipantRole -&gt; (string) Specifies whether the audio in a channel be- longs to the AGENT or CUSTOMER . Possible values: o AGENT o CUSTOMER MediaEncoding -&gt; (string) [required] Specifies the encoding of your input audio. Supported format: PCM (only signed 16-bit little-endian audio formats, which does not include WAV) For more information, see Media formats in the Amazon Transcribe Developer Guide . Possible values: o pcm MediaSampleRate -&gt; (integer) [required] The sample rate of the input audio (in hertz). Low-quality au- dio, such as telephone audio, is typically around 8,000 Hz. High-quality audio typically ranges from 16,000 Hz to 48,000 Hz. Note that the sample rate you specify must match that of your audio. Valid Range: Minimum value of 8000. Maximum value of 48000. Constraints: o min: 8000 o max: 48000 JSON Syntax: { "Streams": [ { "StreamArn": "string", "FragmentNumber": "string", "StreamChannelDefinition": { "NumberOfChannels": integer, "ChannelDefinitions": [ { "ChannelId": integer, "ParticipantRole": "AGENT"|"CUSTOMER" } ... ] } } ... ], "MediaEncoding": "pcm", "MediaSampleRate": integer }
+    /// The runtime configuration for the Kinesis video stream source of the media insights pipeline. Streams -&gt; (list) [required] The streams in the source runtime configuration of a Kinesis video stream. Constraints: • min: 1 • max: 2 (structure) The configuration settings for a stream. StreamArn -&gt; (string) [required] The ARN of the stream. Constraints: • min: 1 • max: 1024 • pattern: arn:[a-z\d-]+:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+ FragmentNumber -&gt; (string) The unique identifier of the fragment to begin processing. Constraints: • min: 1 • max: 128 • pattern: ^[0-9]+$ StreamChannelDefinition -&gt; (structure) [required] The streaming channel definition in the stream configuration. NumberOfChannels -&gt; (integer) [required] The number of channels in a streaming channel. Constraints: • min: 1 • max: 2 ChannelDefinitions -&gt; (list) The definitions of the channels in a streaming channel. Constraints: • min: 1 • max: 2 (structure) Defines an audio channel in a Kinesis video stream. ChannelId -&gt; (integer) [required] The channel ID. Constraints: • min: 0 • max: 1 ParticipantRole -&gt; (string) Specifies whether the audio in a channel belongs to the AGENT or CUSTOMER . Possible values: • AGENT • CUSTOMER MediaEncoding -&gt; (string) [required] Specifies the encoding of your input audio. Supported format: PCM (only signed 16-bit little-endian audio formats, which does not include WAV) For more information, see Media formats in the Amazon Transcribe Developer Guide . Possible values: • pcm MediaSampleRate -&gt; (integer) [required] The sample rate of the input audio (in hertz). Low-quality audio, such as telephone audio, is typically around 8,000 Hz. High-quality audio typically ranges from 16,000 Hz to 48,000 Hz. Note that the sample rate you specify must match that of your audio. Valid Range: Minimum value of 8000. Maximum value of 48000. Constraints: • min: 8000 • max: 48000 JSON Syntax: { "Streams": [ { "StreamArn": "string", "FragmentNumber": "string", "StreamChannelDefinition": { "NumberOfChannels": integer, "ChannelDefinitions": [ { "ChannelId": integer, "ParticipantRole": "AGENT"|"CUSTOMER" } ... ] } } ... ], "MediaEncoding": "pcm", "MediaSampleRate": integer }
     /// </summary>
     [CliOption("--kinesis-video-stream-source-runtime-configuration")]
     public string? KinesisVideoStreamSourceRuntimeConfiguration { get; set; }
 
     /// <summary>
-    /// The runtime metadata for the media insights pipeline. Consists of a key-value map of strings. key -&gt; (string) Constraints: o max: 1024 o pattern: .*\S.* value -&gt; (string) Constraints: o max: 4096 o pattern: .* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The runtime metadata for the media insights pipeline. Consists of a key-value map of strings. key -&gt; (string) Constraints: • max: 1024 • pattern: .*\S.* value -&gt; (string) Constraints: • max: 4096 • pattern: .* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--media-insights-runtime-metadata", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? MediaInsightsRuntimeMetadata { get; set; }
 
     /// <summary>
-    /// The runtime configuration for the Kinesis video recording stream source. Streams -&gt; (list) [required] The stream or streams to be recorded. Constraints: o min: 1 o max: 2 (structure) A structure that holds the settings for recording media. StreamArn -&gt; (string) The ARN of the recording stream. Constraints: o min: 1 o max: 1024 o pattern: arn:[a-z\d-]+:kine- sisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+ FragmentSelector -&gt; (structure) [required] Describes the timestamp range and timestamp origin of a range of fragments in the Kinesis video stream. FragmentSelectorType -&gt; (string) [required] The origin of the timestamps to use, Server or Producer . For more information, see StartSelectorType in the Amazon Kinesis Video Streams Developer Guide . Possible values: o ProducerTimestamp o ServerTimestamp TimestampRange -&gt; (structure) [required] The range of timestamps to return. StartTimestamp -&gt; (timestamp) [required] The starting timestamp for the specified range. EndTimestamp -&gt; (timestamp) [required] The ending timestamp for the specified range. Shorthand Syntax: Streams=[{StreamArn=string},{StreamArn=string}],FragmentSelector={FragmentSelectorType=string,TimestampRange={StartTimestamp=timestamp,EndTimestamp=timestamp}} JSON Syntax: { "Streams": [ { "StreamArn": "string" } ... ], "FragmentSelector": { "FragmentSelectorType": "ProducerTimestamp"|"ServerTimestamp", "TimestampRange": { "StartTimestamp": timestamp, "EndTimestamp": timestamp } } }
+    /// The runtime configuration for the Kinesis video recording stream source. Streams -&gt; (list) [required] The stream or streams to be recorded. Constraints: • min: 1 • max: 2 (structure) A structure that holds the settings for recording media. StreamArn -&gt; (string) The ARN of the recording stream. Constraints: • min: 1 • max: 1024 • pattern: arn:[a-z\d-]+:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+ FragmentSelector -&gt; (structure) [required] Describes the timestamp range and timestamp origin of a range of fragments in the Kinesis video stream. FragmentSelectorType -&gt; (string) [required] The origin of the timestamps to use, Server or Producer . For more information, see StartSelectorType in the Amazon Kinesis Video Streams Developer Guide . Possible values: • ProducerTimestamp • ServerTimestamp TimestampRange -&gt; (structure) [required] The range of timestamps to return. StartTimestamp -&gt; (timestamp) [required] The starting timestamp for the specified range. EndTimestamp -&gt; (timestamp) [required] The ending timestamp for the specified range. Shorthand Syntax: Streams=[{StreamArn=string},{StreamArn=string}],FragmentSelector={FragmentSelectorType=string,TimestampRange={StartTimestamp=timestamp,EndTimestamp=timestamp}} JSON Syntax: { "Streams": [ { "StreamArn": "string" } ... ], "FragmentSelector": { "FragmentSelectorType": "ProducerTimestamp"|"ServerTimestamp", "TimestampRange": { "StartTimestamp": timestamp, "EndTimestamp": timestamp } } }
     /// </summary>
     [CliOption("--kinesis-video-stream-recording-source-runtime-configuration")]
     public string? KinesisVideoStreamRecordingSourceRuntimeConfiguration { get; set; }
 
     /// <summary>
-    /// The runtime configuration for the S3 recording sink. If specified, the settings in this structure override any settings in S3Record- ingSinkConfiguration . Destination -&gt; (string) [required] The URI of the S3 bucket used as the sink. Constraints: o min: 1 o max: 1024 o pattern: ^arn[\/\:\-\_\.a-zA-Z0-9]+$ RecordingFileFormat -&gt; (string) [required] The file format for the media files sent to the Amazon S3 bucket. Possible values: o Wav o Opus Shorthand Syntax: Destination=string,RecordingFileFormat=string JSON Syntax: { "Destination": "string", "RecordingFileFormat": "Wav"|"Opus" }
+    /// The runtime configuration for the S3 recording sink. If specified, the settings in this structure override any settings in S3RecordingSinkConfiguration . Destination -&gt; (string) [required] The URI of the S3 bucket used as the sink. Constraints: • min: 1 • max: 1024 • pattern: ^arn[\/\:\-\_\.a-zA-Z0-9]+$ RecordingFileFormat -&gt; (string) [required] The file format for the media files sent to the Amazon S3 bucket. Possible values: • Wav • Opus Shorthand Syntax: Destination=string,RecordingFileFormat=string JSON Syntax: { "Destination": "string", "RecordingFileFormat": "Wav"|"Opus" }
     /// </summary>
     [CliOption("--s3-recording-sink-runtime-configuration")]
     public string? S3RecordingSinkRuntimeConfiguration { get; set; }
 
     /// <summary>
-    /// The tags assigned to the media insights pipeline. Constraints: o min: 1 o max: 200 (structure) A key/value pair that grants users access to meeting resources. Key -&gt; (string) [required] The key half of a tag. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value half of a tag. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tags assigned to the media insights pipeline. Constraints: • min: 1 • max: 200 (structure) A key/value pair that grants users access to meeting resources. Key -&gt; (string) [required] The key half of a tag. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] The value half of a tag. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// The unique identifier for the media insights pipeline request. Constraints: o min: 2 o max: 64 o pattern: [-_a-zA-Z0-9]*
+    /// The unique identifier for the media insights pipeline request. Constraints: • min: 2 • max: 64 • pattern: [-_a-zA-Z0-9]*
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
@@ -121,6 +121,15 @@ public record AwsChimeSdkMediaPipelinesCreateMediaInsightsPipelineOptions : AwsO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

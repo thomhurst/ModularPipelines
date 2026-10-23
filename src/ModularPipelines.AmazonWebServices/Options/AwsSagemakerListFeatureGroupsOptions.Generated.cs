@@ -24,19 +24,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSagemakerListFeatureGroupsOptions : AwsOptions
 {
     /// <summary>
-    /// A string that partially matches one or more FeatureGroup s names. Filters FeatureGroup s by name. Constraints: o min: 1 o max: 64
+    /// A string that partially matches one or more FeatureGroup s names. Filters FeatureGroup s by name. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--name-contains")]
     public string? NameContains { get; set; }
 
     /// <summary>
-    /// A FeatureGroup status. Filters by FeatureGroup status. Possible values: o Creating o Created o CreateFailed o Deleting o DeleteFailed
+    /// A FeatureGroup status. Filters by FeatureGroup status. Possible values: • Creating • Created • CreateFailed • Deleting • DeleteFailed
     /// </summary>
     [CliOption("--feature-group-status-equals")]
     public AwsSagemakerListFeatureGroupsFeatureGroupStatusEquals? FeatureGroupStatusEquals { get; set; }
 
     /// <summary>
-    /// An OfflineStore status. Filters by OfflineStore status. Possible values: o Active o Blocked o Disabled
+    /// An OfflineStore status. Filters by OfflineStore status. Possible values: • Active • Blocked • Disabled
     /// </summary>
     [CliOption("--offline-store-status-equals")]
     public AwsSagemakerListFeatureGroupsOfflineStoreStatusEquals? OfflineStoreStatusEquals { get; set; }
@@ -54,22 +54,19 @@ public record AwsSagemakerListFeatureGroupsOptions : AwsOptions
     public string? CreationTimeBefore { get; set; }
 
     /// <summary>
-    /// The order in which feature groups are listed. Possible values: o Ascending o Descending
+    /// The order in which feature groups are listed. Possible values: • Ascending • Descending
     /// </summary>
     [CliOption("--sort-order")]
     public AwsSagemakerListFeatureGroupsSortOrder? SortOrder { get; set; }
 
     /// <summary>
-    /// The value on which the feature group list is sorted. Possible values: o Name o FeatureGroupStatus o OfflineStoreStatus o CreationTime
+    /// The value on which the feature group list is sorted. Possible values: • Name • FeatureGroupStatus • OfflineStoreStatus • CreationTime
     /// </summary>
     [CliOption("--sort-by")]
     public AwsSagemakerListFeatureGroupsSortBy? SortBy { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -79,15 +76,27 @@ public record AwsSagemakerListFeatureGroupsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

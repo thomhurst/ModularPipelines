@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,10 +30,10 @@ public record AwsCodecommitDescribeMergeConflictsOptions : AwsOptions, IValidata
     /// <summary>
     /// Returns information about one or more merge conflicts in the attempted merge of two commit specifiers using the squash or three-way merge strategy. If the merge option for the attempted merge is specified as FAST_FORWARD_MERGE, an exception is thrown. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RepositoryName">The name of the repository where you want to get information about a merge conflict. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+</param>
+    /// <param name="RepositoryName">The name of the repository where you want to get information about a merge conflict. Constraints: • min: 1 • max: 100 • pattern: [\w\.-]+</param>
     /// <param name="DestinationCommitSpecifier">The branch, tag, HEAD, or other fully qualified reference used to identify a commit (for example, a branch name or a full commit ID).</param>
     /// <param name="SourceCommitSpecifier">The branch, tag, HEAD, or other fully qualified reference used to identify a commit (for example, a branch name or a full commit ID).</param>
-    /// <param name="MergeOption">The merge option or strategy you want to use to merge the code. Possible values: o FAST_FORWARD_MERGE o SQUASH_MERGE o THREE_WAY_MERGE</param>
+    /// <param name="MergeOption">The merge option or strategy you want to use to merge the code. Possible values: • FAST_FORWARD_MERGE • SQUASH_MERGE • THREE_WAY_MERGE</param>
     /// <param name="FilePath">The path of the target files used to describe the conflicts.</param>
     public AwsCodecommitDescribeMergeConflictsOptions(
         string RepositoryName,
@@ -73,7 +74,7 @@ public record AwsCodecommitDescribeMergeConflictsOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the repository where you want to get information about a merge conflict. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+
+    /// The name of the repository where you want to get information about a merge conflict. Constraints: • min: 1 • max: 100 • pattern: [\w\.-]+
     /// </summary>
     [CliOption("--repository-name")]
     public string? RepositoryName { get; private init; }
@@ -91,7 +92,7 @@ public record AwsCodecommitDescribeMergeConflictsOptions : AwsOptions, IValidata
     public string? SourceCommitSpecifier { get; private init; }
 
     /// <summary>
-    /// The merge option or strategy you want to use to merge the code. Possible values: o FAST_FORWARD_MERGE o SQUASH_MERGE o THREE_WAY_MERGE
+    /// The merge option or strategy you want to use to merge the code. Possible values: • FAST_FORWARD_MERGE • SQUASH_MERGE • THREE_WAY_MERGE
     /// </summary>
     [CliOption("--merge-option")]
     public AwsCodecommitDescribeMergeConflictsMergeOption? MergeOption { get; private init; }
@@ -109,13 +110,13 @@ public record AwsCodecommitDescribeMergeConflictsOptions : AwsOptions, IValidata
     public int? MaxMergeHunks { get; set; }
 
     /// <summary>
-    /// The level of conflict detail to use. If unspecified, the default FILE_LEVEL is used, which returns a not-mergeable result if the same file has differences in both branches. If LINE_LEVEL is specified, a conflict is considered not mergeable if the same file in both branches has differences on the same line. Possible values: o FILE_LEVEL o LINE_LEVEL
+    /// The level of conflict detail to use. If unspecified, the default FILE_LEVEL is used, which returns a not-mergeable result if the same file has differences in both branches. If LINE_LEVEL is specified, a conflict is considered not mergeable if the same file in both branches has differences on the same line. Possible values: • FILE_LEVEL • LINE_LEVEL
     /// </summary>
     [CliOption("--conflict-detail-level")]
     public AwsCodecommitDescribeMergeConflictsConflictDetailLevel? ConflictDetailLevel { get; set; }
 
     /// <summary>
-    /// Specifies which branch to use when resolving conflicts, or whether to attempt automatically merging two versions of a file. The default is NONE, which requires any conflicts to be resolved manually before the merge operation is successful. Possible values: o NONE o ACCEPT_SOURCE o ACCEPT_DESTINATION o AUTOMERGE
+    /// Specifies which branch to use when resolving conflicts, or whether to attempt automatically merging two versions of a file. The default is NONE, which requires any conflicts to be resolved manually before the merge operation is successful. Possible values: • NONE • ACCEPT_SOURCE • ACCEPT_DESTINATION • AUTOMERGE
     /// </summary>
     [CliOption("--conflict-resolution-strategy")]
     public AwsCodecommitDescribeMergeConflictsConflictResolutionStrategy? ConflictResolutionStrategy { get; set; }
@@ -148,6 +149,15 @@ public record AwsCodecommitDescribeMergeConflictsOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

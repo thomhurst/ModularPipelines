@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +29,9 @@ public record AwsCodestarConnectionsCreateHostOptions : AwsOptions, IValidatable
     /// <summary>
     /// Creates a resource that represents the infrastructure where a third-party provider is installed. The host is used when you create connections to an installed third-party provider type, such as GitHub Enterprise Server. You create one host for all connections to that provider. NOTE: A host created through the CLI or the SDK is in PENDING status by default. You can make its status AVAILABLE by setting up the host in the console. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the host to be created. Constraints: o min: 1 o max: 64 o pattern: .*</param>
-    /// <param name="ProviderType">The name of the installed provider to be associated with your con- nection. The host resource represents the infrastructure where your provider type is installed. The valid provider type is GitHub Enter- prise Server. Possible values: o Bitbucket o GitHub o GitHubEnterpriseServer o GitLab o GitLabSelfManaged</param>
-    /// <param name="ProviderEndpoint">The endpoint of the infrastructure to be represented by the host af- ter it is created. Constraints: o min: 1 o max: 512 o pattern: .*</param>
+    /// <param name="Name">The name of the host to be created. Constraints: • min: 1 • max: 64 • pattern: .*</param>
+    /// <param name="ProviderType">The name of the installed provider to be associated with your connection. The host resource represents the infrastructure where your provider type is installed. The valid provider type is GitHub Enterprise Server. Possible values: • Bitbucket • GitHub • GitHubEnterpriseServer • GitLab • GitLabSelfManaged</param>
+    /// <param name="ProviderEndpoint">The endpoint of the infrastructure to be represented by the host after it is created. Constraints: • min: 1 • max: 512 • pattern: .*</param>
     public AwsCodestarConnectionsCreateHostOptions(
         string Name,
         AwsCodestarConnectionsCreateHostProviderType ProviderType,
@@ -64,31 +65,31 @@ public record AwsCodestarConnectionsCreateHostOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the host to be created. Constraints: o min: 1 o max: 64 o pattern: .*
+    /// The name of the host to be created. Constraints: • min: 1 • max: 64 • pattern: .*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The name of the installed provider to be associated with your con- nection. The host resource represents the infrastructure where your provider type is installed. The valid provider type is GitHub Enter- prise Server. Possible values: o Bitbucket o GitHub o GitHubEnterpriseServer o GitLab o GitLabSelfManaged
+    /// The name of the installed provider to be associated with your connection. The host resource represents the infrastructure where your provider type is installed. The valid provider type is GitHub Enterprise Server. Possible values: • Bitbucket • GitHub • GitHubEnterpriseServer • GitLab • GitLabSelfManaged
     /// </summary>
     [CliOption("--provider-type")]
     public AwsCodestarConnectionsCreateHostProviderType? ProviderType { get; private init; }
 
     /// <summary>
-    /// The endpoint of the infrastructure to be represented by the host af- ter it is created. Constraints: o min: 1 o max: 512 o pattern: .*
+    /// The endpoint of the infrastructure to be represented by the host after it is created. Constraints: • min: 1 • max: 512 • pattern: .*
     /// </summary>
     [CliOption("--provider-endpoint")]
     public string? ProviderEndpoint { get; private init; }
 
     /// <summary>
-    /// The VPC configuration to be provisioned for the host. A VPC must be configured and the infrastructure to be represented by the host must already be connected to the VPC. VpcId -&gt; (string) [required] The ID of the Amazon VPC connected to the infrastructure where your provider type is installed. Constraints: o min: 12 o max: 21 o pattern: vpc-\w{8}(\w{9})? SubnetIds -&gt; (list) [required] The ID of the subnet or subnets associated with the Amazon VPC connected to the infrastructure where your provider type is in- stalled. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 15 o max: 24 o pattern: subnet-\w{8}(\w{9})? SecurityGroupIds -&gt; (list) [required] The ID of the security group or security groups associated with the Amazon VPC connected to the infrastructure where your provider type is installed. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 11 o max: 20 o pattern: sg-\w{8}(\w{9})? TlsCertificate -&gt; (string) The value of the Transport Layer Security (TLS) certificate as- sociated with the infrastructure where your provider type is in- stalled. Constraints: o min: 1 o max: 16384 o pattern: [\s\S]* Shorthand Syntax: VpcId=string,SubnetIds=string,string,SecurityGroupIds=string,string,TlsCertificate=string JSON Syntax: { "VpcId": "string", "SubnetIds": ["string", ...], "SecurityGroupIds": ["string", ...], "TlsCertificate": "string" }
+    /// The VPC configuration to be provisioned for the host. A VPC must be configured and the infrastructure to be represented by the host must already be connected to the VPC. VpcId -&gt; (string) [required] The ID of the Amazon VPC connected to the infrastructure where your provider type is installed. Constraints: • min: 12 • max: 21 • pattern: vpc-\w{8}(\w{9})? SubnetIds -&gt; (list) [required] The ID of the subnet or subnets associated with the Amazon VPC connected to the infrastructure where your provider type is installed. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 15 • max: 24 • pattern: subnet-\w{8}(\w{9})? SecurityGroupIds -&gt; (list) [required] The ID of the security group or security groups associated with the Amazon VPC connected to the infrastructure where your provider type is installed. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 11 • max: 20 • pattern: sg-\w{8}(\w{9})? TlsCertificate -&gt; (string) The value of the Transport Layer Security (TLS) certificate associated with the infrastructure where your provider type is installed. Constraints: • min: 1 • max: 16384 • pattern: [\s\S]* Shorthand Syntax: VpcId=string,SubnetIds=string,string,SecurityGroupIds=string,string,TlsCertificate=string JSON Syntax: { "VpcId": "string", "SubnetIds": ["string", ...], "SecurityGroupIds": ["string", ...], "TlsCertificate": "string" }
     /// </summary>
     [CliOption("--vpc-configuration")]
     public string? VpcConfiguration { get; set; }
 
     /// <summary>
-    /// Tags for the host to be created. Constraints: o min: 0 o max: 200 (structure) A tag is a key-value pair that is used to manage the resource. This tag is available for use by Amazon Web Services services that support tags. Key -&gt; (string) [required] The tag's key. Constraints: o min: 1 o max: 128 o pattern: .* Value -&gt; (string) [required] The tag's value. Constraints: o min: 0 o max: 256 o pattern: .* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Tags for the host to be created. Constraints: • min: 0 • max: 200 (structure) A tag is a key-value pair that is used to manage the resource. This tag is available for use by Amazon Web Services services that support tags. Key -&gt; (string) [required] The tag's key. Constraints: • min: 1 • max: 128 • pattern: .* Value -&gt; (string) [required] The tag's value. Constraints: • min: 0 • max: 256 • pattern: .* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -114,6 +115,15 @@ public record AwsCodestarConnectionsCreateHostOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of objects associated with a profile of a given Pro- fileObjectType. See also: AWS API Documentation
+/// Returns a list of objects associated with a profile of a given ProfileObjectType. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsCustomerProfilesListProfileObjectsOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns a list of objects associated with a profile of a given Pro- fileObjectType. See also: AWS API Documentation
+    /// Returns a list of objects associated with a profile of a given ProfileObjectType. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
-    /// <param name="ObjectTypeName">The name of the profile object type. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z_][a-zA-Z_0-9-]*$</param>
-    /// <param name="ProfileId">The unique identifier of a customer profile. Constraints: o pattern: [a-f0-9]{32}</param>
+    /// <param name="DomainName">The unique name of the domain. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="ObjectTypeName">The name of the profile object type. Constraints: • min: 1 • max: 255 • pattern: ^[a-zA-Z_][a-zA-Z_0-9-]*$</param>
+    /// <param name="ProfileId">The unique identifier of a customer profile. Constraints: • pattern: [a-f0-9]{32}</param>
     public AwsCustomerProfilesListProfileObjectsOptions(
         string DomainName,
         string ObjectTypeName,
@@ -65,38 +66,38 @@ public record AwsCustomerProfilesListProfileObjectsOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The unique name of the domain. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// The name of the profile object type. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z_][a-zA-Z_0-9-]*$
+    /// The name of the profile object type. Constraints: • min: 1 • max: 255 • pattern: ^[a-zA-Z_][a-zA-Z_0-9-]*$
     /// </summary>
     [CliOption("--object-type-name")]
     public string? ObjectTypeName { get; private init; }
 
     /// <summary>
-    /// The unique identifier of a customer profile. Constraints: o pattern: [a-f0-9]{32}
+    /// The unique identifier of a customer profile. Constraints: • pattern: [a-f0-9]{32}
     /// </summary>
     [CliOption("--profile-id")]
     public string? ProfileId { get; private init; }
 
     /// <summary>
-    /// The pagination token from the previous call to ListProfileObjects. Constraints: o min: 1 o max: 1024
+    /// The pagination token from the previous call to ListProfileObjects. Constraints: • min: 1 • max: 1024
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of objects returned per page. Constraints: o min: 1 o max: 100
+    /// The maximum number of objects returned per page. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// Applies a filter to the response to include profile objects with the specified index values. KeyName -&gt; (string) [required] A searchable identifier of a profile object. The predefined keys you can use to search for _asset include: _assetId , _assetName , and _serialNumber . The predefined keys you can use to search for _case include: _caseId . The predefined keys you can use to search for _order include: _orderId . Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$ Values -&gt; (list) [required] A list of key values. (string) Constraints: o min: 1 o max: 255 Shorthand Syntax: KeyName=string,Values=string,string JSON Syntax: { "KeyName": "string", "Values": ["string", ...] }
+    /// Applies a filter to the response to include profile objects with the specified index values. KeyName -&gt; (string) [required] A searchable identifier of a profile object. The predefined keys you can use to search for _asset include: _assetId , _assetName , and _serialNumber . The predefined keys you can use to search for _case include: _caseId . The predefined keys you can use to search for _order include: _orderId . Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$ Values -&gt; (list) [required] A list of key values. (string) Constraints: • min: 1 • max: 255 Shorthand Syntax: KeyName=string,Values=string,string JSON Syntax: { "KeyName": "string", "Values": ["string", ...] }
     /// </summary>
     [CliOption("--object-filter")]
     public string? ObjectFilter { get; set; }
@@ -122,6 +123,15 @@ public record AwsCustomerProfilesListProfileObjectsOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

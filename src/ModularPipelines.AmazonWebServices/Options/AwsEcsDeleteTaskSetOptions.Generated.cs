@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a specified task set within a service. This is used when a ser- vice uses the EXTERNAL deployment controller type. For more informa- tion, see Amazon ECS deployment types in the Amazon Elastic Container Service Developer Guide . See also: AWS API Documentation
+/// Deletes a specified task set within a service. This is used when a service uses the EXTERNAL deployment controller type. For more information, see Amazon ECS deployment types in the Amazon Elastic Container Service Developer Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsEcsDeleteTaskSetOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a specified task set within a service. This is used when a ser- vice uses the EXTERNAL deployment controller type. For more informa- tion, see Amazon ECS deployment types in the Amazon Elastic Container Service Developer Guide . See also: AWS API Documentation
+    /// Deletes a specified task set within a service. This is used when a service uses the EXTERNAL deployment controller type. For more information, see Amazon ECS deployment types in the Amazon Elastic Container Service Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="Cluster">The short name or full Amazon Resource Name (ARN) of the cluster that hosts the service that the task set found in to delete.</param>
     /// <param name="Service">The short name or full Amazon Resource Name (ARN) of the service that hosts the task set to delete.</param>
@@ -108,6 +109,15 @@ public record AwsEcsDeleteTaskSetOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

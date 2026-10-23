@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the reward values for a trajectory and transitions it to re- ward-received status, signaling that it is eligible for processing. Call this operation after CompleteRollout to provide the computed re- ward scores. See also: AWS API Documentation
+/// Updates the reward values for a trajectory and transitions it to reward-received status, signaling that it is eligible for processing. Call this operation after CompleteRollout to provide the computed reward scores. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsSagemakerjobruntimeUpdateRewardOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the reward values for a trajectory and transitions it to re- ward-received status, signaling that it is eligible for processing. Call this operation after CompleteRollout to provide the computed re- ward scores. See also: AWS API Documentation
+    /// Updates the reward values for a trajectory and transitions it to reward-received status, signaling that it is eligible for processing. Call this operation after CompleteRollout to provide the computed reward scores. See also: AWS API Documentation
     /// </summary>
-    /// <param name="JobArn">The job ARN. Constraints: o min: 1 o max: 256 o pattern: arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:[0-9]{12}:job/[a-zA-Z0-9_\-]+/[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
-    /// <param name="TrajectoryId">The trajectory ID to update with reward values. Constraints: o min: 1 o max: 256</param>
+    /// <param name="JobArn">The job ARN. Constraints: • min: 1 • max: 256 • pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:job/[a-zA-Z0-9_\-]+/[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="TrajectoryId">The trajectory ID to update with reward values. Constraints: • min: 1 • max: 256</param>
     /// <param name="Rewards">The list of reward values to assign to this trajectory. Provide one reward value per turn in the trajectory. (double) Syntax: double double ...</param>
     public AwsSagemakerjobruntimeUpdateRewardOptions(
         string JobArn,
@@ -76,13 +77,13 @@ public record AwsSagemakerjobruntimeUpdateRewardOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The job ARN. Constraints: o min: 1 o max: 256 o pattern: arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:[0-9]{12}:job/[a-zA-Z0-9_\-]+/[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// The job ARN. Constraints: • min: 1 • max: 256 • pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:job/[a-zA-Z0-9_\-]+/[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--job-arn")]
     public string? JobArn { get; private init; }
 
     /// <summary>
-    /// The trajectory ID to update with reward values. Constraints: o min: 1 o max: 256
+    /// The trajectory ID to update with reward values. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--trajectory-id")]
     public string? TrajectoryId { get; private init; }
@@ -121,6 +122,15 @@ public record AwsSagemakerjobruntimeUpdateRewardOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

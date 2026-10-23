@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsBedrockDeleteImportedModelOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Deletes a custom model that you imported earlier. For more information, see Import a customized model in the Amazon Bedrock User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ModelIdentifier">Name of the imported model to delete. Constraints: o min: 1 o max: 1011 o pattern: (arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:im- ported-model/[a-z0-9]{12})|(([0-9a-zA-Z][_-]?)+)</param>
+    /// <param name="ModelIdentifier">Name of the imported model to delete. Constraints: • min: 1 • max: 1011 • pattern: (arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:imported-model/[a-z0-9]{12})|(([0-9a-zA-Z][_-]?)+)</param>
     public AwsBedrockDeleteImportedModelOptions(
         string ModelIdentifier
     )
@@ -56,7 +57,7 @@ public record AwsBedrockDeleteImportedModelOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Name of the imported model to delete. Constraints: o min: 1 o max: 1011 o pattern: (arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:im- ported-model/[a-z0-9]{12})|(([0-9a-zA-Z][_-]?)+)
+    /// Name of the imported model to delete. Constraints: • min: 1 • max: 1011 • pattern: (arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:imported-model/[a-z0-9]{12})|(([0-9a-zA-Z][_-]?)+)
     /// </summary>
     [CliOption("--model-identifier")]
     public string? ModelIdentifier { get; private init; }
@@ -82,6 +83,15 @@ public record AwsBedrockDeleteImportedModelOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

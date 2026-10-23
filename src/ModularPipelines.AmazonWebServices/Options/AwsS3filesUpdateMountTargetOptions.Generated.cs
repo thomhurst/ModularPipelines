@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the mount target resource, specifically security group configu- rations. See also: AWS API Documentation
+/// Updates the mount target resource, specifically security group configurations. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsS3filesUpdateMountTargetOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the mount target resource, specifically security group configu- rations. See also: AWS API Documentation
+    /// Updates the mount target resource, specifically security group configurations. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MountTargetId">The ID of the mount target to update. Constraints: o min: 22 o max: 45 o pattern: fsmt-[0-9a-f]{17,40}</param>
-    /// <param name="SecurityGroups">An array of VPC security group IDs to associate with the mount tar- get's network interface. This replaces the existing security groups. All security groups must belong to the same VPC as the mount tar- get's subnet. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 11 o max: 43 o pattern: (sg-[0-9a-f]{8,40}) Syntax: "string" "string" ...</param>
+    /// <param name="MountTargetId">The ID of the mount target to update. Constraints: • min: 22 • max: 45 • pattern: fsmt-[0-9a-f]{17,40}</param>
+    /// <param name="SecurityGroups">An array of VPC security group IDs to associate with the mount target's network interface. This replaces the existing security groups. All security groups must belong to the same VPC as the mount target's subnet. Constraints: • min: 0 • max: 100 (string) Constraints: • min: 11 • max: 43 • pattern: (sg-[0-9a-f]{8,40}) Syntax: "string" "string" ...</param>
     public AwsS3filesUpdateMountTargetOptions(
         string MountTargetId,
         IEnumerable<string> SecurityGroups
@@ -71,13 +72,13 @@ public record AwsS3filesUpdateMountTargetOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the mount target to update. Constraints: o min: 22 o max: 45 o pattern: fsmt-[0-9a-f]{17,40}
+    /// The ID of the mount target to update. Constraints: • min: 22 • max: 45 • pattern: fsmt-[0-9a-f]{17,40}
     /// </summary>
     [CliOption("--mount-target-id")]
     public string? MountTargetId { get; private init; }
 
     /// <summary>
-    /// An array of VPC security group IDs to associate with the mount tar- get's network interface. This replaces the existing security groups. All security groups must belong to the same VPC as the mount tar- get's subnet. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 11 o max: 43 o pattern: (sg-[0-9a-f]{8,40}) Syntax: "string" "string" ...
+    /// An array of VPC security group IDs to associate with the mount target's network interface. This replaces the existing security groups. All security groups must belong to the same VPC as the mount target's subnet. Constraints: • min: 0 • max: 100 (string) Constraints: • min: 11 • max: 43 • pattern: (sg-[0-9a-f]{8,40}) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--security-groups", GroupValues = true)]
     public IEnumerable<string>? SecurityGroups { get; private init; }
@@ -103,6 +104,15 @@ public record AwsS3filesUpdateMountTargetOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

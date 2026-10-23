@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the trust policy of given IAM role such that it can be used with Amazon EMR on EKS with the given namespace from the given EKS cluster. Note: To use the IAM Role with Amazon EMR on EKS, OIDC identity provider also needs to be created for the EKS cluster. This can be done using eksctl utils associate-iam-oidc-provider --cluster &lt;cluster_name&gt; --approve command. For information about in- stalling or upgrading eksctl, see Installing or upgrading eksctl in the Amazon EKS User Guide. The comm...
+/// Updates the trust policy of given IAM role such that it can be used with Amazon EMR on EKS with the given namespace from the given EKS cluster. Note: To use the IAM Role with Amazon EMR on EKS, OIDC identity provider also needs to be created for the EKS cluster. This can be done using eksctl utils associate-iam-oidc-provider --cluster &lt;cluster_name&gt; --approve command. For information about installing or upgrading eksctl, see Installing or upgrading eksctl in the Amazon EKS User Guide. The comman...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsEmrContainersUpdateRoleTrustPolicyOptions : AwsOptions
 {
     /// <summary>
-    /// Updates the trust policy of given IAM role such that it can be used with Amazon EMR on EKS with the given namespace from the given EKS cluster. Note: To use the IAM Role with Amazon EMR on EKS, OIDC identity provider also needs to be created for the EKS cluster. This can be done using eksctl utils associate-iam-oidc-provider --cluster &lt;cluster_name&gt; --approve command. For information about in- stalling or upgrading eksctl, see Installing or upgrading eksctl in the Amazon EKS User Guide. The comm...
+    /// Updates the trust policy of given IAM role such that it can be used with Amazon EMR on EKS with the given namespace from the given EKS cluster. Note: To use the IAM Role with Amazon EMR on EKS, OIDC identity provider also needs to be created for the EKS cluster. This can be done using eksctl utils associate-iam-oidc-provider --cluster &lt;cluster_name&gt; --approve command. For information about installing or upgrading eksctl, see Installing or upgrading eksctl in the Amazon EKS User Guide. The comman...
     /// </summary>
     /// <param name="ClusterName"></param>
     /// <param name="Namespace"></param>
@@ -62,5 +62,14 @@ public record AwsEmrContainersUpdateRoleTrustPolicyOptions : AwsOptions
 
     [CliFlag("--dry-run")]
     public bool? DryRun { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

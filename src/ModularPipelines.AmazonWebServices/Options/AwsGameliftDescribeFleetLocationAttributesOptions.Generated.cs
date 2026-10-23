@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API works with the following fleet types: EC2, Anywhere, Con- tainer Retrieves information on a fleet's remote locations, including life-cy- cle status and any suspended fleet activity. This operation can be used in the following ways: o To get data for specific locations, provide a fleet identifier and a list of locations. Location data is returned in the order that it is requested. o To get data for all locations, provide a fleet identifier only. Loca- tion data is returned in no particul...
+/// This API works with the following fleet types: EC2, Anywhere, Container Retrieves information on a fleet's remote locations, including life-cycle status and any suspended fleet activity. This operation can be used in the following ways: • To get data for specific locations, provide a fleet identifier and a list of locations. Location data is returned in the order that it is requested. • To get data for all locations, provide a fleet identifier only. Location data is returned in no particular ord...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsGameliftDescribeFleetLocationAttributesOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Retrieves information on a fleet's remote locations, including life-cy- cle status and any suspended fleet activity. This operation can be used in the following ways: o To get data for specific locations, provide a fleet identifier and a list of locations. Location data is returned in the order that it is requested. o To get data for all locations, provide a fleet identifier only. Loca- tion data is returned in no particul...
+    /// This API works with the following fleet types: EC2, Anywhere, Container Retrieves information on a fleet's remote locations, including life-cycle status and any suspended fleet activity. This operation can be used in the following ways: • To get data for specific locations, provide a fleet identifier and a list of locations. Location data is returned in the order that it is requested. • To get data for all locations, provide a fleet identifier only. Location data is returned in no particular ord...
     /// </summary>
-    /// <param name="FleetId">A unique identifier for the fleet to retrieve remote locations for. You can use either the fleet ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$</param>
+    /// <param name="FleetId">A unique identifier for the fleet to retrieve remote locations for. You can use either the fleet ID or ARN value. Constraints: • min: 1 • max: 512 • pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$</param>
     public AwsGameliftDescribeFleetLocationAttributesOptions(
         string FleetId
     )
@@ -57,25 +58,25 @@ public record AwsGameliftDescribeFleetLocationAttributesOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the fleet to retrieve remote locations for. You can use either the fleet ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$
+    /// A unique identifier for the fleet to retrieve remote locations for. You can use either the fleet ID or ARN value. Constraints: • min: 1 • max: 512 • pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$
     /// </summary>
     [CliOption("--fleet-id")]
     public string? FleetId { get; private init; }
 
     /// <summary>
-    /// A list of fleet locations to retrieve information for. Specify loca- tions in the form of an Amazon Web Services Region code, such as us-west-2 . Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 64 o pattern: ^[A-Za-z0-9\-]+$ Syntax: "string" "string" ...
+    /// A list of fleet locations to retrieve information for. Specify locations in the form of an Amazon Web Services Region code, such as us-west-2 . Constraints: • min: 1 • max: 100 (string) Constraints: • min: 1 • max: 64 • pattern: ^[A-Za-z0-9\-]+$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--locations", GroupValues = true)]
     public IEnumerable<string>? Locations { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages. This limit is not currently enforced. Constraints: o min: 1
+    /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages. This limit is not currently enforced. Constraints: • min: 1
     /// </summary>
     [CliOption("--limit")]
     public int? Limit { get; set; }
 
     /// <summary>
-    /// A token that indicates the start of the next sequential page of re- sults. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not spec- ify a value. Constraints: o min: 1 o max: 1024
+    /// A token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value. Constraints: • min: 1 • max: 1024
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -102,6 +103,15 @@ public record AwsGameliftDescribeFleetLocationAttributesOptions : AwsOptions, IV
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

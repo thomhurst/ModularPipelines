@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsLightsailGetRelationalDatabaseLogEventsOptions : AwsOptions, IV
     /// <summary>
     /// Returns a list of log events for a database in Amazon Lightsail. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RelationalDatabaseName">The name of your database for which to get log events. Constraints: o pattern: \w[\w\-]*\w</param>
+    /// <param name="RelationalDatabaseName">The name of your database for which to get log events. Constraints: • pattern: \w[\w\-]*\w</param>
     /// <param name="LogStreamName">The name of the log stream. Use the get relational database log streams operation to get a list of available log streams.</param>
     public AwsLightsailGetRelationalDatabaseLogEventsOptions(
         string RelationalDatabaseName,
@@ -61,7 +62,7 @@ public record AwsLightsailGetRelationalDatabaseLogEventsOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of your database for which to get log events. Constraints: o pattern: \w[\w\-]*\w
+    /// The name of your database for which to get log events. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--relational-database-name")]
     public string? RelationalDatabaseName { get; private init; }
@@ -73,13 +74,13 @@ public record AwsLightsailGetRelationalDatabaseLogEventsOptions : AwsOptions, IV
     public string? LogStreamName { get; private init; }
 
     /// <summary>
-    /// The start of the time interval from which to get log events. Constraints: o Specified in Coordinated Universal Time (UTC). o Specified in the Unix time format. For example, if you wish to use a start time of October 1, 2018, at 8 PM UTC, then you input 1538424000 as the start time.
+    /// The start of the time interval from which to get log events. Constraints: • Specified in Coordinated Universal Time (UTC). • Specified in the Unix time format. For example, if you wish to use a start time of October 1, 2018, at 8 PM UTC, then you input 1538424000 as the start time.
     /// </summary>
     [CliOption("--start-time")]
     public string? StartTime { get; set; }
 
     /// <summary>
-    /// The end of the time interval from which to get log events. Constraints: o Specified in Coordinated Universal Time (UTC). o Specified in the Unix time format. For example, if you wish to use an end time of October 1, 2018, at 8 PM UTC, then you input 1538424000 as the end time.
+    /// The end of the time interval from which to get log events. Constraints: • Specified in Coordinated Universal Time (UTC). • Specified in the Unix time format. For example, if you wish to use an end time of October 1, 2018, at 8 PM UTC, then you input 1538424000 as the end time.
     /// </summary>
     [CliOption("--end-time")]
     public string? EndTime { get; set; }
@@ -91,7 +92,7 @@ public record AwsLightsailGetRelationalDatabaseLogEventsOptions : AwsOptions, IV
     public bool? StartFromHead { get; set; }
 
     /// <summary>
-    /// The token to advance to the next or previous page of results from your request. To get a page token, perform an initial GetRelationalDatabaseLo- gEvents request. If your results are paginated, the response will return a next forward token and/or next backward token that you can specify as the page token in a subsequent request.
+    /// The token to advance to the next or previous page of results from your request. To get a page token, perform an initial GetRelationalDatabaseLogEvents request. If your results are paginated, the response will return a next forward token and/or next backward token that you can specify as the page token in a subsequent request.
     /// </summary>
     [SecretValue]
     [CliOption("--page-token")]
@@ -118,6 +119,15 @@ public record AwsLightsailGetRelationalDatabaseLogEventsOptions : AwsOptions, IV
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

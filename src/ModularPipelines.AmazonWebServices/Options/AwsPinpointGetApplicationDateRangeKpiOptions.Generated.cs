@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves (queries) pre-aggregated data for a standard metric that ap- plies to an application. See also: AWS API Documentation
+/// Retrieves (queries) pre-aggregated data for a standard metric that applies to an application. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsPinpointGetApplicationDateRangeKpiOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves (queries) pre-aggregated data for a standard metric that ap- plies to an application. See also: AWS API Documentation
+    /// Retrieves (queries) pre-aggregated data for a standard metric that applies to an application. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The unique identifier for the application. This identifier is dis- played as the Project ID on the Amazon Pinpoint console.</param>
-    /// <param name="KpiName">The name of the metric, also referred to as a key performance indi- cator (KPI) , to retrieve data for. This value describes the associ- ated metric and consists of two or more terms, which are comprised of lowercase alphanumeric characters, separated by a hyphen. Exam- ples are email-open-rate and successful-delivery-rate. For a list of valid values, see the Amazon Pinpoint Developer Guide .</param>
+    /// <param name="ApplicationId">The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.</param>
+    /// <param name="KpiName">The name of the metric, also referred to as a key performance indicator (KPI) , to retrieve data for. This value describes the associated metric and consists of two or more terms, which are comprised of lowercase alphanumeric characters, separated by a hyphen. Examples are email-open-rate and successful-delivery-rate. For a list of valid values, see the Amazon Pinpoint Developer Guide .</param>
     public AwsPinpointGetApplicationDateRangeKpiOptions(
         string ApplicationId,
         string KpiName
@@ -61,13 +62,13 @@ public record AwsPinpointGetApplicationDateRangeKpiOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the application. This identifier is dis- played as the Project ID on the Amazon Pinpoint console.
+    /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// The name of the metric, also referred to as a key performance indi- cator (KPI) , to retrieve data for. This value describes the associ- ated metric and consists of two or more terms, which are comprised of lowercase alphanumeric characters, separated by a hyphen. Exam- ples are email-open-rate and successful-delivery-rate. For a list of valid values, see the Amazon Pinpoint Developer Guide .
+    /// The name of the metric, also referred to as a key performance indicator (KPI) , to retrieve data for. This value describes the associated metric and consists of two or more terms, which are comprised of lowercase alphanumeric characters, separated by a hyphen. Examples are email-open-rate and successful-delivery-rate. For a list of valid values, see the Amazon Pinpoint Developer Guide .
     /// </summary>
     [CliOption("--kpi-name")]
     public string? KpiName { get; private init; }
@@ -79,7 +80,7 @@ public record AwsPinpointGetApplicationDateRangeKpiOptions : AwsOptions, IValida
     public string? EndTime { get; set; }
 
     /// <summary>
-    /// The string that specifies which page of results to return in a pagi- nated response. This parameter is not supported for application, campaign, and journey metrics.
+    /// The string that specifies which page of results to return in a paginated response. This parameter is not supported for application, campaign, and journey metrics.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -92,7 +93,7 @@ public record AwsPinpointGetApplicationDateRangeKpiOptions : AwsOptions, IValida
     public string? PageSize { get; set; }
 
     /// <summary>
-    /// The first date and time to retrieve data for, as part of an inclu- sive date range that filters the query results. This value should be in extended ISO 8601 format and use Coordinated Universal Time (UTC), for example: 2019-07-19T20:00:00Z for 8:00 PM UTC July 19, 2019. This value should also be fewer than 90 days from the current day.
+    /// The first date and time to retrieve data for, as part of an inclusive date range that filters the query results. This value should be in extended ISO 8601 format and use Coordinated Universal Time (UTC), for example: 2019-07-19T20:00:00Z for 8:00 PM UTC July 19, 2019. This value should also be fewer than 90 days from the current day.
     /// </summary>
     [CliOption("--start-time")]
     public string? StartTime { get; set; }
@@ -118,6 +119,15 @@ public record AwsPinpointGetApplicationDateRangeKpiOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

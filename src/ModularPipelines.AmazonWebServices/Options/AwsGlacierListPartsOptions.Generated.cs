@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This operation lists the parts of an archive that have been uploaded in a specific multipart upload. You can make this request at any time dur- ing an in-progress multipart upload before you complete the upload (see CompleteMultipartUpload . List Parts returns an error for completed up- loads. The list returned in the List Parts response is sorted by part range. The List Parts operation supports pagination. By default, this opera- tion returns up to 50 uploaded parts in the response. You should ...
+/// This operation lists the parts of an archive that have been uploaded in a specific multipart upload. You can make this request at any time during an in-progress multipart upload before you complete the upload (see CompleteMultipartUpload . List Parts returns an error for completed uploads. The list returned in the List Parts response is sorted by part range. The List Parts operation supports pagination. By default, this operation returns up to 50 uploaded parts in the response. You should always...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsGlacierListPartsOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This operation lists the parts of an archive that have been uploaded in a specific multipart upload. You can make this request at any time dur- ing an in-progress multipart upload before you complete the upload (see CompleteMultipartUpload . List Parts returns an error for completed up- loads. The list returned in the List Parts response is sorted by part range. The List Parts operation supports pagination. By default, this opera- tion returns up to 50 uploaded parts in the response. You should ...
+    /// This operation lists the parts of an archive that have been uploaded in a specific multipart upload. You can make this request at any time during an in-progress multipart upload before you complete the upload (see CompleteMultipartUpload . List Parts returns an error for completed uploads. The list returned in the List Parts response is sorted by part range. The List Parts operation supports pagination. By default, this operation returns up to 50 uploaded parts in the response. You should always...
     /// </summary>
-    /// <param name="AccountId">The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '- ' (hyphen), in which case Amazon Glacier uses the AWS ac- count ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.</param>
+    /// <param name="AccountId">The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '- ' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.</param>
     /// <param name="VaultName">The name of the vault.</param>
     /// <param name="UploadId">The upload ID of the multipart upload.</param>
     public AwsGlacierListPartsOptions(
@@ -65,7 +66,7 @@ public record AwsGlacierListPartsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '- ' (hyphen), in which case Amazon Glacier uses the AWS ac- count ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
+    /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '- ' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
@@ -85,9 +86,6 @@ public record AwsGlacierListPartsOptions : AwsOptions, IValidatableObject
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
-
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
@@ -96,16 +94,19 @@ public record AwsGlacierListPartsOptions : AwsOptions, IValidatableObject
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--page-size")]
     public string? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public string? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -122,6 +123,15 @@ public record AwsGlacierListPartsOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

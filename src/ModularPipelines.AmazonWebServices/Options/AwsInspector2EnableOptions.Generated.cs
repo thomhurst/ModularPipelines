@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Enables Amazon Inspector scans for one or more Amazon Web Services ac- counts. See also: AWS API Documentation
+/// Enables Amazon Inspector scans for one or more Amazon Web Services accounts. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsInspector2EnableOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Enables Amazon Inspector scans for one or more Amazon Web Services ac- counts. See also: AWS API Documentation
+    /// Enables Amazon Inspector scans for one or more Amazon Web Services accounts. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceTypes">The resource scan types you want to enable. Constraints: o min: 1 o max: 5 (string) Possible values: o EC2 o ECR o LAMBDA o LAMBDA_CODE o CODE_REPOSITORY Syntax: "string" "string" ...</param>
+    /// <param name="ResourceTypes">The resource scan types you want to enable. Constraints: • min: 1 • max: 5 (string) Possible values: • EC2 • ECR • LAMBDA • LAMBDA_CODE • CODE_REPOSITORY Syntax: "string" "string" ...</param>
     public AwsInspector2EnableOptions(
         IEnumerable<string> ResourceTypes
     )
@@ -68,19 +69,19 @@ public record AwsInspector2EnableOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The resource scan types you want to enable. Constraints: o min: 1 o max: 5 (string) Possible values: o EC2 o ECR o LAMBDA o LAMBDA_CODE o CODE_REPOSITORY Syntax: "string" "string" ...
+    /// The resource scan types you want to enable. Constraints: • min: 1 • max: 5 (string) Possible values: • EC2 • ECR • LAMBDA • LAMBDA_CODE • CODE_REPOSITORY Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--resource-types", GroupValues = true)]
     public IEnumerable<string>? ResourceTypes { get; private init; }
 
     /// <summary>
-    /// A list of account IDs you want to enable Amazon Inspector scans for. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 12 o max: 12 o pattern: \d{12} Syntax: "string" "string" ...
+    /// A list of account IDs you want to enable Amazon Inspector scans for. Constraints: • min: 0 • max: 100 (string) Constraints: • min: 12 • max: 12 • pattern: \d{12} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--account-ids", GroupValues = true)]
     public IEnumerable<string>? AccountIds { get; set; }
 
     /// <summary>
-    /// The idempotency token for the request. Constraints: o min: 1 o max: 64
+    /// The idempotency token for the request. Constraints: • min: 1 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -107,6 +108,15 @@ public record AwsInspector2EnableOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

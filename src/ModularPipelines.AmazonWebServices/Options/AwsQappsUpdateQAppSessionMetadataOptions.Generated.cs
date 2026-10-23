@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the configuration metadata of a session for a given Q App ses- sionId . See also: AWS API Documentation
+/// Updates the configuration metadata of a session for a given Q App sessionId . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsQappsUpdateQAppSessionMetadataOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the configuration metadata of a session for a given Q App ses- sionId . See also: AWS API Documentation
+    /// Updates the configuration metadata of a session for a given Q App sessionId . See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The unique identifier of the Amazon Q Business application environ- ment instance.</param>
-    /// <param name="SessionId">The unique identifier of the Q App session to update configuration for. Constraints: o pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12}</param>
+    /// <param name="InstanceId">The unique identifier of the Amazon Q Business application environment instance.</param>
+    /// <param name="SessionId">The unique identifier of the Q App session to update configuration for. Constraints: • pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12}</param>
     /// <param name="SharingConfiguration">The new sharing configuration for the Q App data collection session. enabled -&gt; (boolean) [required] Indicates whether an Q App session is shareable with other users. acceptResponses -&gt; (boolean) Indicates whether an Q App session can accept responses from users. revealCards -&gt; (boolean) Indicates whether collected responses for an Q App session are revealed for all users. Shorthand Syntax: enabled=boolean,acceptResponses=boolean,revealCards=boolean JSON Syntax: { "enabled": true|false, "acceptResponses": true|false, "revealCards": true|false }</param>
     public AwsQappsUpdateQAppSessionMetadataOptions(
         string InstanceId,
@@ -64,13 +65,13 @@ public record AwsQappsUpdateQAppSessionMetadataOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the Amazon Q Business application environ- ment instance.
+    /// The unique identifier of the Amazon Q Business application environment instance.
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the Q App session to update configuration for. Constraints: o pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12}
+    /// The unique identifier of the Q App session to update configuration for. Constraints: • pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12}
     /// </summary>
     [CliOption("--session-id")]
     public string? SessionId { get; private init; }
@@ -82,7 +83,7 @@ public record AwsQappsUpdateQAppSessionMetadataOptions : AwsOptions, IValidatabl
     public string? SharingConfiguration { get; private init; }
 
     /// <summary>
-    /// The new name for the Q App session. Constraints: o min: 0 o max: 100
+    /// The new name for the Q App session. Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--session-name")]
     public string? SessionName { get; set; }
@@ -108,6 +109,15 @@ public record AwsQappsUpdateQAppSessionMetadataOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

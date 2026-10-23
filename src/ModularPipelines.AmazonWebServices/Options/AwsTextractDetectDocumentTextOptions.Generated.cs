@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Detects text in the input document. Amazon Textract can detect lines of text and the words that make up a line of text. The input document must be in one of the following image formats: JPEG, PNG, PDF, or TIFF. De- tectDocumentText returns the detected text in an array of Block ob- jects. Each document page has as an associated Block of type PAGE. Each PAGE Block object is the parent of LINE Block objects that represent the lines of detected text on a page. A LINE Block object is a parent for ea...
+/// Detects text in the input document. Amazon Textract can detect lines of text and the words that make up a line of text. The input document must be in one of the following image formats: JPEG, PNG, PDF, or TIFF. DetectDocumentText returns the detected text in an array of Block objects. Each document page has as an associated Block of type PAGE. Each PAGE Block object is the parent of LINE Block objects that represent the lines of detected text on a page. A LINE Block object is a parent for each w...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsTextractDetectDocumentTextOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Detects text in the input document. Amazon Textract can detect lines of text and the words that make up a line of text. The input document must be in one of the following image formats: JPEG, PNG, PDF, or TIFF. De- tectDocumentText returns the detected text in an array of Block ob- jects. Each document page has as an associated Block of type PAGE. Each PAGE Block object is the parent of LINE Block objects that represent the lines of detected text on a page. A LINE Block object is a parent for ea...
+    /// Detects text in the input document. Amazon Textract can detect lines of text and the words that make up a line of text. The input document must be in one of the following image formats: JPEG, PNG, PDF, or TIFF. DetectDocumentText returns the detected text in an array of Block objects. Each document page has as an associated Block of type PAGE. Each PAGE Block object is the parent of LINE Block objects that represent the lines of detected text on a page. A LINE Block object is a parent for each w...
     /// </summary>
-    /// <param name="Document">The input document as base64-encoded bytes or an Amazon S3 object. If you use the AWS CLI to call Amazon Textract operations, you can't pass image bytes. The document must be an image in JPEG or PNG for- mat. If you're using an AWS SDK to call Amazon Textract, you might not need to base64-encode image bytes that are passed using the Bytes field. Bytes -&gt; (blob) A blob of base64-encoded document bytes. The maximum size of a document that's provided in a blob of bytes is 5 MB. The docu- ment bytes must be in PNG or JPEG format. If you're using an AWS SDK to call Amazon Textract, you might not need to base64-encode image bytes passed using the Bytes field. Constraints: o min: 1 o max: 10485760 S3Object -&gt; (structure) Identifies an S3 object as the document source. The maximum size of a document that's stored in an S3 bucket is 5 MB. Bucket -&gt; (string) The name of the S3 bucket. Note that the # character is not valid in the file name. Constraints: o min: 3 o max: 255 o pattern: [0-9A-Za-z\.\-_]* Name -&gt; (string) The file name of the input document. Image files may be in PDF, TIFF, JPEG, or PNG format. Constraints: o min: 1 o max: 1024 o pattern: .*\S.* Version -&gt; (string) If the bucket has versioning enabled, you can specify the ob- ject version. Constraints: o min: 1 o max: 1024 o pattern: .*\S.* Shorthand Syntax: Bytes=blob,S3Object={Bucket=string,Name=string,Version=string} JSON Syntax: { "Bytes": blob, "S3Object": { "Bucket": "string", "Name": "string", "Version": "string" } }</param>
+    /// <param name="Document">The input document as base64-encoded bytes or an Amazon S3 object. If you use the AWS CLI to call Amazon Textract operations, you can't pass image bytes. The document must be an image in JPEG or PNG format. If you're using an AWS SDK to call Amazon Textract, you might not need to base64-encode image bytes that are passed using the Bytes field. Bytes -&gt; (blob) A blob of base64-encoded document bytes. The maximum size of a document that's provided in a blob of bytes is 5 MB. The document bytes must be in PNG or JPEG format. If you're using an AWS SDK to call Amazon Textract, you might not need to base64-encode image bytes passed using the Bytes field. Constraints: • min: 1 • max: 10485760 S3Object -&gt; (structure) Identifies an S3 object as the document source. The maximum size of a document that's stored in an S3 bucket is 5 MB. Bucket -&gt; (string) The name of the S3 bucket. Note that the # character is not valid in the file name. Constraints: • min: 3 • max: 255 • pattern: [0-9A-Za-z\.\-_]* Name -&gt; (string) The file name of the input document. Image files may be in PDF, TIFF, JPEG, or PNG format. Constraints: • min: 1 • max: 1024 • pattern: .*\S.* Version -&gt; (string) If the bucket has versioning enabled, you can specify the object version. Constraints: • min: 1 • max: 1024 • pattern: .*\S.* Shorthand Syntax: Bytes=blob,S3Object={Bucket=string,Name=string,Version=string} JSON Syntax: { "Bytes": blob, "S3Object": { "Bucket": "string", "Name": "string", "Version": "string" } }</param>
     public AwsTextractDetectDocumentTextOptions(
         string Document
     )
@@ -56,7 +57,7 @@ public record AwsTextractDetectDocumentTextOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The input document as base64-encoded bytes or an Amazon S3 object. If you use the AWS CLI to call Amazon Textract operations, you can't pass image bytes. The document must be an image in JPEG or PNG for- mat. If you're using an AWS SDK to call Amazon Textract, you might not need to base64-encode image bytes that are passed using the Bytes field. Bytes -&gt; (blob) A blob of base64-encoded document bytes. The maximum size of a document that's provided in a blob of bytes is 5 MB. The docu- ment bytes must be in PNG or JPEG format. If you're using an AWS SDK to call Amazon Textract, you might not need to base64-encode image bytes passed using the Bytes field. Constraints: o min: 1 o max: 10485760 S3Object -&gt; (structure) Identifies an S3 object as the document source. The maximum size of a document that's stored in an S3 bucket is 5 MB. Bucket -&gt; (string) The name of the S3 bucket. Note that the # character is not valid in the file name. Constraints: o min: 3 o max: 255 o pattern: [0-9A-Za-z\.\-_]* Name -&gt; (string) The file name of the input document. Image files may be in PDF, TIFF, JPEG, or PNG format. Constraints: o min: 1 o max: 1024 o pattern: .*\S.* Version -&gt; (string) If the bucket has versioning enabled, you can specify the ob- ject version. Constraints: o min: 1 o max: 1024 o pattern: .*\S.* Shorthand Syntax: Bytes=blob,S3Object={Bucket=string,Name=string,Version=string} JSON Syntax: { "Bytes": blob, "S3Object": { "Bucket": "string", "Name": "string", "Version": "string" } }
+    /// The input document as base64-encoded bytes or an Amazon S3 object. If you use the AWS CLI to call Amazon Textract operations, you can't pass image bytes. The document must be an image in JPEG or PNG format. If you're using an AWS SDK to call Amazon Textract, you might not need to base64-encode image bytes that are passed using the Bytes field. Bytes -&gt; (blob) A blob of base64-encoded document bytes. The maximum size of a document that's provided in a blob of bytes is 5 MB. The document bytes must be in PNG or JPEG format. If you're using an AWS SDK to call Amazon Textract, you might not need to base64-encode image bytes passed using the Bytes field. Constraints: • min: 1 • max: 10485760 S3Object -&gt; (structure) Identifies an S3 object as the document source. The maximum size of a document that's stored in an S3 bucket is 5 MB. Bucket -&gt; (string) The name of the S3 bucket. Note that the # character is not valid in the file name. Constraints: • min: 3 • max: 255 • pattern: [0-9A-Za-z\.\-_]* Name -&gt; (string) The file name of the input document. Image files may be in PDF, TIFF, JPEG, or PNG format. Constraints: • min: 1 • max: 1024 • pattern: .*\S.* Version -&gt; (string) If the bucket has versioning enabled, you can specify the object version. Constraints: • min: 1 • max: 1024 • pattern: .*\S.* Shorthand Syntax: Bytes=blob,S3Object={Bucket=string,Name=string,Version=string} JSON Syntax: { "Bytes": blob, "S3Object": { "Bucket": "string", "Name": "string", "Version": "string" } }
     /// </summary>
     [CliOption("--document")]
     public string? Document { get; private init; }
@@ -82,6 +83,15 @@ public record AwsTextractDetectDocumentTextOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

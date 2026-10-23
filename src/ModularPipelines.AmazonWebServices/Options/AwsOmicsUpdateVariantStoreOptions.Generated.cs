@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -62,7 +63,7 @@ public record AwsOmicsUpdateVariantStoreOptions : AwsOptions, IValidatableObject
     public string? Name { get; private init; }
 
     /// <summary>
-    /// A description for the store. Constraints: o min: 0 o max: 500
+    /// A description for the store. Constraints: • min: 0 • max: 500
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
@@ -88,6 +89,15 @@ public record AwsOmicsUpdateVariantStoreOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

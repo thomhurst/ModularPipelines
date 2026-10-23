@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets detailed information about the specified metadata model, including its definition and corresponding converted objects in the target data- base if applicable. Required permissions: dms:DescribeMetadataModel . For more informa- tion, see Actions, resources, and condition keys for Database Migra- tion Service . See also: AWS API Documentation
+/// Gets detailed information about the specified metadata model, including its definition and corresponding converted objects in the target database if applicable. Required permissions: dms:DescribeMetadataModel . For more information, see Actions, resources, and condition keys for Database Migration Service . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsDmsDescribeMetadataModelOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets detailed information about the specified metadata model, including its definition and corresponding converted objects in the target data- base if applicable. Required permissions: dms:DescribeMetadataModel . For more informa- tion, see Actions, resources, and condition keys for Database Migra- tion Service . See also: AWS API Documentation
+    /// Gets detailed information about the specified metadata model, including its definition and corresponding converted objects in the target database if applicable. Required permissions: dms:DescribeMetadataModel . For more information, see Actions, resources, and condition keys for Database Migration Service . See also: AWS API Documentation
     /// </summary>
-    /// <param name="SelectionRules">A JSON string that identifies the metadata model to retrieve. For the selection rule format and examples, see Selection rules in DMS Schema Conversion . Usage: o Accepts source or target selection rules depending on the Origin parameter. The server-name in the object locator must match the corresponding data provider. o Supports only explicit rule actions. o Exactly one rule is allowed.</param>
-    /// <param name="MigrationProjectIdentifier">The migration project name or Amazon Resource Name (ARN). Constraints: o max: 255</param>
-    /// <param name="Origin">Specifies whether to retrieve metadata from the source or target tree. Valid values: SOURCE | TARGET Possible values: o SOURCE o TARGET</param>
+    /// <param name="SelectionRules">A JSON string that identifies the metadata model to retrieve. For the selection rule format and examples, see Selection rules in DMS Schema Conversion . Usage: • Accepts source or target selection rules depending on the Origin parameter. The server-name in the object locator must match the corresponding data provider. • Supports only explicit rule actions. • Exactly one rule is allowed.</param>
+    /// <param name="MigrationProjectIdentifier">The migration project name or Amazon Resource Name (ARN). Constraints: • max: 255</param>
+    /// <param name="Origin">Specifies whether to retrieve metadata from the source or target tree. Valid values: SOURCE | TARGET Possible values: • SOURCE • TARGET</param>
     public AwsDmsDescribeMetadataModelOptions(
         string SelectionRules,
         string MigrationProjectIdentifier,
@@ -64,19 +65,19 @@ public record AwsDmsDescribeMetadataModelOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A JSON string that identifies the metadata model to retrieve. For the selection rule format and examples, see Selection rules in DMS Schema Conversion . Usage: o Accepts source or target selection rules depending on the Origin parameter. The server-name in the object locator must match the corresponding data provider. o Supports only explicit rule actions. o Exactly one rule is allowed.
+    /// A JSON string that identifies the metadata model to retrieve. For the selection rule format and examples, see Selection rules in DMS Schema Conversion . Usage: • Accepts source or target selection rules depending on the Origin parameter. The server-name in the object locator must match the corresponding data provider. • Supports only explicit rule actions. • Exactly one rule is allowed.
     /// </summary>
     [CliOption("--selection-rules")]
     public string? SelectionRules { get; private init; }
 
     /// <summary>
-    /// The migration project name or Amazon Resource Name (ARN). Constraints: o max: 255
+    /// The migration project name or Amazon Resource Name (ARN). Constraints: • max: 255
     /// </summary>
     [CliOption("--migration-project-identifier")]
     public string? MigrationProjectIdentifier { get; private init; }
 
     /// <summary>
-    /// Specifies whether to retrieve metadata from the source or target tree. Valid values: SOURCE | TARGET Possible values: o SOURCE o TARGET
+    /// Specifies whether to retrieve metadata from the source or target tree. Valid values: SOURCE | TARGET Possible values: • SOURCE • TARGET
     /// </summary>
     [CliOption("--origin")]
     public string? Origin { get; private init; }
@@ -102,6 +103,15 @@ public record AwsDmsDescribeMetadataModelOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

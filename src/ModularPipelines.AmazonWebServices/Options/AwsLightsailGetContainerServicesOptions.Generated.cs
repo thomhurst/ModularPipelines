@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns information about one or more of your Amazon Lightsail con- tainer services. See also: AWS API Documentation
+/// Returns information about one or more of your Amazon Lightsail container services. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsLightsailGetContainerServicesOptions : AwsOptions
 {
     /// <summary>
-    /// The name of the container service for which to return information. When omitted, the response includes all of your container services in the Amazon Web Services Region where the request is made. Constraints: o min: 1 o max: 63 o pattern: ^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$
+    /// The name of the container service for which to return information. When omitted, the response includes all of your container services in the Amazon Web Services Region where the request is made. Constraints: • min: 1 • max: 63 • pattern: ^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$
     /// </summary>
     [CliOption("--service-name")]
     public string? ServiceName { get; set; }
@@ -32,5 +32,14 @@ public record AwsLightsailGetContainerServicesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsKinesisanalyticsUntagResourceOptions : AwsOptions, IValidatable
     /// <summary>
     /// Removes one or more tags from a Kinesis Analytics application. For more information, see Using Tagging . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The ARN of the Kinesis Analytics application from which to remove the tags. Constraints: o min: 1 o max: 2048 o pattern: arn:aws:kinesisanalyt- ics:[a-z]{2}-[a-z]+-\d{1}+:\d{12}+:applica- tion/[a-zA-Z0-9_.-]{1,128}</param>
-    /// <param name="TagKeys">A list of keys of tags to remove from the specified application. Constraints: o min: 1 o max: 200 (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArn">The ARN of the Kinesis Analytics application from which to remove the tags. Constraints: • min: 1 • max: 2048 • pattern: arn:aws:kinesisanalytics:[a-z]{2}-[a-z]+-\d{1}+:\d{12}+:application/[a-zA-Z0-9_.-]{1,128}</param>
+    /// <param name="TagKeys">A list of keys of tags to remove from the specified application. Constraints: • min: 1 • max: 200 (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...</param>
     public AwsKinesisanalyticsUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -71,13 +72,13 @@ public record AwsKinesisanalyticsUntagResourceOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the Kinesis Analytics application from which to remove the tags. Constraints: o min: 1 o max: 2048 o pattern: arn:aws:kinesisanalyt- ics:[a-z]{2}-[a-z]+-\d{1}+:\d{12}+:applica- tion/[a-zA-Z0-9_.-]{1,128}
+    /// The ARN of the Kinesis Analytics application from which to remove the tags. Constraints: • min: 1 • max: 2048 • pattern: arn:aws:kinesisanalytics:[a-z]{2}-[a-z]+-\d{1}+:\d{12}+:application/[a-zA-Z0-9_.-]{1,128}
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// A list of keys of tags to remove from the specified application. Constraints: o min: 1 o max: 200 (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...
+    /// A list of keys of tags to remove from the specified application. Constraints: • min: 1 • max: 200 (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }
@@ -103,6 +104,15 @@ public record AwsKinesisanalyticsUntagResourceOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

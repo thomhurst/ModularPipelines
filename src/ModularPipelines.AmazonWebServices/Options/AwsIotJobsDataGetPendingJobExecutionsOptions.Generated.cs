@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets the list of all jobs for a thing that are not in a terminal sta- tus. Requires permission to access the GetPendingJobExecutions action. See also: AWS API Documentation
+/// Gets the list of all jobs for a thing that are not in a terminal status. Requires permission to access the GetPendingJobExecutions action. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsIotJobsDataGetPendingJobExecutionsOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets the list of all jobs for a thing that are not in a terminal sta- tus. Requires permission to access the GetPendingJobExecutions action. See also: AWS API Documentation
+    /// Gets the list of all jobs for a thing that are not in a terminal status. Requires permission to access the GetPendingJobExecutions action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ThingName">The name of the thing that is executing the job. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+</param>
+    /// <param name="ThingName">The name of the thing that is executing the job. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+</param>
     public AwsIotJobsDataGetPendingJobExecutionsOptions(
         string ThingName
     )
@@ -56,7 +57,7 @@ public record AwsIotJobsDataGetPendingJobExecutionsOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the thing that is executing the job. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+
+    /// The name of the thing that is executing the job. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+
     /// </summary>
     [CliOption("--thing-name")]
     public string? ThingName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsIotJobsDataGetPendingJobExecutionsOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

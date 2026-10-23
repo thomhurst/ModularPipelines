@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsCloudfrontCreateTrustStoreOptions : AwsOptions, IValidatableObj
     /// Creates a trust store. See also: AWS API Documentation
     /// </summary>
     /// <param name="Name">A name for the trust store.</param>
-    /// <param name="CaCertificatesBundleSource">The CA certificates bundle source for the trust store. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: CaCertificatesBundleS3Location. CaCertificatesBundleS3Location -&gt; (structure) The CA certificates bundle location in Amazon S3. Bucket -&gt; (string) [required] The S3 bucket. Key -&gt; (string) [required] The location's key. Region -&gt; (string) [required] The location's Region. Constraints: o min: 1 o max: 32 o pattern: [a-z]{2}-[a-z]+-\d Version -&gt; (string) The location's version. Shorthand Syntax: CaCertificatesBundleS3Location={Bucket=string,Key=string,Region=string,Version=string} JSON Syntax: { "CaCertificatesBundleS3Location": { "Bucket": "string", "Key": "string", "Region": "string", "Version": "string" } }</param>
+    /// <param name="CaCertificatesBundleSource">The CA certificates bundle source for the trust store. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: CaCertificatesBundleS3Location. CaCertificatesBundleS3Location -&gt; (structure) The CA certificates bundle location in Amazon S3. Bucket -&gt; (string) [required] The S3 bucket. Key -&gt; (string) [required] The location's key. Region -&gt; (string) [required] The location's Region. Constraints: • min: 1 • max: 32 • pattern: [a-z]{2}-[a-z]+-\d Version -&gt; (string) The location's version. Shorthand Syntax: CaCertificatesBundleS3Location={Bucket=string,Key=string,Region=string,Version=string} JSON Syntax: { "CaCertificatesBundleS3Location": { "Bucket": "string", "Key": "string", "Region": "string", "Version": "string" } }</param>
     public AwsCloudfrontCreateTrustStoreOptions(
         string Name,
         string CaCertificatesBundleSource
@@ -66,19 +67,19 @@ public record AwsCloudfrontCreateTrustStoreOptions : AwsOptions, IValidatableObj
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The CA certificates bundle source for the trust store. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: CaCertificatesBundleS3Location. CaCertificatesBundleS3Location -&gt; (structure) The CA certificates bundle location in Amazon S3. Bucket -&gt; (string) [required] The S3 bucket. Key -&gt; (string) [required] The location's key. Region -&gt; (string) [required] The location's Region. Constraints: o min: 1 o max: 32 o pattern: [a-z]{2}-[a-z]+-\d Version -&gt; (string) The location's version. Shorthand Syntax: CaCertificatesBundleS3Location={Bucket=string,Key=string,Region=string,Version=string} JSON Syntax: { "CaCertificatesBundleS3Location": { "Bucket": "string", "Key": "string", "Region": "string", "Version": "string" } }
+    /// The CA certificates bundle source for the trust store. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: CaCertificatesBundleS3Location. CaCertificatesBundleS3Location -&gt; (structure) The CA certificates bundle location in Amazon S3. Bucket -&gt; (string) [required] The S3 bucket. Key -&gt; (string) [required] The location's key. Region -&gt; (string) [required] The location's Region. Constraints: • min: 1 • max: 32 • pattern: [a-z]{2}-[a-z]+-\d Version -&gt; (string) The location's version. Shorthand Syntax: CaCertificatesBundleS3Location={Bucket=string,Key=string,Region=string,Version=string} JSON Syntax: { "CaCertificatesBundleS3Location": { "Bucket": "string", "Key": "string", "Region": "string", "Version": "string" } }
     /// </summary>
     [CliOption("--ca-certificates-bundle-source")]
     public string? CaCertificatesBundleSource { get; private init; }
 
     /// <summary>
-    /// cate-ocsp-endpoint (boolean) A Boolean that determines whether to use the CA certificate's OCSP endpoint to check certificate revocation status.
+    /// A Boolean that determines whether to use the CA certificate's OCSP endpoint to check certificate revocation status.
     /// </summary>
     [CliFlag("--use-client-certificate-ocsp-endpoint", NegatedName = "--no-use-client-certificate-ocsp-endpoint")]
     public bool? UseClientCertificateOcspEndpoint { get; set; }
 
     /// <summary>
-    /// A complex type that contains zero or more Tag elements. Items -&gt; (list) A complex type that contains Tag elements. (structure) A complex type that contains Tag key and Tag value. Key -&gt; (string) [required] A string that contains Tag key. The string length should be between 1 and 128 characters. Valid characters include a-z , A-Z , 0-9 , space, and the special characters _ - . : / = + @ . Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) A string that contains an optional Tag value. The string length should be between 0 and 256 characters. Valid characters include a-z , A-Z , 0-9 , space, and the special characters _ - . : / = + @ . Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Items=[{Key=string,Value=string},{Key=string,Value=string}] JSON Syntax: { "Items": [ { "Key": "string", "Value": "string" } ... ] }
+    /// A complex type that contains zero or more Tag elements. Items -&gt; (list) A complex type that contains Tag elements. (structure) A complex type that contains Tag key and Tag value. Key -&gt; (string) [required] A string that contains Tag key. The string length should be between 1 and 128 characters. Valid characters include a-z , A-Z , 0-9 , space, and the special characters _ - . : / = + @ . Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) A string that contains an optional Tag value. The string length should be between 0 and 256 characters. Valid characters include a-z , A-Z , 0-9 , space, and the special characters _ - . : / = + @ . Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Items=[{Key=string,Value=string},{Key=string,Value=string}] JSON Syntax: { "Items": [ { "Key": "string", "Value": "string" } ... ] }
     /// </summary>
     [CliOption("--tags")]
     public string? Tags { get; set; }
@@ -104,6 +105,15 @@ public record AwsCloudfrontCreateTrustStoreOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

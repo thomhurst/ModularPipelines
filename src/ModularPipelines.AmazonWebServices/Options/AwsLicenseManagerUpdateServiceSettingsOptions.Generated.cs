@@ -40,7 +40,7 @@ public record AwsLicenseManagerUpdateServiceSettingsOptions : AwsOptions
     public string? OrganizationConfiguration { get; set; }
 
     /// <summary>
-    /// ery (boolean) Activates cross-account discovery.
+    /// Activates cross-account discovery.
     /// </summary>
     [CliFlag("--enable-cross-accounts-discovery", NegatedName = "--no-enable-cross-accounts-discovery")]
     public bool? EnableCrossAccountsDiscovery { get; set; }
@@ -56,5 +56,14 @@ public record AwsLicenseManagerUpdateServiceSettingsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

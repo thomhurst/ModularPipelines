@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves all of the metadata from an object without returning the ob- ject itself. This operation is useful if you're interested only in an object's metadata. GetObjectAttributes combines the functionality of HeadObject and ListParts . All of the data returned with both of those individual calls can be returned with a single call to GetObjectAttributes . NOTE: Directory buckets - For directory buckets, you must make re- quests for this API operation to the Zonal endpoint. These end- points supp...
+/// Retrieves all of the metadata from an object without returning the object itself. This operation is useful if you're interested only in an object's metadata. GetObjectAttributes combines the functionality of HeadObject and ListParts . All of the data returned with both of those individual calls can be returned with a single call to GetObjectAttributes . NOTE: Directory buckets - For directory buckets, you must make requests for this API operation to the Zonal endpoint. These endpoints support vi...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsS3apiGetObjectAttributesOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves all of the metadata from an object without returning the ob- ject itself. This operation is useful if you're interested only in an object's metadata. GetObjectAttributes combines the functionality of HeadObject and ListParts . All of the data returned with both of those individual calls can be returned with a single call to GetObjectAttributes . NOTE: Directory buckets - For directory buckets, you must make re- quests for this API operation to the Zonal endpoint. These end- points supp...
+    /// Retrieves all of the metadata from an object without returning the object itself. This operation is useful if you're interested only in an object's metadata. GetObjectAttributes combines the functionality of HeadObject and ListParts . All of the data returned with both of those individual calls can be returned with a single call to GetObjectAttributes . NOTE: Directory buckets - For directory buckets, you must make requests for this API operation to the Zonal endpoint. These endpoints support vi...
     /// </summary>
-    /// <param name="Bucket">The name of the bucket that contains the object. Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format `` Bucket-name .s3express-zone-id .*region-code* .amazon- aws.com`` . Path-style requests are not supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format `` bucket-base-name --zone-id --x-s3`` (for example, `` amzn-s3-demo-bucket --usw2-az1 --x-s3`` ). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide . Access points - When you use this action with an access point for general purpose buckets, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When you use this action with an access point for di- rectory buckets, you must provide the access point name in place of the bucket name. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName -AccountId .s3-access- point.*Region* .amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more in- formation about access point ARNs, see Using access points in the Amazon S3 User Guide . NOTE: Object Lambda access points are not supported by directory buckets. S3 on Outposts - When you use this action with S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form `` AccessPointName -Accoun- tId .*outpostID* .s3-outposts.*Region* .amazonaws.com`` . When you use this action with S3 on Outposts, the destination bucket must be the Outposts access point ARN or the access point alias. For more information about S3 on Outposts, see What is S3 on Outposts? in the Amazon S3 User Guide .</param>
-    /// <param name="Key">The object key. Constraints: o min: 1</param>
-    /// <param name="ObjectAttributes">Specifies the fields at the root level that you want returned in the response. Fields that you do not specify are not returned. (string) Possible values: o ETag o Checksum o ObjectParts o StorageClass o ObjectSize Syntax: "string" "string" ...</param>
+    /// <param name="Bucket">The name of the bucket that contains the object. Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format `` Bucket-name .s3express-zone-id .*region-code* .amazonaws.com`` . Path-style requests are not supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format `` bucket-base-name --zone-id --x-s3`` (for example, `` amzn-s3-demo-bucket --usw2-az1 --x-s3`` ). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide . Access points - When you use this action with an access point for general purpose buckets, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When you use this action with an access point for directory buckets, you must provide the access point name in place of the bucket name. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName -AccountId .s3-accesspoint.*Region* .amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide . NOTE: Object Lambda access points are not supported by directory buckets. S3 on Outposts - When you use this action with S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form `` AccessPointName -AccountId .*outpostID* .s3-outposts.*Region* .amazonaws.com`` . When you use this action with S3 on Outposts, the destination bucket must be the Outposts access point ARN or the access point alias. For more information about S3 on Outposts, see What is S3 on Outposts? in the Amazon S3 User Guide .</param>
+    /// <param name="Key">The object key. Constraints: • min: 1</param>
+    /// <param name="ObjectAttributes">Specifies the fields at the root level that you want returned in the response. Fields that you do not specify are not returned. (string) Possible values: • ETag • Checksum • ObjectParts • StorageClass • ObjectSize Syntax: "string" "string" ...</param>
     public AwsS3apiGetObjectAttributesOptions(
         string Bucket,
         string Key,
@@ -75,19 +76,19 @@ public record AwsS3apiGetObjectAttributesOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the bucket that contains the object. Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format `` Bucket-name .s3express-zone-id .*region-code* .amazon- aws.com`` . Path-style requests are not supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format `` bucket-base-name --zone-id --x-s3`` (for example, `` amzn-s3-demo-bucket --usw2-az1 --x-s3`` ). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide . Access points - When you use this action with an access point for general purpose buckets, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When you use this action with an access point for di- rectory buckets, you must provide the access point name in place of the bucket name. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName -AccountId .s3-access- point.*Region* .amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more in- formation about access point ARNs, see Using access points in the Amazon S3 User Guide . NOTE: Object Lambda access points are not supported by directory buckets. S3 on Outposts - When you use this action with S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form `` AccessPointName -Accoun- tId .*outpostID* .s3-outposts.*Region* .amazonaws.com`` . When you use this action with S3 on Outposts, the destination bucket must be the Outposts access point ARN or the access point alias. For more information about S3 on Outposts, see What is S3 on Outposts? in the Amazon S3 User Guide .
+    /// The name of the bucket that contains the object. Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format `` Bucket-name .s3express-zone-id .*region-code* .amazonaws.com`` . Path-style requests are not supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format `` bucket-base-name --zone-id --x-s3`` (for example, `` amzn-s3-demo-bucket --usw2-az1 --x-s3`` ). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide . Access points - When you use this action with an access point for general purpose buckets, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When you use this action with an access point for directory buckets, you must provide the access point name in place of the bucket name. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName -AccountId .s3-accesspoint.*Region* .amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide . NOTE: Object Lambda access points are not supported by directory buckets. S3 on Outposts - When you use this action with S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form `` AccessPointName -AccountId .*outpostID* .s3-outposts.*Region* .amazonaws.com`` . When you use this action with S3 on Outposts, the destination bucket must be the Outposts access point ARN or the access point alias. For more information about S3 on Outposts, see What is S3 on Outposts? in the Amazon S3 User Guide .
     /// </summary>
     [CliOption("--bucket")]
     public string? Bucket { get; private init; }
 
     /// <summary>
-    /// The object key. Constraints: o min: 1
+    /// The object key. Constraints: • min: 1
     /// </summary>
     [CliOption("--key")]
     public string? Key { get; private init; }
 
     /// <summary>
-    /// Specifies the fields at the root level that you want returned in the response. Fields that you do not specify are not returned. (string) Possible values: o ETag o Checksum o ObjectParts o StorageClass o ObjectSize Syntax: "string" "string" ...
+    /// Specifies the fields at the root level that you want returned in the response. Fields that you do not specify are not returned. (string) Possible values: • ETag • Checksum • ObjectParts • StorageClass • ObjectSize Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--object-attributes", GroupValues = true)]
     public IEnumerable<string>? ObjectAttributes { get; private init; }
@@ -111,7 +112,7 @@ public record AwsS3apiGetObjectAttributesOptions : AwsOptions, IValidatableObjec
     public int? PartNumberMarker { get; set; }
 
     /// <summary>
-    /// Specifies the algorithm to use when encrypting the object (for exam- ple, AES256). NOTE: This functionality is not supported for directory buckets.
+    /// Specifies the algorithm to use when encrypting the object (for example, AES256). NOTE: This functionality is not supported for directory buckets.
     /// </summary>
     [CliOption("--sse-customer-algorithm")]
     public string? SseCustomerAlgorithm { get; set; }
@@ -129,13 +130,13 @@ public record AwsS3apiGetObjectAttributesOptions : AwsOptions, IValidatableObjec
     public string? SseCustomerKeyMd5 { get; set; }
 
     /// <summary>
-    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their re- quests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for the corresponding charges. For information about downloading objects from Requester Pays buck- ets, see Downloading Objects in Requester Pays Buckets in the Amazon S3 User Guide . NOTE: This functionality is not supported for directory buckets. Possible values: o requester
+    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for the corresponding charges. For information about downloading objects from Requester Pays buckets, see Downloading Objects in Requester Pays Buckets in the Amazon S3 User Guide . NOTE: This functionality is not supported for directory buckets. Possible values: • requester
     /// </summary>
     [CliOption("--request-payer")]
     public string? RequestPayer { get; set; }
 
     /// <summary>
-    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the re- quest fails with the HTTP status code 403 Forbidden (access denied).
+    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
     /// </summary>
     [CliOption("--expected-bucket-owner")]
     public string? ExpectedBucketOwner { get; set; }
@@ -161,6 +162,15 @@ public record AwsS3apiGetObjectAttributesOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

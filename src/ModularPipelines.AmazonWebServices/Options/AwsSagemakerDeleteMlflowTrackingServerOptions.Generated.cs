@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsSagemakerDeleteMlflowTrackingServerOptions : AwsOptions, IValid
     /// <summary>
     /// Deletes an MLflow Tracking Server. For more information, see Clean up MLflow resources . See also: AWS API Documentation
     /// </summary>
-    /// <param name="TrackingServerName">The name of the the tracking server to delete. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,255}</param>
+    /// <param name="TrackingServerName">The name of the the tracking server to delete. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,255}</param>
     public AwsSagemakerDeleteMlflowTrackingServerOptions(
         string TrackingServerName
     )
@@ -56,7 +57,7 @@ public record AwsSagemakerDeleteMlflowTrackingServerOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the the tracking server to delete. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,255}
+    /// The name of the the tracking server to delete. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,255}
     /// </summary>
     [CliOption("--tracking-server-name")]
     public string? TrackingServerName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSagemakerDeleteMlflowTrackingServerOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

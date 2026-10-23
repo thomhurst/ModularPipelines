@@ -10,13 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Assigns one or more tags to a Amazon GameLift Streams resource. Use tags to organize Amazon Web Services resources for a range of purposes. You can assign tags to the following Amazon GameLift Streams resource types: o Application o StreamGroup Learn more Tagging Amazon Web Services Resources in the Amazon Web Services General Reference Amazon Web Services Tagging Strategies See also: AWS API Documentation
+/// Assigns one or more tags to a Amazon GameLift Streams resource. Use tags to organize Amazon Web Services resources for a range of purposes. You can assign tags to the following Amazon GameLift Streams resource types: • Application • StreamGroup Learn more Tagging Amazon Web Services Resources in the Amazon Web Services General Reference Amazon Web Services Tagging Strategies See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +26,10 @@ public record AwsGameliftstreamsTagResourceOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Assigns one or more tags to a Amazon GameLift Streams resource. Use tags to organize Amazon Web Services resources for a range of purposes. You can assign tags to the following Amazon GameLift Streams resource types: o Application o StreamGroup Learn more Tagging Amazon Web Services Resources in the Amazon Web Services General Reference Amazon Web Services Tagging Strategies See also: AWS API Documentation
+    /// Assigns one or more tags to a Amazon GameLift Streams resource. Use tags to organize Amazon Web Services resources for a range of purposes. You can assign tags to the following Amazon GameLift Streams resource types: • Application • StreamGroup Learn more Tagging Amazon Web Services Resources in the Amazon Web Services General Reference Amazon Web Services Tagging Strategies See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the Amazon GameLift Streams re- source that you want to apply tags to. Constraints: o min: 1 o max: 128 o pattern: arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)</param>
-    /// <param name="Tags">A list of tags, in the form of key-value pairs, to assign to the specified Amazon GameLift Streams resource. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the Amazon GameLift Streams resource that you want to apply tags to. Constraints: • min: 1 • max: 128 • pattern: arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)</param>
+    /// <param name="Tags">A list of tags, in the form of key-value pairs, to assign to the specified Amazon GameLift Streams resource. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
     public AwsGameliftstreamsTagResourceOptions(
         string ResourceArn,
         IReadOnlyList<KeyValue> Tags
@@ -72,13 +72,13 @@ public record AwsGameliftstreamsTagResourceOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Amazon GameLift Streams re- source that you want to apply tags to. Constraints: o min: 1 o max: 128 o pattern: arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)
+    /// The Amazon Resource Name (ARN) of the Amazon GameLift Streams resource that you want to apply tags to. Constraints: • min: 1 • max: 128 • pattern: arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// A list of tags, in the form of key-value pairs, to assign to the specified Amazon GameLift Streams resource. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A list of tags, in the form of key-value pairs, to assign to the specified Amazon GameLift Streams resource. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; private init; }
@@ -104,6 +104,15 @@ public record AwsGameliftstreamsTagResourceOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

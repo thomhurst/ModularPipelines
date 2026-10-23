@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsDatazoneGetEnvironmentActionOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Gets the specified environment action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain in which the GetEnvironmentAc- tion API is invoked. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="EnvironmentIdentifier">The environment ID of the environment action. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain in which the GetEnvironmentAction API is invoked. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="EnvironmentIdentifier">The environment ID of the environment action. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}</param>
     /// <param name="Identifier">The ID of the environment action</param>
     public AwsDatazoneGetEnvironmentActionOptions(
         string DomainIdentifier,
@@ -64,13 +65,13 @@ public record AwsDatazoneGetEnvironmentActionOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon DataZone domain in which the GetEnvironmentAc- tion API is invoked. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The ID of the Amazon DataZone domain in which the GetEnvironmentAction API is invoked. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The environment ID of the environment action. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The environment ID of the environment action. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--environment-identifier")]
     public string? EnvironmentIdentifier { get; private init; }
@@ -102,6 +103,15 @@ public record AwsDatazoneGetEnvironmentActionOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

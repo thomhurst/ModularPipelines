@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Generates a report for service last accessed data for Organizations. You can generate a report for any entities (organization root, organi- zational unit, or account) or policies in your organization. To call this operation, you must be signed in using your Organizations management account credentials. You can use your long-term IAM user or root user credentials, or temporary credentials from assuming an IAM role. SCPs must be enabled for your organization root. You must have the required IAM an...
+/// Generates a report for service last accessed data for Organizations. You can generate a report for any entities (organization root, organizational unit, or account) or policies in your organization. To call this operation, you must be signed in using your Organizations management account credentials. You can use your long-term IAM user or root user credentials, or temporary credentials from assuming an IAM role. SCPs must be enabled for your organization root. You must have the required IAM and ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsIamGenerateOrganizationsAccessReportOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Generates a report for service last accessed data for Organizations. You can generate a report for any entities (organization root, organi- zational unit, or account) or policies in your organization. To call this operation, you must be signed in using your Organizations management account credentials. You can use your long-term IAM user or root user credentials, or temporary credentials from assuming an IAM role. SCPs must be enabled for your organization root. You must have the required IAM an...
+    /// Generates a report for service last accessed data for Organizations. You can generate a report for any entities (organization root, organizational unit, or account) or policies in your organization. To call this operation, you must be signed in using your Organizations management account credentials. You can use your long-term IAM user or root user credentials, or temporary credentials from assuming an IAM role. SCPs must be enabled for your organization root. You must have the required IAM and ...
     /// </summary>
-    /// <param name="EntityPath">The path of the Organizations entity (root, OU, or account). You can build an entity path using the known structure of your organization. For example, assume that your account ID is 123456789012 and its parent OU ID is ou-rge0-awsabcde . The organization root ID is r-f6g7h8i9j0example and your organization ID is o-a1b2c3d4e5 . Your entity path is o-a1b2c3d4e5/r-f6g7h8i9j0exam- ple/ou-rge0-awsabcde/123456789012 . Constraints: o min: 19 o max: 427 o pattern: ^o-[0-9a-z]{10,32}\/r-[0-9a-z]{4,32}[0-9a-z-\/]*</param>
+    /// <param name="EntityPath">The path of the Organizations entity (root, OU, or account). You can build an entity path using the known structure of your organization. For example, assume that your account ID is 123456789012 and its parent OU ID is ou-rge0-awsabcde . The organization root ID is r-f6g7h8i9j0example and your organization ID is o-a1b2c3d4e5 . Your entity path is o-a1b2c3d4e5/r-f6g7h8i9j0example/ou-rge0-awsabcde/123456789012 . Constraints: • min: 19 • max: 427 • pattern: ^o-[0-9a-z]{10,32}\/r-[0-9a-z]{4,32}[0-9a-z-\/]*</param>
     public AwsIamGenerateOrganizationsAccessReportOptions(
         string EntityPath
     )
@@ -56,13 +57,13 @@ public record AwsIamGenerateOrganizationsAccessReportOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The path of the Organizations entity (root, OU, or account). You can build an entity path using the known structure of your organization. For example, assume that your account ID is 123456789012 and its parent OU ID is ou-rge0-awsabcde . The organization root ID is r-f6g7h8i9j0example and your organization ID is o-a1b2c3d4e5 . Your entity path is o-a1b2c3d4e5/r-f6g7h8i9j0exam- ple/ou-rge0-awsabcde/123456789012 . Constraints: o min: 19 o max: 427 o pattern: ^o-[0-9a-z]{10,32}\/r-[0-9a-z]{4,32}[0-9a-z-\/]*
+    /// The path of the Organizations entity (root, OU, or account). You can build an entity path using the known structure of your organization. For example, assume that your account ID is 123456789012 and its parent OU ID is ou-rge0-awsabcde . The organization root ID is r-f6g7h8i9j0example and your organization ID is o-a1b2c3d4e5 . Your entity path is o-a1b2c3d4e5/r-f6g7h8i9j0example/ou-rge0-awsabcde/123456789012 . Constraints: • min: 19 • max: 427 • pattern: ^o-[0-9a-z]{10,32}\/r-[0-9a-z]{4,32}[0-9a-z-\/]*
     /// </summary>
     [CliOption("--entity-path")]
     public string? EntityPath { get; private init; }
 
     /// <summary>
-    /// The identifier of the Organizations service control policy (SCP). This parameter is optional. This ID is used to generate information about when an account prin- cipal that is limited by the SCP attempted to access an Amazon Web Services service. Constraints: o pattern: ^p-[0-9a-zA-Z_]{8,128}$
+    /// The identifier of the Organizations service control policy (SCP). This parameter is optional. This ID is used to generate information about when an account principal that is limited by the SCP attempted to access an Amazon Web Services service. Constraints: • pattern: ^p-[0-9a-zA-Z_]{8,128}$
     /// </summary>
     [CliOption("--organizations-policy-id")]
     public string? OrganizationsPolicyId { get; set; }
@@ -88,6 +89,15 @@ public record AwsIamGenerateOrganizationsAccessReportOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

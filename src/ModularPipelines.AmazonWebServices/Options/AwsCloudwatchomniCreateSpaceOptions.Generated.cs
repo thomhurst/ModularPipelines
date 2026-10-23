@@ -11,13 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a space in a domain. Use GetSpace to retrieve the space, ListSpaces to enumerate spaces, Up- dateSpace to modify it, and DeleteSpace to remove it. See also: AWS API Documentation
+/// Creates a space in a domain. Use GetSpace to retrieve the space, ListSpaces to enumerate spaces, UpdateSpace to modify it, and DeleteSpace to remove it. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +27,11 @@ public record AwsCloudwatchomniCreateSpaceOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a space in a domain. Use GetSpace to retrieve the space, ListSpaces to enumerate spaces, Up- dateSpace to modify it, and DeleteSpace to remove it. See also: AWS API Documentation
+    /// Creates a space in a domain. Use GetSpace to retrieve the space, ListSpaces to enumerate spaces, UpdateSpace to modify it, and DeleteSpace to remove it. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">A name that identifies the space. Must be 3-64 characters: lowercase letters, numbers, and hyphens. It must begin and end with a letter or number and cannot contain consecutive hyphens. Constraints: o min: 3 o max: 64 o pattern: [a-z0-9]+(-[a-z0-9]+)*</param>
-    /// <param name="DomainId">The ID of the domain to create the space in. Constraints: o pattern: d-[0-9a-z]{1,25}</param>
-    /// <param name="DataAccessRoleArn">The ARN of the IAM role used for data access. The role must be in the caller's account. Constraints: o min: 1 o max: 2048 o pattern: arn:.+</param>
+    /// <param name="Name">A name that identifies the space. Must be 3-64 characters: lowercase letters, numbers, and hyphens. It must begin and end with a letter or number and cannot contain consecutive hyphens. Constraints: • min: 3 • max: 64 • pattern: [a-z0-9]+(-[a-z0-9]+)*</param>
+    /// <param name="DomainId">The ID of the domain to create the space in. Constraints: • pattern: d-[0-9a-z]{1,25}</param>
+    /// <param name="DataAccessRoleArn">The ARN of the IAM role used for data access. The role must be in the caller's account. Constraints: • min: 1 • max: 2048 • pattern: arn:.+</param>
     public AwsCloudwatchomniCreateSpaceOptions(
         string Name,
         string DomainId,
@@ -66,43 +66,43 @@ public record AwsCloudwatchomniCreateSpaceOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A name that identifies the space. Must be 3-64 characters: lowercase letters, numbers, and hyphens. It must begin and end with a letter or number and cannot contain consecutive hyphens. Constraints: o min: 3 o max: 64 o pattern: [a-z0-9]+(-[a-z0-9]+)*
+    /// A name that identifies the space. Must be 3-64 characters: lowercase letters, numbers, and hyphens. It must begin and end with a letter or number and cannot contain consecutive hyphens. Constraints: • min: 3 • max: 64 • pattern: [a-z0-9]+(-[a-z0-9]+)*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The ID of the domain to create the space in. Constraints: o pattern: d-[0-9a-z]{1,25}
+    /// The ID of the domain to create the space in. Constraints: • pattern: d-[0-9a-z]{1,25}
     /// </summary>
     [CliOption("--domain-id")]
     public string? DomainId { get; private init; }
 
     /// <summary>
-    /// The ARN of the IAM role used for data access. The role must be in the caller's account. Constraints: o min: 1 o max: 2048 o pattern: arn:.+
+    /// The ARN of the IAM role used for data access. The role must be in the caller's account. Constraints: • min: 1 • max: 2048 • pattern: arn:.+
     /// </summary>
     [CliOption("--data-access-role-arn")]
     public string? DataAccessRoleArn { get; private init; }
 
     /// <summary>
-    /// The ARN of the IAM role used by AgentCore online evaluation. Must be in the caller's account. Omit if the space does not use AgentCore online evaluation. Constraints: o min: 1 o max: 2048 o pattern: arn:.+
+    /// The ARN of the IAM role used by AgentCore online evaluation. Must be in the caller's account. Omit if the space does not use AgentCore online evaluation. Constraints: • min: 1 • max: 2048 • pattern: arn:.+
     /// </summary>
     [CliOption("--agent-core-evaluation-role-arn")]
     public string? AgentCoreEvaluationRoleArn { get; set; }
 
     /// <summary>
-    /// How to encrypt the space's data at rest. Omit for service owned en- cryption, which is equivalent to passing encryptionStrategy AWS_OWNED. encryptionStrategy -&gt; (string) [required] Which kind of key to use. Required. Possible values: o AWS_OWNED o CUSTOMER_MANAGED kmsKeyArn -&gt; (string) Customer managed KMS key ARN. Required when encryptionStrategy is CUSTOMER_MANAGED, and must be omitted when it is AWS_OWNED. Must be a symmetric ENCRYPT_DECRYPT key in the caller's account and region. Constraints: o pattern: arn:aws[a-zA-Z-]*:kms:[a-z0-9-]+:[0-9]{12}:key/(mrk-)?[a-f0-9-]+ Shorthand Syntax: encryptionStrategy=string,kmsKeyArn=string JSON Syntax: { "encryptionStrategy": "AWS_OWNED"|"CUSTOMER_MANAGED", "kmsKeyArn": "string" }
+    /// How to encrypt the space's data at rest. Omit for service owned encryption, which is equivalent to passing encryptionStrategy AWS_OWNED. encryptionStrategy -&gt; (string) [required] Which kind of key to use. Required. Possible values: • AWS_OWNED • CUSTOMER_MANAGED kmsKeyArn -&gt; (string) Customer managed KMS key ARN. Required when encryptionStrategy is CUSTOMER_MANAGED, and must be omitted when it is AWS_OWNED. Must be a symmetric ENCRYPT_DECRYPT key in the caller's account and region. Constraints: • pattern: arn:aws[a-zA-Z-]*:kms:[a-z0-9-]+:[0-9]{12}:key/(mrk-)?[a-f0-9-]+ Shorthand Syntax: encryptionStrategy=string,kmsKeyArn=string JSON Syntax: { "encryptionStrategy": "AWS_OWNED"|"CUSTOMER_MANAGED", "kmsKeyArn": "string" }
     /// </summary>
     [CliOption("--encryption-configuration")]
     public string? EncryptionConfiguration { get; set; }
 
     /// <summary>
-    /// The tags to associate with the space. Constraints: o min: 0 o max: 50 key -&gt; (string) Tag key. Must be non-empty; AWS-standard maximum length. Con- straining the key (rather than a bare String) rejects empty-key payloads at the edge with a 400 ValidationException instead of faulting downstream as a 500. Constraints: o min: 1 o max: 128 value -&gt; (string) Tag value. AWS-standard maximum length; may be empty. Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags to associate with the space. Constraints: • min: 0 • max: 50 key -&gt; (string) Tag key. Must be non-empty; AWS-standard maximum length. Constraining the key (rather than a bare String) rejects empty-key payloads at the edge with a 400 ValidationException instead of faulting downstream as a 500. Constraints: • min: 1 • max: 128 value -&gt; (string) Tag value. AWS-standard maximum length; may be empty. Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// Idempotency token for safe retries. Repeated requests with the same token return the original result instead of creating a duplicate. Constraints: o min: 1 o max: 64 o pattern: [!-~]+
+    /// Idempotency token for safe retries. Repeated requests with the same token return the original result instead of creating a duplicate. Constraints: • min: 1 • max: 64 • pattern: [!-~]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -129,6 +129,15 @@ public record AwsCloudwatchomniCreateSpaceOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

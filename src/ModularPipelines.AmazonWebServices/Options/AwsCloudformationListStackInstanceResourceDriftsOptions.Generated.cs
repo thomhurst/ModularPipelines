@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,10 +30,10 @@ public record AwsCloudformationListStackInstanceResourceDriftsOptions : AwsOptio
     /// <summary>
     /// Returns drift information for resources in a stack instance. NOTE: ListStackInstanceResourceDrifts returns drift information for the most recent drift detection operation. If an operation is in progress, it may only return partial results. See also: AWS API Documentation
     /// </summary>
-    /// <param name="StackSetName">The name or unique ID of the StackSet that you want to list drifted resources for. Constraints: o pattern: [a-zA-Z][-a-zA-Z0-9]*(?::[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12})?</param>
-    /// <param name="StackInstanceAccount">The name of the Amazon Web Services account that you want to list resource drifts for. Constraints: o pattern: ^[0-9]{12}$</param>
-    /// <param name="StackInstanceRegion">The name of the Region where you want to list resource drifts. Constraints: o pattern: ^[a-zA-Z0-9-]{1,128}$</param>
-    /// <param name="OperationId">The unique ID of the drift operation. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9][-a-zA-Z0-9]*</param>
+    /// <param name="StackSetName">The name or unique ID of the StackSet that you want to list drifted resources for. Constraints: • pattern: [a-zA-Z][-a-zA-Z0-9]*(?::[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12})?</param>
+    /// <param name="StackInstanceAccount">The name of the Amazon Web Services account that you want to list resource drifts for. Constraints: • pattern: ^[0-9]{12}$</param>
+    /// <param name="StackInstanceRegion">The name of the Region where you want to list resource drifts. Constraints: • pattern: ^[a-zA-Z0-9-]{1,128}$</param>
+    /// <param name="OperationId">The unique ID of the drift operation. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9][-a-zA-Z0-9]*</param>
     public AwsCloudformationListStackInstanceResourceDriftsOptions(
         string StackSetName,
         string StackInstanceAccount,
@@ -70,50 +71,50 @@ public record AwsCloudformationListStackInstanceResourceDriftsOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name or unique ID of the StackSet that you want to list drifted resources for. Constraints: o pattern: [a-zA-Z][-a-zA-Z0-9]*(?::[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12})?
+    /// The name or unique ID of the StackSet that you want to list drifted resources for. Constraints: • pattern: [a-zA-Z][-a-zA-Z0-9]*(?::[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12})?
     /// </summary>
     [CliOption("--stack-set-name")]
     public string? StackSetName { get; private init; }
 
     /// <summary>
-    /// The name of the Amazon Web Services account that you want to list resource drifts for. Constraints: o pattern: ^[0-9]{12}$
+    /// The name of the Amazon Web Services account that you want to list resource drifts for. Constraints: • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--stack-instance-account")]
     public string? StackInstanceAccount { get; private init; }
 
     /// <summary>
-    /// The name of the Region where you want to list resource drifts. Constraints: o pattern: ^[a-zA-Z0-9-]{1,128}$
+    /// The name of the Region where you want to list resource drifts. Constraints: • pattern: ^[a-zA-Z0-9-]{1,128}$
     /// </summary>
     [CliOption("--stack-instance-region")]
     public string? StackInstanceRegion { get; private init; }
 
     /// <summary>
-    /// The unique ID of the drift operation. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9][-a-zA-Z0-9]*
+    /// The unique ID of the drift operation. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9][-a-zA-Z0-9]*
     /// </summary>
     [CliOption("--operation-id")]
     public string? OperationId { get; private init; }
 
     /// <summary>
-    /// The token for the next set of items to return. (You received this token from a previous call.) Constraints: o min: 1 o max: 1024
+    /// The token for the next set of items to return. (You received this token from a previous call.) Constraints: • min: 1 • max: 1024
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken re- quest parameter to get the next set of results. Constraints: o min: 1 o max: 100
+    /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The resource drift status of the stack instance. o DELETED : The resource differs from its expected template configu- ration in that the resource has been deleted. o MODIFIED : One or more resource properties differ from their ex- pected template values. o IN_SYNC : The resource's actual configuration matches its expected template configuration. o NOT_CHECKED : CloudFormation doesn't currently return this value. Constraints: o min: 1 o max: 4 (string) Possible values: o IN_SYNC o MODIFIED o DELETED o NOT_CHECKED o UNKNOWN o UNSUPPORTED Syntax: "string" "string" ...
+    /// The resource drift status of the stack instance. • DELETED : The resource differs from its expected template configuration in that the resource has been deleted. • MODIFIED : One or more resource properties differ from their expected template values. • IN_SYNC : The resource's actual configuration matches its expected template configuration. • NOT_CHECKED : CloudFormation doesn't currently return this value. Constraints: • min: 1 • max: 4 (string) Possible values: • IN_SYNC • MODIFIED • DELETED • NOT_CHECKED • UNKNOWN • UNSUPPORTED Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--stack-instance-resource-drift-statuses", GroupValues = true)]
     public IEnumerable<string>? StackInstanceResourceDriftStatuses { get; set; }
 
     /// <summary>
-    /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for StackSets with self-man- aged permissions. o If you are signed in to the management account, specify SELF . o If you are signed in to a delegated administrator account, specify DELEGATED_ADMIN . Your Amazon Web Services account must be regis- tered as a delegated administrator in the management account. For more information, see Register a delegated administrator in the CloudFormation User Guide . Possible values: o SELF o DELEGATED_ADMIN
+    /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for StackSets with self-managed permissions. • If you are signed in to the management account, specify SELF . • If you are signed in to a delegated administrator account, specify DELEGATED_ADMIN . Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see Register a delegated administrator in the CloudFormation User Guide . Possible values: • SELF • DELEGATED_ADMIN
     /// </summary>
     [CliOption("--call-as")]
     public AwsCloudformationListStackInstanceResourceDriftsCallAs? CallAs { get; set; }
@@ -139,6 +140,15 @@ public record AwsCloudformationListStackInstanceResourceDriftsOptions : AwsOptio
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

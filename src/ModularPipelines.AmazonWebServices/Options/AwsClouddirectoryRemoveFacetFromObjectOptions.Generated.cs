@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +29,8 @@ public record AwsClouddirectoryRemoveFacetFromObjectOptions : AwsOptions, IValid
     /// Removes the specified facet from the specified object. See also: AWS API Documentation
     /// </summary>
     /// <param name="DirectoryArn">The ARN of the directory in which the object resides.</param>
-    /// <param name="SchemaFacet">The facet to remove. See SchemaFacet for details. SchemaArn -&gt; (string) The ARN of the schema that contains the facet with no minor com- ponent. See arns and In-Place Schema Upgrade for a description of when to provide minor versions. If this value is set, FacetName must also be set. FacetName -&gt; (string) The name of the facet. If this value is set, SchemaArn must also be set. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9._-]*$ Shorthand Syntax: SchemaArn=string,FacetName=string JSON Syntax: { "SchemaArn": "string", "FacetName": "string" }</param>
-    /// <param name="ObjectReference">A reference to the object to remove the facet from. Selector -&gt; (string) A path selector supports easy selection of an object by the par- ent/child links leading to it from the directory root. Use the link names from each parent/child link to construct the path. Path selectors start with a slash (/) and link names are sepa- rated by slashes. For more information about paths, see Access Objects . You can identify an object in one of the following ways: o $ObjectIdentifier - An object identifier is an opaque string provided by Amazon Cloud Directory. When creating objects, the system will provide you with the identifier of the created ob- ject. An objects identifier is immutable and no two objects will ever share the same object identifier. To identify an ob- ject with ObjectIdentifier, the ObjectIdentifier must be wrapped in double quotes. o /some/path - Identifies the object based on path o #SomeBatchReference - Identifies the object in a batch call Shorthand Syntax: Selector=string JSON Syntax: { "Selector": "string" }</param>
+    /// <param name="SchemaFacet">The facet to remove. See SchemaFacet for details. SchemaArn -&gt; (string) The ARN of the schema that contains the facet with no minor component. See arns and In-Place Schema Upgrade for a description of when to provide minor versions. If this value is set, FacetName must also be set. FacetName -&gt; (string) The name of the facet. If this value is set, SchemaArn must also be set. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9._-]*$ Shorthand Syntax: SchemaArn=string,FacetName=string JSON Syntax: { "SchemaArn": "string", "FacetName": "string" }</param>
+    /// <param name="ObjectReference">A reference to the object to remove the facet from. Selector -&gt; (string) A path selector supports easy selection of an object by the parent/child links leading to it from the directory root. Use the link names from each parent/child link to construct the path. Path selectors start with a slash (/) and link names are separated by slashes. For more information about paths, see Access Objects . You can identify an object in one of the following ways: • $ObjectIdentifier - An object identifier is an opaque string provided by Amazon Cloud Directory. When creating objects, the system will provide you with the identifier of the created object. An objects identifier is immutable and no two objects will ever share the same object identifier. To identify an object with ObjectIdentifier, the ObjectIdentifier must be wrapped in double quotes. • /some/path - Identifies the object based on path • #SomeBatchReference - Identifies the object in a batch call Shorthand Syntax: Selector=string JSON Syntax: { "Selector": "string" }</param>
     public AwsClouddirectoryRemoveFacetFromObjectOptions(
         string DirectoryArn,
         string SchemaFacet,
@@ -70,13 +71,13 @@ public record AwsClouddirectoryRemoveFacetFromObjectOptions : AwsOptions, IValid
     public string? DirectoryArn { get; private init; }
 
     /// <summary>
-    /// The facet to remove. See SchemaFacet for details. SchemaArn -&gt; (string) The ARN of the schema that contains the facet with no minor com- ponent. See arns and In-Place Schema Upgrade for a description of when to provide minor versions. If this value is set, FacetName must also be set. FacetName -&gt; (string) The name of the facet. If this value is set, SchemaArn must also be set. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9._-]*$ Shorthand Syntax: SchemaArn=string,FacetName=string JSON Syntax: { "SchemaArn": "string", "FacetName": "string" }
+    /// The facet to remove. See SchemaFacet for details. SchemaArn -&gt; (string) The ARN of the schema that contains the facet with no minor component. See arns and In-Place Schema Upgrade for a description of when to provide minor versions. If this value is set, FacetName must also be set. FacetName -&gt; (string) The name of the facet. If this value is set, SchemaArn must also be set. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9._-]*$ Shorthand Syntax: SchemaArn=string,FacetName=string JSON Syntax: { "SchemaArn": "string", "FacetName": "string" }
     /// </summary>
     [CliOption("--schema-facet")]
     public string? SchemaFacet { get; private init; }
 
     /// <summary>
-    /// A reference to the object to remove the facet from. Selector -&gt; (string) A path selector supports easy selection of an object by the par- ent/child links leading to it from the directory root. Use the link names from each parent/child link to construct the path. Path selectors start with a slash (/) and link names are sepa- rated by slashes. For more information about paths, see Access Objects . You can identify an object in one of the following ways: o $ObjectIdentifier - An object identifier is an opaque string provided by Amazon Cloud Directory. When creating objects, the system will provide you with the identifier of the created ob- ject. An objects identifier is immutable and no two objects will ever share the same object identifier. To identify an ob- ject with ObjectIdentifier, the ObjectIdentifier must be wrapped in double quotes. o /some/path - Identifies the object based on path o #SomeBatchReference - Identifies the object in a batch call Shorthand Syntax: Selector=string JSON Syntax: { "Selector": "string" }
+    /// A reference to the object to remove the facet from. Selector -&gt; (string) A path selector supports easy selection of an object by the parent/child links leading to it from the directory root. Use the link names from each parent/child link to construct the path. Path selectors start with a slash (/) and link names are separated by slashes. For more information about paths, see Access Objects . You can identify an object in one of the following ways: • $ObjectIdentifier - An object identifier is an opaque string provided by Amazon Cloud Directory. When creating objects, the system will provide you with the identifier of the created object. An objects identifier is immutable and no two objects will ever share the same object identifier. To identify an object with ObjectIdentifier, the ObjectIdentifier must be wrapped in double quotes. • /some/path - Identifies the object based on path • #SomeBatchReference - Identifies the object in a batch call Shorthand Syntax: Selector=string JSON Syntax: { "Selector": "string" }
     /// </summary>
     [CliOption("--object-reference")]
     public string? ObjectReference { get; private init; }
@@ -102,6 +103,15 @@ public record AwsClouddirectoryRemoveFacetFromObjectOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// List the wireless gateway tasks definitions registered to your AWS ac- count. See also: AWS API Documentation
+/// List the wireless gateway tasks definitions registered to your AWS account. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,20 +23,20 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsIotwirelessListWirelessGatewayTaskDefinitionsOptions : AwsOptions
 {
     /// <summary>
-    /// The maximum number of results to return in this operation. Constraints: o min: 0 o max: 250
+    /// The maximum number of results to return in this operation. Constraints: • min: 0 • max: 250
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// To retrieve the next set of results, the nextToken value from a pre- vious response; otherwise null to receive the first set of results. Constraints: o max: 4096
+    /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results. Constraints: • max: 4096
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// A filter to list only the wireless gateway task definitions that use this task definition type. Possible values: o UPDATE
+    /// A filter to list only the wireless gateway task definitions that use this task definition type. Possible values: • UPDATE
     /// </summary>
     [CliOption("--task-definition-type")]
     public string? TaskDefinitionType { get; set; }
@@ -46,5 +46,14 @@ public record AwsIotwirelessListWirelessGatewayTaskDefinitionsOptions : AwsOptio
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

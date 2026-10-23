@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsIotDescribeJobExecutionOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Describes a job execution. Requires permission to access the DescribeJobExecution action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="JobId">The unique identifier you assigned to this job when it was created. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+</param>
-    /// <param name="ThingName">The name of the thing on which the job execution is running. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+</param>
+    /// <param name="JobId">The unique identifier you assigned to this job when it was created. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="ThingName">The name of the thing on which the job execution is running. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+</param>
     public AwsIotDescribeJobExecutionOptions(
         string JobId,
         string ThingName
@@ -60,13 +61,13 @@ public record AwsIotDescribeJobExecutionOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier you assigned to this job when it was created. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+
+    /// The unique identifier you assigned to this job when it was created. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }
 
     /// <summary>
-    /// The name of the thing on which the job execution is running. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+
+    /// The name of the thing on which the job execution is running. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+
     /// </summary>
     [CliOption("--thing-name")]
     public string? ThingName { get; private init; }
@@ -75,7 +76,7 @@ public record AwsIotDescribeJobExecutionOptions : AwsOptions, IValidatableObject
     /// A string (consisting of the digits "0" through "9" which is used to specify a particular job execution on a particular device.
     /// </summary>
     [CliOption("--execution-number")]
-    public int? ExecutionNumber { get; set; }
+    public long? ExecutionNumber { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -98,6 +99,15 @@ public record AwsIotDescribeJobExecutionOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsFrauddetectorCancelBatchImportJobOptions : AwsOptions, IValidat
     /// <summary>
     /// Cancels an in-progress batch import job. See also: AWS API Documentation
     /// </summary>
-    /// <param name="JobId">The ID of an in-progress batch import job to cancel. Amazon Fraud Detector will throw an error if the batch import job is in FAILED , CANCELED , or COMPLETED state. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$</param>
+    /// <param name="JobId">The ID of an in-progress batch import job to cancel. Amazon Fraud Detector will throw an error if the batch import job is in FAILED , CANCELED , or COMPLETED state. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$</param>
     public AwsFrauddetectorCancelBatchImportJobOptions(
         string JobId
     )
@@ -56,7 +57,7 @@ public record AwsFrauddetectorCancelBatchImportJobOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of an in-progress batch import job to cancel. Amazon Fraud Detector will throw an error if the batch import job is in FAILED , CANCELED , or COMPLETED state. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$
+    /// The ID of an in-progress batch import job to cancel. Amazon Fraud Detector will throw an error if the batch import job is in FAILED , CANCELED , or COMPLETED state. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsFrauddetectorCancelBatchImportJobOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a reference data source configuration from the specified SQL-based Kinesis Data Analytics application's configuration. If the application is running, Kinesis Data Analytics immediately re- moves the in-application table that you created using the AddApplica- tionReferenceDataSource operation. See also: AWS API Documentation
+/// Deletes a reference data source configuration from the specified SQL-based Kinesis Data Analytics application's configuration. If the application is running, Kinesis Data Analytics immediately removes the in-application table that you created using the AddApplicationReferenceDataSource operation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,14 +26,14 @@ public record AwsKinesisanalyticsv2DeleteApplicationReferenceDataSourceOptions :
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a reference data source configuration from the specified SQL-based Kinesis Data Analytics application's configuration. If the application is running, Kinesis Data Analytics immediately re- moves the in-application table that you created using the AddApplica- tionReferenceDataSource operation. See also: AWS API Documentation
+    /// Deletes a reference data source configuration from the specified SQL-based Kinesis Data Analytics application's configuration. If the application is running, Kinesis Data Analytics immediately removes the in-application table that you created using the AddApplicationReferenceDataSource operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationName">The name of an existing application. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+</param>
-    /// <param name="CurrentApplicationVersionId">The current application version. You can use the DescribeApplica- tion operation to get the current application version. If the ver- sion specified is not the current version, the ConcurrentModifica- tionException is returned. Constraints: o min: 1 o max: 999999999</param>
-    /// <param name="ReferenceId">The ID of the reference data source. When you add a reference data source to your application using the AddApplicationReferenceData- Source , Kinesis Data Analytics assigns an ID. You can use the De- scribeApplication operation to get the reference ID. Constraints: o min: 1 o max: 50 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="ApplicationName">The name of an existing application. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="CurrentApplicationVersionId">The current application version. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned. Constraints: • min: 1 • max: 999999999</param>
+    /// <param name="ReferenceId">The ID of the reference data source. When you add a reference data source to your application using the AddApplicationReferenceDataSource , Kinesis Data Analytics assigns an ID. You can use the DescribeApplication operation to get the reference ID. Constraints: • min: 1 • max: 50 • pattern: [a-zA-Z0-9_.-]+</param>
     public AwsKinesisanalyticsv2DeleteApplicationReferenceDataSourceOptions(
         string ApplicationName,
-        int CurrentApplicationVersionId,
+        long CurrentApplicationVersionId,
         string ReferenceId
     )
     {
@@ -63,19 +64,19 @@ public record AwsKinesisanalyticsv2DeleteApplicationReferenceDataSourceOptions :
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of an existing application. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
+    /// The name of an existing application. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--application-name")]
     public string? ApplicationName { get; private init; }
 
     /// <summary>
-    /// The current application version. You can use the DescribeApplica- tion operation to get the current application version. If the ver- sion specified is not the current version, the ConcurrentModifica- tionException is returned. Constraints: o min: 1 o max: 999999999
+    /// The current application version. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned. Constraints: • min: 1 • max: 999999999
     /// </summary>
     [CliOption("--current-application-version-id")]
-    public int? CurrentApplicationVersionId { get; private init; }
+    public long? CurrentApplicationVersionId { get; private init; }
 
     /// <summary>
-    /// The ID of the reference data source. When you add a reference data source to your application using the AddApplicationReferenceData- Source , Kinesis Data Analytics assigns an ID. You can use the De- scribeApplication operation to get the reference ID. Constraints: o min: 1 o max: 50 o pattern: [a-zA-Z0-9_.-]+
+    /// The ID of the reference data source. When you add a reference data source to your application using the AddApplicationReferenceDataSource , Kinesis Data Analytics assigns an ID. You can use the DescribeApplication operation to get the reference ID. Constraints: • min: 1 • max: 50 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--reference-id")]
     public string? ReferenceId { get; private init; }
@@ -101,6 +102,15 @@ public record AwsKinesisanalyticsv2DeleteApplicationReferenceDataSourceOptions :
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

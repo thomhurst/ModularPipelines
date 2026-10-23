@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsEmrServerlessGetSessionOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Displays detailed information about a session. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The ID of the application that the session belongs to. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+</param>
-    /// <param name="SessionId">The ID of the session. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+</param>
+    /// <param name="ApplicationId">The ID of the application that the session belongs to. Constraints: • min: 1 • max: 64 • pattern: [0-9a-z]+</param>
+    /// <param name="SessionId">The ID of the session. Constraints: • min: 1 • max: 64 • pattern: [0-9a-z]+</param>
     public AwsEmrServerlessGetSessionOptions(
         string ApplicationId,
         string SessionId
@@ -60,13 +61,13 @@ public record AwsEmrServerlessGetSessionOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the application that the session belongs to. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+
+    /// The ID of the application that the session belongs to. Constraints: • min: 1 • max: 64 • pattern: [0-9a-z]+
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// The ID of the session. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+
+    /// The ID of the session. Constraints: • min: 1 • max: 64 • pattern: [0-9a-z]+
     /// </summary>
     [CliOption("--session-id")]
     public string? SessionId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsEmrServerlessGetSessionOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

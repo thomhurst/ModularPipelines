@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws personalizeruntime commands.
+/// aws personalize-runtime commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsPersonalizeRuntime : IAwsPersonalizeRuntime
@@ -32,7 +32,7 @@ public class AwsPersonalizeRuntime : IAwsPersonalizeRuntime
     #region Commands
 
     /// <summary>
-    /// Returns a list of recommended actions in sorted in descending order by prediction score. Use the GetActionRecommendations API if you have a custom campaign that deploys a solution version trained with a PERSON- ALIZED_ACTIONS recipe. For more information about PERSONALIZED_ACTIONS recipes, see PERSONALIZED_ACTIONS recipes . For more information about getting ac- tion recommendations, see Getting action recommendations . See also: AWS API Documentation
+    /// Returns a list of recommended actions in sorted in descending order by prediction score. Use the GetActionRecommendations API if you have a custom campaign that deploys a solution version trained with a PERSONALIZED_ACTIONS recipe. For more information about PERSONALIZED_ACTIONS recipes, see PERSONALIZED_ACTIONS recipes . For more information about getting action recommendations, see Getting action recommendations . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsPersonalizeRuntime : IAwsPersonalizeRuntime
     }
 
     /// <summary>
-    /// Returns a list of recommended items. For campaigns, the campaign's Ama- zon Resource Name (ARN) is required and the required user and item in- put depends on the recipe type used to create the solution backing the campaign as follows: o USER_PERSONALIZATION - userId required, itemId not used o RELATED_ITEMS - itemId required, userId not used NOTE: Campaigns that are backed by a solution created using a recipe of type PERSONALIZED_RANKING use the API. For recommenders, the recommender's ARN is re...
+    /// Returns a list of recommended items. For campaigns, the campaign's Amazon Resource Name (ARN) is required and the required user and item input depends on the recipe type used to create the solution backing the campaign as follows: • USER_PERSONALIZATION - userId required, itemId not used • RELATED_ITEMS - itemId required, userId not used NOTE: Campaigns that are backed by a solution created using a recipe of type PERSONALIZED_RANKING use the API. For recommenders, the recommender's ARN is requir...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes a budget action history detail. See also: AWS API Documentation describe-budget-action-histories is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ActionHistories
+/// Describes a budget action history detail. See also: AWS API Documentation describe-budget-action-histories is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ActionHistories
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsBudgetsDescribeBudgetActionHistoriesOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Describes a budget action history detail. See also: AWS API Documentation describe-budget-action-histories is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ActionHistories
+    /// Describes a budget action history detail. See also: AWS API Documentation describe-budget-action-histories is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ActionHistories
     /// </summary>
-    /// <param name="AccountId">The account ID of the user. It's a 12-digit number. Constraints: o min: 12 o max: 12 o pattern: \d{12}</param>
-    /// <param name="BudgetName">A string that represents the budget name. The ":" and "" characters, and the "/action/" substring, aren't allowed. Budget names are validated for content. Names that contain phone numbers, URLs, or email addresses combined with certain terms may be rejected. Constraints: o min: 1 o max: 100 o pattern: ^(?![^:\\]*/action/|(?i).*&lt;script&gt;.*&lt;/script&gt;.*)[^:\\]+$</param>
-    /// <param name="ActionId">A system-generated universally unique identifier (UUID) for the ac- tion. Constraints: o min: 36 o max: 36 o pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$</param>
+    /// <param name="AccountId">The account ID of the user. It's a 12-digit number. Constraints: • min: 12 • max: 12 • pattern: \d{12}</param>
+    /// <param name="BudgetName">A string that represents the budget name. The ":" and "" characters, and the "/action/" substring, aren't allowed. Budget names are validated for content. Names that contain phone numbers, URLs, or email addresses combined with certain terms may be rejected. Constraints: • min: 1 • max: 100 • pattern: ^(?![^:\\]*/action/|(?i).*&lt;script&gt;.*&lt;/script&gt;.*)[^:\\]+$</param>
+    /// <param name="ActionId">A system-generated universally unique identifier (UUID) for the action. Constraints: • min: 36 • max: 36 • pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$</param>
     public AwsBudgetsDescribeBudgetActionHistoriesOptions(
         string AccountId,
         string BudgetName,
@@ -65,34 +66,31 @@ public record AwsBudgetsDescribeBudgetActionHistoriesOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The account ID of the user. It's a 12-digit number. Constraints: o min: 12 o max: 12 o pattern: \d{12}
+    /// The account ID of the user. It's a 12-digit number. Constraints: • min: 12 • max: 12 • pattern: \d{12}
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// A string that represents the budget name. The ":" and "" characters, and the "/action/" substring, aren't allowed. Budget names are validated for content. Names that contain phone numbers, URLs, or email addresses combined with certain terms may be rejected. Constraints: o min: 1 o max: 100 o pattern: ^(?![^:\\]*/action/|(?i).*&lt;script&gt;.*&lt;/script&gt;.*)[^:\\]+$
+    /// A string that represents the budget name. The ":" and "" characters, and the "/action/" substring, aren't allowed. Budget names are validated for content. Names that contain phone numbers, URLs, or email addresses combined with certain terms may be rejected. Constraints: • min: 1 • max: 100 • pattern: ^(?![^:\\]*/action/|(?i).*&lt;script&gt;.*&lt;/script&gt;.*)[^:\\]+$
     /// </summary>
     [CliOption("--budget-name")]
     public string? BudgetName { get; private init; }
 
     /// <summary>
-    /// A system-generated universally unique identifier (UUID) for the ac- tion. Constraints: o min: 36 o max: 36 o pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+    /// A system-generated universally unique identifier (UUID) for the action. Constraints: • min: 36 • max: 36 • pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
     /// </summary>
     [CliOption("--action-id")]
     public string? ActionId { get; private init; }
 
     /// <summary>
-    /// The period of time that's covered by a budget. The period has a start date and an end date. The start date must come before the end date. There are no restrictions on the end date. Start -&gt; (timestamp) The start date for a budget. If you created your budget and didn't specify a start date, Amazon Web Services defaults to the start of your chosen time period (DAILY, MONTHLY, QUARTERLY, AN- NUALLY, or CUSTOM). For example, if you created your budget on January 24, 2018, chose DAILY , and didn't set a start date, Amazon Web Services set your start date to 01/24/18 00:00 UTC . If you chose MONTHLY , Amazon Web Services set your start date to 01/01/18 00:00 UTC . The defaults are the same for the Billing and Cost Management console and the API. You can change your start date with the UpdateBudget operation. End -&gt; (timestamp) The end date for a budget. If you didn't specify an end date, Amazon Web Services set your end date to 06/15/87 00:00 UTC . The defaults are the same for the Billing and Cost Management console and the API. After the end date, Amazon Web Services deletes the budget and all the associated notifications and subscribers. You can change your end date with the UpdateBudget operation. Shorthand Syntax: Start=timestamp,End=timestamp JSON Syntax: { "Start": timestamp, "End": timestamp }
+    /// The period of time that's covered by a budget. The period has a start date and an end date. The start date must come before the end date. There are no restrictions on the end date. Start -&gt; (timestamp) The start date for a budget. If you created your budget and didn't specify a start date, Amazon Web Services defaults to the start of your chosen time period (DAILY, MONTHLY, QUARTERLY, ANNUALLY, or CUSTOM). For example, if you created your budget on January 24, 2018, chose DAILY , and didn't set a start date, Amazon Web Services set your start date to 01/24/18 00:00 UTC . If you chose MONTHLY , Amazon Web Services set your start date to 01/01/18 00:00 UTC . The defaults are the same for the Billing and Cost Management console and the API. You can change your start date with the UpdateBudget operation. End -&gt; (timestamp) The end date for a budget. If you didn't specify an end date, Amazon Web Services set your end date to 06/15/87 00:00 UTC . The defaults are the same for the Billing and Cost Management console and the API. After the end date, Amazon Web Services deletes the budget and all the associated notifications and subscribers. You can change your end date with the UpdateBudget operation. Shorthand Syntax: Start=timestamp,End=timestamp JSON Syntax: { "Start": timestamp, "End": timestamp }
     /// </summary>
     [CliOption("--time-period")]
     public string? TimePeriod { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -102,16 +100,19 @@ public record AwsBudgetsDescribeBudgetActionHistoriesOptions : AwsOptions, IVali
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -128,6 +129,15 @@ public record AwsBudgetsDescribeBudgetActionHistoriesOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

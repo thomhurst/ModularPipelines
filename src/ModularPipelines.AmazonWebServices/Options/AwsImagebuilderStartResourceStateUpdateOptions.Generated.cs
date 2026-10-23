@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Begins an ad-hoc state change for the specified image build version. This is a one-time operation - if you schedule the update, it runs only once. If the request includes underlying resources, or schedules the update far enough in the future, Image Builder runs the update as an asynchronous lifecycle execution and returns its identifier. Otherwise, for target states other than DELETED , the state change applies immedi- ately. If a request that starts a lifecycle execution arrives while the image...
+/// Begins an ad-hoc state change for the specified image build version. This is a one-time operation - if you schedule the update, it runs only once. If the request includes underlying resources, or schedules the update far enough in the future, Image Builder runs the update as an asynchronous lifecycle execution and returns its identifier. Otherwise, for target states other than DELETED , the state change applies immediately. If a request that starts a lifecycle execution arrives while the image a...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsImagebuilderStartResourceStateUpdateOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Begins an ad-hoc state change for the specified image build version. This is a one-time operation - if you schedule the update, it runs only once. If the request includes underlying resources, or schedules the update far enough in the future, Image Builder runs the update as an asynchronous lifecycle execution and returns its identifier. Otherwise, for target states other than DELETED , the state change applies immedi- ately. If a request that starts a lifecycle execution arrives while the image...
+    /// Begins an ad-hoc state change for the specified image build version. This is a one-time operation - if you schedule the update, it runs only once. If the request includes underlying resources, or schedules the update far enough in the future, Image Builder runs the update as an asynchronous lifecycle execution and returns its identifier. Otherwise, for target states other than DELETED , the state change applies immediately. If a request that starts a lifecycle execution arrives while the image a...
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the image build version to update. The image must be in one of these terminal states: AVAILABLE , DEP- RECATED , DISABLED , FAILED , or CANCELLED . Images with FAILED or CANCELLED status can transition only to DELETED . Constraints: o pattern: ^arn:aws[^:]*:image- builder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):im- age/[a-z0-9-_]+/[0-9]+\.[0-9]+\.[0-9]+/[0-9]+$</param>
-    /// <param name="State">Specifies the lifecycle action to take for this request. For AMI-based images, valid values are AVAILABLE , DEPRECATED , DISABLED , and DELETED . For container-based images, only DELETED is sup- ported. status -&gt; (string) The status to which you want to move the image resource. Set the status to AVAILABLE to restore an image that's currently depre- cated or disabled. Possible values: o AVAILABLE o DELETED o DEPRECATED o DISABLED Shorthand Syntax: status=string JSON Syntax: { "status": "AVAILABLE"|"DELETED"|"DEPRECATED"|"DISABLED" }</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the image build version to update. The image must be in one of these terminal states: AVAILABLE , DEPRECATED , DISABLED , FAILED , or CANCELLED . Images with FAILED or CANCELLED status can transition only to DELETED . Constraints: • pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):image/[a-z0-9-_]+/[0-9]+\.[0-9]+\.[0-9]+/[0-9]+$</param>
+    /// <param name="State">Specifies the lifecycle action to take for this request. For AMI-based images, valid values are AVAILABLE , DEPRECATED , DISABLED , and DELETED . For container-based images, only DELETED is supported. status -&gt; (string) The status to which you want to move the image resource. Set the status to AVAILABLE to restore an image that's currently deprecated or disabled. Possible values: • AVAILABLE • DELETED • DEPRECATED • DISABLED Shorthand Syntax: status=string JSON Syntax: { "status": "AVAILABLE"|"DELETED"|"DEPRECATED"|"DISABLED" }</param>
     public AwsImagebuilderStartResourceStateUpdateOptions(
         string ResourceArn,
         string State
@@ -61,43 +62,43 @@ public record AwsImagebuilderStartResourceStateUpdateOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the image build version to update. The image must be in one of these terminal states: AVAILABLE , DEP- RECATED , DISABLED , FAILED , or CANCELLED . Images with FAILED or CANCELLED status can transition only to DELETED . Constraints: o pattern: ^arn:aws[^:]*:image- builder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):im- age/[a-z0-9-_]+/[0-9]+\.[0-9]+\.[0-9]+/[0-9]+$
+    /// The Amazon Resource Name (ARN) of the image build version to update. The image must be in one of these terminal states: AVAILABLE , DEPRECATED , DISABLED , FAILED , or CANCELLED . Images with FAILED or CANCELLED status can transition only to DELETED . Constraints: • pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):image/[a-z0-9-_]+/[0-9]+\.[0-9]+\.[0-9]+/[0-9]+$
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// Specifies the lifecycle action to take for this request. For AMI-based images, valid values are AVAILABLE , DEPRECATED , DISABLED , and DELETED . For container-based images, only DELETED is sup- ported. status -&gt; (string) The status to which you want to move the image resource. Set the status to AVAILABLE to restore an image that's currently depre- cated or disabled. Possible values: o AVAILABLE o DELETED o DEPRECATED o DISABLED Shorthand Syntax: status=string JSON Syntax: { "status": "AVAILABLE"|"DELETED"|"DEPRECATED"|"DISABLED" }
+    /// Specifies the lifecycle action to take for this request. For AMI-based images, valid values are AVAILABLE , DEPRECATED , DISABLED , and DELETED . For container-based images, only DELETED is supported. status -&gt; (string) The status to which you want to move the image resource. Set the status to AVAILABLE to restore an image that's currently deprecated or disabled. Possible values: • AVAILABLE • DELETED • DEPRECATED • DISABLED Shorthand Syntax: status=string JSON Syntax: { "status": "AVAILABLE"|"DELETED"|"DEPRECATED"|"DISABLED" }
     /// </summary>
     [CliOption("--state")]
     public string? State { get; private init; }
 
     /// <summary>
-    /// The name or Amazon Resource Name (ARN) of the IAM role that's used to update image state. You must provide this property together with includeResources . Neither is valid without the other. Constraints: o min: 1 o max: 2048 o pattern: ^(?:arn:aws(?:-[a-z]+)*:iam::[0-9]{12}:role/)?[a-zA-Z_0-9+=,.@\-_/]+$
+    /// The name or Amazon Resource Name (ARN) of the IAM role that's used to update image state. You must provide this property together with includeResources . Neither is valid without the other. Constraints: • min: 1 • max: 2048 • pattern: ^(?:arn:aws(?:-[a-z]+)*:iam::[0-9]{12}:role/)?[a-zA-Z_0-9+=,.@\-_/]+$
     /// </summary>
     [CliOption("--execution-role")]
     public string? ExecutionRole { get; set; }
 
     /// <summary>
-    /// Specifies which underlying resources to update, in addition to the Image Builder image resource itself. Snapshots and containers are only valid for the DELETED state. To set an image to DELETED , you must include its underlying resources. To delete only the Image Builder image record, use the DeleteImage operation instead. amis -&gt; (boolean) Specifies whether the lifecycle action should apply to distrib- uted AMIs. snapshots -&gt; (boolean) Specifies whether the lifecycle action should apply to snapshots associated with distributed AMIs. containers -&gt; (boolean) Specifies whether the lifecycle action should apply to distrib- uted containers. Shorthand Syntax: amis=boolean,snapshots=boolean,containers=boolean JSON Syntax: { "amis": true|false, "snapshots": true|false, "containers": true|false }
+    /// Specifies which underlying resources to update, in addition to the Image Builder image resource itself. Snapshots and containers are only valid for the DELETED state. To set an image to DELETED , you must include its underlying resources. To delete only the Image Builder image record, use the DeleteImage operation instead. amis -&gt; (boolean) Specifies whether the lifecycle action should apply to distributed AMIs. snapshots -&gt; (boolean) Specifies whether the lifecycle action should apply to snapshots associated with distributed AMIs. containers -&gt; (boolean) Specifies whether the lifecycle action should apply to distributed containers. Shorthand Syntax: amis=boolean,snapshots=boolean,containers=boolean JSON Syntax: { "amis": true|false, "snapshots": true|false, "containers": true|false }
     /// </summary>
     [CliOption("--include-resources")]
     public string? IncludeResources { get; set; }
 
     /// <summary>
-    /// Rules that Image Builder evaluates against each of the image's AMIs. Matching AMIs and their snapshots are skipped. Exclusion rules only take effect when the request includes AMIs. If the target state is DELETED and any resource was skipped, the Image Builder image re- source itself is also retained. For the DEPRECATED and DISABLED tar- get states, Image Builder updates the image resource's state regard- less of exclusions. amis -&gt; (structure) Defines criteria for AMIs that Image Builder should exclude from the resource state update. isPublic -&gt; (boolean) Configures whether public AMIs are excluded from the lifecy- cle action. regions -&gt; (list) Configures Amazon Web Services Regions that are excluded from the lifecycle action. (string) Constraints: o min: 1 o max: 1024 sharedAccounts -&gt; (list) The lifecycle action doesn't apply to AMIs that are shared with any of the specified Amazon Web Services accounts. Constraints: o min: 1 o max: 1536 (string) Constraints: o pattern: ^[0-9]{12}$ lastLaunched -&gt; (structure) Configures Image Builder to exclude AMIs that were launched within the specified time period from lifecycle actions. AMIs with no recorded last-launched time aren't excluded by this rule. value -&gt; (integer) [required] The integer number of units for the time period. For ex- ample 6 (months). Constraints: o min: 1 o max: 365 unit -&gt; (string) [required] Defines the unit of time that the lifecycle policy uses to calculate elapsed time since the last launch. Possible values: o DAYS o WEEKS o MONTHS o YEARS tagMap -&gt; (map) Lifecycle actions don't apply to AMIs that have any of these tags. Both the key and the value must match. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z0-9\s_.:/=+\-@]*$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: amis={isPublic=boolean,regions=[string,string],sharedAccounts=[string,string],lastLaunched={value=integer,unit=string},tagMap={KeyName1=string,KeyName2=string}} JSON Syntax: { "amis": { "isPublic": true|false, "regions": ["string", ...], "sharedAccounts": ["string", ...], "lastLaunched": { "value": integer, "unit": "DAYS"|"WEEKS"|"MONTHS"|"YEARS" }, "tagMap": {"string": "string" ...} } }
+    /// Rules that Image Builder evaluates against each of the image's AMIs. Matching AMIs and their snapshots are skipped. Exclusion rules only take effect when the request includes AMIs. If the target state is DELETED and any resource was skipped, the Image Builder image resource itself is also retained. For the DEPRECATED and DISABLED target states, Image Builder updates the image resource's state regardless of exclusions. amis -&gt; (structure) Defines criteria for AMIs that Image Builder should exclude from the resource state update. isPublic -&gt; (boolean) Configures whether public AMIs are excluded from the lifecycle action. regions -&gt; (list) Configures Amazon Web Services Regions that are excluded from the lifecycle action. (string) Constraints: • min: 1 • max: 1024 sharedAccounts -&gt; (list) The lifecycle action doesn't apply to AMIs that are shared with any of the specified Amazon Web Services accounts. Constraints: • min: 1 • max: 1536 (string) Constraints: • pattern: ^[0-9]{12}$ lastLaunched -&gt; (structure) Configures Image Builder to exclude AMIs that were launched within the specified time period from lifecycle actions. AMIs with no recorded last-launched time aren't excluded by this rule. value -&gt; (integer) [required] The integer number of units for the time period. For example 6 (months). Constraints: • min: 1 • max: 365 unit -&gt; (string) [required] Defines the unit of time that the lifecycle policy uses to calculate elapsed time since the last launch. Possible values: • DAYS • WEEKS • MONTHS • YEARS tagMap -&gt; (map) Lifecycle actions don't apply to AMIs that have any of these tags. Both the key and the value must match. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[a-zA-Z0-9\s_.:/=+\-@]*$ value -&gt; (string) Constraints: • max: 256 Shorthand Syntax: amis={isPublic=boolean,regions=[string,string],sharedAccounts=[string,string],lastLaunched={value=integer,unit=string},tagMap={KeyName1=string,KeyName2=string}} JSON Syntax: { "amis": { "isPublic": true|false, "regions": ["string", ...], "sharedAccounts": ["string", ...], "lastLaunched": { "value": integer, "unit": "DAYS"|"WEEKS"|"MONTHS"|"YEARS" }, "tagMap": {"string": "string" ...} } }
     /// </summary>
     [CliOption("--exclusion-rules")]
     public string? ExclusionRules { get; set; }
 
     /// <summary>
-    /// The timestamp that indicates when resources are updated by a lifecy- cle action. This property is valid only when the target status is DEPRECATED , and the value must be a future time. If you don't spec- ify a value, Image Builder begins the state update right away. For a scheduled deprecation, included AMIs get their EC2 deprecation time set immediately, and Image Builder schedules the image resource to transition to DEPRECATED at that time.
+    /// The timestamp that indicates when resources are updated by a lifecycle action. This property is valid only when the target status is DEPRECATED , and the value must be a future time. If you don't specify a value, Image Builder begins the state update right away. For a scheduled deprecation, included AMIs get their EC2 deprecation time set immediately, and Image Builder schedules the image resource to transition to DEPRECATED at that time.
     /// </summary>
     [CliOption("--update-at")]
     public string? UpdateAt { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client token, Image Builder returns the original response without running the operation again. For more information, see Ensuring idempotency in the Amazon EC2 API Reference . Constraints: o min: 1 o max: 64
+    /// A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client token, Image Builder returns the original response without running the operation again. For more information, see Ensuring idempotency in the Amazon EC2 API Reference . Constraints: • min: 1 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -124,6 +125,15 @@ public record AwsImagebuilderStartResourceStateUpdateOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

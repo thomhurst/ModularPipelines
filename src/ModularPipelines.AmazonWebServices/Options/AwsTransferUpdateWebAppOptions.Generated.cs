@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsTransferUpdateWebAppOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Assigns new properties to a web app. You can modify the access point, identity provider details, endpoint configuration, and the web app units. For more information about using VPC endpoints with Transfer Family, see Create a Transfer Family web app in a VPC . See also: AWS API Documentation
     /// </summary>
-    /// <param name="WebAppId">Provide the identifier of the web app that you are updating. Constraints: o min: 24 o max: 24 o pattern: webapp-[0-9a-f]{17}</param>
+    /// <param name="WebAppId">Provide the identifier of the web app that you are updating. Constraints: • min: 24 • max: 24 • pattern: webapp-[0-9a-f]{17}</param>
     public AwsTransferUpdateWebAppOptions(
         string WebAppId
     )
@@ -56,31 +57,31 @@ public record AwsTransferUpdateWebAppOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Provide the identifier of the web app that you are updating. Constraints: o min: 24 o max: 24 o pattern: webapp-[0-9a-f]{17}
+    /// Provide the identifier of the web app that you are updating. Constraints: • min: 24 • max: 24 • pattern: webapp-[0-9a-f]{17}
     /// </summary>
     [CliOption("--web-app-id")]
     public string? WebAppId { get; private init; }
 
     /// <summary>
-    /// Provide updated identity provider values in a WebAppIdenti- tyProviderDetails object. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: IdentityCenterConfig. IdentityCenterConfig -&gt; (structure) A structure that describes the values to use for the IAM Iden- tity Center settings when you update a web app. Role -&gt; (string) The IAM role used to access IAM Identity Center. Constraints: o min: 20 o max: 2048 o pattern: arn:.*role/\S+ Shorthand Syntax: IdentityCenterConfig={Role=string} JSON Syntax: { "IdentityCenterConfig": { "Role": "string" } }
+    /// Provide updated identity provider values in a WebAppIdentityProviderDetails object. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: IdentityCenterConfig. IdentityCenterConfig -&gt; (structure) A structure that describes the values to use for the IAM Identity Center settings when you update a web app. Role -&gt; (string) The IAM role used to access IAM Identity Center. Constraints: • min: 20 • max: 2048 • pattern: arn:.*role/\S+ Shorthand Syntax: IdentityCenterConfig={Role=string} JSON Syntax: { "IdentityCenterConfig": { "Role": "string" } }
     /// </summary>
     [CliOption("--identity-provider-details")]
     public string? IdentityProviderDetails { get; set; }
 
     /// <summary>
-    /// The AccessEndpoint is the URL that you provide to your users for them to interact with the Transfer Family web app. You can specify a custom URL or use the default value. Constraints: o min: 1 o max: 1024
+    /// The AccessEndpoint is the URL that you provide to your users for them to interact with the Transfer Family web app. You can specify a custom URL or use the default value. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--access-endpoint")]
     public string? AccessEndpoint { get; set; }
 
     /// <summary>
-    /// A union that contains the value for number of concurrent connections or the user sessions on your web app. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Provisioned. Provisioned -&gt; (integer) An integer that represents the number of units for your desired number of concurrent connections, or the number of user sessions on your web app at the same time. Each increment allows an additional 250 concurrent sessions: a value of 1 sets the number of concurrent sessions to 250; 2 sets a value of 500, and so on. Constraints: o min: 1 Shorthand Syntax: Provisioned=integer JSON Syntax: { "Provisioned": integer }
+    /// A union that contains the value for number of concurrent connections or the user sessions on your web app. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Provisioned. Provisioned -&gt; (integer) An integer that represents the number of units for your desired number of concurrent connections, or the number of user sessions on your web app at the same time. Each increment allows an additional 250 concurrent sessions: a value of 1 sets the number of concurrent sessions to 250; 2 sets a value of 500, and so on. Constraints: • min: 1 Shorthand Syntax: Provisioned=integer JSON Syntax: { "Provisioned": integer }
     /// </summary>
     [CliOption("--web-app-units")]
     public string? WebAppUnits { get; set; }
 
     /// <summary>
-    /// The updated endpoint configuration for the web app. You can modify the endpoint type and VPC configuration settings. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Vpc. Vpc -&gt; (structure) The VPC configuration details for updating a web app endpoint hosted within a VPC. This includes the subnet IDs for endpoint deployment. SubnetIds -&gt; (list) The list of subnet IDs within the VPC where the web app end- point should be deployed during the update operation. (string) IpAddressType -&gt; (string) The IP address type for the web app's VPC endpoint. This de- termines whether the endpoint is accessible over IPv4 only, or over both IPv4 and IPv6. Possible values: o IPV4 o DUALSTACK Shorthand Syntax: Vpc={SubnetIds=[string,string],IpAddressType=string} JSON Syntax: { "Vpc": { "SubnetIds": ["string", ...], "IpAddressType": "IPV4"|"DUALSTACK" } }
+    /// The updated endpoint configuration for the web app. You can modify the endpoint type and VPC configuration settings. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Vpc. Vpc -&gt; (structure) The VPC configuration details for updating a web app endpoint hosted within a VPC. This includes the subnet IDs for endpoint deployment. SubnetIds -&gt; (list) The list of subnet IDs within the VPC where the web app endpoint should be deployed during the update operation. (string) IpAddressType -&gt; (string) The IP address type for the web app's VPC endpoint. This determines whether the endpoint is accessible over IPv4 only, or over both IPv4 and IPv6. Possible values: • IPV4 • DUALSTACK Shorthand Syntax: Vpc={SubnetIds=[string,string],IpAddressType=string} JSON Syntax: { "Vpc": { "SubnetIds": ["string", ...], "IpAddressType": "IPV4"|"DUALSTACK" } }
     /// </summary>
     [CliOption("--endpoint-details")]
     public string? EndpointDetails { get; set; }
@@ -106,6 +107,15 @@ public record AwsTransferUpdateWebAppOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

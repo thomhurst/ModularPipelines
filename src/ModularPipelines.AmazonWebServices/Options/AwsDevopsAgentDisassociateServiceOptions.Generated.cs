@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a specific service association from an AgentSpace. This opera- tion is idempotent and returns a 204 No Content response on success. See also: AWS API Documentation
+/// Deletes a specific service association from an AgentSpace. This operation is idempotent and returns a 204 No Content response on success. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsDevopsAgentDisassociateServiceOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a specific service association from an AgentSpace. This opera- tion is idempotent and returns a 204 No Content response on success. See also: AWS API Documentation
+    /// Deletes a specific service association from an AgentSpace. This operation is idempotent and returns a 204 No Content response on success. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AgentSpaceId">The unique identifier of the AgentSpace Constraints: o pattern: [a-zA-Z0-9-]{1,64}</param>
-    /// <param name="AssociationId">The unique identifier of the given association. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9-]+</param>
+    /// <param name="AgentSpaceId">The unique identifier of the AgentSpace Constraints: • pattern: [a-zA-Z0-9-]{1,64}</param>
+    /// <param name="AssociationId">The unique identifier of the given association. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9-]+</param>
     public AwsDevopsAgentDisassociateServiceOptions(
         string AgentSpaceId,
         string AssociationId
@@ -60,13 +61,13 @@ public record AwsDevopsAgentDisassociateServiceOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the AgentSpace Constraints: o pattern: [a-zA-Z0-9-]{1,64}
+    /// The unique identifier of the AgentSpace Constraints: • pattern: [a-zA-Z0-9-]{1,64}
     /// </summary>
     [CliOption("--agent-space-id")]
     public string? AgentSpaceId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the given association. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9-]+
+    /// The unique identifier of the given association. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--association-id")]
     public string? AssociationId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsDevopsAgentDisassociateServiceOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

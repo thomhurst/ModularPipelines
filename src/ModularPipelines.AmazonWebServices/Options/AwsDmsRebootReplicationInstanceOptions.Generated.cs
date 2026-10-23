@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Reboots a replication instance. Rebooting results in a momentary out- age, until the replication instance becomes available again. See also: AWS API Documentation
+/// Reboots a replication instance. Rebooting results in a momentary outage, until the replication instance becomes available again. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsDmsRebootReplicationInstanceOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Reboots a replication instance. Rebooting results in a momentary out- age, until the replication instance becomes available again. See also: AWS API Documentation
+    /// Reboots a replication instance. Rebooting results in a momentary outage, until the replication instance becomes available again. See also: AWS API Documentation
     /// </summary>
     /// <param name="ReplicationInstanceArn">The Amazon Resource Name (ARN) of the replication instance.</param>
     public AwsDmsRebootReplicationInstanceOptions(
@@ -68,7 +69,7 @@ public record AwsDmsRebootReplicationInstanceOptions : AwsOptions, IValidatableO
     public bool? ForceFailover { get; set; }
 
     /// <summary>
-    /// If this parameter is true , the reboot is conducted through a planned Multi-AZ failover where resources are released and cleaned up prior to conducting the failover. If the instance isn''t config- ured for Multi-AZ, then you can't specify true . ( --force-planned-failover and --force-failover can't both be set to true .)
+    /// If this parameter is true , the reboot is conducted through a planned Multi-AZ failover where resources are released and cleaned up prior to conducting the failover. If the instance isn''t configured for Multi-AZ, then you can't specify true . ( --force-planned-failover and --force-failover can't both be set to true .)
     /// </summary>
     [CliFlag("--force-planned-failover", NegatedName = "--no-force-planned-failover")]
     public bool? ForcePlannedFailover { get; set; }
@@ -94,6 +95,15 @@ public record AwsDmsRebootReplicationInstanceOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

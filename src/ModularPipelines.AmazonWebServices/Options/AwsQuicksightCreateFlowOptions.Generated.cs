@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new flow in the specified Amazon Web Services account. Cre- ates both a DRAFT and PUBLISHED (auto-published) version. This operation is idempotent. Supply a ClientToken to safely retry without creating duplicate resources. See also: AWS API Documentation create-flow uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the ...
+/// Creates a new flow in the specified Amazon Web Services account. Creates both a DRAFT and PUBLISHED (auto-published) version. This operation is idempotent. Supply a ClientToken to safely retry without creating duplicate resources. See also: AWS API Documentation create-flow uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the ty...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsQuicksightCreateFlowOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new flow in the specified Amazon Web Services account. Cre- ates both a DRAFT and PUBLISHED (auto-published) version. This operation is idempotent. Supply a ClientToken to safely retry without creating duplicate resources. See also: AWS API Documentation create-flow uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the ...
+    /// Creates a new flow in the specified Amazon Web Services account. Creates both a DRAFT and PUBLISHED (auto-published) version. This operation is idempotent. Supply a ClientToken to safely retry without creating duplicate resources. See also: AWS API Documentation create-flow uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the ty...
     /// </summary>
-    /// <param name="AwsAccountId">The ID of the Amazon Web Services account where you want to create the flow. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12}</param>
-    /// <param name="Name">The display name for the flow. Constraints: o min: 1 o max: 128 o pattern: (?!\s+$)[^{}"\\&lt;&gt;]*</param>
-    /// <param name="FlowDefinition">The definition of the flow, specifying the steps and configurations. This is the flow definition in Quick Flow's internal format. The format is subject to change. NOTE: Always derive or depend on the flow definition from the De- scribeFlow operation to ensure you are working with the latest format. JSON Syntax: {...}</param>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account where you want to create the flow. Constraints: • min: 12 • max: 12 • pattern: [0-9]{12}</param>
+    /// <param name="Name">The display name for the flow. Constraints: • min: 1 • max: 128 • pattern: (?!\s+$)[^{}"\\&lt;&gt;]*</param>
+    /// <param name="FlowDefinition">The definition of the flow, specifying the steps and configurations. This is the flow definition in Quick Flow's internal format. The format is subject to change. NOTE: Always derive or depend on the flow definition from the DescribeFlow operation to ensure you are working with the latest format. JSON Syntax: {...}</param>
     public AwsQuicksightCreateFlowOptions(
         string AwsAccountId,
         string Name,
@@ -65,37 +66,37 @@ public record AwsQuicksightCreateFlowOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon Web Services account where you want to create the flow. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12}
+    /// The ID of the Amazon Web Services account where you want to create the flow. Constraints: • min: 12 • max: 12 • pattern: [0-9]{12}
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The display name for the flow. Constraints: o min: 1 o max: 128 o pattern: (?!\s+$)[^{}"\\&lt;&gt;]*
+    /// The display name for the flow. Constraints: • min: 1 • max: 128 • pattern: (?!\s+$)[^{}"\\&lt;&gt;]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The definition of the flow, specifying the steps and configurations. This is the flow definition in Quick Flow's internal format. The format is subject to change. NOTE: Always derive or depend on the flow definition from the De- scribeFlow operation to ensure you are working with the latest format. JSON Syntax: {...}
+    /// The definition of the flow, specifying the steps and configurations. This is the flow definition in Quick Flow's internal format. The format is subject to change. NOTE: Always derive or depend on the flow definition from the DescribeFlow operation to ensure you are working with the latest format. JSON Syntax: {...}
     /// </summary>
     [CliOption("--flow-definition")]
     public string? FlowDefinition { get; private init; }
 
     /// <summary>
-    /// The description for the flow. Constraints: o min: 0 o max: 1024 o pattern: (?!\s+$)[^{}"\\&lt;&gt;]*
+    /// The description for the flow. Constraints: • min: 0 • max: 1024 • pattern: (?!\s+$)[^{}"\\&lt;&gt;]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Initial permissions for the flow. If omitted, the flow is created without any permissions. (structure) A structure that contains the permission information for one principal against one flow. Actions -&gt; (list) [required] A list of actions that the principal can perform against the flow. The following are the list of values to set a principal as a flow owner: o quicksight:PublishFlow o quicksight:GetFlow o quicksight:UpdateFlowPermissions o quicksight:GetFlowSession o quicksight:StartFlowSession o quicksight:StopFlowSession o quicksight:UpdateFlowSession o quicksight:UnpublishFlow o quicksight:GetFlowStages o quicksight:DeleteFlow o quicksight:DescribeFlowPermissions o quicksight:UpdateFlow o quicksight:CreatePresignedUrl The following are the list of values to set a principal as a flow viewer: o quicksight:GetFlow o quicksight:UpdateFlowSession o quicksight:StartFlowSession o quicksight:StopFlowSession o quicksight:GetFlowSession o quicksight:CreatePresignedUrl o quicksight:GetFlowStages (string) Constraints: o min: 1 o max: 64 Principal -&gt; (string) [required] The Amazon Resource Name (ARN) of the principal. This can be an Amazon Quick user, group or namespace associated with the flow. Namespace principal can only be set as a viewer and will grant everyone in the same namespace viewer permissions. Constraints: o min: 1 o max: 256 Shorthand Syntax: Actions=string,string,Principal=string ... JSON Syntax: [ { "Actions": ["string", ...], "Principal": "string" } ... ]
+    /// Initial permissions for the flow. If omitted, the flow is created without any permissions. (structure) A structure that contains the permission information for one principal against one flow. Actions -&gt; (list) [required] A list of actions that the principal can perform against the flow. The following are the list of values to set a principal as a flow owner: • quicksight:PublishFlow • quicksight:GetFlow • quicksight:UpdateFlowPermissions • quicksight:GetFlowSession • quicksight:StartFlowSession • quicksight:StopFlowSession • quicksight:UpdateFlowSession • quicksight:UnpublishFlow • quicksight:GetFlowStages • quicksight:DeleteFlow • quicksight:DescribeFlowPermissions • quicksight:UpdateFlow • quicksight:CreatePresignedUrl The following are the list of values to set a principal as a flow viewer: • quicksight:GetFlow • quicksight:UpdateFlowSession • quicksight:StartFlowSession • quicksight:StopFlowSession • quicksight:GetFlowSession • quicksight:CreatePresignedUrl • quicksight:GetFlowStages (string) Constraints: • min: 1 • max: 64 Principal -&gt; (string) [required] The Amazon Resource Name (ARN) of the principal. This can be an Amazon Quick user, group or namespace associated with the flow. Namespace principal can only be set as a viewer and will grant everyone in the same namespace viewer permissions. Constraints: • min: 1 • max: 256 Shorthand Syntax: Actions=string,string,Principal=string ... JSON Syntax: [ { "Actions": ["string", ...], "Principal": "string" } ... ]
     /// </summary>
     [CliOption("--permissions", GroupValues = true)]
     public IEnumerable<string>? Permissions { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 1 o max: 128
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: • min: 1 • max: 128
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -122,6 +123,15 @@ public record AwsQuicksightCreateFlowOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

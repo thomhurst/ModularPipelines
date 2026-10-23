@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,10 +29,10 @@ public record AwsConnectUpdateDataTableMetadataOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Updates the metadata properties of a data table. Accepts all fields similar to CreateDataTable, except for fields and tags. There are no other granular update endpoints. It does not act as a patch operation - all properties must be provided or defaults will be used. Fields follow the same requirements as CreateDataTable. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The unique identifier for the Amazon Connect instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="DataTableId">The unique identifier for the data table. Must also accept the table ARN with or without a version alias. If the version is provided as part of the identifier or ARN, the version must be $LATEST. Provid- ing any other alias fails with an error. Constraints: o min: 1 o max: 256</param>
-    /// <param name="Name">The updated name for the data table. Must conform to Connect human readable string specification and have 1-127 characters. Must be unique for the instance using case-insensitive comparison. Constraints: o min: 1 o max: 127 o pattern: ^[\p{L}\p{Z}\p{N}\-_.:=@'|]+$</param>
-    /// <param name="ValueLockLevel">The updated value lock level for the data table. One of DATA_TABLE, PRIMARY_VALUE, ATTRIBUTE, VALUE, and NONE. Possible values: o NONE o DATA_TABLE o PRIMARY_VALUE o ATTRIBUTE o VALUE</param>
+    /// <param name="InstanceId">The unique identifier for the Amazon Connect instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="DataTableId">The unique identifier for the data table. Must also accept the table ARN with or without a version alias. If the version is provided as part of the identifier or ARN, the version must be $LATEST. Providing any other alias fails with an error. Constraints: • min: 1 • max: 256</param>
+    /// <param name="Name">The updated name for the data table. Must conform to Connect human readable string specification and have 1-127 characters. Must be unique for the instance using case-insensitive comparison. Constraints: • min: 1 • max: 127 • pattern: ^[\p{L}\p{Z}\p{N}\-_.:=@'|]+$</param>
+    /// <param name="ValueLockLevel">The updated value lock level for the data table. One of DATA_TABLE, PRIMARY_VALUE, ATTRIBUTE, VALUE, and NONE. Possible values: • NONE • DATA_TABLE • PRIMARY_VALUE • ATTRIBUTE • VALUE</param>
     /// <param name="TimeZone">The updated IANA timezone identifier to use when resolving time based dynamic values.</param>
     public AwsConnectUpdateDataTableMetadataOptions(
         string InstanceId,
@@ -72,25 +73,25 @@ public record AwsConnectUpdateDataTableMetadataOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the Amazon Connect instance. Constraints: o min: 1 o max: 100
+    /// The unique identifier for the Amazon Connect instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The unique identifier for the data table. Must also accept the table ARN with or without a version alias. If the version is provided as part of the identifier or ARN, the version must be $LATEST. Provid- ing any other alias fails with an error. Constraints: o min: 1 o max: 256
+    /// The unique identifier for the data table. Must also accept the table ARN with or without a version alias. If the version is provided as part of the identifier or ARN, the version must be $LATEST. Providing any other alias fails with an error. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--data-table-id")]
     public string? DataTableId { get; private init; }
 
     /// <summary>
-    /// The updated name for the data table. Must conform to Connect human readable string specification and have 1-127 characters. Must be unique for the instance using case-insensitive comparison. Constraints: o min: 1 o max: 127 o pattern: ^[\p{L}\p{Z}\p{N}\-_.:=@'|]+$
+    /// The updated name for the data table. Must conform to Connect human readable string specification and have 1-127 characters. Must be unique for the instance using case-insensitive comparison. Constraints: • min: 1 • max: 127 • pattern: ^[\p{L}\p{Z}\p{N}\-_.:=@'|]+$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The updated value lock level for the data table. One of DATA_TABLE, PRIMARY_VALUE, ATTRIBUTE, VALUE, and NONE. Possible values: o NONE o DATA_TABLE o PRIMARY_VALUE o ATTRIBUTE o VALUE
+    /// The updated value lock level for the data table. One of DATA_TABLE, PRIMARY_VALUE, ATTRIBUTE, VALUE, and NONE. Possible values: • NONE • DATA_TABLE • PRIMARY_VALUE • ATTRIBUTE • VALUE
     /// </summary>
     [CliOption("--value-lock-level")]
     public AwsConnectUpdateDataTableMetadataValueLockLevel? ValueLockLevel { get; private init; }
@@ -102,7 +103,7 @@ public record AwsConnectUpdateDataTableMetadataOptions : AwsOptions, IValidatabl
     public string? TimeZone { get; private init; }
 
     /// <summary>
-    /// The updated description for the data table. Must conform to Connect human readable string specification and have 0-250 characters. Constraints: o min: 0 o max: 250 o pattern: ^[\\P{C}\r\n\t]+$
+    /// The updated description for the data table. Must conform to Connect human readable string specification and have 0-250 characters. Constraints: • min: 0 • max: 250 • pattern: ^[\\P{C}\r\n\t]+$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
@@ -128,6 +129,15 @@ public record AwsConnectUpdateDataTableMetadataOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

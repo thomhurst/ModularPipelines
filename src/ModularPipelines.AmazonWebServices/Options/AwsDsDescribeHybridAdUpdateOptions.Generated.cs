@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves information about update activities for a hybrid directory. This operation provides details about configuration changes, adminis- trator account updates, and self-managed instance settings (IDs and DNS IPs). See also: AWS API Documentation
+/// Retrieves information about update activities for a hybrid directory. This operation provides details about configuration changes, administrator account updates, and self-managed instance settings (IDs and DNS IPs). See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +28,9 @@ public record AwsDsDescribeHybridAdUpdateOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves information about update activities for a hybrid directory. This operation provides details about configuration changes, adminis- trator account updates, and self-managed instance settings (IDs and DNS IPs). See also: AWS API Documentation
+    /// Retrieves information about update activities for a hybrid directory. This operation provides details about configuration changes, administrator account updates, and self-managed instance settings (IDs and DNS IPs). See also: AWS API Documentation
     /// </summary>
-    /// <param name="DirectoryId">The identifier of the hybrid directory for which to retrieve update information. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="DirectoryId">The identifier of the hybrid directory for which to retrieve update information. Constraints: • pattern: ^d-[0-9a-f]{10}$</param>
     public AwsDsDescribeHybridAdUpdateOptions(
         string DirectoryId
     )
@@ -58,19 +59,19 @@ public record AwsDsDescribeHybridAdUpdateOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the hybrid directory for which to retrieve update information. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// The identifier of the hybrid directory for which to retrieve update information. Constraints: • pattern: ^d-[0-9a-f]{10}$
     /// </summary>
     [CliOption("--directory-id")]
     public string? DirectoryId { get; private init; }
 
     /// <summary>
-    /// The type of update activities to retrieve. Valid values include SelfManagedInstances and HybridAdministratorAccount . Possible values: o SelfManagedInstances o HybridAdministratorAccount
+    /// The type of update activities to retrieve. Valid values include SelfManagedInstances and HybridAdministratorAccount . Possible values: • SelfManagedInstances • HybridAdministratorAccount
     /// </summary>
     [CliOption("--update-type")]
     public AwsDsDescribeHybridAdUpdateUpdateType? UpdateType { get; set; }
 
     /// <summary>
-    /// The pagination token from a previous request to DescribeHybridADUp- date . Pass null if this is the first request.
+    /// The pagination token from a previous request to DescribeHybridADUpdate . Pass null if this is the first request.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -97,6 +98,15 @@ public record AwsDsDescribeHybridAdUpdateOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

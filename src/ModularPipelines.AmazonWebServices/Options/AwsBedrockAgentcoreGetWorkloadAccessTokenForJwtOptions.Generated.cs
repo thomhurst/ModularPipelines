@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +29,8 @@ public record AwsBedrockAgentcoreGetWorkloadAccessTokenForJwtOptions : AwsOption
     /// <summary>
     /// Obtains a workload access token for agentic workloads acting on behalf of a user, using a JWT token. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkloadName">The unique identifier for the registered workload. Constraints: o min: 3 o max: 255 o pattern: [A-Za-z0-9_.-]+</param>
-    /// <param name="UserToken">The OAuth 2.0 token issued by the user's identity provider. Constraints: o min: 1 o max: 131072 o pattern: [A-Za-z0-9-_=]+.[A-Za-z0-9-_=]+.[A-Za-z0-9-_=]+</param>
+    /// <param name="WorkloadName">The unique identifier for the registered workload. Constraints: • min: 3 • max: 255 • pattern: [A-Za-z0-9_.-]+</param>
+    /// <param name="UserToken">The OAuth 2.0 token issued by the user's identity provider. Constraints: • min: 1 • max: 131072 • pattern: [A-Za-z0-9-_=]+.[A-Za-z0-9-_=]+.[A-Za-z0-9-_=]+</param>
     public AwsBedrockAgentcoreGetWorkloadAccessTokenForJwtOptions(
         string WorkloadName,
         string UserToken
@@ -61,13 +62,13 @@ public record AwsBedrockAgentcoreGetWorkloadAccessTokenForJwtOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the registered workload. Constraints: o min: 3 o max: 255 o pattern: [A-Za-z0-9_.-]+
+    /// The unique identifier for the registered workload. Constraints: • min: 3 • max: 255 • pattern: [A-Za-z0-9_.-]+
     /// </summary>
     [CliOption("--workload-name")]
     public string? WorkloadName { get; private init; }
 
     /// <summary>
-    /// The OAuth 2.0 token issued by the user's identity provider. Constraints: o min: 1 o max: 131072 o pattern: [A-Za-z0-9-_=]+.[A-Za-z0-9-_=]+.[A-Za-z0-9-_=]+
+    /// The OAuth 2.0 token issued by the user's identity provider. Constraints: • min: 1 • max: 131072 • pattern: [A-Za-z0-9-_=]+.[A-Za-z0-9-_=]+.[A-Za-z0-9-_=]+
     /// </summary>
     [SecretValue]
     [CliOption("--user-token")]
@@ -94,6 +95,15 @@ public record AwsBedrockAgentcoreGetWorkloadAccessTokenForJwtOptions : AwsOption
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,10 +28,10 @@ public record AwsPersonalizeCreateMetricAttributionOptions : AwsOptions, IValida
     /// <summary>
     /// Creates a metric attribution. A metric attribution creates reports on the data that you import into Amazon Personalize. Depending on how you imported the data, you can view reports in Amazon CloudWatch or Amazon S3. For more information, see Measuring impact of recommendations . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">A name for the metric attribution. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9\-_]*</param>
-    /// <param name="DataSetGroupArn">The Amazon Resource Name (ARN) of the destination dataset group for the metric attribution. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
-    /// <param name="Metrics">A list of metric attributes for the metric attribution. Each metric attribute specifies an event type to track and a function. Available functions are SUM() or SAMPLECOUNT() . For SUM() functions, provide the dataset type (either Interactions or Items) and column to sum as a parameter. For example SUM(Items.PRICE). Constraints: o max: 10 (structure) Contains information on a metric that a metric attribution re- ports on. For more information, see Measuring impact of recom- mendations . eventType -&gt; (string) [required] The metric's event type. Constraints: o max: 256 metricName -&gt; (string) [required] The metric's name. The name helps you identify the metric in Amazon CloudWatch or Amazon S3. Constraints: o max: 256 expression -&gt; (string) [required] The attribute's expression. Available functions are SUM() or SAMPLECOUNT() . For SUM() functions, provide the dataset type (either Interactions or Items) and column to sum as a parame- ter. For example SUM(Items.PRICE). Constraints: o max: 256 Shorthand Syntax: eventType=string,metricName=string,expression=string ... JSON Syntax: [ { "eventType": "string", "metricName": "string", "expression": "string" } ... ]</param>
-    /// <param name="MetricsOutputConfig">The output configuration details for the metric attribution. s3DataDestination -&gt; (structure) The configuration details of an Amazon S3 input or output bucket. path -&gt; (string) [required] The file path of the Amazon S3 bucket. Constraints: o max: 256 o pattern: (s3|http|https)://.+ kmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of the Key Management Service (KMS) key that Amazon Personalize uses to encrypt or decrypt the input and output files. Constraints: o max: 2048 o pattern: arn:aws.*:kms:.*:[0-9]{12}:key/.* roleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the IAM service role that has permissions to add data to your output Amazon S3 bucket and add metrics to Amazon CloudWatch. For more information, see Measuring impact of recommendations . Constraints: o max: 256 o pattern: arn:([a-z\d-]+):iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+ Shorthand Syntax: s3DataDestination={path=string,kmsKeyArn=string},roleArn=string JSON Syntax: { "s3DataDestination": { "path": "string", "kmsKeyArn": "string" }, "roleArn": "string" }</param>
+    /// <param name="Name">A name for the metric attribution. Constraints: • min: 1 • max: 63 • pattern: ^[a-zA-Z0-9][a-zA-Z0-9\-_]*</param>
+    /// <param name="DataSetGroupArn">The Amazon Resource Name (ARN) of the destination dataset group for the metric attribution. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
+    /// <param name="Metrics">A list of metric attributes for the metric attribution. Each metric attribute specifies an event type to track and a function. Available functions are SUM() or SAMPLECOUNT() . For SUM() functions, provide the dataset type (either Interactions or Items) and column to sum as a parameter. For example SUM(Items.PRICE). Constraints: • max: 10 (structure) Contains information on a metric that a metric attribution reports on. For more information, see Measuring impact of recommendations . eventType -&gt; (string) [required] The metric's event type. Constraints: • max: 256 metricName -&gt; (string) [required] The metric's name. The name helps you identify the metric in Amazon CloudWatch or Amazon S3. Constraints: • max: 256 expression -&gt; (string) [required] The attribute's expression. Available functions are SUM() or SAMPLECOUNT() . For SUM() functions, provide the dataset type (either Interactions or Items) and column to sum as a parameter. For example SUM(Items.PRICE). Constraints: • max: 256 Shorthand Syntax: eventType=string,metricName=string,expression=string ... JSON Syntax: [ { "eventType": "string", "metricName": "string", "expression": "string" } ... ]</param>
+    /// <param name="MetricsOutputConfig">The output configuration details for the metric attribution. s3DataDestination -&gt; (structure) The configuration details of an Amazon S3 input or output bucket. path -&gt; (string) [required] The file path of the Amazon S3 bucket. Constraints: • max: 256 • pattern: (s3|http|https)://.+ kmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of the Key Management Service (KMS) key that Amazon Personalize uses to encrypt or decrypt the input and output files. Constraints: • max: 2048 • pattern: arn:aws.*:kms:.*:[0-9]{12}:key/.* roleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the IAM service role that has permissions to add data to your output Amazon S3 bucket and add metrics to Amazon CloudWatch. For more information, see Measuring impact of recommendations . Constraints: • max: 256 • pattern: arn:([a-z\d-]+):iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+ Shorthand Syntax: s3DataDestination={path=string,kmsKeyArn=string},roleArn=string JSON Syntax: { "s3DataDestination": { "path": "string", "kmsKeyArn": "string" }, "roleArn": "string" }</param>
     public AwsPersonalizeCreateMetricAttributionOptions(
         string Name,
         string DataSetGroupArn,
@@ -79,25 +80,25 @@ public record AwsPersonalizeCreateMetricAttributionOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A name for the metric attribution. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9\-_]*
+    /// A name for the metric attribution. Constraints: • min: 1 • max: 63 • pattern: ^[a-zA-Z0-9][a-zA-Z0-9\-_]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the destination dataset group for the metric attribution. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
+    /// The Amazon Resource Name (ARN) of the destination dataset group for the metric attribution. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
     /// </summary>
     [CliOption("--dataset-group-arn")]
     public string? DataSetGroupArn { get; private init; }
 
     /// <summary>
-    /// A list of metric attributes for the metric attribution. Each metric attribute specifies an event type to track and a function. Available functions are SUM() or SAMPLECOUNT() . For SUM() functions, provide the dataset type (either Interactions or Items) and column to sum as a parameter. For example SUM(Items.PRICE). Constraints: o max: 10 (structure) Contains information on a metric that a metric attribution re- ports on. For more information, see Measuring impact of recom- mendations . eventType -&gt; (string) [required] The metric's event type. Constraints: o max: 256 metricName -&gt; (string) [required] The metric's name. The name helps you identify the metric in Amazon CloudWatch or Amazon S3. Constraints: o max: 256 expression -&gt; (string) [required] The attribute's expression. Available functions are SUM() or SAMPLECOUNT() . For SUM() functions, provide the dataset type (either Interactions or Items) and column to sum as a parame- ter. For example SUM(Items.PRICE). Constraints: o max: 256 Shorthand Syntax: eventType=string,metricName=string,expression=string ... JSON Syntax: [ { "eventType": "string", "metricName": "string", "expression": "string" } ... ]
+    /// A list of metric attributes for the metric attribution. Each metric attribute specifies an event type to track and a function. Available functions are SUM() or SAMPLECOUNT() . For SUM() functions, provide the dataset type (either Interactions or Items) and column to sum as a parameter. For example SUM(Items.PRICE). Constraints: • max: 10 (structure) Contains information on a metric that a metric attribution reports on. For more information, see Measuring impact of recommendations . eventType -&gt; (string) [required] The metric's event type. Constraints: • max: 256 metricName -&gt; (string) [required] The metric's name. The name helps you identify the metric in Amazon CloudWatch or Amazon S3. Constraints: • max: 256 expression -&gt; (string) [required] The attribute's expression. Available functions are SUM() or SAMPLECOUNT() . For SUM() functions, provide the dataset type (either Interactions or Items) and column to sum as a parameter. For example SUM(Items.PRICE). Constraints: • max: 256 Shorthand Syntax: eventType=string,metricName=string,expression=string ... JSON Syntax: [ { "eventType": "string", "metricName": "string", "expression": "string" } ... ]
     /// </summary>
     [CliOption("--metrics", GroupValues = true)]
     public IEnumerable<string>? Metrics { get; private init; }
 
     /// <summary>
-    /// The output configuration details for the metric attribution. s3DataDestination -&gt; (structure) The configuration details of an Amazon S3 input or output bucket. path -&gt; (string) [required] The file path of the Amazon S3 bucket. Constraints: o max: 256 o pattern: (s3|http|https)://.+ kmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of the Key Management Service (KMS) key that Amazon Personalize uses to encrypt or decrypt the input and output files. Constraints: o max: 2048 o pattern: arn:aws.*:kms:.*:[0-9]{12}:key/.* roleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the IAM service role that has permissions to add data to your output Amazon S3 bucket and add metrics to Amazon CloudWatch. For more information, see Measuring impact of recommendations . Constraints: o max: 256 o pattern: arn:([a-z\d-]+):iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+ Shorthand Syntax: s3DataDestination={path=string,kmsKeyArn=string},roleArn=string JSON Syntax: { "s3DataDestination": { "path": "string", "kmsKeyArn": "string" }, "roleArn": "string" }
+    /// The output configuration details for the metric attribution. s3DataDestination -&gt; (structure) The configuration details of an Amazon S3 input or output bucket. path -&gt; (string) [required] The file path of the Amazon S3 bucket. Constraints: • max: 256 • pattern: (s3|http|https)://.+ kmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of the Key Management Service (KMS) key that Amazon Personalize uses to encrypt or decrypt the input and output files. Constraints: • max: 2048 • pattern: arn:aws.*:kms:.*:[0-9]{12}:key/.* roleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the IAM service role that has permissions to add data to your output Amazon S3 bucket and add metrics to Amazon CloudWatch. For more information, see Measuring impact of recommendations . Constraints: • max: 256 • pattern: arn:([a-z\d-]+):iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+ Shorthand Syntax: s3DataDestination={path=string,kmsKeyArn=string},roleArn=string JSON Syntax: { "s3DataDestination": { "path": "string", "kmsKeyArn": "string" }, "roleArn": "string" }
     /// </summary>
     [CliOption("--metrics-output-config")]
     public string? MetricsOutputConfig { get; private init; }
@@ -123,6 +124,15 @@ public record AwsPersonalizeCreateMetricAttributionOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

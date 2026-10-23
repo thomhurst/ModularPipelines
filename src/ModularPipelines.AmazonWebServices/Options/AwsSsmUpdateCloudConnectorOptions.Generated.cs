@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsSsmUpdateCloudConnectorOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates an existing cloud connector with new configuration details. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CloudConnectorId">The ID of the cloud connector to update. Constraints: o min: 36 o max: 36 o pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$</param>
+    /// <param name="CloudConnectorId">The ID of the cloud connector to update. Constraints: • min: 36 • max: 36 • pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$</param>
     public AwsSsmUpdateCloudConnectorOptions(
         string CloudConnectorId
     )
@@ -56,25 +57,25 @@ public record AwsSsmUpdateCloudConnectorOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the cloud connector to update. Constraints: o min: 36 o max: 36 o pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+    /// The ID of the cloud connector to update. Constraints: • min: 36 • max: 36 • pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
     /// </summary>
     [CliOption("--cloud-connector-id")]
     public string? CloudConnectorId { get; private init; }
 
     /// <summary>
-    /// A new friendly name for the cloud connector. Constraints: o min: 1 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}\p{P}\p{M}]*)$
+    /// A new friendly name for the cloud connector. Constraints: • min: 1 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}\p{P}\p{M}]*)$
     /// </summary>
     [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// The updated configuration details for connecting to the third-party cloud environment. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: AzureConfiguration. AzureConfiguration -&gt; (structure) The access details and targets for connecting to a Microsoft Azure environment. TenantId -&gt; (string) [required] The ID of the Azure tenant. Constraints: o min: 1 o max: 256 o pattern: ^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$ TenantDisplayName -&gt; (string) The display name of the Azure tenant. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}\p{P}\p{M}]*)$ ApplicationId -&gt; (string) [required] The ID of the Azure application registration used for authen- tication. Constraints: o min: 1 o max: 256 o pattern: ^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$ ApplicationDisplayName -&gt; (string) The display name of the Azure application registration. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}\p{P}\p{M}]*)$ Targets -&gt; (tagged union structure) The target Azure subscriptions for the cloud connector. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: Subscriptions. Subscriptions -&gt; (list) A list of Azure subscriptions to target. Constraints: o min: 1 o max: 75 (structure) Information about an Azure subscription targeted by the cloud connector. Id -&gt; (string) [required] The ID of the Azure subscription. Constraints: o min: 1 o max: 256 o pattern: ^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$ DisplayName -&gt; (string) The display name of the Azure subscription. Constraints: o min: 0 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}\p{P}\p{M}]*)$ JSON Syntax: { "AzureConfiguration": { "TenantId": "string", "TenantDisplayName": "string", "ApplicationId": "string", "ApplicationDisplayName": "string", "Targets": { "Subscriptions": [ { "Id": "string", "DisplayName": "string" } ... ] } } }
+    /// The updated configuration details for connecting to the third-party cloud environment. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: AzureConfiguration. AzureConfiguration -&gt; (structure) The access details and targets for connecting to a Microsoft Azure environment. TenantId -&gt; (string) [required] The ID of the Azure tenant. Constraints: • min: 1 • max: 256 • pattern: ^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$ TenantDisplayName -&gt; (string) The display name of the Azure tenant. Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}\p{P}\p{M}]*)$ ApplicationId -&gt; (string) [required] The ID of the Azure application registration used for authentication. Constraints: • min: 1 • max: 256 • pattern: ^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$ ApplicationDisplayName -&gt; (string) The display name of the Azure application registration. Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}\p{P}\p{M}]*)$ Targets -&gt; (tagged union structure) The target Azure subscriptions for the cloud connector. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Subscriptions. Subscriptions -&gt; (list) A list of Azure subscriptions to target. Constraints: • min: 1 • max: 75 (structure) Information about an Azure subscription targeted by the cloud connector. Id -&gt; (string) [required] The ID of the Azure subscription. Constraints: • min: 1 • max: 256 • pattern: ^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$ DisplayName -&gt; (string) The display name of the Azure subscription. Constraints: • min: 0 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}\p{P}\p{M}]*)$ JSON Syntax: { "AzureConfiguration": { "TenantId": "string", "TenantDisplayName": "string", "ApplicationId": "string", "ApplicationDisplayName": "string", "Targets": { "Subscriptions": [ { "Id": "string", "DisplayName": "string" } ... ] } } }
     /// </summary>
     [CliOption("--configuration")]
     public string? Configuration { get; set; }
 
     /// <summary>
-    /// A new description for the cloud connector. Constraints: o min: 0 o max: 1024 o pattern: ^([\p{L}\p{Z}\p{N}\p{P}\p{M}]*)$
+    /// A new description for the cloud connector. Constraints: • min: 0 • max: 1024 • pattern: ^([\p{L}\p{Z}\p{N}\p{P}\p{M}]*)$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
@@ -100,6 +101,15 @@ public record AwsSsmUpdateCloudConnectorOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

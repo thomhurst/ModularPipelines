@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API works with the following fleet types: EC2, Anywhere, Con- tainer Cancels a game session placement that's in PENDING status. To stop a placement, provide the placement ID value. Results If successful, this operation removes the placement request from the queue and moves the GameSessionPlacement to CANCELLED status. This operation results in an InvalidRequestExecption (400) error if a game session has already been created for this placement. You can clean up an unneeded game session by ca...
+/// This API works with the following fleet types: EC2, Anywhere, Container Cancels a game session placement that's in PENDING status. To stop a placement, provide the placement ID value. Results If successful, this operation removes the placement request from the queue and moves the GameSessionPlacement to CANCELLED status. This operation results in an InvalidRequestException (400) error if a game session has already been created for this placement. You can clean up an unneeded game session by call...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsGameliftStopGameSessionPlacementOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Cancels a game session placement that's in PENDING status. To stop a placement, provide the placement ID value. Results If successful, this operation removes the placement request from the queue and moves the GameSessionPlacement to CANCELLED status. This operation results in an InvalidRequestExecption (400) error if a game session has already been created for this placement. You can clean up an unneeded game session by ca...
+    /// This API works with the following fleet types: EC2, Anywhere, Container Cancels a game session placement that's in PENDING status. To stop a placement, provide the placement ID value. Results If successful, this operation removes the placement request from the queue and moves the GameSessionPlacement to CANCELLED status. This operation results in an InvalidRequestException (400) error if a game session has already been created for this placement. You can clean up an unneeded game session by call...
     /// </summary>
-    /// <param name="PlacementId">A unique identifier for a game session placement to stop. Constraints: o min: 1 o max: 48 o pattern: ^[a-zA-Z0-9-]+$</param>
+    /// <param name="PlacementId">A unique identifier for a game session placement to stop. Constraints: • min: 1 • max: 48 • pattern: ^[a-zA-Z0-9-]+$</param>
     public AwsGameliftStopGameSessionPlacementOptions(
         string PlacementId
     )
@@ -56,7 +57,7 @@ public record AwsGameliftStopGameSessionPlacementOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for a game session placement to stop. Constraints: o min: 1 o max: 48 o pattern: ^[a-zA-Z0-9-]+$
+    /// A unique identifier for a game session placement to stop. Constraints: • min: 1 • max: 48 • pattern: ^[a-zA-Z0-9-]+$
     /// </summary>
     [CliOption("--placement-id")]
     public string? PlacementId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsGameliftStopGameSessionPlacementOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

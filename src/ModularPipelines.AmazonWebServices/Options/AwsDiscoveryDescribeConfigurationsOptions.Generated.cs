@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves attributes for a list of configuration item IDs. NOTE: All of the supplied IDs must be for the same asset type from one of the following: o server o application o process o connection Output fields are specific to the asset type specified. For example, the output for a server configuration item includes a list of at- tributes about the server, such as host name, operating system, num- ber of network cards, etc. For a complete list of outputs for each asset type, see Using the DescribeC...
+/// Retrieves attributes for a list of configuration item IDs. NOTE: All of the supplied IDs must be for the same asset type from one of the following: • server • application • process • connection Output fields are specific to the asset type specified. For example, the output for a server configuration item includes a list of attributes about the server, such as host name, operating system, number of network cards, etc. For a complete list of outputs for each asset type, see Using the DescribeConfi...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsDiscoveryDescribeConfigurationsOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves attributes for a list of configuration item IDs. NOTE: All of the supplied IDs must be for the same asset type from one of the following: o server o application o process o connection Output fields are specific to the asset type specified. For example, the output for a server configuration item includes a list of at- tributes about the server, such as host name, operating system, num- ber of network cards, etc. For a complete list of outputs for each asset type, see Using the DescribeC...
+    /// Retrieves attributes for a list of configuration item IDs. NOTE: All of the supplied IDs must be for the same asset type from one of the following: • server • application • process • connection Output fields are specific to the asset type specified. For example, the output for a server configuration item includes a list of attributes about the server, such as host name, operating system, number of network cards, etc. For a complete list of outputs for each asset type, see Using the DescribeConfi...
     /// </summary>
-    /// <param name="ConfigurationIds">One or more configuration IDs. (string) Constraints: o max: 200 o pattern: \S* Syntax: "string" "string" ...</param>
+    /// <param name="ConfigurationIds">One or more configuration IDs. (string) Constraints: • max: 200 • pattern: \S* Syntax: "string" "string" ...</param>
     public AwsDiscoveryDescribeConfigurationsOptions(
         IEnumerable<string> ConfigurationIds
     )
@@ -67,7 +68,7 @@ public record AwsDiscoveryDescribeConfigurationsOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// One or more configuration IDs. (string) Constraints: o max: 200 o pattern: \S* Syntax: "string" "string" ...
+    /// One or more configuration IDs. (string) Constraints: • max: 200 • pattern: \S* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--configuration-ids", GroupValues = true)]
     public IEnumerable<string>? ConfigurationIds { get; private init; }
@@ -93,6 +94,15 @@ public record AwsDiscoveryDescribeConfigurationsOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

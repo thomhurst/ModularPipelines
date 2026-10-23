@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Wait until JMESPath query evaluationState returns passed when polling with get-plan-evaluation-status. It will poll every 30 seconds until a successful state has been reached. This will exit with a return code of 255 after 5 failed checks. See also: AWS API Documentation plan-evaluation-status-passed is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --o...
+/// Wait until JMESPath query evaluationState returns passed when polling with get-plan-evaluation-status. It will poll every 30 seconds until a successful state has been reached. This will exit with a return code of 255 after 5 failed checks. See also: AWS API Documentation plan-evaluation-status-passed is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --outpu...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsArcRegionSwitchWaitPlanEvaluationStatusPassedOptions : AwsOptio
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Wait until JMESPath query evaluationState returns passed when polling with get-plan-evaluation-status. It will poll every 30 seconds until a successful state has been reached. This will exit with a return code of 255 after 5 failed checks. See also: AWS API Documentation plan-evaluation-status-passed is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --o...
+    /// Wait until JMESPath query evaluationState returns passed when polling with get-plan-evaluation-status. It will poll every 30 seconds until a successful state has been reached. This will exit with a return code of 255 after 5 failed checks. See also: AWS API Documentation plan-evaluation-status-passed is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --outpu...
     /// </summary>
-    /// <param name="PlanArn">The Amazon Resource Name (ARN) of the Region switch plan to retrieve evaluation status for. Constraints: o pattern: arn:aws[a-zA-Z-]*:arc-re- gion-switch::[0-9]{12}:plan/([a-zA-Z0-9](?:[a-zA-Z0-9-]{0,30}[a-zA-Z0-9])?):([a-z0-9]{6})</param>
+    /// <param name="PlanArn">The Amazon Resource Name (ARN) of the Region switch plan to retrieve evaluation status for. Constraints: • pattern: arn:aws[a-zA-Z-]*:arc-region-switch::[0-9]{12}:plan/([a-zA-Z0-9](?:[a-zA-Z0-9-]{0,30}[a-zA-Z0-9])?):([a-z0-9]{6})</param>
     public AwsArcRegionSwitchWaitPlanEvaluationStatusPassedOptions(
         string PlanArn
     )
@@ -57,16 +58,13 @@ public record AwsArcRegionSwitchWaitPlanEvaluationStatusPassedOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Region switch plan to retrieve evaluation status for. Constraints: o pattern: arn:aws[a-zA-Z-]*:arc-re- gion-switch::[0-9]{12}:plan/([a-zA-Z0-9](?:[a-zA-Z0-9-]{0,30}[a-zA-Z0-9])?):([a-z0-9]{6})
+    /// The Amazon Resource Name (ARN) of the Region switch plan to retrieve evaluation status for. Constraints: • pattern: arn:aws[a-zA-Z-]*:arc-region-switch::[0-9]{12}:plan/([a-zA-Z0-9](?:[a-zA-Z0-9-]{0,30}[a-zA-Z0-9])?):([a-z0-9]{6})
     /// </summary>
     [CliOption("--plan-arn")]
     public string? PlanArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -76,16 +74,19 @@ public record AwsArcRegionSwitchWaitPlanEvaluationStatusPassedOptions : AwsOptio
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -102,6 +103,15 @@ public record AwsArcRegionSwitchWaitPlanEvaluationStatusPassedOptions : AwsOptio
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

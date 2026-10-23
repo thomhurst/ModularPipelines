@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves a list of servers that are one network hop away from a speci- fied server. See also: AWS API Documentation
+/// Retrieves a list of servers that are one network hop away from a specified server. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsDiscoveryListServerNeighborsOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves a list of servers that are one network hop away from a speci- fied server. See also: AWS API Documentation
+    /// Retrieves a list of servers that are one network hop away from a specified server. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConfigurationId">Configuration ID of the server for which neighbors are being listed. Constraints: o max: 200 o pattern: \S*</param>
+    /// <param name="ConfigurationId">Configuration ID of the server for which neighbors are being listed. Constraints: • max: 200 • pattern: \S*</param>
     public AwsDiscoveryListServerNeighborsOptions(
         string ConfigurationId
     )
@@ -57,7 +58,7 @@ public record AwsDiscoveryListServerNeighborsOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Configuration ID of the server for which neighbors are being listed. Constraints: o max: 200 o pattern: \S*
+    /// Configuration ID of the server for which neighbors are being listed. Constraints: • max: 200 • pattern: \S*
     /// </summary>
     [CliOption("--configuration-id")]
     public string? ConfigurationId { get; private init; }
@@ -69,7 +70,7 @@ public record AwsDiscoveryListServerNeighborsOptions : AwsOptions, IValidatableO
     public bool? PortInformationNeeded { get; set; }
 
     /// <summary>
-    /// List of configuration IDs to test for one-hop-away. (string) Constraints: o max: 200 o pattern: \S* Syntax: "string" "string" ...
+    /// List of configuration IDs to test for one-hop-away. (string) Constraints: • max: 200 • pattern: \S* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--neighbor-configuration-ids", GroupValues = true)]
     public IEnumerable<string>? NeighborConfigurationIds { get; set; }
@@ -81,7 +82,7 @@ public record AwsDiscoveryListServerNeighborsOptions : AwsOptions, IValidatableO
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// Token to retrieve the next set of results. For example, if you pre- viously specified 100 IDs for ListServerNeighborsRequest$neighbor- ConfigurationIds but set ListServerNeighborsRequest$maxResults to 10, you received a set of 10 results along with a token. Use that token in this query to get the next set of 10. Constraints: o max: 10000 o pattern: [\s\S]*
+    /// Token to retrieve the next set of results. For example, if you previously specified 100 IDs for ListServerNeighborsRequest$neighborConfigurationIds but set ListServerNeighborsRequest$maxResults to 10, you received a set of 10 results along with a token. Use that token in this query to get the next set of 10. Constraints: • max: 10000 • pattern: [\s\S]*
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -108,6 +109,15 @@ public record AwsDiscoveryListServerNeighborsOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

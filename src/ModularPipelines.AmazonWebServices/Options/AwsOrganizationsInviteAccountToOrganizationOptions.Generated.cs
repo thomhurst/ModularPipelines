@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Sends an invitation to another account to join your organization as a member account. Organizations sends email on your behalf to the email address that is associated with the other account's owner. The invita- tion is implemented as a Handshake whose details are in the response. WARNING: If you receive an exception that indicates that you exceeded your account limits for the organization or that the operation failed be- cause your organization is still initializing, wait one hour and then try a...
+/// Sends an invitation to another account to join your organization as a member account. Organizations sends email on your behalf to the email address that is associated with the other account's owner. The invitation is implemented as a Handshake whose details are in the response. WARNING: If you receive an exception that indicates that you exceeded your account limits for the organization or that the operation failed because your organization is still initializing, wait one hour and then try again...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsOrganizationsInviteAccountToOrganizationOptions : AwsOptions, I
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Sends an invitation to another account to join your organization as a member account. Organizations sends email on your behalf to the email address that is associated with the other account's owner. The invita- tion is implemented as a Handshake whose details are in the response. WARNING: If you receive an exception that indicates that you exceeded your account limits for the organization or that the operation failed be- cause your organization is still initializing, wait one hour and then try a...
+    /// Sends an invitation to another account to join your organization as a member account. Organizations sends email on your behalf to the email address that is associated with the other account's owner. The invitation is implemented as a Handshake whose details are in the response. WARNING: If you receive an exception that indicates that you exceeded your account limits for the organization or that the operation failed because your organization is still initializing, wait one hour and then try again...
     /// </summary>
-    /// <param name="Target">The identifier (ID) of the Amazon Web Services account that you want to invite to join your organization. This is a JSON object that con- tains the following elements: { "Type": "ACCOUNT", "Id": "&lt;* **account id number** * &gt;" } If you use the CLI, you can submit this as a single string, similar to the following example: --target Id=123456789012,Type=ACCOUNT If you specify "Type": "ACCOUNT" , you must provide the Amazon Web Services account ID number as the Id . If you specify "Type": "EMAIL" , you must specify the email address that is associated with the account. --target Id=diego@example.com,Type=EMAIL Id -&gt; (string) [required] ID for the participant: Acccount ID, organization ID, or email address. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lowercase letters or digits. Constraints: o min: 1 o max: 64 o pattern: [\s\S]* Type -&gt; (string) [required] The type of ID for the participant. NOTE: ORGANIZATION is valid only in the response context (identify- ing the inviting organization). Valid input values for the Target parameter are ACCOUNT and EMAIL only. Possible values: o ACCOUNT o ORGANIZATION o EMAIL Shorthand Syntax: Id=string,Type=string JSON Syntax: { "Id": "string", "Type": "ACCOUNT"|"ORGANIZATION"|"EMAIL" }</param>
+    /// <param name="Target">The identifier (ID) of the Amazon Web Services account that you want to invite to join your organization. This is a JSON object that contains the following elements: { "Type": "ACCOUNT", "Id": "&lt;* **account id number** * &gt;" } If you use the CLI, you can submit this as a single string, similar to the following example: --target Id=123456789012,Type=ACCOUNT If you specify "Type": "ACCOUNT" , you must provide the Amazon Web Services account ID number as the Id . If you specify "Type": "EMAIL" , you must specify the email address that is associated with the account. --target Id=diego@example.com,Type=EMAIL Id -&gt; (string) [required] ID for the participant: Acccount ID, organization ID, or email address. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lowercase letters or digits. Constraints: • min: 1 • max: 64 • pattern: [\s\S]* Type -&gt; (string) [required] The type of ID for the participant. NOTE: ORGANIZATION is valid only in the response context (identifying the inviting organization). Valid input values for the Target parameter are ACCOUNT and EMAIL only. Possible values: • ACCOUNT • ORGANIZATION • EMAIL Shorthand Syntax: Id=string,Type=string JSON Syntax: { "Id": "string", "Type": "ACCOUNT"|"ORGANIZATION"|"EMAIL" }</param>
     public AwsOrganizationsInviteAccountToOrganizationOptions(
         string Target
     )
@@ -56,19 +57,19 @@ public record AwsOrganizationsInviteAccountToOrganizationOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier (ID) of the Amazon Web Services account that you want to invite to join your organization. This is a JSON object that con- tains the following elements: { "Type": "ACCOUNT", "Id": "&lt;* **account id number** * &gt;" } If you use the CLI, you can submit this as a single string, similar to the following example: --target Id=123456789012,Type=ACCOUNT If you specify "Type": "ACCOUNT" , you must provide the Amazon Web Services account ID number as the Id . If you specify "Type": "EMAIL" , you must specify the email address that is associated with the account. --target Id=diego@example.com,Type=EMAIL Id -&gt; (string) [required] ID for the participant: Acccount ID, organization ID, or email address. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lowercase letters or digits. Constraints: o min: 1 o max: 64 o pattern: [\s\S]* Type -&gt; (string) [required] The type of ID for the participant. NOTE: ORGANIZATION is valid only in the response context (identify- ing the inviting organization). Valid input values for the Target parameter are ACCOUNT and EMAIL only. Possible values: o ACCOUNT o ORGANIZATION o EMAIL Shorthand Syntax: Id=string,Type=string JSON Syntax: { "Id": "string", "Type": "ACCOUNT"|"ORGANIZATION"|"EMAIL" }
+    /// The identifier (ID) of the Amazon Web Services account that you want to invite to join your organization. This is a JSON object that contains the following elements: { "Type": "ACCOUNT", "Id": "&lt;* **account id number** * &gt;" } If you use the CLI, you can submit this as a single string, similar to the following example: --target Id=123456789012,Type=ACCOUNT If you specify "Type": "ACCOUNT" , you must provide the Amazon Web Services account ID number as the Id . If you specify "Type": "EMAIL" , you must specify the email address that is associated with the account. --target Id=diego@example.com,Type=EMAIL Id -&gt; (string) [required] ID for the participant: Acccount ID, organization ID, or email address. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lowercase letters or digits. Constraints: • min: 1 • max: 64 • pattern: [\s\S]* Type -&gt; (string) [required] The type of ID for the participant. NOTE: ORGANIZATION is valid only in the response context (identifying the inviting organization). Valid input values for the Target parameter are ACCOUNT and EMAIL only. Possible values: • ACCOUNT • ORGANIZATION • EMAIL Shorthand Syntax: Id=string,Type=string JSON Syntax: { "Id": "string", "Type": "ACCOUNT"|"ORGANIZATION"|"EMAIL" }
     /// </summary>
     [CliOption("--target")]
     public string? Target { get; private init; }
 
     /// <summary>
-    /// Additional information that you want to include in the generated email to the recipient account owner. Constraints: o max: 1024 o pattern: [\s\S]*
+    /// Additional information that you want to include in the generated email to the recipient account owner. Constraints: • max: 1024 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--notes")]
     public string? Notes { get; set; }
 
     /// <summary>
-    /// A list of tags that you want to attach to the account when it be- comes a member of the organization. For each tag in the list, you must specify both a tag key and a value. You can set the value to an empty string, but you can't set it to null . For more information about tagging, see Tagging Organizations resources in the Organiza- tions User Guide. WARNING: Any tags in the request are checked for compliance with any ap- plicable tag policies when the request is made. The request is rejected if the tags in the request don't match the requirements of the policy at that time. Tag policy compliance is * not * checked again when the invitation is accepted and the tags are actually attached to the account. That means that if the tag policy changes between the invitation and the acceptance, then that tags could potentially be non-compliant. NOTE: If any one of the tags is not valid or if you exceed the allowed number of tags for an account, then the entire request fails and invitations are not sent. (structure) A custom key-value pair associated with a resource within your organization. You can attach tags to any of the following organization re- sources. o Amazon Web Services account o Organizational unit (OU) o Organization root o Policy Key -&gt; (string) [required] The key identifier, or name, of the tag. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The string value that's associated with the key of the tag. You can set the value of a tag to an empty string, but you can't set the value of a tag to null. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of tags that you want to attach to the account when it becomes a member of the organization. For each tag in the list, you must specify both a tag key and a value. You can set the value to an empty string, but you can't set it to null . For more information about tagging, see Tagging Organizations resources in the Organizations User Guide. WARNING: Any tags in the request are checked for compliance with any applicable tag policies when the request is made. The request is rejected if the tags in the request don't match the requirements of the policy at that time. Tag policy compliance is * not * checked again when the invitation is accepted and the tags are actually attached to the account. That means that if the tag policy changes between the invitation and the acceptance, then that tags could potentially be non-compliant. NOTE: If any one of the tags is not valid or if you exceed the allowed number of tags for an account, then the entire request fails and invitations are not sent. (structure) A custom key-value pair associated with a resource within your organization. You can attach tags to any of the following organization resources. • Amazon Web Services account • Organizational unit (OU) • Organization root • Policy Key -&gt; (string) [required] The key identifier, or name, of the tag. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The string value that's associated with the key of the tag. You can set the value of a tag to an empty string, but you can't set the value of a tag to null. Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -94,6 +95,15 @@ public record AwsOrganizationsInviteAccountToOrganizationOptions : AwsOptions, I
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

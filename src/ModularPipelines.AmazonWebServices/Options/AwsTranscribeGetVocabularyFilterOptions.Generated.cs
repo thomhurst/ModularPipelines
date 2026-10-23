@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsTranscribeGetVocabularyFilterOptions : AwsOptions, IValidatable
     /// <summary>
     /// Provides information about the specified custom vocabulary filter. To get a list of your custom vocabulary filters, use the operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="VocabularyFilterName">The name of the custom vocabulary filter you want information about. Custom vocabulary filter names are case sensitive. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z._-]+</param>
+    /// <param name="VocabularyFilterName">The name of the custom vocabulary filter you want information about. Custom vocabulary filter names are case sensitive. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z._-]+</param>
     public AwsTranscribeGetVocabularyFilterOptions(
         string VocabularyFilterName
     )
@@ -56,7 +57,7 @@ public record AwsTranscribeGetVocabularyFilterOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the custom vocabulary filter you want information about. Custom vocabulary filter names are case sensitive. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z._-]+
+    /// The name of the custom vocabulary filter you want information about. Custom vocabulary filter names are case sensitive. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z._-]+
     /// </summary>
     [CliOption("--vocabulary-filter-name")]
     public string? VocabularyFilterName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsTranscribeGetVocabularyFilterOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Allows sellers (proposers) to submit a cancellation request for an ac- tive agreement. The cancellation request is created in PENDING_APPROVAL status, at which point the buyer can review it. See also: AWS API Documentation
+/// Allows sellers (proposers) to submit a cancellation request for an active agreement. The cancellation request is created in PENDING_APPROVAL status, at which point the buyer can review it. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +28,10 @@ public record AwsMarketplaceAgreementSendAgreementCancellationRequestOptions : A
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Allows sellers (proposers) to submit a cancellation request for an ac- tive agreement. The cancellation request is created in PENDING_APPROVAL status, at which point the buyer can review it. See also: AWS API Documentation
+    /// Allows sellers (proposers) to submit a cancellation request for an active agreement. The cancellation request is created in PENDING_APPROVAL status, at which point the buyer can review it. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AgreementId">The unique identifier of the agreement for which the cancellation request is being submitted. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_/-]+</param>
-    /// <param name="ReasonCode">The reason code for the cancellation request. Possible values: o INCORRECT_TERMS_ACCEPTED o REPLACING_AGREEMENT o TEST_AGREEMENT o ALTERNATIVE_PROCUREMENT_CHANNEL o PRODUCT_DISCONTINUED o UNINTENDED_RENEWAL o BUYER_DISSATISFACTION o OTHER</param>
+    /// <param name="AgreementId">The unique identifier of the agreement for which the cancellation request is being submitted. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9_/-]+</param>
+    /// <param name="ReasonCode">The reason code for the cancellation request. Possible values: • INCORRECT_TERMS_ACCEPTED • REPLACING_AGREEMENT • TEST_AGREEMENT • ALTERNATIVE_PROCUREMENT_CHANNEL • PRODUCT_DISCONTINUED • UNINTENDED_RENEWAL • BUYER_DISSATISFACTION • OTHER</param>
     public AwsMarketplaceAgreementSendAgreementCancellationRequestOptions(
         string AgreementId,
         AwsMarketplaceAgreementSendAgreementCancellationRequestReasonCode ReasonCode
@@ -61,26 +62,26 @@ public record AwsMarketplaceAgreementSendAgreementCancellationRequestOptions : A
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the agreement for which the cancellation request is being submitted. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_/-]+
+    /// The unique identifier of the agreement for which the cancellation request is being submitted. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9_/-]+
     /// </summary>
     [CliOption("--agreement-id")]
     public string? AgreementId { get; private init; }
 
     /// <summary>
-    /// The reason code for the cancellation request. Possible values: o INCORRECT_TERMS_ACCEPTED o REPLACING_AGREEMENT o TEST_AGREEMENT o ALTERNATIVE_PROCUREMENT_CHANNEL o PRODUCT_DISCONTINUED o UNINTENDED_RENEWAL o BUYER_DISSATISFACTION o OTHER
+    /// The reason code for the cancellation request. Possible values: • INCORRECT_TERMS_ACCEPTED • REPLACING_AGREEMENT • TEST_AGREEMENT • ALTERNATIVE_PROCUREMENT_CHANNEL • PRODUCT_DISCONTINUED • UNINTENDED_RENEWAL • BUYER_DISSATISFACTION • OTHER
     /// </summary>
     [CliOption("--reason-code")]
     public AwsMarketplaceAgreementSendAgreementCancellationRequestReasonCode? ReasonCode { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-]+
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// An optional detailed description of the cancellation reason (1-2000 characters). Constraints: o min: 1 o max: 2000
+    /// An optional detailed description of the cancellation reason (1-2000 characters). Constraints: • min: 1 • max: 2000
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
@@ -106,6 +107,15 @@ public record AwsMarketplaceAgreementSendAgreementCancellationRequestOptions : A
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

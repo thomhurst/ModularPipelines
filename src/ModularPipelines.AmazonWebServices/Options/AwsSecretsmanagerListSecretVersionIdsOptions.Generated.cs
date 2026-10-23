@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists the versions of a secret. Secrets Manager uses staging labels to indicate the different versions of a secret. For more information, see Secrets Manager concepts: Versions . To list the secrets in the account, use ListSecrets . Secrets Manager generates a CloudTrail log entry when you call this ac- tion. Do not include sensitive information in request parameters be- cause it might be logged. For more information, see Logging Secrets Manager events with CloudTrail . Required permissions: sec...
+/// Lists the versions of a secret. Secrets Manager uses staging labels to indicate the different versions of a secret. For more information, see Secrets Manager concepts: Versions . To list the secrets in the account, use ListSecrets . Secrets Manager generates a CloudTrail log entry when you call this action. Do not include sensitive information in request parameters because it might be logged. For more information, see Logging Secrets Manager events with CloudTrail . Required permissions: secrets...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsSecretsmanagerListSecretVersionIdsOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists the versions of a secret. Secrets Manager uses staging labels to indicate the different versions of a secret. For more information, see Secrets Manager concepts: Versions . To list the secrets in the account, use ListSecrets . Secrets Manager generates a CloudTrail log entry when you call this ac- tion. Do not include sensitive information in request parameters be- cause it might be logged. For more information, see Logging Secrets Manager events with CloudTrail . Required permissions: sec...
+    /// Lists the versions of a secret. Secrets Manager uses staging labels to indicate the different versions of a secret. For more information, see Secrets Manager concepts: Versions . To list the secrets in the account, use ListSecrets . Secrets Manager generates a CloudTrail log entry when you call this action. Do not include sensitive information in request parameters because it might be logged. For more information, see Logging Secrets Manager events with CloudTrail . Required permissions: secrets...
     /// </summary>
-    /// <param name="SecretId">The ARN or name of the secret whose versions you want to list. For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See Finding a secret from a partial ARN . Constraints: o min: 1 o max: 2048</param>
+    /// <param name="SecretId">The ARN or name of the secret whose versions you want to list. For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See Finding a secret from a partial ARN . Constraints: • min: 1 • max: 2048</param>
     public AwsSecretsmanagerListSecretVersionIdsOptions(
         string SecretId
     )
@@ -57,27 +58,27 @@ public record AwsSecretsmanagerListSecretVersionIdsOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN or name of the secret whose versions you want to list. For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See Finding a secret from a partial ARN . Constraints: o min: 1 o max: 2048
+    /// The ARN or name of the secret whose versions you want to list. For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See Finding a secret from a partial ARN . Constraints: • min: 1 • max: 2048
     /// </summary>
     [SecretValue]
     [CliOption("--secret-id")]
     public string? SecretId { get; private init; }
 
     /// <summary>
-    /// The number of results to include in the response. If there are more results available, in the response, Secrets Man- ager includes NextToken . To get the next results, call ListSe- cretVersionIds again with the value from NextToken . Constraints: o min: 1 o max: 100
+    /// The number of results to include in the response. If there are more results available, in the response, Secrets Manager includes NextToken . To get the next results, call ListSecretVersionIds again with the value from NextToken . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// A token that indicates where the output should continue from, if a previous call did not show all results. To get the next results, call ListSecretVersionIds again with this value. Constraints: o min: 1 o max: 4096
+    /// A token that indicates where the output should continue from, if a previous call did not show all results. To get the next results, call ListSecretVersionIds again with this value. Constraints: • min: 1 • max: 4096
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// Specifies whether to include versions of secrets that don't have any staging labels attached to them. Versions without staging labels are considered deprecated and are subject to deletion by Secrets Man- ager. By default, versions without staging labels aren't included.
+    /// Specifies whether to include versions of secrets that don't have any staging labels attached to them. Versions without staging labels are considered deprecated and are subject to deletion by Secrets Manager. By default, versions without staging labels aren't included.
     /// </summary>
     [CliFlag("--include-deprecated", NegatedName = "--no-include-deprecated")]
     public bool? IncludeDeprecated { get; set; }
@@ -103,6 +104,15 @@ public record AwsSecretsmanagerListSecretVersionIdsOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

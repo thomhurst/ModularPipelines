@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsWorkmailPutInboundDmarcSettingsOptions : AwsOptions, IValidatab
     /// <summary>
     /// Enables or disables a DMARC policy for a given organization. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OrganizationId">The ID of the organization that you are applying the DMARC policy to. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$</param>
+    /// <param name="OrganizationId">The ID of the organization that you are applying the DMARC policy to. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$</param>
     /// <param name="Enforced">Enforces or suspends a policy after it's applied.</param>
     public AwsWorkmailPutInboundDmarcSettingsOptions(
         string OrganizationId,
@@ -59,7 +60,7 @@ public record AwsWorkmailPutInboundDmarcSettingsOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the organization that you are applying the DMARC policy to. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$
+    /// The ID of the organization that you are applying the DMARC policy to. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$
     /// </summary>
     [CliOption("--organization-id")]
     public string? OrganizationId { get; private init; }
@@ -91,6 +92,15 @@ public record AwsWorkmailPutInboundDmarcSettingsOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

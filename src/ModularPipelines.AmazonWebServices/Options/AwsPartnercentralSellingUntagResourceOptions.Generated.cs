@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsPartnercentralSellingUntagResourceOptions : AwsOptions, IValida
     /// <summary>
     /// Removes a tag or tags from a resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource that you want to un- tag. Constraints: o pattern: (?=.{1,1000}$)arn:[\w+=/,.@-]+:partner- central:[\w+=/,.@-]*:[0-9]{12}:cata- log/([a-zA-Z]+)/[\w+=,.@-]+(/[\w+=,.@-]+)*</param>
-    /// <param name="TagKeys">The keys of the key-value pairs for the tag or tags you want to re- move from the specified resource. Constraints: o min: 1 o max: 50 (string) Constraints: o pattern: (?=.{1,128}$)([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource that you want to untag. Constraints: • pattern: (?=.{1,1000}$)arn:[\w+=/,.@-]+:partnercentral:[\w+=/,.@-]*:[0-9]{12}:catalog/([a-zA-Z]+)/[\w+=,.@-]+(/[\w+=,.@-]+)*</param>
+    /// <param name="TagKeys">The keys of the key-value pairs for the tag or tags you want to remove from the specified resource. Constraints: • min: 1 • max: 50 (string) Constraints: • pattern: (?=.{1,128}$)([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Syntax: "string" "string" ...</param>
     public AwsPartnercentralSellingUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -71,13 +72,13 @@ public record AwsPartnercentralSellingUntagResourceOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource that you want to un- tag. Constraints: o pattern: (?=.{1,1000}$)arn:[\w+=/,.@-]+:partner- central:[\w+=/,.@-]*:[0-9]{12}:cata- log/([a-zA-Z]+)/[\w+=,.@-]+(/[\w+=,.@-]+)*
+    /// The Amazon Resource Name (ARN) of the resource that you want to untag. Constraints: • pattern: (?=.{1,1000}$)arn:[\w+=/,.@-]+:partnercentral:[\w+=/,.@-]*:[0-9]{12}:catalog/([a-zA-Z]+)/[\w+=,.@-]+(/[\w+=,.@-]+)*
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The keys of the key-value pairs for the tag or tags you want to re- move from the specified resource. Constraints: o min: 1 o max: 50 (string) Constraints: o pattern: (?=.{1,128}$)([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Syntax: "string" "string" ...
+    /// The keys of the key-value pairs for the tag or tags you want to remove from the specified resource. Constraints: • min: 1 • max: 50 (string) Constraints: • pattern: (?=.{1,128}$)([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }
@@ -103,6 +104,15 @@ public record AwsPartnercentralSellingUntagResourceOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

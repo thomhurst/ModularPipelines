@@ -24,22 +24,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsDeployListOnPremisesInstancesOptions : AwsOptions
 {
     /// <summary>
-    /// The registration status of the on-premises instances: o Deregistered : Include deregistered on-premises instances in the resulting list. o Registered : Include registered on-premises instances in the re- sulting list. Possible values: o Registered o Deregistered
+    /// The registration status of the on-premises instances: • Deregistered : Include deregistered on-premises instances in the resulting list. • Registered : Include registered on-premises instances in the resulting list. Possible values: • Registered • Deregistered
     /// </summary>
     [CliOption("--registration-status")]
     public AwsDeployListOnPremisesInstancesRegistrationStatus? RegistrationStatus { get; set; }
 
     /// <summary>
-    /// The on-premises instance tags that are used to restrict the on-premises instance names returned. (structure) Information about an on-premises instance tag filter. Key -&gt; (string) The on-premises instance tag filter key. Value -&gt; (string) The on-premises instance tag filter value. Type -&gt; (string) The on-premises instance tag filter type: o KEY_ONLY: Key only. o VALUE_ONLY: Value only. o KEY_AND_VALUE: Key and value. Possible values: o KEY_ONLY o VALUE_ONLY o KEY_AND_VALUE Shorthand Syntax: Key=string,Value=string,Type=string ... JSON Syntax: [ { "Key": "string", "Value": "string", "Type": "KEY_ONLY"|"VALUE_ONLY"|"KEY_AND_VALUE" } ... ]
+    /// The on-premises instance tags that are used to restrict the on-premises instance names returned. (structure) Information about an on-premises instance tag filter. Key -&gt; (string) The on-premises instance tag filter key. Value -&gt; (string) The on-premises instance tag filter value. Type -&gt; (string) The on-premises instance tag filter type: • KEY_ONLY: Key only. • VALUE_ONLY: Value only. • KEY_AND_VALUE: Key and value. Possible values: • KEY_ONLY • VALUE_ONLY • KEY_AND_VALUE Shorthand Syntax: Key=string,Value=string,Type=string ... JSON Syntax: [ { "Key": "string", "Value": "string", "Type": "KEY_ONLY"|"VALUE_ONLY"|"KEY_AND_VALUE" } ... ]
     /// </summary>
     [CliOption("--tag-filters", GroupValues = true)]
     public IEnumerable<string>? TagFilters { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -49,9 +46,21 @@ public record AwsDeployListOnPremisesInstancesOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

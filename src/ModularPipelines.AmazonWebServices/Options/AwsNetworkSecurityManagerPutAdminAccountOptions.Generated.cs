@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Sets the AWS account that serves as an AWS Network Security Manager ad- ministrator account, and optionally configures the scope of resources that the administrator can manage. You can't set an administrator account again immediately after you re- move it, or while the service creates its service-linked role. Retry the request after a few minutes. See also: AWS API Documentation
+/// Sets the AWS account that serves as an AWS Network Security Manager administrator account, and optionally configures the scope of resources that the administrator can manage. You can't set an administrator account again immediately after you remove it, or while the service creates its service-linked role. Retry the request after a few minutes. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsNetworkSecurityManagerPutAdminAccountOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Sets the AWS account that serves as an AWS Network Security Manager ad- ministrator account, and optionally configures the scope of resources that the administrator can manage. You can't set an administrator account again immediately after you re- move it, or while the service creates its service-linked role. Retry the request after a few minutes. See also: AWS API Documentation
+    /// Sets the AWS account that serves as an AWS Network Security Manager administrator account, and optionally configures the scope of resources that the administrator can manage. You can't set an administrator account again immediately after you remove it, or while the service creates its service-linked role. Retry the request after a few minutes. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountId">The AWS account ID to set as the AWS Network Security Manager admin- istrator account. Constraints: o min: 12 o max: 12 o pattern: (?:[0-9]{12})</param>
-    /// <param name="Priority">The priority to assign to the administrator account. Constraints: o min: 1 o max: 10</param>
+    /// <param name="AccountId">The AWS account ID to set as the AWS Network Security Manager administrator account. Constraints: • min: 12 • max: 12 • pattern: (?:[0-9]{12})</param>
+    /// <param name="Priority">The priority to assign to the administrator account. Constraints: • min: 1 • max: 10</param>
     public AwsNetworkSecurityManagerPutAdminAccountOptions(
         string AccountId,
         int Priority
@@ -59,19 +60,19 @@ public record AwsNetworkSecurityManagerPutAdminAccountOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The AWS account ID to set as the AWS Network Security Manager admin- istrator account. Constraints: o min: 12 o max: 12 o pattern: (?:[0-9]{12})
+    /// The AWS account ID to set as the AWS Network Security Manager administrator account. Constraints: • min: 12 • max: 12 • pattern: (?:[0-9]{12})
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// The priority to assign to the administrator account. Constraints: o min: 1 o max: 10
+    /// The priority to assign to the administrator account. Constraints: • min: 1 • max: 10
     /// </summary>
     [CliOption("--priority")]
     public int? Priority { get; private init; }
 
     /// <summary>
-    /// The scope of accounts, organizational units, and firewall types that the administrator can manage. scopeFilter -&gt; (tagged union structure) The filter that determines which accounts and organizational units are in the administrator's scope. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: includeAll, includeOnly, ex- cludeOnly. includeAll -&gt; (structure) All accounts and organizational units are in scope. includeOnly -&gt; (structure) Only the specified accounts and organizational units are in the administrator's scope. accounts -&gt; (list) The AWS accounts in the selection. Constraints: o min: 0 o max: 1000 (string) Constraints: o min: 12 o max: 12 o pattern: (?:[0-9]{12}) organizationalUnits -&gt; (list) The AWS Organizations organizational units (OUs) in the selection. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 16 o max: 68 o pattern: (ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}) excludeOnly -&gt; (structure) The accounts and organizational units to exclude from the ad- ministrator's scope. All others are in scope. accounts -&gt; (list) The AWS accounts in the selection. Constraints: o min: 0 o max: 1000 (string) Constraints: o min: 12 o max: 12 o pattern: (?:[0-9]{12}) organizationalUnits -&gt; (list) The AWS Organizations organizational units (OUs) in the selection. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 16 o max: 68 o pattern: (ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}) firewallTypeScope -&gt; (structure) The firewall types that the administrator can create and manage. allFirewallTypesEnabled -&gt; (boolean) Specifies whether the administrator can manage all firewall types, except for third-party firewall types. firewallTypes -&gt; (list) The list of firewall types that the administrator can manage. Constraints: o min: 0 o max: 10 (string) Possible values: o WAF o SHIELD_ADVANCED JSON Syntax: { "scopeFilter": { "includeAll": { }, "includeOnly": { "accounts": ["string", ...], "organizationalUnits": ["string", ...] }, "excludeOnly": { "accounts": ["string", ...], "organizationalUnits": ["string", ...] } }, "firewallTypeScope": { "allFirewallTypesEnabled": true|false, "firewallTypes": ["WAF"|"SHIELD_ADVANCED", ...] } }
+    /// The scope of accounts, organizational units, and firewall types that the administrator can manage. scopeFilter -&gt; (tagged union structure) The filter that determines which accounts and organizational units are in the administrator's scope. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: includeAll, includeOnly, excludeOnly. includeAll -&gt; (structure) All accounts and organizational units are in scope. includeOnly -&gt; (structure) Only the specified accounts and organizational units are in the administrator's scope. accounts -&gt; (list) The AWS accounts in the selection. Constraints: • min: 0 • max: 1000 (string) Constraints: • min: 12 • max: 12 • pattern: (?:[0-9]{12}) organizationalUnits -&gt; (list) The AWS Organizations organizational units (OUs) in the selection. Constraints: • min: 0 • max: 100 (string) Constraints: • min: 16 • max: 68 • pattern: (ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}) excludeOnly -&gt; (structure) The accounts and organizational units to exclude from the administrator's scope. All others are in scope. accounts -&gt; (list) The AWS accounts in the selection. Constraints: • min: 0 • max: 1000 (string) Constraints: • min: 12 • max: 12 • pattern: (?:[0-9]{12}) organizationalUnits -&gt; (list) The AWS Organizations organizational units (OUs) in the selection. Constraints: • min: 0 • max: 100 (string) Constraints: • min: 16 • max: 68 • pattern: (ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}) firewallTypeScope -&gt; (structure) The firewall types that the administrator can create and manage. allFirewallTypesEnabled -&gt; (boolean) Specifies whether the administrator can manage all firewall types, except for third-party firewall types. firewallTypes -&gt; (list) The list of firewall types that the administrator can manage. Constraints: • min: 0 • max: 10 (string) Possible values: • WAF • SHIELD_ADVANCED JSON Syntax: { "scopeFilter": { "includeAll": { }, "includeOnly": { "accounts": ["string", ...], "organizationalUnits": ["string", ...] }, "excludeOnly": { "accounts": ["string", ...], "organizationalUnits": ["string", ...] } }, "firewallTypeScope": { "allFirewallTypesEnabled": true|false, "firewallTypes": ["WAF"|"SHIELD_ADVANCED", ...] } }
     /// </summary>
     [CliOption("--admin-scope")]
     public string? AdminScope { get; set; }
@@ -97,6 +98,15 @@ public record AwsNetworkSecurityManagerPutAdminAccountOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

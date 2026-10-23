@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsConnectDisassociateRoutingProfileQueuesOptions : AwsOptions, IV
     /// <summary>
     /// Disassociates a set of queues from a routing profile. Up to 10 queue references can be disassociated in a single API call. More than 10 queue references results in a single call results in an InvalidParameterException. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
     /// <param name="RoutingProfileId">The identifier of the routing profile.</param>
     public AwsConnectDisassociateRoutingProfileQueuesOptions(
         string InstanceId,
@@ -60,7 +61,7 @@ public record AwsConnectDisassociateRoutingProfileQueuesOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
@@ -72,13 +73,13 @@ public record AwsConnectDisassociateRoutingProfileQueuesOptions : AwsOptions, IV
     public string? RoutingProfileId { get; private init; }
 
     /// <summary>
-    /// The queues to disassociate from this routing profile. (structure) Contains the channel and queue identifier for a routing profile. QueueId -&gt; (string) [required] The identifier for the queue. Channel -&gt; (string) [required] The channels agents can handle in the Contact Control Panel (CCP) for this routing profile. Possible values: o VOICE o CHAT o TASK o EMAIL Shorthand Syntax: QueueId=string,Channel=string ... JSON Syntax: [ { "QueueId": "string", "Channel": "VOICE"|"CHAT"|"TASK"|"EMAIL" } ... ]
+    /// The queues to disassociate from this routing profile. (structure) Contains the channel and queue identifier for a routing profile. QueueId -&gt; (string) [required] The identifier for the queue. Channel -&gt; (string) [required] The channels agents can handle in the Contact Control Panel (CCP) for this routing profile. Possible values: • VOICE • CHAT • TASK • EMAIL Shorthand Syntax: QueueId=string,Channel=string ... JSON Syntax: [ { "QueueId": "string", "Channel": "VOICE"|"CHAT"|"TASK"|"EMAIL" } ... ]
     /// </summary>
     [CliOption("--queue-references", GroupValues = true)]
     public IEnumerable<string>? QueueReferences { get; set; }
 
     /// <summary>
-    /// The manual assignment queues to disassociate with this routing pro- file. (structure) Contains the channel and queue identifier for a routing profile. QueueId -&gt; (string) [required] The identifier for the queue. Channel -&gt; (string) [required] The channels agents can handle in the Contact Control Panel (CCP) for this routing profile. Possible values: o VOICE o CHAT o TASK o EMAIL Shorthand Syntax: QueueId=string,Channel=string ... JSON Syntax: [ { "QueueId": "string", "Channel": "VOICE"|"CHAT"|"TASK"|"EMAIL" } ... ]
+    /// The manual assignment queues to disassociate with this routing profile. (structure) Contains the channel and queue identifier for a routing profile. QueueId -&gt; (string) [required] The identifier for the queue. Channel -&gt; (string) [required] The channels agents can handle in the Contact Control Panel (CCP) for this routing profile. Possible values: • VOICE • CHAT • TASK • EMAIL Shorthand Syntax: QueueId=string,Channel=string ... JSON Syntax: [ { "QueueId": "string", "Channel": "VOICE"|"CHAT"|"TASK"|"EMAIL" } ... ]
     /// </summary>
     [CliOption("--manual-assignment-queue-references", GroupValues = true)]
     public IEnumerable<string>? ManualAssignmentQueueReferences { get; set; }
@@ -104,6 +105,15 @@ public record AwsConnectDisassociateRoutingProfileQueuesOptions : AwsOptions, IV
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes your network ACLs. The default is to describe all your net- work ACLs. Alternatively, you can specify specific network ACL IDs or filter the results to include only the network ACLs that match specific criteria. For more information, see Network ACLs in the Amazon VPC User Guide . See also: AWS API Documentation describe-network-acls is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing th...
+/// Describes your network ACLs. The default is to describe all your network ACLs. Alternatively, you can specify specific network ACL IDs or filter the results to include only the network ACLs that match specific criteria. For more information, see Network ACLs in the Amazon VPC User Guide . See also: AWS API Documentation describe-network-acls is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsEc2DescribeNetworkAclsOptions : AwsOptions
 {
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -35,16 +35,13 @@ public record AwsEc2DescribeNetworkAclsOptions : AwsOptions
     public IEnumerable<string>? NetworkAclIds { get; set; }
 
     /// <summary>
-    /// The filters. o association.association-id - The ID of an association ID for the ACL. o association.network-acl-id - The ID of the network ACL involved in the association. o association.subnet-id - The ID of the subnet involved in the asso- ciation. o default - Indicates whether the ACL is the default network ACL for the VPC. o entry.cidr - The IPv4 CIDR range specified in the entry. o entry.icmp.code - The ICMP code specified in the entry, if any. o entry.icmp.type - The ICMP type specified in the entry, if any. o entry.ipv6-cidr - The IPv6 CIDR range specified in the entry. o entry.port-range.from - The start of the port range specified in the entry. o entry.port-range.to - The end of the port range specified in the entry. o entry.protocol - The protocol specified in the entry (tcp | udp | icmp or a protocol number). o entry.rule-action - Allows or denies the matching traffic (allow | deny ). o entry.egress - A Boolean that indicates the type of rule. Specify true for egress rules, or false for ingress rules. o entry.rule-number - The number of an entry (in other words, rule) in the set of ACL entries. o network-acl-id - The ID of the network ACL. o owner-id - The ID of the Amazon Web Services account that owns the network ACL. o tag - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA , specify tag:Owner for the filter name and TeamA for the filter value. o tag-key - The key of a tag assigned to the resource. Use this fil- ter to find all resources assigned a tag with a specific key, re- gardless of the tag value. o vpc-id - The ID of the VPC for the network ACL. (structure) A filter name and value pair that is used to return a more spe- cific list of results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs. If you specify multiple filters, the filters are joined with an AND , and the request returns only results that match all of the specified filters. For more information, see List and filter using the CLI and API in the Amazon EC2 User Guide . Name -&gt; (string) The name of the filter. Filter names are case-sensitive. Values -&gt; (list) The filter values. Filter values are case-sensitive. If you specify multiple values for a filter, the values are joined with an OR , and the request returns all results that match any of the specified values. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
+    /// The filters. • association.association-id - The ID of an association ID for the ACL. • association.network-acl-id - The ID of the network ACL involved in the association. • association.subnet-id - The ID of the subnet involved in the association. • default - Indicates whether the ACL is the default network ACL for the VPC. • entry.cidr - The IPv4 CIDR range specified in the entry. • entry.icmp.code - The ICMP code specified in the entry, if any. • entry.icmp.type - The ICMP type specified in the entry, if any. • entry.ipv6-cidr - The IPv6 CIDR range specified in the entry. • entry.port-range.from - The start of the port range specified in the entry. • entry.port-range.to - The end of the port range specified in the entry. • entry.protocol - The protocol specified in the entry (tcp | udp | icmp or a protocol number). • entry.rule-action - Allows or denies the matching traffic (allow | deny ). • entry.egress - A Boolean that indicates the type of rule. Specify true for egress rules, or false for ingress rules. • entry.rule-number - The number of an entry (in other words, rule) in the set of ACL entries. • network-acl-id - The ID of the network ACL. • owner-id - The ID of the Amazon Web Services account that owns the network ACL. • tag - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA , specify tag:Owner for the filter name and TeamA for the filter value. • tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value. • vpc-id - The ID of the VPC for the network ACL. (structure) A filter name and value pair that is used to return a more specific list of results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs. If you specify multiple filters, the filters are joined with an AND , and the request returns only results that match all of the specified filters. For more information, see List and filter using the CLI and API in the Amazon EC2 User Guide . Name -&gt; (string) The name of the filter. Filter names are case-sensitive. Values -&gt; (list) The filter values. Filter values are case-sensitive. If you specify multiple values for a filter, the values are joined with an OR , and the request returns all results that match any of the specified values. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -54,15 +51,27 @@ public record AwsEc2DescribeNetworkAclsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 5 o max: 1000
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 5 • max: 1000
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

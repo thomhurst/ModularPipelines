@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsLookoutequipmentDescribeDataIngestionJobOptions : AwsOptions, I
     /// <summary>
     /// Provides information on a specific data ingestion job such as creation time, dataset ARN, and status. See also: AWS API Documentation
     /// </summary>
-    /// <param name="JobId">The job ID of the data ingestion job. Constraints: o max: 32 o pattern: [A-Fa-f0-9]{0,32}</param>
+    /// <param name="JobId">The job ID of the data ingestion job. Constraints: • max: 32 • pattern: [A-Fa-f0-9]{0,32}</param>
     public AwsLookoutequipmentDescribeDataIngestionJobOptions(
         string JobId
     )
@@ -56,7 +57,7 @@ public record AwsLookoutequipmentDescribeDataIngestionJobOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The job ID of the data ingestion job. Constraints: o max: 32 o pattern: [A-Fa-f0-9]{0,32}
+    /// The job ID of the data ingestion job. Constraints: • max: 32 • pattern: [A-Fa-f0-9]{0,32}
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsLookoutequipmentDescribeDataIngestionJobOptions : AwsOptions, I
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

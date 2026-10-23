@@ -6,14 +6,14 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Models;
+using ModularPipelines;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws licensemanager commands.
+/// aws license-manager commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -28,8 +28,7 @@ public interface IAwsLicenseManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AcceptGrantAsync(AwsLicenseManagerAcceptGrantOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AcceptGrantAsync(AwsLicenseManagerAcceptGrantOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Checks in the specified license. Check in a license when it is no longer in use. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsLicenseManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CheckInLicenseAsync(AwsLicenseManagerCheckInLicenseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CheckInLicenseAsync(AwsLicenseManagerCheckInLicenseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Checks out the specified license for offline use. See also: AWS API Documentation
@@ -48,18 +46,16 @@ public interface IAwsLicenseManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CheckoutBorrowLicenseAsync(AwsLicenseManagerCheckoutBorrowLicenseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CheckoutBorrowLicenseAsync(AwsLicenseManagerCheckoutBorrowLicenseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Checks out the specified license. NOTE: If the account that created the license is the same that is perform- ing the check out, you must specify the account as the beneficiary. See also: AWS API Documentation
+    /// Checks out the specified license. NOTE: If the account that created the license is the same that is performing the check out, you must specify the account as the beneficiary. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CheckoutLicenseAsync(AwsLicenseManagerCheckoutLicenseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CheckoutLicenseAsync(AwsLicenseManagerCheckoutLicenseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a grant for the specified license. A grant shares the use of license entitlements with a specific Amazon Web Services account, an organization, or an organizational unit (OU). For more information, see Granted licenses in License Manager in the License Manager User Guide . See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsLicenseManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateGrantAsync(AwsLicenseManagerCreateGrantOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateGrantAsync(AwsLicenseManagerCreateGrantOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new version of the specified grant. For more information, see Granted licenses in License Manager in the License Manager User Guide . See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsLicenseManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateGrantVersionAsync(AwsLicenseManagerCreateGrantVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateGrantVersionAsync(AwsLicenseManagerCreateGrantVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a license asset group. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsLicenseManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateLicenseAssetGroupAsync(AwsLicenseManagerCreateLicenseAssetGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateLicenseAssetGroupAsync(AwsLicenseManagerCreateLicenseAssetGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a license asset ruleset. See also: AWS API Documentation
@@ -98,18 +91,16 @@ public interface IAwsLicenseManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateLicenseAssetRulesetAsync(AwsLicenseManagerCreateLicenseAssetRulesetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateLicenseAssetRulesetAsync(AwsLicenseManagerCreateLicenseAssetRulesetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates a license configuration. A license configuration is an abstraction of a customer license agree- ment that can be consumed and enforced by License Manager. Components include specifications for the license type (licensing by instance, socket, CPU, or vCPU), allowed tenancy (shared tenancy, Dedicated In- stance, Dedicated Host, or all of these), license affinity to host (how long a license must be associated with a host), and the number of li- censes purchased and used. See also: AWS API D...
+    /// Creates a license configuration. A license configuration is an abstraction of a customer license agreement that can be consumed and enforced by License Manager. Components include specifications for the license type (licensing by instance, socket, CPU, or vCPU), allowed tenancy (shared tenancy, Dedicated Instance, Dedicated Host, or all of these), license affinity to host (how long a license must be associated with a host), and the number of licenses purchased and used. See also: AWS API Documen...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateLicenseConfigurationAsync(AwsLicenseManagerCreateLicenseConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateLicenseConfigurationAsync(AwsLicenseManagerCreateLicenseConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new license conversion task. See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsLicenseManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateLicenseConversionTaskForResourceAsync(AwsLicenseManagerCreateLicenseConversionTaskForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateLicenseConversionTaskForResourceAsync(AwsLicenseManagerCreateLicenseConversionTaskForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a report generator. See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsLicenseManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateLicenseManagerReportGeneratorAsync(AwsLicenseManagerCreateLicenseManagerReportGeneratorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateLicenseManagerReportGeneratorAsync(AwsLicenseManagerCreateLicenseManagerReportGeneratorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a license. See also: AWS API Documentation
@@ -138,8 +127,7 @@ public interface IAwsLicenseManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateLicenseAsync(AwsLicenseManagerCreateLicenseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateLicenseAsync(AwsLicenseManagerCreateLicenseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new version of the specified license. See also: AWS API Documentation
@@ -148,18 +136,16 @@ public interface IAwsLicenseManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateLicenseVersionAsync(AwsLicenseManagerCreateLicenseVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateLicenseVersionAsync(AwsLicenseManagerCreateLicenseVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates a long-lived token. A refresh token is a JWT token used to get an access token. With an ac- cess token, you can call AssumeRoleWithWebIdentity to get role creden- tials that you can use to call License Manager to manage the specified license. See also: AWS API Documentation
+    /// Creates a long-lived token. A refresh token is a JWT token used to get an access token. With an access token, you can call AssumeRoleWithWebIdentity to get role credentials that you can use to call License Manager to manage the specified license. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateTokenAsync(AwsLicenseManagerCreateTokenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateTokenAsync(AwsLicenseManagerCreateTokenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified grant. See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsLicenseManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteGrantAsync(AwsLicenseManagerDeleteGrantOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteGrantAsync(AwsLicenseManagerDeleteGrantOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a license asset group. See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsLicenseManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteLicenseAssetGroupAsync(AwsLicenseManagerDeleteLicenseAssetGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteLicenseAssetGroupAsync(AwsLicenseManagerDeleteLicenseAssetGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a license asset ruleset. See also: AWS API Documentation
@@ -188,8 +172,7 @@ public interface IAwsLicenseManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteLicenseAssetRulesetAsync(AwsLicenseManagerDeleteLicenseAssetRulesetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteLicenseAssetRulesetAsync(AwsLicenseManagerDeleteLicenseAssetRulesetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified license configuration. You cannot delete a license configuration that is in use. See also: AWS API Documentation
@@ -198,18 +181,16 @@ public interface IAwsLicenseManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteLicenseConfigurationAsync(AwsLicenseManagerDeleteLicenseConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteLicenseConfigurationAsync(AwsLicenseManagerDeleteLicenseConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deletes the specified report generator. This action deletes the report generator, which stops it from generat- ing future reports. The action cannot be reversed. It has no effect on the previous reports from this generator. See also: AWS API Documentation
+    /// Deletes the specified report generator. This action deletes the report generator, which stops it from generating future reports. The action cannot be reversed. It has no effect on the previous reports from this generator. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteLicenseManagerReportGeneratorAsync(AwsLicenseManagerDeleteLicenseManagerReportGeneratorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteLicenseManagerReportGeneratorAsync(AwsLicenseManagerDeleteLicenseManagerReportGeneratorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified license. See also: AWS API Documentation
@@ -218,8 +199,7 @@ public interface IAwsLicenseManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteLicenseAsync(AwsLicenseManagerDeleteLicenseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteLicenseAsync(AwsLicenseManagerDeleteLicenseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified token. Must be called in the license home Region. See also: AWS API Documentation
@@ -228,8 +208,7 @@ public interface IAwsLicenseManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTokenAsync(AwsLicenseManagerDeleteTokenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTokenAsync(AwsLicenseManagerDeleteTokenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Extends the expiration date for license consumption. See also: AWS API Documentation
@@ -238,8 +217,7 @@ public interface IAwsLicenseManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExtendLicenseConsumptionAsync(AwsLicenseManagerExtendLicenseConsumptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExtendLicenseConsumptionAsync(AwsLicenseManagerExtendLicenseConsumptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a temporary access token to use with AssumeRoleWithWebIdentity. Access tokens are valid for one hour. See also: AWS API Documentation
@@ -248,8 +226,7 @@ public interface IAwsLicenseManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAccessTokenAsync(AwsLicenseManagerGetAccessTokenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAccessTokenAsync(AwsLicenseManagerGetAccessTokenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets detailed information about the specified grant. See also: AWS API Documentation
@@ -258,8 +235,7 @@ public interface IAwsLicenseManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetGrantAsync(AwsLicenseManagerGetGrantOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetGrantAsync(AwsLicenseManagerGetGrantOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a license asset group. See also: AWS API Documentation
@@ -268,8 +244,7 @@ public interface IAwsLicenseManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetLicenseAssetGroupAsync(AwsLicenseManagerGetLicenseAssetGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetLicenseAssetGroupAsync(AwsLicenseManagerGetLicenseAssetGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a license asset ruleset. See also: AWS API Documentation
@@ -278,8 +253,7 @@ public interface IAwsLicenseManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetLicenseAssetRulesetAsync(AwsLicenseManagerGetLicenseAssetRulesetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetLicenseAssetRulesetAsync(AwsLicenseManagerGetLicenseAssetRulesetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets detailed information about the specified license configuration. See also: AWS API Documentation
@@ -288,8 +262,7 @@ public interface IAwsLicenseManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetLicenseConfigurationAsync(AwsLicenseManagerGetLicenseConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetLicenseConfigurationAsync(AwsLicenseManagerGetLicenseConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about the specified license type conversion task. See also: AWS API Documentation
@@ -298,8 +271,7 @@ public interface IAwsLicenseManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetLicenseConversionTaskAsync(AwsLicenseManagerGetLicenseConversionTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetLicenseConversionTaskAsync(AwsLicenseManagerGetLicenseConversionTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about the specified report generator. See also: AWS API Documentation
@@ -308,8 +280,7 @@ public interface IAwsLicenseManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetLicenseManagerReportGeneratorAsync(AwsLicenseManagerGetLicenseManagerReportGeneratorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetLicenseManagerReportGeneratorAsync(AwsLicenseManagerGetLicenseManagerReportGeneratorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets detailed information about the specified license. See also: AWS API Documentation
@@ -318,8 +289,7 @@ public interface IAwsLicenseManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetLicenseAsync(AwsLicenseManagerGetLicenseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetLicenseAsync(AwsLicenseManagerGetLicenseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets detailed information about the usage of the specified license. See also: AWS API Documentation
@@ -328,8 +298,7 @@ public interface IAwsLicenseManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetLicenseUsageAsync(AwsLicenseManagerGetLicenseUsageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetLicenseUsageAsync(AwsLicenseManagerGetLicenseUsageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the License Manager settings for the current Region. See also: AWS API Documentation
@@ -338,8 +307,7 @@ public interface IAwsLicenseManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetServiceSettingsAsync(AwsLicenseManagerGetServiceSettingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetServiceSettingsAsync(AwsLicenseManagerGetServiceSettingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists assets for a license asset group. See also: AWS API Documentation
@@ -348,18 +316,16 @@ public interface IAwsLicenseManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAssetsForLicenseAssetGroupAsync(AwsLicenseManagerListAssetsForLicenseAssetGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAssetsForLicenseAssetGroupAsync(AwsLicenseManagerListAssetsForLicenseAssetGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists the resource associations for the specified license configura- tion. Resource associations need not consume licenses from a license configu- ration. For example, an AMI or a stopped instance might not consume a license (depending on the license rules). See also: AWS API Documentation list-associations-for-license-configuration is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi...
+    /// Lists the resource associations for the specified license configuration. Resource associations need not consume licenses from a license configuration. For example, an AMI or a stopped instance might not consume a license (depending on the license rules). See also: AWS API Documentation list-associations-for-license-configuration is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAssociationsForLicenseConfigurationAsync(AwsLicenseManagerListAssociationsForLicenseConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAssociationsForLicenseConfigurationAsync(AwsLicenseManagerListAssociationsForLicenseConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the grants distributed for the specified license. See also: AWS API Documentation
@@ -368,8 +334,7 @@ public interface IAwsLicenseManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDistributedGrantsAsync(AwsLicenseManagerListDistributedGrantsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDistributedGrantsAsync(AwsLicenseManagerListDistributedGrantsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the license configuration operations that failed. See also: AWS API Documentation
@@ -378,8 +343,7 @@ public interface IAwsLicenseManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListFailuresForLicenseConfigurationOperationsAsync(AwsLicenseManagerListFailuresForLicenseConfigurationOperationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListFailuresForLicenseConfigurationOperationsAsync(AwsLicenseManagerListFailuresForLicenseConfigurationOperationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists license asset groups. See also: AWS API Documentation
@@ -388,8 +352,7 @@ public interface IAwsLicenseManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListLicenseAssetGroupsAsync(AwsLicenseManagerListLicenseAssetGroupsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListLicenseAssetGroupsAsync(AwsLicenseManagerListLicenseAssetGroupsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists license asset rulesets. See also: AWS API Documentation
@@ -398,8 +361,7 @@ public interface IAwsLicenseManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListLicenseAssetRulesetsAsync(AwsLicenseManagerListLicenseAssetRulesetsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListLicenseAssetRulesetsAsync(AwsLicenseManagerListLicenseAssetRulesetsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists license configurations for an organization. See also: AWS API Documentation
@@ -408,18 +370,16 @@ public interface IAwsLicenseManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListLicenseConfigurationsForOrganizationAsync(AwsLicenseManagerListLicenseConfigurationsForOrganizationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListLicenseConfigurationsForOrganizationAsync(AwsLicenseManagerListLicenseConfigurationsForOrganizationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists the license configurations for your account. See also: AWS API Documentation list-license-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: LicenseConfigurations
+    /// Lists the license configurations for your account. See also: AWS API Documentation list-license-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: LicenseConfigurations
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListLicenseConfigurationsAsync(AwsLicenseManagerListLicenseConfigurationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListLicenseConfigurationsAsync(AwsLicenseManagerListLicenseConfigurationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the license type conversion tasks for your account. See also: AWS API Documentation
@@ -428,8 +388,7 @@ public interface IAwsLicenseManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListLicenseConversionTasksAsync(AwsLicenseManagerListLicenseConversionTasksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListLicenseConversionTasksAsync(AwsLicenseManagerListLicenseConversionTasksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the report generators for your account. See also: AWS API Documentation
@@ -438,28 +397,16 @@ public interface IAwsLicenseManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListLicenseManagerReportGeneratorsAsync(AwsLicenseManagerListLicenseManagerReportGeneratorsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListLicenseManagerReportGeneratorsAsync(AwsLicenseManagerListLicenseManagerReportGeneratorsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists the licenses for your account. See also: AWS API Documentation
+    /// Describes the license configurations for the specified resource. See also: AWS API Documentation list-license-specifications-for-resource is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: LicenseSpecific...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListLicensesAsync(AwsLicenseManagerListLicensesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// Describes the license configurations for the specified resource. See also: AWS API Documentation list-license-specifications-for-resource is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: LicenseSpec...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> ListLicenseSpecificationsForResourceAsync(AwsLicenseManagerListLicenseSpecificationsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListLicenseSpecificationsForResourceAsync(AwsLicenseManagerListLicenseSpecificationsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all versions of the specified license. See also: AWS API Documentation
@@ -468,8 +415,16 @@ public interface IAwsLicenseManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListLicenseVersionsAsync(AwsLicenseManagerListLicenseVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListLicenseVersionsAsync(AwsLicenseManagerListLicenseVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Lists the licenses for your account. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ListLicensesAsync(AwsLicenseManagerListLicensesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the grants received for all accounts in the organization. See also: AWS API Documentation
@@ -478,8 +433,7 @@ public interface IAwsLicenseManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListReceivedGrantsForOrganizationAsync(AwsLicenseManagerListReceivedGrantsForOrganizationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListReceivedGrantsForOrganizationAsync(AwsLicenseManagerListReceivedGrantsForOrganizationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists grants that are received. Received grants are grants created while specifying the recipient as this Amazon Web Services account, your organization, or an organizational unit (OU) to which this member account belongs. See also: AWS API Documentation
@@ -488,8 +442,7 @@ public interface IAwsLicenseManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListReceivedGrantsAsync(AwsLicenseManagerListReceivedGrantsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListReceivedGrantsAsync(AwsLicenseManagerListReceivedGrantsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the licenses received for all accounts in the organization. See also: AWS API Documentation
@@ -498,8 +451,7 @@ public interface IAwsLicenseManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListReceivedLicensesForOrganizationAsync(AwsLicenseManagerListReceivedLicensesForOrganizationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListReceivedLicensesForOrganizationAsync(AwsLicenseManagerListReceivedLicensesForOrganizationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists received licenses. See also: AWS API Documentation
@@ -508,18 +460,16 @@ public interface IAwsLicenseManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListReceivedLicensesAsync(AwsLicenseManagerListReceivedLicensesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListReceivedLicensesAsync(AwsLicenseManagerListReceivedLicensesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists resources managed using Systems Manager inventory. See also: AWS API Documentation list-resource-inventory is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: ResourceInventoryList
+    /// Lists resources managed using Systems Manager inventory. See also: AWS API Documentation list-resource-inventory is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ResourceInventoryList
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListResourceInventoryAsync(AwsLicenseManagerListResourceInventoryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListResourceInventoryAsync(AwsLicenseManagerListResourceInventoryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the tags for the specified resource. For more information about tagging support in License Manager, see the TagResource operation. See also: AWS API Documentation
@@ -528,8 +478,7 @@ public interface IAwsLicenseManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsLicenseManagerListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsLicenseManagerListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists your tokens. See also: AWS API Documentation
@@ -538,18 +487,16 @@ public interface IAwsLicenseManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTokensAsync(AwsLicenseManagerListTokensOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTokensAsync(AwsLicenseManagerListTokensOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists all license usage records for a license configuration, displaying license consumption details by resource at a selected point in time. Use this action to audit the current license consumption for any li- cense inventory and configuration. See also: AWS API Documentation list-usage-for-license-configuration is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. Wh...
+    /// Lists all license usage records for a license configuration, displaying license consumption details by resource at a selected point in time. Use this action to audit the current license consumption for any license inventory and configuration. See also: AWS API Documentation list-usage-for-license-configuration is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When usi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListUsageForLicenseConfigurationAsync(AwsLicenseManagerListUsageForLicenseConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListUsageForLicenseConfigurationAsync(AwsLicenseManagerListUsageForLicenseConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Rejects the specified grant. See also: AWS API Documentation
@@ -558,18 +505,16 @@ public interface IAwsLicenseManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RejectGrantAsync(AwsLicenseManagerRejectGrantOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RejectGrantAsync(AwsLicenseManagerRejectGrantOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Adds the specified tags to the specified resource. The following re- sources support tagging in License Manager: o Licenses o Grants o License configurations o Report generators See also: AWS API Documentation
+    /// Adds the specified tags to the specified resource. The following resources support tagging in License Manager: • Licenses • Grants • License configurations • Report generators See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsLicenseManagerTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsLicenseManagerTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes the specified tags from the specified resource. See also: AWS API Documentation
@@ -578,8 +523,7 @@ public interface IAwsLicenseManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsLicenseManagerUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsLicenseManagerUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a license asset group. See also: AWS API Documentation
@@ -588,8 +532,7 @@ public interface IAwsLicenseManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateLicenseAssetGroupAsync(AwsLicenseManagerUpdateLicenseAssetGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateLicenseAssetGroupAsync(AwsLicenseManagerUpdateLicenseAssetGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a license asset ruleset. See also: AWS API Documentation
@@ -598,8 +541,7 @@ public interface IAwsLicenseManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateLicenseAssetRulesetAsync(AwsLicenseManagerUpdateLicenseAssetRulesetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateLicenseAssetRulesetAsync(AwsLicenseManagerUpdateLicenseAssetRulesetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the attributes of an existing license configuration. See also: AWS API Documentation
@@ -608,8 +550,7 @@ public interface IAwsLicenseManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateLicenseConfigurationAsync(AwsLicenseManagerUpdateLicenseConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateLicenseConfigurationAsync(AwsLicenseManagerUpdateLicenseConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a report generator. After you make changes to a report generator, it starts generating new reports within 60 minutes of being updated. See also: AWS API Documentation
@@ -618,18 +559,16 @@ public interface IAwsLicenseManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateLicenseManagerReportGeneratorAsync(AwsLicenseManagerUpdateLicenseManagerReportGeneratorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateLicenseManagerReportGeneratorAsync(AwsLicenseManagerUpdateLicenseManagerReportGeneratorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Adds or removes the specified license configurations for the specified Amazon Web Services resource. You can update the license specifications of AMIs, instances, and hosts. You cannot update the license specifications for launch tem- plates and CloudFormation templates, as they send license configura- tions to the operation that creates the resource. See also: AWS API Documentation
+    /// Adds or removes the specified license configurations for the specified Amazon Web Services resource. You can update the license specifications of AMIs, instances, and hosts. You cannot update the license specifications for launch templates and CloudFormation templates, as they send license configurations to the operation that creates the resource. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateLicenseSpecificationsForResourceAsync(AwsLicenseManagerUpdateLicenseSpecificationsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateLicenseSpecificationsForResourceAsync(AwsLicenseManagerUpdateLicenseSpecificationsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates License Manager settings for the current Region. See also: AWS API Documentation
@@ -638,7 +577,6 @@ public interface IAwsLicenseManager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateServiceSettingsAsync(AwsLicenseManagerUpdateServiceSettingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateServiceSettingsAsync(AwsLicenseManagerUpdateServiceSettingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsConnectcampaignsv2DeleteCampaignCommunicationLimitsOptions : Aw
     /// <summary>
     /// Deletes the communication limits config for a campaign. This API is idempotent. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">Identifier representing a Campaign Constraints: o min: 1 o max: 256 o pattern: [-:/a-zA-Z0-9]+</param>
-    /// <param name="Config">The type of campaign communication limits config. Possible values: o ALL_CHANNEL_SUBTYPES</param>
+    /// <param name="Id">Identifier representing a Campaign Constraints: • min: 1 • max: 256 • pattern: [-:/a-zA-Z0-9]+</param>
+    /// <param name="Config">The type of campaign communication limits config. Possible values: • ALL_CHANNEL_SUBTYPES</param>
     public AwsConnectcampaignsv2DeleteCampaignCommunicationLimitsOptions(
         string Id,
         string Config
@@ -60,13 +61,13 @@ public record AwsConnectcampaignsv2DeleteCampaignCommunicationLimitsOptions : Aw
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Identifier representing a Campaign Constraints: o min: 1 o max: 256 o pattern: [-:/a-zA-Z0-9]+
+    /// Identifier representing a Campaign Constraints: • min: 1 • max: 256 • pattern: [-:/a-zA-Z0-9]+
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The type of campaign communication limits config. Possible values: o ALL_CHANNEL_SUBTYPES
+    /// The type of campaign communication limits config. Possible values: • ALL_CHANNEL_SUBTYPES
     /// </summary>
     [CliOption("--config")]
     public string? Config { get; private init; }
@@ -92,6 +93,15 @@ public record AwsConnectcampaignsv2DeleteCampaignCommunicationLimitsOptions : Aw
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

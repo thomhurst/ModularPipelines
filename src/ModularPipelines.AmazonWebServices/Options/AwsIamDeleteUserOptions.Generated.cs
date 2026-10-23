@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the specified IAM user. Unlike the Amazon Web Services Manage- ment Console, when you delete a user programmatically, you must delete the items attached to the user manually, or the deletion fails. For more information, see Deleting an IAM user . Before attempting to delete a user, remove the following items: o Password (DeleteLoginProfile ) o Access keys (DeleteAccessKey ) o Signing certificate (DeleteSigningCertificate ) o SSH public key (DeleteSSHPublicKey ) o Git credentials (DeleteS...
+/// Deletes the specified IAM user. Unlike the Amazon Web Services Management Console, when you delete a user programmatically, you must delete the items attached to the user manually, or the deletion fails. For more information, see Deleting an IAM user . Before attempting to delete a user, remove the following items: • Password (DeleteLoginProfile ) • Access keys (DeleteAccessKey ) • Signing certificate (DeleteSigningCertificate ) • SSH public key (DeleteSSHPublicKey ) • Git credentials (DeleteSer...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsIamDeleteUserOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the specified IAM user. Unlike the Amazon Web Services Manage- ment Console, when you delete a user programmatically, you must delete the items attached to the user manually, or the deletion fails. For more information, see Deleting an IAM user . Before attempting to delete a user, remove the following items: o Password (DeleteLoginProfile ) o Access keys (DeleteAccessKey ) o Signing certificate (DeleteSigningCertificate ) o SSH public key (DeleteSSHPublicKey ) o Git credentials (DeleteS...
+    /// Deletes the specified IAM user. Unlike the Amazon Web Services Management Console, when you delete a user programmatically, you must delete the items attached to the user manually, or the deletion fails. For more information, see Deleting an IAM user . Before attempting to delete a user, remove the following items: • Password (DeleteLoginProfile ) • Access keys (DeleteAccessKey ) • Signing certificate (DeleteSigningCertificate ) • SSH public key (DeleteSSHPublicKey ) • Git credentials (DeleteSer...
     /// </summary>
-    /// <param name="UserName">The name of the user to delete. This parameter allows (through its regex pattern ) a string of char- acters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following charac- ters: _+=,.@- Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+</param>
+    /// <param name="UserName">The name of the user to delete. This parameter allows (through its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@- Constraints: • min: 1 • max: 128 • pattern: [\w+=,.@-]+</param>
     public AwsIamDeleteUserOptions(
         string UserName
     )
@@ -56,7 +57,7 @@ public record AwsIamDeleteUserOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the user to delete. This parameter allows (through its regex pattern ) a string of char- acters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following charac- ters: _+=,.@- Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+
+    /// The name of the user to delete. This parameter allows (through its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@- Constraints: • min: 1 • max: 128 • pattern: [\w+=,.@-]+
     /// </summary>
     [CliOption("--user-name")]
     public string? UserName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsIamDeleteUserOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

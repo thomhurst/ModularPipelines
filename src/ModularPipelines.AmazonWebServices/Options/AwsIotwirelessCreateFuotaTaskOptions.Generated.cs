@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +29,8 @@ public record AwsIotwirelessCreateFuotaTaskOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Creates a FUOTA task. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FirmwareUpdateImage">The S3 URI points to a firmware update image that is to be used with a FUOTA task. Constraints: o min: 1 o max: 4096</param>
-    /// <param name="FirmwareUpdateRole">The firmware update role that is to be used with a FUOTA task. Constraints: o min: 1 o max: 2048</param>
+    /// <param name="FirmwareUpdateImage">The S3 URI points to a firmware update image that is to be used with a FUOTA task. Constraints: • min: 1 • max: 4096</param>
+    /// <param name="FirmwareUpdateRole">The firmware update role that is to be used with a FUOTA task. Constraints: • min: 1 • max: 2048</param>
     public AwsIotwirelessCreateFuotaTaskOptions(
         string FirmwareUpdateImage,
         string FirmwareUpdateRole
@@ -61,68 +62,68 @@ public record AwsIotwirelessCreateFuotaTaskOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The S3 URI points to a firmware update image that is to be used with a FUOTA task. Constraints: o min: 1 o max: 4096
+    /// The S3 URI points to a firmware update image that is to be used with a FUOTA task. Constraints: • min: 1 • max: 4096
     /// </summary>
     [CliOption("--firmware-update-image")]
     public string? FirmwareUpdateImage { get; private init; }
 
     /// <summary>
-    /// The firmware update role that is to be used with a FUOTA task. Constraints: o min: 1 o max: 2048
+    /// The firmware update role that is to be used with a FUOTA task. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--firmware-update-role")]
     public string? FirmwareUpdateRole { get; private init; }
 
     /// <summary>
-    /// The name of a FUOTA task. Constraints: o max: 256
+    /// The name of a FUOTA task. Constraints: • max: 256
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The description of the new resource. Constraints: o max: 2048
+    /// The description of the new resource. Constraints: • max: 2048
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Each resource must have a unique client request token. The client token is used to implement idempotency. It ensures that the request completes no more than one time. If you retry a request with the same token and the same parameters, the request will complete suc- cessfully. However, if you try to create a new resource using the same token but different parameters, an HTTP 409 conflict occurs. If you omit this value, AWS SDKs will automatically generate a unique client request. For more information about idempotency, see Ensuring idempotency in Amazon EC2 API requests . Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-_]+$
+    /// Each resource must have a unique client request token. The client token is used to implement idempotency. It ensures that the request completes no more than one time. If you retry a request with the same token and the same parameters, the request will complete successfully. However, if you try to create a new resource using the same token but different parameters, an HTTP 409 conflict occurs. If you omit this value, AWS SDKs will automatically generate a unique client request. For more information about idempotency, see Ensuring idempotency in Amazon EC2 API requests . Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9-_]+$
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
     /// <summary>
-    /// The tag to attach to the specified resource. Tags are metadata that you can use to manage a resource. Constraints: o min: 0 o max: 200 (structure) A simple label consisting of a customer-defined key-value pair Key -&gt; (string) [required] The tag's key value. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The tag's value. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tag to attach to the specified resource. Tags are metadata that you can use to manage a resource. Constraints: • min: 0 • max: 200 (structure) A simple label consisting of a customer-defined key-value pair Key -&gt; (string) [required] The tag's key value. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] The tag's value. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// The percentage of the added fragments that are redundant. For exam- ple, if the size of the firmware image file is 100 bytes and the fragment size is 10 bytes, with RedundancyPercent set to 50(%), the final number of encoded fragments is (100 / 10) + (100 / 10 * 50%) = 15. Constraints: o min: 0 o max: 100
+    /// The percentage of the added fragments that are redundant. For example, if the size of the firmware image file is 100 bytes and the fragment size is 10 bytes, with RedundancyPercent set to 50(%), the final number of encoded fragments is (100 / 10) + (100 / 10 * 50%) = 15. Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--redundancy-percent")]
     public int? RedundancyPercent { get; set; }
 
     /// <summary>
-    /// The size of each fragment in bytes. This parameter is supported only for FUOTA tasks with multicast groups. Constraints: o min: 1
+    /// The size of each fragment in bytes. This parameter is supported only for FUOTA tasks with multicast groups. Constraints: • min: 1
     /// </summary>
     [CliOption("--fragment-size-bytes")]
     public int? FragmentSizeBytes { get; set; }
 
     /// <summary>
-    /// The interval for sending fragments in milliseconds, rounded to the nearest second. NOTE: This interval only determines the timing for when the Cloud sends down the fragments to yor device. There can be a delay for when your device will receive these fragments. This delay de- pends on the device's class and the communication delay with the cloud. Constraints: o min: 1
+    /// The interval for sending fragments in milliseconds, rounded to the nearest second. NOTE: This interval only determines the timing for when the Cloud sends down the fragments to yor device. There can be a delay for when your device will receive these fragments. This delay depends on the device's class and the communication delay with the cloud. Constraints: • min: 1
     /// </summary>
     [CliOption("--fragment-interval-ms")]
     public int? FragmentIntervalMs { get; set; }
 
     /// <summary>
-    /// The descriptor is the metadata about the file that is transferred to the device using FUOTA, such as the software version. It is a binary field encoded in base64. Constraints: o max: 332 o pattern: ^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$
+    /// The descriptor is the metadata about the file that is transferred to the device using FUOTA, such as the software version. It is a binary field encoded in base64. Constraints: • max: 332 • pattern: ^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$
     /// </summary>
     [CliOption("--descriptor")]
     public string? Descriptor { get; set; }
 
     /// <summary>
-    /// The LoRaWAN information used with a FUOTA task. RfRegion -&gt; (string) Supported RfRegions Possible values: o EU868 o US915 o AU915 o AS923-1 o AS923-2 o AS923-3 o AS923-4 o EU433 o CN470 o CN779 o RU864 o KR920 o IN865 Shorthand Syntax: RfRegion=string JSON Syntax: { "RfRegion": "EU868"|"US915"|"AU915"|"AS923-1"|"AS923-2"|"AS923-3"|"AS923-4"|"EU433"|"CN470"|"CN779"|"RU864"|"KR920"|"IN865" }
+    /// The LoRaWAN information used with a FUOTA task. RfRegion -&gt; (string) Supported RfRegions Possible values: • EU868 • US915 • AU915 • AS923-1 • AS923-2 • AS923-3 • AS923-4 • EU433 • CN470 • CN779 • RU864 • KR920 • IN865 Shorthand Syntax: RfRegion=string JSON Syntax: { "RfRegion": "EU868"|"US915"|"AU915"|"AS923-1"|"AS923-2"|"AS923-3"|"AS923-4"|"EU433"|"CN470"|"CN779"|"RU864"|"KR920"|"IN865" }
     /// </summary>
     [CliOption("--lorawan")]
     public string? Lorawan { get; set; }
@@ -148,6 +149,15 @@ public record AwsIotwirelessCreateFuotaTaskOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

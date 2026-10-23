@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +29,8 @@ public record AwsPartnercentralRevenueMeasurementGetMarketplaceRevenueShareOptio
     /// <summary>
     /// Retrieves the details of a specific marketplace revenue share. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Catalog">The catalog that the marketplace revenue share belongs to. Possible values: o AWS o Sandbox</param>
-    /// <param name="ProductId">The AWS Marketplace product identifier of the revenue share to re- trieve. Constraints: o min: 18 o max: 18 o pattern: prod-[a-z0-9]{13}</param>
+    /// <param name="Catalog">The catalog that the marketplace revenue share belongs to. Possible values: • AWS • Sandbox</param>
+    /// <param name="ProductId">The AWS Marketplace product identifier of the revenue share to retrieve. Constraints: • min: 18 • max: 18 • pattern: prod-[a-z0-9]{13}</param>
     public AwsPartnercentralRevenueMeasurementGetMarketplaceRevenueShareOptions(
         AwsPartnercentralRevenueMeasurementGetMarketplaceRevenueShareCatalog Catalog,
         string ProductId
@@ -60,19 +61,19 @@ public record AwsPartnercentralRevenueMeasurementGetMarketplaceRevenueShareOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The catalog that the marketplace revenue share belongs to. Possible values: o AWS o Sandbox
+    /// The catalog that the marketplace revenue share belongs to. Possible values: • AWS • Sandbox
     /// </summary>
     [CliOption("--catalog")]
     public AwsPartnercentralRevenueMeasurementGetMarketplaceRevenueShareCatalog? Catalog { get; private init; }
 
     /// <summary>
-    /// The AWS Marketplace product identifier of the revenue share to re- trieve. Constraints: o min: 18 o max: 18 o pattern: prod-[a-z0-9]{13}
+    /// The AWS Marketplace product identifier of the revenue share to retrieve. Constraints: • min: 18 • max: 18 • pattern: prod-[a-z0-9]{13}
     /// </summary>
     [CliOption("--product-id")]
     public string? ProductId { get; private init; }
 
     /// <summary>
-    /// The revision of the marketplace revenue share to retrieve. Omit to return the latest revision. Constraints: o min: 1
+    /// The revision of the marketplace revenue share to retrieve. Omit to return the latest revision. Constraints: • min: 1
     /// </summary>
     [CliOption("--revision")]
     public int? Revision { get; set; }
@@ -98,6 +99,15 @@ public record AwsPartnercentralRevenueMeasurementGetMarketplaceRevenueShareOptio
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

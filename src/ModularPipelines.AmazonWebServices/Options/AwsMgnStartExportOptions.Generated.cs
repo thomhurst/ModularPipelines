@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +28,8 @@ public record AwsMgnStartExportOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Start export. See also: AWS API Documentation
     /// </summary>
-    /// <param name="S3Bucket">Start export request s3 bucket. Constraints: o pattern: [a-zA-Z0-9.\-_]{1,255}</param>
-    /// <param name="S3Key">Start export request s3key. Constraints: o pattern: [^\x00]{1,1020}\.csv</param>
+    /// <param name="S3Bucket">Start export request s3 bucket. Constraints: • pattern: [a-zA-Z0-9.\-_]{1,255}</param>
+    /// <param name="S3Key">Start export request s3key. Constraints: • pattern: [^\x00]{1,1020}\.csv</param>
     public AwsMgnStartExportOptions(
         string S3Bucket,
         string S3Key
@@ -61,25 +61,25 @@ public record AwsMgnStartExportOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Start export request s3 bucket. Constraints: o pattern: [a-zA-Z0-9.\-_]{1,255}
+    /// Start export request s3 bucket. Constraints: • pattern: [a-zA-Z0-9.\-_]{1,255}
     /// </summary>
     [CliOption("--s3-bucket")]
     public string? S3Bucket { get; private init; }
 
     /// <summary>
-    /// Start export request s3key. Constraints: o pattern: [^\x00]{1,1020}\.csv
+    /// Start export request s3key. Constraints: • pattern: [^\x00]{1,1020}\.csv
     /// </summary>
     [CliOption("--s3-key")]
     public string? S3Key { get; private init; }
 
     /// <summary>
-    /// Start export request s3 bucket owner. Constraints: o min: 12 o max: 12 o pattern: .*[0-9]{12,}.*
+    /// Start export request s3 bucket owner. Constraints: • min: 12 • max: 12 • pattern: .*[0-9]{12,}.*
     /// </summary>
     [CliOption("--s3-bucket-owner")]
     public string? S3BucketOwner { get; set; }
 
     /// <summary>
-    /// Start export request tags. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 0 o max: 256 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Start export request tags. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 0 • max: 256 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -105,6 +105,15 @@ public record AwsMgnStartExportOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -62,26 +63,26 @@ public record AwsIotwirelessCreateWirelessGatewayTaskDefinitionOptions : AwsOpti
     public bool? AutoCreateTasks { get; private init; }
 
     /// <summary>
-    /// The name of the new resource. Constraints: o min: 1 o max: 2048
+    /// The name of the new resource. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// Information about the gateways to update. UpdateDataSource -&gt; (string) The link to the S3 bucket. Constraints: o min: 1 o max: 4096 UpdateDataRole -&gt; (string) The IAM role used to read data from the S3 bucket. Constraints: o min: 1 o max: 4096 LoRaWAN -&gt; (structure) The properties that relate to the LoRaWAN wireless gateway. UpdateSignature -&gt; (string) The signature used to verify the update firmware. Constraints: o min: 1 o max: 4096 SigKeyCrc -&gt; (long) The CRC of the signature private key to check. Constraints: o min: 1 o max: 4294967295 CurrentVersion -&gt; (structure) The version of the gateways that should receive the update. PackageVersion -&gt; (string) The version of the wireless gateway firmware. Constraints: o min: 1 o max: 32 Model -&gt; (string) The model number of the wireless gateway. Constraints: o min: 1 o max: 4096 Station -&gt; (string) The basic station version of the wireless gateway. Constraints: o min: 1 o max: 4096 UpdateVersion -&gt; (structure) The firmware version to update the gateway to. PackageVersion -&gt; (string) The version of the wireless gateway firmware. Constraints: o min: 1 o max: 32 Model -&gt; (string) The model number of the wireless gateway. Constraints: o min: 1 o max: 4096 Station -&gt; (string) The basic station version of the wireless gateway. Constraints: o min: 1 o max: 4096 Shorthand Syntax: UpdateDataSource=string,UpdateDataRole=string,LoRaWAN={UpdateSignature=string,SigKeyCrc=long,CurrentVersion={PackageVersion=string,Model=string,Station=string},UpdateVersion={PackageVersion=string,Model=string,Station=string}} JSON Syntax: { "UpdateDataSource": "string", "UpdateDataRole": "string", "LoRaWAN": { "UpdateSignature": "string", "SigKeyCrc": long, "CurrentVersion": { "PackageVersion": "string", "Model": "string", "Station": "string" }, "UpdateVersion": { "PackageVersion": "string", "Model": "string", "Station": "string" } } }
+    /// Information about the gateways to update. UpdateDataSource -&gt; (string) The link to the S3 bucket. Constraints: • min: 1 • max: 4096 UpdateDataRole -&gt; (string) The IAM role used to read data from the S3 bucket. Constraints: • min: 1 • max: 4096 LoRaWAN -&gt; (structure) The properties that relate to the LoRaWAN wireless gateway. UpdateSignature -&gt; (string) The signature used to verify the update firmware. Constraints: • min: 1 • max: 4096 SigKeyCrc -&gt; (long) The CRC of the signature private key to check. Constraints: • min: 1 • max: 4294967295 CurrentVersion -&gt; (structure) The version of the gateways that should receive the update. PackageVersion -&gt; (string) The version of the wireless gateway firmware. Constraints: • min: 1 • max: 32 Model -&gt; (string) The model number of the wireless gateway. Constraints: • min: 1 • max: 4096 Station -&gt; (string) The basic station version of the wireless gateway. Constraints: • min: 1 • max: 4096 UpdateVersion -&gt; (structure) The firmware version to update the gateway to. PackageVersion -&gt; (string) The version of the wireless gateway firmware. Constraints: • min: 1 • max: 32 Model -&gt; (string) The model number of the wireless gateway. Constraints: • min: 1 • max: 4096 Station -&gt; (string) The basic station version of the wireless gateway. Constraints: • min: 1 • max: 4096 Shorthand Syntax: UpdateDataSource=string,UpdateDataRole=string,LoRaWAN={UpdateSignature=string,SigKeyCrc=long,CurrentVersion={PackageVersion=string,Model=string,Station=string},UpdateVersion={PackageVersion=string,Model=string,Station=string}} JSON Syntax: { "UpdateDataSource": "string", "UpdateDataRole": "string", "LoRaWAN": { "UpdateSignature": "string", "SigKeyCrc": long, "CurrentVersion": { "PackageVersion": "string", "Model": "string", "Station": "string" }, "UpdateVersion": { "PackageVersion": "string", "Model": "string", "Station": "string" } } }
     /// </summary>
     [CliOption("--update")]
     public string? Update { get; set; }
 
     /// <summary>
-    /// Each resource must have a unique client request token. The client token is used to implement idempotency. It ensures that the request completes no more than one time. If you retry a request with the same token and the same parameters, the request will complete suc- cessfully. However, if you try to create a new resource using the same token but different parameters, an HTTP 409 conflict occurs. If you omit this value, AWS SDKs will automatically generate a unique client request. For more information about idempotency, see Ensuring idempotency in Amazon EC2 API requests . Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-_]+$
+    /// Each resource must have a unique client request token. The client token is used to implement idempotency. It ensures that the request completes no more than one time. If you retry a request with the same token and the same parameters, the request will complete successfully. However, if you try to create a new resource using the same token but different parameters, an HTTP 409 conflict occurs. If you omit this value, AWS SDKs will automatically generate a unique client request. For more information about idempotency, see Ensuring idempotency in Amazon EC2 API requests . Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9-_]+$
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
     /// <summary>
-    /// The tags to attach to the specified resource. Tags are metadata that you can use to manage a resource. Constraints: o min: 0 o max: 200 (structure) A simple label consisting of a customer-defined key-value pair Key -&gt; (string) [required] The tag's key value. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The tag's value. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tags to attach to the specified resource. Tags are metadata that you can use to manage a resource. Constraints: • min: 0 • max: 200 (structure) A simple label consisting of a customer-defined key-value pair Key -&gt; (string) [required] The tag's key value. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] The tag's value. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -107,6 +108,15 @@ public record AwsIotwirelessCreateWirelessGatewayTaskDefinitionOptions : AwsOpti
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

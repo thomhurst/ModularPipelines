@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsInternetmonitorGetMonitorOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Gets information about a monitor in Amazon CloudWatch Internet Monitor based on a monitor name. The information returned includes the Amazon Resource Name (ARN), create time, modified time, resources included in the monitor, and status information. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MonitorName">The name of the monitor. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="MonitorName">The name of the monitor. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9_.-]+</param>
     public AwsInternetmonitorGetMonitorOptions(
         string MonitorName
     )
@@ -56,13 +57,13 @@ public record AwsInternetmonitorGetMonitorOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the monitor. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.-]+
+    /// The name of the monitor. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--monitor-name")]
     public string? MonitorName { get; private init; }
 
     /// <summary>
-    /// The account ID for an account that you've set up cross-account shar- ing for in Amazon CloudWatch Internet Monitor. You configure cross-account sharing by using Amazon CloudWatch Observability Ac- cess Manager. For more information, see Internet Monitor cross-ac- count observability in the Amazon CloudWatch Internet Monitor User Guide. Constraints: o min: 12 o max: 12
+    /// The account ID for an account that you've set up cross-account sharing for in Amazon CloudWatch Internet Monitor. You configure cross-account sharing by using Amazon CloudWatch Observability Access Manager. For more information, see Internet Monitor cross-account observability in the Amazon CloudWatch Internet Monitor User Guide. Constraints: • min: 12 • max: 12
     /// </summary>
     [CliOption("--linked-account-id")]
     public string? LinkedAccountId { get; set; }
@@ -88,6 +89,15 @@ public record AwsInternetmonitorGetMonitorOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a connector that specifies the connection between a third-party cloud service provider and Config. A connector is required to create a service-linked configuration recorder for a third-party cloud service provider using the PutThirdPartyServiceLinkedConfigurationRecorder operation. This API creates a service-linked role AWSServiceRoleForConfigThird- Party in your account. The service-linked role is created only when the role does not exist in your account. NOTE: Connectors cannot be upda...
+/// Creates a connector that specifies the connection between a third-party cloud service provider and Config. A connector is required to create a service-linked configuration recorder for a third-party cloud service provider using the PutThirdPartyServiceLinkedConfigurationRecorder operation. This API creates a service-linked role AWSServiceRoleForConfigThirdParty in your account. The service-linked role is created only when the role does not exist in your account. NOTE: Connectors cannot be update...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsConfigservicePutConnectorOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a connector that specifies the connection between a third-party cloud service provider and Config. A connector is required to create a service-linked configuration recorder for a third-party cloud service provider using the PutThirdPartyServiceLinkedConfigurationRecorder operation. This API creates a service-linked role AWSServiceRoleForConfigThird- Party in your account. The service-linked role is created only when the role does not exist in your account. NOTE: Connectors cannot be upda...
+    /// Creates a connector that specifies the connection between a third-party cloud service provider and Config. A connector is required to create a service-linked configuration recorder for a third-party cloud service provider using the PutThirdPartyServiceLinkedConfigurationRecorder operation. This API creates a service-linked role AWSServiceRoleForConfigThirdParty in your account. The service-linked role is created only when the role does not exist in your account. NOTE: Connectors cannot be update...
     /// </summary>
-    /// <param name="ConnectorConfiguration">The provider-specific configuration for connecting to the third-party cloud service provider. azure -&gt; (structure) The configuration for an Azure connector. tenantIdentifier -&gt; (string) [required] The Azure tenant identifier. Constraints: o min: 1 o max: 128 clientIdentifier -&gt; (string) [required] The Azure client identifier. Constraints: o min: 1 o max: 128 Shorthand Syntax: azure={tenantIdentifier=string,clientIdentifier=string} JSON Syntax: { "azure": { "tenantIdentifier": "string", "clientIdentifier": "string" } }</param>
+    /// <param name="ConnectorConfiguration">The provider-specific configuration for connecting to the third-party cloud service provider. azure -&gt; (structure) The configuration for an Azure connector. tenantIdentifier -&gt; (string) [required] The Azure tenant identifier. Constraints: • min: 1 • max: 128 clientIdentifier -&gt; (string) [required] The Azure client identifier. Constraints: • min: 1 • max: 128 Shorthand Syntax: azure={tenantIdentifier=string,clientIdentifier=string} JSON Syntax: { "azure": { "tenantIdentifier": "string", "clientIdentifier": "string" } }</param>
     public AwsConfigservicePutConnectorOptions(
         string ConnectorConfiguration
     )
@@ -56,13 +57,13 @@ public record AwsConfigservicePutConnectorOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The provider-specific configuration for connecting to the third-party cloud service provider. azure -&gt; (structure) The configuration for an Azure connector. tenantIdentifier -&gt; (string) [required] The Azure tenant identifier. Constraints: o min: 1 o max: 128 clientIdentifier -&gt; (string) [required] The Azure client identifier. Constraints: o min: 1 o max: 128 Shorthand Syntax: azure={tenantIdentifier=string,clientIdentifier=string} JSON Syntax: { "azure": { "tenantIdentifier": "string", "clientIdentifier": "string" } }
+    /// The provider-specific configuration for connecting to the third-party cloud service provider. azure -&gt; (structure) The configuration for an Azure connector. tenantIdentifier -&gt; (string) [required] The Azure tenant identifier. Constraints: • min: 1 • max: 128 clientIdentifier -&gt; (string) [required] The Azure client identifier. Constraints: • min: 1 • max: 128 Shorthand Syntax: azure={tenantIdentifier=string,clientIdentifier=string} JSON Syntax: { "azure": { "tenantIdentifier": "string", "clientIdentifier": "string" } }
     /// </summary>
     [CliOption("--connector-configuration")]
     public string? ConnectorConfiguration { get; private init; }
 
     /// <summary>
-    /// The tags for the connector. Each tag consists of a key and an op- tional value, both of which you define. Constraints: o min: 0 o max: 50 (structure) The tags for the resource. The metadata that you apply to a re- source to help you categorize and organize them. Each tag con- sists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters. Key -&gt; (string) One part of a key-value pair that make up a tag. A key is a general label that acts like a category for more specific tag values. Constraints: o min: 1 o max: 128 Value -&gt; (string) The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key). Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tags for the connector. Each tag consists of a key and an optional value, both of which you define. Constraints: • min: 0 • max: 50 (structure) The tags for the resource. The metadata that you apply to a resource to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters. Key -&gt; (string) One part of a key-value pair that make up a tag. A key is a general label that acts like a category for more specific tag values. Constraints: • min: 1 • max: 128 Value -&gt; (string) The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key). Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -88,6 +89,15 @@ public record AwsConfigservicePutConnectorOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsResiliencehubRejectResourceGroupingRecommendationsOptions : Aws
     /// <summary>
     /// Rejects resource grouping recommendations. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AppArn">Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition :resiliencehub:region :account :app/app-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: o pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$</param>
-    /// <param name="Entries">List of resource grouping recommendations you have selected to ex- clude from your application. Constraints: o min: 1 o max: 30 (structure) Indicates the rejected grouping recommendation. groupingRecommendationId -&gt; (string) [required] Indicates the identifier of the grouping recommendation. Constraints: o min: 1 o max: 255 rejectionReason -&gt; (string) Indicates the reason you had selected while rejecting a grouping recommendation. Possible values: o DistinctBusinessPurpose o SeparateDataConcern o DistinctUserGroupHandling o Other Shorthand Syntax: groupingRecommendationId=string,rejectionReason=string ... JSON Syntax: [ { "groupingRecommendationId": "string", "rejectionReason": "DistinctBusinessPurpose"|"SeparateDataConcern"|"DistinctUserGroupHandling"|"Other" } ... ]</param>
+    /// <param name="AppArn">Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition :resiliencehub:region :account :app/app-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: • pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$</param>
+    /// <param name="Entries">List of resource grouping recommendations you have selected to exclude from your application. Constraints: • min: 1 • max: 30 (structure) Indicates the rejected grouping recommendation. groupingRecommendationId -&gt; (string) [required] Indicates the identifier of the grouping recommendation. Constraints: • min: 1 • max: 255 rejectionReason -&gt; (string) Indicates the reason you had selected while rejecting a grouping recommendation. Possible values: • DistinctBusinessPurpose • SeparateDataConcern • DistinctUserGroupHandling • Other Shorthand Syntax: groupingRecommendationId=string,rejectionReason=string ... JSON Syntax: [ { "groupingRecommendationId": "string", "rejectionReason": "DistinctBusinessPurpose"|"SeparateDataConcern"|"DistinctUserGroupHandling"|"Other" } ... ]</param>
     public AwsResiliencehubRejectResourceGroupingRecommendationsOptions(
         string AppArn,
         IEnumerable<string> Entries
@@ -71,13 +72,13 @@ public record AwsResiliencehubRejectResourceGroupingRecommendationsOptions : Aws
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition :resiliencehub:region :account :app/app-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: o pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition :resiliencehub:region :account :app/app-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: • pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$
     /// </summary>
     [CliOption("--app-arn")]
     public string? AppArn { get; private init; }
 
     /// <summary>
-    /// List of resource grouping recommendations you have selected to ex- clude from your application. Constraints: o min: 1 o max: 30 (structure) Indicates the rejected grouping recommendation. groupingRecommendationId -&gt; (string) [required] Indicates the identifier of the grouping recommendation. Constraints: o min: 1 o max: 255 rejectionReason -&gt; (string) Indicates the reason you had selected while rejecting a grouping recommendation. Possible values: o DistinctBusinessPurpose o SeparateDataConcern o DistinctUserGroupHandling o Other Shorthand Syntax: groupingRecommendationId=string,rejectionReason=string ... JSON Syntax: [ { "groupingRecommendationId": "string", "rejectionReason": "DistinctBusinessPurpose"|"SeparateDataConcern"|"DistinctUserGroupHandling"|"Other" } ... ]
+    /// List of resource grouping recommendations you have selected to exclude from your application. Constraints: • min: 1 • max: 30 (structure) Indicates the rejected grouping recommendation. groupingRecommendationId -&gt; (string) [required] Indicates the identifier of the grouping recommendation. Constraints: • min: 1 • max: 255 rejectionReason -&gt; (string) Indicates the reason you had selected while rejecting a grouping recommendation. Possible values: • DistinctBusinessPurpose • SeparateDataConcern • DistinctUserGroupHandling • Other Shorthand Syntax: groupingRecommendationId=string,rejectionReason=string ... JSON Syntax: [ { "groupingRecommendationId": "string", "rejectionReason": "DistinctBusinessPurpose"|"SeparateDataConcern"|"DistinctUserGroupHandling"|"Other" } ... ]
     /// </summary>
     [CliOption("--entries", GroupValues = true)]
     public IEnumerable<string>? Entries { get; private init; }
@@ -103,6 +104,15 @@ public record AwsResiliencehubRejectResourceGroupingRecommendationsOptions : Aws
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

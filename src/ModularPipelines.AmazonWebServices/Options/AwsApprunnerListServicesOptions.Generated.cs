@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of running App Runner services in your Amazon Web Ser- vices account. See also: AWS API Documentation
+/// Returns a list of running App Runner services in your Amazon Web Services account. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,14 +23,14 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsApprunnerListServicesOptions : AwsOptions
 {
     /// <summary>
-    /// A token from a previous result page. Used for a paginated request. The request retrieves the next result page. All other parameter val- ues must be identical to the ones specified in the initial request. If you don't specify NextToken , the request retrieves the first re- sult page. Constraints: o min: 0 o max: 51200 o pattern: .*
+    /// A token from a previous result page. Used for a paginated request. The request retrieves the next result page. All other parameter values must be identical to the ones specified in the initial request. If you don't specify NextToken , the request retrieves the first result page. Constraints: • min: 0 • max: 51200 • pattern: .*
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of results to include in each response (result page). It's used for a paginated request. If you don't specify MaxResults , the request retrieves all avail- able results in a single response. Constraints: o min: 1 o max: 20
+    /// The maximum number of results to include in each response (result page). It's used for a paginated request. If you don't specify MaxResults , the request retrieves all available results in a single response. Constraints: • min: 1 • max: 20
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -40,5 +40,14 @@ public record AwsApprunnerListServicesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

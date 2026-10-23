@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsIotwirelessUpdateMulticastGroupOptions : AwsOptions, IValidatab
     /// <summary>
     /// Updates properties of a multicast group session. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the multicast group. Constraints: o max: 256</param>
+    /// <param name="Id">The ID of the multicast group. Constraints: • max: 256</param>
     public AwsIotwirelessUpdateMulticastGroupOptions(
         string Id
     )
@@ -56,25 +57,25 @@ public record AwsIotwirelessUpdateMulticastGroupOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the multicast group. Constraints: o max: 256
+    /// The ID of the multicast group. Constraints: • max: 256
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The name of the multicast group. Constraints: o max: 256
+    /// The name of the multicast group. Constraints: • max: 256
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The description of the new resource. Constraints: o max: 2048
+    /// The description of the new resource. Constraints: • max: 2048
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The LoRaWAN information that is to be used with the multicast group. RfRegion -&gt; (string) Supported RfRegions Possible values: o EU868 o US915 o AU915 o AS923-1 o AS923-2 o AS923-3 o AS923-4 o EU433 o CN470 o CN779 o RU864 o KR920 o IN865 DlClass -&gt; (string) DlClass for LoRaWAM, valid values are ClassB and ClassC. Possible values: o ClassB o ClassC Constraints: o max: 256 ParticipatingGateways -&gt; (structure) Specify the list of gateways to which you want to send the mul- ticast downlink messages. The multicast message will be sent to each gateway in the list, with the transmission interval as the time interval between each message. GatewayList -&gt; (list) The list of gateways that you want to use for sending the multicast downlink message. Each downlink message will be sent to all the gateways in the list in the order that you provided. If the gateway list is empty, then AWS IoT Core for LoRaWAN chooses the gateways that were most recently used by the devices to send an uplink message. Constraints: o max: 20 (string) Constraints: o max: 256 TransmissionInterval -&gt; (integer) The duration of time in milliseconds for which AWS IoT Core for LoRaWAN will wait before transmitting the multicast pay- load to the next gateway in the list. Constraints: o min: 0 o max: 60000 DefaultSessionParameters -&gt; (structure) The default session parameters for the multicast group. DlDr -&gt; (integer) Downlink data rate. Constraints: o min: 0 o max: 15 DlFreq -&gt; (integer) Downlink frequency. Constraints: o min: 100000000 o max: 1000000000 Shorthand Syntax: RfRegion=string,DlClass=string,ParticipatingGateways={GatewayList=[string,string],TransmissionInterval=integer},DefaultSessionParameters={DlDr=integer,DlFreq=integer} JSON Syntax: { "RfRegion": "EU868"|"US915"|"AU915"|"AS923-1"|"AS923-2"|"AS923-3"|"AS923-4"|"EU433"|"CN470"|"CN779"|"RU864"|"KR920"|"IN865", "DlClass": "ClassB"|"ClassC", "ParticipatingGateways": { "GatewayList": ["string", ...], "TransmissionInterval": integer }, "DefaultSessionParameters": { "DlDr": integer, "DlFreq": integer } }
+    /// The LoRaWAN information that is to be used with the multicast group. RfRegion -&gt; (string) Supported RfRegions Possible values: • EU868 • US915 • AU915 • AS923-1 • AS923-2 • AS923-3 • AS923-4 • EU433 • CN470 • CN779 • RU864 • KR920 • IN865 DlClass -&gt; (string) DlClass for LoRaWAM, valid values are ClassB and ClassC. Possible values: • ClassB • ClassC Constraints: • max: 256 ParticipatingGateways -&gt; (structure) Specify the list of gateways to which you want to send the multicast downlink messages. The multicast message will be sent to each gateway in the list, with the transmission interval as the time interval between each message. GatewayList -&gt; (list) The list of gateways that you want to use for sending the multicast downlink message. Each downlink message will be sent to all the gateways in the list in the order that you provided. If the gateway list is empty, then AWS IoT Core for LoRaWAN chooses the gateways that were most recently used by the devices to send an uplink message. Constraints: • max: 20 (string) Constraints: • max: 256 TransmissionInterval -&gt; (integer) The duration of time in milliseconds for which AWS IoT Core for LoRaWAN will wait before transmitting the multicast payload to the next gateway in the list. Constraints: • min: 0 • max: 60000 DefaultSessionParameters -&gt; (structure) The default session parameters for the multicast group. DlDr -&gt; (integer) Downlink data rate. Constraints: • min: 0 • max: 15 DlFreq -&gt; (integer) Downlink frequency. Constraints: • min: 100000000 • max: 1000000000 Shorthand Syntax: RfRegion=string,DlClass=string,ParticipatingGateways={GatewayList=[string,string],TransmissionInterval=integer},DefaultSessionParameters={DlDr=integer,DlFreq=integer} JSON Syntax: { "RfRegion": "EU868"|"US915"|"AU915"|"AS923-1"|"AS923-2"|"AS923-3"|"AS923-4"|"EU433"|"CN470"|"CN779"|"RU864"|"KR920"|"IN865", "DlClass": "ClassB"|"ClassC", "ParticipatingGateways": { "GatewayList": ["string", ...], "TransmissionInterval": integer }, "DefaultSessionParameters": { "DlDr": integer, "DlFreq": integer } }
     /// </summary>
     [CliOption("--lorawan")]
     public string? Lorawan { get; set; }
@@ -100,6 +101,15 @@ public record AwsIotwirelessUpdateMulticastGroupOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

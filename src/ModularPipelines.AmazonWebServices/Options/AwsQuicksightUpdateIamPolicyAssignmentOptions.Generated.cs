@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,9 +29,9 @@ public record AwsQuicksightUpdateIamPolicyAssignmentOptions : AwsOptions, IValid
     /// <summary>
     /// Updates an existing IAM policy assignment. This operation updates only the optional parameter or parameters that are specified in the request. This overwrites all of the users included in Identities . See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the IAM pol- icy assignment. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="AssignmentName">The name of the assignment, also called a rule. The name must be unique within the Amazon Web Services account. Constraints: o min: 1 o pattern: (?=^.{2,256}$)(?!.*\s)[0-9a-zA-Z-_.:=+@]*$</param>
-    /// <param name="Namespace">The namespace of the assignment. Constraints: o max: 64 o pattern: ^[a-zA-Z0-9._-]*$</param>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the IAM policy assignment. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="AssignmentName">The name of the assignment, also called a rule. The name must be unique within the Amazon Web Services account. Constraints: • min: 1 • pattern: (?=^.{2,256}$)(?!.*\s)[0-9a-zA-Z-_.:=+@]*$</param>
+    /// <param name="Namespace">The namespace of the assignment. Constraints: • max: 64 • pattern: ^[a-zA-Z0-9._-]*$</param>
     public AwsQuicksightUpdateIamPolicyAssignmentOptions(
         string AwsAccountId,
         string AssignmentName,
@@ -66,25 +66,25 @@ public record AwsQuicksightUpdateIamPolicyAssignmentOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon Web Services account that contains the IAM pol- icy assignment. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID of the Amazon Web Services account that contains the IAM policy assignment. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The name of the assignment, also called a rule. The name must be unique within the Amazon Web Services account. Constraints: o min: 1 o pattern: (?=^.{2,256}$)(?!.*\s)[0-9a-zA-Z-_.:=+@]*$
+    /// The name of the assignment, also called a rule. The name must be unique within the Amazon Web Services account. Constraints: • min: 1 • pattern: (?=^.{2,256}$)(?!.*\s)[0-9a-zA-Z-_.:=+@]*$
     /// </summary>
     [CliOption("--assignment-name")]
     public string? AssignmentName { get; private init; }
 
     /// <summary>
-    /// The namespace of the assignment. Constraints: o max: 64 o pattern: ^[a-zA-Z0-9._-]*$
+    /// The namespace of the assignment. Constraints: • max: 64 • pattern: ^[a-zA-Z0-9._-]*$
     /// </summary>
     [CliOption("--namespace")]
     public string? Namespace { get; private init; }
 
     /// <summary>
-    /// The status of the assignment. Possible values are as follows: o ENABLED - Anything specified in this assignment is used when cre- ating the data source. o DISABLED - This assignment isn't used when creating the data source. o DRAFT - This assignment is an unfinished draft and isn't used when creating the data source. Possible values: o ENABLED o DRAFT o DISABLED
+    /// The status of the assignment. Possible values are as follows: • ENABLED - Anything specified in this assignment is used when creating the data source. • DISABLED - This assignment isn't used when creating the data source. • DRAFT - This assignment is an unfinished draft and isn't used when creating the data source. Possible values: • ENABLED • DRAFT • DISABLED
     /// </summary>
     [CliOption("--assignment-status")]
     public AwsQuicksightUpdateIamPolicyAssignmentAssignmentStatus? AssignmentStatus { get; set; }
@@ -96,7 +96,7 @@ public record AwsQuicksightUpdateIamPolicyAssignmentOptions : AwsOptions, IValid
     public string? PolicyArn { get; set; }
 
     /// <summary>
-    /// The Amazon Quick Sight users, groups, or both that you want to as- sign the policy to. key -&gt; (string) value -&gt; (list) (string) Constraints: o min: 1 o pattern: [\u0020-\u00FF]+ Shorthand Syntax: KeyName1=string,string,KeyName2=string,string JSON Syntax: {"string": ["string", ...] ...}
+    /// The Amazon Quick Sight users, groups, or both that you want to assign the policy to. key -&gt; (string) value -&gt; (list) (string) Constraints: • min: 1 • pattern: [\u0020-\u00FF]+ Shorthand Syntax: KeyName1=string,string,KeyName2=string,string JSON Syntax: {"string": ["string", ...] ...}
     /// </summary>
     [CliOption("--identities", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Identities { get; set; }
@@ -122,6 +122,15 @@ public record AwsQuicksightUpdateIamPolicyAssignmentOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

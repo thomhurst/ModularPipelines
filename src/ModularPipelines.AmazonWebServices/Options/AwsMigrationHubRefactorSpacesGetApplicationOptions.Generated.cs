@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsMigrationHubRefactorSpacesGetApplicationOptions : AwsOptions, I
     /// <summary>
     /// Gets an Amazon Web Services Migration Hub Refactor Spaces application. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationIdentifier">The ID of the application. Constraints: o min: 14 o max: 14 o pattern: ^app-[0-9A-Za-z]{10}$</param>
-    /// <param name="EnvironmentIdentifier">The ID of the environment. Constraints: o min: 14 o max: 14 o pattern: ^env-[0-9A-Za-z]{10}$</param>
+    /// <param name="ApplicationIdentifier">The ID of the application. Constraints: • min: 14 • max: 14 • pattern: ^app-[0-9A-Za-z]{10}$</param>
+    /// <param name="EnvironmentIdentifier">The ID of the environment. Constraints: • min: 14 • max: 14 • pattern: ^env-[0-9A-Za-z]{10}$</param>
     public AwsMigrationHubRefactorSpacesGetApplicationOptions(
         string ApplicationIdentifier,
         string EnvironmentIdentifier
@@ -60,13 +61,13 @@ public record AwsMigrationHubRefactorSpacesGetApplicationOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the application. Constraints: o min: 14 o max: 14 o pattern: ^app-[0-9A-Za-z]{10}$
+    /// The ID of the application. Constraints: • min: 14 • max: 14 • pattern: ^app-[0-9A-Za-z]{10}$
     /// </summary>
     [CliOption("--application-identifier")]
     public string? ApplicationIdentifier { get; private init; }
 
     /// <summary>
-    /// The ID of the environment. Constraints: o min: 14 o max: 14 o pattern: ^env-[0-9A-Za-z]{10}$
+    /// The ID of the environment. Constraints: • min: 14 • max: 14 • pattern: ^env-[0-9A-Za-z]{10}$
     /// </summary>
     [CliOption("--environment-identifier")]
     public string? EnvironmentIdentifier { get; private init; }
@@ -92,6 +93,15 @@ public record AwsMigrationHubRefactorSpacesGetApplicationOptions : AwsOptions, I
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

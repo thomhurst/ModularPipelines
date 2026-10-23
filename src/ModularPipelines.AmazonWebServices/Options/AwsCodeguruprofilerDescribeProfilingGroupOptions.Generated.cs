@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsCodeguruprofilerDescribeProfilingGroupOptions : AwsOptions, IVa
     /// <summary>
     /// Returns a ` ProfilingGroupDescription https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ProfilingGroupDescription.html`__ object that contains information about the requested profiling group. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProfilingGroupName">The name of the profiling group to get information about. Constraints: o min: 1 o max: 255 o pattern: ^[\w-]+$</param>
+    /// <param name="ProfilingGroupName">The name of the profiling group to get information about. Constraints: • min: 1 • max: 255 • pattern: ^[\w-]+$</param>
     public AwsCodeguruprofilerDescribeProfilingGroupOptions(
         string ProfilingGroupName
     )
@@ -56,7 +57,7 @@ public record AwsCodeguruprofilerDescribeProfilingGroupOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the profiling group to get information about. Constraints: o min: 1 o max: 255 o pattern: ^[\w-]+$
+    /// The name of the profiling group to get information about. Constraints: • min: 1 • max: 255 • pattern: ^[\w-]+$
     /// </summary>
     [CliOption("--profiling-group-name")]
     public string? ProfilingGroupName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsCodeguruprofilerDescribeProfilingGroupOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

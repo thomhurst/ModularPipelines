@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsDeadlineUpdateLimitOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates the properties of the specified limit. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FarmId">The unique identifier of the farm that contains the limit. Constraints: o pattern: farm-[0-9a-f]{32}</param>
-    /// <param name="LimitId">The unique identifier of the limit to update. Constraints: o pattern: limit-[0-9a-f]{32}</param>
+    /// <param name="FarmId">The unique identifier of the farm that contains the limit. Constraints: • pattern: farm-[0-9a-f]{32}</param>
+    /// <param name="LimitId">The unique identifier of the limit to update. Constraints: • pattern: limit-[0-9a-f]{32}</param>
     public AwsDeadlineUpdateLimitOptions(
         string FarmId,
         string LimitId
@@ -60,31 +61,31 @@ public record AwsDeadlineUpdateLimitOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the farm that contains the limit. Constraints: o pattern: farm-[0-9a-f]{32}
+    /// The unique identifier of the farm that contains the limit. Constraints: • pattern: farm-[0-9a-f]{32}
     /// </summary>
     [CliOption("--farm-id")]
     public string? FarmId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the limit to update. Constraints: o pattern: limit-[0-9a-f]{32}
+    /// The unique identifier of the limit to update. Constraints: • pattern: limit-[0-9a-f]{32}
     /// </summary>
     [CliOption("--limit-id")]
     public string? LimitId { get; private init; }
 
     /// <summary>
-    /// The new display name of the limit. WARNING: This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field. Constraints: o min: 1 o max: 100
+    /// The new display name of the limit. WARNING: This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// The new description of the limit. WARNING: This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field. Constraints: o min: 0 o max: 100
+    /// The new description of the limit. WARNING: This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field. Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The maximum number of resources constrained by this limit. When all of the resources are in use, steps that require the limit won't be scheduled until the resource is available. If more than the new maximum number is currently in use, running jobs finish but no new jobs are started until the number of re- sources in use is below the new maximum number. The maxCount must not be 0. If the value is -1, there is no restric- tion on the number of resources that can be acquired for this limit. Constraints: o min: -1 o max: 2147483647
+    /// The maximum number of resources constrained by this limit. When all of the resources are in use, steps that require the limit won't be scheduled until the resource is available. If more than the new maximum number is currently in use, running jobs finish but no new jobs are started until the number of resources in use is below the new maximum number. The maxCount must not be 0. If the value is -1, there is no restriction on the number of resources that can be acquired for this limit. Constraints: • min: -1 • max: 2147483647
     /// </summary>
     [CliOption("--max-count")]
     public int? MaxCount { get; set; }
@@ -110,6 +111,15 @@ public record AwsDeadlineUpdateLimitOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

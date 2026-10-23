@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +29,8 @@ public record AwsCloudcontrolDeleteResourceOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Deletes the specified resource. For details, see Deleting a resource in the Amazon Web Services Cloud Control API User Guide . After you have initiated a resource deletion request, you can monitor the progress of your request by calling GetResourceRequestStatus using the RequestToken of the ProgressEvent returned by DeleteResource . See also: AWS API Documentation
     /// </summary>
-    /// <param name="TypeName">The name of the resource type. Constraints: o min: 10 o max: 196 o pattern: [A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}</param>
-    /// <param name="Identifier">The identifier for the resource. You can specify the primary identifier, or any secondary identifier defined for the resource type in its resource schema. You can only specify one identifier. Primary identifiers can be specified as a string or JSON; secondary identifiers must be specified as JSON. For compound primary identifiers (that is, one that consists of mul- tiple resource properties strung together), to specify the primary identifier as a string, list the property values in the order they are specified in the primary identifier definition, separated by | . For more information, see Identifying resources in the Amazon Web Services Cloud Control API User Guide . Constraints: o min: 1 o max: 1024 o pattern: .+</param>
+    /// <param name="TypeName">The name of the resource type. Constraints: • min: 10 • max: 196 • pattern: [A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}</param>
+    /// <param name="Identifier">The identifier for the resource. You can specify the primary identifier, or any secondary identifier defined for the resource type in its resource schema. You can only specify one identifier. Primary identifiers can be specified as a string or JSON; secondary identifiers must be specified as JSON. For compound primary identifiers (that is, one that consists of multiple resource properties strung together), to specify the primary identifier as a string, list the property values in the order they are specified in the primary identifier definition, separated by | . For more information, see Identifying resources in the Amazon Web Services Cloud Control API User Guide . Constraints: • min: 1 • max: 1024 • pattern: .+</param>
     public AwsCloudcontrolDeleteResourceOptions(
         string TypeName,
         string Identifier
@@ -61,31 +62,31 @@ public record AwsCloudcontrolDeleteResourceOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the resource type. Constraints: o min: 10 o max: 196 o pattern: [A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}
+    /// The name of the resource type. Constraints: • min: 10 • max: 196 • pattern: [A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}
     /// </summary>
     [CliOption("--type-name")]
     public string? TypeName { get; private init; }
 
     /// <summary>
-    /// The identifier for the resource. You can specify the primary identifier, or any secondary identifier defined for the resource type in its resource schema. You can only specify one identifier. Primary identifiers can be specified as a string or JSON; secondary identifiers must be specified as JSON. For compound primary identifiers (that is, one that consists of mul- tiple resource properties strung together), to specify the primary identifier as a string, list the property values in the order they are specified in the primary identifier definition, separated by | . For more information, see Identifying resources in the Amazon Web Services Cloud Control API User Guide . Constraints: o min: 1 o max: 1024 o pattern: .+
+    /// The identifier for the resource. You can specify the primary identifier, or any secondary identifier defined for the resource type in its resource schema. You can only specify one identifier. Primary identifiers can be specified as a string or JSON; secondary identifiers must be specified as JSON. For compound primary identifiers (that is, one that consists of multiple resource properties strung together), to specify the primary identifier as a string, list the property values in the order they are specified in the primary identifier definition, separated by | . For more information, see Identifying resources in the Amazon Web Services Cloud Control API User Guide . Constraints: • min: 1 • max: 1024 • pattern: .+
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// For private resource types, the type version to use in this resource operation. If you do not specify a resource version, CloudFormation uses the default version. Constraints: o min: 1 o max: 128 o pattern: [A-Za-z0-9-]+
+    /// For private resource types, the type version to use in this resource operation. If you do not specify a resource version, CloudFormation uses the default version. Constraints: • min: 1 • max: 128 • pattern: [A-Za-z0-9-]+
     /// </summary>
     [CliOption("--type-version-id")]
     public string? TypeVersionId { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role for Cloud Control API to use when performing this re- source operation. The role specified must have the permissions re- quired for this operation. The necessary permissions for each event handler are defined in the `` handlers `` section of the resource type definition schema . If you do not specify a role, Cloud Control API uses a temporary session created using your Amazon Web Services user credentials. For more information, see Specifying credentials in the Amazon Web Services Cloud Control API User Guide . Constraints: o min: 20 o max: 2048 o pattern: arn:.+:iam::[0-9]{12}:role/.+
+    /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role for Cloud Control API to use when performing this resource operation. The role specified must have the permissions required for this operation. The necessary permissions for each event handler are defined in the `` handlers `` section of the resource type definition schema . If you do not specify a role, Cloud Control API uses a temporary session created using your Amazon Web Services user credentials. For more information, see Specifying credentials in the Amazon Web Services Cloud Control API User Guide . Constraints: • min: 20 • max: 2048 • pattern: arn:.+:iam::[0-9]{12}:role/.+
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
     /// <summary>
-    /// A unique identifier to ensure the idempotency of the resource re- quest. As a best practice, specify this token to ensure idempotency, so that Amazon Web Services Cloud Control API can accurately distin- guish between request retries and new resource requests. You might retry a resource request to ensure that it was successfully re- ceived. A client token is valid for 36 hours once used. After that, a re- source request with the same client token is treated as a new re- quest. If you do not specify a client token, one is generated for inclusion in the request. For more information, see Ensuring resource operation requests are unique in the Amazon Web Services Cloud Control API User Guide . Constraints: o min: 1 o max: 128 o pattern: [-A-Za-z0-9+/=]+
+    /// A unique identifier to ensure the idempotency of the resource request. As a best practice, specify this token to ensure idempotency, so that Amazon Web Services Cloud Control API can accurately distinguish between request retries and new resource requests. You might retry a resource request to ensure that it was successfully received. A client token is valid for 36 hours once used. After that, a resource request with the same client token is treated as a new request. If you do not specify a client token, one is generated for inclusion in the request. For more information, see Ensuring resource operation requests are unique in the Amazon Web Services Cloud Control API User Guide . Constraints: • min: 1 • max: 128 • pattern: [-A-Za-z0-9+/=]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -112,6 +113,15 @@ public record AwsCloudcontrolDeleteResourceOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

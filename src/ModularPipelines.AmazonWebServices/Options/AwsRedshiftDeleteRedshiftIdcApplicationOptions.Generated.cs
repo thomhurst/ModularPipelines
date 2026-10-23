@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsRedshiftDeleteRedshiftIdcApplicationOptions : AwsOptions, IVali
     /// <summary>
     /// Deletes an Amazon Redshift IAM Identity Center application. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RedshiftIdcApplicationArn">The ARN for a deleted Amazon Redshift IAM Identity Center applica- tion. Constraints: o max: 2147483647</param>
+    /// <param name="RedshiftIdcApplicationArn">The ARN for a deleted Amazon Redshift IAM Identity Center application. Constraints: • max: 2147483647</param>
     public AwsRedshiftDeleteRedshiftIdcApplicationOptions(
         string RedshiftIdcApplicationArn
     )
@@ -56,7 +57,7 @@ public record AwsRedshiftDeleteRedshiftIdcApplicationOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN for a deleted Amazon Redshift IAM Identity Center applica- tion. Constraints: o max: 2147483647
+    /// The ARN for a deleted Amazon Redshift IAM Identity Center application. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--redshift-idc-application-arn")]
     public string? RedshiftIdcApplicationArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsRedshiftDeleteRedshiftIdcApplicationOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

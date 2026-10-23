@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsWorkmailDeleteUserOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes a user from WorkMail and all subsequent systems. Before you can delete a user, the user state must be DISABLED . Use the DescribeUser action to confirm the user state. Deleting a user is permanent and cannot be undone. WorkMail archives user mailboxes for 30 days before they are permanently removed. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OrganizationId">The organization that contains the user to be deleted. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$</param>
-    /// <param name="UserId">The identifier of the user to be deleted. The identifier can be the UserId or Username . The following iden- tity formats are available: o User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234 o User name: user Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._%+@-]+</param>
+    /// <param name="OrganizationId">The organization that contains the user to be deleted. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$</param>
+    /// <param name="UserId">The identifier of the user to be deleted. The identifier can be the UserId or Username . The following identity formats are available: • User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234 • User name: user Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9._%+@-]+</param>
     public AwsWorkmailDeleteUserOptions(
         string OrganizationId,
         string UserId
@@ -60,13 +61,13 @@ public record AwsWorkmailDeleteUserOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The organization that contains the user to be deleted. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$
+    /// The organization that contains the user to be deleted. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$
     /// </summary>
     [CliOption("--organization-id")]
     public string? OrganizationId { get; private init; }
 
     /// <summary>
-    /// The identifier of the user to be deleted. The identifier can be the UserId or Username . The following iden- tity formats are available: o User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234 o User name: user Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._%+@-]+
+    /// The identifier of the user to be deleted. The identifier can be the UserId or Username . The following identity formats are available: • User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234 • User name: user Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9._%+@-]+
     /// </summary>
     [CliOption("--user-id")]
     public string? UserId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsWorkmailDeleteUserOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

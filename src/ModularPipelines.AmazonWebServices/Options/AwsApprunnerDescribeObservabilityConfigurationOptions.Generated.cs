@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsApprunnerDescribeObservabilityConfigurationOptions : AwsOptions
     /// <summary>
     /// Return a full description of an App Runner observability configuration resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ObservabilityConfigurationArn">The Amazon Resource Name (ARN) of the App Runner observability con- figuration that you want a description for. The ARN can be a full observability configuration ARN, or a partial ARN ending with either `` .../name `` or `` .../name /revision `` . If a revision isn't specified, the latest active revision is described. System Message: WARNING/2 (&lt;string&gt;:, line 72) Inline literal start-string without end-string. System Message: WARNING/2 (&lt;string&gt;:, line 72) Inline literal start-string without end-string. Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[\w]+)*:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[0-9]{12}:(\w|\/|-){1,1011}</param>
+    /// <param name="ObservabilityConfigurationArn">The Amazon Resource Name (ARN) of the App Runner observability configuration that you want a description for. The ARN can be a full observability configuration ARN, or a partial ARN ending with either `` .../name `` or `` .../name /revision `` . If a revision isn't specified, the latest active revision is described. System Message: WARNING/2 (&lt;string&gt;:, line 72) Inline literal start-string without end-string. System Message: WARNING/2 (&lt;string&gt;:, line 72) Inline literal start-string without end-string. Constraints: • min: 1 • max: 1011 • pattern: arn:aws(-[\w]+)*:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[0-9]{12}:(\w|\/|-){1,1011}</param>
     public AwsApprunnerDescribeObservabilityConfigurationOptions(
         string ObservabilityConfigurationArn
     )
@@ -56,7 +57,7 @@ public record AwsApprunnerDescribeObservabilityConfigurationOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the App Runner observability con- figuration that you want a description for. The ARN can be a full observability configuration ARN, or a partial ARN ending with either `` .../name `` or `` .../name /revision `` . If a revision isn't specified, the latest active revision is described. System Message: WARNING/2 (&lt;string&gt;:, line 72) Inline literal start-string without end-string. System Message: WARNING/2 (&lt;string&gt;:, line 72) Inline literal start-string without end-string. Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[\w]+)*:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[0-9]{12}:(\w|\/|-){1,1011}
+    /// The Amazon Resource Name (ARN) of the App Runner observability configuration that you want a description for. The ARN can be a full observability configuration ARN, or a partial ARN ending with either `` .../name `` or `` .../name /revision `` . If a revision isn't specified, the latest active revision is described. System Message: WARNING/2 (&lt;string&gt;:, line 72) Inline literal start-string without end-string. System Message: WARNING/2 (&lt;string&gt;:, line 72) Inline literal start-string without end-string. Constraints: • min: 1 • max: 1011 • pattern: arn:aws(-[\w]+)*:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[0-9]{12}:(\w|\/|-){1,1011}
     /// </summary>
     [CliOption("--observability-configuration-arn")]
     public string? ObservabilityConfigurationArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsApprunnerDescribeObservabilityConfigurationOptions : AwsOptions
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

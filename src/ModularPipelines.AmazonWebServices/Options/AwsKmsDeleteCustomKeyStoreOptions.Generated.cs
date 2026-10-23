@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a custom key store . This operation does not affect any backing elements of the custom key store. It does not delete the CloudHSM clus- ter that is associated with an CloudHSM key store, or affect any users or keys in the cluster. For an external key store, it does not affect the external key store proxy, external key manager, or any external keys. This operation is part of the custom key stores feature in KMS, which combines the convenience and extensive integration of KMS with the iso-...
+/// Deletes a custom key store . This operation does not affect any backing elements of the custom key store. It does not delete the CloudHSM cluster that is associated with an CloudHSM key store, or affect any users or keys in the cluster. For an external key store, it does not affect the external key store proxy, external key manager, or any external keys. This operation is part of the custom key stores feature in KMS, which combines the convenience and extensive integration of KMS with the isolat...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsKmsDeleteCustomKeyStoreOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a custom key store . This operation does not affect any backing elements of the custom key store. It does not delete the CloudHSM clus- ter that is associated with an CloudHSM key store, or affect any users or keys in the cluster. For an external key store, it does not affect the external key store proxy, external key manager, or any external keys. This operation is part of the custom key stores feature in KMS, which combines the convenience and extensive integration of KMS with the iso-...
+    /// Deletes a custom key store . This operation does not affect any backing elements of the custom key store. It does not delete the CloudHSM cluster that is associated with an CloudHSM key store, or affect any users or keys in the cluster. For an external key store, it does not affect the external key store proxy, external key manager, or any external keys. This operation is part of the custom key stores feature in KMS, which combines the convenience and extensive integration of KMS with the isolat...
     /// </summary>
-    /// <param name="CustomKeyStoreId">Enter the ID of the custom key store you want to delete. To find the ID of a custom key store, use the DescribeCustomKeyStores opera- tion. Constraints: o min: 1 o max: 64</param>
+    /// <param name="CustomKeyStoreId">Enter the ID of the custom key store you want to delete. To find the ID of a custom key store, use the DescribeCustomKeyStores operation. Constraints: • min: 1 • max: 64</param>
     public AwsKmsDeleteCustomKeyStoreOptions(
         string CustomKeyStoreId
     )
@@ -56,7 +57,7 @@ public record AwsKmsDeleteCustomKeyStoreOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Enter the ID of the custom key store you want to delete. To find the ID of a custom key store, use the DescribeCustomKeyStores opera- tion. Constraints: o min: 1 o max: 64
+    /// Enter the ID of the custom key store you want to delete. To find the ID of a custom key store, use the DescribeCustomKeyStores operation. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--custom-key-store-id")]
     public string? CustomKeyStoreId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsKmsDeleteCustomKeyStoreOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

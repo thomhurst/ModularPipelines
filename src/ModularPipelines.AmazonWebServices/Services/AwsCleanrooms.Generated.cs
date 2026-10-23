@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -92,7 +92,7 @@ public class AwsCleanrooms : IAwsCleanrooms
     }
 
     /// <summary>
-    /// Creates a new change request to modify an existing collaboration. This enables post-creation modifications to collaborations through a struc- tured API-driven approach. See also: AWS API Documentation
+    /// Creates a new change request to modify an existing collaboration. This enables post-creation modifications to collaborations through a structured API-driven approach. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsCleanrooms : IAwsCleanrooms
     }
 
     /// <summary>
-    /// Creates an ID namespace association. See also: AWS API Documentation create-id-namespace-association uses document type values. Document types follow the JSON data model where valid values are: strings, num- bers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Creates an ID namespace association. See also: AWS API Documentation create-id-namespace-association uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -242,7 +242,7 @@ public class AwsCleanrooms : IAwsCleanrooms
     }
 
     /// <summary>
-    /// Creates an intermediate table in a membership. The intermediate table is owned by the member with the CAN_QUERY ability. To populate the ta- ble with results, use PopulateIntermediateTable . See also: AWS API Documentation
+    /// Creates an intermediate table in a membership. The intermediate table is owned by the member with the CAN_QUERY ability. To populate the table with results, use PopulateIntermediateTable . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +272,7 @@ public class AwsCleanrooms : IAwsCleanrooms
     }
 
     /// <summary>
-    /// Creates a privacy budget template for a specified collaboration. Each collaboration can have only one privacy budget template. If you need to change the privacy budget template, use the UpdatePrivacyBudgetTem- plate operation. See also: AWS API Documentation
+    /// Creates a privacy budget template for a specified collaboration. Each collaboration can have only one privacy budget template. If you need to change the privacy budget template, use the UpdatePrivacyBudgetTemplate operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -437,7 +437,7 @@ public class AwsCleanrooms : IAwsCleanrooms
     }
 
     /// <summary>
-    /// Deletes an intermediate table. The delete is idempotent. Only the in- termediate table owner can call this operation. See also: AWS API Documentation
+    /// Deletes an intermediate table. The delete is idempotent. Only the intermediate table owner can call this operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -452,7 +452,7 @@ public class AwsCleanrooms : IAwsCleanrooms
     }
 
     /// <summary>
-    /// Removes the specified member from a collaboration. The removed member is placed in the Removed status and can't interact with the collabora- tion. The removed member's data is inaccessible to active members of the collaboration. See also: AWS API Documentation
+    /// Removes the specified member from a collaboration. The removed member is placed in the Removed status and can't interact with the collaboration. The removed member's data is inaccessible to active members of the collaboration. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -572,7 +572,7 @@ public class AwsCleanrooms : IAwsCleanrooms
     }
 
     /// <summary>
-    /// Retrieves a configured audience model association within a collabora- tion. See also: AWS API Documentation
+    /// Retrieves a configured audience model association within a collaboration. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -587,7 +587,7 @@ public class AwsCleanrooms : IAwsCleanrooms
     }
 
     /// <summary>
-    /// Retrieves an ID namespace association from a specific collaboration. See also: AWS API Documentation get-collaboration-id-namespace-association uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command in- put, options and nested parameters that are labeled with the type docu- ment must be provided as JSON. Shorthand syntax does not support docu- ment types.
+    /// Retrieves an ID namespace association from a specific collaboration. See also: AWS API Documentation get-collaboration-id-namespace-association uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -722,7 +722,7 @@ public class AwsCleanrooms : IAwsCleanrooms
     }
 
     /// <summary>
-    /// Retrieves an ID namespace association. See also: AWS API Documentation get-id-namespace-association uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be pro- vided as JSON. Shorthand syntax does not support document types.
+    /// Retrieves an ID namespace association. See also: AWS API Documentation get-id-namespace-association uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -752,7 +752,7 @@ public class AwsCleanrooms : IAwsCleanrooms
     }
 
     /// <summary>
-    /// Retrieves an intermediate table. Returns the full details of the inter- mediate table, including schema, table dependencies, inherited con- straints, child resources, and status. Only the intermediate table owner can call this operation. See also: AWS API Documentation
+    /// Retrieves an intermediate table. Returns the full details of the intermediate table, including schema, table dependencies, inherited constraints, child resources, and status. Only the intermediate table owner can call this operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -857,7 +857,7 @@ public class AwsCleanrooms : IAwsCleanrooms
     }
 
     /// <summary>
-    /// Lists analysis log exports, sorted by the most recent export. Results are paginated. Use the nextToken parameter to retrieve additional re- sults. See also: AWS API Documentation list-analysis-log-exports is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data f...
+    /// Lists analysis log exports, sorted by the most recent export. Results are paginated. Use the nextToken parameter to retrieve additional results. See also: AWS API Documentation list-analysis-log-exports is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data fro...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -872,7 +872,7 @@ public class AwsCleanrooms : IAwsCleanrooms
     }
 
     /// <summary>
-    /// Lists analysis templates that the caller owns. See also: AWS API Documentation list-analysis-templates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: analysisTemplateSummaries
+    /// Lists analysis templates that the caller owns. See also: AWS API Documentation list-analysis-templates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: analysisTemplateSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -887,7 +887,7 @@ public class AwsCleanrooms : IAwsCleanrooms
     }
 
     /// <summary>
-    /// Lists analysis templates within a collaboration. See also: AWS API Documentation list-collaboration-analysis-templates is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: collaborationAnalysisTemplat...
+    /// Lists analysis templates within a collaboration. See also: AWS API Documentation list-collaboration-analysis-templates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: collaborationAnalysisTemplateSumma...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -902,7 +902,7 @@ public class AwsCleanrooms : IAwsCleanrooms
     }
 
     /// <summary>
-    /// Lists all change requests for a collaboration with pagination support. Returns change requests sorted by creation time. See also: AWS API Documentation list-collaboration-change-requests is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the result...
+    /// Lists all change requests for a collaboration with pagination support. Returns change requests sorted by creation time. See also: AWS API Documentation list-collaboration-change-requests is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -917,7 +917,7 @@ public class AwsCleanrooms : IAwsCleanrooms
     }
 
     /// <summary>
-    /// Lists configured audience model associations within a collaboration. See also: AWS API Documentation list-collaboration-configured-audience-model-associations is a pagi- nated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expre...
+    /// Lists configured audience model associations within a collaboration. See also: AWS API Documentation list-collaboration-configured-audience-model-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query express...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -932,7 +932,7 @@ public class AwsCleanrooms : IAwsCleanrooms
     }
 
     /// <summary>
-    /// Returns a list of the ID namespace associations in a collaboration. See also: AWS API Documentation list-collaboration-id-namespace-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following query expressions: coll...
+    /// Returns a list of the ID namespace associations in a collaboration. See also: AWS API Documentation list-collaboration-id-namespace-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: collabor...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -947,22 +947,7 @@ public class AwsCleanrooms : IAwsCleanrooms
     }
 
     /// <summary>
-    /// Returns an array that summarizes each privacy budget in a specified collaboration. The summary includes the collaboration ARN, creation time, creating account, and privacy budget details. See also: AWS API Documentation list-collaboration-privacy-budgets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a pagina...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListCollaborationPrivacyBudgetsAsync(
-        AwsCleanroomsListCollaborationPrivacyBudgetsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Returns an array that summarizes each privacy budget template in a specified collaboration. See also: AWS API Documentation list-collaboration-privacy-budget-templates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following ...
+    /// Returns an array that summarizes each privacy budget template in a specified collaboration. See also: AWS API Documentation list-collaboration-privacy-budget-templates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following quer...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -970,6 +955,21 @@ public class AwsCleanrooms : IAwsCleanrooms
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListCollaborationPrivacyBudgetTemplatesAsync(
         AwsCleanroomsListCollaborationPrivacyBudgetTemplatesOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns an array that summarizes each privacy budget in a specified collaboration. The summary includes the collaboration ARN, creation time, creating account, and privacy budget details. See also: AWS API Documentation list-collaboration-privacy-budgets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated ...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListCollaborationPrivacyBudgetsAsync(
+        AwsCleanroomsListCollaborationPrivacyBudgetsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -992,7 +992,7 @@ public class AwsCleanrooms : IAwsCleanrooms
     }
 
     /// <summary>
-    /// Lists information about requested configured audience model associa- tions. See also: AWS API Documentation list-configured-audience-model-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following query expression...
+    /// Lists information about requested configured audience model associations. See also: AWS API Documentation list-configured-audience-model-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: con...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1007,7 +1007,7 @@ public class AwsCleanrooms : IAwsCleanrooms
     }
 
     /// <summary>
-    /// Lists configured table associations for a membership. See also: AWS API Documentation list-configured-table-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: configuredTableAssociationSu...
+    /// Lists configured table associations for a membership. See also: AWS API Documentation list-configured-table-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: configuredTableAssociationSummar...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1052,7 +1052,7 @@ public class AwsCleanrooms : IAwsCleanrooms
     }
 
     /// <summary>
-    /// Returns a list of ID namespace associations. See also: AWS API Documentation list-id-namespace-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: idNamespaceAssociationSummaries
+    /// Returns a list of ID namespace associations. See also: AWS API Documentation list-id-namespace-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: idNamespaceAssociationSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1067,7 +1067,22 @@ public class AwsCleanrooms : IAwsCleanrooms
     }
 
     /// <summary>
-    /// Lists intermediate tables owned by the caller in a membership. We rec- ommend using pagination to ensure that the operation returns quickly and successfully. See also: AWS API Documentation list-intermediate-tables is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extr...
+    /// Lists the version history of an intermediate table. Each call to PopulateIntermediateTable creates a new version. We recommend using pagination to ensure that the operation returns quickly and successfully. See also: AWS API Documentation list-intermediate-table-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argumen...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListIntermediateTableVersionsAsync(
+        AwsCleanroomsListIntermediateTableVersionsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists intermediate tables owned by the caller in a membership. We recommend using pagination to ensure that the operation returns quickly and successfully. See also: AWS API Documentation list-intermediate-tables is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extrac...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1082,14 +1097,14 @@ public class AwsCleanrooms : IAwsCleanrooms
     }
 
     /// <summary>
-    /// Lists the version history of an intermediate table. Each call to Popu- lateIntermediateTable creates a new version. We recommend using pagina- tion to ensure that the operation returns quickly and successfully. See also: AWS API Documentation list-intermediate-table-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query...
+    /// Lists all members within a collaboration. See also: AWS API Documentation list-members is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: memberSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListIntermediateTableVersionsAsync(
-        AwsCleanroomsListIntermediateTableVersionsOptions options,
+    public virtual async Task<CommandResult> ListMembersAsync(
+        AwsCleanroomsListMembersOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -1112,14 +1127,14 @@ public class AwsCleanrooms : IAwsCleanrooms
     }
 
     /// <summary>
-    /// Lists all members within a collaboration. See also: AWS API Documentation list-members is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: memberSummaries
+    /// Returns detailed information about the privacy budget templates in a specified membership. See also: AWS API Documentation list-privacy-budget-templates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListMembersAsync(
-        AwsCleanroomsListMembersOptions options,
+    public virtual async Task<CommandResult> ListPrivacyBudgetTemplatesAsync(
+        AwsCleanroomsListPrivacyBudgetTemplatesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -1135,21 +1150,6 @@ public class AwsCleanrooms : IAwsCleanrooms
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListPrivacyBudgetsAsync(
         AwsCleanroomsListPrivacyBudgetsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Returns detailed information about the privacy budget templates in a specified membership. See also: AWS API Documentation list-privacy-budget-templates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressio...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListPrivacyBudgetTemplatesAsync(
-        AwsCleanroomsListPrivacyBudgetTemplatesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -1187,7 +1187,7 @@ public class AwsCleanrooms : IAwsCleanrooms
     }
 
     /// <summary>
-    /// Lists the schemas for relations within a collaboration. See also: AWS API Documentation list-schemas is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: schemaSummaries
+    /// Lists the schemas for relations within a collaboration. See also: AWS API Documentation list-schemas is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: schemaSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1217,7 +1217,7 @@ public class AwsCleanrooms : IAwsCleanrooms
     }
 
     /// <summary>
-    /// Defines the information that's necessary to populate an ID mapping ta- ble. See also: AWS API Documentation
+    /// Defines the information that's necessary to populate an ID mapping table. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1232,7 +1232,7 @@ public class AwsCleanrooms : IAwsCleanrooms
     }
 
     /// <summary>
-    /// Runs the stored query of an intermediate table and makes the results available for querying. Each call creates a new version. Use GetPro- tectedQuery with the returned analysis ID to track progress. Only the intermediate table owner can call this operation. See also: AWS API Documentation
+    /// Runs the stored query of an intermediate table and makes the results available for querying. Each call creates a new version. Use GetProtectedQuery with the returned analysis ID to track progress. Only the intermediate table owner can call this operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1352,7 +1352,7 @@ public class AwsCleanrooms : IAwsCleanrooms
     }
 
     /// <summary>
-    /// Updates an existing collaboration change request. This operation allows approval actions for pending change requests in collaborations (AP- PROVE, DENY, CANCEL, COMMIT). For change requests without automatic approval, a member in the collab- oration can manually APPROVE or DENY a change request. The collabora- tion owner can manually CANCEL or COMMIT a change request. See also: AWS API Documentation
+    /// Updates an existing collaboration change request. This operation allows approval actions for pending change requests in collaborations (APPROVE, DENY, CANCEL, COMMIT). For change requests without automatic approval, a member in the collaboration can manually APPROVE or DENY a change request. The collaboration owner can manually CANCEL or COMMIT a change request. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1367,7 +1367,7 @@ public class AwsCleanrooms : IAwsCleanrooms
     }
 
     /// <summary>
-    /// Updates collaboration metadata and can only be called by the collabora- tion owner. See also: AWS API Documentation
+    /// Updates collaboration metadata and can only be called by the collaboration owner. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1472,7 +1472,7 @@ public class AwsCleanrooms : IAwsCleanrooms
     }
 
     /// <summary>
-    /// Provides the details that are necessary to update an ID namespace asso- ciation. See also: AWS API Documentation update-id-namespace-association uses document type values. Document types follow the JSON data model where valid values are: strings, num- bers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Provides the details that are necessary to update an ID namespace association. See also: AWS API Documentation update-id-namespace-association uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

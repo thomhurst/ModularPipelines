@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsLogsDeleteLogAnomalyDetectorOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Deletes the specified CloudWatch Logs anomaly detector. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AnomalyDetectorArn">The ARN of the anomaly detector to delete. You can find the ARNs of log anomaly detectors in your account by using the ListLogAnomalyDetectors operation. Constraints: o min: 1 o pattern: [\w#+=/:,.@-]*</param>
+    /// <param name="AnomalyDetectorArn">The ARN of the anomaly detector to delete. You can find the ARNs of log anomaly detectors in your account by using the ListLogAnomalyDetectors operation. Constraints: • min: 1 • pattern: [\w#+=/:,.@-]*</param>
     public AwsLogsDeleteLogAnomalyDetectorOptions(
         string AnomalyDetectorArn
     )
@@ -56,7 +57,7 @@ public record AwsLogsDeleteLogAnomalyDetectorOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the anomaly detector to delete. You can find the ARNs of log anomaly detectors in your account by using the ListLogAnomalyDetectors operation. Constraints: o min: 1 o pattern: [\w#+=/:,.@-]*
+    /// The ARN of the anomaly detector to delete. You can find the ARNs of log anomaly detectors in your account by using the ListLogAnomalyDetectors operation. Constraints: • min: 1 • pattern: [\w#+=/:,.@-]*
     /// </summary>
     [CliOption("--anomaly-detector-arn")]
     public string? AnomalyDetectorArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsLogsDeleteLogAnomalyDetectorOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

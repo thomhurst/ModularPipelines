@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates a state template. WARNING: Access to certain Amazon Web Services IoT FleetWise features is cur- rently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
+/// Updates a state template. WARNING: Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsIotfleetwiseUpdateStateTemplateOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates a state template. WARNING: Access to certain Amazon Web Services IoT FleetWise features is cur- rently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
+    /// Updates a state template. WARNING: Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identifier">The unique ID of the state template. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z\d\-_:]+</param>
+    /// <param name="Identifier">The unique ID of the state template. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z\d\-_:]+</param>
     public AwsIotfleetwiseUpdateStateTemplateOptions(
         string Identifier
     )
@@ -56,37 +57,37 @@ public record AwsIotfleetwiseUpdateStateTemplateOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique ID of the state template. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z\d\-_:]+
+    /// The unique ID of the state template. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z\d\-_:]+
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// A brief description of the state template. Constraints: o min: 1 o max: 2048 o pattern: [^\u0000-\u001F\u007F]+
+    /// A brief description of the state template. Constraints: • min: 1 • max: 2048 • pattern: [^\u0000-\u001F\u007F]+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Add signals from which data is collected as part of the state tem- plate. Constraints: o min: 1 o max: 500 (string) Constraints: o min: 1 o max: 150 o pattern: [a-zA-Z0-9_.]+ Syntax: "string" "string" ...
+    /// Add signals from which data is collected as part of the state template. Constraints: • min: 1 • max: 500 (string) Constraints: • min: 1 • max: 150 • pattern: [a-zA-Z0-9_.]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--state-template-properties-to-add", GroupValues = true)]
     public IEnumerable<string>? StateTemplatePropertiesToAdd { get; set; }
 
     /// <summary>
-    /// Remove signals from which data is collected as part of the state template. Constraints: o min: 1 o max: 500 (string) Constraints: o min: 1 o max: 150 o pattern: [a-zA-Z0-9_.]+ Syntax: "string" "string" ...
+    /// Remove signals from which data is collected as part of the state template. Constraints: • min: 1 • max: 500 (string) Constraints: • min: 1 • max: 150 • pattern: [a-zA-Z0-9_.]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--state-template-properties-to-remove", GroupValues = true)]
     public IEnumerable<string>? StateTemplatePropertiesToRemove { get; set; }
 
     /// <summary>
-    /// A list of vehicle attributes to associate with the payload published on the state template's MQTT topic. (See Processing last known state vehicle data using MQTT messaging ). For example, if you add Vehi- cle.Attributes.Make and Vehicle.Attributes.Model attributes, Amazon Web Services IoT FleetWise will enrich the protobuf encoded payload with those attributes in the extraDimensions field. Default: An empty array Constraints: o min: 0 o max: 5 (string) Constraints: o min: 1 o max: 150 o pattern: [a-zA-Z0-9_.]+ Syntax: "string" "string" ...
+    /// A list of vehicle attributes to associate with the payload published on the state template's MQTT topic. (See Processing last known state vehicle data using MQTT messaging ). For example, if you add Vehicle.Attributes.Make and Vehicle.Attributes.Model attributes, Amazon Web Services IoT FleetWise will enrich the protobuf encoded payload with those attributes in the extraDimensions field. Default: An empty array Constraints: • min: 0 • max: 5 (string) Constraints: • min: 1 • max: 150 • pattern: [a-zA-Z0-9_.]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--data-extra-dimensions", GroupValues = true)]
     public IEnumerable<string>? DataExtraDimensions { get; set; }
 
     /// <summary>
-    /// A list of vehicle attributes to associate with user properties of the messages published on the state template's MQTT topic. (See Processing last known state vehicle data using MQTT messaging ). For example, if you add Vehicle.Attributes.Make and Vehicle.Attrib- utes.Model attributes, Amazon Web Services IoT FleetWise will in- clude these attributes as User Properties with the MQTT message. Constraints: o min: 0 o max: 5 (string) Constraints: o min: 1 o max: 150 o pattern: [a-zA-Z0-9_.]+ Syntax: "string" "string" ...
+    /// A list of vehicle attributes to associate with user properties of the messages published on the state template's MQTT topic. (See Processing last known state vehicle data using MQTT messaging ). For example, if you add Vehicle.Attributes.Make and Vehicle.Attributes.Model attributes, Amazon Web Services IoT FleetWise will include these attributes as User Properties with the MQTT message. Constraints: • min: 0 • max: 5 (string) Constraints: • min: 1 • max: 150 • pattern: [a-zA-Z0-9_.]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--metadata-extra-dimensions", GroupValues = true)]
     public IEnumerable<string>? MetadataExtraDimensions { get; set; }
@@ -112,6 +113,15 @@ public record AwsIotfleetwiseUpdateStateTemplateOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the tags assigned to the resource, such as a target recovery point, backup plan, or backup vault. This operation returns results depending on the resource type used in the value for resourceArn . For example, recovery points of Amazon Dy- namoDB with Advanced Settings have an ARN (Amazon Resource Name) that begins with arn:aws:backup . Recovery points (backups) of DynamoDB without Advanced Settings enabled have an ARN that begins with arn:aws:dynamodb . When this operation is called and ...
+/// Returns the tags assigned to the resource, such as a target recovery point, backup plan, or backup vault. This operation returns results depending on the resource type used in the value for resourceArn . For example, recovery points of Amazon DynamoDB with Advanced Settings have an ARN (Amazon Resource Name) that begins with arn:aws:backup . Recovery points (backups) of DynamoDB without Advanced Settings enabled have an ARN that begins with arn:aws:dynamodb . When this operation is called and wh...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +27,7 @@ public record AwsBackupListTagsOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the tags assigned to the resource, such as a target recovery point, backup plan, or backup vault. This operation returns results depending on the resource type used in the value for resourceArn . For example, recovery points of Amazon Dy- namoDB with Advanced Settings have an ARN (Amazon Resource Name) that begins with arn:aws:backup . Recovery points (backups) of DynamoDB without Advanced Settings enabled have an ARN that begins with arn:aws:dynamodb . When this operation is called and ...
+    /// Returns the tags assigned to the resource, such as a target recovery point, backup plan, or backup vault. This operation returns results depending on the resource type used in the value for resourceArn . For example, recovery points of Amazon DynamoDB with Advanced Settings have an ARN (Amazon Resource Name) that begins with arn:aws:backup . Recovery points (backups) of DynamoDB without Advanced Settings enabled have an ARN that begins with arn:aws:dynamodb . When this operation is called and wh...
     /// </summary>
     /// <param name="ResourceArn">An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the type of resource. Valid targets for ListTags are recovery points, backup plans, and backup vaults.</param>
     public AwsBackupListTagsOptions(
@@ -63,14 +64,14 @@ public record AwsBackupListTagsOptions : AwsOptions, IValidatableObject
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The next item following a partial list of returned items. For exam- ple, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of items to be returned. Constraints: o min: 1 o max: 1000
+    /// The maximum number of items to be returned. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -96,6 +97,15 @@ public record AwsBackupListTagsOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

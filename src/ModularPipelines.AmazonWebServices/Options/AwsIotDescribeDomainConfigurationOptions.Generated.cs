@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsIotDescribeDomainConfigurationOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Gets summary information about a domain configuration. Requires permission to access the DescribeDomainConfiguration action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainConfigurationName">The name of the domain configuration. Constraints: o min: 1 o max: 128 o pattern: [\w.:-]+</param>
+    /// <param name="DomainConfigurationName">The name of the domain configuration. Constraints: • min: 1 • max: 128 • pattern: [\w.:-]+</param>
     public AwsIotDescribeDomainConfigurationOptions(
         string DomainConfigurationName
     )
@@ -56,7 +57,7 @@ public record AwsIotDescribeDomainConfigurationOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the domain configuration. Constraints: o min: 1 o max: 128 o pattern: [\w.:-]+
+    /// The name of the domain configuration. Constraints: • min: 1 • max: 128 • pattern: [\w.:-]+
     /// </summary>
     [CliOption("--domain-configuration-name")]
     public string? DomainConfigurationName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsIotDescribeDomainConfigurationOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

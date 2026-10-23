@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the session configuration for an application in IAM Identity Center. The session configuration determines how users can access an applica- tion. This includes whether user background sessions are enabled. User background sessions allow users to start a job on a supported Amazon Web Services managed application without having to remain signed in to an active session while the job runs. See also: AWS API Documentation
+/// Retrieves the session configuration for an application in IAM Identity Center. The session configuration determines how users can access an application. This includes whether user background sessions are enabled. User background sessions allow users to start a job on a supported Amazon Web Services managed application without having to remain signed in to an active session while the job runs. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsSsoAdminGetApplicationSessionConfigurationOptions : AwsOptions,
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves the session configuration for an application in IAM Identity Center. The session configuration determines how users can access an applica- tion. This includes whether user background sessions are enabled. User background sessions allow users to start a job on a supported Amazon Web Services managed application without having to remain signed in to an active session while the job runs. See also: AWS API Documentation
+    /// Retrieves the session configuration for an application in IAM Identity Center. The session configuration determines how users can access an application. This includes whether user background sessions are enabled. User background sessions allow users to start a job on a supported Amazon Web Services managed application without having to remain signed in to an active session while the job runs. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationArn">The Amazon Resource Name (ARN) of the application for which to re- trieve the session configuration. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::\d{12}:applica- tion/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}</param>
+    /// <param name="ApplicationArn">The Amazon Resource Name (ARN) of the application for which to retrieve the session configuration. Constraints: • min: 10 • max: 1224 • pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}</param>
     public AwsSsoAdminGetApplicationSessionConfigurationOptions(
         string ApplicationArn
     )
@@ -56,7 +57,7 @@ public record AwsSsoAdminGetApplicationSessionConfigurationOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the application for which to re- trieve the session configuration. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::\d{12}:applica- tion/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}
+    /// The Amazon Resource Name (ARN) of the application for which to retrieve the session configuration. Constraints: • min: 10 • max: 1224 • pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}
     /// </summary>
     [CliOption("--application-arn")]
     public string? ApplicationArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSsoAdminGetApplicationSessionConfigurationOptions : AwsOptions,
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

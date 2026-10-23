@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modifies the following configurations of the Microsoft Azure Blob Stor- age transfer location that you're using with DataSync. For more information, see Configuring DataSync transfers with Azure Blob Storage . See also: AWS API Documentation
+/// Modifies the following configurations of the Microsoft Azure Blob Storage transfer location that you're using with DataSync. For more information, see Configuring DataSync transfers with Azure Blob Storage . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +28,9 @@ public record AwsDatasyncUpdateLocationAzureBlobOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Modifies the following configurations of the Microsoft Azure Blob Stor- age transfer location that you're using with DataSync. For more information, see Configuring DataSync transfers with Azure Blob Storage . See also: AWS API Documentation
+    /// Modifies the following configurations of the Microsoft Azure Blob Storage transfer location that you're using with DataSync. For more information, see Configuring DataSync transfers with Azure Blob Storage . See also: AWS API Documentation
     /// </summary>
-    /// <param name="LocationArn">Specifies the ARN of the Azure Blob Storage transfer location that you're updating. Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):data- sync:[a-z\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$</param>
+    /// <param name="LocationArn">Specifies the ARN of the Azure Blob Storage transfer location that you're updating. Constraints: • max: 128 • pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):datasync:[a-z\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$</param>
     public AwsDatasyncUpdateLocationAzureBlobOptions(
         string LocationArn
     )
@@ -58,56 +59,57 @@ public record AwsDatasyncUpdateLocationAzureBlobOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the ARN of the Azure Blob Storage transfer location that you're updating. Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):data- sync:[a-z\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$
+    /// Specifies the ARN of the Azure Blob Storage transfer location that you're updating. Constraints: • max: 128 • pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):datasync:[a-z\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$
     /// </summary>
     [CliOption("--location-arn")]
     public string? LocationArn { get; private init; }
 
     /// <summary>
-    /// Specifies path segments if you want to limit your transfer to a vir- tual directory in your container (for example, /my/images ). Constraints: o max: 1024 o pattern: ^[\p{L}\p{M}\p{Z}\p{S}\p{N}\p{P}\p{C}]*$
+    /// Specifies path segments if you want to limit your transfer to a virtual directory in your container (for example, /my/images ). Constraints: • max: 1024 • pattern: ^[\p{L}\p{M}\p{Z}\p{S}\p{N}\p{P}\p{C}]*$
     /// </summary>
     [CliOption("--subdirectory")]
     public string? Subdirectory { get; set; }
 
     /// <summary>
-    /// Specifies the authentication method DataSync uses to access your Azure Blob Storage. DataSync can access blob storage using a shared access signature (SAS). Possible values: o SAS o NONE
+    /// Specifies the authentication method DataSync uses to access your Azure Blob Storage. DataSync can access blob storage using a shared access signature (SAS). Possible values: • SAS • NONE
     /// </summary>
     [CliOption("--authentication-type")]
     public AwsDatasyncUpdateLocationAzureBlobAuthenticationType? AuthenticationType { get; set; }
 
     /// <summary>
-    /// Specifies the SAS configuration that allows DataSync to access your Azure Blob Storage. Token -&gt; (string) [required] Specifies a SAS token that provides permissions to access your Azure Blob Storage. The token is part of the SAS URI string that comes after the storage resource URI and a question mark. A token looks some- thing like this: sp=r&amp;st=2023-12-20T14:54:52Z&amp;se=2023-12-20T22:54:52Z&amp;spr=https&amp;sv=2021-06-08&amp;sr=c&amp;sig=aB- BKDWQvyuVcTPH9EBp%2FXTI9E%2F%2Fmq171%2BZU178wcwqU%3D Constraints: o min: 1 o max: 255 o pattern: ^.+$ Shorthand Syntax: Token=string JSON Syntax: { "Token": "string" }
+    /// Specifies the SAS configuration that allows DataSync to access your Azure Blob Storage. Token -&gt; (string) [required] Specifies a SAS token that provides permissions to access your Azure Blob Storage. The token is part of the SAS URI string that comes after the storage resource URI and a question mark. A token looks something like this: sp=r&amp;st=2023-12-20T14:54:52Z&amp;se=2023-12-20T22:54:52Z&amp;spr=https&amp;sv=2021-06-08&amp;sr=c&amp;sig=aBBKDWQvyuVcTPH9EBp%2FXTI9E%2F%2Fmq171%2BZU178wcwqU%3D Constraints: • min: 1 • max: 255 • pattern: ^.+$ Shorthand Syntax: Token=string JSON Syntax: { "Token": "string" }
     /// </summary>
+    [SecretValue]
     [CliOption("--sas-configuration")]
     public string? SasConfiguration { get; set; }
 
     /// <summary>
-    /// Specifies the type of blob that you want your objects or files to be when transferring them into Azure Blob Storage. Currently, DataSync only supports moving data into Azure Blob Storage as block blobs. For more information on blob types, see the Azure Blob Storage docu- mentation . Possible values: o BLOCK
+    /// Specifies the type of blob that you want your objects or files to be when transferring them into Azure Blob Storage. Currently, DataSync only supports moving data into Azure Blob Storage as block blobs. For more information on blob types, see the Azure Blob Storage documentation . Possible values: • BLOCK
     /// </summary>
     [CliOption("--blob-type")]
     public string? BlobType { get; set; }
 
     /// <summary>
-    /// Specifies the access tier that you want your objects or files trans- ferred into. This only applies when using the location as a transfer destination. For more information, see Access tiers . Possible values: o HOT o COOL o ARCHIVE
+    /// Specifies the access tier that you want your objects or files transferred into. This only applies when using the location as a transfer destination. For more information, see Access tiers . Possible values: • HOT • COOL • ARCHIVE
     /// </summary>
     [CliOption("--access-tier")]
     public AwsDatasyncUpdateLocationAzureBlobAccessTier? AccessTier { get; set; }
 
     /// <summary>
-    /// (Optional) Specifies the Amazon Resource Name (ARN) of the DataSync agent that can connect with your Azure Blob Storage container. If you are setting up an agentless cross-cloud transfer, you do not need to specify a value for this parameter. You can specify more than one agent. For more information, see Using multiple agents for your transfer . NOTE: You cannot add or remove agents from a storage location after you initially create it. Constraints: o min: 1 o max: 8 (string) Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):data- sync:[a-z\-0-9]+:[0-9]{12}:agent/agent-[0-9a-z]{17}$ Syntax: "string" "string" ...
+    /// (Optional) Specifies the Amazon Resource Name (ARN) of the DataSync agent that can connect with your Azure Blob Storage container. If you are setting up an agentless cross-cloud transfer, you do not need to specify a value for this parameter. You can specify more than one agent. For more information, see Using multiple agents for your transfer . NOTE: You cannot add or remove agents from a storage location after you initially create it. Constraints: • min: 1 • max: 8 (string) Constraints: • max: 128 • pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):datasync:[a-z\-0-9]+:[0-9]{12}:agent/agent-[0-9a-z]{17}$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--agent-arns", GroupValues = true)]
     public IEnumerable<string>? AgentArns { get; set; }
 
     /// <summary>
-    /// Specifies configuration information for a DataSync-managed secret, such as an authentication token or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed KMS key. SecretArn -&gt; (string) Specifies the ARN for the DataSync-managed Secrets Manager se- cret that that is used to access a specific storage location. This property is generated by DataSync and is read-only. Data- Sync encrypts this secret with the KMS key that you specify for KmsKeyArn . Constraints: o max: 2048 o pattern: ^(arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):se- cretsmanager:[a-z\-0-9]+:[0-9]{12}:secret:.*|)$ KmsKeyArn -&gt; (string) Specifies the ARN for the customer-managed KMS key that DataSync uses to encrypt the DataSync-managed secret stored for SecretArn . DataSync provides this key to Secrets Manager. Constraints: o max: 2048 o pattern: ^(arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):kms:[a-z\-0-9]+:[0-9]{12}:key/.*|)$ Shorthand Syntax: SecretArn=string,KmsKeyArn=string JSON Syntax: { "SecretArn": "string", "KmsKeyArn": "string" }
+    /// Specifies configuration information for a DataSync-managed secret, such as an authentication token or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed KMS key. SecretArn -&gt; (string) Specifies the ARN for the DataSync-managed Secrets Manager secret that that is used to access a specific storage location. This property is generated by DataSync and is read-only. DataSync encrypts this secret with the KMS key that you specify for KmsKeyArn . Constraints: • max: 2048 • pattern: ^(arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):secretsmanager:[a-z\-0-9]+:[0-9]{12}:secret:.*|)$ KmsKeyArn -&gt; (string) Specifies the ARN for the customer-managed KMS key that DataSync uses to encrypt the DataSync-managed secret stored for SecretArn . DataSync provides this key to Secrets Manager. Constraints: • max: 2048 • pattern: ^(arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):kms:[a-z\-0-9]+:[0-9]{12}:key/.*|)$ Shorthand Syntax: SecretArn=string,KmsKeyArn=string JSON Syntax: { "SecretArn": "string", "KmsKeyArn": "string" }
     /// </summary>
     [SecretValue]
     [CliOption("--cmk-secret-config")]
     public string? CmkSecretConfig { get; set; }
 
     /// <summary>
-    /// Specifies configuration information for a customer-managed secret, such as an authentication token or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed Identity and Access Management (IAM) role that provides access to the secret. SecretArn -&gt; (string) Specifies the ARN for an Secrets Manager secret. Constraints: o max: 2048 o pattern: ^(arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):se- cretsmanager:[a-z\-0-9]+:[0-9]{12}:secret:.*|)$ SecretAccessRoleArn -&gt; (string) Specifies the ARN for the Identity and Access Management role that DataSync uses to access the secret specified for SecretArn . Constraints: o max: 2048 o pattern: ^(arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):iam::[0-9]{12}:role/[a-zA-Z0-9+=,.@_/-]+|)$ Shorthand Syntax: SecretArn=string,SecretAccessRoleArn=string JSON Syntax: { "SecretArn": "string", "SecretAccessRoleArn": "string" }
+    /// Specifies configuration information for a customer-managed secret, such as an authentication token or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed Identity and Access Management (IAM) role that provides access to the secret. SecretArn -&gt; (string) Specifies the ARN for an Secrets Manager secret. Constraints: • max: 2048 • pattern: ^(arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):secretsmanager:[a-z\-0-9]+:[0-9]{12}:secret:.*|)$ SecretAccessRoleArn -&gt; (string) Specifies the ARN for the Identity and Access Management role that DataSync uses to access the secret specified for SecretArn . Constraints: • max: 2048 • pattern: ^(arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):iam::[0-9]{12}:role/[a-zA-Z0-9+=,.@_/-]+|)$ Shorthand Syntax: SecretArn=string,SecretAccessRoleArn=string JSON Syntax: { "SecretArn": "string", "SecretAccessRoleArn": "string" }
     /// </summary>
     [SecretValue]
     [CliOption("--custom-secret-config")]
@@ -134,6 +136,15 @@ public record AwsDatasyncUpdateLocationAzureBlobOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

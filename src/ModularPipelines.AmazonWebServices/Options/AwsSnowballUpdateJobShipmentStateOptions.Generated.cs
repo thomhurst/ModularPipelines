@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +29,8 @@ public record AwsSnowballUpdateJobShipmentStateOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Updates the state when a shipment state changes to a different state. See also: AWS API Documentation
     /// </summary>
-    /// <param name="JobId">The job ID of the job whose shipment date you want to update, for example JID123e4567-e89b-12d3-a456-426655440000 . Constraints: o min: 39 o max: 39 o pattern: (M|J)ID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
-    /// <param name="ShipmentState">The state of a device when it is being shipped. Set to RECEIVED when the device arrives at your location. Set to RETURNED when you have returned the device to Amazon Web Ser- vices. Possible values: o RECEIVED o RETURNED</param>
+    /// <param name="JobId">The job ID of the job whose shipment date you want to update, for example JID123e4567-e89b-12d3-a456-426655440000 . Constraints: • min: 39 • max: 39 • pattern: (M|J)ID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="ShipmentState">The state of a device when it is being shipped. Set to RECEIVED when the device arrives at your location. Set to RETURNED when you have returned the device to Amazon Web Services. Possible values: • RECEIVED • RETURNED</param>
     public AwsSnowballUpdateJobShipmentStateOptions(
         string JobId,
         AwsSnowballUpdateJobShipmentStateShipmentState ShipmentState
@@ -60,13 +61,13 @@ public record AwsSnowballUpdateJobShipmentStateOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The job ID of the job whose shipment date you want to update, for example JID123e4567-e89b-12d3-a456-426655440000 . Constraints: o min: 39 o max: 39 o pattern: (M|J)ID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The job ID of the job whose shipment date you want to update, for example JID123e4567-e89b-12d3-a456-426655440000 . Constraints: • min: 39 • max: 39 • pattern: (M|J)ID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }
 
     /// <summary>
-    /// The state of a device when it is being shipped. Set to RECEIVED when the device arrives at your location. Set to RETURNED when you have returned the device to Amazon Web Ser- vices. Possible values: o RECEIVED o RETURNED
+    /// The state of a device when it is being shipped. Set to RECEIVED when the device arrives at your location. Set to RETURNED when you have returned the device to Amazon Web Services. Possible values: • RECEIVED • RETURNED
     /// </summary>
     [CliOption("--shipment-state")]
     public AwsSnowballUpdateJobShipmentStateShipmentState? ShipmentState { get; private init; }
@@ -92,6 +93,15 @@ public record AwsSnowballUpdateJobShipmentStateOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsApplicationInsightsDescribeObservationOptions : AwsOptions, IVa
     /// <summary>
     /// Describes an anomaly or error with the application. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ObservationId">The ID of the observation. Constraints: o min: 38 o max: 38 o pattern: o-[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}</param>
+    /// <param name="ObservationId">The ID of the observation. Constraints: • min: 38 • max: 38 • pattern: o-[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}</param>
     public AwsApplicationInsightsDescribeObservationOptions(
         string ObservationId
     )
@@ -56,13 +57,13 @@ public record AwsApplicationInsightsDescribeObservationOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the observation. Constraints: o min: 38 o max: 38 o pattern: o-[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}
+    /// The ID of the observation. Constraints: • min: 38 • max: 38 • pattern: o-[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}
     /// </summary>
     [CliOption("--observation-id")]
     public string? ObservationId { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services account ID for the resource group owner. Constraints: o min: 12 o max: 12 o pattern: ^\d{12}$
+    /// The Amazon Web Services account ID for the resource group owner. Constraints: • min: 12 • max: 12 • pattern: ^\d{12}$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; set; }
@@ -88,6 +89,15 @@ public record AwsApplicationInsightsDescribeObservationOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

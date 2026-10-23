@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsDevicefarmGetNetworkProfileOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Returns information about a network profile. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The ARN of the network profile to return information about. Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+</param>
+    /// <param name="Arn">The ARN of the network profile to return information about. Constraints: • min: 32 • max: 1011 • pattern: ^arn:aws:devicefarm:.+</param>
     public AwsDevicefarmGetNetworkProfileOptions(
         string Arn
     )
@@ -56,7 +57,7 @@ public record AwsDevicefarmGetNetworkProfileOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the network profile to return information about. Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+
+    /// The ARN of the network profile to return information about. Constraints: • min: 32 • max: 1011 • pattern: ^arn:aws:devicefarm:.+
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsDevicefarmGetNetworkProfileOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

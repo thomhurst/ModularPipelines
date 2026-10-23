@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes an S3 Metadata configuration from a general purpose bucket. For more information, see Accelerating data discovery with S3 Metadata in the Amazon S3 User Guide . NOTE: You can use the V2 DeleteBucketMetadataConfiguration API operation with V1 or V2 metadata configurations. However, if you try to use the V1 DeleteBucketMetadataTableConfiguration API operation with V2 configurations, you will receive an HTTP 405 Method Not Allowed er- ror. Permissions To use this operation, you must have th...
+/// Deletes an S3 Metadata configuration from a general purpose bucket. For more information, see Accelerating data discovery with S3 Metadata in the Amazon S3 User Guide . NOTE: You can use the V2 DeleteBucketMetadataConfiguration API operation with V1 or V2 metadata configurations. However, if you try to use the V1 DeleteBucketMetadataTableConfiguration API operation with V2 configurations, you will receive an HTTP 405 Method Not Allowed error. Permissions To use this operation, you must have the ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsS3apiDeleteBucketMetadataConfigurationOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes an S3 Metadata configuration from a general purpose bucket. For more information, see Accelerating data discovery with S3 Metadata in the Amazon S3 User Guide . NOTE: You can use the V2 DeleteBucketMetadataConfiguration API operation with V1 or V2 metadata configurations. However, if you try to use the V1 DeleteBucketMetadataTableConfiguration API operation with V2 configurations, you will receive an HTTP 405 Method Not Allowed er- ror. Permissions To use this operation, you must have th...
+    /// Deletes an S3 Metadata configuration from a general purpose bucket. For more information, see Accelerating data discovery with S3 Metadata in the Amazon S3 User Guide . NOTE: You can use the V2 DeleteBucketMetadataConfiguration API operation with V1 or V2 metadata configurations. However, if you try to use the V1 DeleteBucketMetadataTableConfiguration API operation with V2 configurations, you will receive an HTTP 405 Method Not Allowed error. Permissions To use this operation, you must have the ...
     /// </summary>
-    /// <param name="Bucket">The general purpose bucket that you want to remove the metadata con- figuration from.</param>
+    /// <param name="Bucket">The general purpose bucket that you want to remove the metadata configuration from.</param>
     public AwsS3apiDeleteBucketMetadataConfigurationOptions(
         string Bucket
     )
@@ -56,7 +57,7 @@ public record AwsS3apiDeleteBucketMetadataConfigurationOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The general purpose bucket that you want to remove the metadata con- figuration from.
+    /// The general purpose bucket that you want to remove the metadata configuration from.
     /// </summary>
     [CliOption("--bucket")]
     public string? Bucket { get; private init; }
@@ -88,6 +89,15 @@ public record AwsS3apiDeleteBucketMetadataConfigurationOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

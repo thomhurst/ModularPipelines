@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsCustomerProfilesGetIntegrationOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Returns an integration for a domain. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
-    /// <param name="Uri">The URI of the S3 bucket or any other type of data source. Constraints: o min: 1 o max: 255</param>
+    /// <param name="DomainName">The unique name of the domain. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="Uri">The URI of the S3 bucket or any other type of data source. Constraints: • min: 1 • max: 255</param>
     public AwsCustomerProfilesGetIntegrationOptions(
         string DomainName,
         string Uri
@@ -60,13 +61,13 @@ public record AwsCustomerProfilesGetIntegrationOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The unique name of the domain. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// The URI of the S3 bucket or any other type of data source. Constraints: o min: 1 o max: 255
+    /// The URI of the S3 bucket or any other type of data source. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--uri")]
     public string? Uri { get; private init; }
@@ -92,6 +93,15 @@ public record AwsCustomerProfilesGetIntegrationOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

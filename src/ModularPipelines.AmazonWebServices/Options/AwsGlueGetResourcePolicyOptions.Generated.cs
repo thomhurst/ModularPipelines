@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsGlueGetResourcePolicyOptions : AwsOptions
 {
     /// <summary>
-    /// The ARN of the Glue resource for which to retrieve the resource pol- icy. If not supplied, the Data Catalog resource policy is returned. Use GetResourcePolicies to view all existing resource policies. For more information see Specifying Glue Resource ARNs . Constraints: o min: 1 o max: 10240 o pattern: arn:aws(-(cn|us-gov|iso(-[bef])?))?:glue:.*
+    /// The ARN of the Glue resource for which to retrieve the resource policy. If not supplied, the Data Catalog resource policy is returned. Use GetResourcePolicies to view all existing resource policies. For more information see Specifying Glue Resource ARNs . Constraints: • min: 1 • max: 10240 • pattern: arn:aws(-(cn|us-gov|iso(-[bef])?))?:glue:.*
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; set; }
@@ -32,5 +32,14 @@ public record AwsGlueGetResourcePolicyOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

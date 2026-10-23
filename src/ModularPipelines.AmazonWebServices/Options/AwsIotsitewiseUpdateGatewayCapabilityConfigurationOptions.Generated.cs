@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates a gateway capability configuration or defines a new capability configuration. Each gateway capability defines data sources for a gate- way. Important workflow notes: Each gateway capability defines data sources for a gateway. This is the namespace of the gateway capability. . The namespace follows the format service:capability:version , where: o service - The service providing the capability, or iotsitewise . o capability - The specific capability type. Options include: opcuacol- lector ...
+/// Updates a gateway capability configuration or defines a new capability configuration. Each gateway capability defines data sources for a gateway. Important workflow notes: Each gateway capability defines data sources for a gateway. This is the namespace of the gateway capability. . The namespace follows the format service:capability:version , where: • service - The service providing the capability, or iotsitewise . • capability - The specific capability type. Options include: opcuacollector for ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsIotsitewiseUpdateGatewayCapabilityConfigurationOptions : AwsOpt
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates a gateway capability configuration or defines a new capability configuration. Each gateway capability defines data sources for a gate- way. Important workflow notes: Each gateway capability defines data sources for a gateway. This is the namespace of the gateway capability. . The namespace follows the format service:capability:version , where: o service - The service providing the capability, or iotsitewise . o capability - The specific capability type. Options include: opcuacol- lector ...
+    /// Updates a gateway capability configuration or defines a new capability configuration. Each gateway capability defines data sources for a gateway. Important workflow notes: Each gateway capability defines data sources for a gateway. This is the namespace of the gateway capability. . The namespace follows the format service:capability:version , where: • service - The service providing the capability, or iotsitewise . • capability - The specific capability type. Options include: opcuacollector for ...
     /// </summary>
-    /// <param name="GatewayId">The ID of the gateway to be updated. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$</param>
-    /// <param name="CapabilityNamespace">The namespace of the gateway capability configuration to be updated. For example, if you configure OPC UA sources for an MQTT-enabled gateway, your OPC-UA capability configuration has the namespace iot- sitewise:opcuacollector:3 . Constraints: o min: 1 o max: 512 o pattern: ^[a-zA-Z]+:[a-zA-Z]+:[0-9]+$</param>
-    /// <param name="CapabilityConfiguration">The JSON document that defines the configuration for the gateway ca- pability. For more information, see Configuring data sources (CLI) in the IoT SiteWise User Guide . Constraints: o min: 1 o max: 10000000</param>
+    /// <param name="GatewayId">The ID of the gateway to be updated. Constraints: • min: 36 • max: 36 • pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$</param>
+    /// <param name="CapabilityNamespace">The namespace of the gateway capability configuration to be updated. For example, if you configure OPC UA sources for an MQTT-enabled gateway, your OPC-UA capability configuration has the namespace iotsitewise:opcuacollector:3 . Constraints: • min: 1 • max: 512 • pattern: ^[a-zA-Z]+:[a-zA-Z]+:[0-9]+$</param>
+    /// <param name="CapabilityConfiguration">The JSON document that defines the configuration for the gateway capability. For more information, see Configuring data sources (CLI) in the IoT SiteWise User Guide . Constraints: • min: 1 • max: 10000000</param>
     public AwsIotsitewiseUpdateGatewayCapabilityConfigurationOptions(
         string GatewayId,
         string CapabilityNamespace,
@@ -64,19 +65,19 @@ public record AwsIotsitewiseUpdateGatewayCapabilityConfigurationOptions : AwsOpt
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the gateway to be updated. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+    /// The ID of the gateway to be updated. Constraints: • min: 36 • max: 36 • pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
     /// </summary>
     [CliOption("--gateway-id")]
     public string? GatewayId { get; private init; }
 
     /// <summary>
-    /// The namespace of the gateway capability configuration to be updated. For example, if you configure OPC UA sources for an MQTT-enabled gateway, your OPC-UA capability configuration has the namespace iot- sitewise:opcuacollector:3 . Constraints: o min: 1 o max: 512 o pattern: ^[a-zA-Z]+:[a-zA-Z]+:[0-9]+$
+    /// The namespace of the gateway capability configuration to be updated. For example, if you configure OPC UA sources for an MQTT-enabled gateway, your OPC-UA capability configuration has the namespace iotsitewise:opcuacollector:3 . Constraints: • min: 1 • max: 512 • pattern: ^[a-zA-Z]+:[a-zA-Z]+:[0-9]+$
     /// </summary>
     [CliOption("--capability-namespace")]
     public string? CapabilityNamespace { get; private init; }
 
     /// <summary>
-    /// The JSON document that defines the configuration for the gateway ca- pability. For more information, see Configuring data sources (CLI) in the IoT SiteWise User Guide . Constraints: o min: 1 o max: 10000000
+    /// The JSON document that defines the configuration for the gateway capability. For more information, see Configuring data sources (CLI) in the IoT SiteWise User Guide . Constraints: • min: 1 • max: 10000000
     /// </summary>
     [CliOption("--capability-configuration")]
     public string? CapabilityConfiguration { get; private init; }
@@ -102,6 +103,15 @@ public record AwsIotsitewiseUpdateGatewayCapabilityConfigurationOptions : AwsOpt
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

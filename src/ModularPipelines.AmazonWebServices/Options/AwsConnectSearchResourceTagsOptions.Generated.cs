@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsConnectSearchResourceTagsOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Searches tags used in an Connect Customer instance using optional search criteria. See also: AWS API Documentation search-resource-tags is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Tags
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instanceId in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 250 o pattern: ^(arn:(aws|aws-us-gov):con- nect:[a-z]{2}-[a-z]+-[0-9]{1}:[0-9]{1,20}:in- stance/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instanceId in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 250 • pattern: ^(arn:(aws|aws-us-gov):connect:[a-z]{2}-[a-z]+-[0-9]{1}:[0-9]{1,20}:instance/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
     public AwsConnectSearchResourceTagsOptions(
         string InstanceId
     )
@@ -57,28 +58,25 @@ public record AwsConnectSearchResourceTagsOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instanceId in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 250 o pattern: ^(arn:(aws|aws-us-gov):con- nect:[a-z]{2}-[a-z]+-[0-9]{1}:[0-9]{1,20}:in- stance/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
+    /// The identifier of the Connect Customer instance. You can find the instanceId in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 250 • pattern: ^(arn:(aws|aws-us-gov):connect:[a-z]{2}-[a-z]+-[0-9]{1}:[0-9]{1,20}:instance/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The list of resource types to be used to search tags from. If not provided or if any empty list is provided, this API will search from all supported resource types. Note that lowercase and - are re- quired. Supported resource types o agent o agent-state o routing-profile o standard-queue o security-profile o operating-hours o prompt o contact-flow o flow- module o transfer-destination (also known as quick connect) o metric (string) Syntax: "string" "string" ...
+    /// The list of resource types to be used to search tags from. If not provided or if any empty list is provided, this API will search from all supported resource types. Note that lowercase and - are required. Supported resource types • agent • agent-state • routing-profile • standard-queue • security-profile • operating-hours • prompt • contact-flow • flow- module • transfer-destination (also known as quick connect) • metric (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--resource-types", GroupValues = true)]
     public IEnumerable<string>? ResourceTypes { get; set; }
 
     /// <summary>
-    /// The search criteria to be used to return tags. TagSearchCondition -&gt; (structure) The search criteria to be used to return tags. tagKey -&gt; (string) The tag key used in the tag search condition. Constraints: o max: 128 tagValue -&gt; (string) The tag value used in the tag search condition. Constraints: o max: 256 tagKeyComparisonType -&gt; (string) The type of comparison to be made when evaluating the tag key in tag search condition. Possible values: o STARTS_WITH o CONTAINS o EXACT tagValueComparisonType -&gt; (string) The type of comparison to be made when evaluating the tag value in tag search condition. Possible values: o STARTS_WITH o CONTAINS o EXACT Shorthand Syntax: TagSearchCondition={tagKey=string,tagValue=string,tagKeyComparisonType=string,tagValueComparisonType=string} JSON Syntax: { "TagSearchCondition": { "tagKey": "string", "tagValue": "string", "tagKeyComparisonType": "STARTS_WITH"|"CONTAINS"|"EXACT", "tagValueComparisonType": "STARTS_WITH"|"CONTAINS"|"EXACT" } }
+    /// The search criteria to be used to return tags. TagSearchCondition -&gt; (structure) The search criteria to be used to return tags. tagKey -&gt; (string) The tag key used in the tag search condition. Constraints: • max: 128 tagValue -&gt; (string) The tag value used in the tag search condition. Constraints: • max: 256 tagKeyComparisonType -&gt; (string) The type of comparison to be made when evaluating the tag key in tag search condition. Possible values: • STARTS_WITH • CONTAINS • EXACT tagValueComparisonType -&gt; (string) The type of comparison to be made when evaluating the tag value in tag search condition. Possible values: • STARTS_WITH • CONTAINS • EXACT Shorthand Syntax: TagSearchCondition={tagKey=string,tagValue=string,tagKeyComparisonType=string,tagValueComparisonType=string} JSON Syntax: { "TagSearchCondition": { "tagKey": "string", "tagValue": "string", "tagKeyComparisonType": "STARTS_WITH"|"CONTAINS"|"EXACT", "tagValueComparisonType": "STARTS_WITH"|"CONTAINS"|"EXACT" } }
     /// </summary>
     [CliOption("--search-criteria")]
     public string? SearchCriteria { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -88,16 +86,19 @@ public record AwsConnectSearchResourceTagsOptions : AwsOptions, IValidatableObje
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -114,6 +115,15 @@ public record AwsConnectSearchResourceTagsOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

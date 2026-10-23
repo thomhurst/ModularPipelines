@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Processes a payment using a payment instrument within a payment ses- sion. See also: AWS API Documentation process-payment uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+/// Processes a payment using a payment instrument within a payment session. See also: AWS API Documentation process-payment uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,13 +28,13 @@ public record AwsBedrockAgentcoreProcessPaymentOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Processes a payment using a payment instrument within a payment ses- sion. See also: AWS API Documentation process-payment uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Processes a payment using a payment instrument within a payment session. See also: AWS API Documentation process-payment uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
-    /// <param name="PaymentManagerArn">The ARN of the payment manager. Constraints: o min: 66 o max: 2048 o pattern: arn:(aws|aws-[a-z0-9-]+):bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:payment-man- ager/[a-z0-9]([a-z0-9-]{0,47}[a-z0-9])?-[a-z0-9]{10}</param>
-    /// <param name="PaymentSessionId">The ID of the payment session. Constraints: o min: 31 o max: 31 o pattern: payment-session-[0-9a-zA-Z-]{15}</param>
-    /// <param name="PaymentInstrumentId">The ID of the payment instrument to use. Constraints: o min: 34 o max: 34 o pattern: payment-instrument-[0-9a-zA-Z-]{15}</param>
-    /// <param name="PaymentType">The type of payment to process. Possible values: o CRYPTO_X402 o MPP</param>
-    /// <param name="PaymentInput">The payment input details specific to the payment type. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: cryptoX402, mpp. cryptoX402 -&gt; (structure) Input for a crypto X402 payment. version -&gt; (string) [required] The version of the X402 protocol. payload -&gt; (document) [required] The X402 payment payload. permit2AllowanceLimit -&gt; (string) The maximum on-chain Permit2 allowance to grant before sign- ing the payment authorization, in the asset's smallest denom- ination. This field is valid only for the upto (metered) scheme; supplying it for the exact scheme returns a valida- tion error. When set, the service approves an ERC-20 allowance for this amount before processing the payment. The approval sets, rather than adds to, the wallet's allowance. Set this field only when the wallet needs approving, for example on its first upto payment, to avoid a redundant on-chain transac- tion. Omit the field to skip allowance handling. This is the default, and the only behavior for the exact scheme. Constraints: o min: 1 o max: 78 o pattern: [0-9]+ mpp -&gt; (structure) Contains the payment challenge from a 402 Payment Required re- sponse. Forward the raw WWW-Authenticate: Payment header value verbatim. In response, you receive a payment credential that satisfies the challenge. Provide exactly one challenge per re- quest. version -&gt; (string) [required] The MPP protocol version, for example "1" or "2". Constraints: o min: 1 o max: 10 o pattern: [0-9]+ wwwAuthenticateHeaders -&gt; (list) [required] The raw WWW-Authenticate: Payment header value from the 402 response, passed verbatim. Provide exactly one entry. The service uses this value to generate the payment credential. Constraints: o min: 1 o max: 1 (string) A raw WWW-Authenticate: Payment header value from a 402 response, containing RFC 9110 auth-params such as id , realm , method , intent , and request . Pass this value in the request body, not as an HTTP header. Constraints: o min: 1 o max: 16384 buyerPaysGasFees -&gt; (boolean) Authorizes the service to sign a payment whose blockchain network (gas) fees are charged to your wallet, on top of the payment amount. The challenge indicates who sponsors the network fees. When the challenge does not sponsor them, the service signs the payment only if this field is true . Otherwise it returns a validation error, so you can decide whether to pay the fees or obtain a challenge that sponsors them. Optional. When omitted or false , you decline to pay network fees. This field has no effect on challenges that already sponsor the fees. Shorthand Syntax: cryptoX402={version=string,permit2AllowanceLimit=string},mpp={version=string,wwwAuthenticateHeaders=[string,string],buyerPaysGasFees=boolean} JSON Syntax: { "cryptoX402": { "version": "string", "payload": {...}, "permit2AllowanceLimit": "string" }, "mpp": { "version": "string", "wwwAuthenticateHeaders": ["string", ...], "buyerPaysGasFees": true|false } }</param>
+    /// <param name="PaymentManagerArn">The ARN of the payment manager. Constraints: • min: 66 • max: 2048 • pattern: arn:(aws|aws-[a-z0-9-]+):bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:payment-manager/[a-z0-9]([a-z0-9-]{0,47}[a-z0-9])?-[a-z0-9]{10}</param>
+    /// <param name="PaymentSessionId">The ID of the payment session. Constraints: • min: 31 • max: 31 • pattern: payment-session-[0-9a-zA-Z-]{15}</param>
+    /// <param name="PaymentInstrumentId">The ID of the payment instrument to use. Constraints: • min: 34 • max: 34 • pattern: payment-instrument-[0-9a-zA-Z-]{15}</param>
+    /// <param name="PaymentType">The type of payment to process. Possible values: • CRYPTO_X402 • MPP</param>
+    /// <param name="PaymentInput">The payment input details specific to the payment type. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: cryptoX402, mpp. cryptoX402 -&gt; (structure) Input for a crypto X402 payment. version -&gt; (string) [required] The version of the X402 protocol. payload -&gt; (document) [required] The X402 payment payload. permit2AllowanceLimit -&gt; (string) The maximum on-chain Permit2 allowance to grant before signing the payment authorization, in the asset's smallest denomination. This field is valid only for the upto (metered) scheme; supplying it for the exact scheme returns a validation error. When set, the service approves an ERC-20 allowance for this amount before processing the payment. The approval sets, rather than adds to, the wallet's allowance. Set this field only when the wallet needs approving, for example on its first upto payment, to avoid a redundant on-chain transaction. Omit the field to skip allowance handling. This is the default, and the only behavior for the exact scheme. Constraints: • min: 1 • max: 78 • pattern: [0-9]+ mpp -&gt; (structure) Contains the payment challenge from a 402 Payment Required response. Forward the raw WWW-Authenticate: Payment header value verbatim. In response, you receive a payment credential that satisfies the challenge. Provide exactly one challenge per request. version -&gt; (string) [required] The MPP protocol version, for example "1" or "2". Constraints: • min: 1 • max: 10 • pattern: [0-9]+ wwwAuthenticateHeaders -&gt; (list) [required] The raw WWW-Authenticate: Payment header value from the 402 response, passed verbatim. Provide exactly one entry. The service uses this value to generate the payment credential. Constraints: • min: 1 • max: 1 (string) A raw WWW-Authenticate: Payment header value from a 402 response, containing RFC 9110 auth-params such as id , realm , method , intent , and request . Pass this value in the request body, not as an HTTP header. Constraints: • min: 1 • max: 16384 buyerPaysGasFees -&gt; (boolean) Authorizes the service to sign a payment whose blockchain network (gas) fees are charged to your wallet, on top of the payment amount. The challenge indicates who sponsors the network fees. When the challenge does not sponsor them, the service signs the payment only if this field is true . Otherwise it returns a validation error, so you can decide whether to pay the fees or obtain a challenge that sponsors them. Optional. When omitted or false , you decline to pay network fees. This field has no effect on challenges that already sponsor the fees. Shorthand Syntax: cryptoX402={version=string,permit2AllowanceLimit=string},mpp={version=string,wwwAuthenticateHeaders=[string,string],buyerPaysGasFees=boolean} JSON Syntax: { "cryptoX402": { "version": "string", "payload": {...}, "permit2AllowanceLimit": "string" }, "mpp": { "version": "string", "wwwAuthenticateHeaders": ["string", ...], "buyerPaysGasFees": true|false } }</param>
     public AwsBedrockAgentcoreProcessPaymentOptions(
         string PaymentManagerArn,
         string PaymentSessionId,
@@ -73,49 +74,49 @@ public record AwsBedrockAgentcoreProcessPaymentOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the payment manager. Constraints: o min: 66 o max: 2048 o pattern: arn:(aws|aws-[a-z0-9-]+):bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:payment-man- ager/[a-z0-9]([a-z0-9-]{0,47}[a-z0-9])?-[a-z0-9]{10}
+    /// The ARN of the payment manager. Constraints: • min: 66 • max: 2048 • pattern: arn:(aws|aws-[a-z0-9-]+):bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:payment-manager/[a-z0-9]([a-z0-9-]{0,47}[a-z0-9])?-[a-z0-9]{10}
     /// </summary>
     [CliOption("--payment-manager-arn")]
     public string? PaymentManagerArn { get; private init; }
 
     /// <summary>
-    /// The ID of the payment session. Constraints: o min: 31 o max: 31 o pattern: payment-session-[0-9a-zA-Z-]{15}
+    /// The ID of the payment session. Constraints: • min: 31 • max: 31 • pattern: payment-session-[0-9a-zA-Z-]{15}
     /// </summary>
     [CliOption("--payment-session-id")]
     public string? PaymentSessionId { get; private init; }
 
     /// <summary>
-    /// The ID of the payment instrument to use. Constraints: o min: 34 o max: 34 o pattern: payment-instrument-[0-9a-zA-Z-]{15}
+    /// The ID of the payment instrument to use. Constraints: • min: 34 • max: 34 • pattern: payment-instrument-[0-9a-zA-Z-]{15}
     /// </summary>
     [CliOption("--payment-instrument-id")]
     public string? PaymentInstrumentId { get; private init; }
 
     /// <summary>
-    /// The type of payment to process. Possible values: o CRYPTO_X402 o MPP
+    /// The type of payment to process. Possible values: • CRYPTO_X402 • MPP
     /// </summary>
     [CliOption("--payment-type")]
     public AwsBedrockAgentcoreProcessPaymentPaymentType? PaymentType { get; private init; }
 
     /// <summary>
-    /// The payment input details specific to the payment type. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: cryptoX402, mpp. cryptoX402 -&gt; (structure) Input for a crypto X402 payment. version -&gt; (string) [required] The version of the X402 protocol. payload -&gt; (document) [required] The X402 payment payload. permit2AllowanceLimit -&gt; (string) The maximum on-chain Permit2 allowance to grant before sign- ing the payment authorization, in the asset's smallest denom- ination. This field is valid only for the upto (metered) scheme; supplying it for the exact scheme returns a valida- tion error. When set, the service approves an ERC-20 allowance for this amount before processing the payment. The approval sets, rather than adds to, the wallet's allowance. Set this field only when the wallet needs approving, for example on its first upto payment, to avoid a redundant on-chain transac- tion. Omit the field to skip allowance handling. This is the default, and the only behavior for the exact scheme. Constraints: o min: 1 o max: 78 o pattern: [0-9]+ mpp -&gt; (structure) Contains the payment challenge from a 402 Payment Required re- sponse. Forward the raw WWW-Authenticate: Payment header value verbatim. In response, you receive a payment credential that satisfies the challenge. Provide exactly one challenge per re- quest. version -&gt; (string) [required] The MPP protocol version, for example "1" or "2". Constraints: o min: 1 o max: 10 o pattern: [0-9]+ wwwAuthenticateHeaders -&gt; (list) [required] The raw WWW-Authenticate: Payment header value from the 402 response, passed verbatim. Provide exactly one entry. The service uses this value to generate the payment credential. Constraints: o min: 1 o max: 1 (string) A raw WWW-Authenticate: Payment header value from a 402 response, containing RFC 9110 auth-params such as id , realm , method , intent , and request . Pass this value in the request body, not as an HTTP header. Constraints: o min: 1 o max: 16384 buyerPaysGasFees -&gt; (boolean) Authorizes the service to sign a payment whose blockchain network (gas) fees are charged to your wallet, on top of the payment amount. The challenge indicates who sponsors the network fees. When the challenge does not sponsor them, the service signs the payment only if this field is true . Otherwise it returns a validation error, so you can decide whether to pay the fees or obtain a challenge that sponsors them. Optional. When omitted or false , you decline to pay network fees. This field has no effect on challenges that already sponsor the fees. Shorthand Syntax: cryptoX402={version=string,permit2AllowanceLimit=string},mpp={version=string,wwwAuthenticateHeaders=[string,string],buyerPaysGasFees=boolean} JSON Syntax: { "cryptoX402": { "version": "string", "payload": {...}, "permit2AllowanceLimit": "string" }, "mpp": { "version": "string", "wwwAuthenticateHeaders": ["string", ...], "buyerPaysGasFees": true|false } }
+    /// The payment input details specific to the payment type. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: cryptoX402, mpp. cryptoX402 -&gt; (structure) Input for a crypto X402 payment. version -&gt; (string) [required] The version of the X402 protocol. payload -&gt; (document) [required] The X402 payment payload. permit2AllowanceLimit -&gt; (string) The maximum on-chain Permit2 allowance to grant before signing the payment authorization, in the asset's smallest denomination. This field is valid only for the upto (metered) scheme; supplying it for the exact scheme returns a validation error. When set, the service approves an ERC-20 allowance for this amount before processing the payment. The approval sets, rather than adds to, the wallet's allowance. Set this field only when the wallet needs approving, for example on its first upto payment, to avoid a redundant on-chain transaction. Omit the field to skip allowance handling. This is the default, and the only behavior for the exact scheme. Constraints: • min: 1 • max: 78 • pattern: [0-9]+ mpp -&gt; (structure) Contains the payment challenge from a 402 Payment Required response. Forward the raw WWW-Authenticate: Payment header value verbatim. In response, you receive a payment credential that satisfies the challenge. Provide exactly one challenge per request. version -&gt; (string) [required] The MPP protocol version, for example "1" or "2". Constraints: • min: 1 • max: 10 • pattern: [0-9]+ wwwAuthenticateHeaders -&gt; (list) [required] The raw WWW-Authenticate: Payment header value from the 402 response, passed verbatim. Provide exactly one entry. The service uses this value to generate the payment credential. Constraints: • min: 1 • max: 1 (string) A raw WWW-Authenticate: Payment header value from a 402 response, containing RFC 9110 auth-params such as id , realm , method , intent , and request . Pass this value in the request body, not as an HTTP header. Constraints: • min: 1 • max: 16384 buyerPaysGasFees -&gt; (boolean) Authorizes the service to sign a payment whose blockchain network (gas) fees are charged to your wallet, on top of the payment amount. The challenge indicates who sponsors the network fees. When the challenge does not sponsor them, the service signs the payment only if this field is true . Otherwise it returns a validation error, so you can decide whether to pay the fees or obtain a challenge that sponsors them. Optional. When omitted or false , you decline to pay network fees. This field has no effect on challenges that already sponsor the fees. Shorthand Syntax: cryptoX402={version=string,permit2AllowanceLimit=string},mpp={version=string,wwwAuthenticateHeaders=[string,string],buyerPaysGasFees=boolean} JSON Syntax: { "cryptoX402": { "version": "string", "payload": {...}, "permit2AllowanceLimit": "string" }, "mpp": { "version": "string", "wwwAuthenticateHeaders": ["string", ...], "buyerPaysGasFees": true|false } }
     /// </summary>
     [CliOption("--payment-input")]
     public string? PaymentInput { get; private init; }
 
     /// <summary>
-    /// The user ID associated with this payment. Constraints: o min: 0 o max: 120
+    /// The user ID associated with this payment. Constraints: • min: 0 • max: 120
     /// </summary>
     [CliOption("--user-id")]
     public string? UserId { get; set; }
 
     /// <summary>
-    /// The agent name associated with this request, used for observability. Constraints: o min: 0 o max: 256
+    /// The agent name associated with this request, used for observability. Constraints: • min: 0 • max: 256
     /// </summary>
     [CliOption("--agent-name")]
     public string? AgentName { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 33 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: • min: 33 • max: 256 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -142,6 +143,15 @@ public record AwsBedrockAgentcoreProcessPaymentOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

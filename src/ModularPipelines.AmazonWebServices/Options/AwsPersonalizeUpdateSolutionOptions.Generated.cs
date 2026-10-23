@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsPersonalizeUpdateSolutionOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Updates an Amazon Personalize solution to use a different automatic training configuration. When you update a solution, you can change whether the solution uses automatic training, and you can change the training frequency. For more information about updating a solution, see Updating a solution . A solution update can be in one of the following states: CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED To get the status of a solution update, call the DescribeSolution API operation a...
     /// </summary>
-    /// <param name="SolutionArn">The Amazon Resource Name (ARN) of the solution to update. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
+    /// <param name="SolutionArn">The Amazon Resource Name (ARN) of the solution to update. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
     public AwsPersonalizeUpdateSolutionOptions(
         string SolutionArn
     )
@@ -56,25 +57,25 @@ public record AwsPersonalizeUpdateSolutionOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the solution to update. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
+    /// The Amazon Resource Name (ARN) of the solution to update. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
     /// </summary>
     [CliOption("--solution-arn")]
     public string? SolutionArn { get; private init; }
 
     /// <summary>
-    /// Whether the solution uses automatic training to create new solution versions (trained models). You can change the training frequency by specifying a schedulingExpression in the AutoTrainingConfig as part of solution configuration. If you turn on automatic training, the first automatic training starts within one hour after the solution update completes. If you manually create a solution version within the hour, the solution skips the first automatic training. For more information about auto- matic training, see Configuring automatic training . After training starts, you can get the solution version's Amazon Re- source Name (ARN) with the ListSolutionVersions API operation. To get its status, use the DescribeSolutionVersion .
+    /// Whether the solution uses automatic training to create new solution versions (trained models). You can change the training frequency by specifying a schedulingExpression in the AutoTrainingConfig as part of solution configuration. If you turn on automatic training, the first automatic training starts within one hour after the solution update completes. If you manually create a solution version within the hour, the solution skips the first automatic training. For more information about automatic training, see Configuring automatic training . After training starts, you can get the solution version's Amazon Resource Name (ARN) with the ListSolutionVersions API operation. To get its status, use the DescribeSolutionVersion .
     /// </summary>
     [CliFlag("--perform-auto-training", NegatedName = "--no-perform-auto-training")]
     public bool? PerformAutoTraining { get; set; }
 
     /// <summary>
-    /// Whether to perform incremental training updates on your model. When enabled, this allows the model to learn from new data more fre- quently without requiring full retraining, which enables near real-time personalization. This parameter is supported only for so- lutions that use the semantic-similarity recipe.
+    /// Whether to perform incremental training updates on your model. When enabled, this allows the model to learn from new data more frequently without requiring full retraining, which enables near real-time personalization. This parameter is supported only for solutions that use the semantic-similarity recipe.
     /// </summary>
     [CliFlag("--perform-incremental-update", NegatedName = "--no-perform-incremental-update")]
     public bool? PerformIncrementalUpdate { get; set; }
 
     /// <summary>
-    /// The new configuration details of the solution. autoTrainingConfig -&gt; (structure) The automatic training configuration to use when performAuto- Training is true. schedulingExpression -&gt; (string) Specifies how often to automatically train new solution ver- sions. Specify a rate expression in rate(value unit ) for- mat. For value, specify a number between 1 and 30. For unit, specify day or days . For example, to automatically create a new solution version every 5 days, specify rate(5 days) . The default is every 7 days. For more information about auto training, see Creating and configuring a solution . Constraints: o min: 1 o max: 16 o pattern: rate\(\d+ days?\) eventsConfig -&gt; (structure) Describes the configuration of an event, which includes a list of event parameters. You can specify up to 10 event parameters. Events are used in solution creation. eventParametersList -&gt; (list) A list of event parameters, which includes event types and their event value thresholds and weights. Constraints: o max: 10 (structure) Describes the parameters of events, which are used in so- lution creation. eventType -&gt; (string) The name of the event type to be considered for solu- tion creation. Constraints: o max: 256 eventValueThreshold -&gt; (double) The threshold of the event type. Only events with a value greater or equal to this threshold will be con- sidered for solution creation. weight -&gt; (double) The weight of the event type. A higher weight means higher importance of the event type for the created solution. Constraints: o min: 0 o max: 1 JSON Syntax: { "autoTrainingConfig": { "schedulingExpression": "string" }, "eventsConfig": { "eventParametersList": [ { "eventType": "string", "eventValueThreshold": double, "weight": double } ... ] } }
+    /// The new configuration details of the solution. autoTrainingConfig -&gt; (structure) The automatic training configuration to use when performAutoTraining is true. schedulingExpression -&gt; (string) Specifies how often to automatically train new solution versions. Specify a rate expression in rate(value unit ) format. For value, specify a number between 1 and 30. For unit, specify day or days . For example, to automatically create a new solution version every 5 days, specify rate(5 days) . The default is every 7 days. For more information about auto training, see Creating and configuring a solution . Constraints: • min: 1 • max: 16 • pattern: rate\(\d+ days?\) eventsConfig -&gt; (structure) Describes the configuration of an event, which includes a list of event parameters. You can specify up to 10 event parameters. Events are used in solution creation. eventParametersList -&gt; (list) A list of event parameters, which includes event types and their event value thresholds and weights. Constraints: • max: 10 (structure) Describes the parameters of events, which are used in solution creation. eventType -&gt; (string) The name of the event type to be considered for solution creation. Constraints: • max: 256 eventValueThreshold -&gt; (double) The threshold of the event type. Only events with a value greater or equal to this threshold will be considered for solution creation. weight -&gt; (double) The weight of the event type. A higher weight means higher importance of the event type for the created solution. Constraints: • min: 0 • max: 1 JSON Syntax: { "autoTrainingConfig": { "schedulingExpression": "string" }, "eventsConfig": { "eventParametersList": [ { "eventType": "string", "eventValueThreshold": double, "weight": double } ... ] } }
     /// </summary>
     [CliOption("--solution-update-config")]
     public string? SolutionUpdateConfig { get; set; }
@@ -100,6 +101,15 @@ public record AwsPersonalizeUpdateSolutionOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

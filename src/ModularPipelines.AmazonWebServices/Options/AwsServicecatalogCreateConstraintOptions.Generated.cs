@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,10 +29,10 @@ public record AwsServicecatalogCreateConstraintOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Creates a constraint. A delegated admin is authorized to invoke this command. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PortfolioId">The portfolio identifier. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*</param>
-    /// <param name="ProductId">The product identifier. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*</param>
-    /// <param name="Parameters">The constraint parameters, in JSON format. The syntax depends on the constraint type as follows: LAUNCH You are required to specify either the RoleArn or the LocalRoleName but can't use both. Specify the RoleArn property as follows: {"RoleArn" : "arn:aws:iam::123456789012:role/LaunchRole"} Specify the LocalRoleName property as follows: {"LocalRoleName": "SCBasicLaunchRole"} If you specify the LocalRoleName property, when an account uses the launch constraint, the IAM role with that name in the account will be used. This allows launch-role constraints to be account-agnostic so the administrator can create fewer resources per shared account. NOTE: The given role name must exist in the account used to create the launch constraint and the account of the user who launches a product with this launch constraint. You cannot have both a LAUNCH and a STACKSET constraint. You also cannot have more than one LAUNCH constraint on a product and portfolio. NOTIFICATION Specify the NotificationArns property as follows: {"NotificationArns" : ["arn:aws:sns:us-east-1:123456789012:Topic"]} RESOURCE_UPDATE Specify the TagUpdatesOnProvisionedProduct property as follows: {"Version":"2.0","Properties":{"TagUpdateOnProvisionedProd- uct":"String"}} The TagUpdatesOnProvisionedProduct property accepts a string value of ALLOWED or NOT_ALLOWED . STACKSET Specify the Parameters property as follows: {"Version": "String", "Properties": {"AccountList": [ "String" ], "RegionList": [ "String" ], "AdminRole": "String", "Execu- tionRole": "String"}} You cannot have both a LAUNCH and a STACKSET constraint. You also cannot have more than one STACKSET constraint on a product and portfolio. Products with a STACKSET constraint will launch an CloudFormation stack set. TEMPLATE Specify the Rules property. For more information, see Template Con- straint Rules .</param>
-    /// <param name="Type">The type of constraint. o LAUNCH o NOTIFICATION o RESOURCE_UPDATE o STACKSET o TEMPLATE Constraints: o min: 1 o max: 1024</param>
+    /// <param name="PortfolioId">The portfolio identifier. Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*</param>
+    /// <param name="ProductId">The product identifier. Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*</param>
+    /// <param name="Parameters">The constraint parameters, in JSON format. The syntax depends on the constraint type as follows: LAUNCH You are required to specify either the RoleArn or the LocalRoleName but can't use both. Specify the RoleArn property as follows: {"RoleArn" : "arn:aws:iam::123456789012:role/LaunchRole"} Specify the LocalRoleName property as follows: {"LocalRoleName": "SCBasicLaunchRole"} If you specify the LocalRoleName property, when an account uses the launch constraint, the IAM role with that name in the account will be used. This allows launch-role constraints to be account-agnostic so the administrator can create fewer resources per shared account. NOTE: The given role name must exist in the account used to create the launch constraint and the account of the user who launches a product with this launch constraint. You cannot have both a LAUNCH and a STACKSET constraint. You also cannot have more than one LAUNCH constraint on a product and portfolio. NOTIFICATION Specify the NotificationArns property as follows: {"NotificationArns" : ["arn:aws:sns:us-east-1:123456789012:Topic"]} RESOURCE_UPDATE Specify the TagUpdatesOnProvisionedProduct property as follows: {"Version":"2.0","Properties":{"TagUpdateOnProvisionedProduct":"String"}} The TagUpdatesOnProvisionedProduct property accepts a string value of ALLOWED or NOT_ALLOWED . STACKSET Specify the Parameters property as follows: {"Version": "String", "Properties": {"AccountList": [ "String" ], "RegionList": [ "String" ], "AdminRole": "String", "ExecutionRole": "String"}} You cannot have both a LAUNCH and a STACKSET constraint. You also cannot have more than one STACKSET constraint on a product and portfolio. Products with a STACKSET constraint will launch an CloudFormation stack set. TEMPLATE Specify the Rules property. For more information, see Template Constraint Rules .</param>
+    /// <param name="Type">The type of constraint. • LAUNCH • NOTIFICATION • RESOURCE_UPDATE • STACKSET • TEMPLATE Constraints: • min: 1 • max: 1024</param>
     public AwsServicecatalogCreateConstraintOptions(
         string PortfolioId,
         string ProductId,
@@ -69,43 +70,43 @@ public record AwsServicecatalogCreateConstraintOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The portfolio identifier. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// The portfolio identifier. Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*
     /// </summary>
     [CliOption("--portfolio-id")]
     public string? PortfolioId { get; private init; }
 
     /// <summary>
-    /// The product identifier. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// The product identifier. Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*
     /// </summary>
     [CliOption("--product-id")]
     public string? ProductId { get; private init; }
 
     /// <summary>
-    /// The constraint parameters, in JSON format. The syntax depends on the constraint type as follows: LAUNCH You are required to specify either the RoleArn or the LocalRoleName but can't use both. Specify the RoleArn property as follows: {"RoleArn" : "arn:aws:iam::123456789012:role/LaunchRole"} Specify the LocalRoleName property as follows: {"LocalRoleName": "SCBasicLaunchRole"} If you specify the LocalRoleName property, when an account uses the launch constraint, the IAM role with that name in the account will be used. This allows launch-role constraints to be account-agnostic so the administrator can create fewer resources per shared account. NOTE: The given role name must exist in the account used to create the launch constraint and the account of the user who launches a product with this launch constraint. You cannot have both a LAUNCH and a STACKSET constraint. You also cannot have more than one LAUNCH constraint on a product and portfolio. NOTIFICATION Specify the NotificationArns property as follows: {"NotificationArns" : ["arn:aws:sns:us-east-1:123456789012:Topic"]} RESOURCE_UPDATE Specify the TagUpdatesOnProvisionedProduct property as follows: {"Version":"2.0","Properties":{"TagUpdateOnProvisionedProd- uct":"String"}} The TagUpdatesOnProvisionedProduct property accepts a string value of ALLOWED or NOT_ALLOWED . STACKSET Specify the Parameters property as follows: {"Version": "String", "Properties": {"AccountList": [ "String" ], "RegionList": [ "String" ], "AdminRole": "String", "Execu- tionRole": "String"}} You cannot have both a LAUNCH and a STACKSET constraint. You also cannot have more than one STACKSET constraint on a product and portfolio. Products with a STACKSET constraint will launch an CloudFormation stack set. TEMPLATE Specify the Rules property. For more information, see Template Con- straint Rules .
+    /// The constraint parameters, in JSON format. The syntax depends on the constraint type as follows: LAUNCH You are required to specify either the RoleArn or the LocalRoleName but can't use both. Specify the RoleArn property as follows: {"RoleArn" : "arn:aws:iam::123456789012:role/LaunchRole"} Specify the LocalRoleName property as follows: {"LocalRoleName": "SCBasicLaunchRole"} If you specify the LocalRoleName property, when an account uses the launch constraint, the IAM role with that name in the account will be used. This allows launch-role constraints to be account-agnostic so the administrator can create fewer resources per shared account. NOTE: The given role name must exist in the account used to create the launch constraint and the account of the user who launches a product with this launch constraint. You cannot have both a LAUNCH and a STACKSET constraint. You also cannot have more than one LAUNCH constraint on a product and portfolio. NOTIFICATION Specify the NotificationArns property as follows: {"NotificationArns" : ["arn:aws:sns:us-east-1:123456789012:Topic"]} RESOURCE_UPDATE Specify the TagUpdatesOnProvisionedProduct property as follows: {"Version":"2.0","Properties":{"TagUpdateOnProvisionedProduct":"String"}} The TagUpdatesOnProvisionedProduct property accepts a string value of ALLOWED or NOT_ALLOWED . STACKSET Specify the Parameters property as follows: {"Version": "String", "Properties": {"AccountList": [ "String" ], "RegionList": [ "String" ], "AdminRole": "String", "ExecutionRole": "String"}} You cannot have both a LAUNCH and a STACKSET constraint. You also cannot have more than one STACKSET constraint on a product and portfolio. Products with a STACKSET constraint will launch an CloudFormation stack set. TEMPLATE Specify the Rules property. For more information, see Template Constraint Rules .
     /// </summary>
     [CliOption("--parameters")]
     public string? Parameters { get; private init; }
 
     /// <summary>
-    /// The type of constraint. o LAUNCH o NOTIFICATION o RESOURCE_UPDATE o STACKSET o TEMPLATE Constraints: o min: 1 o max: 1024
+    /// The type of constraint. • LAUNCH • NOTIFICATION • RESOURCE_UPDATE • STACKSET • TEMPLATE Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--type")]
     public string? Type { get; private init; }
 
     /// <summary>
-    /// The language code. o jp - Japanese o zh - Chinese Constraints: o max: 100
+    /// The language code. • jp - Japanese • zh - Chinese Constraints: • max: 100
     /// </summary>
     [CliOption("--accept-language")]
     public string? AcceptLanguage { get; set; }
 
     /// <summary>
-    /// The description of the constraint. Constraints: o max: 2000
+    /// The description of the constraint. Constraints: • max: 2000
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// A unique identifier that you provide to ensure idempotency. If mul- tiple requests differ only by the idempotency token, the same re- sponse is returned for each repeated request. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
+    /// A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the idempotency token, the same response is returned for each repeated request. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
     /// </summary>
     [SecretValue]
     [CliOption("--idempotency-token")]
@@ -132,6 +133,15 @@ public record AwsServicecatalogCreateConstraintOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

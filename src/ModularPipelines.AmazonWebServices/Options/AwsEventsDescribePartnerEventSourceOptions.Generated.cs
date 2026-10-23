@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsEventsDescribePartnerEventSourceOptions : AwsOptions, IValidata
     /// <summary>
     /// An SaaS partner can use this operation to list details about a partner event source that they have created. Amazon Web Services customers do not use this operation. Instead, Amazon Web Services customers can use DescribeEventSource to see details about a partner event source that is shared with them. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the event source to display. Constraints: o min: 1 o max: 256 o pattern: aws\.partner(/[\.\-_A-Za-z0-9]+){2,}</param>
+    /// <param name="Name">The name of the event source to display. Constraints: • min: 1 • max: 256 • pattern: aws\.partner(/[\.\-_A-Za-z0-9]+){2,}</param>
     public AwsEventsDescribePartnerEventSourceOptions(
         string Name
     )
@@ -56,7 +57,7 @@ public record AwsEventsDescribePartnerEventSourceOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the event source to display. Constraints: o min: 1 o max: 256 o pattern: aws\.partner(/[\.\-_A-Za-z0-9]+){2,}
+    /// The name of the event source to display. Constraints: • min: 1 • max: 256 • pattern: aws\.partner(/[\.\-_A-Za-z0-9]+){2,}
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
@@ -82,6 +83,15 @@ public record AwsEventsDescribePartnerEventSourceOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

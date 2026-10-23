@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes an inference experiment. NOTE: This operation does not delete your endpoint, variants, or any un- derlying resources. This operation only deletes the metadata of your experiment. See also: AWS API Documentation
+/// Deletes an inference experiment. NOTE: This operation does not delete your endpoint, variants, or any underlying resources. This operation only deletes the metadata of your experiment. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsSagemakerDeleteInferenceExperimentOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes an inference experiment. NOTE: This operation does not delete your endpoint, variants, or any un- derlying resources. This operation only deletes the metadata of your experiment. See also: AWS API Documentation
+    /// Deletes an inference experiment. NOTE: This operation does not delete your endpoint, variants, or any underlying resources. This operation only deletes the metadata of your experiment. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the inference experiment you want to delete. Constraints: o min: 1 o max: 120 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}</param>
+    /// <param name="Name">The name of the inference experiment you want to delete. Constraints: • min: 1 • max: 120 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}</param>
     public AwsSagemakerDeleteInferenceExperimentOptions(
         string Name
     )
@@ -56,7 +57,7 @@ public record AwsSagemakerDeleteInferenceExperimentOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the inference experiment you want to delete. Constraints: o min: 1 o max: 120 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}
+    /// The name of the inference experiment you want to delete. Constraints: • min: 1 • max: 120 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSagemakerDeleteInferenceExperimentOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

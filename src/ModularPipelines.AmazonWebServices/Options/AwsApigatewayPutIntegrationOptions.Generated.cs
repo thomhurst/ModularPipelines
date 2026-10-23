@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -33,7 +33,7 @@ public record AwsApigatewayPutIntegrationOptions : AwsOptions, IValidatableObjec
     /// <param name="RestApiId">The string identifier of the associated RestApi.</param>
     /// <param name="ResourceId">Specifies a put integration request's resource ID.</param>
     /// <param name="HttpMethod">Specifies the HTTP method for the integration.</param>
-    /// <param name="Type">Specifies a put integration input's type. Possible values: o HTTP o AWS o MOCK o HTTP_PROXY o AWS_PROXY</param>
+    /// <param name="Type">Specifies a put integration input's type. Possible values: • HTTP • AWS • MOCK • HTTP_PROXY • AWS_PROXY</param>
     public AwsApigatewayPutIntegrationOptions(
         string RestApiId,
         string ResourceId,
@@ -88,7 +88,7 @@ public record AwsApigatewayPutIntegrationOptions : AwsOptions, IValidatableObjec
     public string? HttpMethod { get; private init; }
 
     /// <summary>
-    /// Specifies a put integration input's type. Possible values: o HTTP o AWS o MOCK o HTTP_PROXY o AWS_PROXY
+    /// Specifies a put integration input's type. Possible values: • HTTP • AWS • MOCK • HTTP_PROXY • AWS_PROXY
     /// </summary>
     [CliOption("--type")]
     public AwsApigatewayPutIntegrationType? Type { get; private init; }
@@ -100,13 +100,13 @@ public record AwsApigatewayPutIntegrationOptions : AwsOptions, IValidatableObjec
     public string? IntegrationHttpMethod { get; set; }
 
     /// <summary>
-    /// Specifies Uniform Resource Identifier (URI) of the integration end- point. For HTTP or HTTP_PROXY integrations, the URI must be a fully formed, encoded HTTP(S) URL according to the RFC-3986 specification, for either standard integration, where connectionType is not VPC_LINK , or private integration, where connectionType is VPC_LINK . For a private HTTP integration, the URI is not used for routing. For AWS or AWS_PROXY integrations, the URI is of the form arn:aws:apigateway:{region}:{subdomain.service|service}:path|ac- tion/{service_api }. Here, {Region} is the API Gateway region (e.g., us-east-1); {service} is the name of the integrated Amazon Web Ser- vices service (e.g., s3); and {subdomain} is a designated subdomain supported by certain Amazon Web Services service for fast host-name lookup. action can be used for an Amazon Web Services service ac- tion-based API, using an Action={name}&amp;{p1}={v1}&amp;p2={v2}... query string. The ensuing {service_api} refers to a supported action {name} plus any required input parameters. Alternatively, path can be used for an Amazon Web Services service path-based API. The ensu- ing service_api refers to the path to an Amazon Web Services service resource, including the region of the integrated Amazon Web Services service, if applicable. For example, for integration with the S3 API of GetObject , the uri can be either arn:aws:apigate- way:us-west-2:s3:action/GetObject&amp;Bucket={bucket}&amp;Key={key} or arn:aws:apigateway:us-west-2:s3:path/{bucket}/{key} .
+    /// Specifies Uniform Resource Identifier (URI) of the integration endpoint. For HTTP or HTTP_PROXY integrations, the URI must be a fully formed, encoded HTTP(S) URL according to the RFC-3986 specification, for either standard integration, where connectionType is not VPC_LINK , or private integration, where connectionType is VPC_LINK . For a private HTTP integration, the URI is not used for routing. For AWS or AWS_PROXY integrations, the URI is of the form arn:aws:apigateway:{region}:{subdomain.service|service}:path|action/{service_api }. Here, {Region} is the API Gateway region (e.g., us-east-1); {service} is the name of the integrated Amazon Web Services service (e.g., s3); and {subdomain} is a designated subdomain supported by certain Amazon Web Services service for fast host-name lookup. action can be used for an Amazon Web Services service action-based API, using an Action={name}&amp;{p1}={v1}&amp;p2={v2}... query string. The ensuing {service_api} refers to a supported action {name} plus any required input parameters. Alternatively, path can be used for an Amazon Web Services service path-based API. The ensuing service_api refers to the path to an Amazon Web Services service resource, including the region of the integrated Amazon Web Services service, if applicable. For example, for integration with the S3 API of GetObject , the uri can be either arn:aws:apigateway:us-west-2:s3:action/GetObject&amp;Bucket={bucket}&amp;Key={key} or arn:aws:apigateway:us-west-2:s3:path/{bucket}/{key} .
     /// </summary>
     [CliOption("--uri")]
     public string? Uri { get; set; }
 
     /// <summary>
-    /// The type of the network connection to the integration endpoint. The valid value is INTERNET for connections through the public routable internet or VPC_LINK for private connections between API Gateway and a network load balancer in a VPC. The default value is INTERNET . Possible values: o INTERNET o VPC_LINK
+    /// The type of the network connection to the integration endpoint. The valid value is INTERNET for connections through the public routable internet or VPC_LINK for private connections between API Gateway and a network load balancer in a VPC. The default value is INTERNET . Possible values: • INTERNET • VPC_LINK
     /// </summary>
     [CliOption("--connection-type")]
     public AwsApigatewayPutIntegrationConnectionType? ConnectionType { get; set; }
@@ -125,19 +125,19 @@ public record AwsApigatewayPutIntegrationOptions : AwsOptions, IValidatableObjec
     public string? Credentials { get; set; }
 
     /// <summary>
-    /// A key-value map specifying request parameters that are passed from the method request to the back end. The key is an integration re- quest parameter name and the associated value is a method request parameter value or static value that must be enclosed within single quotes and pre-encoded as required by the back end. The method re- quest parameter value must match the pattern of method.request.{lo- cation}.{name} , where location is querystring , path , or header and name must be a valid and unique method request parameter name. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A key-value map specifying request parameters that are passed from the method request to the back end. The key is an integration request parameter name and the associated value is a method request parameter value or static value that must be enclosed within single quotes and pre-encoded as required by the back end. The method request parameter value must match the pattern of method.request.{location}.{name} , where location is querystring , path , or header and name must be a valid and unique method request parameter name. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--request-parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? RequestParameters { get; set; }
 
     /// <summary>
-    /// Represents a map of Velocity templates that are applied on the re- quest payload based on the value of the Content-Type header sent by the client. The content type value is the key in this map, and the template (as a String) is the value. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Represents a map of Velocity templates that are applied on the request payload based on the value of the Content-Type header sent by the client. The content type value is the key in this map, and the template (as a String) is the value. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--request-templates", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? RequestTemplates { get; set; }
 
     /// <summary>
-    /// Specifies the pass-through behavior for incoming requests based on the Content-Type header in the request, and the available mapping templates specified as the requestTemplates property on the Integra- tion resource. There are three valid values: WHEN_NO_MATCH , WHEN_NO_TEMPLATES , and NEVER .
+    /// Specifies the pass-through behavior for incoming requests based on the Content-Type header in the request, and the available mapping templates specified as the requestTemplates property on the Integration resource. There are three valid values: WHEN_NO_MATCH , WHEN_NO_TEMPLATES , and NEVER .
     /// </summary>
     [CliOption("--passthrough-behavior")]
     public string? PassthroughBehavior { get; set; }
@@ -155,7 +155,7 @@ public record AwsApigatewayPutIntegrationOptions : AwsOptions, IValidatableObjec
     public IEnumerable<string>? CacheKeyParameters { get; set; }
 
     /// <summary>
-    /// Specifies how to handle request payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT , with the following behaviors: If this property is not defined, the request payload will be passed through from the method request to integration request without modi- fication, provided that the passthroughBehavior is configured to support payload pass-through. Possible values: o CONVERT_TO_BINARY o CONVERT_TO_TEXT
+    /// Specifies how to handle request payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT , with the following behaviors: If this property is not defined, the request payload will be passed through from the method request to integration request without modification, provided that the passthroughBehavior is configured to support payload pass-through. Possible values: • CONVERT_TO_BINARY • CONVERT_TO_TEXT
     /// </summary>
     [CliOption("--content-handling")]
     public AwsApigatewayPutIntegrationContentHandling? ContentHandling { get; set; }
@@ -167,13 +167,13 @@ public record AwsApigatewayPutIntegrationOptions : AwsOptions, IValidatableObjec
     public int? TimeoutInMillis { get; set; }
 
     /// <summary>
-    /// Specifies the TLS configuration for an integration. insecureSkipVerification -&gt; (boolean) Specifies whether or not API Gateway skips verification that the certificate for an integration endpoint is issued by a supported certificate authority. This isnt recommended, but it enables you to use certificates that are signed by private certificate au- thorities, or certificates that are self-signed. If enabled, API Gateway still performs basic certificate validation, which in- cludes checking the certificate's expiration date, hostname, and presence of a root certificate authority. Supported only for HTTP and HTTP_PROXY integrations. WARNING: Enabling insecureSkipVerification isn't recommended, espe- cially for integrations with public HTTPS endpoints. If you enable insecureSkipVerification , you increase the risk of man-in-the-middle attacks. Shorthand Syntax: insecureSkipVerification=boolean JSON Syntax: { "insecureSkipVerification": true|false }
+    /// Specifies the TLS configuration for an integration. insecureSkipVerification -&gt; (boolean) Specifies whether or not API Gateway skips verification that the certificate for an integration endpoint is issued by a supported certificate authority. This isnt recommended, but it enables you to use certificates that are signed by private certificate authorities, or certificates that are self-signed. If enabled, API Gateway still performs basic certificate validation, which includes checking the certificate's expiration date, hostname, and presence of a root certificate authority. Supported only for HTTP and HTTP_PROXY integrations. WARNING: Enabling insecureSkipVerification isn't recommended, especially for integrations with public HTTPS endpoints. If you enable insecureSkipVerification , you increase the risk of man-in-the-middle attacks. Shorthand Syntax: insecureSkipVerification=boolean JSON Syntax: { "insecureSkipVerification": true|false }
     /// </summary>
     [CliOption("--tls-config")]
     public string? TlsConfig { get; set; }
 
     /// <summary>
-    /// The response transfer mode of the integration. Possible values: o BUFFERED o STREAM
+    /// The response transfer mode of the integration. Possible values: • BUFFERED • STREAM
     /// </summary>
     [CliOption("--response-transfer-mode")]
     public AwsApigatewayPutIntegrationResponseTransferMode? ResponseTransferMode { get; set; }
@@ -205,6 +205,15 @@ public record AwsApigatewayPutIntegrationOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

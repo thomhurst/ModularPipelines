@@ -10,13 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API call activates a control. It starts an asynchronous operation that creates Amazon Web Services resources on the specified organiza- tional unit and the accounts it contains. The resources created will vary according to the control that you specify. For usage examples, see the ` Controls Reference Guide https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html`__ . See also: AWS API Documentation enable-control uses document type values. Document ty...
+/// This API call activates a control. It starts an asynchronous operation that creates Amazon Web Services resources on the specified organizational unit and the accounts it contains. The resources created will vary according to the control that you specify. For usage examples, see the ` Controls Reference Guide https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html`__ . See also: AWS API Documentation enable-control uses document type values. Document type...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +26,10 @@ public record AwsControltowerEnableControlOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API call activates a control. It starts an asynchronous operation that creates Amazon Web Services resources on the specified organiza- tional unit and the accounts it contains. The resources created will vary according to the control that you specify. For usage examples, see the ` Controls Reference Guide https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html`__ . See also: AWS API Documentation enable-control uses document type values. Document ty...
+    /// This API call activates a control. It starts an asynchronous operation that creates Amazon Web Services resources on the specified organizational unit and the accounts it contains. The resources created will vary according to the control that you specify. For usage examples, see the ` Controls Reference Guide https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html`__ . See also: AWS API Documentation enable-control uses document type values. Document type...
     /// </summary>
-    /// <param name="ControlIdentifier">The ARN of the control. Only Strongly recommended and Elective con- trols are permitted, with the exception of the Region deny control. For information on how to find the controlIdentifier , see the overview page . Constraints: o min: 20 o max: 2048 o pattern: arn:aws[0-9a-zA-Z_\-:\/]+</param>
-    /// <param name="TargetIdentifier">The ARN of the organizational unit. For information on how to find the targetIdentifier , see the overview page . Constraints: o min: 20 o max: 2048 o pattern: arn:aws[0-9a-zA-Z_\-:\/]+</param>
+    /// <param name="ControlIdentifier">The ARN of the control. Only Strongly recommended and Elective controls are permitted, with the exception of the Region deny control. For information on how to find the controlIdentifier , see the overview page . Constraints: • min: 20 • max: 2048 • pattern: arn:aws[0-9a-zA-Z_\-:\/]+</param>
+    /// <param name="TargetIdentifier">The ARN of the organizational unit. For information on how to find the targetIdentifier , see the overview page . Constraints: • min: 20 • max: 2048 • pattern: arn:aws[0-9a-zA-Z_\-:\/]+</param>
     public AwsControltowerEnableControlOptions(
         string ControlIdentifier,
         string TargetIdentifier
@@ -61,19 +61,19 @@ public record AwsControltowerEnableControlOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the control. Only Strongly recommended and Elective con- trols are permitted, with the exception of the Region deny control. For information on how to find the controlIdentifier , see the overview page . Constraints: o min: 20 o max: 2048 o pattern: arn:aws[0-9a-zA-Z_\-:\/]+
+    /// The ARN of the control. Only Strongly recommended and Elective controls are permitted, with the exception of the Region deny control. For information on how to find the controlIdentifier , see the overview page . Constraints: • min: 20 • max: 2048 • pattern: arn:aws[0-9a-zA-Z_\-:\/]+
     /// </summary>
     [CliOption("--control-identifier")]
     public string? ControlIdentifier { get; private init; }
 
     /// <summary>
-    /// The ARN of the organizational unit. For information on how to find the targetIdentifier , see the overview page . Constraints: o min: 20 o max: 2048 o pattern: arn:aws[0-9a-zA-Z_\-:\/]+
+    /// The ARN of the organizational unit. For information on how to find the targetIdentifier , see the overview page . Constraints: • min: 20 • max: 2048 • pattern: arn:aws[0-9a-zA-Z_\-:\/]+
     /// </summary>
     [CliOption("--target-identifier")]
     public string? TargetIdentifier { get; private init; }
 
     /// <summary>
-    /// Tags to be applied to the EnabledControl resource. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Tags to be applied to the EnabledControl resource. Constraints: • min: 0 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -105,6 +105,15 @@ public record AwsControltowerEnableControlOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

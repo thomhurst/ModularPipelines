@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the Multi-Party Approval (MPA) team association for a protected operation. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: o AssociateMpaTeam o DisassociateMpaTeam See also: AWS API Documentation
+/// Returns the Multi-Party Approval (MPA) team association for a protected operation. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: • AssociateMpaTeam • DisassociateMpaTeam See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsPaymentCryptographyGetMpaTeamAssociationOptions : AwsOptions, I
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the Multi-Party Approval (MPA) team association for a protected operation. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: o AssociateMpaTeam o DisassociateMpaTeam See also: AWS API Documentation
+    /// Returns the Multi-Party Approval (MPA) team association for a protected operation. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: • AssociateMpaTeam • DisassociateMpaTeam See also: AWS API Documentation
     /// </summary>
-    /// <param name="Action">The protected operation whose MPA team association you want to re- trieve. Currently, the only supported value is IMPORT_ROOT_PUB- LIC_KEY_CERTIFICATE . Possible values: o IMPORT_ROOT_PUBLIC_KEY_CERTIFICATE</param>
+    /// <param name="Action">The protected operation whose MPA team association you want to retrieve. Currently, the only supported value is IMPORT_ROOT_PUBLIC_KEY_CERTIFICATE . Possible values: • IMPORT_ROOT_PUBLIC_KEY_CERTIFICATE</param>
     public AwsPaymentCryptographyGetMpaTeamAssociationOptions(
         string Action
     )
@@ -56,7 +57,7 @@ public record AwsPaymentCryptographyGetMpaTeamAssociationOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The protected operation whose MPA team association you want to re- trieve. Currently, the only supported value is IMPORT_ROOT_PUB- LIC_KEY_CERTIFICATE . Possible values: o IMPORT_ROOT_PUBLIC_KEY_CERTIFICATE
+    /// The protected operation whose MPA team association you want to retrieve. Currently, the only supported value is IMPORT_ROOT_PUBLIC_KEY_CERTIFICATE . Possible values: • IMPORT_ROOT_PUBLIC_KEY_CERTIFICATE
     /// </summary>
     [CliOption("--action")]
     public string? Action { get; private init; }
@@ -82,6 +83,15 @@ public record AwsPaymentCryptographyGetMpaTeamAssociationOptions : AwsOptions, I
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

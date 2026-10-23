@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modifies a task set. This is used when a service uses the EXTERNAL de- ployment controller type. For more information, see Amazon ECS Deploy- ment Types in the Amazon Elastic Container Service Developer Guide . See also: AWS API Documentation
+/// Modifies a task set. This is used when a service uses the EXTERNAL deployment controller type. For more information, see Amazon ECS Deployment Types in the Amazon Elastic Container Service Developer Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,12 +26,12 @@ public record AwsEcsUpdateTaskSetOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Modifies a task set. This is used when a service uses the EXTERNAL de- ployment controller type. For more information, see Amazon ECS Deploy- ment Types in the Amazon Elastic Container Service Developer Guide . See also: AWS API Documentation
+    /// Modifies a task set. This is used when a service uses the EXTERNAL deployment controller type. For more information, see Amazon ECS Deployment Types in the Amazon Elastic Container Service Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="Cluster">The short name or full Amazon Resource Name (ARN) of the cluster that hosts the service that the task set is found in.</param>
     /// <param name="Service">The short name or full Amazon Resource Name (ARN) of the service that the task set is found in.</param>
     /// <param name="TaskSet">The short name or full Amazon Resource Name (ARN) of the task set to update.</param>
-    /// <param name="Scale">A floating-point percentage of the desired number of tasks to place and keep running in the task set. value -&gt; (double) The value, specified as a percent total of a service's desired- Count , to scale the task set. Accepted values are numbers be- tween 0 and 100. unit -&gt; (string) The unit of measure for the scale value. Possible values: o PERCENT Shorthand Syntax: value=double,unit=string JSON Syntax: { "value": double, "unit": "PERCENT" }</param>
+    /// <param name="Scale">A floating-point percentage of the desired number of tasks to place and keep running in the task set. value -&gt; (double) The value, specified as a percent total of a service's desiredCount , to scale the task set. Accepted values are numbers between 0 and 100. unit -&gt; (string) The unit of measure for the scale value. Possible values: • PERCENT Shorthand Syntax: value=double,unit=string JSON Syntax: { "value": double, "unit": "PERCENT" }</param>
     public AwsEcsUpdateTaskSetOptions(
         string Cluster,
         string Service,
@@ -86,7 +87,7 @@ public record AwsEcsUpdateTaskSetOptions : AwsOptions, IValidatableObject
     public string? TaskSet { get; private init; }
 
     /// <summary>
-    /// A floating-point percentage of the desired number of tasks to place and keep running in the task set. value -&gt; (double) The value, specified as a percent total of a service's desired- Count , to scale the task set. Accepted values are numbers be- tween 0 and 100. unit -&gt; (string) The unit of measure for the scale value. Possible values: o PERCENT Shorthand Syntax: value=double,unit=string JSON Syntax: { "value": double, "unit": "PERCENT" }
+    /// A floating-point percentage of the desired number of tasks to place and keep running in the task set. value -&gt; (double) The value, specified as a percent total of a service's desiredCount , to scale the task set. Accepted values are numbers between 0 and 100. unit -&gt; (string) The unit of measure for the scale value. Possible values: • PERCENT Shorthand Syntax: value=double,unit=string JSON Syntax: { "value": double, "unit": "PERCENT" }
     /// </summary>
     [CliOption("--scale")]
     public string? Scale { get; private init; }
@@ -112,6 +113,15 @@ public record AwsEcsUpdateTaskSetOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsBillingconductorBatchDisassociateResourcesFromCustomLineItemOpt
     /// <summary>
     /// Disassociates a batch of resources from a percentage custom line item. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TargetArn">A percentage custom line item ARN to disassociate the resources from. Constraints: o pattern: (arn:aws(-cn)?:billingconductor::[0-9]{12}:custom- lineitem/)?[a-zA-Z0-9]{10}</param>
-    /// <param name="ResourceArns">A list containing the ARNs of resources to be disassociated. Constraints: o min: 1 o max: 30 (string) Constraints: o pattern: (arn:aws(-cn)?:billingconductor::[0-9]{12}:(custom- lineitem|billinggroup)/)?[a-zA-Z0-9]{10,12} Syntax: "string" "string" ...</param>
+    /// <param name="TargetArn">A percentage custom line item ARN to disassociate the resources from. Constraints: • pattern: (arn:aws(-cn)?:billingconductor::[0-9]{12}:customlineitem/)?[a-zA-Z0-9]{10}</param>
+    /// <param name="ResourceArns">A list containing the ARNs of resources to be disassociated. Constraints: • min: 1 • max: 30 (string) Constraints: • pattern: (arn:aws(-cn)?:billingconductor::[0-9]{12}:(customlineitem|billinggroup)/)?[a-zA-Z0-9]{10,12} Syntax: "string" "string" ...</param>
     public AwsBillingconductorBatchDisassociateResourcesFromCustomLineItemOptions(
         string TargetArn,
         IEnumerable<string> ResourceArns
@@ -71,19 +72,19 @@ public record AwsBillingconductorBatchDisassociateResourcesFromCustomLineItemOpt
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A percentage custom line item ARN to disassociate the resources from. Constraints: o pattern: (arn:aws(-cn)?:billingconductor::[0-9]{12}:custom- lineitem/)?[a-zA-Z0-9]{10}
+    /// A percentage custom line item ARN to disassociate the resources from. Constraints: • pattern: (arn:aws(-cn)?:billingconductor::[0-9]{12}:customlineitem/)?[a-zA-Z0-9]{10}
     /// </summary>
     [CliOption("--target-arn")]
     public string? TargetArn { get; private init; }
 
     /// <summary>
-    /// A list containing the ARNs of resources to be disassociated. Constraints: o min: 1 o max: 30 (string) Constraints: o pattern: (arn:aws(-cn)?:billingconductor::[0-9]{12}:(custom- lineitem|billinggroup)/)?[a-zA-Z0-9]{10,12} Syntax: "string" "string" ...
+    /// A list containing the ARNs of resources to be disassociated. Constraints: • min: 1 • max: 30 (string) Constraints: • pattern: (arn:aws(-cn)?:billingconductor::[0-9]{12}:(customlineitem|billinggroup)/)?[a-zA-Z0-9]{10,12} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--resource-arns", GroupValues = true)]
     public IEnumerable<string>? ResourceArns { get; private init; }
 
     /// <summary>
-    /// The billing period range in which the custom line item request will be applied. InclusiveStartBillingPeriod -&gt; (string) [required] The inclusive start billing period that defines a billing period range where a custom line is applied. Constraints: o pattern: \d{4}-(0?[1-9]|1[012]) ExclusiveEndBillingPeriod -&gt; (string) The inclusive end billing period that defines a billing period range where a custom line is applied. Constraints: o pattern: \d{4}-(0?[1-9]|1[012]) Shorthand Syntax: InclusiveStartBillingPeriod=string,ExclusiveEndBillingPeriod=string JSON Syntax: { "InclusiveStartBillingPeriod": "string", "ExclusiveEndBillingPeriod": "string" }
+    /// The billing period range in which the custom line item request will be applied. InclusiveStartBillingPeriod -&gt; (string) [required] The inclusive start billing period that defines a billing period range where a custom line is applied. Constraints: • pattern: \d{4}-(0?[1-9]|1[012]) ExclusiveEndBillingPeriod -&gt; (string) The inclusive end billing period that defines a billing period range where a custom line is applied. Constraints: • pattern: \d{4}-(0?[1-9]|1[012]) Shorthand Syntax: InclusiveStartBillingPeriod=string,ExclusiveEndBillingPeriod=string JSON Syntax: { "InclusiveStartBillingPeriod": "string", "ExclusiveEndBillingPeriod": "string" }
     /// </summary>
     [CliOption("--billing-period-range")]
     public string? BillingPeriodRange { get; set; }
@@ -109,6 +110,15 @@ public record AwsBillingconductorBatchDisassociateResourcesFromCustomLineItemOpt
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

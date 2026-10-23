@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API is in preview release for Connect Customer and is subject to change. For the specified referenceTypes , returns a list of references associ- ated with the contact. References are links to documents that are re- lated to a contact, such as emails, attachments, or URLs. See also: AWS API Documentation list-contact-references is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagin...
+/// This API is in preview release for Connect Customer and is subject to change. For the specified referenceTypes , returns a list of references associated with the contact. References are links to documents that are related to a contact, such as emails, attachments, or URLs. See also: AWS API Documentation list-contact-references is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsConnectListContactReferencesOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API is in preview release for Connect Customer and is subject to change. For the specified referenceTypes , returns a list of references associ- ated with the contact. References are links to documents that are re- lated to a contact, such as emails, attachments, or URLs. See also: AWS API Documentation list-contact-references is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagin...
+    /// This API is in preview release for Connect Customer and is subject to change. For the specified referenceTypes , returns a list of references associated with the contact. References are links to documents that are related to a contact, such as emails, attachments, or URLs. See also: AWS API Documentation list-contact-references is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ...
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="ContactId">The identifier of the initial contact. Constraints: o min: 1 o max: 256</param>
-    /// <param name="ReferenceTypes">The type of reference. Constraints: o max: 6 (string) Possible values: o URL o ATTACHMENT o CONTACT_ANALYSIS o NUMBER o STRING o DATE o EMAIL o EMAIL_MESSAGE o EMAIL_MESSAGE_PLAIN_TEXT o EMAIL_MESSAGE_PLAIN_TEXT_REDACTED o EMAIL_MESSAGE_REDACTED Syntax: "string" "string" ...</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="ContactId">The identifier of the initial contact. Constraints: • min: 1 • max: 256</param>
+    /// <param name="ReferenceTypes">The type of reference. Constraints: • max: 6 (string) Possible values: • URL • ATTACHMENT • CONTACT_ANALYSIS • NUMBER • STRING • DATE • EMAIL • EMAIL_MESSAGE • EMAIL_MESSAGE_PLAIN_TEXT • EMAIL_MESSAGE_PLAIN_TEXT_REDACTED • EMAIL_MESSAGE_REDACTED Syntax: "string" "string" ...</param>
     public AwsConnectListContactReferencesOptions(
         string InstanceId,
         string ContactId,
@@ -76,28 +77,25 @@ public record AwsConnectListContactReferencesOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The identifier of the initial contact. Constraints: o min: 1 o max: 256
+    /// The identifier of the initial contact. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--contact-id")]
     public string? ContactId { get; private init; }
 
     /// <summary>
-    /// The type of reference. Constraints: o max: 6 (string) Possible values: o URL o ATTACHMENT o CONTACT_ANALYSIS o NUMBER o STRING o DATE o EMAIL o EMAIL_MESSAGE o EMAIL_MESSAGE_PLAIN_TEXT o EMAIL_MESSAGE_PLAIN_TEXT_REDACTED o EMAIL_MESSAGE_REDACTED Syntax: "string" "string" ...
+    /// The type of reference. Constraints: • max: 6 (string) Possible values: • URL • ATTACHMENT • CONTACT_ANALYSIS • NUMBER • STRING • DATE • EMAIL • EMAIL_MESSAGE • EMAIL_MESSAGE_PLAIN_TEXT • EMAIL_MESSAGE_PLAIN_TEXT_REDACTED • EMAIL_MESSAGE_REDACTED Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--reference-types", GroupValues = true)]
     public IEnumerable<string>? ReferenceTypes { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -107,10 +105,13 @@ public record AwsConnectListContactReferencesOptions : AwsOptions, IValidatableO
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -127,6 +128,15 @@ public record AwsConnectListContactReferencesOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

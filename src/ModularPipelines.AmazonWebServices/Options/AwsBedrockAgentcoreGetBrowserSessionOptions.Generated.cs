@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves detailed information about a specific browser session in Ama- zon Bedrock AgentCore. This operation returns the session's configura- tion, current status, associated streams, and metadata. To get a browser session, you must specify both the browser identifier and the session ID. The response includes information about the ses- sion's viewport configuration, timeout settings, and stream endpoints. The following operations are related to GetBrowserSession : o StartBrowserSession o ListBr...
+/// Retrieves detailed information about a specific browser session in Amazon Bedrock AgentCore. This operation returns the session's configuration, current status, associated streams, and metadata. To get a browser session, you must specify both the browser identifier and the session ID. The response includes information about the session's viewport configuration, timeout settings, and stream endpoints. The following operations are related to GetBrowserSession : • StartBrowserSession • ListBrowserS...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsBedrockAgentcoreGetBrowserSessionOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves detailed information about a specific browser session in Ama- zon Bedrock AgentCore. This operation returns the session's configura- tion, current status, associated streams, and metadata. To get a browser session, you must specify both the browser identifier and the session ID. The response includes information about the ses- sion's viewport configuration, timeout settings, and stream endpoints. The following operations are related to GetBrowserSession : o StartBrowserSession o ListBr...
+    /// Retrieves detailed information about a specific browser session in Amazon Bedrock AgentCore. This operation returns the session's configuration, current status, associated streams, and metadata. To get a browser session, you must specify both the browser identifier and the session ID. The response includes information about the session's viewport configuration, timeout settings, and stream endpoints. The following operations are related to GetBrowserSession : • StartBrowserSession • ListBrowserS...
     /// </summary>
     /// <param name="BrowserIdentifier">The unique identifier of the browser associated with the session.</param>
-    /// <param name="SessionId">The unique identifier of the browser session to retrieve. Constraints: o pattern: [0-9a-zA-Z]{1,40}</param>
+    /// <param name="SessionId">The unique identifier of the browser session to retrieve. Constraints: • pattern: [0-9a-zA-Z]{1,40}</param>
     public AwsBedrockAgentcoreGetBrowserSessionOptions(
         string BrowserIdentifier,
         string SessionId
@@ -66,7 +67,7 @@ public record AwsBedrockAgentcoreGetBrowserSessionOptions : AwsOptions, IValidat
     public string? BrowserIdentifier { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the browser session to retrieve. Constraints: o pattern: [0-9a-zA-Z]{1,40}
+    /// The unique identifier of the browser session to retrieve. Constraints: • pattern: [0-9a-zA-Z]{1,40}
     /// </summary>
     [CliOption("--session-id")]
     public string? SessionId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsBedrockAgentcoreGetBrowserSessionOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

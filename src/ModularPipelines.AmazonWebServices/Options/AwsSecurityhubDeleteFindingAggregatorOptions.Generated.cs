@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: The aggregation Region is now called the home Region . Deletes a finding aggregator. When you delete the finding aggregator, you stop cross-Region aggregation. Finding replication stops occurring from the linked Regions to the home Region. When you stop cross-Region aggregation, findings that were already replicated and sent to the home Region are still visible from the home Region. However, new findings and finding updates are no longer repli- cated and sent to the home Region. See also: ...
+/// NOTE: The aggregation Region is now called the home Region . Deletes a finding aggregator. When you delete the finding aggregator, you stop cross-Region aggregation. Finding replication stops occurring from the linked Regions to the home Region. When you stop cross-Region aggregation, findings that were already replicated and sent to the home Region are still visible from the home Region. However, new findings and finding updates are no longer replicated and sent to the home Region. See also: AW...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsSecurityhubDeleteFindingAggregatorOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: The aggregation Region is now called the home Region . Deletes a finding aggregator. When you delete the finding aggregator, you stop cross-Region aggregation. Finding replication stops occurring from the linked Regions to the home Region. When you stop cross-Region aggregation, findings that were already replicated and sent to the home Region are still visible from the home Region. However, new findings and finding updates are no longer repli- cated and sent to the home Region. See also: ...
+    /// NOTE: The aggregation Region is now called the home Region . Deletes a finding aggregator. When you delete the finding aggregator, you stop cross-Region aggregation. Finding replication stops occurring from the linked Regions to the home Region. When you stop cross-Region aggregation, findings that were already replicated and sent to the home Region are still visible from the home Region. However, new findings and finding updates are no longer replicated and sent to the home Region. See also: AW...
     /// </summary>
-    /// <param name="FindingAggregatorArn">The ARN of the finding aggregator to delete. To obtain the ARN, use ListFindingAggregators . Constraints: o pattern: .*\S.*</param>
+    /// <param name="FindingAggregatorArn">The ARN of the finding aggregator to delete. To obtain the ARN, use ListFindingAggregators . Constraints: • pattern: .*\S.*</param>
     public AwsSecurityhubDeleteFindingAggregatorOptions(
         string FindingAggregatorArn
     )
@@ -56,7 +57,7 @@ public record AwsSecurityhubDeleteFindingAggregatorOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the finding aggregator to delete. To obtain the ARN, use ListFindingAggregators . Constraints: o pattern: .*\S.*
+    /// The ARN of the finding aggregator to delete. To obtain the ARN, use ListFindingAggregators . Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--finding-aggregator-arn")]
     public string? FindingAggregatorArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSecurityhubDeleteFindingAggregatorOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

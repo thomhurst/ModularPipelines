@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsRedshiftCreateClusterSecurityGroupOptions : AwsOptions, IValida
     /// <summary>
     /// Creates a new Amazon Redshift security group. You use security groups to control access to non-VPC clusters. For information about managing security groups, go to Amazon Redshift Cluster Security Groups in the Amazon Redshift Cluster Management Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClusterSecurityGroupName">The name for the security group. Amazon Redshift stores the value as a lowercase string. Constraints: o Must contain no more than 255 alphanumeric characters or hyphens. o Must not be "Default". o Must be unique for all security groups that are created by your Amazon Web Services account. Example: examplesecuritygroup Constraints: o max: 2147483647</param>
-    /// <param name="Description">A description for the security group. Constraints: o max: 2147483647</param>
+    /// <param name="ClusterSecurityGroupName">The name for the security group. Amazon Redshift stores the value as a lowercase string. Constraints: • Must contain no more than 255 alphanumeric characters or hyphens. • Must not be "Default". • Must be unique for all security groups that are created by your Amazon Web Services account. Example: examplesecuritygroup Constraints: • max: 2147483647</param>
+    /// <param name="Description">A description for the security group. Constraints: • max: 2147483647</param>
     public AwsRedshiftCreateClusterSecurityGroupOptions(
         string ClusterSecurityGroupName,
         string Description
@@ -60,19 +61,19 @@ public record AwsRedshiftCreateClusterSecurityGroupOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name for the security group. Amazon Redshift stores the value as a lowercase string. Constraints: o Must contain no more than 255 alphanumeric characters or hyphens. o Must not be "Default". o Must be unique for all security groups that are created by your Amazon Web Services account. Example: examplesecuritygroup Constraints: o max: 2147483647
+    /// The name for the security group. Amazon Redshift stores the value as a lowercase string. Constraints: • Must contain no more than 255 alphanumeric characters or hyphens. • Must not be "Default". • Must be unique for all security groups that are created by your Amazon Web Services account. Example: examplesecuritygroup Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--cluster-security-group-name")]
     public string? ClusterSecurityGroupName { get; private init; }
 
     /// <summary>
-    /// A description for the security group. Constraints: o max: 2147483647
+    /// A description for the security group. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; private init; }
 
     /// <summary>
-    /// A list of tag instances. (structure) A tag consisting of a name/value pair for a resource. Key -&gt; (string) The key, or name, for the resource tag. Constraints: o max: 2147483647 Value -&gt; (string) The value for the resource tag. Constraints: o max: 2147483647 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of tag instances. (structure) A tag consisting of a name/value pair for a resource. Key -&gt; (string) The key, or name, for the resource tag. Constraints: • max: 2147483647 Value -&gt; (string) The value for the resource tag. Constraints: • max: 2147483647 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -98,6 +99,15 @@ public record AwsRedshiftCreateClusterSecurityGroupOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

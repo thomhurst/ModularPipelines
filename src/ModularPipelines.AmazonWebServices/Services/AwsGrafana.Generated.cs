@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -32,7 +32,7 @@ public class AwsGrafana : IAwsGrafana
     #region Commands
 
     /// <summary>
-    /// Assigns a Grafana Enterprise license to a workspace. To upgrade, you must use ENTERPRISE for the licenseType , and pass in a valid Grafana Labs token for the grafanaToken . Upgrading to Grafana Enterprise in- curs additional fees. For more information, see Upgrade a workspace to Grafana Enterprise . See also: AWS API Documentation
+    /// Assigns a Grafana Enterprise license to a workspace. To upgrade, you must use ENTERPRISE for the licenseType , and pass in a valid Grafana Labs token for the grafanaToken . Upgrading to Grafana Enterprise incurs additional fees. For more information, see Upgrade a workspace to Grafana Enterprise . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsGrafana : IAwsGrafana
     }
 
     /// <summary>
-    /// Creates a Grafana API key for the workspace. This key can be used to authenticate requests sent to the workspace's HTTP API. See https://docs.aws.amazon.com/grafana/latest/userguide/Using-Grafana-APIs.html for available APIs and example requests. NOTE: In workspaces compatible with Grafana version 9 or above, use work- space service accounts instead of API keys. API keys will be removed in a future release. See also: AWS API Documentation
+    /// Creates a Grafana API key for the workspace. This key can be used to authenticate requests sent to the workspace's HTTP API. See https://docs.aws.amazon.com/grafana/latest/userguide/Using-Grafana-APIs.html for available APIs and example requests. NOTE: In workspaces compatible with Grafana version 9 or above, use workspace service accounts instead of API keys. API keys will be removed in a future release. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsGrafana : IAwsGrafana
     }
 
     /// <summary>
-    /// Creates a service account for the workspace. A service account can be used to call Grafana HTTP APIs, and run automated workloads. After cre- ating the service account with the correct GrafanaRole for your use case, use CreateWorkspaceServiceAccountToken to create a token that can be used to authenticate and authorize Grafana HTTP API calls. You can only create service accounts for workspaces that are compatible with Grafana version 9 and above. NOTE: For more information about service accounts,...
+    /// Creates a service account for the workspace. A service account can be used to call Grafana HTTP APIs, and run automated workloads. After creating the service account with the correct GrafanaRole for your use case, use CreateWorkspaceServiceAccountToken to create a token that can be used to authenticate and authorize Grafana HTTP API calls. You can only create service accounts for workspaces that are compatible with Grafana version 9 and above. NOTE: For more information about service accounts, s...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsGrafana : IAwsGrafana
     }
 
     /// <summary>
-    /// Creates a token that can be used to authenticate and authorize Grafana HTTP API operations for the given workspace service account . The ser- vice account acts as a user for the API operations, and defines the permissions that are used by the API. WARNING: When you create the service account token, you will receive a key that is used when calling Grafana APIs. Do not lose this key, as it will not be retrievable again. If you do lose the key, you can delete the token and recreate it to receive a ...
+    /// Creates a token that can be used to authenticate and authorize Grafana HTTP API operations for the given workspace service account . The service account acts as a user for the API operations, and defines the permissions that are used by the API. WARNING: When you create the service account token, you will receive a key that is used when calling Grafana APIs. Do not lose this key, as it will not be retrievable again. If you do lose the key, you can delete the token and recreate it to receive a ne...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsGrafana : IAwsGrafana
     }
 
     /// <summary>
-    /// Deletes a Grafana API key for the workspace. NOTE: In workspaces compatible with Grafana version 9 or above, use work- space service accounts instead of API keys. API keys will be removed in a future release. See also: AWS API Documentation
+    /// Deletes a Grafana API key for the workspace. NOTE: In workspaces compatible with Grafana version 9 or above, use workspace service accounts instead of API keys. API keys will be removed in a future release. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsGrafana : IAwsGrafana
     }
 
     /// <summary>
-    /// Deletes a workspace service account from the workspace. This will delete any tokens created for the service account, as well. If the tokens are currently in use, the will fail to authenticate / au- thorize after they are deleted. Service accounts are only available for workspaces that are compatible with Grafana version 9 and above. See also: AWS API Documentation
+    /// Deletes a workspace service account from the workspace. This will delete any tokens created for the service account, as well. If the tokens are currently in use, the will fail to authenticate / authorize after they are deleted. Service accounts are only available for workspaces that are compatible with Grafana version 9 and above. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsGrafana : IAwsGrafana
     }
 
     /// <summary>
-    /// Deletes a token for the workspace service account. This will disable the key associated with the token. If any automation is currently using the key, it will no longer be authenticated or au- thorized to perform actions with the Grafana HTTP APIs. Service accounts are only available for workspaces that are compatible with Grafana version 9 and above. See also: AWS API Documentation
+    /// Deletes a token for the workspace service account. This will disable the key associated with the token. If any automation is currently using the key, it will no longer be authenticated or authorized to perform actions with the Grafana HTTP APIs. Service accounts are only available for workspaces that are compatible with Grafana version 9 and above. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsGrafana : IAwsGrafana
     }
 
     /// <summary>
-    /// Displays information about the authentication methods used in one Ama- zon Managed Grafana workspace. See also: AWS API Documentation
+    /// Displays information about the authentication methods used in one Amazon Managed Grafana workspace. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -257,7 +257,7 @@ public class AwsGrafana : IAwsGrafana
     }
 
     /// <summary>
-    /// Lists available versions of Grafana. These are available when calling CreateWorkspace . Optionally, include a workspace to list the versions to which it can be upgraded. See also: AWS API Documentation list-versions is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must...
+    /// Lists available versions of Grafana. These are available when calling CreateWorkspace . Optionally, include a workspace to list the versions to which it can be upgraded. See also: AWS API Documentation list-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must ext...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,22 +272,7 @@ public class AwsGrafana : IAwsGrafana
     }
 
     /// <summary>
-    /// Returns a list of service accounts for a workspace. Service accounts are only available for workspaces that are compatible with Grafana version 9 and above. See also: AWS API Documentation list-workspace-service-accounts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListWorkspaceServiceAccountsAsync(
-        AwsGrafanaListWorkspaceServiceAccountsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Returns a list of tokens for a workspace service account. NOTE: This does not return the key for each token. You cannot access keys after they are created. To create a new key, delete the token and recreate it. Service accounts are only available for workspaces that are compatible with Grafana version 9 and above. See also: AWS API Documentation list-workspace-service-account-tokens is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. ...
+    /// Returns a list of tokens for a workspace service account. NOTE: This does not return the key for each token. You cannot access keys after they are created. To create a new key, delete the token and recreate it. Service accounts are only available for workspaces that are compatible with Grafana version 9 and above. See also: AWS API Documentation list-workspace-service-account-tokens is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. Yo...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -302,7 +287,22 @@ public class AwsGrafana : IAwsGrafana
     }
 
     /// <summary>
-    /// Returns a list of Amazon Managed Grafana workspaces in the account, with some information about each workspace. For more complete informa- tion about one workspace, use DescribeWorkspace . See also: AWS API Documentation list-workspaces is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the ...
+    /// Returns a list of service accounts for a workspace. Service accounts are only available for workspaces that are compatible with Grafana version 9 and above. See also: AWS API Documentation list-workspace-service-accounts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument mus...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListWorkspaceServiceAccountsAsync(
+        AwsGrafanaListWorkspaceServiceAccountsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns a list of Amazon Managed Grafana workspaces in the account, with some information about each workspace. For more complete information about one workspace, use DescribeWorkspace . See also: AWS API Documentation list-workspaces is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --quer...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

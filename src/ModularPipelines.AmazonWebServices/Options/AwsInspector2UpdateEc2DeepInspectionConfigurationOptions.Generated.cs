@@ -22,13 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsInspector2UpdateEc2DeepInspectionConfigurationOptions : AwsOptions
 {
     /// <summary>
-    /// Specify TRUE to activate Amazon Inspector deep inspection in your account, or FALSE to deactivate. Member accounts in an organization cannot deactivate deep inspection, instead the delegated administra- tor for the organization can deactivate a member account using BatchUpdateMemberEc2DeepInspectionStatus .
+    /// Specify TRUE to activate Amazon Inspector deep inspection in your account, or FALSE to deactivate. Member accounts in an organization cannot deactivate deep inspection, instead the delegated administrator for the organization can deactivate a member account using BatchUpdateMemberEc2DeepInspectionStatus .
     /// </summary>
     [CliFlag("--activate-deep-inspection", NegatedName = "--no-activate-deep-inspection")]
     public bool? ActivateDeepInspection { get; set; }
 
     /// <summary>
-    /// The Amazon Inspector deep inspection custom paths you are adding for your account. Constraints: o min: 0 o max: 5 (string) Constraints: o min: 1 o max: 512 o pattern: (?:(?:/(?:\.[-\w]+|[-\w]+(?:[. ][-\w]+)*))+/?|[A-Za-z]:\\(?:[-\w]+(?:[. ][-\w]+)*\\)*[-\w]+(?:[. ][-\w]+)*) Syntax: "string" "string" ...
+    /// The Amazon Inspector deep inspection custom paths you are adding for your account. Constraints: • min: 0 • max: 5 (string) Constraints: • min: 1 • max: 512 • pattern: (?:(?:/(?:\.[-\w]+|[-\w]+(?:[. ][-\w]+)*))+/?|[A-Za-z]:\\(?:[-\w]+(?:[. ][-\w]+)*\\)*[-\w]+(?:[. ][-\w]+)*) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--package-paths", GroupValues = true)]
     public IEnumerable<string>? PackagePaths { get; set; }
@@ -38,5 +38,14 @@ public record AwsInspector2UpdateEc2DeepInspectionConfigurationOptions : AwsOpti
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

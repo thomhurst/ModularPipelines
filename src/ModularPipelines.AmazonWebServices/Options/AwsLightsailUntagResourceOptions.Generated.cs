@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the specified set of tag keys and their values from the speci- fied Amazon Lightsail resource. The untag resource operation supports tag-based access control via re- quest tags and resource tags applied to the resource identified by re- source name . For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
+/// Deletes the specified set of tag keys and their values from the specified Amazon Lightsail resource. The untag resource operation supports tag-based access control via request tags and resource tags applied to the resource identified by resource name . For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsLightsailUntagResourceOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the specified set of tag keys and their values from the speci- fied Amazon Lightsail resource. The untag resource operation supports tag-based access control via re- quest tags and resource tags applied to the resource identified by re- source name . For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
+    /// Deletes the specified set of tag keys and their values from the specified Amazon Lightsail resource. The untag resource operation supports tag-based access control via request tags and resource tags applied to the resource identified by resource name . For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceName">The name of the resource from which you are removing a tag. Constraints: o pattern: \w[\w\-]*\w</param>
+    /// <param name="ResourceName">The name of the resource from which you are removing a tag. Constraints: • pattern: \w[\w\-]*\w</param>
     /// <param name="TagKeys">The tag keys to delete from the specified resource. (string) Syntax: "string" "string" ...</param>
     public AwsLightsailUntagResourceOptions(
         string ResourceName,
@@ -71,7 +72,7 @@ public record AwsLightsailUntagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the resource from which you are removing a tag. Constraints: o pattern: \w[\w\-]*\w
+    /// The name of the resource from which you are removing a tag. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--resource-name")]
     public string? ResourceName { get; private init; }
@@ -83,7 +84,7 @@ public record AwsLightsailUntagResourceOptions : AwsOptions, IValidatableObject
     public IEnumerable<string>? TagKeys { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource from which you want to remove a tag. Constraints: o pattern: ^arn:(aws[^:]*):([a-zA-Z0-9-]+):([a-z0-9-]+):([0-9]+):([a-zA-Z]+)/([a-zA-Z0-9-]+)$
+    /// The Amazon Resource Name (ARN) of the resource from which you want to remove a tag. Constraints: • pattern: ^arn:(aws[^:]*):([a-zA-Z0-9-]+):([a-z0-9-]+):([0-9]+):([a-zA-Z]+)/([a-zA-Z0-9-]+)$
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; set; }
@@ -109,6 +110,15 @@ public record AwsLightsailUntagResourceOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsQuicksightUpdateDashboardLinksOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Updates the linked analyses on a dashboard. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the dash- board whose links you want to update. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="DashboardId">The ID for the dashboard. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+</param>
-    /// <param name="LinkEntities">list of analysis Amazon Resource Names (ARNs) to be linked to the dashboard. Constraints: o max: 5 (string) Constraints: o min: 1 o max: 1024 o pattern: ^arn:aws[\w\-]*:quicksight:[\w\-]+:\d+:analy- sis/[\w\-]{1,512} Syntax: "string" "string" ...</param>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the dashboard whose links you want to update. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="DashboardId">The ID for the dashboard. Constraints: • min: 1 • max: 512 • pattern: [\w\-]+</param>
+    /// <param name="LinkEntities">list of analysis Amazon Resource Names (ARNs) to be linked to the dashboard. Constraints: • max: 5 (string) Constraints: • min: 1 • max: 1024 • pattern: ^arn:aws[\w\-]*:quicksight:[\w\-]+:\d+:analysis/[\w\-]{1,512} Syntax: "string" "string" ...</param>
     public AwsQuicksightUpdateDashboardLinksOptions(
         string AwsAccountId,
         string DashboardId,
@@ -75,19 +76,19 @@ public record AwsQuicksightUpdateDashboardLinksOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon Web Services account that contains the dash- board whose links you want to update. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID of the Amazon Web Services account that contains the dashboard whose links you want to update. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The ID for the dashboard. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+
+    /// The ID for the dashboard. Constraints: • min: 1 • max: 512 • pattern: [\w\-]+
     /// </summary>
     [CliOption("--dashboard-id")]
     public string? DashboardId { get; private init; }
 
     /// <summary>
-    /// list of analysis Amazon Resource Names (ARNs) to be linked to the dashboard. Constraints: o max: 5 (string) Constraints: o min: 1 o max: 1024 o pattern: ^arn:aws[\w\-]*:quicksight:[\w\-]+:\d+:analy- sis/[\w\-]{1,512} Syntax: "string" "string" ...
+    /// list of analysis Amazon Resource Names (ARNs) to be linked to the dashboard. Constraints: • max: 5 (string) Constraints: • min: 1 • max: 1024 • pattern: ^arn:aws[\w\-]*:quicksight:[\w\-]+:\d+:analysis/[\w\-]{1,512} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--link-entities", GroupValues = true)]
     public IEnumerable<string>? LinkEntities { get; private init; }
@@ -113,6 +114,15 @@ public record AwsQuicksightUpdateDashboardLinksOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

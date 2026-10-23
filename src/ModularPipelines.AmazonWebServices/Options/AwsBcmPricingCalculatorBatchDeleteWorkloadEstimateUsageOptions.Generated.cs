@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Delete usage that you have created in a Workload estimate. You can only delete usage that you had added and cannot model deletion (or removal) of a existing usage. If you want model removal of an existing usage, see BatchUpdateWorkloadEstimateUsage . NOTE: The BatchDeleteWorkloadEstimateUsage operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission bcm-pricing-calculator:Delete- WorkloadEstimateUsage in your policies. S...
+/// Delete usage that you have created in a Workload estimate. You can only delete usage that you had added and cannot model deletion (or removal) of a existing usage. If you want model removal of an existing usage, see BatchUpdateWorkloadEstimateUsage . NOTE: The BatchDeleteWorkloadEstimateUsage operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission bcm-pricing-calculator:DeleteWorkloadEstimateUsage in your policies. See...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsBcmPricingCalculatorBatchDeleteWorkloadEstimateUsageOptions : A
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Delete usage that you have created in a Workload estimate. You can only delete usage that you had added and cannot model deletion (or removal) of a existing usage. If you want model removal of an existing usage, see BatchUpdateWorkloadEstimateUsage . NOTE: The BatchDeleteWorkloadEstimateUsage operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission bcm-pricing-calculator:Delete- WorkloadEstimateUsage in your policies. S...
+    /// Delete usage that you have created in a Workload estimate. You can only delete usage that you had added and cannot model deletion (or removal) of a existing usage. If you want model removal of an existing usage, see BatchUpdateWorkloadEstimateUsage . NOTE: The BatchDeleteWorkloadEstimateUsage operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission bcm-pricing-calculator:DeleteWorkloadEstimateUsage in your policies. See...
     /// </summary>
-    /// <param name="WorkloadEstimateId">The ID of the Workload estimate for which you want to delete the modeled usage. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
-    /// <param name="Ids">List of usage that you want to delete from the Workload estimate. Constraints: o min: 1 o max: 25 (string) Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} Syntax: "string" "string" ...</param>
+    /// <param name="WorkloadEstimateId">The ID of the Workload estimate for which you want to delete the modeled usage. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="Ids">List of usage that you want to delete from the Workload estimate. Constraints: • min: 1 • max: 25 (string) Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} Syntax: "string" "string" ...</param>
     public AwsBcmPricingCalculatorBatchDeleteWorkloadEstimateUsageOptions(
         string WorkloadEstimateId,
         IEnumerable<string> Ids
@@ -71,13 +72,13 @@ public record AwsBcmPricingCalculatorBatchDeleteWorkloadEstimateUsageOptions : A
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Workload estimate for which you want to delete the modeled usage. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// The ID of the Workload estimate for which you want to delete the modeled usage. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--workload-estimate-id")]
     public string? WorkloadEstimateId { get; private init; }
 
     /// <summary>
-    /// List of usage that you want to delete from the Workload estimate. Constraints: o min: 1 o max: 25 (string) Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} Syntax: "string" "string" ...
+    /// List of usage that you want to delete from the Workload estimate. Constraints: • min: 1 • max: 25 (string) Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; private init; }
@@ -103,6 +104,15 @@ public record AwsBcmPricingCalculatorBatchDeleteWorkloadEstimateUsageOptions : A
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

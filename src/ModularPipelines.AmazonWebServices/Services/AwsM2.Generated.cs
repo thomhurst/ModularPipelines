@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -122,7 +122,7 @@ public class AwsM2 : IAwsM2
     }
 
     /// <summary>
-    /// Deletes a specific application from the specific runtime environment where it was previously deployed. You cannot delete a runtime environ- ment using DeleteEnvironment if any application has ever been deployed to it. This API removes the association of the application with the runtime environment so you can delete the environment smoothly. See also: AWS API Documentation
+    /// Deletes a specific application from the specific runtime environment where it was previously deployed. You cannot delete a runtime environment using DeleteEnvironment if any application has ever been deployed to it. This API removes the association of the application with the runtime environment so you can delete the environment smoothly. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsM2 : IAwsM2
     }
 
     /// <summary>
-    /// Deletes a specific application. You cannot delete a running applica- tion. See also: AWS API Documentation
+    /// Deletes a specific application. You cannot delete a running application. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsM2 : IAwsM2
     }
 
     /// <summary>
-    /// Gets the details of a specific batch job execution for a specific ap- plication. See also: AWS API Documentation
+    /// Gets the details of a specific batch job execution for a specific application. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +227,7 @@ public class AwsM2 : IAwsM2
     }
 
     /// <summary>
-    /// Gets the status of a data set import task initiated with the Create- DataSetExportTask operation. See also: AWS API Documentation
+    /// Gets the status of a data set import task initiated with the CreateDataSetExportTask operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -242,7 +242,7 @@ public class AwsM2 : IAwsM2
     }
 
     /// <summary>
-    /// Gets the status of a data set import task initiated with the Create- DataSetImportTask operation. See also: AWS API Documentation
+    /// Gets the status of a data set import task initiated with the CreateDataSetImportTask operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -257,7 +257,7 @@ public class AwsM2 : IAwsM2
     }
 
     /// <summary>
-    /// Gets details of a specific deployment with a given deployment identi- fier. See also: AWS API Documentation
+    /// Gets details of a specific deployment with a given deployment identifier. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -287,7 +287,7 @@ public class AwsM2 : IAwsM2
     }
 
     /// <summary>
-    /// Gets a single sign-on URL that can be used to connect to AWS Blu In- sights. See also: AWS API Documentation
+    /// Gets a single sign-on URL that can be used to connect to AWS Blu Insights. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -299,6 +299,21 @@ public class AwsM2 : IAwsM2
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsM2GetSignedBluinsightsUrlOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns a list of the application versions for a specific application. See also: AWS API Documentation list-application-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: applicationVersions
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListApplicationVersionsAsync(
+        AwsM2ListApplicationVersionsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -317,21 +332,6 @@ public class AwsM2 : IAwsM2
     }
 
     /// <summary>
-    /// Returns a list of the application versions for a specific application. See also: AWS API Documentation list-application-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: applicationVersions
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListApplicationVersionsAsync(
-        AwsM2ListApplicationVersionsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Lists all the available batch job definitions based on the batch job resources uploaded during the application creation. You can use the batch job definitions in the list to start a batch job. See also: AWS API Documentation list-batch-job-definitions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated res...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -347,7 +347,7 @@ public class AwsM2 : IAwsM2
     }
 
     /// <summary>
-    /// Lists historical, current, and scheduled batch job executions for a specific application. See also: AWS API Documentation list-batch-job-executions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: bat...
+    /// Lists historical, current, and scheduled batch job executions for a specific application. See also: AWS API Documentation list-batch-job-executions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: batch...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -377,7 +377,7 @@ public class AwsM2 : IAwsM2
     }
 
     /// <summary>
-    /// Lists the data set exports for the specified application. See also: AWS API Documentation list-data-set-export-history is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: dataSetExportTasks
+    /// Lists the data set exports for the specified application. See also: AWS API Documentation list-data-set-export-history is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: dataSetExportTasks
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -392,7 +392,7 @@ public class AwsM2 : IAwsM2
     }
 
     /// <summary>
-    /// Lists the data set imports for the specified application. See also: AWS API Documentation list-data-set-import-history is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: dataSetImportTasks
+    /// Lists the data set imports for the specified application. See also: AWS API Documentation list-data-set-import-history is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: dataSetImportTasks
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -407,7 +407,7 @@ public class AwsM2 : IAwsM2
     }
 
     /// <summary>
-    /// Lists the data sets imported for a specific application. In Amazon Web Services Mainframe Modernization, data sets are associated with appli- cations deployed on runtime environments. This is known as importing data sets. Currently, Amazon Web Services Mainframe Modernization can import data sets into catalogs using CreateDataSetImportTask . See also: AWS API Documentation list-data-sets is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of resu...
+    /// Lists the data sets imported for a specific application. In Amazon Web Services Mainframe Modernization, data sets are associated with applications deployed on runtime environments. This is known as importing data sets. Currently, Amazon Web Services Mainframe Modernization can import data sets into catalogs using CreateDataSetImportTask . See also: AWS API Documentation list-data-sets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results....
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -422,7 +422,7 @@ public class AwsM2 : IAwsM2
     }
 
     /// <summary>
-    /// Returns a list of all deployments of a specific application. A deploy- ment is a combination of a specific application and a specific version of that application. Each deployment is mapped to a particular applica- tion version. See also: AWS API Documentation list-deployments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query ar...
+    /// Returns a list of all deployments of a specific application. A deployment is a combination of a specific application and a specific version of that application. Each deployment is mapped to a particular application version. See also: AWS API Documentation list-deployments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argume...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

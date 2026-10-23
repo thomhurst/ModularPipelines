@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modifies an attribute of the specified Elastic IP address. For require- ments, see Using reverse DNS for email applications . See also: AWS API Documentation
+/// Modifies an attribute of the specified Elastic IP address. For requirements, see Using reverse DNS for email applications . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsEc2ModifyAddressAttributeOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Modifies an attribute of the specified Elastic IP address. For require- ments, see Using reverse DNS for email applications . See also: AWS API Documentation
+    /// Modifies an attribute of the specified Elastic IP address. For requirements, see Using reverse DNS for email applications . See also: AWS API Documentation
     /// </summary>
     /// <param name="AllocationId">[EC2-VPC] The allocation ID.</param>
     public AwsEc2ModifyAddressAttributeOptions(
@@ -68,7 +69,7 @@ public record AwsEc2ModifyAddressAttributeOptions : AwsOptions, IValidatableObje
     public string? DomainName { get; set; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -94,6 +95,15 @@ public record AwsEc2ModifyAddressAttributeOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

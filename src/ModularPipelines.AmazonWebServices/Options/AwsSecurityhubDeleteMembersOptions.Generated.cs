@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsSecurityhubDeleteMembersOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Deletes the specified member accounts from Security Hub CSPM. You can invoke this API only to delete accounts that became members through invitation. You can't invoke this API to delete accounts that belong to an Organizations organization. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountIds">The list of account IDs for the member accounts to delete. (string) Constraints: o pattern: .*\S.* Syntax: "string" "string" ...</param>
+    /// <param name="AccountIds">The list of account IDs for the member accounts to delete. (string) Constraints: • pattern: .*\S.* Syntax: "string" "string" ...</param>
     public AwsSecurityhubDeleteMembersOptions(
         IEnumerable<string> AccountIds
     )
@@ -67,7 +68,7 @@ public record AwsSecurityhubDeleteMembersOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The list of account IDs for the member accounts to delete. (string) Constraints: o pattern: .*\S.* Syntax: "string" "string" ...
+    /// The list of account IDs for the member accounts to delete. (string) Constraints: • pattern: .*\S.* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--account-ids", GroupValues = true)]
     public IEnumerable<string>? AccountIds { get; private init; }
@@ -93,6 +94,15 @@ public record AwsSecurityhubDeleteMembersOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

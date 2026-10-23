@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -30,7 +31,7 @@ public record AwsSecurityagentCreateMembershipOptions : AwsOptions, IValidatable
     /// <param name="ApplicationId">The unique identifier of the application that contains the agent space.</param>
     /// <param name="AgentSpaceId">The unique identifier of the agent space to grant access to.</param>
     /// <param name="MembershipId">The unique identifier for the membership.</param>
-    /// <param name="MemberType">The type of member. Currently, only USER is supported. Possible values: o USER</param>
+    /// <param name="MemberType">The type of member. Currently, only USER is supported. Possible values: • USER</param>
     public AwsSecurityagentCreateMembershipOptions(
         string ApplicationId,
         string AgentSpaceId,
@@ -86,13 +87,13 @@ public record AwsSecurityagentCreateMembershipOptions : AwsOptions, IValidatable
     public string? MembershipId { get; private init; }
 
     /// <summary>
-    /// The type of member. Currently, only USER is supported. Possible values: o USER
+    /// The type of member. Currently, only USER is supported. Possible values: • USER
     /// </summary>
     [CliOption("--member-type")]
     public string? MemberType { get; private init; }
 
     /// <summary>
-    /// The configuration for the membership, such as the user role. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: user. user -&gt; (structure) The user configuration for the membership. role -&gt; (string) The role assigned to the user. Currently, only MEMBER is sup- ported. Possible values: o MEMBER Shorthand Syntax: user={role=string} JSON Syntax: { "user": { "role": "MEMBER" } }
+    /// The configuration for the membership, such as the user role. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: user. user -&gt; (structure) The user configuration for the membership. role -&gt; (string) The role assigned to the user. Currently, only MEMBER is supported. Possible values: • MEMBER Shorthand Syntax: user={role=string} JSON Syntax: { "user": { "role": "MEMBER" } }
     /// </summary>
     [CliOption("--config")]
     public string? Config { get; set; }
@@ -118,6 +119,15 @@ public record AwsSecurityagentCreateMembershipOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

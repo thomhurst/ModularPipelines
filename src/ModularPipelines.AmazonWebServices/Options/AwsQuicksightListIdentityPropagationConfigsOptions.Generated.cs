@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsQuicksightListIdentityPropagationConfigsOptions : AwsOptions, I
     /// <summary>
     /// Lists all services and authorized targets that the Quick Sight IAM Identity Center application can access. This operation is only supported for Quick Sight accounts that use IAM Identity Center. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contain the identity propagation configurations of. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contain the identity propagation configurations of. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
     public AwsQuicksightListIdentityPropagationConfigsOptions(
         string AwsAccountId
     )
@@ -57,13 +58,13 @@ public record AwsQuicksightListIdentityPropagationConfigsOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon Web Services account that contain the identity propagation configurations of. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID of the Amazon Web Services account that contain the identity propagation configurations of. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The maximum number of results to be returned. Constraints: o min: 1 o max: 10
+    /// The maximum number of results to be returned. Constraints: • min: 1 • max: 10
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -96,6 +97,15 @@ public record AwsQuicksightListIdentityPropagationConfigsOptions : AwsOptions, I
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Grants a principal permission to use a function. You can apply the pol- icy at the function level, or specify a qualifier to restrict access to a single version or alias. If you use a qualifier, the invoker must use the full Amazon Resource Name (ARN) of that version or alias to invoke the function. Note: Lambda does not support adding policies to version $LATEST. To grant permission to another account, specify the account ID as the Principal . To grant permission to an organization defined in O...
+/// Grants a principal permission to use a function. You can apply the policy at the function level, or specify a qualifier to restrict access to a single version or alias. If you use a qualifier, the invoker must use the full Amazon Resource Name (ARN) of that version or alias to invoke the function. Note: Lambda does not support adding policies to version $LATEST. To grant permission to another account, specify the account ID as the Principal . To grant permission to an organization defined in Org...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,12 +28,12 @@ public record AwsLambdaAddPermissionOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Grants a principal permission to use a function. You can apply the pol- icy at the function level, or specify a qualifier to restrict access to a single version or alias. If you use a qualifier, the invoker must use the full Amazon Resource Name (ARN) of that version or alias to invoke the function. Note: Lambda does not support adding policies to version $LATEST. To grant permission to another account, specify the account ID as the Principal . To grant permission to an organization defined in O...
+    /// Grants a principal permission to use a function. You can apply the policy at the function level, or specify a qualifier to restrict access to a single version or alias. If you use a qualifier, the invoker must use the full Amazon Resource Name (ARN) of that version or alias to invoke the function. Note: Lambda does not support adding policies to version $LATEST. To grant permission to another account, specify the account ID as the Principal . To grant permission to an organization defined in Org...
     /// </summary>
-    /// <param name="FunctionName">The name or ARN of the Lambda function, version, or alias. Name formats o Function name my-function (name-only), my-function:v1 (with alias). o Function ARN arn:aws:lambda:us-west-2:123456789012:func- tion:my-function . o Partial ARN 123456789012:function:my-function . You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length. Constraints: o min: 1 o max: 256 o pattern: (arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?(func- tion:)?([a-zA-Z0-9-_\.]+)(:(\$LATEST(\.PUB- LISHED)?|[a-zA-Z0-9-_]+))?</param>
-    /// <param name="StatementId">A statement identifier that differentiates the statement from others in the same policy. Constraints: o min: 1 o max: 100 o pattern: ([a-zA-Z0-9-_]+)</param>
-    /// <param name="Action">The action that the principal can use on the function. For example, lambda:InvokeFunction or lambda:GetFunction . Constraints: o min: 0 o max: 10000 o pattern: (lambda:[*]|lambda:[a-zA-Z]+|[*])</param>
-    /// <param name="Principal">The Amazon Web Services service, Amazon Web Services account, IAM user, or IAM role that invokes the function. If you specify a ser- vice, use SourceArn or SourceAccount to limit who can invoke the function through that service. Constraints: o min: 0 o max: 2048 o pattern: [^\s]+</param>
+    /// <param name="FunctionName">The name or ARN of the Lambda function, version, or alias. Name formats • Function name my-function (name-only), my-function:v1 (with alias). • Function ARN arn:aws:lambda:us-west-2:123456789012:function:my-function . • Partial ARN 123456789012:function:my-function . You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length. Constraints: • min: 1 • max: 256 • pattern: (arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_\.]+)(:(\$LATEST(\.PUBLISHED)?|[a-zA-Z0-9-_]+))?</param>
+    /// <param name="StatementId">A statement identifier that differentiates the statement from others in the same policy. Constraints: • min: 1 • max: 100 • pattern: ([a-zA-Z0-9-_]+)</param>
+    /// <param name="Action">The action that the principal can use on the function. For example, lambda:InvokeFunction or lambda:GetFunction . Constraints: • min: 0 • max: 10000 • pattern: (lambda:[*]|lambda:[a-zA-Z]+|[*])</param>
+    /// <param name="Principal">The Amazon Web Services service, Amazon Web Services account, IAM user, or IAM role that invokes the function. If you specify a service, use SourceArn or SourceAccount to limit who can invoke the function through that service. Constraints: • min: 0 • max: 2048 • pattern: [^\s]+</param>
     public AwsLambdaAddPermissionOptions(
         string FunctionName,
         string StatementId,
@@ -70,62 +71,62 @@ public record AwsLambdaAddPermissionOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name or ARN of the Lambda function, version, or alias. Name formats o Function name my-function (name-only), my-function:v1 (with alias). o Function ARN arn:aws:lambda:us-west-2:123456789012:func- tion:my-function . o Partial ARN 123456789012:function:my-function . You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length. Constraints: o min: 1 o max: 256 o pattern: (arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?(func- tion:)?([a-zA-Z0-9-_\.]+)(:(\$LATEST(\.PUB- LISHED)?|[a-zA-Z0-9-_]+))?
+    /// The name or ARN of the Lambda function, version, or alias. Name formats • Function name my-function (name-only), my-function:v1 (with alias). • Function ARN arn:aws:lambda:us-west-2:123456789012:function:my-function . • Partial ARN 123456789012:function:my-function . You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length. Constraints: • min: 1 • max: 256 • pattern: (arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_\.]+)(:(\$LATEST(\.PUBLISHED)?|[a-zA-Z0-9-_]+))?
     /// </summary>
     [CliOption("--function-name")]
     public string? FunctionName { get; private init; }
 
     /// <summary>
-    /// A statement identifier that differentiates the statement from others in the same policy. Constraints: o min: 1 o max: 100 o pattern: ([a-zA-Z0-9-_]+)
+    /// A statement identifier that differentiates the statement from others in the same policy. Constraints: • min: 1 • max: 100 • pattern: ([a-zA-Z0-9-_]+)
     /// </summary>
     [CliOption("--statement-id")]
     public string? StatementId { get; private init; }
 
     /// <summary>
-    /// The action that the principal can use on the function. For example, lambda:InvokeFunction or lambda:GetFunction . Constraints: o min: 0 o max: 10000 o pattern: (lambda:[*]|lambda:[a-zA-Z]+|[*])
+    /// The action that the principal can use on the function. For example, lambda:InvokeFunction or lambda:GetFunction . Constraints: • min: 0 • max: 10000 • pattern: (lambda:[*]|lambda:[a-zA-Z]+|[*])
     /// </summary>
     [CliOption("--action")]
     public string? Action { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services service, Amazon Web Services account, IAM user, or IAM role that invokes the function. If you specify a ser- vice, use SourceArn or SourceAccount to limit who can invoke the function through that service. Constraints: o min: 0 o max: 2048 o pattern: [^\s]+
+    /// The Amazon Web Services service, Amazon Web Services account, IAM user, or IAM role that invokes the function. If you specify a service, use SourceArn or SourceAccount to limit who can invoke the function through that service. Constraints: • min: 0 • max: 2048 • pattern: [^\s]+
     /// </summary>
     [CliOption("--principal")]
     public string? Principal { get; private init; }
 
     /// <summary>
-    /// For Amazon Web Services services, the ARN of the Amazon Web Services resource that invokes the function. For example, an Amazon S3 bucket or Amazon SNS topic. Note that Lambda configures the comparison using the StringLike op- erator. Constraints: o min: 0 o max: 10000 o pattern: arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\-])+:((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1})?:(\d{12})?:(.*)
+    /// For Amazon Web Services services, the ARN of the Amazon Web Services resource that invokes the function. For example, an Amazon S3 bucket or Amazon SNS topic. Note that Lambda configures the comparison using the StringLike operator. Constraints: • min: 0 • max: 10000 • pattern: arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\-])+:((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1})?:(\d{12})?:(.*)
     /// </summary>
     [CliOption("--source-arn")]
     public string? SourceArn { get; set; }
 
     /// <summary>
-    /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see Control access to Lambda function URLs . Possible values: o NONE o AWS_IAM
+    /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see Control access to Lambda function URLs . Possible values: • NONE • AWS_IAM
     /// </summary>
     [CliOption("--function-url-auth-type")]
     public AwsLambdaAddPermissionFunctionUrlAuthType? FunctionUrlAuthType { get; set; }
 
     /// <summary>
-    /// Indicates whether the permission applies when the function is in- voked through a function URL.
+    /// Indicates whether the permission applies when the function is invoked through a function URL.
     /// </summary>
     [CliFlag("--invoked-via-function-url", NegatedName = "--no-invoked-via-function-url")]
     public bool? InvokedViaFunctionUrl { get; set; }
 
     /// <summary>
-    /// For Amazon Web Services service, the ID of the Amazon Web Services account that owns the resource. Use this together with SourceArn to ensure that the specified account owns the resource. It is possible for an Amazon S3 bucket to be deleted by its owner and recreated by another account. Constraints: o min: 0 o max: 12 o pattern: \d{12}
+    /// For Amazon Web Services service, the ID of the Amazon Web Services account that owns the resource. Use this together with SourceArn to ensure that the specified account owns the resource. It is possible for an Amazon S3 bucket to be deleted by its owner and recreated by another account. Constraints: • min: 0 • max: 12 • pattern: \d{12}
     /// </summary>
     [CliOption("--source-account")]
     public string? SourceAccount { get; set; }
 
     /// <summary>
-    /// For Alexa Smart Home functions, a token that the invoker must sup- ply. Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9._\-]+
+    /// For Alexa Smart Home functions, a token that the invoker must supply. Constraints: • min: 0 • max: 256 • pattern: [a-zA-Z0-9._\-]+
     /// </summary>
     [SecretValue]
     [CliOption("--event-source-token")]
     public string? EventSourceToken { get; set; }
 
     /// <summary>
-    /// Specify a version or alias to add permissions to a published version of the function. Constraints: o min: 1 o max: 128 o pattern: \$(LATEST(\.PUBLISHED)?)|[a-zA-Z0-9-_$]+
+    /// Specify a version or alias to add permissions to a published version of the function. Constraints: • min: 1 • max: 128 • pattern: \$(LATEST(\.PUBLISHED)?)|[a-zA-Z0-9-_$]+
     /// </summary>
     [CliOption("--qualifier")]
     public string? Qualifier { get; set; }
@@ -137,7 +138,7 @@ public record AwsLambdaAddPermissionOptions : AwsOptions, IValidatableObject
     public string? RevisionId { get; set; }
 
     /// <summary>
-    /// The identifier for your organization in Organizations. Use this to grant permissions to all the Amazon Web Services accounts under this organization. Constraints: o min: 12 o max: 34 o pattern: o-[a-z0-9]{10,32}
+    /// The identifier for your organization in Organizations. Use this to grant permissions to all the Amazon Web Services accounts under this organization. Constraints: • min: 12 • max: 34 • pattern: o-[a-z0-9]{10,32}
     /// </summary>
     [CliOption("--principal-org-id")]
     public string? PrincipalOrgId { get; set; }
@@ -163,6 +164,15 @@ public record AwsLambdaAddPermissionOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

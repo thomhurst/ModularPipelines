@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsOpensearchserverlessUpdateAccountSettingsOptions : AwsOptions
 {
     /// <summary>
-    /// The maximum capacity limits for all OpenSearch Serverless collec- tions, in OpenSearch Compute Units (OCUs). These limits are used to scale your collections based on the current workload. For more in- formation, see Managing capacity limits for Amazon OpenSearch Serverless . maxIndexingCapacityInOCU -&gt; (integer) The maximum indexing capacity for collections. Constraints: o min: 2 maxSearchCapacityInOCU -&gt; (integer) The maximum search capacity for collections. Constraints: o min: 2 Shorthand Syntax: maxIndexingCapacityInOCU=integer,maxSearchCapacityInOCU=integer JSON Syntax: { "maxIndexingCapacityInOCU": integer, "maxSearchCapacityInOCU": integer }
+    /// The maximum capacity limits for all OpenSearch Serverless collections, in OpenSearch Compute Units (OCUs). These limits are used to scale your collections based on the current workload. For more information, see Managing capacity limits for Amazon OpenSearch Serverless . maxIndexingCapacityInOCU -&gt; (integer) The maximum indexing capacity for collections. Constraints: • min: 2 maxSearchCapacityInOCU -&gt; (integer) The maximum search capacity for collections. Constraints: • min: 2 Shorthand Syntax: maxIndexingCapacityInOCU=integer,maxSearchCapacityInOCU=integer JSON Syntax: { "maxIndexingCapacityInOCU": integer, "maxSearchCapacityInOCU": integer }
     /// </summary>
     [CliOption("--capacity-limits")]
     public string? CapacityLimits { get; set; }
@@ -32,5 +32,14 @@ public record AwsOpensearchserverlessUpdateAccountSettingsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

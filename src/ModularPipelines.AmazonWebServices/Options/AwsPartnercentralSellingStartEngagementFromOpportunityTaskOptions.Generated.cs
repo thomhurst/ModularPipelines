@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Similar to StartEngagementByAcceptingInvitationTask , this action is asynchronous and performs multiple steps before completion. This action orchestrates a comprehensive workflow that combines multiple API opera- tions into a single task to create and initiate an engagement from an existing opportunity. It automatically executes a sequence of opera- tions including GetOpportunity , CreateEngagement (if it doesn't ex- ist), CreateResourceSnapshot , CreateResourceSnapshotJob , CreateEn- gagementIn...
+/// Similar to StartEngagementByAcceptingInvitationTask , this action is asynchronous and performs multiple steps before completion. This action orchestrates a comprehensive workflow that combines multiple API operations into a single task to create and initiate an engagement from an existing opportunity. It automatically executes a sequence of operations including GetOpportunity , CreateEngagement (if it doesn't exist), CreateResourceSnapshot , CreateResourceSnapshotJob , CreateEngagementInvitation...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsPartnercentralSellingStartEngagementFromOpportunityTaskOptions 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Similar to StartEngagementByAcceptingInvitationTask , this action is asynchronous and performs multiple steps before completion. This action orchestrates a comprehensive workflow that combines multiple API opera- tions into a single task to create and initiate an engagement from an existing opportunity. It automatically executes a sequence of opera- tions including GetOpportunity , CreateEngagement (if it doesn't ex- ist), CreateResourceSnapshot , CreateResourceSnapshotJob , CreateEn- gagementIn...
+    /// Similar to StartEngagementByAcceptingInvitationTask , this action is asynchronous and performs multiple steps before completion. This action orchestrates a comprehensive workflow that combines multiple API operations into a single task to create and initiate an engagement from an existing opportunity. It automatically executes a sequence of operations including GetOpportunity , CreateEngagement (if it doesn't exist), CreateResourceSnapshot , CreateResourceSnapshotJob , CreateEngagementInvitation...
     /// </summary>
-    /// <param name="Catalog">Specifies the catalog in which the engagement is tracked. Acceptable values include AWS for production and Sandbox for testing environ- ments. Constraints: o pattern: [a-zA-Z]+</param>
-    /// <param name="Identifier">The unique identifier of the opportunity from which the engagement task is to be initiated. This helps ensure that the task is applied to the correct opportunity. Constraints: o pattern: O[0-9]{1,19}</param>
-    /// <param name="AwsSubmission">Indicates the level of AWS involvement in the opportunity. This field helps track AWS participation throughout the engagement, such as providing technical support, deal assistance, and sales support. InvolvementType -&gt; (string) [required] Specifies the type of AWS involvement in the opportunity, such as coselling, deal support, or technical consultation. This helps categorize the nature of AWS participation. Possible values: o For Visibility Only o Co-Sell Visibility -&gt; (string) Determines who can view AWS involvement in the opportunity. Typ- ically, this field is set to Full for most cases, but it may be restricted based on special program requirements or confiden- tiality needs. Possible values: o Full o Limited Shorthand Syntax: InvolvementType=string,Visibility=string JSON Syntax: { "InvolvementType": "For Visibility Only"|"Co-Sell", "Visibility": "Full"|"Limited" }</param>
+    /// <param name="Catalog">Specifies the catalog in which the engagement is tracked. Acceptable values include AWS for production and Sandbox for testing environments. Constraints: • pattern: [a-zA-Z]+</param>
+    /// <param name="Identifier">The unique identifier of the opportunity from which the engagement task is to be initiated. This helps ensure that the task is applied to the correct opportunity. Constraints: • pattern: O[0-9]{1,19}</param>
+    /// <param name="AwsSubmission">Indicates the level of AWS involvement in the opportunity. This field helps track AWS participation throughout the engagement, such as providing technical support, deal assistance, and sales support. InvolvementType -&gt; (string) [required] Specifies the type of AWS involvement in the opportunity, such as coselling, deal support, or technical consultation. This helps categorize the nature of AWS participation. Possible values: • For Visibility Only • Co-Sell Visibility -&gt; (string) Determines who can view AWS involvement in the opportunity. Typically, this field is set to Full for most cases, but it may be restricted based on special program requirements or confidentiality needs. Possible values: • Full • Limited Shorthand Syntax: InvolvementType=string,Visibility=string JSON Syntax: { "InvolvementType": "For Visibility Only"|"Co-Sell", "Visibility": "Full"|"Limited" }</param>
     public AwsPartnercentralSellingStartEngagementFromOpportunityTaskOptions(
         string Catalog,
         string Identifier,
@@ -65,32 +66,32 @@ public record AwsPartnercentralSellingStartEngagementFromOpportunityTaskOptions 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the catalog in which the engagement is tracked. Acceptable values include AWS for production and Sandbox for testing environ- ments. Constraints: o pattern: [a-zA-Z]+
+    /// Specifies the catalog in which the engagement is tracked. Acceptable values include AWS for production and Sandbox for testing environments. Constraints: • pattern: [a-zA-Z]+
     /// </summary>
     [CliOption("--catalog")]
     public string? Catalog { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the opportunity from which the engagement task is to be initiated. This helps ensure that the task is applied to the correct opportunity. Constraints: o pattern: O[0-9]{1,19}
+    /// The unique identifier of the opportunity from which the engagement task is to be initiated. This helps ensure that the task is applied to the correct opportunity. Constraints: • pattern: O[0-9]{1,19}
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// Indicates the level of AWS involvement in the opportunity. This field helps track AWS participation throughout the engagement, such as providing technical support, deal assistance, and sales support. InvolvementType -&gt; (string) [required] Specifies the type of AWS involvement in the opportunity, such as coselling, deal support, or technical consultation. This helps categorize the nature of AWS participation. Possible values: o For Visibility Only o Co-Sell Visibility -&gt; (string) Determines who can view AWS involvement in the opportunity. Typ- ically, this field is set to Full for most cases, but it may be restricted based on special program requirements or confiden- tiality needs. Possible values: o Full o Limited Shorthand Syntax: InvolvementType=string,Visibility=string JSON Syntax: { "InvolvementType": "For Visibility Only"|"Co-Sell", "Visibility": "Full"|"Limited" }
+    /// Indicates the level of AWS involvement in the opportunity. This field helps track AWS participation throughout the engagement, such as providing technical support, deal assistance, and sales support. InvolvementType -&gt; (string) [required] Specifies the type of AWS involvement in the opportunity, such as coselling, deal support, or technical consultation. This helps categorize the nature of AWS participation. Possible values: • For Visibility Only • Co-Sell Visibility -&gt; (string) Determines who can view AWS involvement in the opportunity. Typically, this field is set to Full for most cases, but it may be restricted based on special program requirements or confidentiality needs. Possible values: • Full • Limited Shorthand Syntax: InvolvementType=string,Visibility=string JSON Syntax: { "InvolvementType": "For Visibility Only"|"Co-Sell", "Visibility": "Full"|"Limited" }
     /// </summary>
     [CliOption("--aws-submission")]
     public string? AwsSubmission { get; private init; }
 
     /// <summary>
-    /// A unique token provided by the client to help ensure the idempotency of the request. It helps prevent the same task from being performed multiple times. Constraints: o pattern: .{1,255}
+    /// A unique token provided by the client to help ensure the idempotency of the request. It helps prevent the same task from being performed multiple times. Constraints: • pattern: .{1,255}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// A map of the key-value pairs of the tag or tags to assign. Constraints: o min: 1 o max: 200 (structure) The key-value pair assigned to a specified resource. Key -&gt; (string) [required] The key in the tag. Constraints: o pattern: (?=.{1,128}$)([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The value in the tag. Constraints: o pattern: (?=.{0,256}$)([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A map of the key-value pairs of the tag or tags to assign. Constraints: • min: 1 • max: 200 (structure) The key-value pair assigned to a specified resource. Key -&gt; (string) [required] The key in the tag. Constraints: • pattern: (?=.{1,128}$)([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The value in the tag. Constraints: • pattern: (?=.{0,256}$)([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -116,6 +117,15 @@ public record AwsPartnercentralSellingStartEngagementFromOpportunityTaskOptions 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

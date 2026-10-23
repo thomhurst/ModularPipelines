@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the status of the queue. If you set the status to one of the STOP_LIMIT_USAGE* values, there will be a delay before the status tran- sitions to the STOPPED state. See also: AWS API Documentation
+/// Updates the status of the queue. If you set the status to one of the STOP_LIMIT_USAGE* values, there will be a delay before the status transitions to the STOPPED state. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,12 +27,12 @@ public record AwsDeadlineUpdateQueueLimitAssociationOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the status of the queue. If you set the status to one of the STOP_LIMIT_USAGE* values, there will be a delay before the status tran- sitions to the STOPPED state. See also: AWS API Documentation
+    /// Updates the status of the queue. If you set the status to one of the STOP_LIMIT_USAGE* values, there will be a delay before the status transitions to the STOPPED state. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FarmId">The unique identifier of the farm that contains the associated queues and limits. Constraints: o pattern: farm-[0-9a-f]{32}</param>
-    /// <param name="QueueId">The unique identifier of the queue associated to the limit. Constraints: o pattern: queue-[0-9a-f]{32}</param>
-    /// <param name="LimitId">The unique identifier of the limit associated to the queue. Constraints: o pattern: limit-[0-9a-f]{32}</param>
-    /// <param name="Status">Sets the status of the limit. You can mark the limit active, or you can stop usage of the limit and either complete existing tasks or cancel any existing tasks immediately. Possible values: o ACTIVE o STOP_LIMIT_USAGE_AND_COMPLETE_TASKS o STOP_LIMIT_USAGE_AND_CANCEL_TASKS</param>
+    /// <param name="FarmId">The unique identifier of the farm that contains the associated queues and limits. Constraints: • pattern: farm-[0-9a-f]{32}</param>
+    /// <param name="QueueId">The unique identifier of the queue associated to the limit. Constraints: • pattern: queue-[0-9a-f]{32}</param>
+    /// <param name="LimitId">The unique identifier of the limit associated to the queue. Constraints: • pattern: limit-[0-9a-f]{32}</param>
+    /// <param name="Status">Sets the status of the limit. You can mark the limit active, or you can stop usage of the limit and either complete existing tasks or cancel any existing tasks immediately. Possible values: • ACTIVE • STOP_LIMIT_USAGE_AND_COMPLETE_TASKS • STOP_LIMIT_USAGE_AND_CANCEL_TASKS</param>
     public AwsDeadlineUpdateQueueLimitAssociationOptions(
         string FarmId,
         string QueueId,
@@ -68,25 +69,25 @@ public record AwsDeadlineUpdateQueueLimitAssociationOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the farm that contains the associated queues and limits. Constraints: o pattern: farm-[0-9a-f]{32}
+    /// The unique identifier of the farm that contains the associated queues and limits. Constraints: • pattern: farm-[0-9a-f]{32}
     /// </summary>
     [CliOption("--farm-id")]
     public string? FarmId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the queue associated to the limit. Constraints: o pattern: queue-[0-9a-f]{32}
+    /// The unique identifier of the queue associated to the limit. Constraints: • pattern: queue-[0-9a-f]{32}
     /// </summary>
     [CliOption("--queue-id")]
     public string? QueueId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the limit associated to the queue. Constraints: o pattern: limit-[0-9a-f]{32}
+    /// The unique identifier of the limit associated to the queue. Constraints: • pattern: limit-[0-9a-f]{32}
     /// </summary>
     [CliOption("--limit-id")]
     public string? LimitId { get; private init; }
 
     /// <summary>
-    /// Sets the status of the limit. You can mark the limit active, or you can stop usage of the limit and either complete existing tasks or cancel any existing tasks immediately. Possible values: o ACTIVE o STOP_LIMIT_USAGE_AND_COMPLETE_TASKS o STOP_LIMIT_USAGE_AND_CANCEL_TASKS
+    /// Sets the status of the limit. You can mark the limit active, or you can stop usage of the limit and either complete existing tasks or cancel any existing tasks immediately. Possible values: • ACTIVE • STOP_LIMIT_USAGE_AND_COMPLETE_TASKS • STOP_LIMIT_USAGE_AND_CANCEL_TASKS
     /// </summary>
     [CliOption("--status")]
     public AwsDeadlineUpdateQueueLimitAssociationStatus? Status { get; private init; }
@@ -112,6 +113,15 @@ public record AwsDeadlineUpdateQueueLimitAssociationOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Terminates the specified WorkSpaces. WARNING: Terminating a WorkSpace is a permanent action and cannot be undone. The user's data is destroyed. If you need to archive any user data, contact Amazon Web Services Support before terminating the Work- Space. You can terminate a WorkSpace that is in any state except SUSPENDED . This operation is asynchronous and returns before the WorkSpaces have been completely terminated. After a WorkSpace is terminated, the TERMI- NATED state is returned only brief...
+/// Terminates the specified WorkSpaces. WARNING: Terminating a WorkSpace is a permanent action and cannot be undone. The user's data is destroyed. If you need to archive any user data, contact Amazon Web Services Support before terminating the WorkSpace. You can terminate a WorkSpace that is in any state except SUSPENDED . This operation is asynchronous and returns before the WorkSpaces have been completely terminated. After a WorkSpace is terminated, the TERMINATED state is returned only briefly b...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsWorkspacesTerminateWorkspacesOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Terminates the specified WorkSpaces. WARNING: Terminating a WorkSpace is a permanent action and cannot be undone. The user's data is destroyed. If you need to archive any user data, contact Amazon Web Services Support before terminating the Work- Space. You can terminate a WorkSpace that is in any state except SUSPENDED . This operation is asynchronous and returns before the WorkSpaces have been completely terminated. After a WorkSpace is terminated, the TERMI- NATED state is returned only brief...
+    /// Terminates the specified WorkSpaces. WARNING: Terminating a WorkSpace is a permanent action and cannot be undone. The user's data is destroyed. If you need to archive any user data, contact Amazon Web Services Support before terminating the WorkSpace. You can terminate a WorkSpace that is in any state except SUSPENDED . This operation is asynchronous and returns before the WorkSpaces have been completely terminated. After a WorkSpace is terminated, the TERMINATED state is returned only briefly b...
     /// </summary>
-    /// <param name="TerminateWorkspaceRequests">The WorkSpaces to terminate. You can specify up to 25 WorkSpaces. Constraints: o min: 1 o max: 25 (structure) Describes the information used to terminate a WorkSpace. WorkspaceId -&gt; (string) [required] The identifier of the WorkSpace. Constraints: o pattern: ^ws-[0-9a-z]{8,63}$ Shorthand Syntax: --terminate-workspace-requests WorkspaceId1 WorkspaceId2 WorkspaceId3 JSON Syntax: [ { "WorkspaceId": "string" } ... ]</param>
+    /// <param name="TerminateWorkspaceRequests">The WorkSpaces to terminate. You can specify up to 25 WorkSpaces. Constraints: • min: 1 • max: 25 (structure) Describes the information used to terminate a WorkSpace. WorkspaceId -&gt; (string) [required] The identifier of the WorkSpace. Constraints: • pattern: ^ws-[0-9a-z]{8,63}$ Shorthand Syntax: --terminate-workspace-requests WorkspaceId1 WorkspaceId2 WorkspaceId3 JSON Syntax: [ { "WorkspaceId": "string" } ... ]</param>
     public AwsWorkspacesTerminateWorkspacesOptions(
         IEnumerable<string> TerminateWorkspaceRequests
     )
@@ -67,7 +68,7 @@ public record AwsWorkspacesTerminateWorkspacesOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The WorkSpaces to terminate. You can specify up to 25 WorkSpaces. Constraints: o min: 1 o max: 25 (structure) Describes the information used to terminate a WorkSpace. WorkspaceId -&gt; (string) [required] The identifier of the WorkSpace. Constraints: o pattern: ^ws-[0-9a-z]{8,63}$ Shorthand Syntax: --terminate-workspace-requests WorkspaceId1 WorkspaceId2 WorkspaceId3 JSON Syntax: [ { "WorkspaceId": "string" } ... ]
+    /// The WorkSpaces to terminate. You can specify up to 25 WorkSpaces. Constraints: • min: 1 • max: 25 (structure) Describes the information used to terminate a WorkSpace. WorkspaceId -&gt; (string) [required] The identifier of the WorkSpace. Constraints: • pattern: ^ws-[0-9a-z]{8,63}$ Shorthand Syntax: --terminate-workspace-requests WorkspaceId1 WorkspaceId2 WorkspaceId3 JSON Syntax: [ { "WorkspaceId": "string" } ... ]
     /// </summary>
     [CliOption("--terminate-workspace-requests", GroupValues = true)]
     public IEnumerable<string>? TerminateWorkspaceRequests { get; private init; }
@@ -93,6 +94,15 @@ public record AwsWorkspacesTerminateWorkspacesOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

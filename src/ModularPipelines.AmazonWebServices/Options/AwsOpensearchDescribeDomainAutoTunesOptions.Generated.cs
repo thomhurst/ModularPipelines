@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the list of optimizations that Auto-Tune has made to an Amazon OpenSearch Service domain. For more information, see Auto-Tune for Ama- zon OpenSearch Service . See also: AWS API Documentation
+/// Returns the list of optimizations that Auto-Tune has made to an Amazon OpenSearch Service domain. For more information, see Auto-Tune for Amazon OpenSearch Service . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsOpensearchDescribeDomainAutoTunesOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the list of optimizations that Auto-Tune has made to an Amazon OpenSearch Service domain. For more information, see Auto-Tune for Ama- zon OpenSearch Service . See also: AWS API Documentation
+    /// Returns the list of optimizations that Auto-Tune has made to an Amazon OpenSearch Service domain. For more information, see Auto-Tune for Amazon OpenSearch Service . See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">Name of the domain that you want Auto-Tune details about. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+</param>
+    /// <param name="DomainName">Name of the domain that you want Auto-Tune details about. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+</param>
     public AwsOpensearchDescribeDomainAutoTunesOptions(
         string DomainName
     )
@@ -57,19 +58,19 @@ public record AwsOpensearchDescribeDomainAutoTunesOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Name of the domain that you want Auto-Tune details about. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+
+    /// Name of the domain that you want Auto-Tune details about. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results. Constraints: o max: 100
+    /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results. Constraints: • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// If your initial DescribeDomainAutoTunes operation returns a nextTo- ken , you can include the returned nextToken in subsequent De- scribeDomainAutoTunes operations, which returns results in the next page.
+    /// If your initial DescribeDomainAutoTunes operation returns a nextToken , you can include the returned nextToken in subsequent DescribeDomainAutoTunes operations, which returns results in the next page.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -96,6 +97,15 @@ public record AwsOpensearchDescribeDomainAutoTunesOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

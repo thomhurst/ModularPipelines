@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates a domain's name or identity provider configuration. Only the provided fields are changed; omitted fields are left un- changed. Renaming a domain also changes the endpoint URLs derived from its name. See also: AWS API Documentation
+/// Updates a domain's name or identity provider configuration. Only the provided fields are changed; omitted fields are left unchanged. Renaming a domain also changes the endpoint URLs derived from its name. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsCloudwatchomniUpdateDomainOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates a domain's name or identity provider configuration. Only the provided fields are changed; omitted fields are left un- changed. Renaming a domain also changes the endpoint URLs derived from its name. See also: AWS API Documentation
+    /// Updates a domain's name or identity provider configuration. Only the provided fields are changed; omitted fields are left unchanged. Renaming a domain also changes the endpoint URLs derived from its name. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainId">The unique ID of the domain to update. Constraints: o pattern: d-[0-9a-z]{1,25}</param>
+    /// <param name="DomainId">The unique ID of the domain to update. Constraints: • pattern: d-[0-9a-z]{1,25}</param>
     public AwsCloudwatchomniUpdateDomainOptions(
         string DomainId
     )
@@ -56,25 +57,25 @@ public record AwsCloudwatchomniUpdateDomainOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique ID of the domain to update. Constraints: o pattern: d-[0-9a-z]{1,25}
+    /// The unique ID of the domain to update. Constraints: • pattern: d-[0-9a-z]{1,25}
     /// </summary>
     [CliOption("--domain-id")]
     public string? DomainId { get; private init; }
 
     /// <summary>
-    /// A new name for the domain. Omit to leave unchanged. Must be 3-63 characters: lowercase letters, numbers, and hyphens. It must begin and end with a letter or number and cannot contain consecutive hy- phens. Constraints: o min: 3 o max: 63 o pattern: [a-z0-9]+(-[a-z0-9]+)*
+    /// A new name for the domain. Omit to leave unchanged. Must be 3-63 characters: lowercase letters, numbers, and hyphens. It must begin and end with a letter or number and cannot contain consecutive hyphens. Constraints: • min: 3 • max: 63 • pattern: [a-z0-9]+(-[a-z0-9]+)*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The identity providers to configure for the domain. Constraints: o min: 1 o max: 2 (string) Identity provider type for a domain. Determines which identity mechanisms are active for authentication. Possible values: o IAM o IDC Syntax: "string" "string" ...
+    /// The identity providers to configure for the domain. Constraints: • min: 1 • max: 2 (string) Identity provider type for a domain. Determines which identity mechanisms are active for authentication. Possible values: • IAM • IDC Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--identity-providers", GroupValues = true)]
     public IEnumerable<string>? IdentityProviders { get; set; }
 
     /// <summary>
-    /// Identity provider configuration for the domain. identityCenterConfiguration -&gt; (structure) Identity Center configuration. Required when identityProviders includes IDC. identityCenterInstanceArn -&gt; (string) Identity Center instance ARN Constraints: o min: 1 o max: 2048 o pattern: arn:aws[a-z-]*:sso:::instance/[a-zA-Z0-9-]+ Shorthand Syntax: identityCenterConfiguration={identityCenterInstanceArn=string} JSON Syntax: { "identityCenterConfiguration": { "identityCenterInstanceArn": "string" } }
+    /// Identity provider configuration for the domain. identityCenterConfiguration -&gt; (structure) Identity Center configuration. Required when identityProviders includes IDC. identityCenterInstanceArn -&gt; (string) Identity Center instance ARN Constraints: • min: 1 • max: 2048 • pattern: arn:aws[a-z-]*:sso:::instance/[a-zA-Z0-9-]+ Shorthand Syntax: identityCenterConfiguration={identityCenterInstanceArn=string} JSON Syntax: { "identityCenterConfiguration": { "identityCenterInstanceArn": "string" } }
     /// </summary>
     [CliOption("--identity-provider-configuration")]
     public string? IdentityProviderConfiguration { get; set; }
@@ -100,6 +101,15 @@ public record AwsCloudwatchomniUpdateDomainOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

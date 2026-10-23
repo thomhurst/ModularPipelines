@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes a specific version of a solution. For more information on so- lutions, see CreateSolution See also: AWS API Documentation
+/// Describes a specific version of a solution. For more information on solutions, see CreateSolution See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsPersonalizeDescribeSolutionVersionOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Describes a specific version of a solution. For more information on so- lutions, see CreateSolution See also: AWS API Documentation
+    /// Describes a specific version of a solution. For more information on solutions, see CreateSolution See also: AWS API Documentation
     /// </summary>
-    /// <param name="SolutionVersionArn">The Amazon Resource Name (ARN) of the solution version. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
+    /// <param name="SolutionVersionArn">The Amazon Resource Name (ARN) of the solution version. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
     public AwsPersonalizeDescribeSolutionVersionOptions(
         string SolutionVersionArn
     )
@@ -56,7 +57,7 @@ public record AwsPersonalizeDescribeSolutionVersionOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the solution version. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
+    /// The Amazon Resource Name (ARN) of the solution version. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
     /// </summary>
     [CliOption("--solution-version-arn")]
     public string? SolutionVersionArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsPersonalizeDescribeSolutionVersionOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

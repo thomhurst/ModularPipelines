@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -29,8 +29,8 @@ public record AwsWorkdocsCreateCustomMetadataOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Adds one or more custom properties to the specified resource (a folder, document, or version). See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceId">The ID of the resource. Constraints: o min: 1 o max: 128 o pattern: [\w+-.@]+</param>
-    /// <param name="CustomMetadata">Custom metadata in the form of name-value pairs. Constraints: o min: 1 o max: 8 key -&gt; (string) Constraints: o min: 1 o max: 56 o pattern: [a-zA-Z0-9._+-/=][a-zA-Z0-9 ._+-/=]* value -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._+-/=][a-zA-Z0-9 ._+-/=]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    /// <param name="ResourceId">The ID of the resource. Constraints: • min: 1 • max: 128 • pattern: [\w+-.@]+</param>
+    /// <param name="CustomMetadata">Custom metadata in the form of name-value pairs. Constraints: • min: 1 • max: 8 key -&gt; (string) Constraints: • min: 1 • max: 56 • pattern: [a-zA-Z0-9._+-/=][a-zA-Z0-9 ._+-/=]* value -&gt; (string) Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9._+-/=][a-zA-Z0-9 ._+-/=]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
     public AwsWorkdocsCreateCustomMetadataOptions(
         string ResourceId,
         IReadOnlyList<KeyValue> CustomMetadata
@@ -73,26 +73,26 @@ public record AwsWorkdocsCreateCustomMetadataOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the resource. Constraints: o min: 1 o max: 128 o pattern: [\w+-.@]+
+    /// The ID of the resource. Constraints: • min: 1 • max: 128 • pattern: [\w+-.@]+
     /// </summary>
     [CliOption("--resource-id")]
     public string? ResourceId { get; private init; }
 
     /// <summary>
-    /// Custom metadata in the form of name-value pairs. Constraints: o min: 1 o max: 8 key -&gt; (string) Constraints: o min: 1 o max: 56 o pattern: [a-zA-Z0-9._+-/=][a-zA-Z0-9 ._+-/=]* value -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._+-/=][a-zA-Z0-9 ._+-/=]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Custom metadata in the form of name-value pairs. Constraints: • min: 1 • max: 8 key -&gt; (string) Constraints: • min: 1 • max: 56 • pattern: [a-zA-Z0-9._+-/=][a-zA-Z0-9 ._+-/=]* value -&gt; (string) Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9._+-/=][a-zA-Z0-9 ._+-/=]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--custom-metadata", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? CustomMetadata { get; private init; }
 
     /// <summary>
-    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API. Constraints: o min: 1 o max: 8199
+    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API. Constraints: • min: 1 • max: 8199
     /// </summary>
     [SecretValue]
     [CliOption("--authentication-token")]
     public string? AuthenticationToken { get; set; }
 
     /// <summary>
-    /// The ID of the version, if the custom metadata is being added to a document version. Constraints: o min: 1 o max: 128 o pattern: [\w+-.@]+
+    /// The ID of the version, if the custom metadata is being added to a document version. Constraints: • min: 1 • max: 128 • pattern: [\w+-.@]+
     /// </summary>
     [CliOption("--version-id")]
     public string? VersionId { get; set; }
@@ -118,6 +118,15 @@ public record AwsWorkdocsCreateCustomMetadataOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

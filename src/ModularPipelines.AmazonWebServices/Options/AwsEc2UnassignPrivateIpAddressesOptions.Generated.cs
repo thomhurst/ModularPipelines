@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -68,7 +69,7 @@ public record AwsEc2UnassignPrivateIpAddressesOptions : AwsOptions, IValidatable
     public IEnumerable<string>? Ipv4Prefixes { get; set; }
 
     /// <summary>
-    /// The secondary private IP addresses to unassign from the network in- terface. You can specify this option multiple times to unassign more than one IP address. (string) Syntax: "string" "string" ...
+    /// The secondary private IP addresses to unassign from the network interface. You can specify this option multiple times to unassign more than one IP address. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--private-ip-addresses", GroupValues = true)]
     public IEnumerable<string>? PrivateIpAddresses { get; set; }
@@ -94,6 +95,15 @@ public record AwsEc2UnassignPrivateIpAddressesOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

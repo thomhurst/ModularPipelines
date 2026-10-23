@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsAcmDeleteAcmeEndpointOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes an ACME endpoint. After deletion, the endpoint URL is no longer accessible and ACME clients cannot issue certificates through it. Any existing external account bindings and domain validations associated with the endpoint are also deleted. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AcmeEndpointArn">The Amazon Resource Name (ARN) of the ACME endpoint to delete. Constraints: o min: 1 o max: 200 o pattern: arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-end- point/[a-zA-Z0-9-]+</param>
+    /// <param name="AcmeEndpointArn">The Amazon Resource Name (ARN) of the ACME endpoint to delete. Constraints: • min: 1 • max: 200 • pattern: arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-endpoint/[a-zA-Z0-9-]+</param>
     public AwsAcmDeleteAcmeEndpointOptions(
         string AcmeEndpointArn
     )
@@ -56,7 +57,7 @@ public record AwsAcmDeleteAcmeEndpointOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the ACME endpoint to delete. Constraints: o min: 1 o max: 200 o pattern: arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-end- point/[a-zA-Z0-9-]+
+    /// The Amazon Resource Name (ARN) of the ACME endpoint to delete. Constraints: • min: 1 • max: 200 • pattern: arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-endpoint/[a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--acme-endpoint-arn")]
     public string? AcmeEndpointArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsAcmDeleteAcmeEndpointOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

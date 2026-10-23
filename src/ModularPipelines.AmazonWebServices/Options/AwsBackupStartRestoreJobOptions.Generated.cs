@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -29,8 +29,8 @@ public record AwsBackupStartRestoreJobOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Recovers the saved resource identified by an Amazon Resource Name (ARN). See also: AWS API Documentation
     /// </summary>
-    /// <param name="RecoveryPointArn">An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recov- ery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45 .</param>
-    /// <param name="Metadata">A set of metadata key-value pairs. You can get configuration metadata about a resource at the time it was backed up by calling GetRecoveryPointRestoreMetadata . However, values in addition to those provided by GetRecoveryPointRestoreMeta- data might be required to restore a resource. For example, you might need to provide a new resource name if the original already exists. For more information about the metadata for each resource, see the following: o Metadata for Amazon Aurora o Metadata for Amazon DocumentDB o Metadata for CloudFormation o Metadata for Amazon DynamoDB o Metadata for Amazon EBS o Metadata for Amazon EC2 o Metadata for Amazon EFS o Metadata for Amazon EKS o Metadata for Amazon FSx o Metadata for Amazon Neptune o Metadata for Amazon RDS o Metadata for Amazon Redshift o Metadata for Storage Gateway o Metadata for Amazon S3 o Metadata for Amazon Timestream o Metadata for virtual machines key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    /// <param name="RecoveryPointArn">An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45 .</param>
+    /// <param name="Metadata">A set of metadata key-value pairs. You can get configuration metadata about a resource at the time it was backed up by calling GetRecoveryPointRestoreMetadata . However, values in addition to those provided by GetRecoveryPointRestoreMetadata might be required to restore a resource. For example, you might need to provide a new resource name if the original already exists. For more information about the metadata for each resource, see the following: • Metadata for Amazon Aurora • Metadata for Amazon DocumentDB • Metadata for CloudFormation • Metadata for Amazon DynamoDB • Metadata for Amazon EBS • Metadata for Amazon EC2 • Metadata for Amazon EFS • Metadata for Amazon EKS • Metadata for Amazon FSx • Metadata for Amazon Neptune • Metadata for Amazon RDS • Metadata for Amazon Redshift • Metadata for Storage Gateway • Metadata for Amazon S3 • Metadata for Amazon Timestream • Metadata for virtual machines key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
     public AwsBackupStartRestoreJobOptions(
         string RecoveryPointArn,
         IReadOnlyList<KeyValue> Metadata
@@ -73,13 +73,13 @@ public record AwsBackupStartRestoreJobOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recov- ery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45 .
+    /// An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45 .
     /// </summary>
     [CliOption("--recovery-point-arn")]
     public string? RecoveryPointArn { get; private init; }
 
     /// <summary>
-    /// A set of metadata key-value pairs. You can get configuration metadata about a resource at the time it was backed up by calling GetRecoveryPointRestoreMetadata . However, values in addition to those provided by GetRecoveryPointRestoreMeta- data might be required to restore a resource. For example, you might need to provide a new resource name if the original already exists. For more information about the metadata for each resource, see the following: o Metadata for Amazon Aurora o Metadata for Amazon DocumentDB o Metadata for CloudFormation o Metadata for Amazon DynamoDB o Metadata for Amazon EBS o Metadata for Amazon EC2 o Metadata for Amazon EFS o Metadata for Amazon EKS o Metadata for Amazon FSx o Metadata for Amazon Neptune o Metadata for Amazon RDS o Metadata for Amazon Redshift o Metadata for Storage Gateway o Metadata for Amazon S3 o Metadata for Amazon Timestream o Metadata for virtual machines key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A set of metadata key-value pairs. You can get configuration metadata about a resource at the time it was backed up by calling GetRecoveryPointRestoreMetadata . However, values in addition to those provided by GetRecoveryPointRestoreMetadata might be required to restore a resource. For example, you might need to provide a new resource name if the original already exists. For more information about the metadata for each resource, see the following: • Metadata for Amazon Aurora • Metadata for Amazon DocumentDB • Metadata for CloudFormation • Metadata for Amazon DynamoDB • Metadata for Amazon EBS • Metadata for Amazon EC2 • Metadata for Amazon EFS • Metadata for Amazon EKS • Metadata for Amazon FSx • Metadata for Amazon Neptune • Metadata for Amazon RDS • Metadata for Amazon Redshift • Metadata for Storage Gateway • Metadata for Amazon S3 • Metadata for Amazon Timestream • Metadata for virtual machines key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--metadata", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Metadata { get; private init; }
@@ -98,13 +98,13 @@ public record AwsBackupStartRestoreJobOptions : AwsOptions, IValidatableObject
     public string? IdempotencyToken { get; set; }
 
     /// <summary>
-    /// Starts a job to restore a recovery point for one of the following resources: o Aurora - Amazon Aurora o DocumentDB - Amazon DocumentDB o CloudFormation - CloudFormation o DynamoDB - Amazon DynamoDB o EBS - Amazon Elastic Block Store o EC2 - Amazon Elastic Compute Cloud o EFS - Amazon Elastic File System o EKS - Amazon Elastic Kubernetes Service o FSx - Amazon FSx o Neptune - Amazon Neptune o RDS - Amazon Relational Database Service o Redshift - Amazon Redshift o Storage Gateway - Storage Gateway o S3 - Amazon Simple Storage Service o Timestream - Amazon Timestream o VirtualMachine - Virtual machines Constraints: o pattern: ^[a-zA-Z0-9\-\_\.]{1,50}$
+    /// Starts a job to restore a recovery point for one of the following resources: • Aurora - Amazon Aurora • DocumentDB - Amazon DocumentDB • CloudFormation - CloudFormation • DynamoDB - Amazon DynamoDB • EBS - Amazon Elastic Block Store • EC2 - Amazon Elastic Compute Cloud • EFS - Amazon Elastic File System • EKS - Amazon Elastic Kubernetes Service • FSx - Amazon FSx • Neptune - Amazon Neptune • RDS - Amazon Relational Database Service • Redshift - Amazon Redshift • Storage Gateway - Storage Gateway • S3 - Amazon Simple Storage Service • Timestream - Amazon Timestream • VirtualMachine - Virtual machines Constraints: • pattern: ^[a-zA-Z0-9\-\_\.]{1,50}$
     /// </summary>
     [CliOption("--resource-type")]
     public string? ResourceType { get; set; }
 
     /// <summary>
-    /// stored-resource (boolean) This is an optional parameter. If this equals True , tags included in the backup will be copied to the restored resource. This can only be applied to backups created through Backup.
+    /// This is an optional parameter. If this equals True , tags included in the backup will be copied to the restored resource. This can only be applied to backups created through Backup.
     /// </summary>
     [CliFlag("--copy-source-tags-to-restored-resource", NegatedName = "--no-copy-source-tags-to-restored-resource")]
     public bool? CopySourceTagsToRestoredResource { get; set; }
@@ -130,6 +130,15 @@ public record AwsBackupStartRestoreJobOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

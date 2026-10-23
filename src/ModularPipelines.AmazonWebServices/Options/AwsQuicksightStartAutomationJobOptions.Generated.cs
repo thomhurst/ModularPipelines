@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Starts a new job for a specified automation. The job runs the automa- tion with the provided input payload. See also: AWS API Documentation
+/// Starts a new job for a specified automation. The job runs the automation with the provided input payload. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsQuicksightStartAutomationJobOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Starts a new job for a specified automation. The job runs the automa- tion with the provided input payload. See also: AWS API Documentation
+    /// Starts a new job for a specified automation. The job runs the automation with the provided input payload. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the automa- tion. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="AutomationGroupId">The ID of the automation group that contains the automation to run. Constraints: o pattern: [0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}</param>
-    /// <param name="AutomationId">The ID of the automation to run. Constraints: o pattern: [0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}</param>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the automation. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="AutomationGroupId">The ID of the automation group that contains the automation to run. Constraints: • pattern: [0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}</param>
+    /// <param name="AutomationId">The ID of the automation to run. Constraints: • pattern: [0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}</param>
     public AwsQuicksightStartAutomationJobOptions(
         string AwsAccountId,
         string AutomationGroupId,
@@ -64,25 +65,25 @@ public record AwsQuicksightStartAutomationJobOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon Web Services account that contains the automa- tion. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID of the Amazon Web Services account that contains the automation. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The ID of the automation group that contains the automation to run. Constraints: o pattern: [0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}
+    /// The ID of the automation group that contains the automation to run. Constraints: • pattern: [0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}
     /// </summary>
     [CliOption("--automation-group-id")]
     public string? AutomationGroupId { get; private init; }
 
     /// <summary>
-    /// The ID of the automation to run. Constraints: o pattern: [0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}
+    /// The ID of the automation to run. Constraints: • pattern: [0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}
     /// </summary>
     [CliOption("--automation-id")]
     public string? AutomationId { get; private init; }
 
     /// <summary>
-    /// The input payload for the automation job, provided as a JSON string. Constraints: o min: 1 o max: 7000000 o pattern: [\s\S]*[{\[].*[}\]]\s*
+    /// The input payload for the automation job, provided as a JSON string. Constraints: • min: 1 • max: 7000000 • pattern: [\s\S]*[{\[].*[}\]]\s*
     /// </summary>
     [CliOption("--input-payload")]
     public string? InputPayload { get; set; }
@@ -108,6 +109,15 @@ public record AwsQuicksightStartAutomationJobOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

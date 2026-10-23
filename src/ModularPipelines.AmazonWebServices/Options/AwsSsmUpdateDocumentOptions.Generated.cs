@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +29,8 @@ public record AwsSsmUpdateDocumentOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates one or more values for an SSM document. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Content">A valid JSON or YAML string. Constraints: o min: 1</param>
-    /// <param name="Name">The name of the SSM document that you want to update. Constraints: o pattern: ^[a-zA-Z0-9_\-.]{3,128}$</param>
+    /// <param name="Content">A valid JSON or YAML string. Constraints: • min: 1</param>
+    /// <param name="Name">The name of the SSM document that you want to update. Constraints: • pattern: ^[a-zA-Z0-9_\-.]{3,128}$</param>
     public AwsSsmUpdateDocumentOptions(
         string Content,
         string Name
@@ -61,49 +62,49 @@ public record AwsSsmUpdateDocumentOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A valid JSON or YAML string. Constraints: o min: 1
+    /// A valid JSON or YAML string. Constraints: • min: 1
     /// </summary>
     [CliOption("--content")]
     public string? Content { get; private init; }
 
     /// <summary>
-    /// The name of the SSM document that you want to update. Constraints: o pattern: ^[a-zA-Z0-9_\-.]{3,128}$
+    /// The name of the SSM document that you want to update. Constraints: • pattern: ^[a-zA-Z0-9_\-.]{3,128}$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// A list of key-value pairs that describe attachments to a version of a document. Constraints: o min: 0 o max: 20 (structure) Identifying information about a document attachment, including the file name and a key-value pair that identifies the location of an attachment to a document. Key -&gt; (string) The key of a key-value pair that identifies the location of an attachment to a document. Possible values: o SourceUrl o S3FileUrl o AttachmentReference Values -&gt; (list) The value of a key-value pair that identifies the location of an attachment to a document. The format for Value depends on the type of key you specify. o For the key SourceUrl , the value is an S3 bucket location. For example: "Values": [ "s3://amzn-s3-demo-bucket/my-pre- fix" ] o For the key S3FileUrl , the value is a file in an S3 bucket. For example: "Values": [ "s3://amzn-s3-demo-bucket/my-prefix/my-file.py" ] o For the key AttachmentReference , the value is constructed from the name of another SSM document in your account, a version number of that document, and a file attached to that document version that you want to reuse. For example: "Values": [ "MyOtherDocument/3/my-other-file.py" ] How- ever, if the SSM document is shared with you from another account, the full SSM document ARN must be specified in- stead of the document name only. For example: "Values": [ "arn:aws:ssm:us-east-2:111122223333:document/OtherAccount- Document/3/their-file.py" ] Constraints: o min: 1 o max: 1 (string) Constraints: o min: 1 o max: 1024 Name -&gt; (string) The name of the document attachment file. Constraints: o pattern: ^[a-zA-Z0-9_\-.]{3,128}$ Shorthand Syntax: Key=string,Values=string,string,Name=string ... JSON Syntax: [ { "Key": "SourceUrl"|"S3FileUrl"|"AttachmentReference", "Values": ["string", ...], "Name": "string" } ... ]
+    /// A list of key-value pairs that describe attachments to a version of a document. Constraints: • min: 0 • max: 20 (structure) Identifying information about a document attachment, including the file name and a key-value pair that identifies the location of an attachment to a document. Key -&gt; (string) The key of a key-value pair that identifies the location of an attachment to a document. Possible values: • SourceUrl • S3FileUrl • AttachmentReference Values -&gt; (list) The value of a key-value pair that identifies the location of an attachment to a document. The format for Value depends on the type of key you specify. • For the key SourceUrl , the value is an S3 bucket location. For example: "Values": [ "s3://amzn-s3-demo-bucket/my-prefix" ] • For the key S3FileUrl , the value is a file in an S3 bucket. For example: "Values": [ "s3://amzn-s3-demo-bucket/my-prefix/my-file.py" ] • For the key AttachmentReference , the value is constructed from the name of another SSM document in your account, a version number of that document, and a file attached to that document version that you want to reuse. For example: "Values": [ "MyOtherDocument/3/my-other-file.py" ] However, if the SSM document is shared with you from another account, the full SSM document ARN must be specified instead of the document name only. For example: "Values": [ "arn:aws:ssm:us-east-2:111122223333:document/OtherAccountDocument/3/their-file.py" ] Constraints: • min: 1 • max: 1 (string) Constraints: • min: 1 • max: 1024 Name -&gt; (string) The name of the document attachment file. Constraints: • pattern: ^[a-zA-Z0-9_\-.]{3,128}$ Shorthand Syntax: Key=string,Values=string,string,Name=string ... JSON Syntax: [ { "Key": "SourceUrl"|"S3FileUrl"|"AttachmentReference", "Values": ["string", ...], "Name": "string" } ... ]
     /// </summary>
     [CliOption("--attachments", GroupValues = true)]
     public IEnumerable<string>? Attachments { get; set; }
 
     /// <summary>
-    /// The friendly name of the SSM document that you want to update. This value can differ for each version of the document. If you don't specify a value for this parameter in your request, the existing value is applied to the new document version. Constraints: o max: 1024 o pattern: ^[\w\.\-\:\/ ]*$
+    /// The friendly name of the SSM document that you want to update. This value can differ for each version of the document. If you don't specify a value for this parameter in your request, the existing value is applied to the new document version. Constraints: • max: 1024 • pattern: ^[\w\.\-\:\/ ]*$
     /// </summary>
     [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// An optional field specifying the version of the artifact you are up- dating with the document. For example, 12.6. This value is unique across all versions of a document, and can't be changed. Constraints: o pattern: ^[a-zA-Z0-9_\-.]{1,128}$
+    /// An optional field specifying the version of the artifact you are updating with the document. For example, 12.6. This value is unique across all versions of a document, and can't be changed. Constraints: • pattern: ^[a-zA-Z0-9_\-.]{1,128}$
     /// </summary>
     [CliOption("--version-name")]
     public string? VersionName { get; set; }
 
     /// <summary>
-    /// The version of the document that you want to update. Currently, Sys- tems Manager supports updating only the latest version of the docu- ment. You can specify the version number of the latest version or use the $LATEST variable. NOTE: If you change a document version for a State Manager associa- tion, Systems Manager immediately runs the association unless you previously specifed the apply-only-at-cron-interval parame- ter. Constraints: o pattern: ([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)
+    /// The version of the document that you want to update. Currently, Systems Manager supports updating only the latest version of the document. You can specify the version number of the latest version or use the $LATEST variable. NOTE: If you change a document version for a State Manager association, Systems Manager immediately runs the association unless you previously specifed the apply-only-at-cron-interval parameter. Constraints: • pattern: ([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)
     /// </summary>
     [CliOption("--document-version")]
     public string? DocumentVersion { get; set; }
 
     /// <summary>
-    /// Specify the document format for the new document version. The docu- ment format can be JSON, YAML, or TEXT. JSON is the default format. Possible values: o YAML o JSON o TEXT
+    /// Specify the document format for the new document version. The document format can be JSON, YAML, or TEXT. JSON is the default format. Possible values: • YAML • JSON • TEXT
     /// </summary>
     [CliOption("--document-format")]
     public AwsSsmUpdateDocumentDocumentFormat? DocumentFormat { get; set; }
 
     /// <summary>
-    /// Specify a new target type for the document. Constraints: o max: 200 o pattern: ^\/[\w\.\-\:\/]*$
+    /// Specify a new target type for the document. Constraints: • max: 200 • pattern: ^\/[\w\.\-\:\/]*$
     /// </summary>
     [CliOption("--target-type")]
     public string? TargetType { get; set; }
@@ -129,6 +130,15 @@ public record AwsSsmUpdateDocumentOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

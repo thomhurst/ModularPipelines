@@ -10,13 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new version of Amazon Rekognition project (like a Custom La- bels model or a custom adapter) and begins training. Models and adapters are managed as part of a Rekognition project. The response from CreateProjectVersion is an Amazon Resource Name (ARN) for the project version. The FeatureConfig operation argument allows you to configure specific model or adapter settings. You can provide a description to the project version by using the VersionDescription argment. Training can take a wh...
+/// Creates a new version of Amazon Rekognition project (like a Custom Labels model or a custom adapter) and begins training. Models and adapters are managed as part of a Rekognition project. The response from CreateProjectVersion is an Amazon Resource Name (ARN) for the project version. The FeatureConfig operation argument allows you to configure specific model or adapter settings. You can provide a description to the project version by using the VersionDescription argment. Training can take a whil...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +26,11 @@ public record AwsRekognitionCreateProjectVersionOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new version of Amazon Rekognition project (like a Custom La- bels model or a custom adapter) and begins training. Models and adapters are managed as part of a Rekognition project. The response from CreateProjectVersion is an Amazon Resource Name (ARN) for the project version. The FeatureConfig operation argument allows you to configure specific model or adapter settings. You can provide a description to the project version by using the VersionDescription argment. Training can take a wh...
+    /// Creates a new version of Amazon Rekognition project (like a Custom Labels model or a custom adapter) and begins training. Models and adapters are managed as part of a Rekognition project. The response from CreateProjectVersion is an Amazon Resource Name (ARN) for the project version. The FeatureConfig operation argument allows you to configure specific model or adapter settings. You can provide a description to the project version by using the VersionDescription argment. Training can take a whil...
     /// </summary>
-    /// <param name="ProjectArn">The ARN of the Amazon Rekognition project that will manage the project version you want to train. Constraints: o min: 20 o max: 2048 o pattern: (^arn:[a-z\d-]+:rekogni- tion:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/[0-9]+$)</param>
-    /// <param name="VersionName">A name for the version of the project version. This value must be unique. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.\-]+</param>
-    /// <param name="OutputConfig">The Amazon S3 bucket location to store the results of training. The bucket can be any S3 bucket in your AWS account. You need s3:PutOb- ject permission on the bucket. S3Bucket -&gt; (string) The S3 bucket where training output is placed. Constraints: o min: 3 o max: 255 o pattern: [0-9A-Za-z\.\-_]* S3KeyPrefix -&gt; (string) The prefix applied to the training output files. Constraints: o max: 1024 Shorthand Syntax: S3Bucket=string,S3KeyPrefix=string JSON Syntax: { "S3Bucket": "string", "S3KeyPrefix": "string" }</param>
+    /// <param name="ProjectArn">The ARN of the Amazon Rekognition project that will manage the project version you want to train. Constraints: • min: 20 • max: 2048 • pattern: (^arn:[a-z\d-]+:rekognition:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/[0-9]+$)</param>
+    /// <param name="VersionName">A name for the version of the project version. This value must be unique. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9_.\-]+</param>
+    /// <param name="OutputConfig">The Amazon S3 bucket location to store the results of training. The bucket can be any S3 bucket in your AWS account. You need s3:PutObject permission on the bucket. S3Bucket -&gt; (string) The S3 bucket where training output is placed. Constraints: • min: 3 • max: 255 • pattern: [0-9A-Za-z\.\-_]* S3KeyPrefix -&gt; (string) The prefix applied to the training output files. Constraints: • max: 1024 Shorthand Syntax: S3Bucket=string,S3KeyPrefix=string JSON Syntax: { "S3Bucket": "string", "S3KeyPrefix": "string" }</param>
     public AwsRekognitionCreateProjectVersionOptions(
         string ProjectArn,
         string VersionName,
@@ -65,55 +65,55 @@ public record AwsRekognitionCreateProjectVersionOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the Amazon Rekognition project that will manage the project version you want to train. Constraints: o min: 20 o max: 2048 o pattern: (^arn:[a-z\d-]+:rekogni- tion:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/[0-9]+$)
+    /// The ARN of the Amazon Rekognition project that will manage the project version you want to train. Constraints: • min: 20 • max: 2048 • pattern: (^arn:[a-z\d-]+:rekognition:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/[0-9]+$)
     /// </summary>
     [CliOption("--project-arn")]
     public string? ProjectArn { get; private init; }
 
     /// <summary>
-    /// A name for the version of the project version. This value must be unique. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.\-]+
+    /// A name for the version of the project version. This value must be unique. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9_.\-]+
     /// </summary>
     [CliOption("--version-name")]
     public string? VersionName { get; private init; }
 
     /// <summary>
-    /// The Amazon S3 bucket location to store the results of training. The bucket can be any S3 bucket in your AWS account. You need s3:PutOb- ject permission on the bucket. S3Bucket -&gt; (string) The S3 bucket where training output is placed. Constraints: o min: 3 o max: 255 o pattern: [0-9A-Za-z\.\-_]* S3KeyPrefix -&gt; (string) The prefix applied to the training output files. Constraints: o max: 1024 Shorthand Syntax: S3Bucket=string,S3KeyPrefix=string JSON Syntax: { "S3Bucket": "string", "S3KeyPrefix": "string" }
+    /// The Amazon S3 bucket location to store the results of training. The bucket can be any S3 bucket in your AWS account. You need s3:PutObject permission on the bucket. S3Bucket -&gt; (string) The S3 bucket where training output is placed. Constraints: • min: 3 • max: 255 • pattern: [0-9A-Za-z\.\-_]* S3KeyPrefix -&gt; (string) The prefix applied to the training output files. Constraints: • max: 1024 Shorthand Syntax: S3Bucket=string,S3KeyPrefix=string JSON Syntax: { "S3Bucket": "string", "S3KeyPrefix": "string" }
     /// </summary>
     [CliOption("--output-config")]
     public string? OutputConfig { get; private init; }
 
     /// <summary>
-    /// Specifies an external manifest that the services uses to train the project version. If you specify TrainingData you must also specify TestingData . The project must not have any associated datasets. Assets -&gt; (list) A manifest file that contains references to the training images and ground-truth annotations. (structure) Assets are the images that you use to train and evaluate a model version. Assets can also contain validation information that you use to debug a failed model training. GroundTruthManifest -&gt; (structure) The S3 bucket that contains an Amazon Sagemaker Ground Truth format manifest file. S3Object -&gt; (structure) Provides the S3 bucket name and object name. The region for the S3 bucket containing the S3 object must match the region you use for Amazon Rekognition operations. For Amazon Rekognition to process an S3 object, the user must have permission to access the S3 object. For more information, see How Amazon Rekognition works with IAM in the Amazon Rekognition Developer Guide. Bucket -&gt; (string) Name of the S3 bucket. Constraints: o min: 3 o max: 255 o pattern: [0-9A-Za-z\.\-_]* Name -&gt; (string) S3 object key name. Constraints: o min: 1 o max: 1024 Version -&gt; (string) If the bucket is versioning enabled, you can spec- ify the object version. Constraints: o min: 1 o max: 1024 JSON Syntax: { "Assets": [ { "GroundTruthManifest": { "S3Object": { "Bucket": "string", "Name": "string", "Version": "string" } } } ... ] }
+    /// Specifies an external manifest that the services uses to train the project version. If you specify TrainingData you must also specify TestingData . The project must not have any associated datasets. Assets -&gt; (list) A manifest file that contains references to the training images and ground-truth annotations. (structure) Assets are the images that you use to train and evaluate a model version. Assets can also contain validation information that you use to debug a failed model training. GroundTruthManifest -&gt; (structure) The S3 bucket that contains an Amazon Sagemaker Ground Truth format manifest file. S3Object -&gt; (structure) Provides the S3 bucket name and object name. The region for the S3 bucket containing the S3 object must match the region you use for Amazon Rekognition operations. For Amazon Rekognition to process an S3 object, the user must have permission to access the S3 object. For more information, see How Amazon Rekognition works with IAM in the Amazon Rekognition Developer Guide. Bucket -&gt; (string) Name of the S3 bucket. Constraints: • min: 3 • max: 255 • pattern: [0-9A-Za-z\.\-_]* Name -&gt; (string) S3 object key name. Constraints: • min: 1 • max: 1024 Version -&gt; (string) If the bucket is versioning enabled, you can specify the object version. Constraints: • min: 1 • max: 1024 JSON Syntax: { "Assets": [ { "GroundTruthManifest": { "S3Object": { "Bucket": "string", "Name": "string", "Version": "string" } } } ... ] }
     /// </summary>
     [CliOption("--training-data")]
     public string? TrainingData { get; set; }
 
     /// <summary>
-    /// Specifies an external manifest that the service uses to test the project version. If you specify TestingData you must also specify TrainingData . The project must not have any associated datasets. Assets -&gt; (list) The assets used for testing. (structure) Assets are the images that you use to train and evaluate a model version. Assets can also contain validation information that you use to debug a failed model training. GroundTruthManifest -&gt; (structure) The S3 bucket that contains an Amazon Sagemaker Ground Truth format manifest file. S3Object -&gt; (structure) Provides the S3 bucket name and object name. The region for the S3 bucket containing the S3 object must match the region you use for Amazon Rekognition operations. For Amazon Rekognition to process an S3 object, the user must have permission to access the S3 object. For more information, see How Amazon Rekognition works with IAM in the Amazon Rekognition Developer Guide. Bucket -&gt; (string) Name of the S3 bucket. Constraints: o min: 3 o max: 255 o pattern: [0-9A-Za-z\.\-_]* Name -&gt; (string) S3 object key name. Constraints: o min: 1 o max: 1024 Version -&gt; (string) If the bucket is versioning enabled, you can spec- ify the object version. Constraints: o min: 1 o max: 1024 AutoCreate -&gt; (boolean) If specified, Rekognition splits training dataset to create a test dataset for the training job. JSON Syntax: { "Assets": [ { "GroundTruthManifest": { "S3Object": { "Bucket": "string", "Name": "string", "Version": "string" } } } ... ], "AutoCreate": true|false }
+    /// Specifies an external manifest that the service uses to test the project version. If you specify TestingData you must also specify TrainingData . The project must not have any associated datasets. Assets -&gt; (list) The assets used for testing. (structure) Assets are the images that you use to train and evaluate a model version. Assets can also contain validation information that you use to debug a failed model training. GroundTruthManifest -&gt; (structure) The S3 bucket that contains an Amazon Sagemaker Ground Truth format manifest file. S3Object -&gt; (structure) Provides the S3 bucket name and object name. The region for the S3 bucket containing the S3 object must match the region you use for Amazon Rekognition operations. For Amazon Rekognition to process an S3 object, the user must have permission to access the S3 object. For more information, see How Amazon Rekognition works with IAM in the Amazon Rekognition Developer Guide. Bucket -&gt; (string) Name of the S3 bucket. Constraints: • min: 3 • max: 255 • pattern: [0-9A-Za-z\.\-_]* Name -&gt; (string) S3 object key name. Constraints: • min: 1 • max: 1024 Version -&gt; (string) If the bucket is versioning enabled, you can specify the object version. Constraints: • min: 1 • max: 1024 AutoCreate -&gt; (boolean) If specified, Rekognition splits training dataset to create a test dataset for the training job. JSON Syntax: { "Assets": [ { "GroundTruthManifest": { "S3Object": { "Bucket": "string", "Name": "string", "Version": "string" } } } ... ], "AutoCreate": true|false }
     /// </summary>
     [CliOption("--testing-data")]
     public string? TestingData { get; set; }
 
     /// <summary>
-    /// A set of tags (key-value pairs) that you want to attach to the project version. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A set of tags (key-value pairs) that you want to attach to the project version. Constraints: • min: 0 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// The identifier for your AWS Key Management Service key (AWS KMS key). You can supply the Amazon Resource Name (ARN) of your KMS key, the ID of your KMS key, an alias for your KMS key, or an alias ARN. The key is used to encrypt training images, test images, and mani- fest files copied into the service for the project version. Your source images are unaffected. The key is also used to encrypt train- ing results and manifest files written to the output Amazon S3 bucket (OutputConfig ). If you choose to use your own KMS key, you need the following per- missions on the KMS key. o kms:CreateGrant o kms:DescribeKey o kms:GenerateDataKey o kms:Decrypt If you don't specify a value for KmsKeyId , images copied into the service are encrypted using a key that AWS owns and manages. Constraints: o min: 1 o max: 2048 o pattern: ^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$
+    /// The identifier for your AWS Key Management Service key (AWS KMS key). You can supply the Amazon Resource Name (ARN) of your KMS key, the ID of your KMS key, an alias for your KMS key, or an alias ARN. The key is used to encrypt training images, test images, and manifest files copied into the service for the project version. Your source images are unaffected. The key is also used to encrypt training results and manifest files written to the output Amazon S3 bucket (OutputConfig ). If you choose to use your own KMS key, you need the following permissions on the KMS key. • kms:CreateGrant • kms:DescribeKey • kms:GenerateDataKey • kms:Decrypt If you don't specify a value for KmsKeyId , images copied into the service are encrypted using a key that AWS owns and manages. Constraints: • min: 1 • max: 2048 • pattern: ^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$
     /// </summary>
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
     /// <summary>
-    /// A description applied to the project version being created. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9-_. ()':,;?]+
+    /// A description applied to the project version being created. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9-_. ()':,;?]+
     /// </summary>
     [CliOption("--version-description")]
     public string? VersionDescription { get; set; }
 
     /// <summary>
-    /// Feature-specific configuration of the training job. If the job con- figuration does not match the feature type associated with the project, an InvalidParameterException is returned. ContentModeration -&gt; (structure) Configuration options for Custom Moderation training. ConfidenceThreshold -&gt; (float) The confidence level you plan to use to identify if unsafe content is present during inference. Constraints: o min: 0 o max: 100 Shorthand Syntax: ContentModeration={ConfidenceThreshold=float} JSON Syntax: { "ContentModeration": { "ConfidenceThreshold": float } }
+    /// Feature-specific configuration of the training job. If the job configuration does not match the feature type associated with the project, an InvalidParameterException is returned. ContentModeration -&gt; (structure) Configuration options for Custom Moderation training. ConfidenceThreshold -&gt; (float) The confidence level you plan to use to identify if unsafe content is present during inference. Constraints: • min: 0 • max: 100 Shorthand Syntax: ContentModeration={ConfidenceThreshold=float} JSON Syntax: { "ContentModeration": { "ConfidenceThreshold": float } }
     /// </summary>
     [CliOption("--feature-config")]
     public string? FeatureConfig { get; set; }
@@ -139,6 +139,15 @@ public record AwsRekognitionCreateProjectVersionOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

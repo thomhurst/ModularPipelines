@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists the backend environments for an Amplify app. This API is available only to Amplify Gen 1 applications where the backend is created using Amplify Studio or the Amplify command line in- terface (CLI). This API isnt available to Amplify Gen 2 applications. When you deploy an application with Amplify Gen 2, you provision the app's backend infrastructure using Typescript code. See also: AWS API Documentation
+/// Lists the backend environments for an Amplify app. This API is available only to Amplify Gen 1 applications where the backend is created using Amplify Studio or the Amplify command line interface (CLI). This API isnt available to Amplify Gen 2 applications. When you deploy an application with Amplify Gen 2, you provision the app's backend infrastructure using Typescript code. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsAmplifyListBackendEnvironmentsOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists the backend environments for an Amplify app. This API is available only to Amplify Gen 1 applications where the backend is created using Amplify Studio or the Amplify command line in- terface (CLI). This API isnt available to Amplify Gen 2 applications. When you deploy an application with Amplify Gen 2, you provision the app's backend infrastructure using Typescript code. See also: AWS API Documentation
+    /// Lists the backend environments for an Amplify app. This API is available only to Amplify Gen 1 applications where the backend is created using Amplify Studio or the Amplify command line interface (CLI). This API isnt available to Amplify Gen 2 applications. When you deploy an application with Amplify Gen 2, you provision the app's backend infrastructure using Typescript code. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AppId">The unique ID for an Amplify app. Constraints: o min: 1 o max: 20 o pattern: d[a-z0-9]+</param>
+    /// <param name="AppId">The unique ID for an Amplify app. Constraints: • min: 1 • max: 20 • pattern: d[a-z0-9]+</param>
     public AwsAmplifyListBackendEnvironmentsOptions(
         string AppId
     )
@@ -57,26 +58,26 @@ public record AwsAmplifyListBackendEnvironmentsOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique ID for an Amplify app. Constraints: o min: 1 o max: 20 o pattern: d[a-z0-9]+
+    /// The unique ID for an Amplify app. Constraints: • min: 1 • max: 20 • pattern: d[a-z0-9]+
     /// </summary>
     [CliOption("--app-id")]
     public string? AppId { get; private init; }
 
     /// <summary>
-    /// The name of the backend environment Constraints: o min: 1 o max: 255 o pattern: (?s).+
+    /// The name of the backend environment Constraints: • min: 1 • max: 255 • pattern: (?s).+
     /// </summary>
     [CliOption("--environment-name")]
     public string? EnvironmentName { get; set; }
 
     /// <summary>
-    /// A pagination token. Set to null to start listing backend environ- ments from the start. If a non-null pagination token is returned in a result, pass its value in here to list more backend environments. Constraints: o max: 2000 o pattern: (?s).*
+    /// A pagination token. Set to null to start listing backend environments from the start. If a non-null pagination token is returned in a result, pass its value in here to list more backend environments. Constraints: • max: 2000 • pattern: (?s).*
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of records to list in a single response. Constraints: o min: 0 o max: 50
+    /// The maximum number of records to list in a single response. Constraints: • min: 0 • max: 50
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -102,6 +103,15 @@ public record AwsAmplifyListBackendEnvironmentsOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

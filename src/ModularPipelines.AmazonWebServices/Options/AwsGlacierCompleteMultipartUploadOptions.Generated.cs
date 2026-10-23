@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// You call this operation to inform Amazon Glacier (Glacier) that all the archive parts have been uploaded and that Glacier can now assemble the archive from the uploaded parts. After assembling and saving the archive to the vault, Glacier returns the URI path of the newly created archive resource. Using the URI path, you can then access the archive. After you upload an archive, you should save the archive ID returned to retrieve the archive at a later point. You can also get the vault in- ventory...
+/// You call this operation to inform Amazon Glacier (Glacier) that all the archive parts have been uploaded and that Glacier can now assemble the archive from the uploaded parts. After assembling and saving the archive to the vault, Glacier returns the URI path of the newly created archive resource. Using the URI path, you can then access the archive. After you upload an archive, you should save the archive ID returned to retrieve the archive at a later point. You can also get the vault inventory t...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsGlacierCompleteMultipartUploadOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// You call this operation to inform Amazon Glacier (Glacier) that all the archive parts have been uploaded and that Glacier can now assemble the archive from the uploaded parts. After assembling and saving the archive to the vault, Glacier returns the URI path of the newly created archive resource. Using the URI path, you can then access the archive. After you upload an archive, you should save the archive ID returned to retrieve the archive at a later point. You can also get the vault in- ventory...
+    /// You call this operation to inform Amazon Glacier (Glacier) that all the archive parts have been uploaded and that Glacier can now assemble the archive from the uploaded parts. After assembling and saving the archive to the vault, Glacier returns the URI path of the newly created archive resource. Using the URI path, you can then access the archive. After you upload an archive, you should save the archive ID returned to retrieve the archive at a later point. You can also get the vault inventory t...
     /// </summary>
-    /// <param name="AccountId">The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '- ' (hyphen), in which case Amazon Glacier uses the AWS ac- count ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.</param>
+    /// <param name="AccountId">The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '- ' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.</param>
     /// <param name="VaultName">The name of the vault.</param>
     /// <param name="UploadId">The upload ID of the multipart upload.</param>
     public AwsGlacierCompleteMultipartUploadOptions(
@@ -64,7 +65,7 @@ public record AwsGlacierCompleteMultipartUploadOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '- ' (hyphen), in which case Amazon Glacier uses the AWS ac- count ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
+    /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '- ' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
@@ -82,13 +83,13 @@ public record AwsGlacierCompleteMultipartUploadOptions : AwsOptions, IValidatabl
     public string? UploadId { get; private init; }
 
     /// <summary>
-    /// The total size, in bytes, of the entire archive. This value should be the sum of all the sizes of the individual parts that you up- loaded.
+    /// The total size, in bytes, of the entire archive. This value should be the sum of all the sizes of the individual parts that you uploaded.
     /// </summary>
     [CliOption("--archive-size")]
     public string? ArchiveSize { get; set; }
 
     /// <summary>
-    /// The SHA256 tree hash of the entire archive. It is the tree hash of SHA256 tree hash of the individual parts. If the value you specify in the request does not match the SHA256 tree hash of the final as- sembled archive as computed by Amazon Glacier (Glacier), Glacier re- turns an error and the request fails.
+    /// The SHA256 tree hash of the entire archive. It is the tree hash of SHA256 tree hash of the individual parts. If the value you specify in the request does not match the SHA256 tree hash of the final assembled archive as computed by Amazon Glacier (Glacier), Glacier returns an error and the request fails.
     /// </summary>
     [CliOption("--checksum")]
     public string? Checksum { get; set; }
@@ -114,6 +115,15 @@ public record AwsGlacierCompleteMultipartUploadOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

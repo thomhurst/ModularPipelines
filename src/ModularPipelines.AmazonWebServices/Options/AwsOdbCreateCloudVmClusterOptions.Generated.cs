@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -30,13 +30,13 @@ public record AwsOdbCreateCloudVmClusterOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a VM cluster on the specified Exadata infrastructure. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CloudExadataInfrastructureId">The unique identifier of the Exadata infrastructure for this VM cluster. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})</param>
-    /// <param name="CpuCoreCount">The number of CPU cores to enable on the VM cluster. Constraints: o min: 0 o max: 10000</param>
-    /// <param name="DisplayName">A user-friendly name for the VM cluster. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z_](?!.*--)[a-zA-Z0-9_-]*</param>
-    /// <param name="GiVersion">A valid software version of Oracle Grid Infrastructure (GI). To get the list of valid values, use the ListGiVersions operation and spec- ify the shape of the Exadata infrastructure. Example: 19.0.0.0 Constraints: o min: 1 o max: 255</param>
-    /// <param name="Hostname">The host name for the VM cluster. Constraints: o Can't be "localhost" or "hostname". o Can't contain "-version". o The maximum length of the combined hostname and domain is 63 char- acters. o The hostname must be unique within the subnet. Constraints: o min: 1 o max: 12 o pattern: [a-zA-Z][a-zA-Z0-9-]*[a-zA-Z0-9]</param>
-    /// <param name="SshPublicKeys">The public key portion of one or more key pairs used for SSH access to the VM cluster. Constraints: o min: 1 o max: 1024 (string) Syntax: "string" "string" ...</param>
-    /// <param name="OdbNetworkId">The unique identifier of the ODB network for the VM cluster. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})</param>
+    /// <param name="CloudExadataInfrastructureId">The unique identifier of the Exadata infrastructure for this VM cluster. Constraints: • min: 6 • max: 2048 • pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})</param>
+    /// <param name="CpuCoreCount">The number of CPU cores to enable on the VM cluster. Constraints: • min: 0 • max: 10000</param>
+    /// <param name="DisplayName">A user-friendly name for the VM cluster. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z_](?!.*--)[a-zA-Z0-9_-]*</param>
+    /// <param name="GiVersion">A valid software version of Oracle Grid Infrastructure (GI). To get the list of valid values, use the ListGiVersions operation and specify the shape of the Exadata infrastructure. Example: 19.0.0.0 Constraints: • min: 1 • max: 255</param>
+    /// <param name="Hostname">The host name for the VM cluster. Constraints: • Can't be "localhost" or "hostname". • Can't contain "-version". • The maximum length of the combined hostname and domain is 63 characters. • The hostname must be unique within the subnet. Constraints: • min: 1 • max: 12 • pattern: [a-zA-Z][a-zA-Z0-9-]*[a-zA-Z0-9]</param>
+    /// <param name="SshPublicKeys">The public key portion of one or more key pairs used for SSH access to the VM cluster. Constraints: • min: 1 • max: 1024 (string) Syntax: "string" "string" ...</param>
+    /// <param name="OdbNetworkId">The unique identifier of the ODB network for the VM cluster. Constraints: • min: 6 • max: 2048 • pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})</param>
     public AwsOdbCreateCloudVmClusterOptions(
         string CloudExadataInfrastructureId,
         int CpuCoreCount,
@@ -93,55 +93,55 @@ public record AwsOdbCreateCloudVmClusterOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the Exadata infrastructure for this VM cluster. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})
+    /// The unique identifier of the Exadata infrastructure for this VM cluster. Constraints: • min: 6 • max: 2048 • pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})
     /// </summary>
     [CliOption("--cloud-exadata-infrastructure-id")]
     public string? CloudExadataInfrastructureId { get; private init; }
 
     /// <summary>
-    /// The number of CPU cores to enable on the VM cluster. Constraints: o min: 0 o max: 10000
+    /// The number of CPU cores to enable on the VM cluster. Constraints: • min: 0 • max: 10000
     /// </summary>
     [CliOption("--cpu-core-count")]
     public int? CpuCoreCount { get; private init; }
 
     /// <summary>
-    /// A user-friendly name for the VM cluster. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z_](?!.*--)[a-zA-Z0-9_-]*
+    /// A user-friendly name for the VM cluster. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z_](?!.*--)[a-zA-Z0-9_-]*
     /// </summary>
     [CliOption("--display-name")]
     public string? DisplayName { get; private init; }
 
     /// <summary>
-    /// A valid software version of Oracle Grid Infrastructure (GI). To get the list of valid values, use the ListGiVersions operation and spec- ify the shape of the Exadata infrastructure. Example: 19.0.0.0 Constraints: o min: 1 o max: 255
+    /// A valid software version of Oracle Grid Infrastructure (GI). To get the list of valid values, use the ListGiVersions operation and specify the shape of the Exadata infrastructure. Example: 19.0.0.0 Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--gi-version")]
     public string? GiVersion { get; private init; }
 
     /// <summary>
-    /// The host name for the VM cluster. Constraints: o Can't be "localhost" or "hostname". o Can't contain "-version". o The maximum length of the combined hostname and domain is 63 char- acters. o The hostname must be unique within the subnet. Constraints: o min: 1 o max: 12 o pattern: [a-zA-Z][a-zA-Z0-9-]*[a-zA-Z0-9]
+    /// The host name for the VM cluster. Constraints: • Can't be "localhost" or "hostname". • Can't contain "-version". • The maximum length of the combined hostname and domain is 63 characters. • The hostname must be unique within the subnet. Constraints: • min: 1 • max: 12 • pattern: [a-zA-Z][a-zA-Z0-9-]*[a-zA-Z0-9]
     /// </summary>
     [CliOption("--hostname")]
     public string? Hostname { get; private init; }
 
     /// <summary>
-    /// The public key portion of one or more key pairs used for SSH access to the VM cluster. Constraints: o min: 1 o max: 1024 (string) Syntax: "string" "string" ...
+    /// The public key portion of one or more key pairs used for SSH access to the VM cluster. Constraints: • min: 1 • max: 1024 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--ssh-public-keys", GroupValues = true)]
     public IEnumerable<string>? SshPublicKeys { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the ODB network for the VM cluster. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})
+    /// The unique identifier of the ODB network for the VM cluster. Constraints: • min: 6 • max: 2048 • pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})
     /// </summary>
     [CliOption("--odb-network-id")]
     public string? OdbNetworkId { get; private init; }
 
     /// <summary>
-    /// A name for the Grid Infrastructure cluster. The name isn't case sen- sitive. Constraints: o min: 1 o max: 11 o pattern: [a-zA-Z][a-zA-Z0-9-]*
+    /// A name for the Grid Infrastructure cluster. The name isn't case sensitive. Constraints: • min: 1 • max: 11 • pattern: [a-zA-Z][a-zA-Z0-9-]*
     /// </summary>
     [CliOption("--cluster-name")]
     public string? ClusterName { get; set; }
 
     /// <summary>
-    /// The set of preferences for the various diagnostic collection options for the VM cluster. isDiagnosticsEventsEnabled -&gt; (boolean) Indicates whether diagnostic collection is enabled for the VM cluster. isHealthMonitoringEnabled -&gt; (boolean) Indicates whether health monitoring is enabled for the VM clus- ter. isIncidentLogsEnabled -&gt; (boolean) Indicates whether incident logs are enabled for the cloud VM cluster. Shorthand Syntax: isDiagnosticsEventsEnabled=boolean,isHealthMonitoringEnabled=boolean,isIncidentLogsEnabled=boolean JSON Syntax: { "isDiagnosticsEventsEnabled": true|false, "isHealthMonitoringEnabled": true|false, "isIncidentLogsEnabled": true|false }
+    /// The set of preferences for the various diagnostic collection options for the VM cluster. isDiagnosticsEventsEnabled -&gt; (boolean) Indicates whether diagnostic collection is enabled for the VM cluster. isHealthMonitoringEnabled -&gt; (boolean) Indicates whether health monitoring is enabled for the VM cluster. isIncidentLogsEnabled -&gt; (boolean) Indicates whether incident logs are enabled for the cloud VM cluster. Shorthand Syntax: isDiagnosticsEventsEnabled=boolean,isHealthMonitoringEnabled=boolean,isIncidentLogsEnabled=boolean JSON Syntax: { "isDiagnosticsEventsEnabled": true|false, "isHealthMonitoringEnabled": true|false, "isIncidentLogsEnabled": true|false }
     /// </summary>
     [CliOption("--data-collection-options")]
     public string? DataCollectionOptions { get; set; }
@@ -150,7 +150,7 @@ public record AwsOdbCreateCloudVmClusterOptions : AwsOptions, IValidatableObject
     /// The size of the data disk group, in terabytes (TBs), to allocate for the VM cluster.
     /// </summary>
     [CliOption("--data-storage-size-in-tbs")]
-    public int? DataStorageSizeInTbs { get; set; }
+    public double? DataStorageSizeInTbs { get; set; }
 
     /// <summary>
     /// The amount of local node storage, in gigabytes (GB), to allocate for the VM cluster.
@@ -159,19 +159,19 @@ public record AwsOdbCreateCloudVmClusterOptions : AwsOptions, IValidatableObject
     public int? DbNodeStorageSizeInGbs { get; set; }
 
     /// <summary>
-    /// The list of database servers for the VM cluster. Constraints: o min: 1 o max: 1024 (string) Syntax: "string" "string" ...
+    /// The list of database servers for the VM cluster. Constraints: • min: 1 • max: 1024 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--db-servers", GroupValues = true)]
     public IEnumerable<string>? DbServers { get; set; }
 
     /// <summary>
-    /// The list of resource tags to apply to the VM cluster. Constraints: o min: 1 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The list of resource tags to apply to the VM cluster. Constraints: • min: 1 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// Specifies whether to enable database backups to local Exadata stor- age for the VM cluster.
+    /// Specifies whether to enable database backups to local Exadata storage for the VM cluster.
     /// </summary>
     [CliFlag("--is-local-backup-enabled", NegatedName = "--no-is-local-backup-enabled")]
     public bool? IsLocalBackupEnabled { get; set; }
@@ -183,7 +183,7 @@ public record AwsOdbCreateCloudVmClusterOptions : AwsOptions, IValidatableObject
     public bool? IsSparseDiskgroupEnabled { get; set; }
 
     /// <summary>
-    /// The Oracle license model to apply to the VM cluster. Default: LICENSE_INCLUDED Possible values: o BRING_YOUR_OWN_LICENSE o LICENSE_INCLUDED
+    /// The Oracle license model to apply to the VM cluster. Default: LICENSE_INCLUDED Possible values: • BRING_YOUR_OWN_LICENSE • LICENSE_INCLUDED
     /// </summary>
     [CliOption("--license-model")]
     public AwsOdbCreateCloudVmClusterLicenseModel? LicenseModel { get; set; }
@@ -195,26 +195,26 @@ public record AwsOdbCreateCloudVmClusterOptions : AwsOptions, IValidatableObject
     public int? MemorySizeInGbs { get; set; }
 
     /// <summary>
-    /// The version of the operating system of the image for the VM cluster. Constraints: o min: 1 o max: 255
+    /// The version of the operating system of the image for the VM cluster. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--system-version")]
     public string? SystemVersion { get; set; }
 
     /// <summary>
-    /// The time zone for the VM cluster. For a list of valid values for time zone, you can check the options in the console. Default: UTC Constraints: o min: 1 o max: 255
+    /// The time zone for the VM cluster. For a list of valid values for time zone, you can check the options in the console. Default: UTC Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--time-zone")]
     public string? TimeZone { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency. The client token is valid for up to 24 hours after it's first used. Constraints: o min: 8 o max: 64 o pattern: [a-zA-Z0-9_\/.=-]+
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency. The client token is valid for up to 24 hours after it's first used. Constraints: • min: 8 • max: 64 • pattern: [a-zA-Z0-9_\/.=-]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The port number for TCP connections to the single client access name (SCAN) listener. Valid values: 10248999 with the following exceptions: 2484 , 6100 , 6200 , 7060 , 7070 , 7085 , and 7879 Default: 1521 Constraints: o min: 1024 o max: 8999
+    /// The port number for TCP connections to the single client access name (SCAN) listener. Valid values: 10248999 with the following exceptions: 2484 , 6100 , 6200 , 7060 , 7070 , 7085 , and 7879 Default: 1521 Constraints: • min: 1024 • max: 8999
     /// </summary>
     [CliOption("--scan-listener-port-tcp")]
     public int? ScanListenerPortTcp { get; set; }
@@ -240,6 +240,15 @@ public record AwsOdbCreateCloudVmClusterOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

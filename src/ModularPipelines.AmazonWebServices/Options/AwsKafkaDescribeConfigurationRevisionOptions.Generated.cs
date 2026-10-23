@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,11 +28,11 @@ public record AwsKafkaDescribeConfigurationRevisionOptions : AwsOptions, IValida
     /// <summary>
     /// Returns a description of this revision of the configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The Amazon Resource Name (ARN) that uniquely identifies an MSK con- figuration and all of its revisions.</param>
-    /// <param name="Revision">A string that uniquely identifies a revision of an MSK configura- tion.</param>
+    /// <param name="Arn">The Amazon Resource Name (ARN) that uniquely identifies an MSK configuration and all of its revisions.</param>
+    /// <param name="Revision">A string that uniquely identifies a revision of an MSK configuration.</param>
     public AwsKafkaDescribeConfigurationRevisionOptions(
         string Arn,
-        int Revision
+        long Revision
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(Arn);
@@ -59,16 +60,16 @@ public record AwsKafkaDescribeConfigurationRevisionOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) that uniquely identifies an MSK con- figuration and all of its revisions.
+    /// The Amazon Resource Name (ARN) that uniquely identifies an MSK configuration and all of its revisions.
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// A string that uniquely identifies a revision of an MSK configura- tion.
+    /// A string that uniquely identifies a revision of an MSK configuration.
     /// </summary>
     [CliOption("--revision")]
-    public int? Revision { get; private init; }
+    public long? Revision { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -91,6 +92,15 @@ public record AwsKafkaDescribeConfigurationRevisionOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

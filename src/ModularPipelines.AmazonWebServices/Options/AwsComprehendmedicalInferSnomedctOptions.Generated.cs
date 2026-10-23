@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsComprehendmedicalInferSnomedctOptions : AwsOptions, IValidatabl
     /// <summary>
     /// InferSNOMEDCT detects possible medical concepts as entities and links them to codes from the Systematized Nomenclature of Medicine, Clinical Terms (SNOMED-CT) ontology See also: AWS API Documentation
     /// </summary>
-    /// <param name="Text">The input text to be analyzed using InferSNOMEDCT. Constraints: o min: 1 o max: 10000</param>
+    /// <param name="Text">The input text to be analyzed using InferSNOMEDCT. Constraints: • min: 1 • max: 10000</param>
     public AwsComprehendmedicalInferSnomedctOptions(
         string Text
     )
@@ -56,7 +57,7 @@ public record AwsComprehendmedicalInferSnomedctOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The input text to be analyzed using InferSNOMEDCT. Constraints: o min: 1 o max: 10000
+    /// The input text to be analyzed using InferSNOMEDCT. Constraints: • min: 1 • max: 10000
     /// </summary>
     [CliOption("--text")]
     public string? Text { get; private init; }
@@ -82,6 +83,15 @@ public record AwsComprehendmedicalInferSnomedctOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

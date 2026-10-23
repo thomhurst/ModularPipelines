@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// The GetObjectTypeAttributeValues API delivers statistical insights about attributes within a specific object type, but is exclusively available for domains with data store enabled. This API performs daily calculations to provide statistical information about your attribute values, helping you understand patterns and trends in your data. The statistical calculations are performed once per day, providing a con- sistent snapshot of your attribute data characteristics. NOTE: You'll receive null valu...
+/// The GetObjectTypeAttributeValues API delivers statistical insights about attributes within a specific object type, but is exclusively available for domains with data store enabled. This API performs daily calculations to provide statistical information about your attribute values, helping you understand patterns and trends in your data. The statistical calculations are performed once per day, providing a consistent snapshot of your attribute data characteristics. NOTE: You'll receive null values...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsCustomerProfilesGetObjectTypeAttributeStatisticsOptions : AwsOp
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// The GetObjectTypeAttributeValues API delivers statistical insights about attributes within a specific object type, but is exclusively available for domains with data store enabled. This API performs daily calculations to provide statistical information about your attribute values, helping you understand patterns and trends in your data. The statistical calculations are performed once per day, providing a con- sistent snapshot of your attribute data characteristics. NOTE: You'll receive null valu...
+    /// The GetObjectTypeAttributeValues API delivers statistical insights about attributes within a specific object type, but is exclusively available for domains with data store enabled. This API performs daily calculations to provide statistical information about your attribute values, helping you understand patterns and trends in your data. The statistical calculations are performed once per day, providing a consistent snapshot of your attribute data characteristics. NOTE: You'll receive null values...
     /// </summary>
-    /// <param name="DomainName">The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
-    /// <param name="ObjectTypeName">The unique name of the domain object type. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z_][a-zA-Z_0-9-]*$</param>
-    /// <param name="AttributeName">The attribute name. Constraints: o min: 1 o max: 1000</param>
+    /// <param name="DomainName">The unique name of the domain. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="ObjectTypeName">The unique name of the domain object type. Constraints: • min: 1 • max: 255 • pattern: ^[a-zA-Z_][a-zA-Z_0-9-]*$</param>
+    /// <param name="AttributeName">The attribute name. Constraints: • min: 1 • max: 1000</param>
     public AwsCustomerProfilesGetObjectTypeAttributeStatisticsOptions(
         string DomainName,
         string ObjectTypeName,
@@ -64,19 +65,19 @@ public record AwsCustomerProfilesGetObjectTypeAttributeStatisticsOptions : AwsOp
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The unique name of the domain. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// The unique name of the domain object type. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z_][a-zA-Z_0-9-]*$
+    /// The unique name of the domain object type. Constraints: • min: 1 • max: 255 • pattern: ^[a-zA-Z_][a-zA-Z_0-9-]*$
     /// </summary>
     [CliOption("--object-type-name")]
     public string? ObjectTypeName { get; private init; }
 
     /// <summary>
-    /// The attribute name. Constraints: o min: 1 o max: 1000
+    /// The attribute name. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--attribute-name")]
     public string? AttributeName { get; private init; }
@@ -102,6 +103,15 @@ public record AwsCustomerProfilesGetObjectTypeAttributeStatisticsOptions : AwsOp
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

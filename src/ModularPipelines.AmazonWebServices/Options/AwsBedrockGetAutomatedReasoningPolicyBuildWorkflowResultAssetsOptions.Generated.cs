@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the resulting assets from a completed Automated Reasoning policy build workflow, including build logs, quality reports, and gen- erated policy artifacts. See also: AWS API Documentation
+/// Retrieves the resulting assets from a completed Automated Reasoning policy build workflow, including build logs, quality reports, and generated policy artifacts. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsBedrockGetAutomatedReasoningPolicyBuildWorkflowResultAssetsOpti
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves the resulting assets from a completed Automated Reasoning policy build workflow, including build logs, quality reports, and gen- erated policy artifacts. See also: AWS API Documentation
+    /// Retrieves the resulting assets from a completed Automated Reasoning policy build workflow, including build logs, quality reports, and generated policy artifacts. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PolicyArn">The Amazon Resource Name (ARN) of the Automated Reasoning policy whose build workflow assets you want to retrieve. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:auto- mated-reasoning-policy/[a-z0-9]{12}(:([1-9][0-9]{0,11}))?</param>
-    /// <param name="BuildWorkflowId">The unique identifier of the build workflow whose result assets you want to retrieve. Constraints: o min: 0 o max: 36 o pattern: [a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}</param>
-    /// <param name="AssetType">The type of asset to retrieve (e.g., BUILD_LOG, QUALITY_REPORT, POL- ICY_DEFINITION, GENERATED_TEST_CASES, POLICY_SCENARIOS, FIDELITY_RE- PORT, ASSET_MANIFEST, SOURCE_DOCUMENT). Possible values: o BUILD_LOG o QUALITY_REPORT o POLICY_DEFINITION o GENERATED_TEST_CASES o POLICY_SCENARIOS o FIDELITY_REPORT o ASSET_MANIFEST o SOURCE_DOCUMENT</param>
+    /// <param name="PolicyArn">The Amazon Resource Name (ARN) of the Automated Reasoning policy whose build workflow assets you want to retrieve. Constraints: • min: 1 • max: 2048 • pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:automated-reasoning-policy/[a-z0-9]{12}(:([1-9][0-9]{0,11}))?</param>
+    /// <param name="BuildWorkflowId">The unique identifier of the build workflow whose result assets you want to retrieve. Constraints: • min: 0 • max: 36 • pattern: [a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}</param>
+    /// <param name="AssetType">The type of asset to retrieve (e.g., BUILD_LOG, QUALITY_REPORT, POLICY_DEFINITION, GENERATED_TEST_CASES, POLICY_SCENARIOS, FIDELITY_REPORT, ASSET_MANIFEST, SOURCE_DOCUMENT). Possible values: • BUILD_LOG • QUALITY_REPORT • POLICY_DEFINITION • GENERATED_TEST_CASES • POLICY_SCENARIOS • FIDELITY_REPORT • ASSET_MANIFEST • SOURCE_DOCUMENT</param>
     public AwsBedrockGetAutomatedReasoningPolicyBuildWorkflowResultAssetsOptions(
         string PolicyArn,
         string BuildWorkflowId,
@@ -64,25 +65,25 @@ public record AwsBedrockGetAutomatedReasoningPolicyBuildWorkflowResultAssetsOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Automated Reasoning policy whose build workflow assets you want to retrieve. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:auto- mated-reasoning-policy/[a-z0-9]{12}(:([1-9][0-9]{0,11}))?
+    /// The Amazon Resource Name (ARN) of the Automated Reasoning policy whose build workflow assets you want to retrieve. Constraints: • min: 1 • max: 2048 • pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:automated-reasoning-policy/[a-z0-9]{12}(:([1-9][0-9]{0,11}))?
     /// </summary>
     [CliOption("--policy-arn")]
     public string? PolicyArn { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the build workflow whose result assets you want to retrieve. Constraints: o min: 0 o max: 36 o pattern: [a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}
+    /// The unique identifier of the build workflow whose result assets you want to retrieve. Constraints: • min: 0 • max: 36 • pattern: [a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}
     /// </summary>
     [CliOption("--build-workflow-id")]
     public string? BuildWorkflowId { get; private init; }
 
     /// <summary>
-    /// The type of asset to retrieve (e.g., BUILD_LOG, QUALITY_REPORT, POL- ICY_DEFINITION, GENERATED_TEST_CASES, POLICY_SCENARIOS, FIDELITY_RE- PORT, ASSET_MANIFEST, SOURCE_DOCUMENT). Possible values: o BUILD_LOG o QUALITY_REPORT o POLICY_DEFINITION o GENERATED_TEST_CASES o POLICY_SCENARIOS o FIDELITY_REPORT o ASSET_MANIFEST o SOURCE_DOCUMENT
+    /// The type of asset to retrieve (e.g., BUILD_LOG, QUALITY_REPORT, POLICY_DEFINITION, GENERATED_TEST_CASES, POLICY_SCENARIOS, FIDELITY_REPORT, ASSET_MANIFEST, SOURCE_DOCUMENT). Possible values: • BUILD_LOG • QUALITY_REPORT • POLICY_DEFINITION • GENERATED_TEST_CASES • POLICY_SCENARIOS • FIDELITY_REPORT • ASSET_MANIFEST • SOURCE_DOCUMENT
     /// </summary>
     [CliOption("--asset-type")]
     public AwsBedrockGetAutomatedReasoningPolicyBuildWorkflowResultAssetsAssetType? AssetType { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the specific asset to retrieve when multi- ple assets of the same type exist. This is required when retrieving SOURCE_DOCUMENT assets, as multiple source documents may have been used in the workflow. The asset ID can be obtained from the asset manifest. Constraints: o min: 0 o max: 36 o pattern: [0-9a-fA-F\-]+
+    /// The unique identifier of the specific asset to retrieve when multiple assets of the same type exist. This is required when retrieving SOURCE_DOCUMENT assets, as multiple source documents may have been used in the workflow. The asset ID can be obtained from the asset manifest. Constraints: • min: 0 • max: 36 • pattern: [0-9a-fA-F\-]+
     /// </summary>
     [CliOption("--asset-id")]
     public string? AssetId { get; set; }
@@ -108,6 +109,15 @@ public record AwsBedrockGetAutomatedReasoningPolicyBuildWorkflowResultAssetsOpti
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

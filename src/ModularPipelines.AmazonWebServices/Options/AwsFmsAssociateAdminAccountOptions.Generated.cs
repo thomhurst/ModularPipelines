@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Sets a Firewall Manager default administrator account. The Firewall Manager default administrator account can manage third-party firewalls and has full administrative scope that allows administration of all policy types, accounts, organizational units, and Regions. This account must be a member account of the organization in Organizations whose re- sources you want to protect. For information about working with Firewall Manager administrator ac- counts, see Managing Firewall Manager administrato...
+/// Sets a Firewall Manager default administrator account. The Firewall Manager default administrator account can manage third-party firewalls and has full administrative scope that allows administration of all policy types, accounts, organizational units, and Regions. This account must be a member account of the organization in Organizations whose resources you want to protect. For information about working with Firewall Manager administrator accounts, see Managing Firewall Manager administrators i...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsFmsAssociateAdminAccountOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Sets a Firewall Manager default administrator account. The Firewall Manager default administrator account can manage third-party firewalls and has full administrative scope that allows administration of all policy types, accounts, organizational units, and Regions. This account must be a member account of the organization in Organizations whose re- sources you want to protect. For information about working with Firewall Manager administrator ac- counts, see Managing Firewall Manager administrato...
+    /// Sets a Firewall Manager default administrator account. The Firewall Manager default administrator account can manage third-party firewalls and has full administrative scope that allows administration of all policy types, accounts, organizational units, and Regions. This account must be a member account of the organization in Organizations whose resources you want to protect. For information about working with Firewall Manager administrator accounts, see Managing Firewall Manager administrators i...
     /// </summary>
-    /// <param name="AdminAccount">The Amazon Web Services account ID to associate with Firewall Man- ager as the Firewall Manager default administrator account. This ac- count must be a member account of the organization in Organizations whose resources you want to protect. For more information about Or- ganizations, see Managing the Amazon Web Services Accounts in Your Organization . Constraints: o min: 1 o max: 1024 o pattern: ^[0-9]+$</param>
+    /// <param name="AdminAccount">The Amazon Web Services account ID to associate with Firewall Manager as the Firewall Manager default administrator account. This account must be a member account of the organization in Organizations whose resources you want to protect. For more information about Organizations, see Managing the Amazon Web Services Accounts in Your Organization . Constraints: • min: 1 • max: 1024 • pattern: ^[0-9]+$</param>
     public AwsFmsAssociateAdminAccountOptions(
         string AdminAccount
     )
@@ -56,7 +57,7 @@ public record AwsFmsAssociateAdminAccountOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services account ID to associate with Firewall Man- ager as the Firewall Manager default administrator account. This ac- count must be a member account of the organization in Organizations whose resources you want to protect. For more information about Or- ganizations, see Managing the Amazon Web Services Accounts in Your Organization . Constraints: o min: 1 o max: 1024 o pattern: ^[0-9]+$
+    /// The Amazon Web Services account ID to associate with Firewall Manager as the Firewall Manager default administrator account. This account must be a member account of the organization in Organizations whose resources you want to protect. For more information about Organizations, see Managing the Amazon Web Services Accounts in Your Organization . Constraints: • min: 1 • max: 1024 • pattern: ^[0-9]+$
     /// </summary>
     [CliOption("--admin-account")]
     public string? AdminAccount { get; private init; }
@@ -82,6 +83,15 @@ public record AwsFmsAssociateAdminAccountOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

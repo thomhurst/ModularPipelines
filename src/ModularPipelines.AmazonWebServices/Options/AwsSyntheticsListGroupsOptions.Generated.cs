@@ -23,14 +23,14 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSyntheticsListGroupsOptions : AwsOptions
 {
     /// <summary>
-    /// A token that indicates that there is more data available. You can use this token in a subsequent operation to retrieve the next set of results. Constraints: o min: 1 o max: 512 o pattern: ^.+$
+    /// A token that indicates that there is more data available. You can use this token in a subsequent operation to retrieve the next set of results. Constraints: • min: 1 • max: 512 • pattern: ^.+$
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// Specify this parameter to limit how many groups are returned each time you use the ListGroups operation. If you omit this parameter, the default of 20 is used. Constraints: o min: 1 o max: 20
+    /// Specify this parameter to limit how many groups are returned each time you use the ListGroups operation. If you omit this parameter, the default of 20 is used. Constraints: • min: 1 • max: 20
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -40,5 +40,14 @@ public record AwsSyntheticsListGroupsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

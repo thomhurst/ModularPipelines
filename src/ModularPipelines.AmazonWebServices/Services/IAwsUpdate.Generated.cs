@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Models;
+using ModularPipelines;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -22,13 +22,12 @@ namespace ModularPipelines.AmazonWebServices.Services;
 public interface IAwsUpdate
 {
     /// <summary>
-    /// Update the AWS CLI to the latest version. Note that update is only supported if the current CLI instance was in- stalled using an official installer, install script, or the update com- mand. Other distribution mechanisms such as source or container images are not supported.
+    /// Update the AWS CLI to the latest version. Note that update is only supported if the current CLI instance was installed using an official installer, install script, or the update command. Other distribution mechanisms such as source or container images are not supported.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAsync(AwsUpdateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAsync(AwsUpdateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

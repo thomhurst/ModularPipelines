@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,13 +29,13 @@ public record AwsQuicksightCreateOAuthClientApplicationOptions : AwsOptions, IVa
     /// <summary>
     /// Creates an OAuthClientApplication. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsAccountId">The Amazon Web Services account ID. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="OAuthClientApplicationId">An ID for the OAuthClientApplication that you want to create. This ID is unique per Amazon Web Services Region for each Amazon Web Ser- vices account. Constraints: o min: 1 o max: 256 o pattern: [^/][^\p{Cc}]*</param>
-    /// <param name="Name">The display name for the OAuthClientApplication. Constraints: o min: 1 o max: 128</param>
-    /// <param name="OAuthClientAuthenticationType">The authentication type to use for the OAuthClientApplication. This determines the OAuth 2.0 grant flow that is used when the data source connects to the identity provider. Valid values are TOKEN . Possible values: o TOKEN</param>
-    /// <param name="ClientId">The client ID of the OAuth application that is registered with the identity provider. Constraints: o min: 1 o max: 256 o pattern: [^\p{Cc}]+</param>
-    /// <param name="ClientSecret">The client secret of the OAuth application that is registered with the identity provider. Constraints: o min: 1 o max: 2048 o pattern: [^\p{Cc}]+</param>
-    /// <param name="OAuthTokenEndpointUrl">The token endpoint URL of the identity provider that is used to ob- tain access tokens. Constraints: o min: 1 o max: 2048 o pattern: ^https://[^\p{Cc}]+</param>
+    /// <param name="AwsAccountId">The Amazon Web Services account ID. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="OAuthClientApplicationId">An ID for the OAuthClientApplication that you want to create. This ID is unique per Amazon Web Services Region for each Amazon Web Services account. Constraints: • min: 1 • max: 256 • pattern: [^/][^\p{Cc}]*</param>
+    /// <param name="Name">The display name for the OAuthClientApplication. Constraints: • min: 1 • max: 128</param>
+    /// <param name="OAuthClientAuthenticationType">The authentication type to use for the OAuthClientApplication. This determines the OAuth 2.0 grant flow that is used when the data source connects to the identity provider. Valid values are TOKEN . Possible values: • TOKEN</param>
+    /// <param name="ClientId">The client ID of the OAuth application that is registered with the identity provider. Constraints: • min: 1 • max: 256 • pattern: [^\p{Cc}]+</param>
+    /// <param name="ClientSecret">The client secret of the OAuth application that is registered with the identity provider. Constraints: • min: 1 • max: 2048 • pattern: [^\p{Cc}]+</param>
+    /// <param name="OAuthTokenEndpointUrl">The token endpoint URL of the identity provider that is used to obtain access tokens. Constraints: • min: 1 • max: 2048 • pattern: ^https://[^\p{Cc}]+</param>
     public AwsQuicksightCreateOAuthClientApplicationOptions(
         string AwsAccountId,
         string OAuthClientApplicationId,
@@ -81,62 +82,62 @@ public record AwsQuicksightCreateOAuthClientApplicationOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services account ID. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The Amazon Web Services account ID. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// An ID for the OAuthClientApplication that you want to create. This ID is unique per Amazon Web Services Region for each Amazon Web Ser- vices account. Constraints: o min: 1 o max: 256 o pattern: [^/][^\p{Cc}]*
+    /// An ID for the OAuthClientApplication that you want to create. This ID is unique per Amazon Web Services Region for each Amazon Web Services account. Constraints: • min: 1 • max: 256 • pattern: [^/][^\p{Cc}]*
     /// </summary>
     [CliOption("--o-auth-client-application-id")]
     public string? OAuthClientApplicationId { get; private init; }
 
     /// <summary>
-    /// The display name for the OAuthClientApplication. Constraints: o min: 1 o max: 128
+    /// The display name for the OAuthClientApplication. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The authentication type to use for the OAuthClientApplication. This determines the OAuth 2.0 grant flow that is used when the data source connects to the identity provider. Valid values are TOKEN . Possible values: o TOKEN
+    /// The authentication type to use for the OAuthClientApplication. This determines the OAuth 2.0 grant flow that is used when the data source connects to the identity provider. Valid values are TOKEN . Possible values: • TOKEN
     /// </summary>
     [CliOption("--o-auth-client-authentication-type")]
     public string? OAuthClientAuthenticationType { get; private init; }
 
     /// <summary>
-    /// The client ID of the OAuth application that is registered with the identity provider. Constraints: o min: 1 o max: 256 o pattern: [^\p{Cc}]+
+    /// The client ID of the OAuth application that is registered with the identity provider. Constraints: • min: 1 • max: 256 • pattern: [^\p{Cc}]+
     /// </summary>
     [CliOption("--client-id")]
     public string? ClientId { get; private init; }
 
     /// <summary>
-    /// The client secret of the OAuth application that is registered with the identity provider. Constraints: o min: 1 o max: 2048 o pattern: [^\p{Cc}]+
+    /// The client secret of the OAuth application that is registered with the identity provider. Constraints: • min: 1 • max: 2048 • pattern: [^\p{Cc}]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-secret")]
     public string? ClientSecret { get; private init; }
 
     /// <summary>
-    /// The token endpoint URL of the identity provider that is used to ob- tain access tokens. Constraints: o min: 1 o max: 2048 o pattern: ^https://[^\p{Cc}]+
+    /// The token endpoint URL of the identity provider that is used to obtain access tokens. Constraints: • min: 1 • max: 2048 • pattern: ^https://[^\p{Cc}]+
     /// </summary>
     [CliOption("--o-auth-token-endpoint-url")]
     public string? OAuthTokenEndpointUrl { get; private init; }
 
     /// <summary>
-    /// The authorization endpoint URL of the identity provider that is used to obtain authorization codes. Constraints: o min: 1 o max: 2048 o pattern: ^https://[^\p{Cc}]+
+    /// The authorization endpoint URL of the identity provider that is used to obtain authorization codes. Constraints: • min: 1 • max: 2048 • pattern: ^https://[^\p{Cc}]+
     /// </summary>
     [CliOption("--o-auth-authorization-endpoint-url")]
     public string? OAuthAuthorizationEndpointUrl { get; set; }
 
     /// <summary>
-    /// The OAuth scopes that are requested when the OAuthClientApplication obtains an access token from the identity provider. Constraints: o min: 1 o max: 4096 o pattern: [^\p{Cc}]+
+    /// The OAuth scopes that are requested when the OAuthClientApplication obtains an access token from the identity provider. Constraints: • min: 1 • max: 4096 • pattern: [^\p{Cc}]+
     /// </summary>
     [CliOption("--o-auth-scopes")]
     public string? OAuthScopes { get; set; }
 
     /// <summary>
-    /// The type of data source that the OAuthClientApplication is used with. Valid values are SNOWFLAKE . Possible values: o ADOBE_ANALYTICS o AMAZON_ELASTICSEARCH o ATHENA o AURORA o AURORA_POSTGRESQL o AWS_IOT_ANALYTICS o GITHUB o JIRA o MARIADB o MYSQL o ORACLE o POSTGRESQL o PRESTO o REDSHIFT o S3 o S3_TABLES o SALESFORCE o SERVICENOW o SNOWFLAKE o SPARK o SQLSERVER o TERADATA o TWITTER o TIMESTREAM o AMAZON_OPENSEARCH o EXASOL o DATABRICKS o STARBURST o TRINO o BIGQUERY o GOOGLESHEETS o GOOGLE_DRIVE o CONFLUENCE o SHAREPOINT o ONE_DRIVE o WEB_CRAWLER o S3_KNOWLEDGE_BASE o QBUSINESS
+    /// The type of data source that the OAuthClientApplication is used with. Valid values are SNOWFLAKE . Possible values: • ADOBE_ANALYTICS • AMAZON_ELASTICSEARCH • ATHENA • AURORA • AURORA_POSTGRESQL • AWS_IOT_ANALYTICS • GITHUB • JIRA • MARIADB • MYSQL • ORACLE • POSTGRESQL • PRESTO • REDSHIFT • S3 • S3_TABLES • SALESFORCE • SERVICENOW • SNOWFLAKE • SPARK • SQLSERVER • TERADATA • TWITTER • TIMESTREAM • AMAZON_OPENSEARCH • EXASOL • DATABRICKS • STARBURST • TRINO • BIGQUERY • GOOGLESHEETS • GOOGLE_DRIVE • CONFLUENCE • SHAREPOINT • ONE_DRIVE • WEB_CRAWLER • S3_KNOWLEDGE_BASE • QBUSINESS
     /// </summary>
     [CliOption("--data-source-type")]
     public string? DataSourceType { get; set; }
@@ -148,7 +149,7 @@ public record AwsQuicksightCreateOAuthClientApplicationOptions : AwsOptions, IVa
     public string? IdentityProviderVpcConnectionProperties { get; set; }
 
     /// <summary>
-    /// Contains a map of the key-value pairs for the resource tag or tags assigned to the OAuthClientApplication. Constraints: o min: 1 o max: 200 (structure) The key or keys of the key-value pairs for the resource tag or tags assigned to the resource. Key -&gt; (string) [required] Tag key. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] Tag value. Constraints: o min: 1 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Contains a map of the key-value pairs for the resource tag or tags assigned to the OAuthClientApplication. Constraints: • min: 1 • max: 200 (structure) The key or keys of the key-value pairs for the resource tag or tags assigned to the resource. Key -&gt; (string) [required] Tag key. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] Tag value. Constraints: • min: 1 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -174,6 +175,15 @@ public record AwsQuicksightCreateOAuthClientApplicationOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

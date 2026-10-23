@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Provides a list of Medical Scribe jobs that match the specified crite- ria. If no criteria are specified, all Medical Scribe jobs are re- turned. To get detailed information about a specific Medical Scribe job, use the operation. See also: AWS API Documentation
+/// Provides a list of Medical Scribe jobs that match the specified criteria. If no criteria are specified, all Medical Scribe jobs are returned. To get detailed information about a specific Medical Scribe job, use the operation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -24,26 +24,26 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsTranscribeListMedicalScribeJobsOptions : AwsOptions
 {
     /// <summary>
-    /// Returns only Medical Scribe jobs with the specified status. Jobs are ordered by creation date, with the newest job first. If you do not include Status , all Medical Scribe jobs are returned. Possible values: o QUEUED o IN_PROGRESS o FAILED o COMPLETED
+    /// Returns only Medical Scribe jobs with the specified status. Jobs are ordered by creation date, with the newest job first. If you do not include Status , all Medical Scribe jobs are returned. Possible values: • QUEUED • IN_PROGRESS • FAILED • COMPLETED
     /// </summary>
     [CliOption("--status")]
     public AwsTranscribeListMedicalScribeJobsStatus? Status { get; set; }
 
     /// <summary>
-    /// Returns only the Medical Scribe jobs that contain the specified string. The search is not case sensitive. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z._-]+
+    /// Returns only the Medical Scribe jobs that contain the specified string. The search is not case sensitive. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z._-]+
     /// </summary>
     [CliOption("--job-name-contains")]
     public string? JobNameContains { get; set; }
 
     /// <summary>
-    /// If your ListMedicalScribeJobs request returns more results than can be displayed, NextToken is displayed in the response with an associ- ated string. To get the next page of results, copy this string and repeat your request, including NextToken with the value of the copied string. Repeat as needed to view all your results. Constraints: o max: 8192 o pattern: .+
+    /// If your ListMedicalScribeJobs request returns more results than can be displayed, NextToken is displayed in the response with an associated string. To get the next page of results, copy this string and repeat your request, including NextToken with the value of the copied string. Repeat as needed to view all your results. Constraints: • max: 8192 • pattern: .+
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of Medical Scribe jobs to return in each page of results. If there are fewer results than the value that you specify, only the actual results are returned. If you do not specify a value, a default of 5 is used. Constraints: o min: 1 o max: 100
+    /// The maximum number of Medical Scribe jobs to return in each page of results. If there are fewer results than the value that you specify, only the actual results are returned. If you do not specify a value, a default of 5 is used. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -53,5 +53,14 @@ public record AwsTranscribeListMedicalScribeJobsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

@@ -10,13 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a replica of an existing user pool in a specified Amazon Web Services Region. The replica enables multi-region replication for high availability and disaster recovery. To create a replica, you must have permissions to create user pools in the target Region. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding I...
+/// Creates a replica of an existing user pool in a specified Amazon Web Services Region. The replica enables multi-region replication for high availability and disaster recovery. To create a replica, you must have permissions to create user pools in the target Region. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +26,10 @@ public record AwsCognitoIdpCreateUserPoolReplicaOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a replica of an existing user pool in a specified Amazon Web Services Region. The replica enables multi-region replication for high availability and disaster recovery. To create a replica, you must have permissions to create user pools in the target Region. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding I...
+    /// Creates a replica of an existing user pool in a specified Amazon Web Services Region. The replica enables multi-region replication for high availability and disaster recovery. To create a replica, you must have permissions to create user pools in the target Region. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM...
     /// </summary>
-    /// <param name="UserPoolId">The ID of the user pool to replicate. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+</param>
-    /// <param name="RegionName">The Amazon Web Services Region where you want to create the replica user pool. Constraints: o min: 5 o max: 32</param>
+    /// <param name="UserPoolId">The ID of the user pool to replicate. Constraints: • min: 1 • max: 55 • pattern: [\w-]+_[0-9a-zA-Z]+</param>
+    /// <param name="RegionName">The Amazon Web Services Region where you want to create the replica user pool. Constraints: • min: 5 • max: 32</param>
     public AwsCognitoIdpCreateUserPoolReplicaOptions(
         string UserPoolId,
         string RegionName
@@ -61,19 +61,19 @@ public record AwsCognitoIdpCreateUserPoolReplicaOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the user pool to replicate. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+
+    /// The ID of the user pool to replicate. Constraints: • min: 1 • max: 55 • pattern: [\w-]+_[0-9a-zA-Z]+
     /// </summary>
     [CliOption("--user-pool-id")]
     public string? UserPoolId { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services Region where you want to create the replica user pool. Constraints: o min: 5 o max: 32
+    /// The Amazon Web Services Region where you want to create the replica user pool. Constraints: • min: 5 • max: 32
     /// </summary>
     [CliOption("--region-name")]
     public string? RegionName { get; private init; }
 
     /// <summary>
-    /// A map of tags to assign to the replica user pool. Each tag consists of a key and an optional value, both of which you define. You can maintain tags independently on replica user pools. key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A map of tags to assign to the replica user pool. Each tag consists of a key and an optional value, both of which you define. You can maintain tags independently on replica user pools. key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--user-pool-tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? UserPoolTags { get; set; }
@@ -99,6 +99,15 @@ public record AwsCognitoIdpCreateUserPoolReplicaOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a cluster. All nodes in the cluster run the same protocol-com- pliant engine software. See also: AWS API Documentation
+/// Creates a cluster. All nodes in the cluster run the same protocol-compliant engine software. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsMemorydbCreateClusterOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a cluster. All nodes in the cluster run the same protocol-com- pliant engine software. See also: AWS API Documentation
+    /// Creates a cluster. All nodes in the cluster run the same protocol-compliant engine software. See also: AWS API Documentation
     /// </summary>
     /// <param name="ClusterName">The name of the cluster. This value must be unique as it also serves as the cluster identifier.</param>
     /// <param name="NodeType">The compute and memory capacity of the nodes in the cluster.</param>
-    /// <param name="AclName">The name of the Access Control List to associate with the cluster. Constraints: o min: 1 o pattern: [a-zA-Z][a-zA-Z0-9\-]*</param>
+    /// <param name="AclName">The name of the Access Control List to associate with the cluster. Constraints: • min: 1 • pattern: [a-zA-Z][a-zA-Z0-9\-]*</param>
     public AwsMemorydbCreateClusterOptions(
         string ClusterName,
         string NodeType,
@@ -77,7 +78,7 @@ public record AwsMemorydbCreateClusterOptions : AwsOptions, IValidatableObject
     public string? NodeType { get; private init; }
 
     /// <summary>
-    /// The name of the Access Control List to associate with the cluster. Constraints: o min: 1 o pattern: [a-zA-Z][a-zA-Z0-9\-]*
+    /// The name of the Access Control List to associate with the cluster. Constraints: • min: 1 • pattern: [a-zA-Z][a-zA-Z0-9\-]*
     /// </summary>
     [CliOption("--acl-name")]
     public string? AclName { get; private init; }
@@ -125,7 +126,7 @@ public record AwsMemorydbCreateClusterOptions : AwsOptions, IValidatableObject
     public IEnumerable<string>? SecurityGroupIds { get; set; }
 
     /// <summary>
-    /// Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are: o sun o mon o tue o wed o thu o fri o sat Example: sun:23:00-mon:01:30
+    /// Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are: • sun • mon • tue • wed • thu • fri • sat Example: sun:23:00-mon:01:30
     /// </summary>
     [CliOption("--maintenance-window")]
     public string? MaintenanceWindow { get; set; }
@@ -155,13 +156,13 @@ public record AwsMemorydbCreateClusterOptions : AwsOptions, IValidatableObject
     public string? KmsKeyId { get; set; }
 
     /// <summary>
-    /// A list of Amazon Resource Names (ARN) that uniquely identify the RDB snapshot files stored in Amazon S3. The snapshot files are used to populate the new cluster. The Amazon S3 object name in the ARN can- not contain any commas. (string) Syntax: "string" "string" ...
+    /// A list of Amazon Resource Names (ARN) that uniquely identify the RDB snapshot files stored in Amazon S3. The snapshot files are used to populate the new cluster. The Amazon S3 object name in the ARN cannot contain any commas. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--snapshot-arns", GroupValues = true)]
     public IEnumerable<string>? SnapshotArns { get; set; }
 
     /// <summary>
-    /// The name of a snapshot from which to restore data into the new clus- ter. The snapshot status changes to restoring while the new cluster is being created.
+    /// The name of a snapshot from which to restore data into the new cluster. The snapshot status changes to restoring while the new cluster is being created.
     /// </summary>
     [CliOption("--snapshot-name")]
     public string? SnapshotName { get; set; }
@@ -173,7 +174,7 @@ public record AwsMemorydbCreateClusterOptions : AwsOptions, IValidatableObject
     public int? SnapshotRetentionLimit { get; set; }
 
     /// <summary>
-    /// A list of tags to be added to this resource. Tags are comma-sepa- rated key,value pairs (e.g. Key=myKey, Value=myKeyValue. You can in- clude multiple tags as shown following: Key=myKey, Value=myKeyValue Key=mySecondKey, Value=mySecondKeyValue. Constraints: o max: 200 (structure) A tag that can be added to an MemoryDB resource. Tags are com- posed of a Key/Value pair. You can use tags to categorize and track all your MemoryDB resources. When you add or remove tags on clusters, those actions will be replicated to all nodes in the cluster. A tag with a null Value is permitted. For more in- formation, see Tagging your MemoryDB resources Key -&gt; (string) The key for the tag. May not be null. Value -&gt; (string) The tag's value. May be null. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of tags to be added to this resource. Tags are comma-separated key,value pairs (e.g. Key=myKey, Value=myKeyValue. You can include multiple tags as shown following: Key=myKey, Value=myKeyValue Key=mySecondKey, Value=mySecondKeyValue. Constraints: • max: 200 (structure) A tag that can be added to an MemoryDB resource. Tags are composed of a Key/Value pair. You can use tags to categorize and track all your MemoryDB resources. When you add or remove tags on clusters, those actions will be replicated to all nodes in the cluster. A tag with a null Value is permitted. For more information, see Tagging your MemoryDB resources Key -&gt; (string) The key for the tag. May not be null. Value -&gt; (string) The tag's value. May be null. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -191,13 +192,13 @@ public record AwsMemorydbCreateClusterOptions : AwsOptions, IValidatableObject
     public string? Engine { get; set; }
 
     /// <summary>
-    /// The version number of the Redis OSS engine to be used for the clus- ter.
+    /// The version number of the Redis OSS engine to be used for the cluster.
     /// </summary>
     [CliOption("--engine-version")]
     public string? EngineVersion { get; set; }
 
     /// <summary>
-    /// When set to true, the cluster will automatically receive minor en- gine version upgrades after launch.
+    /// When set to true, the cluster will automatically receive minor engine version upgrades after launch.
     /// </summary>
     [CliFlag("--auto-minor-version-upgrade", NegatedName = "--no-auto-minor-version-upgrade")]
     public bool? AutoMinorVersionUpgrade { get; set; }
@@ -209,13 +210,13 @@ public record AwsMemorydbCreateClusterOptions : AwsOptions, IValidatableObject
     public bool? DataTiering { get; set; }
 
     /// <summary>
-    /// Specifies the IP address type for the cluster. Valid values are 'ipv4', 'ipv6', or 'dual_stack'. When set to 'ipv4', the cluster will only be accessible via IPv4 addresses. When set to 'ipv6', the cluster will only be accessible via IPv6 addresses. When set to 'dual_stack', the cluster will be accessible via both IPv4 and IPv6 addresses. If not specified, the default is 'ipv4'. Possible values: o ipv4 o ipv6 o dual_stack
+    /// Specifies the IP address type for the cluster. Valid values are 'ipv4', 'ipv6', or 'dual_stack'. When set to 'ipv4', the cluster will only be accessible via IPv4 addresses. When set to 'ipv6', the cluster will only be accessible via IPv6 addresses. When set to 'dual_stack', the cluster will be accessible via both IPv4 and IPv6 addresses. If not specified, the default is 'ipv4'. Possible values: • ipv4 • ipv6 • dual_stack
     /// </summary>
     [CliOption("--network-type")]
     public AwsMemorydbCreateClusterNetworkType? NetworkType { get; set; }
 
     /// <summary>
-    /// The mechanism for discovering IP addresses for the cluster discovery protocol. Valid values are 'ipv4' or 'ipv6'. When set to 'ipv4', cluster discovery functions such as cluster slots, cluster shards, and cluster nodes return IPv4 addresses for cluster nodes. When set to 'ipv6', the cluster discovery functions return IPv6 addresses for cluster nodes. The value must be compatible with the NetworkType pa- rameter. If not specified, the default is 'ipv4'. Possible values: o ipv4 o ipv6
+    /// The mechanism for discovering IP addresses for the cluster discovery protocol. Valid values are 'ipv4' or 'ipv6'. When set to 'ipv4', cluster discovery functions such as cluster slots, cluster shards, and cluster nodes return IPv4 addresses for cluster nodes. When set to 'ipv6', the cluster discovery functions return IPv6 addresses for cluster nodes. The value must be compatible with the NetworkType parameter. If not specified, the default is 'ipv4'. Possible values: • ipv4 • ipv6
     /// </summary>
     [CliOption("--ip-discovery")]
     public AwsMemorydbCreateClusterIpDiscovery? IpDiscovery { get; set; }
@@ -241,6 +242,15 @@ public record AwsMemorydbCreateClusterOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

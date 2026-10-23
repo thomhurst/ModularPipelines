@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws redshiftserverless commands.
+/// aws redshift-serverless commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsRedshiftServerless : IAwsRedshiftServerless
@@ -32,7 +32,7 @@ public class AwsRedshiftServerless : IAwsRedshiftServerless
     #region Commands
 
     /// <summary>
-    /// Converts a recovery point to a snapshot. For more information about re- covery points and snapshots, see Working with snapshots and recovery points . See also: AWS API Documentation
+    /// Converts a recovery point to a snapshot. For more information about recovery points and snapshots, see Working with snapshots and recovery points . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsRedshiftServerless : IAwsRedshiftServerless
     }
 
     /// <summary>
-    /// Creates a snapshot of all databases in a namespace. For more informa- tion about snapshots, see Working with snapshots and recovery points . See also: AWS API Documentation
+    /// Creates a snapshot of all databases in a namespace. For more information about snapshots, see Working with snapshots and recovery points . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsRedshiftServerless : IAwsRedshiftServerless
     }
 
     /// <summary>
-    /// Creates a usage limit for a specified Amazon Redshift Serverless usage type. The usage limit is identified by the returned usage limit identi- fier. See also: AWS API Documentation
+    /// Creates a usage limit for a specified Amazon Redshift Serverless usage type. The usage limit is identified by the returned usage limit identifier. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsRedshiftServerless : IAwsRedshiftServerless
     }
 
     /// <summary>
-    /// Creates an workgroup in Amazon Redshift Serverless. VPC Block Public Access (BPA) enables you to block resources in VPCs and subnets that you own in a Region from reaching or being reached from the internet through internet gateways and egress-only internet gateways. If a workgroup is in an account with VPC BPA turned on, the following capabilities are blocked: o Creating a public access workgroup o Modifying a private workgroup to public o Adding a subnet with VPC BPA turned on to the workgroup...
+    /// Creates an workgroup in Amazon Redshift Serverless. VPC Block Public Access (BPA) enables you to block resources in VPCs and subnets that you own in a Region from reaching or being reached from the internet through internet gateways and egress-only internet gateways. If a workgroup is in an account with VPC BPA turned on, the following capabilities are blocked: • Creating a public access workgroup • Modifying a private workgroup to public • Adding a subnet with VPC BPA turned on to the workgroup...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -317,7 +317,7 @@ public class AwsRedshiftServerless : IAwsRedshiftServerless
     }
 
     /// <summary>
-    /// Returns a database user name and temporary password with temporary au- thorization to log in to Amazon Redshift Serverless. By default, the temporary credentials expire in 900 seconds. You can optionally specify a duration between 900 seconds (15 minutes) and 3600 seconds (60 minutes). The Identity and Access Management (IAM) user or role that runs GetCre- dentials must have an IAM policy attached that allows access to all necessary actions and resources. If the DbName parameter is specified, th...
+    /// Returns a database user name and temporary password with temporary authorization to log in to Amazon Redshift Serverless. By default, the temporary credentials expire in 900 seconds. You can optionally specify a duration between 900 seconds (15 minutes) and 3600 seconds (60 minutes). The Identity and Access Management (IAM) user or role that runs GetCredentials must have an IAM policy attached that allows access to all necessary actions and resources. If the DbName parameter is specified, the IA...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public class AwsRedshiftServerless : IAwsRedshiftServerless
     }
 
     /// <summary>
-    /// Returns an Identity Center authentication token for accessing Amazon Redshift Serverless workgroups. The token provides secure access to data within the specified work- groups using Identity Center identity propagation. The token expires after a specified duration and must be refreshed for continued access. The Identity and Access Management (IAM) user or role that runs GetI- dentityCenterAuthToken must have appropriate permissions to access the specified workgroups and Identity Center integrati...
+    /// Returns an Identity Center authentication token for accessing Amazon Redshift Serverless workgroups. The token provides secure access to data within the specified workgroups using Identity Center identity propagation. The token expires after a specified duration and must be refreshed for continued access. The Identity and Access Management (IAM) user or role that runs GetIdentityCenterAuthToken must have appropriate permissions to access the specified workgroups and Identity Center integration m...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -542,7 +542,7 @@ public class AwsRedshiftServerless : IAwsRedshiftServerless
     }
 
     /// <summary>
-    /// Lists custom domain associations for Amazon Redshift Serverless. See also: AWS API Documentation list-custom-domain-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: associations
+    /// Lists custom domain associations for Amazon Redshift Serverless. See also: AWS API Documentation list-custom-domain-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: associations
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -572,7 +572,7 @@ public class AwsRedshiftServerless : IAwsRedshiftServerless
     }
 
     /// <summary>
-    /// Returns information about a list of specified managed workgroups in your account. See also: AWS API Documentation list-managed-workgroups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: managedWorkgr...
+    /// Returns information about a list of specified managed workgroups in your account. See also: AWS API Documentation list-managed-workgroups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: managedWorkgrou...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -587,7 +587,7 @@ public class AwsRedshiftServerless : IAwsRedshiftServerless
     }
 
     /// <summary>
-    /// Returns information about a list of specified namespaces. See also: AWS API Documentation list-namespaces is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: namespaces
+    /// Returns information about a list of specified namespaces. See also: AWS API Documentation list-namespaces is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: namespaces
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -617,7 +617,7 @@ public class AwsRedshiftServerless : IAwsRedshiftServerless
     }
 
     /// <summary>
-    /// Returns the current reservation offerings in your account. See also: AWS API Documentation list-reservation-offerings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: reservationOfferingsList
+    /// Returns the current reservation offerings in your account. See also: AWS API Documentation list-reservation-offerings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: reservationOfferingsList
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -662,7 +662,7 @@ public class AwsRedshiftServerless : IAwsRedshiftServerless
     }
 
     /// <summary>
-    /// Returns a list of snapshot copy configurations. See also: AWS API Documentation list-snapshot-copy-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: snapshotCopyConfigurations
+    /// Returns a list of snapshot copy configurations. See also: AWS API Documentation list-snapshot-copy-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: snapshotCopyConfigurations
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -677,7 +677,7 @@ public class AwsRedshiftServerless : IAwsRedshiftServerless
     }
 
     /// <summary>
-    /// Returns a list of snapshots. See also: AWS API Documentation list-snapshots is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: snapshots
+    /// Returns a list of snapshots. See also: AWS API Documentation list-snapshots is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: snapshots
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -692,7 +692,7 @@ public class AwsRedshiftServerless : IAwsRedshiftServerless
     }
 
     /// <summary>
-    /// Returns information about an array of TableRestoreStatus objects. See also: AWS API Documentation list-table-restore-status is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: tableRestoreStatuses
+    /// Returns information about an array of TableRestoreStatus objects. See also: AWS API Documentation list-table-restore-status is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: tableRestoreStatuses
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -722,7 +722,7 @@ public class AwsRedshiftServerless : IAwsRedshiftServerless
     }
 
     /// <summary>
-    /// List the Amazon Redshift Serverless versions. See also: AWS API Documentation list-tracks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: tracks
+    /// List the Amazon Redshift Serverless versions. See also: AWS API Documentation list-tracks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: tracks
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -752,7 +752,7 @@ public class AwsRedshiftServerless : IAwsRedshiftServerless
     }
 
     /// <summary>
-    /// Returns information about a list of specified workgroups. See also: AWS API Documentation list-workgroups is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: workgroups
+    /// Returns information about a list of specified workgroups. See also: AWS API Documentation list-workgroups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: workgroups
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -812,7 +812,7 @@ public class AwsRedshiftServerless : IAwsRedshiftServerless
     }
 
     /// <summary>
-    /// Restores a table from a recovery point to your Amazon Redshift Server- less instance. You can't use this operation to restore tables with in- terleaved sort keys. See also: AWS API Documentation
+    /// Restores a table from a recovery point to your Amazon Redshift Serverless instance. You can't use this operation to restore tables with interleaved sort keys. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -827,7 +827,7 @@ public class AwsRedshiftServerless : IAwsRedshiftServerless
     }
 
     /// <summary>
-    /// Restores a table from a snapshot to your Amazon Redshift Serverless in- stance. You can't use this operation to restore tables with interleaved sort keys . See also: AWS API Documentation
+    /// Restores a table from a snapshot to your Amazon Redshift Serverless instance. You can't use this operation to restore tables with interleaved sort keys . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -917,7 +917,7 @@ public class AwsRedshiftServerless : IAwsRedshiftServerless
     }
 
     /// <summary>
-    /// Updates a namespace with the specified settings. Unless required, you can't update multiple parameters in one request. For example, you must specify both adminUsername and adminUserPassword to update either field, but you can't update both kmsKeyId and logExports in a single request. Similarly, an S3 Tables log-publishing update (a request where logDes- tinationType is s3table ) cannot be combined with any other namespace configuration change and must be submitted as its own request. See also: A...
+    /// Updates a namespace with the specified settings. Unless required, you can't update multiple parameters in one request. For example, you must specify both adminUsername and adminUserPassword to update either field, but you can't update both kmsKeyId and logExports in a single request. Similarly, an S3 Tables log-publishing update (a request where logDestinationType is s3table ) cannot be combined with any other namespace configuration change and must be submitted as its own request. See also: AWS...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -92,7 +92,7 @@ public class AwsMwaa : IAwsMwaa
     }
 
     /// <summary>
-    /// Describes an Amazon Managed Workflows for Apache Airflow (MWAA) envi- ronment. See also: AWS API Documentation
+    /// Describes an Amazon Managed Workflows for Apache Airflow (MWAA) environment. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsMwaa : IAwsMwaa
     }
 
     /// <summary>
-    /// Invokes the Apache Airflow REST API on the webserver with the specified inputs. To learn more, see Using the Apache Airflow REST API See also: AWS API Documentation invoke-rest-api uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Invokes the Apache Airflow REST API on the webserver with the specified inputs. To learn more, see Using the Apache Airflow REST API See also: AWS API Documentation invoke-rest-api uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsMwaa : IAwsMwaa
     }
 
     /// <summary>
-    /// Lists the Amazon Managed Workflows for Apache Airflow (MWAA) environ- ments. See also: AWS API Documentation list-environments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Environments
+    /// Lists the Amazon Managed Workflows for Apache Airflow (MWAA) environments. See also: AWS API Documentation list-environments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Environments
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsMwaa : IAwsMwaa
     }
 
     /// <summary>
-    /// Lists the key-value tag pairs associated to the Amazon Managed Work- flows for Apache Airflow (MWAA) environment. For example, "Environ- ment": "Staging" . See also: AWS API Documentation
+    /// Lists the key-value tag pairs associated to the Amazon Managed Workflows for Apache Airflow (MWAA) environment. For example, "Environment": "Staging" . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsMwaa : IAwsMwaa
     }
 
     /// <summary>
-    /// Updates an Amazon Managed Workflows for Apache Airflow (MWAA) environ- ment. See also: AWS API Documentation
+    /// Updates an Amazon Managed Workflows for Apache Airflow (MWAA) environment. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

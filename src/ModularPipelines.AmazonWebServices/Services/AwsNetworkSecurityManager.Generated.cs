@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws networksecuritymanager commands.
+/// aws network-security-manager commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsNetworkSecurityManager : IAwsNetworkSecurityManager
@@ -32,7 +32,7 @@ public class AwsNetworkSecurityManager : IAwsNetworkSecurityManager
     #region Commands
 
     /// <summary>
-    /// Creates a deployment. A deployment applies one or more policies to the accounts and resources selected by a scope. Use isPublished to create the deployment in published (ACTIVE ) or draft (DRAFT ) state. The re- sponse includes coverage information and any warnings about the deploy- ment. See also: AWS API Documentation
+    /// Creates a deployment. A deployment applies one or more policies to the accounts and resources selected by a scope. Use isPublished to create the deployment in published (ACTIVE ) or draft (DRAFT ) state. The response includes coverage information and any warnings about the deployment. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsNetworkSecurityManager : IAwsNetworkSecurityManager
     }
 
     /// <summary>
-    /// Creates a policy. A policy combines templates and rules with enforce- ment settings for a firewall type, such as AWS WAF or AWS Shield Ad- vanced. Use isPublished to create the policy in published (ACTIVE ) or draft (DRAFT ) state. See also: AWS API Documentation
+    /// Creates a policy. A policy combines templates and rules with enforcement settings for a firewall type, such as AWS WAF or AWS Shield Advanced. Use isPublished to create the policy in published (ACTIVE ) or draft (DRAFT ) state. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsNetworkSecurityManager : IAwsNetworkSecurityManager
     }
 
     /// <summary>
-    /// Creates a rule. A rule defines a network security configuration to en- force, such as an AWS WAF rule group or configuration data. Use isPub- lished to create the rule in published (ACTIVE ) or draft (DRAFT ) state. See also: AWS API Documentation create-rule uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document mus...
+    /// Creates a rule. A rule defines a network security configuration to enforce, such as an AWS WAF rule group or configuration data. Use isPublished to create the rule in published (ACTIVE ) or draft (DRAFT ) state. See also: AWS API Documentation create-rule uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsNetworkSecurityManager : IAwsNetworkSecurityManager
     }
 
     /// <summary>
-    /// Creates a snapshot of the current published version of the specified rule. A snapshot is an immutable, versioned copy that other resources can reference. See also: AWS API Documentation create-rule-snapshot uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not su...
+    /// Creates a snapshot of the current published version of the specified rule. A snapshot is an immutable, versioned copy that other resources can reference. See also: AWS API Documentation create-rule-snapshot uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not supp...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsNetworkSecurityManager : IAwsNetworkSecurityManager
     }
 
     /// <summary>
-    /// Creates a scope. A scope selects the accounts and resources that a de- ployment applies to. Use isPublished to create the scope in published (ACTIVE ) or draft (DRAFT ) state. See also: AWS API Documentation
+    /// Creates a scope. A scope selects the accounts and resources that a deployment applies to. Use isPublished to create the scope in published (ACTIVE ) or draft (DRAFT ) state. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsNetworkSecurityManager : IAwsNetworkSecurityManager
     }
 
     /// <summary>
-    /// Creates a template. A template groups one or more rules to simplify reuse across policies. You can also associate rules with a policy di- rectly, without a template. Use isPublished to create the template in published (ACTIVE ) or draft (DRAFT ) state. See also: AWS API Documentation
+    /// Creates a template. A template groups one or more rules to simplify reuse across policies. You can also associate rules with a policy directly, without a template. Use isPublished to create the template in published (ACTIVE ) or draft (DRAFT ) state. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsNetworkSecurityManager : IAwsNetworkSecurityManager
     }
 
     /// <summary>
-    /// Removes the specified AWS Network Security Manager administrator ac- count. See also: AWS API Documentation
+    /// Removes the specified AWS Network Security Manager administrator account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +272,7 @@ public class AwsNetworkSecurityManager : IAwsNetworkSecurityManager
     }
 
     /// <summary>
-    /// Generates a rule configuration from a natural-language description. Provide a prompt along with the rule's firewall type and rule type. The service returns a configuration that you can use when you create or up- date a rule. If you also provide an existing configuration, the service edits that configuration instead of generating a new one. See also: AWS API Documentation
+    /// Generates a rule configuration from a natural-language description. Provide a prompt along with the rule's firewall type and rule type. The service returns a configuration that you can use when you create or update a rule. If you also provide an existing configuration, the service edits that configuration instead of generating a new one. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -287,7 +287,7 @@ public class AwsNetworkSecurityManager : IAwsNetworkSecurityManager
     }
 
     /// <summary>
-    /// Retrieves the details of the specified AWS Network Security Manager ad- ministrator account. See also: AWS API Documentation
+    /// Retrieves the details of the specified AWS Network Security Manager administrator account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -332,7 +332,7 @@ public class AwsNetworkSecurityManager : IAwsNetworkSecurityManager
     }
 
     /// <summary>
-    /// Retrieves the details of the specified rule. See also: AWS API Documentation get-rule uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syn- tax does not support document types.
+    /// Retrieves the details of the specified rule. See also: AWS API Documentation get-rule uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -392,7 +392,7 @@ public class AwsNetworkSecurityManager : IAwsNetworkSecurityManager
     }
 
     /// <summary>
-    /// Lists the aggregated synchronization statuses of resources across the deployments in your administrator account. You can filter the results by synchronization status and page through them. See also: AWS API Documentation list-aggregate-resource-synchronization-statuses is a paginated opera- tion. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- m...
+    /// Lists the aggregated synchronization statuses of resources across the deployments in your administrator account. You can filter the results by synchronization status and page through them. See also: AWS API Documentation list-aggregate-resource-synchronization-statuses is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -407,7 +407,7 @@ public class AwsNetworkSecurityManager : IAwsNetworkSecurityManager
     }
 
     /// <summary>
-    /// Lists the snapshots of the specified deployment. See also: AWS API Documentation list-deployment-snapshots is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: snapshots
+    /// Lists the snapshots of the specified deployment. See also: AWS API Documentation list-deployment-snapshots is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: snapshots
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -437,7 +437,7 @@ public class AwsNetworkSecurityManager : IAwsNetworkSecurityManager
     }
 
     /// <summary>
-    /// Lists the policies in the account. You can filter the results by status and page through them using maxResults and nextToken . See also: AWS API Documentation list-policies is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follo...
+    /// Lists the policies in the account. You can filter the results by status and page through them using maxResults and nextToken . See also: AWS API Documentation list-policies is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -467,7 +467,7 @@ public class AwsNetworkSecurityManager : IAwsNetworkSecurityManager
     }
 
     /// <summary>
-    /// Lists the resources associated with the specified resource. See also: AWS API Documentation list-resource-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: resourceAssociations
+    /// Lists the resources associated with the specified resource. See also: AWS API Documentation list-resource-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: resourceAssociations
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -482,7 +482,7 @@ public class AwsNetworkSecurityManager : IAwsNetworkSecurityManager
     }
 
     /// <summary>
-    /// Lists the synchronization statuses of the resources covered by the specified deployment. You can filter the results by synchronization status and page through them. See also: AWS API Documentation list-resource-synchronization-statuses is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the...
+    /// Lists the synchronization statuses of the resources covered by the specified deployment. You can filter the results by synchronization status and page through them. See also: AWS API Documentation list-resource-synchronization-statuses is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --que...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -512,7 +512,7 @@ public class AwsNetworkSecurityManager : IAwsNetworkSecurityManager
     }
 
     /// <summary>
-    /// Lists the rules in the account. You can filter the results by status and page through them using maxResults and nextToken . See also: AWS API Documentation list-rules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following que...
+    /// Lists the rules in the account. You can filter the results by status and page through them using maxResults and nextToken . See also: AWS API Documentation list-rules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -542,7 +542,7 @@ public class AwsNetworkSecurityManager : IAwsNetworkSecurityManager
     }
 
     /// <summary>
-    /// Lists the scopes in the account. You can filter the results by status and page through them using maxResults and nextToken . See also: AWS API Documentation list-scopes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following q...
+    /// Lists the scopes in the account. You can filter the results by status and page through them using maxResults and nextToken . See also: AWS API Documentation list-scopes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following que...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -572,7 +572,7 @@ public class AwsNetworkSecurityManager : IAwsNetworkSecurityManager
     }
 
     /// <summary>
-    /// Lists the snapshots of the specified template. See also: AWS API Documentation list-template-snapshots is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: snapshots
+    /// Lists the snapshots of the specified template. See also: AWS API Documentation list-template-snapshots is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: snapshots
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -587,7 +587,7 @@ public class AwsNetworkSecurityManager : IAwsNetworkSecurityManager
     }
 
     /// <summary>
-    /// Lists the templates in the account. You can filter the results by sta- tus and page through them using maxResults and nextToken . See also: AWS API Documentation list-templates is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the f...
+    /// Lists the templates in the account. You can filter the results by status and page through them using maxResults and nextToken . See also: AWS API Documentation list-templates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the followi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -602,7 +602,7 @@ public class AwsNetworkSecurityManager : IAwsNetworkSecurityManager
     }
 
     /// <summary>
-    /// Sets the AWS account that serves as an AWS Network Security Manager ad- ministrator account, and optionally configures the scope of resources that the administrator can manage. You can't set an administrator account again immediately after you re- move it, or while the service creates its service-linked role. Retry the request after a few minutes. See also: AWS API Documentation
+    /// Sets the AWS account that serves as an AWS Network Security Manager administrator account, and optionally configures the scope of resources that the administrator can manage. You can't set an administrator account again immediately after you remove it, or while the service creates its service-linked role. Retry the request after a few minutes. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -647,7 +647,7 @@ public class AwsNetworkSecurityManager : IAwsNetworkSecurityManager
     }
 
     /// <summary>
-    /// Updates the specified deployment. To prevent conflicting concurrent up- dates, provide the current updateToken . Use isPublished to publish the update or keep the deployment as a draft. See also: AWS API Documentation
+    /// Updates the specified deployment. To prevent conflicting concurrent updates, provide the current updateToken . Use isPublished to publish the update or keep the deployment as a draft. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -662,7 +662,7 @@ public class AwsNetworkSecurityManager : IAwsNetworkSecurityManager
     }
 
     /// <summary>
-    /// Updates the specified policy. To prevent conflicting concurrent up- dates, provide the current updateToken . Use isPublished to publish the update or keep the policy as a draft. See also: AWS API Documentation
+    /// Updates the specified policy. To prevent conflicting concurrent updates, provide the current updateToken . Use isPublished to publish the update or keep the policy as a draft. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -707,7 +707,7 @@ public class AwsNetworkSecurityManager : IAwsNetworkSecurityManager
     }
 
     /// <summary>
-    /// Updates the specified template. To prevent conflicting concurrent up- dates, provide the current updateToken . Use isPublished to publish the update or keep the template as a draft. See also: AWS API Documentation
+    /// Updates the specified template. To prevent conflicting concurrent updates, provide the current updateToken . Use isPublished to publish the update or keep the template as a draft. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

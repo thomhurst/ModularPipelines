@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -72,31 +73,31 @@ public record AwsSsoOidcRegisterClientOptions : AwsOptions, IValidatableObject
     public string? ClientType { get; private init; }
 
     /// <summary>
-    /// The list of scopes that are defined by the client. Upon authoriza- tion, this list is used to restrict permissions when granting an ac- cess token. (string) Syntax: "string" "string" ...
+    /// The list of scopes that are defined by the client. Upon authorization, this list is used to restrict permissions when granting an access token. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--scopes", GroupValues = true)]
     public IEnumerable<string>? Scopes { get; set; }
 
     /// <summary>
-    /// The list of redirect URI that are defined by the client. At comple- tion of authorization, this list is used to restrict what locations the user agent can be redirected back to. (string) Syntax: "string" "string" ...
+    /// The list of redirect URI that are defined by the client. At completion of authorization, this list is used to restrict what locations the user agent can be redirected back to. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--redirect-uris", GroupValues = true)]
     public IEnumerable<string>? RedirectUris { get; set; }
 
     /// <summary>
-    /// The list of OAuth 2.0 grant types that are defined by the client. This list is used to restrict the token granting flows available to the client. Supports the following OAuth 2.0 grant types: Authoriza- tion Code, Device Code, and Refresh Token. o Authorization Code - authorization_code o Device Code - urn:ietf:params:oauth:grant-type:device_code o Refresh Token - refresh_token (string) Syntax: "string" "string" ...
+    /// The list of OAuth 2.0 grant types that are defined by the client. This list is used to restrict the token granting flows available to the client. Supports the following OAuth 2.0 grant types: Authorization Code, Device Code, and Refresh Token. • Authorization Code - authorization_code • Device Code - urn:ietf:params:oauth:grant-type:device_code • Refresh Token - refresh_token (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--grant-types", GroupValues = true)]
     public IEnumerable<string>? GrantTypes { get; set; }
 
     /// <summary>
-    /// The IAM Identity Center Issuer URL associated with an instance of IAM Identity Center. This value is needed for user access to re- sources through the client.
+    /// The IAM Identity Center Issuer URL associated with an instance of IAM Identity Center. This value is needed for user access to resources through the client.
     /// </summary>
     [CliOption("--issuer-url")]
     public string? IssuerUrl { get; set; }
 
     /// <summary>
-    /// This IAM Identity Center application ARN is used to define adminis- trator-managed configuration for public client access to resources. At authorization, the scopes, grants, and redirect URI available to this client will be restricted by this application resource.
+    /// This IAM Identity Center application ARN is used to define administrator-managed configuration for public client access to resources. At authorization, the scopes, grants, and redirect URI available to this client will be restricted by this application resource.
     /// </summary>
     [CliOption("--entitled-application-arn")]
     public string? EntitledApplicationArn { get; set; }
@@ -122,6 +123,15 @@ public record AwsSsoOidcRegisterClientOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

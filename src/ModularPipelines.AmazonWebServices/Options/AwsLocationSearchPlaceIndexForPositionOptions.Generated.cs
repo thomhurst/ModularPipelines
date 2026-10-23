@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend you upgrade to ` ReverseGeocode /location/lat- est/APIReference/API_geoplaces_ReverseGeocode.html`__ or ` SearchN- earby /location/latest/APIReference/API_geoplaces_SearchN- earby.html`__ unless you require Grab data. o SearchPlaceIndexForPosition is part of a previous Amazon Location Service Places API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2)....
+/// WARNING: This operation is no longer current and may be deprecated in the future. We recommend you upgrade to ` ReverseGeocode /location/latest/APIReference/API_geoplaces_ReverseGeocode.html`__ or ` SearchNearby /location/latest/APIReference/API_geoplaces_SearchNearby.html`__ unless you require Grab data. • SearchPlaceIndexForPosition is part of a previous Amazon Location Service Places API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). • The v...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsLocationSearchPlaceIndexForPositionOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend you upgrade to ` ReverseGeocode /location/lat- est/APIReference/API_geoplaces_ReverseGeocode.html`__ or ` SearchN- earby /location/latest/APIReference/API_geoplaces_SearchN- earby.html`__ unless you require Grab data. o SearchPlaceIndexForPosition is part of a previous Amazon Location Service Places API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2)....
+    /// WARNING: This operation is no longer current and may be deprecated in the future. We recommend you upgrade to ` ReverseGeocode /location/latest/APIReference/API_geoplaces_ReverseGeocode.html`__ or ` SearchNearby /location/latest/APIReference/API_geoplaces_SearchNearby.html`__ unless you require Grab data. • SearchPlaceIndexForPosition is part of a previous Amazon Location Service Places API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). • The v...
     /// </summary>
-    /// <param name="IndexName">The name of the place index resource you want to use for the search. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+</param>
-    /// <param name="Position">Specifies the longitude and latitude of the position to query. This parameter must contain a pair of numbers. The first number rep- resents the X coordinate, or longitude; the second number represents the Y coordinate, or latitude. For example, [-123.1174, 49.2847] represents a position with longi- tude -123.1174 and latitude 49.2847 . Constraints: o min: 2 o max: 2 (double) Syntax: double double ...</param>
+    /// <param name="IndexName">The name of the place index resource you want to use for the search. Constraints: • min: 1 • max: 100 • pattern: [-._\w]+</param>
+    /// <param name="Position">Specifies the longitude and latitude of the position to query. This parameter must contain a pair of numbers. The first number represents the X coordinate, or longitude; the second number represents the Y coordinate, or latitude. For example, [-123.1174, 49.2847] represents a position with longitude -123.1174 and latitude 49.2847 . Constraints: • min: 2 • max: 2 (double) Syntax: double double ...</param>
     public AwsLocationSearchPlaceIndexForPositionOptions(
         string IndexName,
         IEnumerable<string> Position
@@ -71,31 +72,31 @@ public record AwsLocationSearchPlaceIndexForPositionOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the place index resource you want to use for the search. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+
+    /// The name of the place index resource you want to use for the search. Constraints: • min: 1 • max: 100 • pattern: [-._\w]+
     /// </summary>
     [CliOption("--index-name")]
     public string? IndexName { get; private init; }
 
     /// <summary>
-    /// Specifies the longitude and latitude of the position to query. This parameter must contain a pair of numbers. The first number rep- resents the X coordinate, or longitude; the second number represents the Y coordinate, or latitude. For example, [-123.1174, 49.2847] represents a position with longi- tude -123.1174 and latitude 49.2847 . Constraints: o min: 2 o max: 2 (double) Syntax: double double ...
+    /// Specifies the longitude and latitude of the position to query. This parameter must contain a pair of numbers. The first number represents the X coordinate, or longitude; the second number represents the Y coordinate, or latitude. For example, [-123.1174, 49.2847] represents a position with longitude -123.1174 and latitude 49.2847 . Constraints: • min: 2 • max: 2 (double) Syntax: double double ...
     /// </summary>
     [CliOption("--position", GroupValues = true)]
     public IEnumerable<string>? Position { get; private init; }
 
     /// <summary>
-    /// An optional parameter. The maximum number of results returned per request. Default value: 50 Constraints: o min: 1 o max: 50
+    /// An optional parameter. The maximum number of results returned per request. Default value: 50 Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The preferred language used to return results. The value must be a valid BCP 47 language tag, for example, en for English. This setting affects the languages used in the results, but not the results themselves. If no language is specified, or not supported for a particular result, the partner automatically chooses a lan- guage for the result. For an example, we'll use the Greek language. You search for a loca- tion around Athens, Greece, with the language parameter set to en . The city in the results will most likely be returned as Athens . If you set the language parameter to el , for Greek, then the city in the results will more likely be returned as . If the data provider does not have a value for Greek, the result will be in a language that the provider does support. Constraints: o min: 2 o max: 35
+    /// The preferred language used to return results. The value must be a valid BCP 47 language tag, for example, en for English. This setting affects the languages used in the results, but not the results themselves. If no language is specified, or not supported for a particular result, the partner automatically chooses a language for the result. For an example, we'll use the Greek language. You search for a location around Athens, Greece, with the language parameter set to en . The city in the results will most likely be returned as Athens . If you set the language parameter to el , for Greek, then the city in the results will more likely be returned as . If the data provider does not have a value for Greek, the result will be in a language that the provider does support. Constraints: • min: 2 • max: 35
     /// </summary>
     [CliOption("--language")]
     public string? Language { get; set; }
 
     /// <summary>
-    /// The optional API key to authorize the request. Constraints: o min: 0 o max: 1000
+    /// The optional API key to authorize the request. Constraints: • min: 0 • max: 1000
     /// </summary>
     [CliOption("--key")]
     public string? Key { get; set; }
@@ -121,6 +122,15 @@ public record AwsLocationSearchPlaceIndexForPositionOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

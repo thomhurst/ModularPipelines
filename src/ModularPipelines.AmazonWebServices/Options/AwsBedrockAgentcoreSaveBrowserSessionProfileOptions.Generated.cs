@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Saves the current state of a browser session as a reusable profile in Amazon Bedrock AgentCore. A browser profile captures persistent browser data such as cookies and local storage from an active session, enabling you to reuse this data in future browser sessions. To save a browser session profile, you must specify the profile identi- fier, browser identifier, and session ID. The session must be active when saving the profile. Once saved, the profile can be used with the StartBrowserSession oper...
+/// Saves the current state of a browser session as a reusable profile in Amazon Bedrock AgentCore. A browser profile captures persistent browser data such as cookies and local storage from an active session, enabling you to reuse this data in future browser sessions. To save a browser session profile, you must specify the profile identifier, browser identifier, and session ID. The session must be active when saving the profile. Once saved, the profile can be used with the StartBrowserSession operat...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsBedrockAgentcoreSaveBrowserSessionProfileOptions : AwsOptions, 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Saves the current state of a browser session as a reusable profile in Amazon Bedrock AgentCore. A browser profile captures persistent browser data such as cookies and local storage from an active session, enabling you to reuse this data in future browser sessions. To save a browser session profile, you must specify the profile identi- fier, browser identifier, and session ID. The session must be active when saving the profile. Once saved, the profile can be used with the StartBrowserSession oper...
+    /// Saves the current state of a browser session as a reusable profile in Amazon Bedrock AgentCore. A browser profile captures persistent browser data such as cookies and local storage from an active session, enabling you to reuse this data in future browser sessions. To save a browser session profile, you must specify the profile identifier, browser identifier, and session ID. The session must be active when saving the profile. Once saved, the profile can be used with the StartBrowserSession operat...
     /// </summary>
-    /// <param name="ProfileIdentifier">The unique identifier for the browser profile. This identifier is used to reference the profile when starting new browser sessions. The identifier must follow the pattern of an alphanumeric name (up to 48 characters) followed by a hyphen and a 10-character alphanu- meric suffix. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9_]{0,47}-[a-zA-Z0-9]{10}</param>
+    /// <param name="ProfileIdentifier">The unique identifier for the browser profile. This identifier is used to reference the profile when starting new browser sessions. The identifier must follow the pattern of an alphanumeric name (up to 48 characters) followed by a hyphen and a 10-character alphanumeric suffix. Constraints: • pattern: [a-zA-Z][a-zA-Z0-9_]{0,47}-[a-zA-Z0-9]{10}</param>
     /// <param name="BrowserIdentifier">The unique identifier of the browser associated with the session from which to save the profile.</param>
-    /// <param name="SessionId">The unique identifier of the browser session from which to save the profile. The session must be active when saving the profile. Constraints: o pattern: [0-9a-zA-Z]{1,40}</param>
+    /// <param name="SessionId">The unique identifier of the browser session from which to save the profile. The session must be active when saving the profile. Constraints: • pattern: [0-9a-zA-Z]{1,40}</param>
     public AwsBedrockAgentcoreSaveBrowserSessionProfileOptions(
         string ProfileIdentifier,
         string BrowserIdentifier,
@@ -65,7 +66,7 @@ public record AwsBedrockAgentcoreSaveBrowserSessionProfileOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the browser profile. This identifier is used to reference the profile when starting new browser sessions. The identifier must follow the pattern of an alphanumeric name (up to 48 characters) followed by a hyphen and a 10-character alphanu- meric suffix. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9_]{0,47}-[a-zA-Z0-9]{10}
+    /// The unique identifier for the browser profile. This identifier is used to reference the profile when starting new browser sessions. The identifier must follow the pattern of an alphanumeric name (up to 48 characters) followed by a hyphen and a 10-character alphanumeric suffix. Constraints: • pattern: [a-zA-Z][a-zA-Z0-9_]{0,47}-[a-zA-Z0-9]{10}
     /// </summary>
     [CliOption("--profile-identifier")]
     public string? ProfileIdentifier { get; private init; }
@@ -77,25 +78,25 @@ public record AwsBedrockAgentcoreSaveBrowserSessionProfileOptions : AwsOptions, 
     public string? BrowserIdentifier { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the browser session from which to save the profile. The session must be active when saving the profile. Constraints: o pattern: [0-9a-zA-Z]{1,40}
+    /// The unique identifier of the browser session from which to save the profile. The session must be active when saving the profile. Constraints: • pattern: [0-9a-zA-Z]{1,40}
     /// </summary>
     [CliOption("--session-id")]
     public string? SessionId { get; private init; }
 
     /// <summary>
-    /// The trace identifier for request tracking. Constraints: o min: 0 o max: 1024
+    /// The trace identifier for request tracking. Constraints: • min: 0 • max: 1024
     /// </summary>
     [CliOption("--trace-id")]
     public string? TraceId { get; set; }
 
     /// <summary>
-    /// The parent trace information for distributed tracing. Constraints: o min: 0 o max: 1024
+    /// The parent trace information for distributed tracing. Constraints: • min: 0 • max: 1024
     /// </summary>
     [CliOption("--trace-parent")]
     public string? TraceParent { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock AgentCore ignores the request, but does not return an error. Constraints: o min: 33 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock AgentCore ignores the request, but does not return an error. Constraints: • min: 33 • max: 256 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -122,6 +123,15 @@ public record AwsBedrockAgentcoreSaveBrowserSessionProfileOptions : AwsOptions, 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

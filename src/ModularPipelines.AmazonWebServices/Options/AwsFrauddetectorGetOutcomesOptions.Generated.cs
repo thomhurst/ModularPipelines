@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsFrauddetectorGetOutcomesOptions : AwsOptions
 {
     /// <summary>
-    /// The name of the outcome or outcomes to get. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$
+    /// The name of the outcome or outcomes to get. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
@@ -36,7 +36,7 @@ public record AwsFrauddetectorGetOutcomesOptions : AwsOptions
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of objects to return for the request. Constraints: o min: 50 o max: 100
+    /// The maximum number of objects to return for the request. Constraints: • min: 50 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -46,5 +46,14 @@ public record AwsFrauddetectorGetOutcomesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

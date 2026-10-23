@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -72,19 +73,19 @@ public record AwsEc2ModifyTransitGatewayPolicyTableEntryOptions : AwsOptions, IV
     public string? PolicyRuleNumber { get; private init; }
 
     /// <summary>
-    /// The updated matching criteria for the policy table entry. Unspeci- fied fields retain their current values. SourceCidrBlock -&gt; (string) The source CIDR block for the policy rule. SourcePortRange -&gt; (string) The source port or port range for the policy rule. You can spec- ify a port range only when Protocol is 6 (TCP) or 17 (UDP); for all other protocols, this value must be * . DestinationCidrBlock -&gt; (string) The destination CIDR block for the policy rule. DestinationPortRange -&gt; (string) The destination port or port range for the policy rule. You can specify a port range only when Protocol is 6 (TCP) or 17 (UDP); for all other protocols, this value must be * . Protocol -&gt; (string) The protocol for the policy rule. Valid values are 1 (ICMP), 6 (TCP), 17 (UDP), 47 (GRE), or * for all protocols. MetaData -&gt; (structure) The metadata key-value pair for the policy rule. MetaDataKey -&gt; (string) The key of the metadata pair for the policy rule. MetaDataValue -&gt; (string) The value of the metadata pair for the policy rule. Shorthand Syntax: SourceCidrBlock=string,SourcePortRange=string,DestinationCidrBlock=string,DestinationPortRange=string,Protocol=string,MetaData={MetaDataKey=string,MetaDataValue=string} JSON Syntax: { "SourceCidrBlock": "string", "SourcePortRange": "string", "DestinationCidrBlock": "string", "DestinationPortRange": "string", "Protocol": "string", "MetaData": { "MetaDataKey": "string", "MetaDataValue": "string" } }
+    /// The updated matching criteria for the policy table entry. Unspecified fields retain their current values. SourceCidrBlock -&gt; (string) The source CIDR block for the policy rule. SourcePortRange -&gt; (string) The source port or port range for the policy rule. You can specify a port range only when Protocol is 6 (TCP) or 17 (UDP); for all other protocols, this value must be * . DestinationCidrBlock -&gt; (string) The destination CIDR block for the policy rule. DestinationPortRange -&gt; (string) The destination port or port range for the policy rule. You can specify a port range only when Protocol is 6 (TCP) or 17 (UDP); for all other protocols, this value must be * . Protocol -&gt; (string) The protocol for the policy rule. Valid values are 1 (ICMP), 6 (TCP), 17 (UDP), 47 (GRE), or * for all protocols. MetaData -&gt; (structure) The metadata key-value pair for the policy rule. MetaDataKey -&gt; (string) The key of the metadata pair for the policy rule. MetaDataValue -&gt; (string) The value of the metadata pair for the policy rule. Shorthand Syntax: SourceCidrBlock=string,SourcePortRange=string,DestinationCidrBlock=string,DestinationPortRange=string,Protocol=string,MetaData={MetaDataKey=string,MetaDataValue=string} JSON Syntax: { "SourceCidrBlock": "string", "SourcePortRange": "string", "DestinationCidrBlock": "string", "DestinationPortRange": "string", "Protocol": "string", "MetaData": { "MetaDataKey": "string", "MetaDataValue": "string" } }
     /// </summary>
     [CliOption("--policy-rule")]
     public string? PolicyRule { get; set; }
 
     /// <summary>
-    /// The ID of the transit gateway route table to use for traffic match- ing this rule.
+    /// The ID of the transit gateway route table to use for traffic matching this rule.
     /// </summary>
     [CliOption("--target-route-table-id")]
     public string? TargetRouteTableId { get; set; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -110,6 +111,15 @@ public record AwsEc2ModifyTransitGatewayPolicyTableEntryOptions : AwsOptions, IV
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

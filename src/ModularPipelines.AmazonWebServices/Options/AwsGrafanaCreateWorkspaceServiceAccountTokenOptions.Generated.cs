@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a token that can be used to authenticate and authorize Grafana HTTP API operations for the given workspace service account . The ser- vice account acts as a user for the API operations, and defines the permissions that are used by the API. WARNING: When you create the service account token, you will receive a key that is used when calling Grafana APIs. Do not lose this key, as it will not be retrievable again. If you do lose the key, you can delete the token and recreate it to receive a ...
+/// Creates a token that can be used to authenticate and authorize Grafana HTTP API operations for the given workspace service account . The service account acts as a user for the API operations, and defines the permissions that are used by the API. WARNING: When you create the service account token, you will receive a key that is used when calling Grafana APIs. Do not lose this key, as it will not be retrievable again. If you do lose the key, you can delete the token and recreate it to receive a ne...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,12 +26,12 @@ public record AwsGrafanaCreateWorkspaceServiceAccountTokenOptions : AwsOptions, 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a token that can be used to authenticate and authorize Grafana HTTP API operations for the given workspace service account . The ser- vice account acts as a user for the API operations, and defines the permissions that are used by the API. WARNING: When you create the service account token, you will receive a key that is used when calling Grafana APIs. Do not lose this key, as it will not be retrievable again. If you do lose the key, you can delete the token and recreate it to receive a ...
+    /// Creates a token that can be used to authenticate and authorize Grafana HTTP API operations for the given workspace service account . The service account acts as a user for the API operations, and defines the permissions that are used by the API. WARNING: When you create the service account token, you will receive a key that is used when calling Grafana APIs. Do not lose this key, as it will not be retrievable again. If you do lose the key, you can delete the token and recreate it to receive a ne...
     /// </summary>
-    /// <param name="Name">A name for the token to create. Constraints: o min: 1 o max: 128</param>
-    /// <param name="SecondsToLive">Sets how long the token will be valid, in seconds. You can set the time up to 30 days in the future. Constraints: o min: 1 o max: 2592000</param>
+    /// <param name="Name">A name for the token to create. Constraints: • min: 1 • max: 128</param>
+    /// <param name="SecondsToLive">Sets how long the token will be valid, in seconds. You can set the time up to 30 days in the future. Constraints: • min: 1 • max: 2592000</param>
     /// <param name="ServiceAccountId">The ID of the service account for which to create a token.</param>
-    /// <param name="WorkspaceId">The ID of the workspace the service account resides within. Constraints: o pattern: g-[0-9a-f]{10}</param>
+    /// <param name="WorkspaceId">The ID of the workspace the service account resides within. Constraints: • pattern: g-[0-9a-f]{10}</param>
     public AwsGrafanaCreateWorkspaceServiceAccountTokenOptions(
         string Name,
         int SecondsToLive,
@@ -67,13 +68,13 @@ public record AwsGrafanaCreateWorkspaceServiceAccountTokenOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A name for the token to create. Constraints: o min: 1 o max: 128
+    /// A name for the token to create. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// Sets how long the token will be valid, in seconds. You can set the time up to 30 days in the future. Constraints: o min: 1 o max: 2592000
+    /// Sets how long the token will be valid, in seconds. You can set the time up to 30 days in the future. Constraints: • min: 1 • max: 2592000
     /// </summary>
     [CliOption("--seconds-to-live")]
     public int? SecondsToLive { get; private init; }
@@ -85,7 +86,7 @@ public record AwsGrafanaCreateWorkspaceServiceAccountTokenOptions : AwsOptions, 
     public string? ServiceAccountId { get; private init; }
 
     /// <summary>
-    /// The ID of the workspace the service account resides within. Constraints: o pattern: g-[0-9a-f]{10}
+    /// The ID of the workspace the service account resides within. Constraints: • pattern: g-[0-9a-f]{10}
     /// </summary>
     [CliOption("--workspace-id")]
     public string? WorkspaceId { get; private init; }
@@ -111,6 +112,15 @@ public record AwsGrafanaCreateWorkspaceServiceAccountTokenOptions : AwsOptions, 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

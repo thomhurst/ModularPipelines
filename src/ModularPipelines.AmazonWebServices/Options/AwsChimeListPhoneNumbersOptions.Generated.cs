@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists the phone numbers for the specified Amazon Chime account, Amazon Chime user, Amazon Chime Voice Connector, or Amazon Chime Voice Connec- tor group. See also: AWS API Documentation
+/// Lists the phone numbers for the specified Amazon Chime account, Amazon Chime user, Amazon Chime Voice Connector, or Amazon Chime Voice Connector group. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -24,19 +24,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsChimeListPhoneNumbersOptions : AwsOptions
 {
     /// <summary>
-    /// The phone number status. Possible values: o AcquireInProgress o AcquireFailed o Unassigned o Assigned o ReleaseInProgress o DeleteInProgress o ReleaseFailed o DeleteFailed
+    /// The phone number status. Possible values: • AcquireInProgress • AcquireFailed • Unassigned • Assigned • ReleaseInProgress • DeleteInProgress • ReleaseFailed • DeleteFailed
     /// </summary>
     [CliOption("--status")]
     public AwsChimeListPhoneNumbersStatus? Status { get; set; }
 
     /// <summary>
-    /// The phone number product type. Possible values: o BusinessCalling o VoiceConnector o SipMediaApplicationDialIn
+    /// The phone number product type. Possible values: • BusinessCalling • VoiceConnector • SipMediaApplicationDialIn
     /// </summary>
     [CliOption("--product-type")]
     public AwsChimeListPhoneNumbersProductType? ProductType { get; set; }
 
     /// <summary>
-    /// The filter to use to limit the number of results. Possible values: o AccountId o UserId o VoiceConnectorId o VoiceConnectorGroupId o SipRuleId
+    /// The filter to use to limit the number of results. Possible values: • AccountId • UserId • VoiceConnectorId • VoiceConnectorGroupId • SipRuleId
     /// </summary>
     [CliOption("--filter-name")]
     public AwsChimeListPhoneNumbersFilterName? FilterName { get; set; }
@@ -48,7 +48,7 @@ public record AwsChimeListPhoneNumbersOptions : AwsOptions
     public string? FilterValue { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return in a single call. Constraints: o min: 1 o max: 99
+    /// The maximum number of results to return in a single call. Constraints: • min: 1 • max: 99
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -65,5 +65,14 @@ public record AwsChimeListPhoneNumbersOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

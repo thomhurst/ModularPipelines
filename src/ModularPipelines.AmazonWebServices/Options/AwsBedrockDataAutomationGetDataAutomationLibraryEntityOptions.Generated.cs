@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsBedrockDataAutomationGetDataAutomationLibraryEntityOptions : Aw
     /// <summary>
     /// Gets an existing entity based on entity type from the library See also: AWS API Documentation
     /// </summary>
-    /// <param name="LibraryArn">ARN generated at the server side when a DataAutomationLibrary is created Constraints: o min: 0 o max: 128 o pattern: arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:[0-9]{12}:data-au- tomation-library/[a-zA-Z0-9-]{12,36}</param>
-    /// <param name="EntityType">The entity type for which the entity is requested Possible values: o VOCABULARY</param>
-    /// <param name="EntityId">Unique identifier for the entity Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9-_]+</param>
+    /// <param name="LibraryArn">ARN generated at the server side when a DataAutomationLibrary is created Constraints: • min: 0 • max: 128 • pattern: arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:[0-9]{12}:data-automation-library/[a-zA-Z0-9-]{12,36}</param>
+    /// <param name="EntityType">The entity type for which the entity is requested Possible values: • VOCABULARY</param>
+    /// <param name="EntityId">Unique identifier for the entity Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9-_]+</param>
     public AwsBedrockDataAutomationGetDataAutomationLibraryEntityOptions(
         string LibraryArn,
         string EntityType,
@@ -64,19 +65,19 @@ public record AwsBedrockDataAutomationGetDataAutomationLibraryEntityOptions : Aw
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ARN generated at the server side when a DataAutomationLibrary is created Constraints: o min: 0 o max: 128 o pattern: arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:[0-9]{12}:data-au- tomation-library/[a-zA-Z0-9-]{12,36}
+    /// ARN generated at the server side when a DataAutomationLibrary is created Constraints: • min: 0 • max: 128 • pattern: arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:[0-9]{12}:data-automation-library/[a-zA-Z0-9-]{12,36}
     /// </summary>
     [CliOption("--library-arn")]
     public string? LibraryArn { get; private init; }
 
     /// <summary>
-    /// The entity type for which the entity is requested Possible values: o VOCABULARY
+    /// The entity type for which the entity is requested Possible values: • VOCABULARY
     /// </summary>
     [CliOption("--entity-type")]
     public string? EntityType { get; private init; }
 
     /// <summary>
-    /// Unique identifier for the entity Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9-_]+
+    /// Unique identifier for the entity Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9-_]+
     /// </summary>
     [CliOption("--entity-id")]
     public string? EntityId { get; private init; }
@@ -102,6 +103,15 @@ public record AwsBedrockDataAutomationGetDataAutomationLibraryEntityOptions : Aw
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

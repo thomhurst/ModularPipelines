@@ -11,13 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Create a channel group to group your channels and origin endpoints. A channel group is the top-level resource that consists of channels and origin endpoints that are associated with it and that provides pre- dictable URLs for stream delivery. All channels and origin endpoints within the channel group are guaranteed to share the DNS. You can cre- ate only one channel group with each request. See also: AWS API Documentation
+/// Create a channel group to group your channels and origin endpoints. A channel group is the top-level resource that consists of channels and origin endpoints that are associated with it and that provides predictable URLs for stream delivery. All channels and origin endpoints within the channel group are guaranteed to share the DNS. You can create only one channel group with each request. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +27,9 @@ public record AwsMediapackagev2CreateChannelGroupOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Create a channel group to group your channels and origin endpoints. A channel group is the top-level resource that consists of channels and origin endpoints that are associated with it and that provides pre- dictable URLs for stream delivery. All channels and origin endpoints within the channel group are guaranteed to share the DNS. You can cre- ate only one channel group with each request. See also: AWS API Documentation
+    /// Create a channel group to group your channels and origin endpoints. A channel group is the top-level resource that consists of channels and origin endpoints that are associated with it and that provides predictable URLs for stream delivery. All channels and origin endpoints within the channel group are guaranteed to share the DNS. You can create only one channel group with each request. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ChannelGroupName">The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your ac- count in the AWS Region. You can't use spaces in the name. You can't change the name after you create the channel group. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="ChannelGroupName">The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region. You can't use spaces in the name. You can't change the name after you create the channel group. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_-]+</param>
     public AwsMediapackagev2CreateChannelGroupOptions(
         string ChannelGroupName
     )
@@ -58,20 +58,20 @@ public record AwsMediapackagev2CreateChannelGroupOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your ac- count in the AWS Region. You can't use spaces in the name. You can't change the name after you create the channel group. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+
+    /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region. You can't use spaces in the name. You can't change the name after you create the channel group. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--channel-group-name")]
     public string? ChannelGroupName { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive token that you provide to ensure the idem- potency of the request. Constraints: o min: 1 o max: 256 o pattern: [\S]+
+    /// A unique, case-sensitive token that you provide to ensure the idempotency of the request. Constraints: • min: 1 • max: 256 • pattern: [\S]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// Enter any descriptive text that helps you to identify the channel group. Constraints: o min: 0 o max: 1024
+    /// Enter any descriptive text that helps you to identify the channel group. Constraints: • min: 0 • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
@@ -103,6 +103,15 @@ public record AwsMediapackagev2CreateChannelGroupOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsRoute53domainsDisassociateDelegationSignerFromDomainOptions : A
     /// <summary>
     /// Deletes a delegation signer (DS) record in the registry zone for this domain name. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">Name of the domain. Constraints: o max: 255</param>
-    /// <param name="Id">An internal identification number assigned to each DS record after its created. You can retrieve it as part of DNSSEC information re- turned by GetDomainDetail .</param>
+    /// <param name="DomainName">Name of the domain. Constraints: • max: 255</param>
+    /// <param name="Id">An internal identification number assigned to each DS record after its created. You can retrieve it as part of DNSSEC information returned by GetDomainDetail .</param>
     public AwsRoute53domainsDisassociateDelegationSignerFromDomainOptions(
         string DomainName,
         string Id
@@ -60,13 +61,13 @@ public record AwsRoute53domainsDisassociateDelegationSignerFromDomainOptions : A
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Name of the domain. Constraints: o max: 255
+    /// Name of the domain. Constraints: • max: 255
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// An internal identification number assigned to each DS record after its created. You can retrieve it as part of DNSSEC information re- turned by GetDomainDetail .
+    /// An internal identification number assigned to each DS record after its created. You can retrieve it as part of DNSSEC information returned by GetDomainDetail .
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
@@ -92,6 +93,15 @@ public record AwsRoute53domainsDisassociateDelegationSignerFromDomainOptions : A
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

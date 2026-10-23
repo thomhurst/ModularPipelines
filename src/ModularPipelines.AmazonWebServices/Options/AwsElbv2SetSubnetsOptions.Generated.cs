@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -63,25 +64,25 @@ public record AwsElbv2SetSubnetsOptions : AwsOptions, IValidatableObject
     public string? LoadBalancerArn { get; private init; }
 
     /// <summary>
-    /// The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet map- pings. [Application Load Balancers] You must specify subnets from at least two Availability Zones. [Application Load Balancers on Outposts] You must specify one Out- post subnet. [Application Load Balancers on Local Zones] You can specify subnets from one or more Local Zones. [Network Load Balancers] You can specify subnets from one or more Availability Zones. [Gateway Load Balancers] You can specify subnets from one or more Availability Zones. You must include all subnets that were enabled previously, with their existing configurations, plus any additional subnets. (string) Syntax: "string" "string" ...
+    /// The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. [Application Load Balancers] You must specify subnets from at least two Availability Zones. [Application Load Balancers on Outposts] You must specify one Outpost subnet. [Application Load Balancers on Local Zones] You can specify subnets from one or more Local Zones. [Network Load Balancers] You can specify subnets from one or more Availability Zones. [Gateway Load Balancers] You can specify subnets from one or more Availability Zones. You must include all subnets that were enabled previously, with their existing configurations, plus any additional subnets. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--subnets", GroupValues = true)]
     public IEnumerable<string>? Subnets { get; set; }
 
     /// <summary>
-    /// The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet map- pings. [Application Load Balancers] You must specify subnets from at least two Availability Zones. You can't specify Elastic IP addresses for your subnets. [Application Load Balancers on Outposts] You must specify one Out- post subnet. [Application Load Balancers on Local Zones] You can specify subnets from one or more Local Zones. [Network Load Balancers] You can specify subnets from one or more Availability Zones. You can specify one Elastic IP address per sub- net if you need static IP addresses for your internet-facing load balancer. For internal load balancers, you can specify one private IP address per subnet from the IPv4 range of the subnet. For inter- net-facing load balancer, you can specify one IPv6 address per sub- net. [Gateway Load Balancers] You can specify subnets from one or more Availability Zones. (structure) Information about a subnet mapping. SubnetId -&gt; (string) The ID of the subnet. AllocationId -&gt; (string) [Network Load Balancers] The allocation ID of the Elastic IP address for an internet-facing load balancer. PrivateIPv4Address -&gt; (string) [Network Load Balancers] The private IPv4 address for an in- ternal load balancer. IPv6Address -&gt; (string) [Network Load Balancers] The IPv6 address. SourceNatIpv6Prefix -&gt; (string) [Network Load Balancers with UDP listeners] The IPv6 prefix to use for source NAT. Specify an IPv6 prefix (/80 netmask) from the subnet CIDR block or auto_assigned to use an IPv6 prefix selected at random from the subnet CIDR block. Shorthand Syntax: SubnetId=string,AllocationId=string,PrivateIPv4Address=string,IPv6Address=string,SourceNatIpv6Prefix=string ... JSON Syntax: [ { "SubnetId": "string", "AllocationId": "string", "PrivateIPv4Address": "string", "IPv6Address": "string", "SourceNatIpv6Prefix": "string" } ... ]
+    /// The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. [Application Load Balancers] You must specify subnets from at least two Availability Zones. You can't specify Elastic IP addresses for your subnets. [Application Load Balancers on Outposts] You must specify one Outpost subnet. [Application Load Balancers on Local Zones] You can specify subnets from one or more Local Zones. [Network Load Balancers] You can specify subnets from one or more Availability Zones. You can specify one Elastic IP address per subnet if you need static IP addresses for your internet-facing load balancer. For internal load balancers, you can specify one private IP address per subnet from the IPv4 range of the subnet. For internet-facing load balancer, you can specify one IPv6 address per subnet. [Gateway Load Balancers] You can specify subnets from one or more Availability Zones. (structure) Information about a subnet mapping. SubnetId -&gt; (string) The ID of the subnet. AllocationId -&gt; (string) [Network Load Balancers] The allocation ID of the Elastic IP address for an internet-facing load balancer. PrivateIPv4Address -&gt; (string) [Network Load Balancers] The private IPv4 address for an internal load balancer. IPv6Address -&gt; (string) [Network Load Balancers] The IPv6 address. SourceNatIpv6Prefix -&gt; (string) [Network Load Balancers with UDP listeners] The IPv6 prefix to use for source NAT. Specify an IPv6 prefix (/80 netmask) from the subnet CIDR block or auto_assigned to use an IPv6 prefix selected at random from the subnet CIDR block. Shorthand Syntax: SubnetId=string,AllocationId=string,PrivateIPv4Address=string,IPv6Address=string,SourceNatIpv6Prefix=string ... JSON Syntax: [ { "SubnetId": "string", "AllocationId": "string", "PrivateIPv4Address": "string", "IPv6Address": "string", "SourceNatIpv6Prefix": "string" } ... ]
     /// </summary>
     [CliOption("--subnet-mappings", GroupValues = true)]
     public IEnumerable<string>? SubnetMappings { get; set; }
 
     /// <summary>
-    /// The IP address type. [Application Load Balancers] The possible values are ipv4 (IPv4 ad- dresses), dualstack (IPv4 and IPv6 addresses), and dualstack-with- out-public-ipv4 (public IPv6 addresses and private IPv4 and IPv6 ad- dresses). [Network Load Balancers and Gateway Load Balancers] The possible values are ipv4 (IPv4 addresses) and dualstack (IPv4 and IPv6 ad- dresses). Possible values: o ipv4 o dualstack o dualstack-without-public-ipv4
+    /// The IP address type. [Application Load Balancers] The possible values are ipv4 (IPv4 addresses), dualstack (IPv4 and IPv6 addresses), and dualstack-without-public-ipv4 (public IPv6 addresses and private IPv4 and IPv6 addresses). [Network Load Balancers and Gateway Load Balancers] The possible values are ipv4 (IPv4 addresses) and dualstack (IPv4 and IPv6 addresses). Possible values: • ipv4 • dualstack • dualstack-without-public-ipv4
     /// </summary>
     [CliOption("--ip-address-type")]
     public AwsElbv2SetSubnetsIpAddressType? IpAddressType { get; set; }
 
     /// <summary>
-    /// [Network Load Balancers with UDP listeners] Indicates whether to use an IPv6 prefix from each subnet for source NAT. The IP address type must be dualstack . The default value is off . Possible values: o on o off
+    /// [Network Load Balancers with UDP listeners] Indicates whether to use an IPv6 prefix from each subnet for source NAT. The IP address type must be dualstack . The default value is off . Possible values: • on • off
     /// </summary>
     [CliOption("--enable-prefix-for-ipv6-source-nat")]
     public AwsElbv2SetSubnetsEnablePrefixForIpv6SourceNat? EnablePrefixForIpv6SourceNat { get; set; }
@@ -107,6 +108,15 @@ public record AwsElbv2SetSubnetsOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Registers a new domain. Access Control You can use IAM policies to control this action's access to Amazon SWF resources as follows: o You cannot use an IAM policy to control domain access for this ac- tion. The name of the domain being registered is available as the re- source of this action. o Use an Action element to allow or deny permission to call this ac- tion. o You cannot use an IAM policy to constrain this action's parameters. If the caller doesn't have sufficient permissions to invoke t...
+/// Registers a new domain. Access Control You can use IAM policies to control this action's access to Amazon SWF resources as follows: • You cannot use an IAM policy to control domain access for this action. The name of the domain being registered is available as the resource of this action. • Use an Action element to allow or deny permission to call this action. • You cannot use an IAM policy to constrain this action's parameters. If the caller doesn't have sufficient permissions to invoke the act...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsSwfRegisterDomainOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Registers a new domain. Access Control You can use IAM policies to control this action's access to Amazon SWF resources as follows: o You cannot use an IAM policy to control domain access for this ac- tion. The name of the domain being registered is available as the re- source of this action. o Use an Action element to allow or deny permission to call this ac- tion. o You cannot use an IAM policy to constrain this action's parameters. If the caller doesn't have sufficient permissions to invoke t...
+    /// Registers a new domain. Access Control You can use IAM policies to control this action's access to Amazon SWF resources as follows: • You cannot use an IAM policy to control domain access for this action. The name of the domain being registered is available as the resource of this action. • Use an Action element to allow or deny permission to call this action. • You cannot use an IAM policy to constrain this action's parameters. If the caller doesn't have sufficient permissions to invoke the act...
     /// </summary>
-    /// <param name="Name">Name of the domain to register. The name must be unique in the re- gion that the domain is registered in. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f ). Also, it must not be the literal string arn . Constraints: o min: 1 o max: 256</param>
-    /// <param name="WorkflowExecutionRetentionPeriodInDays">The duration (in days) that records and histories of workflow execu- tions on the domain should be kept by the service. After the reten- tion period, the workflow execution isn't available in the results of visibility calls. If you pass the value NONE or 0 (zero), then the workflow execution history isn't retained. As soon as the workflow execution completes, the execution record and its history are deleted. The maximum workflow execution retention period is 90 days. For more information about Amazon SWF service limits, see: Amazon SWF Service Limits in the Amazon SWF Developer Guide . Constraints: o min: 1 o max: 8</param>
+    /// <param name="Name">Name of the domain to register. The name must be unique in the region that the domain is registered in. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f ). Also, it must not be the literal string arn . Constraints: • min: 1 • max: 256</param>
+    /// <param name="WorkflowExecutionRetentionPeriodInDays">The duration (in days) that records and histories of workflow executions on the domain should be kept by the service. After the retention period, the workflow execution isn't available in the results of visibility calls. If you pass the value NONE or 0 (zero), then the workflow execution history isn't retained. As soon as the workflow execution completes, the execution record and its history are deleted. The maximum workflow execution retention period is 90 days. For more information about Amazon SWF service limits, see: Amazon SWF Service Limits in the Amazon SWF Developer Guide . Constraints: • min: 1 • max: 8</param>
     public AwsSwfRegisterDomainOptions(
         string Name,
         string WorkflowExecutionRetentionPeriodInDays
@@ -60,25 +61,25 @@ public record AwsSwfRegisterDomainOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Name of the domain to register. The name must be unique in the re- gion that the domain is registered in. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f ). Also, it must not be the literal string arn . Constraints: o min: 1 o max: 256
+    /// Name of the domain to register. The name must be unique in the region that the domain is registered in. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f ). Also, it must not be the literal string arn . Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The duration (in days) that records and histories of workflow execu- tions on the domain should be kept by the service. After the reten- tion period, the workflow execution isn't available in the results of visibility calls. If you pass the value NONE or 0 (zero), then the workflow execution history isn't retained. As soon as the workflow execution completes, the execution record and its history are deleted. The maximum workflow execution retention period is 90 days. For more information about Amazon SWF service limits, see: Amazon SWF Service Limits in the Amazon SWF Developer Guide . Constraints: o min: 1 o max: 8
+    /// The duration (in days) that records and histories of workflow executions on the domain should be kept by the service. After the retention period, the workflow execution isn't available in the results of visibility calls. If you pass the value NONE or 0 (zero), then the workflow execution history isn't retained. As soon as the workflow execution completes, the execution record and its history are deleted. The maximum workflow execution retention period is 90 days. For more information about Amazon SWF service limits, see: Amazon SWF Service Limits in the Amazon SWF Developer Guide . Constraints: • min: 1 • max: 8
     /// </summary>
     [CliOption("--workflow-execution-retention-period-in-days")]
     public string? WorkflowExecutionRetentionPeriodInDays { get; private init; }
 
     /// <summary>
-    /// A text description of the domain. Constraints: o max: 1024
+    /// A text description of the domain. Constraints: • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Tags to be added when registering a domain. Tags may only contain unicode letters, digits, whitespace, or these symbols: _ . : / = + - @ . (structure) Tags are key-value pairs that can be associated with Amazon SWF state machines and activities. Tags may only contain unicode letters, digits, whitespace, or these symbols: _ . : / = + - @ . key -&gt; (string) [required] The key of a tag. Constraints: o min: 1 o max: 128 value -&gt; (string) The value of a tag. Constraints: o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// Tags to be added when registering a domain. Tags may only contain unicode letters, digits, whitespace, or these symbols: _ . : / = + - @ . (structure) Tags are key-value pairs that can be associated with Amazon SWF state machines and activities. Tags may only contain unicode letters, digits, whitespace, or these symbols: _ . : / = + - @ . key -&gt; (string) [required] The key of a tag. Constraints: • min: 1 • max: 128 value -&gt; (string) The value of a tag. Constraints: • max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -104,6 +105,15 @@ public record AwsSwfRegisterDomainOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

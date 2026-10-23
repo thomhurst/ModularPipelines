@@ -11,13 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a network connector that enables Lambda compute resources to route outbound traffic through your Amazon VPC. The network connector provisions elastic network interfaces (ENIs) in the subnets you spec- ify, providing a managed network path to private resources such as databases, caches, and internal APIs. This operation is asynchronous. The network connector starts in PENDING state while ENIs are provisioned in your VPC (provisioning typically takes up to 10 minutes). Use GetNetworkConnec...
+/// Creates a network connector that enables Lambda compute resources to route outbound traffic through your Amazon VPC. The network connector provisions elastic network interfaces (ENIs) in the subnets you specify, providing a managed network path to private resources such as databases, caches, and internal APIs. This operation is asynchronous. The network connector starts in PENDING state while ENIs are provisioned in your VPC (provisioning typically takes up to 10 minutes). Use GetNetworkConnecto...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +27,10 @@ public record AwsLambdaCoreCreateNetworkConnectorOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a network connector that enables Lambda compute resources to route outbound traffic through your Amazon VPC. The network connector provisions elastic network interfaces (ENIs) in the subnets you spec- ify, providing a managed network path to private resources such as databases, caches, and internal APIs. This operation is asynchronous. The network connector starts in PENDING state while ENIs are provisioned in your VPC (provisioning typically takes up to 10 minutes). Use GetNetworkConnec...
+    /// Creates a network connector that enables Lambda compute resources to route outbound traffic through your Amazon VPC. The network connector provisions elastic network interfaces (ENIs) in the subnets you specify, providing a managed network path to private resources such as databases, caches, and internal APIs. This operation is asynchronous. The network connector starts in PENDING state while ENIs are provisioned in your VPC (provisioning typically takes up to 10 minutes). Use GetNetworkConnecto...
     /// </summary>
-    /// <param name="Name">A unique name for the network connector within your account and Re- gion. You can use the name to identify the connector in subsequent API calls. Constraints: o min: 1 o max: 140 o pattern: (arn:aws[a-zA-Z-]*:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:net- work-connec- tor:[a-zA-Z0-9-_]+(:[1-9]|[1-9][0-9]+)?)|[a-zA-Z0-9_-]{1,64}</param>
-    /// <param name="Configuration">The network configuration for the connector. Specify a VpcEgressCon- figuration to enable outbound traffic routing through your VPC. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: VpcEgressConfiguration. VpcEgressConfiguration -&gt; (structure) Configuration for a VPC egress network connector. Specifies the subnets, security groups, and network protocol for routing out- bound traffic through your VPC. SubnetIds -&gt; (list) The IDs of the VPC subnets where Lambda provisions elastic network interfaces (ENIs). Specify 1 to 16 subnets. All sub- nets must be in the same VPC. Constraints: o min: 1 o max: 16 (string) Constraints: o min: 0 o max: 1024 o pattern: subnet-[0-9a-z]* SecurityGroupIds -&gt; (list) The IDs of the VPC security groups to attach to the ENIs. Specify 0 to 5 security groups. All security groups must be in the same VPC as the subnets. Constraints: o min: 0 o max: 5 (string) Constraints: o min: 0 o max: 1024 o pattern: sg-[0-9a-zA-Z]* NetworkProtocol -&gt; (string) The network protocol for the connector. Specify IPv4 for IPv4-only networking, or DualStack for both IPv4 and IPv6. Possible values: o IPv4 o DualStack AssociatedComputeResourceTypes -&gt; (list) The types of Lambda compute resources that can use this con- nector. Currently, only MicroVm is supported. Constraints: o min: 1 o max: 1 (string) Possible values: o MicroVm Shorthand Syntax: VpcEgressConfiguration={SubnetIds=[string,string],SecurityGroupIds=[string,string],NetworkProtocol=string,AssociatedComputeResourceTypes=[string,string]} JSON Syntax: { "VpcEgressConfiguration": { "SubnetIds": ["string", ...], "SecurityGroupIds": ["string", ...], "NetworkProtocol": "IPv4"|"DualStack", "AssociatedComputeResourceTypes": ["MicroVm", ...] } }</param>
+    /// <param name="Name">A unique name for the network connector within your account and Region. You can use the name to identify the connector in subsequent API calls. Constraints: • min: 1 • max: 140 • pattern: (arn:aws[a-zA-Z-]*:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:network-connector:[a-zA-Z0-9-_]+(:[1-9][0-9]*)?)|[a-zA-Z0-9_-]{1,64}</param>
+    /// <param name="Configuration">The network configuration for the connector. Specify a VpcEgressConfiguration to enable outbound traffic routing through your VPC. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: VpcEgressConfiguration. VpcEgressConfiguration -&gt; (structure) Configuration for a VPC egress network connector. Specifies the subnets, security groups, and network protocol for routing outbound traffic through your VPC. SubnetIds -&gt; (list) The IDs of the VPC subnets where Lambda provisions elastic network interfaces (ENIs). Specify 1 to 16 subnets. All subnets must be in the same VPC. Constraints: • min: 1 • max: 16 (string) Constraints: • min: 0 • max: 1024 • pattern: subnet-[0-9a-z]* SecurityGroupIds -&gt; (list) The IDs of the VPC security groups to attach to the ENIs. All security groups must be in the same VPC as the subnets. Constraints: • min: 0 • max: 16 (string) Constraints: • min: 0 • max: 1024 • pattern: sg-[0-9a-zA-Z]* NetworkProtocol -&gt; (string) The network protocol for the connector. Specify IPv4 for IPv4-only networking, or DualStack for both IPv4 and IPv6. Possible values: • IPv4 • DualStack AssociatedComputeResourceTypes -&gt; (list) The types of Lambda compute resources that can use this connector. Valid values are MicroVm and WebFunction . Specify exactly one value. Constraints: • min: 1 • max: 1 (string) The type of Lambda compute resource that can use a network connector. Possible values: • MicroVm • WebFunction Shorthand Syntax: VpcEgressConfiguration={SubnetIds=[string,string],SecurityGroupIds=[string,string],NetworkProtocol=string,AssociatedComputeResourceTypes=[string,string]} JSON Syntax: { "VpcEgressConfiguration": { "SubnetIds": ["string", ...], "SecurityGroupIds": ["string", ...], "NetworkProtocol": "IPv4"|"DualStack", "AssociatedComputeResourceTypes": ["MicroVm"|"WebFunction", ...] } }</param>
     public AwsLambdaCoreCreateNetworkConnectorOptions(
         string Name,
         string Configuration
@@ -62,32 +62,32 @@ public record AwsLambdaCoreCreateNetworkConnectorOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique name for the network connector within your account and Re- gion. You can use the name to identify the connector in subsequent API calls. Constraints: o min: 1 o max: 140 o pattern: (arn:aws[a-zA-Z-]*:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:net- work-connec- tor:[a-zA-Z0-9-_]+(:[1-9]|[1-9][0-9]+)?)|[a-zA-Z0-9_-]{1,64}
+    /// A unique name for the network connector within your account and Region. You can use the name to identify the connector in subsequent API calls. Constraints: • min: 1 • max: 140 • pattern: (arn:aws[a-zA-Z-]*:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:network-connector:[a-zA-Z0-9-_]+(:[1-9][0-9]*)?)|[a-zA-Z0-9_-]{1,64}
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The network configuration for the connector. Specify a VpcEgressCon- figuration to enable outbound traffic routing through your VPC. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: VpcEgressConfiguration. VpcEgressConfiguration -&gt; (structure) Configuration for a VPC egress network connector. Specifies the subnets, security groups, and network protocol for routing out- bound traffic through your VPC. SubnetIds -&gt; (list) The IDs of the VPC subnets where Lambda provisions elastic network interfaces (ENIs). Specify 1 to 16 subnets. All sub- nets must be in the same VPC. Constraints: o min: 1 o max: 16 (string) Constraints: o min: 0 o max: 1024 o pattern: subnet-[0-9a-z]* SecurityGroupIds -&gt; (list) The IDs of the VPC security groups to attach to the ENIs. Specify 0 to 5 security groups. All security groups must be in the same VPC as the subnets. Constraints: o min: 0 o max: 5 (string) Constraints: o min: 0 o max: 1024 o pattern: sg-[0-9a-zA-Z]* NetworkProtocol -&gt; (string) The network protocol for the connector. Specify IPv4 for IPv4-only networking, or DualStack for both IPv4 and IPv6. Possible values: o IPv4 o DualStack AssociatedComputeResourceTypes -&gt; (list) The types of Lambda compute resources that can use this con- nector. Currently, only MicroVm is supported. Constraints: o min: 1 o max: 1 (string) Possible values: o MicroVm Shorthand Syntax: VpcEgressConfiguration={SubnetIds=[string,string],SecurityGroupIds=[string,string],NetworkProtocol=string,AssociatedComputeResourceTypes=[string,string]} JSON Syntax: { "VpcEgressConfiguration": { "SubnetIds": ["string", ...], "SecurityGroupIds": ["string", ...], "NetworkProtocol": "IPv4"|"DualStack", "AssociatedComputeResourceTypes": ["MicroVm", ...] } }
+    /// The network configuration for the connector. Specify a VpcEgressConfiguration to enable outbound traffic routing through your VPC. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: VpcEgressConfiguration. VpcEgressConfiguration -&gt; (structure) Configuration for a VPC egress network connector. Specifies the subnets, security groups, and network protocol for routing outbound traffic through your VPC. SubnetIds -&gt; (list) The IDs of the VPC subnets where Lambda provisions elastic network interfaces (ENIs). Specify 1 to 16 subnets. All subnets must be in the same VPC. Constraints: • min: 1 • max: 16 (string) Constraints: • min: 0 • max: 1024 • pattern: subnet-[0-9a-z]* SecurityGroupIds -&gt; (list) The IDs of the VPC security groups to attach to the ENIs. All security groups must be in the same VPC as the subnets. Constraints: • min: 0 • max: 16 (string) Constraints: • min: 0 • max: 1024 • pattern: sg-[0-9a-zA-Z]* NetworkProtocol -&gt; (string) The network protocol for the connector. Specify IPv4 for IPv4-only networking, or DualStack for both IPv4 and IPv6. Possible values: • IPv4 • DualStack AssociatedComputeResourceTypes -&gt; (list) The types of Lambda compute resources that can use this connector. Valid values are MicroVm and WebFunction . Specify exactly one value. Constraints: • min: 1 • max: 1 (string) The type of Lambda compute resource that can use a network connector. Possible values: • MicroVm • WebFunction Shorthand Syntax: VpcEgressConfiguration={SubnetIds=[string,string],SecurityGroupIds=[string,string],NetworkProtocol=string,AssociatedComputeResourceTypes=[string,string]} JSON Syntax: { "VpcEgressConfiguration": { "SubnetIds": ["string", ...], "SecurityGroupIds": ["string", ...], "NetworkProtocol": "IPv4"|"DualStack", "AssociatedComputeResourceTypes": ["MicroVm"|"WebFunction", ...] } }
     /// </summary>
     [CliOption("--configuration")]
     public string? Configuration { get; private init; }
 
     /// <summary>
-    /// The ARN of the IAM role that Lambda assumes to manage elastic net- work interfaces in your VPC. This role must have permissions for ec2:CreateNetworkInterface , ec2:DeleteNetworkInterface , and re- lated describe operations. Constraints: o min: 0 o max: 10000 o pattern: arn:(aws[a-zA-Z-]*)?:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+
+    /// The ARN of the IAM role that Lambda assumes to manage elastic network interfaces in your VPC. This role must have permissions for ec2:CreateNetworkInterface , ec2:DeleteNetworkInterface , and related describe operations. Constraints: • min: 0 • max: 10000 • pattern: arn:(aws[a-zA-Z-]*)?:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+
     /// </summary>
     [CliOption("--operator-role")]
     public string? OperatorRole { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request with the same client token, the API returns the existing connector without creat- ing a duplicate. Constraints: o min: 1 o max: 64
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request with the same client token, the API returns the existing connector without creating a duplicate. Constraints: • min: 1 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// A map of key-value pairs to associate with the network connector for organization, cost allocation, or access control. key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A map of key-value pairs to associate with the network connector for organization, cost allocation, or access control. key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -113,6 +113,15 @@ public record AwsLambdaCoreCreateNetworkConnectorOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

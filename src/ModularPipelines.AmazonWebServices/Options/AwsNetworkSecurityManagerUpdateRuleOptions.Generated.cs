@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,8 +30,8 @@ public record AwsNetworkSecurityManagerUpdateRuleOptions : AwsOptions, IValidata
     /// <summary>
     /// Updates the specified rule. To prevent conflicting concurrent updates, provide the current updateToken . Use isPublished to publish the update or keep the rule as a draft. See also: AWS API Documentation update-rule uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does...
     /// </summary>
-    /// <param name="RuleIdentifier">The identifier of the rule. This is the rule's Amazon Resource Name (ARN). Constraints: o min: 1 o max: 1010</param>
-    /// <param name="UpdateToken">A token used for optimistic concurrency control. Each read and write returns an updateToken . Provide the most recent value on your next update to detect and prevent conflicting concurrent modifications. Constraints: o min: 36 o max: 36 o pattern: ([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})</param>
+    /// <param name="RuleIdentifier">The identifier of the rule. This is the rule's Amazon Resource Name (ARN). Constraints: • min: 1 • max: 1010</param>
+    /// <param name="UpdateToken">A token used for optimistic concurrency control. Each read and write returns an updateToken . Provide the most recent value on your next update to detect and prevent conflicting concurrent modifications. Constraints: • min: 36 • max: 36 • pattern: ([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})</param>
     /// <param name="IsPublished">Specifies whether to publish the resource. When true , the resource is saved in published (ACTIVE ) state. When false , it is saved as a draft (DRAFT ).</param>
     public AwsNetworkSecurityManagerUpdateRuleOptions(
         string RuleIdentifier,
@@ -65,13 +66,13 @@ public record AwsNetworkSecurityManagerUpdateRuleOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the rule. This is the rule's Amazon Resource Name (ARN). Constraints: o min: 1 o max: 1010
+    /// The identifier of the rule. This is the rule's Amazon Resource Name (ARN). Constraints: • min: 1 • max: 1010
     /// </summary>
     [CliOption("--rule-identifier")]
     public string? RuleIdentifier { get; private init; }
 
     /// <summary>
-    /// A token used for optimistic concurrency control. Each read and write returns an updateToken . Provide the most recent value on your next update to detect and prevent conflicting concurrent modifications. Constraints: o min: 36 o max: 36 o pattern: ([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})
+    /// A token used for optimistic concurrency control. Each read and write returns an updateToken . Provide the most recent value on your next update to detect and prevent conflicting concurrent modifications. Constraints: • min: 36 • max: 36 • pattern: ([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})
     /// </summary>
     [SecretValue]
     [CliOption("--update-token")]
@@ -84,13 +85,13 @@ public record AwsNetworkSecurityManagerUpdateRuleOptions : AwsOptions, IValidata
     public bool? IsPublished { get; private init; }
 
     /// <summary>
-    /// The type of the rule. CONFIGURATION rules contain firewall settings, and INSPECTION rules contain rule groups. Possible values: o CONFIGURATION o INSPECTION
+    /// The type of the rule. CONFIGURATION rules contain firewall settings, and INSPECTION rules contain rule groups. Possible values: • CONFIGURATION • INSPECTION
     /// </summary>
     [CliOption("--rule-type")]
     public AwsNetworkSecurityManagerUpdateRuleRuleType? RuleType { get; set; }
 
     /// <summary>
-    /// A description of the rule. Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9 _.:/=+\-@]*
+    /// A description of the rule. Constraints: • min: 0 • max: 256 • pattern: [a-zA-Z0-9 _.:/=+\-@]*
     /// </summary>
     [CliOption("--rule-description")]
     public string? RuleDescription { get; set; }
@@ -102,7 +103,7 @@ public record AwsNetworkSecurityManagerUpdateRuleOptions : AwsOptions, IValidata
     public string? Configuration { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive token that you provide to ensure that the operation completes no more than one time. If you retry a request with the same client token and the same parameters, the service re- turns the result of the original successful request. Constraints: o min: 1 o max: 64 o pattern: [\x21-\x7E]+
+    /// A unique, case-sensitive token that you provide to ensure that the operation completes no more than one time. If you retry a request with the same client token and the same parameters, the service returns the result of the original successful request. Constraints: • min: 1 • max: 64 • pattern: [\x21-\x7E]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -129,6 +130,15 @@ public record AwsNetworkSecurityManagerUpdateRuleOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,10 +29,10 @@ public record AwsConnectDisassociateSecurityProfilesOptions : AwsOptions, IValid
     /// <summary>
     /// Disassociates a security profile attached to a Q in Connect AI Agent Entity in an Amazon Connect instance. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Amazon Connect instance. You can find the in- stance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="SecurityProfiles">List of Security Profile Object. Constraints: o min: 1 o max: 10 (structure) Security profile items. Id -&gt; (string) Id of a security profile item. Shorthand Syntax: Id=string ... JSON Syntax: [ { "Id": "string" } ... ]</param>
-    /// <param name="EntityType">Only supported type is AI_AGENT. Possible values: o USER o AI_AGENT</param>
-    /// <param name="EntityArn">ARN of a Q in Connect AI Agent. Constraints: o min: 1</param>
+    /// <param name="InstanceId">The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="SecurityProfiles">List of Security Profile Object. Constraints: • min: 1 • max: 10 (structure) Security profile items. Id -&gt; (string) Id of a security profile item. Shorthand Syntax: Id=string ... JSON Syntax: [ { "Id": "string" } ... ]</param>
+    /// <param name="EntityType">Only supported type is AI_AGENT. Possible values: • USER • AI_AGENT</param>
+    /// <param name="EntityArn">ARN of a Q in Connect AI Agent. Constraints: • min: 1</param>
     public AwsConnectDisassociateSecurityProfilesOptions(
         string InstanceId,
         IEnumerable<string> SecurityProfiles,
@@ -79,25 +80,25 @@ public record AwsConnectDisassociateSecurityProfilesOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Amazon Connect instance. You can find the in- stance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// List of Security Profile Object. Constraints: o min: 1 o max: 10 (structure) Security profile items. Id -&gt; (string) Id of a security profile item. Shorthand Syntax: Id=string ... JSON Syntax: [ { "Id": "string" } ... ]
+    /// List of Security Profile Object. Constraints: • min: 1 • max: 10 (structure) Security profile items. Id -&gt; (string) Id of a security profile item. Shorthand Syntax: Id=string ... JSON Syntax: [ { "Id": "string" } ... ]
     /// </summary>
     [CliOption("--security-profiles", GroupValues = true)]
     public IEnumerable<string>? SecurityProfiles { get; private init; }
 
     /// <summary>
-    /// Only supported type is AI_AGENT. Possible values: o USER o AI_AGENT
+    /// Only supported type is AI_AGENT. Possible values: • USER • AI_AGENT
     /// </summary>
     [CliOption("--entity-type")]
     public AwsConnectDisassociateSecurityProfilesEntityType? EntityType { get; private init; }
 
     /// <summary>
-    /// ARN of a Q in Connect AI Agent. Constraints: o min: 1
+    /// ARN of a Q in Connect AI Agent. Constraints: • min: 1
     /// </summary>
     [CliOption("--entity-arn")]
     public string? EntityArn { get; private init; }
@@ -123,6 +124,15 @@ public record AwsConnectDisassociateSecurityProfilesOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

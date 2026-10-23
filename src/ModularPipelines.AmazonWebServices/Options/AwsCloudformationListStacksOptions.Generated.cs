@@ -23,16 +23,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsCloudformationListStacksOptions : AwsOptions
 {
     /// <summary>
-    /// Stack status to use as a filter. Specify one or more stack status codes to list only stacks with the specified status codes. For a complete list of stack status codes, see the StackStatus parameter of the Stack data type. (string) Possible values: o CREATE_IN_PROGRESS o CREATE_FAILED o CREATE_COMPLETE o ROLLBACK_IN_PROGRESS o ROLLBACK_FAILED o ROLLBACK_COMPLETE o DELETE_IN_PROGRESS o DELETE_FAILED o DELETE_COMPLETE o UPDATE_IN_PROGRESS o UPDATE_COMPLETE_CLEANUP_IN_PROGRESS o UPDATE_COMPLETE o UPDATE_FAILED o UPDATE_ROLLBACK_IN_PROGRESS o UPDATE_ROLLBACK_FAILED o UPDATE_ROLLBACK_COMPLETE_CLEANUP_IN_PROGRESS o UPDATE_ROLLBACK_COMPLETE o REVIEW_IN_PROGRESS o IMPORT_IN_PROGRESS o IMPORT_COMPLETE o IMPORT_ROLLBACK_IN_PROGRESS o IMPORT_ROLLBACK_FAILED o IMPORT_ROLLBACK_COMPLETE Syntax: "string" "string" ...
+    /// Stack status to use as a filter. Specify one or more stack status codes to list only stacks with the specified status codes. For a complete list of stack status codes, see the StackStatus parameter of the Stack data type. (string) Possible values: • CREATE_IN_PROGRESS • CREATE_FAILED • CREATE_COMPLETE • ROLLBACK_IN_PROGRESS • ROLLBACK_FAILED • ROLLBACK_COMPLETE • DELETE_IN_PROGRESS • DELETE_FAILED • DELETE_COMPLETE • UPDATE_IN_PROGRESS • UPDATE_COMPLETE_CLEANUP_IN_PROGRESS • UPDATE_COMPLETE • UPDATE_FAILED • UPDATE_ROLLBACK_IN_PROGRESS • UPDATE_ROLLBACK_FAILED • UPDATE_ROLLBACK_COMPLETE_CLEANUP_IN_PROGRESS • UPDATE_ROLLBACK_COMPLETE • REVIEW_IN_PROGRESS • IMPORT_IN_PROGRESS • IMPORT_COMPLETE • IMPORT_ROLLBACK_IN_PROGRESS • IMPORT_ROLLBACK_FAILED • IMPORT_ROLLBACK_COMPLETE Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--stack-status-filter", GroupValues = true)]
     public IEnumerable<string>? StackStatusFilter { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -42,9 +39,21 @@ public record AwsCloudformationListStacksOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

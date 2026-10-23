@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsRedshiftModifyUsageLimitOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Modifies a usage limit in a cluster. You can't modify the feature type or period of a usage limit. See also: AWS API Documentation
     /// </summary>
-    /// <param name="UsageLimitId">The identifier of the usage limit to modify. Constraints: o max: 2147483647</param>
+    /// <param name="UsageLimitId">The identifier of the usage limit to modify. Constraints: • max: 2147483647</param>
     public AwsRedshiftModifyUsageLimitOptions(
         string UsageLimitId
     )
@@ -57,7 +58,7 @@ public record AwsRedshiftModifyUsageLimitOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the usage limit to modify. Constraints: o max: 2147483647
+    /// The identifier of the usage limit to modify. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--usage-limit-id")]
     public string? UsageLimitId { get; private init; }
@@ -66,10 +67,10 @@ public record AwsRedshiftModifyUsageLimitOptions : AwsOptions, IValidatableObjec
     /// The new limit amount. For more information about this parameter, see UsageLimit .
     /// </summary>
     [CliOption("--amount")]
-    public int? Amount { get; set; }
+    public long? Amount { get; set; }
 
     /// <summary>
-    /// The new action that Amazon Redshift takes when the limit is reached. For more information about this parameter, see UsageLimit . Possible values: o log o emit-metric o disable
+    /// The new action that Amazon Redshift takes when the limit is reached. For more information about this parameter, see UsageLimit . Possible values: • log • emit-metric • disable
     /// </summary>
     [CliOption("--breach-action")]
     public AwsRedshiftModifyUsageLimitBreachAction? BreachAction { get; set; }
@@ -95,6 +96,15 @@ public record AwsRedshiftModifyUsageLimitOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

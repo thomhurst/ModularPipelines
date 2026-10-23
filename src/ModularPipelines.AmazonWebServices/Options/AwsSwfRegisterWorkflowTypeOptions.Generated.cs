@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Registers a new workflow type and its configuration settings in the specified domain. The retention period for the workflow history is set by the Register- Domain action. WARNING: If the type already exists, then a TypeAlreadyExists fault is returned. You cannot change the configuration settings of a workflow type once it is registered and it must be registered as a new version. Access Control You can use IAM policies to control this action's access to Amazon SWF resources as follows: o Use a Re...
+/// Registers a new workflow type and its configuration settings in the specified domain. The retention period for the workflow history is set by the RegisterDomain action. WARNING: If the type already exists, then a TypeAlreadyExists fault is returned. You cannot change the configuration settings of a workflow type once it is registered and it must be registered as a new version. Access Control You can use IAM policies to control this action's access to Amazon SWF resources as follows: • Use a Reso...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsSwfRegisterWorkflowTypeOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Registers a new workflow type and its configuration settings in the specified domain. The retention period for the workflow history is set by the Register- Domain action. WARNING: If the type already exists, then a TypeAlreadyExists fault is returned. You cannot change the configuration settings of a workflow type once it is registered and it must be registered as a new version. Access Control You can use IAM policies to control this action's access to Amazon SWF resources as follows: o Use a Re...
+    /// Registers a new workflow type and its configuration settings in the specified domain. The retention period for the workflow history is set by the RegisterDomain action. WARNING: If the type already exists, then a TypeAlreadyExists fault is returned. You cannot change the configuration settings of a workflow type once it is registered and it must be registered as a new version. Access Control You can use IAM policies to control this action's access to Amazon SWF resources as follows: • Use a Reso...
     /// </summary>
-    /// <param name="Domain">The name of the domain in which to register the workflow type. Constraints: o min: 1 o max: 256</param>
-    /// <param name="Name">The name of the workflow type. The specified string must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f ). Also, it must not be the literal string arn . Constraints: o min: 1 o max: 256</param>
-    /// <param name="WorkflowVersion">The version of the workflow type. NOTE: The workflow type consists of the name and version, the combina- tion of which must be unique within the domain. To get a list of all currently registered workflow types, use the ListWorkflow- Types action. The specified string must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f ). Also, it must not be the literal string arn . Constraints: o min: 1 o max: 64</param>
+    /// <param name="Domain">The name of the domain in which to register the workflow type. Constraints: • min: 1 • max: 256</param>
+    /// <param name="Name">The name of the workflow type. The specified string must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f ). Also, it must not be the literal string arn . Constraints: • min: 1 • max: 256</param>
+    /// <param name="WorkflowVersion">The version of the workflow type. NOTE: The workflow type consists of the name and version, the combination of which must be unique within the domain. To get a list of all currently registered workflow types, use the ListWorkflowTypes action. The specified string must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f ). Also, it must not be the literal string arn . Constraints: • min: 1 • max: 64</param>
     public AwsSwfRegisterWorkflowTypeOptions(
         string Domain,
         string Name,
@@ -65,61 +66,61 @@ public record AwsSwfRegisterWorkflowTypeOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the domain in which to register the workflow type. Constraints: o min: 1 o max: 256
+    /// The name of the domain in which to register the workflow type. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--domain")]
     public string? Domain { get; private init; }
 
     /// <summary>
-    /// The name of the workflow type. The specified string must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f ). Also, it must not be the literal string arn . Constraints: o min: 1 o max: 256
+    /// The name of the workflow type. The specified string must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f ). Also, it must not be the literal string arn . Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The version of the workflow type. NOTE: The workflow type consists of the name and version, the combina- tion of which must be unique within the domain. To get a list of all currently registered workflow types, use the ListWorkflow- Types action. The specified string must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f ). Also, it must not be the literal string arn . Constraints: o min: 1 o max: 64
+    /// The version of the workflow type. NOTE: The workflow type consists of the name and version, the combination of which must be unique within the domain. To get a list of all currently registered workflow types, use the ListWorkflowTypes action. The specified string must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f ). Also, it must not be the literal string arn . Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--workflow-version")]
     public string? WorkflowVersion { get; private init; }
 
     /// <summary>
-    /// Textual description of the workflow type. Constraints: o max: 1024
+    /// Textual description of the workflow type. Constraints: • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// If set, specifies the default maximum duration of decision tasks for this workflow type. This default can be overridden when starting a workflow execution using the StartWorkflowExecution action or the StartChildWorkflowExecution Decision . The duration is specified in seconds, an integer greater than or equal to 0 . You can use NONE to specify unlimited duration. Constraints: o max: 8
+    /// If set, specifies the default maximum duration of decision tasks for this workflow type. This default can be overridden when starting a workflow execution using the StartWorkflowExecution action or the StartChildWorkflowExecution Decision . The duration is specified in seconds, an integer greater than or equal to 0 . You can use NONE to specify unlimited duration. Constraints: • max: 8
     /// </summary>
     [CliOption("--default-task-start-to-close-timeout")]
     public string? DefaultTaskStartToCloseTimeout { get; set; }
 
     /// <summary>
-    /// If set, specifies the default maximum duration for executions of this workflow type. You can override this default when starting an execution through the StartWorkflowExecution Action or StartChild- WorkflowExecution Decision . The duration is specified in seconds; an integer greater than or equal to 0. Unlike some of the other timeout parameters in Amazon SWF, you cannot specify a value of "NONE" for defaultExecutionStart- ToCloseTimeout ; there is a one-year max limit on the time that a workflow execution can run. Exceeding this limit always causes the workflow execution to time out. Constraints: o max: 8
+    /// If set, specifies the default maximum duration for executions of this workflow type. You can override this default when starting an execution through the StartWorkflowExecution Action or StartChildWorkflowExecution Decision . The duration is specified in seconds; an integer greater than or equal to 0. Unlike some of the other timeout parameters in Amazon SWF, you cannot specify a value of "NONE" for defaultExecutionStartToCloseTimeout ; there is a one-year max limit on the time that a workflow execution can run. Exceeding this limit always causes the workflow execution to time out. Constraints: • max: 8
     /// </summary>
     [CliOption("--default-execution-start-to-close-timeout")]
     public string? DefaultExecutionStartToCloseTimeout { get; set; }
 
     /// <summary>
-    /// If set, specifies the default task list to use for scheduling deci- sion tasks for executions of this workflow type. This default is used only if a task list isn't provided when starting the execution through the StartWorkflowExecution Action or StartChildWorkflowExe- cution Decision . name -&gt; (string) [required] The name of the task list. Constraints: o min: 1 o max: 256 Shorthand Syntax: name=string JSON Syntax: { "name": "string" }
+    /// If set, specifies the default task list to use for scheduling decision tasks for executions of this workflow type. This default is used only if a task list isn't provided when starting the execution through the StartWorkflowExecution Action or StartChildWorkflowExecution Decision . name -&gt; (string) [required] The name of the task list. Constraints: • min: 1 • max: 256 Shorthand Syntax: name=string JSON Syntax: { "name": "string" }
     /// </summary>
     [CliOption("--default-task-list")]
     public string? DefaultTaskList { get; set; }
 
     /// <summary>
-    /// The default task priority to assign to the workflow type. If not as- signed, then 0 is used. Valid values are integers that range from Java's Integer.MIN_VALUE (-2147483648) to Integer.MAX_VALUE (2147483647). Higher numbers indicate higher priority. For more information about setting task priority, see Setting Task Priority in the Amazon SWF Developer Guide .
+    /// The default task priority to assign to the workflow type. If not assigned, then 0 is used. Valid values are integers that range from Java's Integer.MIN_VALUE (-2147483648) to Integer.MAX_VALUE (2147483647). Higher numbers indicate higher priority. For more information about setting task priority, see Setting Task Priority in the Amazon SWF Developer Guide .
     /// </summary>
     [CliOption("--default-task-priority")]
     public string? DefaultTaskPriority { get; set; }
 
     /// <summary>
-    /// If set, specifies the default policy to use for the child workflow executions when a workflow execution of this type is terminated, by calling the TerminateWorkflowExecution action explicitly or due to an expired timeout. This default can be overridden when starting a workflow execution using the StartWorkflowExecution action or the StartChildWorkflowExecution Decision . The supported child policies are: o TERMINATE The child executions are terminated. o REQUEST_CANCEL A request to cancel is attempted for each child execution by recording a WorkflowExecutionCancelRequested event in its history. It is up to the decider to take appropriate actions when it receives an execution history with this event. o ABANDON No action is taken. The child executions continue to run. Possible values: o TERMINATE o REQUEST_CANCEL o ABANDON
+    /// If set, specifies the default policy to use for the child workflow executions when a workflow execution of this type is terminated, by calling the TerminateWorkflowExecution action explicitly or due to an expired timeout. This default can be overridden when starting a workflow execution using the StartWorkflowExecution action or the StartChildWorkflowExecution Decision . The supported child policies are: • TERMINATE The child executions are terminated. • REQUEST_CANCEL A request to cancel is attempted for each child execution by recording a WorkflowExecutionCancelRequested event in its history. It is up to the decider to take appropriate actions when it receives an execution history with this event. • ABANDON No action is taken. The child executions continue to run. Possible values: • TERMINATE • REQUEST_CANCEL • ABANDON
     /// </summary>
     [CliOption("--default-child-policy")]
     public AwsSwfRegisterWorkflowTypeDefaultChildPolicy? DefaultChildPolicy { get; set; }
 
     /// <summary>
-    /// The default IAM role attached to this workflow type. NOTE: Executions of this workflow type need IAM roles to invoke Lambda functions. If you don't specify an IAM role when you start this workflow type, the default Lambda role is attached to the execu- tion. For more information, see https://docs.aws.amazon.com/amazonswf/latest/developerguide/lambda-task.html in the Amazon SWF Developer Guide . Constraints: o min: 1 o max: 1600
+    /// The default IAM role attached to this workflow type. NOTE: Executions of this workflow type need IAM roles to invoke Lambda functions. If you don't specify an IAM role when you start this workflow type, the default Lambda role is attached to the execution. For more information, see https://docs.aws.amazon.com/amazonswf/latest/developerguide/lambda-task.html in the Amazon SWF Developer Guide . Constraints: • min: 1 • max: 1600
     /// </summary>
     [CliOption("--default-lambda-role")]
     public string? DefaultLambdaRole { get; set; }
@@ -145,6 +146,15 @@ public record AwsSwfRegisterWorkflowTypeOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

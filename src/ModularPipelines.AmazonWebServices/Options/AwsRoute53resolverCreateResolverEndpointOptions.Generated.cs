@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a Resolver endpoint. There are two types of Resolver endpoints, inbound and outbound: o An inbound Resolver endpoint forwards DNS queries to the DNS service for a VPC from your network. o An outbound Resolver endpoint forwards DNS queries from the DNS ser- vice for a VPC to your network. See also: AWS API Documentation
+/// Creates a Resolver endpoint. There are two types of Resolver endpoints, inbound and outbound: • An inbound Resolver endpoint forwards DNS queries to the DNS service for a VPC from your network. • An outbound Resolver endpoint forwards DNS queries from the DNS service for a VPC to your network. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,12 +27,12 @@ public record AwsRoute53resolverCreateResolverEndpointOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a Resolver endpoint. There are two types of Resolver endpoints, inbound and outbound: o An inbound Resolver endpoint forwards DNS queries to the DNS service for a VPC from your network. o An outbound Resolver endpoint forwards DNS queries from the DNS ser- vice for a VPC to your network. See also: AWS API Documentation
+    /// Creates a Resolver endpoint. There are two types of Resolver endpoints, inbound and outbound: • An inbound Resolver endpoint forwards DNS queries to the DNS service for a VPC from your network. • An outbound Resolver endpoint forwards DNS queries from the DNS service for a VPC to your network. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CreatorRequestId">A unique string that identifies the request and that allows failed requests to be retried without the risk of running the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp. Constraints: o min: 1 o max: 255</param>
-    /// <param name="SecurityGroupIds">The ID of one or more security groups that you want to use to con- trol access to this VPC. The security group that you specify must include one or more inbound rules (for inbound Resolver endpoints) or outbound rules (for outbound Resolver endpoints). Inbound and outbound rules must allow TCP and UDP access. For inbound access, open port 53. For outbound access, open the port that you're using for DNS queries on your network. Some security group rules will cause your connection to be tracked. For outbound resolver endpoint, it can potentially impact the maxi- mum queries per second from outbound endpoint to your target name server. For inbound resolver endpoint, it can bring down the overall maximum queries per second per IP address to as low as 1500. To avoid connection tracking caused by security group, see Untracked connections . (string) Constraints: o min: 1 o max: 64 Syntax: "string" "string" ...</param>
-    /// <param name="Direction">Specify the applicable value: o INBOUND : Resolver forwards DNS queries to the DNS service for a VPC from your network. o OUTBOUND : Resolver forwards DNS queries from the DNS service for a VPC to your network. o INBOUND_DELEGATION : Resolver delegates queries to Route 53 pri- vate hosted zones from your network. Possible values: o INBOUND o OUTBOUND o INBOUND_DELEGATION</param>
-    /// <param name="IpAddresses">The subnets and IP addresses in your VPC that DNS queries originate from (for outbound endpoints) or that you forward DNS queries to (for inbound endpoints). The subnet ID uniquely identifies a VPC. NOTE: Even though the minimum is 1, Route 53 requires that you create at least two. We recommend using VPC Resolver on Outposts to create endpoints on Outposts Racks. WARNING: Outposts subnets with Local Network Interface (LNI) enabled are not compatible with Route 53 Resolver endpoints. If you enable LNI on a subnet that contains Route 53 Resolver endpoint elastic network interfaces (ENIs), those ENIs will stop functioning. For more information, see Subnet compatibility for Resolver end- points in the Amazon Route 53 Developer Guide . Constraints: o min: 2 o max: 20 (structure) In a CreateResolverEndpoint request, the IP address that DNS queries originate from (for outbound endpoints) or that you for- ward DNS queries to (for inbound endpoints). IpAddressRequest also includes the ID of the subnet that contains the IP address. SubnetId -&gt; (string) [required] The ID of the subnet that contains the IP address. We recommend using VPC Resolver on Outposts to create end- points on Outposts Racks. WARNING: Outposts subnets with Local Network Interface (LNI) en- abled are not compatible with Route 53 Resolver end- points. If you enable LNI on a subnet that contains Route 53 Resolver endpoint elastic network interfaces (ENIs), those ENIs will stop functioning. For more information, see Subnet compatibility for Resolver endpoints in the Amazon Route 53 Developer Guide . Constraints: o min: 1 o max: 32 Ip -&gt; (string) The IPv4 address that you want to use for DNS queries. Constraints: o min: 7 o max: 36 Ipv6 -&gt; (string) The IPv6 address that you want to use for DNS queries. Constraints: o min: 7 o max: 39 Shorthand Syntax: SubnetId=string,Ip=string,Ipv6=string ... JSON Syntax: [ { "SubnetId": "string", "Ip": "string", "Ipv6": "string" } ... ]</param>
+    /// <param name="CreatorRequestId">A unique string that identifies the request and that allows failed requests to be retried without the risk of running the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp. Constraints: • min: 1 • max: 255</param>
+    /// <param name="SecurityGroupIds">The ID of one or more security groups that you want to use to control access to this VPC. The security group that you specify must include one or more inbound rules (for inbound Resolver endpoints) or outbound rules (for outbound Resolver endpoints). Inbound and outbound rules must allow TCP and UDP access. For inbound access, open port 53. For outbound access, open the port that you're using for DNS queries on your network. Some security group rules will cause your connection to be tracked. For outbound resolver endpoint, it can potentially impact the maximum queries per second from outbound endpoint to your target name server. For inbound resolver endpoint, it can bring down the overall maximum queries per second per IP address to as low as 1500. To avoid connection tracking caused by security group, see Untracked connections . (string) Constraints: • min: 1 • max: 64 Syntax: "string" "string" ...</param>
+    /// <param name="Direction">Specify the applicable value: • INBOUND : Resolver forwards DNS queries to the DNS service for a VPC from your network. • OUTBOUND : Resolver forwards DNS queries from the DNS service for a VPC to your network. • INBOUND_DELEGATION : Resolver delegates queries to Route 53 private hosted zones from your network. Possible values: • INBOUND • OUTBOUND • INBOUND_DELEGATION</param>
+    /// <param name="IpAddresses">The subnets and IP addresses in your VPC that DNS queries originate from (for outbound endpoints) or that you forward DNS queries to (for inbound endpoints). The subnet ID uniquely identifies a VPC. NOTE: Even though the minimum is 1, Route 53 requires that you create at least two. We recommend using VPC Resolver on Outposts to create endpoints on Outposts Racks. WARNING: Outposts subnets with Local Network Interface (LNI) enabled are not compatible with Route 53 Resolver endpoints. If you enable LNI on a subnet that contains Route 53 Resolver endpoint elastic network interfaces (ENIs), those ENIs will stop functioning. For more information, see Subnet compatibility for Resolver endpoints in the Amazon Route 53 Developer Guide . Constraints: • min: 2 • max: 20 (structure) In a CreateResolverEndpoint request, the IP address that DNS queries originate from (for outbound endpoints) or that you forward DNS queries to (for inbound endpoints). IpAddressRequest also includes the ID of the subnet that contains the IP address. SubnetId -&gt; (string) [required] The ID of the subnet that contains the IP address. We recommend using VPC Resolver on Outposts to create endpoints on Outposts Racks. WARNING: Outposts subnets with Local Network Interface (LNI) enabled are not compatible with Route 53 Resolver endpoints. If you enable LNI on a subnet that contains Route 53 Resolver endpoint elastic network interfaces (ENIs), those ENIs will stop functioning. For more information, see Subnet compatibility for Resolver endpoints in the Amazon Route 53 Developer Guide . Constraints: • min: 1 • max: 32 Ip -&gt; (string) The IPv4 address that you want to use for DNS queries. Constraints: • min: 7 • max: 36 Ipv6 -&gt; (string) The IPv6 address that you want to use for DNS queries. Constraints: • min: 7 • max: 39 Shorthand Syntax: SubnetId=string,Ip=string,Ipv6=string ... JSON Syntax: [ { "SubnetId": "string", "Ip": "string", "Ipv6": "string" } ... ]</param>
     public AwsRoute53resolverCreateResolverEndpointOptions(
         string CreatorRequestId,
         IEnumerable<string> SecurityGroupIds,
@@ -90,85 +91,85 @@ public record AwsRoute53resolverCreateResolverEndpointOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique string that identifies the request and that allows failed requests to be retried without the risk of running the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp. Constraints: o min: 1 o max: 255
+    /// A unique string that identifies the request and that allows failed requests to be retried without the risk of running the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--creator-request-id")]
     public string? CreatorRequestId { get; private init; }
 
     /// <summary>
-    /// The ID of one or more security groups that you want to use to con- trol access to this VPC. The security group that you specify must include one or more inbound rules (for inbound Resolver endpoints) or outbound rules (for outbound Resolver endpoints). Inbound and outbound rules must allow TCP and UDP access. For inbound access, open port 53. For outbound access, open the port that you're using for DNS queries on your network. Some security group rules will cause your connection to be tracked. For outbound resolver endpoint, it can potentially impact the maxi- mum queries per second from outbound endpoint to your target name server. For inbound resolver endpoint, it can bring down the overall maximum queries per second per IP address to as low as 1500. To avoid connection tracking caused by security group, see Untracked connections . (string) Constraints: o min: 1 o max: 64 Syntax: "string" "string" ...
+    /// The ID of one or more security groups that you want to use to control access to this VPC. The security group that you specify must include one or more inbound rules (for inbound Resolver endpoints) or outbound rules (for outbound Resolver endpoints). Inbound and outbound rules must allow TCP and UDP access. For inbound access, open port 53. For outbound access, open the port that you're using for DNS queries on your network. Some security group rules will cause your connection to be tracked. For outbound resolver endpoint, it can potentially impact the maximum queries per second from outbound endpoint to your target name server. For inbound resolver endpoint, it can bring down the overall maximum queries per second per IP address to as low as 1500. To avoid connection tracking caused by security group, see Untracked connections . (string) Constraints: • min: 1 • max: 64 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--security-group-ids", GroupValues = true)]
     public IEnumerable<string>? SecurityGroupIds { get; private init; }
 
     /// <summary>
-    /// Specify the applicable value: o INBOUND : Resolver forwards DNS queries to the DNS service for a VPC from your network. o OUTBOUND : Resolver forwards DNS queries from the DNS service for a VPC to your network. o INBOUND_DELEGATION : Resolver delegates queries to Route 53 pri- vate hosted zones from your network. Possible values: o INBOUND o OUTBOUND o INBOUND_DELEGATION
+    /// Specify the applicable value: • INBOUND : Resolver forwards DNS queries to the DNS service for a VPC from your network. • OUTBOUND : Resolver forwards DNS queries from the DNS service for a VPC to your network. • INBOUND_DELEGATION : Resolver delegates queries to Route 53 private hosted zones from your network. Possible values: • INBOUND • OUTBOUND • INBOUND_DELEGATION
     /// </summary>
     [CliOption("--direction")]
     public AwsRoute53resolverCreateResolverEndpointDirection? Direction { get; private init; }
 
     /// <summary>
-    /// The subnets and IP addresses in your VPC that DNS queries originate from (for outbound endpoints) or that you forward DNS queries to (for inbound endpoints). The subnet ID uniquely identifies a VPC. NOTE: Even though the minimum is 1, Route 53 requires that you create at least two. We recommend using VPC Resolver on Outposts to create endpoints on Outposts Racks. WARNING: Outposts subnets with Local Network Interface (LNI) enabled are not compatible with Route 53 Resolver endpoints. If you enable LNI on a subnet that contains Route 53 Resolver endpoint elastic network interfaces (ENIs), those ENIs will stop functioning. For more information, see Subnet compatibility for Resolver end- points in the Amazon Route 53 Developer Guide . Constraints: o min: 2 o max: 20 (structure) In a CreateResolverEndpoint request, the IP address that DNS queries originate from (for outbound endpoints) or that you for- ward DNS queries to (for inbound endpoints). IpAddressRequest also includes the ID of the subnet that contains the IP address. SubnetId -&gt; (string) [required] The ID of the subnet that contains the IP address. We recommend using VPC Resolver on Outposts to create end- points on Outposts Racks. WARNING: Outposts subnets with Local Network Interface (LNI) en- abled are not compatible with Route 53 Resolver end- points. If you enable LNI on a subnet that contains Route 53 Resolver endpoint elastic network interfaces (ENIs), those ENIs will stop functioning. For more information, see Subnet compatibility for Resolver endpoints in the Amazon Route 53 Developer Guide . Constraints: o min: 1 o max: 32 Ip -&gt; (string) The IPv4 address that you want to use for DNS queries. Constraints: o min: 7 o max: 36 Ipv6 -&gt; (string) The IPv6 address that you want to use for DNS queries. Constraints: o min: 7 o max: 39 Shorthand Syntax: SubnetId=string,Ip=string,Ipv6=string ... JSON Syntax: [ { "SubnetId": "string", "Ip": "string", "Ipv6": "string" } ... ]
+    /// The subnets and IP addresses in your VPC that DNS queries originate from (for outbound endpoints) or that you forward DNS queries to (for inbound endpoints). The subnet ID uniquely identifies a VPC. NOTE: Even though the minimum is 1, Route 53 requires that you create at least two. We recommend using VPC Resolver on Outposts to create endpoints on Outposts Racks. WARNING: Outposts subnets with Local Network Interface (LNI) enabled are not compatible with Route 53 Resolver endpoints. If you enable LNI on a subnet that contains Route 53 Resolver endpoint elastic network interfaces (ENIs), those ENIs will stop functioning. For more information, see Subnet compatibility for Resolver endpoints in the Amazon Route 53 Developer Guide . Constraints: • min: 2 • max: 20 (structure) In a CreateResolverEndpoint request, the IP address that DNS queries originate from (for outbound endpoints) or that you forward DNS queries to (for inbound endpoints). IpAddressRequest also includes the ID of the subnet that contains the IP address. SubnetId -&gt; (string) [required] The ID of the subnet that contains the IP address. We recommend using VPC Resolver on Outposts to create endpoints on Outposts Racks. WARNING: Outposts subnets with Local Network Interface (LNI) enabled are not compatible with Route 53 Resolver endpoints. If you enable LNI on a subnet that contains Route 53 Resolver endpoint elastic network interfaces (ENIs), those ENIs will stop functioning. For more information, see Subnet compatibility for Resolver endpoints in the Amazon Route 53 Developer Guide . Constraints: • min: 1 • max: 32 Ip -&gt; (string) The IPv4 address that you want to use for DNS queries. Constraints: • min: 7 • max: 36 Ipv6 -&gt; (string) The IPv6 address that you want to use for DNS queries. Constraints: • min: 7 • max: 39 Shorthand Syntax: SubnetId=string,Ip=string,Ipv6=string ... JSON Syntax: [ { "SubnetId": "string", "Ip": "string", "Ipv6": "string" } ... ]
     /// </summary>
     [CliOption("--ip-addresses", GroupValues = true)]
     public IEnumerable<string>? IpAddresses { get; private init; }
 
     /// <summary>
-    /// A friendly name that lets you easily find a configuration in the Re- solver dashboard in the Route 53 console. Constraints: o max: 64 o pattern: (?!^[0-9]+$)([a-zA-Z0-9\-_' ']+)
+    /// A friendly name that lets you easily find a configuration in the Resolver dashboard in the Route 53 console. Constraints: • max: 64 • pattern: (?!^[0-9]+$)([a-zA-Z0-9\-_' ']+)
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Outpost. If you specify this, you must also specify a value for the PreferredInstanceType . NOTE: Resolver endpoints on Outposts are supported on first-generation Outposts only. Inbound and outbound Resolver endpoints aren't supported on second-generation Outposts. Constraints: o min: 1 o max: 255 o pattern: ^arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:out- post/op-[a-f0-9]{17}$
+    /// The Amazon Resource Name (ARN) of the Outpost. If you specify this, you must also specify a value for the PreferredInstanceType . NOTE: Resolver endpoints on Outposts are supported on first-generation Outposts only. Inbound and outbound Resolver endpoints aren't supported on second-generation Outposts. Constraints: • min: 1 • max: 255 • pattern: ^arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:outpost/op-[a-f0-9]{17}$
     /// </summary>
     [CliOption("--outpost-arn")]
     public string? OutpostArn { get; set; }
 
     /// <summary>
-    /// The instance type. If you specify this, you must also specify a value for the OutpostArn . Constraints: o min: 1 o max: 255
+    /// The instance type. If you specify this, you must also specify a value for the OutpostArn . Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--preferred-instance-type")]
     public string? PreferredInstanceType { get; set; }
 
     /// <summary>
-    /// A list of the tag keys and values that you want to associate with the endpoint. Constraints: o max: 200 (structure) One tag that you want to add to the specified resource. A tag consists of a Key (a name for the tag) and a Value . Key -&gt; (string) [required] The name for the tag. For example, if you want to associate Resolver resources with the account IDs of your customers for billing purposes, the value of Key might be account-id . Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value for the tag. For example, if Key is account-id , then Value might be the ID of the customer account that you're creating the resource for. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of the tag keys and values that you want to associate with the endpoint. Constraints: • max: 200 (structure) One tag that you want to add to the specified resource. A tag consists of a Key (a name for the tag) and a Value . Key -&gt; (string) [required] The name for the tag. For example, if you want to associate Resolver resources with the account IDs of your customers for billing purposes, the value of Key might be account-id . Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] The value for the tag. For example, if Key is account-id , then Value might be the ID of the customer account that you're creating the resource for. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// For the endpoint type you can choose either IPv4, IPv6, or dual-stack. A dual-stack endpoint means that it will resolve via both IPv4 and IPv6. This endpoint type is applied to all IP ad- dresses. Possible values: o IPV6 o IPV4 o DUALSTACK
+    /// For the endpoint type you can choose either IPv4, IPv6, or dual-stack. A dual-stack endpoint means that it will resolve via both IPv4 and IPv6. This endpoint type is applied to all IP addresses. Possible values: • IPV6 • IPV4 • DUALSTACK
     /// </summary>
     [CliOption("--resolver-endpoint-type")]
     public AwsRoute53resolverCreateResolverEndpointResolverEndpointType? ResolverEndpointType { get; set; }
 
     /// <summary>
-    /// The protocols you want to use for the endpoint. DoH-FIPS is applica- ble for default inbound endpoints only. For a default inbound endpoint you can apply the protocols as fol- lows: o Do53 and DoH in combination. o Do53 and DoH-FIPS in combination. o Do53 alone. o DoH alone. o DoH-FIPS alone. o None, which is treated as Do53. For a delegation inbound endpoint you can use Do53 only. For an outbound endpoint you can apply the protocols as follows: o Do53 and DoH in combination. o Do53 alone. o DoH alone. o None, which is treated as Do53. Constraints: o min: 1 o max: 2 (string) Possible values: o DoH o Do53 o DoH-FIPS Syntax: "string" "string" ...
+    /// The protocols you want to use for the endpoint. DoH-FIPS is applicable for default inbound endpoints only. For a default inbound endpoint you can apply the protocols as follows: • Do53 and DoH in combination. • Do53 and DoH-FIPS in combination. • Do53 alone. • DoH alone. • DoH-FIPS alone. • None, which is treated as Do53. For a delegation inbound endpoint you can use Do53 only. For an outbound endpoint you can apply the protocols as follows: • Do53 and DoH in combination. • Do53 alone. • DoH alone. • None, which is treated as Do53. Constraints: • min: 1 • max: 2 (string) Possible values: • DoH • Do53 • DoH-FIPS Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--protocols", GroupValues = true)]
     public IEnumerable<string>? Protocols { get; set; }
 
     /// <summary>
-    /// Specifies whether RNI enhanced metrics are enabled for the Resolver endpoints. When set to true, one-minute granular metrics are pub- lished in CloudWatch for each RNI associated with this endpoint. When set to false, metrics are not published. Default is false. NOTE: Standard CloudWatch pricing and charges are applied for using the Route 53 Resolver endpoint RNI enhanced metrics. For more information, see Detailed metrics .
+    /// Specifies whether RNI enhanced metrics are enabled for the Resolver endpoints. When set to true, one-minute granular metrics are published in CloudWatch for each RNI associated with this endpoint. When set to false, metrics are not published. Default is false. NOTE: Standard CloudWatch pricing and charges are applied for using the Route 53 Resolver endpoint RNI enhanced metrics. For more information, see Detailed metrics .
     /// </summary>
     [CliFlag("--rni-enhanced-metrics-enabled", NegatedName = "--no-rni-enhanced-metrics-enabled")]
     public bool? RniEnhancedMetricsEnabled { get; set; }
 
     /// <summary>
-    /// rics-enabled (boolean) Specifies whether target name server metrics are enabled for the outbound Resolver endpoints. When set to true, one-minute granular metrics are published in CloudWatch for each target name server as- sociated with this endpoint. When set to false, metrics are not pub- lished. Default is false. This is not supported for inbound Resolver endpoints. NOTE: Standard CloudWatch pricing and charges are applied for using the Route 53 Resolver endpoint target name server metrics. For more information, see Detailed metrics .
+    /// Specifies whether target name server metrics are enabled for the outbound Resolver endpoints. When set to true, one-minute granular metrics are published in CloudWatch for each target name server associated with this endpoint. When set to false, metrics are not published. Default is false. This is not supported for inbound Resolver endpoints. NOTE: Standard CloudWatch pricing and charges are applied for using the Route 53 Resolver endpoint target name server metrics. For more information, see Detailed metrics .
     /// </summary>
     [CliFlag("--target-name-server-metrics-enabled", NegatedName = "--no-target-name-server-metrics-enabled")]
     public bool? TargetNameServerMetricsEnabled { get; set; }
 
     /// <summary>
-    /// Specifies whether DNS64 is enabled for the inbound Resolver end- point. When set to true , Route 53 Resolver synthesizes AAAA (IPv6) records for IPv4-only services by prepending the 64:ff9b::/96 prefix to the IPv4 address. This enables IPv6-only clients that send queries through the inbound endpoint to reach IPv4-only services. DNS64 works with NAT64 to provide complete IPv6-to-IPv4 translation. Default is false.
+    /// Specifies whether DNS64 is enabled for the inbound Resolver endpoint. When set to true , Route 53 Resolver synthesizes AAAA (IPv6) records for IPv4-only services by prepending the 64:ff9b::/96 prefix to the IPv4 address. This enables IPv6-only clients that send queries through the inbound endpoint to reach IPv4-only services. DNS64 works with NAT64 to provide complete IPv6-to-IPv4 translation. Default is false.
     /// </summary>
     [CliFlag("--dns64-enabled", NegatedName = "--no-dns64-enabled")]
     public bool? Dns64Enabled { get; set; }
 
     /// <summary>
-    /// Specifies whether IPv6 internet access is enabled for the outbound Resolver endpoint. When set to true , the endpoint elastic network interfaces (ENIs) can forward DNS queries to public IPv6 targets through an internet gateway. Default is false. WARNING: When you enable IPv6 internet access, use network controls like security groups, NACLs, or egress-only internet gateways to pro- tect the endpoint ENIs from unsolicited ingress traffic. Be aware that some network controls can affect DNS query throughput due to connection tracking. For more information, see Amazon EC2 security group connection tracking and Resolver endpoint scaling .
+    /// Specifies whether IPv6 internet access is enabled for the outbound Resolver endpoint. When set to true , the endpoint elastic network interfaces (ENIs) can forward DNS queries to public IPv6 targets through an internet gateway. Default is false. WARNING: When you enable IPv6 internet access, use network controls like security groups, NACLs, or egress-only internet gateways to protect the endpoint ENIs from unsolicited ingress traffic. Be aware that some network controls can affect DNS query throughput due to connection tracking. For more information, see Amazon EC2 security group connection tracking and Resolver endpoint scaling .
     /// </summary>
     [CliFlag("--ipv6-internet-access-enabled", NegatedName = "--no-ipv6-internet-access-enabled")]
     public bool? Ipv6InternetAccessEnabled { get; set; }
@@ -194,6 +195,15 @@ public record AwsRoute53resolverCreateResolverEndpointOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

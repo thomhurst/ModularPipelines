@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a snapshot of an existing Amazon FSx for OpenZFS volume. With snapshots, you can easily undo file changes and compare file versions by restoring the volume to a previous version. If a snapshot with the specified client request token exists, and the parameters match, this operation returns the description of the exist- ing snapshot. If a snapshot with the specified client request token ex- ists, and the parameters don't match, this operation returns Incompati- bleParameterError . If a sna...
+/// Creates a snapshot of an existing Amazon FSx for OpenZFS volume. With snapshots, you can easily undo file changes and compare file versions by restoring the volume to a previous version. If a snapshot with the specified client request token exists, and the parameters match, this operation returns the description of the existing snapshot. If a snapshot with the specified client request token exists, and the parameters don't match, this operation returns IncompatibleParameterError . If a snapshot ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsFsxCreateSnapshotOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a snapshot of an existing Amazon FSx for OpenZFS volume. With snapshots, you can easily undo file changes and compare file versions by restoring the volume to a previous version. If a snapshot with the specified client request token exists, and the parameters match, this operation returns the description of the exist- ing snapshot. If a snapshot with the specified client request token ex- ists, and the parameters don't match, this operation returns Incompati- bleParameterError . If a sna...
+    /// Creates a snapshot of an existing Amazon FSx for OpenZFS volume. With snapshots, you can easily undo file changes and compare file versions by restoring the volume to a previous version. If a snapshot with the specified client request token exists, and the parameters match, this operation returns the description of the existing snapshot. If a snapshot with the specified client request token exists, and the parameters don't match, this operation returns IncompatibleParameterError . If a snapshot ...
     /// </summary>
-    /// <param name="Name">The name of the snapshot. Constraints: o min: 1 o max: 203 o pattern: ^[a-zA-Z0-9_:.-]{1,203}$</param>
-    /// <param name="VolumeId">The ID of the volume that you are taking a snapshot of. Constraints: o min: 23 o max: 23 o pattern: ^(fsvol-[0-9a-f]{17,})$</param>
+    /// <param name="Name">The name of the snapshot. Constraints: • min: 1 • max: 203 • pattern: ^[a-zA-Z0-9_:.-]{1,203}$</param>
+    /// <param name="VolumeId">The ID of the volume that you are taking a snapshot of. Constraints: • min: 23 • max: 23 • pattern: ^(fsvol-[0-9a-f]{17,})$</param>
     public AwsFsxCreateSnapshotOptions(
         string Name,
         string VolumeId
@@ -61,26 +62,26 @@ public record AwsFsxCreateSnapshotOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the snapshot. Constraints: o min: 1 o max: 203 o pattern: ^[a-zA-Z0-9_:.-]{1,203}$
+    /// The name of the snapshot. Constraints: • min: 1 • max: 203 • pattern: ^[a-zA-Z0-9_:.-]{1,203}$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The ID of the volume that you are taking a snapshot of. Constraints: o min: 23 o max: 23 o pattern: ^(fsvol-[0-9a-f]{17,})$
+    /// The ID of the volume that you are taking a snapshot of. Constraints: • min: 23 • max: 23 • pattern: ^(fsvol-[0-9a-f]{17,})$
     /// </summary>
     [CliOption("--volume-id")]
     public string? VolumeId { get; private init; }
 
     /// <summary>
-    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Ama- zon Web Services SDK. Constraints: o min: 1 o max: 63 o pattern: [A-za-z0-9_.-]{0,63}$
+    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK. Constraints: • min: 1 • max: 63 • pattern: [A-za-z0-9_.-]{0,63}$
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
     /// <summary>
-    /// A list of Tag values, with a maximum of 50 elements. Constraints: o min: 1 o max: 50 (structure) Specifies a key-value pair for a resource tag. Key -&gt; (string) [required] A value that specifies the TagKey , the name of the tag. Tag keys must be unique for the resource to which they are at- tached. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] A value that specifies the TagValue , the value assigned to the corresponding tag key. Tag values can be null and don't have to be unique in a tag set. For example, you can have a key-value pair in a tag set of finances : April and also of payroll : April . Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of Tag values, with a maximum of 50 elements. Constraints: • min: 1 • max: 50 (structure) Specifies a key-value pair for a resource tag. Key -&gt; (string) [required] A value that specifies the TagKey , the name of the tag. Tag keys must be unique for the resource to which they are attached. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] A value that specifies the TagValue , the value assigned to the corresponding tag key. Tag values can be null and don't have to be unique in a tag set. For example, you can have a key-value pair in a tag set of finances : April and also of payroll : April . Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -106,6 +107,15 @@ public record AwsFsxCreateSnapshotOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

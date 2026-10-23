@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,10 +28,10 @@ public record AwsQuicksightCreateTopicRefreshScheduleOptions : AwsOptions, IVali
     /// <summary>
     /// Creates a topic refresh schedule. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the topic you're creating a refresh schedule for. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="TopicId">The ID of the topic that you want to modify. This ID is unique per Amazon Web Services Region for each Amazon Web Services account. Constraints: o max: 256 o pattern: ^[A-Za-z0-9-_.\\+]*$</param>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the topic you're creating a refresh schedule for. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="TopicId">The ID of the topic that you want to modify. This ID is unique per Amazon Web Services Region for each Amazon Web Services account. Constraints: • max: 256 • pattern: ^[A-Za-z0-9-_.\\+]*$</param>
     /// <param name="DataSetArn">The Amazon Resource Name (ARN) of the dataset.</param>
-    /// <param name="RefreshSchedule">The definition of a refresh schedule. IsEnabled -&gt; (boolean) [required] A Boolean value that controls whether to schedule is enabled. BasedOnSpiceSchedule -&gt; (boolean) [required] A Boolean value that controls whether to schedule runs at the same schedule that is specified in SPICE dataset. StartingAt -&gt; (timestamp) The starting date and time for the refresh schedule. Timezone -&gt; (string) The timezone that you want the refresh schedule to use. Constraints: o max: 256 RepeatAt -&gt; (string) The time of day when the refresh should run, for example, Mon- day-Sunday. Constraints: o max: 256 TopicScheduleType -&gt; (string) The type of refresh schedule. Valid values for this structure are HOURLY , DAILY , WEEKLY , and MONTHLY . Possible values: o HOURLY o DAILY o WEEKLY o MONTHLY Shorthand Syntax: IsEnabled=boolean,BasedOnSpiceSchedule=boolean,StartingAt=timestamp,Timezone=string,RepeatAt=string,TopicScheduleType=string JSON Syntax: { "IsEnabled": true|false, "BasedOnSpiceSchedule": true|false, "StartingAt": timestamp, "Timezone": "string", "RepeatAt": "string", "TopicScheduleType": "HOURLY"|"DAILY"|"WEEKLY"|"MONTHLY" }</param>
+    /// <param name="RefreshSchedule">The definition of a refresh schedule. IsEnabled -&gt; (boolean) [required] A Boolean value that controls whether to schedule is enabled. BasedOnSpiceSchedule -&gt; (boolean) [required] A Boolean value that controls whether to schedule runs at the same schedule that is specified in SPICE dataset. StartingAt -&gt; (timestamp) The starting date and time for the refresh schedule. Timezone -&gt; (string) The timezone that you want the refresh schedule to use. Constraints: • max: 256 RepeatAt -&gt; (string) The time of day when the refresh should run, for example, Monday-Sunday. Constraints: • max: 256 TopicScheduleType -&gt; (string) The type of refresh schedule. Valid values for this structure are HOURLY , DAILY , WEEKLY , and MONTHLY . Possible values: • HOURLY • DAILY • WEEKLY • MONTHLY Shorthand Syntax: IsEnabled=boolean,BasedOnSpiceSchedule=boolean,StartingAt=timestamp,Timezone=string,RepeatAt=string,TopicScheduleType=string JSON Syntax: { "IsEnabled": true|false, "BasedOnSpiceSchedule": true|false, "StartingAt": timestamp, "Timezone": "string", "RepeatAt": "string", "TopicScheduleType": "HOURLY"|"DAILY"|"WEEKLY"|"MONTHLY" }</param>
     public AwsQuicksightCreateTopicRefreshScheduleOptions(
         string AwsAccountId,
         string TopicId,
@@ -68,13 +69,13 @@ public record AwsQuicksightCreateTopicRefreshScheduleOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon Web Services account that contains the topic you're creating a refresh schedule for. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID of the Amazon Web Services account that contains the topic you're creating a refresh schedule for. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The ID of the topic that you want to modify. This ID is unique per Amazon Web Services Region for each Amazon Web Services account. Constraints: o max: 256 o pattern: ^[A-Za-z0-9-_.\\+]*$
+    /// The ID of the topic that you want to modify. This ID is unique per Amazon Web Services Region for each Amazon Web Services account. Constraints: • max: 256 • pattern: ^[A-Za-z0-9-_.\\+]*$
     /// </summary>
     [CliOption("--topic-id")]
     public string? TopicId { get; private init; }
@@ -86,7 +87,7 @@ public record AwsQuicksightCreateTopicRefreshScheduleOptions : AwsOptions, IVali
     public string? DataSetArn { get; private init; }
 
     /// <summary>
-    /// The definition of a refresh schedule. IsEnabled -&gt; (boolean) [required] A Boolean value that controls whether to schedule is enabled. BasedOnSpiceSchedule -&gt; (boolean) [required] A Boolean value that controls whether to schedule runs at the same schedule that is specified in SPICE dataset. StartingAt -&gt; (timestamp) The starting date and time for the refresh schedule. Timezone -&gt; (string) The timezone that you want the refresh schedule to use. Constraints: o max: 256 RepeatAt -&gt; (string) The time of day when the refresh should run, for example, Mon- day-Sunday. Constraints: o max: 256 TopicScheduleType -&gt; (string) The type of refresh schedule. Valid values for this structure are HOURLY , DAILY , WEEKLY , and MONTHLY . Possible values: o HOURLY o DAILY o WEEKLY o MONTHLY Shorthand Syntax: IsEnabled=boolean,BasedOnSpiceSchedule=boolean,StartingAt=timestamp,Timezone=string,RepeatAt=string,TopicScheduleType=string JSON Syntax: { "IsEnabled": true|false, "BasedOnSpiceSchedule": true|false, "StartingAt": timestamp, "Timezone": "string", "RepeatAt": "string", "TopicScheduleType": "HOURLY"|"DAILY"|"WEEKLY"|"MONTHLY" }
+    /// The definition of a refresh schedule. IsEnabled -&gt; (boolean) [required] A Boolean value that controls whether to schedule is enabled. BasedOnSpiceSchedule -&gt; (boolean) [required] A Boolean value that controls whether to schedule runs at the same schedule that is specified in SPICE dataset. StartingAt -&gt; (timestamp) The starting date and time for the refresh schedule. Timezone -&gt; (string) The timezone that you want the refresh schedule to use. Constraints: • max: 256 RepeatAt -&gt; (string) The time of day when the refresh should run, for example, Monday-Sunday. Constraints: • max: 256 TopicScheduleType -&gt; (string) The type of refresh schedule. Valid values for this structure are HOURLY , DAILY , WEEKLY , and MONTHLY . Possible values: • HOURLY • DAILY • WEEKLY • MONTHLY Shorthand Syntax: IsEnabled=boolean,BasedOnSpiceSchedule=boolean,StartingAt=timestamp,Timezone=string,RepeatAt=string,TopicScheduleType=string JSON Syntax: { "IsEnabled": true|false, "BasedOnSpiceSchedule": true|false, "StartingAt": timestamp, "Timezone": "string", "RepeatAt": "string", "TopicScheduleType": "HOURLY"|"DAILY"|"WEEKLY"|"MONTHLY" }
     /// </summary>
     [CliOption("--refresh-schedule")]
     public string? RefreshSchedule { get; private init; }
@@ -118,6 +119,15 @@ public record AwsQuicksightCreateTopicRefreshScheduleOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Wait until JMESPath query ExportJobProperties.JobStatus returns COM- PLETED when polling with describe-fhir-export-job. It will poll every 120 seconds until a successful state has been reached. This will exit with a return code of 255 after 5 failed checks. See also: AWS API Documentation
+/// Wait until JMESPath query ExportJobProperties.JobStatus returns COMPLETED when polling with describe-fhir-export-job. It will poll every 120 seconds until a successful state has been reached. This will exit with a return code of 255 after 5 failed checks. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsHealthlakeWaitFhirExportJobCompletedOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Wait until JMESPath query ExportJobProperties.JobStatus returns COM- PLETED when polling with describe-fhir-export-job. It will poll every 120 seconds until a successful state has been reached. This will exit with a return code of 255 after 5 failed checks. See also: AWS API Documentation
+    /// Wait until JMESPath query ExportJobProperties.JobStatus returns COMPLETED when polling with describe-fhir-export-job. It will poll every 120 seconds until a successful state has been reached. This will exit with a return code of 255 after 5 failed checks. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DatastoreId">The data store identifier from which FHIR data is being exported from. Constraints: o min: 1 o max: 32 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)</param>
-    /// <param name="JobId">The export job identifier. Constraints: o min: 1 o max: 32 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)</param>
+    /// <param name="DatastoreId">The data store identifier from which FHIR data is being exported from. Constraints: • min: 1 • max: 32 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)</param>
+    /// <param name="JobId">The export job identifier. Constraints: • min: 1 • max: 32 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)</param>
     public AwsHealthlakeWaitFhirExportJobCompletedOptions(
         string DatastoreId,
         string JobId
@@ -60,13 +61,13 @@ public record AwsHealthlakeWaitFhirExportJobCompletedOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The data store identifier from which FHIR data is being exported from. Constraints: o min: 1 o max: 32 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)
+    /// The data store identifier from which FHIR data is being exported from. Constraints: • min: 1 • max: 32 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)
     /// </summary>
     [CliOption("--datastore-id")]
     public string? DatastoreId { get; private init; }
 
     /// <summary>
-    /// The export job identifier. Constraints: o min: 1 o max: 32 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)
+    /// The export job identifier. Constraints: • min: 1 • max: 32 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsHealthlakeWaitFhirExportJobCompletedOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves detailed information about the certificate authority (CA) en- rollment policy for the specified directory. This policy determines how client certificates are automatically enrolled and managed through Ama- zon Web Services Private Certificate Authority. See also: AWS API Documentation
+/// Retrieves detailed information about the certificate authority (CA) enrollment policy for the specified directory. This policy determines how client certificates are automatically enrolled and managed through Amazon Web Services Private Certificate Authority. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsDsDescribeCaEnrollmentPolicyOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves detailed information about the certificate authority (CA) en- rollment policy for the specified directory. This policy determines how client certificates are automatically enrolled and managed through Ama- zon Web Services Private Certificate Authority. See also: AWS API Documentation
+    /// Retrieves detailed information about the certificate authority (CA) enrollment policy for the specified directory. This policy determines how client certificates are automatically enrolled and managed through Amazon Web Services Private Certificate Authority. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DirectoryId">The identifier of the directory for which to retrieve the CA enroll- ment policy information. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="DirectoryId">The identifier of the directory for which to retrieve the CA enrollment policy information. Constraints: • pattern: ^d-[0-9a-f]{10}$</param>
     public AwsDsDescribeCaEnrollmentPolicyOptions(
         string DirectoryId
     )
@@ -56,7 +57,7 @@ public record AwsDsDescribeCaEnrollmentPolicyOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the directory for which to retrieve the CA enroll- ment policy information. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// The identifier of the directory for which to retrieve the CA enrollment policy information. Constraints: • pattern: ^d-[0-9a-f]{10}$
     /// </summary>
     [CliOption("--directory-id")]
     public string? DirectoryId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsDsDescribeCaEnrollmentPolicyOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

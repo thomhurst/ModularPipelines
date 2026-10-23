@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Stops a sentiment detection job in progress. If the job state is IN_PROGRESS , the job is marked for termination and put into the STOP_REQUESTED state. If the job completes before it can be stopped, it is put into the COMPLETED state; otherwise the job is be stopped and put into the STOPPED state. If the job is in the COMPLETED or FAILED state when you call the Stop- DominantLanguageDetectionJob operation, the operation returns a 400 In- ternal Request Exception. When a job is stopped, any docum...
+/// Stops a sentiment detection job in progress. If the job state is IN_PROGRESS , the job is marked for termination and put into the STOP_REQUESTED state. If the job completes before it can be stopped, it is put into the COMPLETED state; otherwise the job is be stopped and put into the STOPPED state. If the job is in the COMPLETED or FAILED state when you call the StopDominantLanguageDetectionJob operation, the operation returns a 400 Internal Request Exception. When a job is stopped, any documents...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsComprehendStopSentimentDetectionJobOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Stops a sentiment detection job in progress. If the job state is IN_PROGRESS , the job is marked for termination and put into the STOP_REQUESTED state. If the job completes before it can be stopped, it is put into the COMPLETED state; otherwise the job is be stopped and put into the STOPPED state. If the job is in the COMPLETED or FAILED state when you call the Stop- DominantLanguageDetectionJob operation, the operation returns a 400 In- ternal Request Exception. When a job is stopped, any docum...
+    /// Stops a sentiment detection job in progress. If the job state is IN_PROGRESS , the job is marked for termination and put into the STOP_REQUESTED state. If the job completes before it can be stopped, it is put into the COMPLETED state; otherwise the job is be stopped and put into the STOPPED state. If the job is in the COMPLETED or FAILED state when you call the StopDominantLanguageDetectionJob operation, the operation returns a 400 Internal Request Exception. When a job is stopped, any documents...
     /// </summary>
-    /// <param name="JobId">The identifier of the sentiment detection job to stop. Constraints: o min: 1 o max: 32 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$</param>
+    /// <param name="JobId">The identifier of the sentiment detection job to stop. Constraints: • min: 1 • max: 32 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$</param>
     public AwsComprehendStopSentimentDetectionJobOptions(
         string JobId
     )
@@ -56,7 +57,7 @@ public record AwsComprehendStopSentimentDetectionJobOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the sentiment detection job to stop. Constraints: o min: 1 o max: 32 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$
+    /// The identifier of the sentiment detection job to stop. Constraints: • min: 1 • max: 32 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsComprehendStopSentimentDetectionJobOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

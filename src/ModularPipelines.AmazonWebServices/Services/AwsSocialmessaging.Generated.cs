@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -62,7 +62,7 @@ public class AwsSocialmessaging : IAwsSocialmessaging
     }
 
     /// <summary>
-    /// Creates a new WhatsApp Flow. Flows enable businesses to create rich, interactive forms and experiences that users can complete without leav- ing WhatsApp. The Flow is created in DRAFT status. If publish is set to true and a valid flowJson is provided, the Flow is published immedi- ately. See also: AWS API Documentation
+    /// Creates a new WhatsApp Flow. Flows enable businesses to create rich, interactive forms and experiences that users can complete without leaving WhatsApp. The Flow is created in DRAFT status. If publish is set to true and a valid flowJson is provided, the Flow is published immediately. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsSocialmessaging : IAwsSocialmessaging
     }
 
     /// <summary>
-    /// Deprecates a published WhatsApp Flow, marking it as no longer recom- mended for use. The Flow must be in PUBLISHED status. This is an irre- versible operation. See also: AWS API Documentation
+    /// Deprecates a published WhatsApp Flow, marking it as no longer recommended for use. The Flow must be in PUBLISHED status. This is an irreversible operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -257,7 +257,7 @@ public class AwsSocialmessaging : IAwsSocialmessaging
     }
 
     /// <summary>
-    /// Retrieves the metadata and status of a WhatsApp Flow, including valida- tion errors, preview information, and health status. See also: AWS API Documentation
+    /// Retrieves the metadata and status of a WhatsApp Flow, including validation errors, preview information, and health status. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +272,7 @@ public class AwsSocialmessaging : IAwsSocialmessaging
     }
 
     /// <summary>
-    /// Generates a web preview URL for testing a WhatsApp Flow before publish- ing. Preview URLs expire in 30 days and can be shared with stakeholders for review. See also: AWS API Documentation
+    /// Generates a web preview URL for testing a WhatsApp Flow before publishing. Preview URLs expire in 30 days and can be shared with stakeholders for review. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -287,7 +287,7 @@ public class AwsSocialmessaging : IAwsSocialmessaging
     }
 
     /// <summary>
-    /// Get a media file from the WhatsApp service. On successful completion the media file is retrieved from Meta and stored in the specified Ama- zon S3 bucket. Use either destinationS3File or destinationS3Presigne- dUrl for the destination. If both are used then an InvalidParameterEx- ception is returned. See also: AWS API Documentation
+    /// Get a media file from the WhatsApp service. On successful completion the media file is retrieved from Meta and stored in the specified Amazon S3 bucket. Use either destinationS3File or destinationS3PresignedUrl for the destination. If both are used then an InvalidParameterException is returned. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -317,7 +317,7 @@ public class AwsSocialmessaging : IAwsSocialmessaging
     }
 
     /// <summary>
-    /// List all WhatsApp Business Accounts linked to your Amazon Web Services account. See also: AWS API Documentation list-linked-whatsapp-business-accounts is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressio...
+    /// List all WhatsApp Business Accounts linked to your Amazon Web Services account. See also: AWS API Documentation list-linked-whatsapp-business-accounts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: li...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -347,7 +347,7 @@ public class AwsSocialmessaging : IAwsSocialmessaging
     }
 
     /// <summary>
-    /// Lists the assets (Flow JSON definition) of a WhatsApp Flow with pre- signed download URLs. Download URLs are generated by Meta and expire after a short period. See also: AWS API Documentation list-whatsapp-flow-assets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must e...
+    /// Lists the assets (Flow JSON definition) of a WhatsApp Flow with presigned download URLs. Download URLs are generated by Meta and expire after a short period. See also: AWS API Documentation list-whatsapp-flow-assets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must ext...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public class AwsSocialmessaging : IAwsSocialmessaging
     }
 
     /// <summary>
-    /// Lists all WhatsApp Flows for a WhatsApp Business Account. Returns sum- mary information including Flow ID, name, status, and categories. See also: AWS API Documentation list-whatsapp-flows is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results ...
+    /// Lists all WhatsApp Flows for a WhatsApp Business Account. Returns summary information including Flow ID, name, status, and categories. See also: AWS API Documentation list-whatsapp-flows is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -377,7 +377,7 @@ public class AwsSocialmessaging : IAwsSocialmessaging
     }
 
     /// <summary>
-    /// Lists WhatsApp message templates for a specific WhatsApp Business Ac- count. See also: AWS API Documentation list-whatsapp-message-templates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: template...
+    /// Lists WhatsApp message templates for a specific WhatsApp Business Account. See also: AWS API Documentation list-whatsapp-message-templates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: templates
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -392,7 +392,7 @@ public class AwsSocialmessaging : IAwsSocialmessaging
     }
 
     /// <summary>
-    /// Lists templates available in Meta's template library for WhatsApp mes- saging. See also: AWS API Documentation list-whatsapp-template-library is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: metaLib...
+    /// Lists templates available in Meta's template library for WhatsApp messaging. See also: AWS API Documentation list-whatsapp-template-library is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: metaLibraryTe...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -407,7 +407,7 @@ public class AwsSocialmessaging : IAwsSocialmessaging
     }
 
     /// <summary>
-    /// Upload a media file to the WhatsApp service. Only the specified origi- nationPhoneNumberId has the permissions to send the media file when us- ing SendWhatsAppMessage . You must use either sourceS3File or sourceS3PresignedUrl for the source. If both or neither are specified then an InvalidParameterException is returned. See also: AWS API Documentation
+    /// Upload a media file to the WhatsApp service. Only the specified originationPhoneNumberId has the permissions to send the media file when using SendWhatsAppMessage . You must use either sourceS3File or sourceS3PresignedUrl for the source. If both or neither are specified then an InvalidParameterException is returned. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -422,7 +422,7 @@ public class AwsSocialmessaging : IAwsSocialmessaging
     }
 
     /// <summary>
-    /// Publishes a WhatsApp Flow, making it available for use in template mes- sages. The Flow must be in DRAFT status with valid Flow JSON that passes Meta's validation. This is an irreversible operation. See also: AWS API Documentation
+    /// Publishes a WhatsApp Flow, making it available for use in template messages. The Flow must be in DRAFT status with valid Flow JSON that passes Meta's validation. This is an irreversible operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -437,7 +437,7 @@ public class AwsSocialmessaging : IAwsSocialmessaging
     }
 
     /// <summary>
-    /// Add an event destination to log event data from WhatsApp for a WhatsApp Business Account (WABA). A WABA can only have one event destination at a time. All resources associated with the WABA use the same event des- tination. See also: AWS API Documentation
+    /// Add an event destination to log event data from WhatsApp for a WhatsApp Business Account (WABA). A WABA can only have one event destination at a time. All resources associated with the WABA use the same event destination. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -467,7 +467,7 @@ public class AwsSocialmessaging : IAwsSocialmessaging
     }
 
     /// <summary>
-    /// Sends a WhatsApp calling event, such as connecting or terminating a call, for a business phone number. This operation passes the event through to Meta. To use this operation, the origination phone number must belong to a WhatsApp Business Account that is linked to your Ama- zon Web Services account. See also: AWS API Documentation
+    /// Sends a WhatsApp calling event, such as connecting or terminating a call, for a business phone number. This operation passes the event through to Meta. To use this operation, the origination phone number must belong to a WhatsApp Business Account that is linked to your Amazon Web Services account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -497,7 +497,7 @@ public class AwsSocialmessaging : IAwsSocialmessaging
     }
 
     /// <summary>
-    /// Send a WhatsApp message. For examples of sending a message using the Amazon Web Services CLI, see Sending messages in the * Amazon Web Ser- vices End User Messaging Social User Guide * . See also: AWS API Documentation
+    /// Send a WhatsApp message. For examples of sending a message using the Amazon Web Services CLI, see Sending messages in the * Amazon Web Services End User Messaging Social User Guide * . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -542,7 +542,7 @@ public class AwsSocialmessaging : IAwsSocialmessaging
     }
 
     /// <summary>
-    /// Updates the calling settings for a linked WhatsApp business phone num- ber, such as whether calling is enabled and the hours during which the business accepts calls. See also: AWS API Documentation
+    /// Updates the calling settings for a linked WhatsApp business phone number, such as whether calling is enabled and the hours during which the business accepts calls. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -557,7 +557,7 @@ public class AwsSocialmessaging : IAwsSocialmessaging
     }
 
     /// <summary>
-    /// Updates the Flow JSON definition (assets) of a WhatsApp Flow. Updating a published Flow's assets reverts it to DRAFT status, requiring re-pub- lishing. See also: AWS API Documentation
+    /// Updates the Flow JSON definition (assets) of a WhatsApp Flow. Updating a published Flow's assets reverts it to DRAFT status, requiring re-publishing. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -572,7 +572,7 @@ public class AwsSocialmessaging : IAwsSocialmessaging
     }
 
     /// <summary>
-    /// Updates the metadata of a WhatsApp Flow, such as its name or cate- gories. This does not update the Flow JSON definition. Use UpdateWhatsAppFlowAssets to update the Flow JSON. See also: AWS API Documentation
+    /// Updates the metadata of a WhatsApp Flow, such as its name or categories. This does not update the Flow JSON definition. Use UpdateWhatsAppFlowAssets to update the Flow JSON. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

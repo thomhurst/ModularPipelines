@@ -25,7 +25,7 @@ public record AwsGeoMapsGetStyleDescriptorOptions : AwsOptions
     /// <summary>
     /// GetStyleDescriptor returns information about the style. For more information, see Style dynamic maps in the Amazon Location Service Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Style">Style specifies the desired map style. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only the Standard and Monochrome values. Possible values: o Standard o Monochrome o Hybrid o Satellite</param>
+    /// <param name="Style">Style specifies the desired map style. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only the Standard and Monochrome values. Possible values: • Standard • Monochrome • Hybrid • Satellite</param>
     /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
     public AwsGeoMapsGetStyleDescriptorOptions(
         AwsGeoMapsGetStyleDescriptorStyle Style,
@@ -44,67 +44,67 @@ public record AwsGeoMapsGetStyleDescriptorOptions : AwsOptions
     }
 
     /// <summary>
-    /// Style specifies the desired map style. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only the Standard and Monochrome values. Possible values: o Standard o Monochrome o Hybrid o Satellite
+    /// Style specifies the desired map style. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only the Standard and Monochrome values. Possible values: • Standard • Monochrome • Hybrid • Satellite
     /// </summary>
     [CliOption("--style")]
     public AwsGeoMapsGetStyleDescriptorStyle Style { get; private init; }
 
     /// <summary>
-    /// Sets the color tone for the map, such as dark and light. Example: Light Default value: Light NOTE: Valid values for ColorScheme are case sensitive. Possible values: o Light o Dark
+    /// Sets the color tone for the map, such as dark and light. Example: Light Default value: Light NOTE: Valid values for ColorScheme are case sensitive. Possible values: • Light • Dark
     /// </summary>
     [CliOption("--color-scheme")]
     public AwsGeoMapsGetStyleDescriptorColorScheme? ColorScheme { get; set; }
 
     /// <summary>
-    /// Specifies the political view using ISO 3166-2 or ISO 3166-3 country code format. Not supported in ap-southeast-1 and ap-southeast-5 re- gions for GrabMaps customers. The following political views are currently supported: o ARG : Argentina's view on the Southern Patagonian Ice Field and Tierra Del Fuego, including the Falkland Islands, South Georgia, and South Sandwich Islands o EGY : Egypt's view on Bir Tawil o IND : India's view on Gilgit-Baltistan o KEN : Kenya's view on the Ilemi Triangle o MAR : Morocco's view on Western Sahara o RUS : Russia's view on Crimea o SDN : Sudan's view on the Halaib Triangle o SRB : Serbia's view on Kosovo, Vukovar, and Sarengrad Islands o SUR : Suriname's view on the Courantyne Headwaters and Lawa Head- waters o SYR : Syria's view on the Golan Heights o TUR : Turkey's view on Cyprus and Northern Cyprus o TZA : Tanzania's view on Lake Malawi o URY : Uruguay's view on Rincon de Artigas o VNM : Vietnam's view on the Paracel Islands and Spratly Islands Constraints: o min: 2 o max: 3 o pattern: ([A-Z]{2}|[A-Z]{3})
+    /// Specifies the political view using ISO 3166-2 or ISO 3166-3 country code format. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers. The following political views are currently supported: • ARG : Argentina's view on the Southern Patagonian Ice Field and Tierra Del Fuego, including the Falkland Islands, South Georgia, and South Sandwich Islands • EGY : Egypt's view on Bir Tawil • IND : India's view on Gilgit-Baltistan • KEN : Kenya's view on the Ilemi Triangle • MAR : Morocco's view on Western Sahara • RUS : Russia's view on Crimea • SDN : Sudan's view on the Halaib Triangle • SRB : Serbia's view on Kosovo, Vukovar, and Sarengrad Islands • SUR : Suriname's view on the Courantyne Headwaters and Lawa Headwaters • SYR : Syria's view on the Golan Heights • TUR : Turkey's view on Cyprus and Northern Cyprus • TZA : Tanzania's view on Lake Malawi • URY : Uruguay's view on Rincon de Artigas • VNM : Vietnam's view on the Paracel Islands and Spratly Islands Constraints: • min: 2 • max: 3 • pattern: ([A-Z]{2}|[A-Z]{3})
     /// </summary>
     [CliOption("--political-view")]
     public string? PoliticalView { get; set; }
 
     /// <summary>
-    /// Adjusts how physical terrain details are rendered on the map. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers. The following terrain styles are currently supported: o Hillshade : Displays the physical terrain details through shading and highlighting of elevation change and geographic features. o Terrain3D : Displays physical terrain details and elevations as a three-dimensional model. Hillshade is valid only for the Standard and Monochrome map styles. Possible values: o Hillshade o Terrain3D
+    /// Adjusts how physical terrain details are rendered on the map. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers. The following terrain styles are currently supported: • Hillshade : Displays the physical terrain details through shading and highlighting of elevation change and geographic features. • Terrain3D : Displays physical terrain details and elevations as a three-dimensional model. Hillshade is valid only for the Standard and Monochrome map styles. Possible values: • Hillshade • Terrain3D
     /// </summary>
     [CliOption("--terrain")]
     public AwsGeoMapsGetStyleDescriptorTerrain? Terrain { get; set; }
 
     /// <summary>
-    /// Displays the shape and steepness of terrain features using elevation lines. The density value controls how densely the available contour line information is rendered on the map. Not supported in ap-south- east-1 and ap-southeast-5 regions for GrabMaps customers. This parameter is valid for all map styles except Satellite . Possible values: o Low o Medium o High
+    /// Displays the shape and steepness of terrain features using elevation lines. The density value controls how densely the available contour line information is rendered on the map. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers. This parameter is valid for all map styles except Satellite . Possible values: • Low • Medium • High
     /// </summary>
     [CliOption("--contour-density")]
     public AwsGeoMapsGetStyleDescriptorContourDensity? ContourDensity { get; set; }
 
     /// <summary>
-    /// Displays real-time traffic information overlay on map, such as inci- dent events and flow events. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers. This parameter is valid for all map styles except Satellite . Possible values: o All o Congestion
+    /// Displays real-time traffic information overlay on map, such as incident events and flow events. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers. This parameter is valid for all map styles except Satellite . Possible values: • All • Congestion
     /// </summary>
     [CliOption("--traffic")]
     public AwsGeoMapsGetStyleDescriptorTraffic? Traffic { get; set; }
 
     /// <summary>
-    /// Renders additional map information relevant to selected travel modes. Information for multiple travel modes can be displayed simul- taneously, although this increases the overall information density rendered on the map. Not supported in ap-southeast-1 and ap-south- east-5 regions for GrabMaps customers. This parameter is valid for all map styles except Satellite . Constraints: o min: 0 o max: 2 (string) Possible values: o Transit o Truck Syntax: "string" "string" ...
+    /// Renders additional map information relevant to selected travel modes. Information for multiple travel modes can be displayed simultaneously, although this increases the overall information density rendered on the map. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers. This parameter is valid for all map styles except Satellite . Constraints: • min: 0 • max: 2 (string) Possible values: • Transit • Truck Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--travel-modes", GroupValues = true)]
     public IEnumerable<string>? TravelModes { get; set; }
 
     /// <summary>
-    /// Adjusts how building details are rendered on the map. The following building styles are currently supported: o Buildings3D : Displays buildings as three-dimensional extrusions on the map. Buildings3D is valid only for the Standard and Monochrome map styles. Possible values: o Buildings3D
+    /// Adjusts how building details are rendered on the map. The following building styles are currently supported: • Buildings3D : Displays buildings as three-dimensional extrusions on the map. Buildings3D is valid only for the Standard and Monochrome map styles. Possible values: • Buildings3D
     /// </summary>
     [CliOption("--buildings")]
     public string? Buildings { get; set; }
 
     /// <summary>
-    /// Controls how densely points of interest are rendered on the map. The density value controls the zoom level at which each category of points of interest appears, and how quickly less prominent points of interest are revealed as you zoom in. Denser values display more points of interest at lower zoom levels. Use Off to hide all points of interest. When you omit this parame- ter, the map renders at Default density. NOTE: The difference between density values is most noticeable at mid-range zoom levels. At high zoom levels, all density values converge on displaying every available point of interest. This parameter is valid only for the Standard and Hybrid map styles. In ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers, this parameter is valid only for the Standard map style. Possible values: o Off o VerySparse o Sparse o Default o Dense o VeryDense
+    /// Controls how densely points of interest are rendered on the map. The density value controls the zoom level at which each category of points of interest appears, and how quickly less prominent points of interest are revealed as you zoom in. Denser values display more points of interest at lower zoom levels. Use Off to hide all points of interest. When you omit this parameter, the map renders at Default density. NOTE: The difference between density values is most noticeable at mid-range zoom levels. At high zoom levels, all density values converge on displaying every available point of interest. This parameter is valid only for the Standard and Hybrid map styles. In ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers, this parameter is valid only for the Standard map style. Possible values: • Off • VerySparse • Sparse • Default • Dense • VeryDense
     /// </summary>
     [CliOption("--poi-density")]
     public AwsGeoMapsGetStyleDescriptorPoiDensity? PoiDensity { get; set; }
 
     /// <summary>
-    /// Renders only the specified categories of points of interest. When you omit this parameter, the map renders all categories. The following categories are currently supported: o FoodAndDrink o Entertainment o SightsAndMuseums o Transportation o Accommodations o LeisureAndOutdoor o Shopping o BusinessAndServices o FacilitiesAndBuildings Specify each category as a separate poi-categories query parameter. Duplicate values are rejected. NOTE: This parameter has no effect when poi-density is set to Off , which hides all points of interest regardless of category. This parameter is valid only for the Standard and Hybrid map styles. In ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers, this parameter is valid only for the Standard map style. Constraints: o min: 0 o max: 9 (string) Possible values: o FoodAndDrink o Entertainment o SightsAndMuseums o Transportation o Accommodations o LeisureAndOutdoor o Shopping o BusinessAndServices o FacilitiesAndBuildings Syntax: "string" "string" ...
+    /// Renders only the specified categories of points of interest. When you omit this parameter, the map renders all categories. The following categories are currently supported: • FoodAndDrink • Entertainment • SightsAndMuseums • Transportation • Accommodations • LeisureAndOutdoor • Shopping • BusinessAndServices • FacilitiesAndBuildings Specify each category as a separate poi-categories query parameter. Duplicate values are rejected. NOTE: This parameter has no effect when poi-density is set to Off , which hides all points of interest regardless of category. This parameter is valid only for the Standard and Hybrid map styles. In ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers, this parameter is valid only for the Standard map style. Constraints: • min: 0 • max: 9 (string) Possible values: • FoodAndDrink • Entertainment • SightsAndMuseums • Transportation • Accommodations • LeisureAndOutdoor • Shopping • BusinessAndServices • FacilitiesAndBuildings Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--poi-categories", GroupValues = true)]
     public IEnumerable<string>? PoiCategories { get; set; }
 
     /// <summary>
-    /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request. Constraints: o min: 0 o max: 1000 outfile (string) [required] Filename where the content will be saved
+    /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request. Constraints: • min: 0 • max: 1000 outfile (string) [required] Filename where the content will be saved
     /// </summary>
     [CliOption("--key")]
     public string? Key { get; set; }
@@ -114,5 +114,14 @@ public record AwsGeoMapsGetStyleDescriptorOptions : AwsOptions
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
     public string Outfile { get; private init; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

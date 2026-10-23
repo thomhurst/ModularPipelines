@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsMigrationhuborchestratorUpdateWorkflowStepGroupOptions : AwsOpt
     /// <summary>
     /// Update the step group in a migration workflow. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkflowId">The ID of the migration workflow. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]+</param>
-    /// <param name="Id">The ID of the step group. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]+</param>
+    /// <param name="WorkflowId">The ID of the migration workflow. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9-]+</param>
+    /// <param name="Id">The ID of the step group. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9-]+</param>
     public AwsMigrationhuborchestratorUpdateWorkflowStepGroupOptions(
         string WorkflowId,
         string Id
@@ -60,37 +61,37 @@ public record AwsMigrationhuborchestratorUpdateWorkflowStepGroupOptions : AwsOpt
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the migration workflow. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]+
+    /// The ID of the migration workflow. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--workflow-id")]
     public string? WorkflowId { get; private init; }
 
     /// <summary>
-    /// The ID of the step group. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]+
+    /// The ID of the step group. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The name of the step group. Constraints: o min: 1 o max: 100 o pattern: [-a-zA-Z0-9_.+]+[-a-zA-Z0-9_.+ ]*
+    /// The name of the step group. Constraints: • min: 1 • max: 100 • pattern: [-a-zA-Z0-9_.+]+[-a-zA-Z0-9_.+ ]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The description of the step group. Constraints: o min: 0 o max: 500 o pattern: [-a-zA-Z0-9_.+, ]*
+    /// The description of the step group. Constraints: • min: 0 • max: 500 • pattern: [-a-zA-Z0-9_.+, ]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The next step group. (string) Constraints: o min: 0 o max: 500 Syntax: "string" "string" ...
+    /// The next step group. (string) Constraints: • min: 0 • max: 500 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--next", GroupValues = true)]
     public IEnumerable<string>? Next { get; set; }
 
     /// <summary>
-    /// The previous step group. (string) Constraints: o min: 0 o max: 500 Syntax: "string" "string" ...
+    /// The previous step group. (string) Constraints: • min: 0 • max: 500 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--previous", GroupValues = true)]
     public IEnumerable<string>? Previous { get; set; }
@@ -116,6 +117,15 @@ public record AwsMigrationhuborchestratorUpdateWorkflowStepGroupOptions : AwsOpt
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

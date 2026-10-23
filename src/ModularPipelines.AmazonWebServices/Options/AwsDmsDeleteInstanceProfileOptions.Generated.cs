@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the specified instance profile. Required permissions: dms:DeleteInstanceProfile . For more informa- tion, see Actions, resources, and condition keys for Database Migra- tion Service . NOTE: All migration projects associated with the instance profile must be deleted or modified before you can delete the instance profile. See also: AWS API Documentation
+/// Deletes the specified instance profile. Required permissions: dms:DeleteInstanceProfile . For more information, see Actions, resources, and condition keys for Database Migration Service . NOTE: All migration projects associated with the instance profile must be deleted or modified before you can delete the instance profile. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsDmsDeleteInstanceProfileOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the specified instance profile. Required permissions: dms:DeleteInstanceProfile . For more informa- tion, see Actions, resources, and condition keys for Database Migra- tion Service . NOTE: All migration projects associated with the instance profile must be deleted or modified before you can delete the instance profile. See also: AWS API Documentation
+    /// Deletes the specified instance profile. Required permissions: dms:DeleteInstanceProfile . For more information, see Actions, resources, and condition keys for Database Migration Service . NOTE: All migration projects associated with the instance profile must be deleted or modified before you can delete the instance profile. See also: AWS API Documentation
     /// </summary>
     /// <param name="InstanceProfileIdentifier">The identifier of the instance profile to delete.</param>
     public AwsDmsDeleteInstanceProfileOptions(
@@ -82,6 +83,15 @@ public record AwsDmsDeleteInstanceProfileOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

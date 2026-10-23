@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsIotManagedIntegrationsUpdateConnectorDestinationOptions : AwsOp
     /// <summary>
     /// Updates the properties of an existing connector destination. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identifier">The unique identifier of the connector destination to update. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9-_]+</param>
+    /// <param name="Identifier">The unique identifier of the connector destination to update. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9-_]+</param>
     public AwsIotManagedIntegrationsUpdateConnectorDestinationOptions(
         string Identifier
     )
@@ -57,37 +58,37 @@ public record AwsIotManagedIntegrationsUpdateConnectorDestinationOptions : AwsOp
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the connector destination to update. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9-_]+
+    /// The unique identifier of the connector destination to update. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9-_]+
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// The new description to assign to the connector destination. Constraints: o min: 1 o max: 256 o pattern: [0-9A-Za-z_\- ]+
+    /// The new description to assign to the connector destination. Constraints: • min: 1 • max: 256 • pattern: [0-9A-Za-z_\- ]+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The new display name to assign to the connector destination. Constraints: o min: 1 o max: 128 o pattern: [A-Za-z0-9-_ ]+
+    /// The new display name to assign to the connector destination. Constraints: • min: 1 • max: 128 • pattern: [A-Za-z0-9-_ ]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The new authentication type to use for the connector destination. Possible values: o OAUTH
+    /// The new authentication type to use for the connector destination. Possible values: • OAUTH
     /// </summary>
     [CliOption("--auth-type")]
     public string? AuthType { get; set; }
 
     /// <summary>
-    /// The updated authentication configuration details for the connector destination. oAuthUpdate -&gt; (structure) The updated OAuth configuration settings for the authentication configuration. oAuthCompleteRedirectUrl -&gt; (string) The updated URL where users are redirected after completing the OAuth authorization process. proactiveRefreshTokenRenewal -&gt; (structure) Updated configuration for proactively refreshing OAuth tokens before they expire. enabled -&gt; (boolean) Indicates whether proactive refresh token renewal is en- abled. DaysBeforeRenewal -&gt; (integer) The days before token expiration when the system should attempt to renew the token, specified in days. Constraints: o min: 30 GeneralAuthorizationUpdate -&gt; (structure) The General Authorization update information containing autho- rization materials to add or update. AuthMaterialsToAdd -&gt; (list) The authorization materials to add. Constraints: o min: 0 o max: 3 (structure) The authorization material containing the Secrets Manager arn and version. SecretsManager -&gt; (structure) [required] Configuration for AWS Secrets Manager, used to se- curely store and manage sensitive information for con- nector destinations. arn -&gt; (string) [required] The Amazon Resource Name (ARN) of the AWS Secrets Manager secret. Constraints: o min: 20 o max: 2048 o pattern: arn:aws:secretsman- ager:[0-9a-zA-Z-]{1,32}:\d{12}:se- cret:[A-Za-z0-9/_+=.@-]{8,520} versionId -&gt; (string) [required] The version ID of the AWS Secrets Manager secret. Constraints: o min: 32 o max: 64 o pattern: [a-zA-Z0-9-_]+ AuthMaterialName -&gt; (string) [required] The name of the authorization material. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9=_+/-]+ AuthMaterialsToUpdate -&gt; (list) The authorization materials to update. Constraints: o min: 0 o max: 3 (structure) The authorization material containing the Secrets Manager arn and version. SecretsManager -&gt; (structure) [required] Configuration for AWS Secrets Manager, used to se- curely store and manage sensitive information for con- nector destinations. arn -&gt; (string) [required] The Amazon Resource Name (ARN) of the AWS Secrets Manager secret. Constraints: o min: 20 o max: 2048 o pattern: arn:aws:secretsman- ager:[0-9a-zA-Z-]{1,32}:\d{12}:se- cret:[A-Za-z0-9/_+=.@-]{8,520} versionId -&gt; (string) [required] The version ID of the AWS Secrets Manager secret. Constraints: o min: 32 o max: 64 o pattern: [a-zA-Z0-9-_]+ AuthMaterialName -&gt; (string) [required] The name of the authorization material. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9=_+/-]+ JSON Syntax: { "oAuthUpdate": { "oAuthCompleteRedirectUrl": "string", "proactiveRefreshTokenRenewal": { "enabled": true|false, "DaysBeforeRenewal": integer } }, "GeneralAuthorizationUpdate": { "AuthMaterialsToAdd": [ { "SecretsManager": { "arn": "string", "versionId": "string" }, "AuthMaterialName": "string" } ... ], "AuthMaterialsToUpdate": [ { "SecretsManager": { "arn": "string", "versionId": "string" }, "AuthMaterialName": "string" } ... ] } }
+    /// The updated authentication configuration details for the connector destination. oAuthUpdate -&gt; (structure) The updated OAuth configuration settings for the authentication configuration. oAuthCompleteRedirectUrl -&gt; (string) The updated URL where users are redirected after completing the OAuth authorization process. proactiveRefreshTokenRenewal -&gt; (structure) Updated configuration for proactively refreshing OAuth tokens before they expire. enabled -&gt; (boolean) Indicates whether proactive refresh token renewal is enabled. DaysBeforeRenewal -&gt; (integer) The days before token expiration when the system should attempt to renew the token, specified in days. Constraints: • min: 30 GeneralAuthorizationUpdate -&gt; (structure) The General Authorization update information containing authorization materials to add or update. AuthMaterialsToAdd -&gt; (list) The authorization materials to add. Constraints: • min: 0 • max: 3 (structure) The authorization material containing the Secrets Manager arn and version. SecretsManager -&gt; (structure) [required] Configuration for AWS Secrets Manager, used to securely store and manage sensitive information for connector destinations. arn -&gt; (string) [required] The Amazon Resource Name (ARN) of the AWS Secrets Manager secret. Constraints: • min: 20 • max: 2048 • pattern: arn:aws:secretsmanager:[0-9a-zA-Z-]{1,32}:\d{12}:secret:[A-Za-z0-9/_+=.@-]{8,520} versionId -&gt; (string) [required] The version ID of the AWS Secrets Manager secret. Constraints: • min: 32 • max: 64 • pattern: [a-zA-Z0-9-_]+ AuthMaterialName -&gt; (string) [required] The name of the authorization material. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9=_+/-]+ AuthMaterialsToUpdate -&gt; (list) The authorization materials to update. Constraints: • min: 0 • max: 3 (structure) The authorization material containing the Secrets Manager arn and version. SecretsManager -&gt; (structure) [required] Configuration for AWS Secrets Manager, used to securely store and manage sensitive information for connector destinations. arn -&gt; (string) [required] The Amazon Resource Name (ARN) of the AWS Secrets Manager secret. Constraints: • min: 20 • max: 2048 • pattern: arn:aws:secretsmanager:[0-9a-zA-Z-]{1,32}:\d{12}:secret:[A-Za-z0-9/_+=.@-]{8,520} versionId -&gt; (string) [required] The version ID of the AWS Secrets Manager secret. Constraints: • min: 32 • max: 64 • pattern: [a-zA-Z0-9-_]+ AuthMaterialName -&gt; (string) [required] The name of the authorization material. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9=_+/-]+ JSON Syntax: { "oAuthUpdate": { "oAuthCompleteRedirectUrl": "string", "proactiveRefreshTokenRenewal": { "enabled": true|false, "DaysBeforeRenewal": integer } }, "GeneralAuthorizationUpdate": { "AuthMaterialsToAdd": [ { "SecretsManager": { "arn": "string", "versionId": "string" }, "AuthMaterialName": "string" } ... ], "AuthMaterialsToUpdate": [ { "SecretsManager": { "arn": "string", "versionId": "string" }, "AuthMaterialName": "string" } ... ] } }
     /// </summary>
     [CliOption("--auth-config")]
     public string? AuthConfig { get; set; }
 
     /// <summary>
-    /// The updated AWS Secrets Manager configuration for the connector des- tination. arn -&gt; (string) [required] The Amazon Resource Name (ARN) of the AWS Secrets Manager se- cret. Constraints: o min: 20 o max: 2048 o pattern: arn:aws:secretsmanager:[0-9a-zA-Z-]{1,32}:\d{12}:se- cret:[A-Za-z0-9/_+=.@-]{8,520} versionId -&gt; (string) [required] The version ID of the AWS Secrets Manager secret. Constraints: o min: 32 o max: 64 o pattern: [a-zA-Z0-9-_]+ Shorthand Syntax: arn=string,versionId=string JSON Syntax: { "arn": "string", "versionId": "string" }
+    /// The updated AWS Secrets Manager configuration for the connector destination. arn -&gt; (string) [required] The Amazon Resource Name (ARN) of the AWS Secrets Manager secret. Constraints: • min: 20 • max: 2048 • pattern: arn:aws:secretsmanager:[0-9a-zA-Z-]{1,32}:\d{12}:secret:[A-Za-z0-9/_+=.@-]{8,520} versionId -&gt; (string) [required] The version ID of the AWS Secrets Manager secret. Constraints: • min: 32 • max: 64 • pattern: [a-zA-Z0-9-_]+ Shorthand Syntax: arn=string,versionId=string JSON Syntax: { "arn": "string", "versionId": "string" }
     /// </summary>
     [SecretValue]
     [CliOption("--secrets-manager")]
@@ -114,6 +115,15 @@ public record AwsIotManagedIntegrationsUpdateConnectorDestinationOptions : AwsOp
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

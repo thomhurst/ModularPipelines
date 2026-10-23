@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -32,7 +32,7 @@ public class AwsNetworkmonitor : IAwsNetworkmonitor
     #region Commands
 
     /// <summary>
-    /// Creates a monitor between a source subnet and destination IP address. Within a monitor you'll create one or more probes that monitor network traffic between your source Amazon Web Services VPC subnets and your destination IP addresses. Each probe then aggregates and sends metrics to Amazon CloudWatch. You can also create a monitor with probes using this command. For each probe, you define the following: o source The subnet IDs where the probes will be created. o destination The target destinatio...
+    /// Creates a monitor between a source subnet and destination IP address. Within a monitor you'll create one or more probes that monitor network traffic between your source Amazon Web Services VPC subnets and your destination IP addresses. Each probe then aggregates and sends metrics to Amazon CloudWatch. You can also create a monitor with probes using this command. For each probe, you define the following: • source The subnet IDs where the probes will be created. • destination The target destinatio...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsNetworkmonitor : IAwsNetworkmonitor
     }
 
     /// <summary>
-    /// Returns the details about a probe. This action requires both the moni- torName and probeId parameters. Run ListMonitors to get a list of moni- tor names. Run GetMonitor to get a list of probes and probe IDs. See also: AWS API Documentation
+    /// Returns the details about a probe. This action requires both the monitorName and probeId parameters. Run ListMonitors to get a list of monitor names. Run GetMonitor to get a list of probes and probe IDs. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsNetworkmonitor : IAwsNetworkmonitor
     }
 
     /// <summary>
-    /// Returns a list of all of your monitors. See also: AWS API Documentation list-monitors is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: monitors
+    /// Returns a list of all of your monitors. See also: AWS API Documentation list-monitors is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: monitors
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsNetworkmonitor : IAwsNetworkmonitor
     }
 
     /// <summary>
-    /// Updates the aggregationPeriod for a monitor. Monitors support an aggre- gationPeriod of either 30 or 60 seconds. This action requires the moni- torName and probeId parameter. Run ListMonitors to get a list of moni- tor names. See also: AWS API Documentation
+    /// Updates the aggregationPeriod for a monitor. Monitors support an aggregationPeriod of either 30 or 60 seconds. This action requires the monitorName and probeId parameter. Run ListMonitors to get a list of monitor names. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsNetworkmonitor : IAwsNetworkmonitor
     }
 
     /// <summary>
-    /// Updates a monitor probe. This action requires both the monitorName and probeId parameters. Run ListMonitors to get a list of monitor names. Run GetMonitor to get a list of probes and probe IDs. You can update the following para create a monitor with probes using this command. For each probe, you define the following: o state The state of the probe. o destination The target destination IP address for the probe. o destinationPort Required only if the protocol is TCP . o protocol The communication ...
+    /// Updates a monitor probe. This action requires both the monitorName and probeId parameters. Run ListMonitors to get a list of monitor names. Run GetMonitor to get a list of probes and probe IDs. You can update the following para create a monitor with probes using this command. For each probe, you define the following: • state The state of the probe. • destination The target destination IP address for the probe. • destinationPort Required only if the protocol is TCP . • protocol The communication ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

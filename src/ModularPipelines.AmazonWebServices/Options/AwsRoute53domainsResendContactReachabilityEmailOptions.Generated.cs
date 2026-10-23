@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// For operations that require confirmation that the email address for the registrant contact is valid, such as registering a new domain, this op- eration resends the confirmation email to the current email address for the registrant contact. See also: AWS API Documentation
+/// For operations that require confirmation that the email address for the registrant contact is valid, such as registering a new domain, this operation resends the confirmation email to the current email address for the registrant contact. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsRoute53domainsResendContactReachabilityEmailOptions : AwsOptions
 {
     /// <summary>
-    /// The name of the domain for which you want Route 53 to resend a con- firmation email to the registrant contact. Constraints: o max: 255
+    /// The name of the domain for which you want Route 53 to resend a confirmation email to the registrant contact. Constraints: • max: 255
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; set; }
@@ -32,5 +32,14 @@ public record AwsRoute53domainsResendContactReachabilityEmailOptions : AwsOption
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

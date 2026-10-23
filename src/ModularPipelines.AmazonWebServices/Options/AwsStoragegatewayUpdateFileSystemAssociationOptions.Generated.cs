@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsStoragegatewayUpdateFileSystemAssociationOptions : AwsOptions, 
     /// <summary>
     /// Updates a file system association. This operation is only supported in the FSx File Gateways. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FileSystemAssociationArn">The Amazon Resource Name (ARN) of the file system association that you want to update. Constraints: o min: 50 o max: 500</param>
+    /// <param name="FileSystemAssociationArn">The Amazon Resource Name (ARN) of the file system association that you want to update. Constraints: • min: 50 • max: 500</param>
     public AwsStoragegatewayUpdateFileSystemAssociationOptions(
         string FileSystemAssociationArn
     )
@@ -57,32 +58,32 @@ public record AwsStoragegatewayUpdateFileSystemAssociationOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the file system association that you want to update. Constraints: o min: 50 o max: 500
+    /// The Amazon Resource Name (ARN) of the file system association that you want to update. Constraints: • min: 50 • max: 500
     /// </summary>
     [CliOption("--file-system-association-arn")]
     public string? FileSystemAssociationArn { get; private init; }
 
     /// <summary>
-    /// The user name of the user credential that has permission to access the root share D$ of the Amazon FSx file system. The user account must belong to the Amazon FSx delegated admin user group. Constraints: o min: 1 o max: 1024 o pattern: ^\w[\w\.\- ]*$
+    /// The user name of the user credential that has permission to access the root share D$ of the Amazon FSx file system. The user account must belong to the Amazon FSx delegated admin user group. Constraints: • min: 1 • max: 1024 • pattern: ^\w[\w\.\- ]*$
     /// </summary>
     [CliOption("--user-name")]
     public string? UserName { get; set; }
 
     /// <summary>
-    /// The password of the user credential. Constraints: o min: 1 o max: 1024 o pattern: ^[ -~]+$
+    /// The password of the user credential. Constraints: • min: 1 • max: 1024 • pattern: ^[ -~]+$
     /// </summary>
     [SecretValue]
     [CliOption("--password")]
     public string? Password { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the storage used for the audit logs. Constraints: o max: 1024
+    /// The Amazon Resource Name (ARN) of the storage used for the audit logs. Constraints: • max: 1024
     /// </summary>
     [CliOption("--audit-destination-arn")]
     public string? AuditDestinationArn { get; set; }
 
     /// <summary>
-    /// The refresh cache information for the file share or FSx file sys- tems. CacheStaleTimeoutInSeconds -&gt; (integer) Refreshes a file share's cache by using Time To Live (TTL). TTL is the length of time since the last refresh after which access to the directory would cause the file gateway to first refresh that directory's contents from the Amazon S3 bucket or Amazon FSx file system. The TTL duration is in seconds. Valid Values:0, 300 to 2,592,000 seconds (5 minutes to 30 days) Shorthand Syntax: CacheStaleTimeoutInSeconds=integer JSON Syntax: { "CacheStaleTimeoutInSeconds": integer }
+    /// The refresh cache information for the file share or FSx file systems. CacheStaleTimeoutInSeconds -&gt; (integer) Refreshes a file share's cache by using Time To Live (TTL). TTL is the length of time since the last refresh after which access to the directory would cause the file gateway to first refresh that directory's contents from the Amazon S3 bucket or Amazon FSx file system. The TTL duration is in seconds. Valid Values:0, 300 to 2,592,000 seconds (5 minutes to 30 days) Shorthand Syntax: CacheStaleTimeoutInSeconds=integer JSON Syntax: { "CacheStaleTimeoutInSeconds": integer }
     /// </summary>
     [CliOption("--cache-attributes")]
     public string? CacheAttributes { get; set; }
@@ -108,6 +109,15 @@ public record AwsStoragegatewayUpdateFileSystemAssociationOptions : AwsOptions, 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

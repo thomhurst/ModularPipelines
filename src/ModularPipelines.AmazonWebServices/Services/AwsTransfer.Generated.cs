@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -33,7 +33,7 @@ public class AwsTransfer : IAwsTransfer
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws transfer wait sub-commands.
     /// </summary>
     public AwsTransferWait Wait => _wait ??= new AwsTransferWait(_command);
 
@@ -42,7 +42,7 @@ public class AwsTransfer : IAwsTransfer
     #region Commands
 
     /// <summary>
-    /// Used by administrators to choose which groups in the directory should have access to upload and download files over the enabled protocols us- ing Transfer Family. For example, a Microsoft Active Directory might contain 50,000 users, but only a small fraction might need the ability to transfer files to the server. An administrator can use CreateAccess to limit the access to the correct set of users who need this ability. See also: AWS API Documentation
+    /// Used by administrators to choose which groups in the directory should have access to upload and download files over the enabled protocols using Transfer Family. For example, a Microsoft Active Directory might contain 50,000 users, but only a small fraction might need the ability to transfer files to the server. An administrator can use CreateAccess to limit the access to the correct set of users who need this ability. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -57,7 +57,7 @@ public class AwsTransfer : IAwsTransfer
     }
 
     /// <summary>
-    /// Creates an agreement. An agreement is a bilateral trading partner agreement, or partnership, between an Transfer Family server and an AS2 process. The agreement defines the file and message transfer relation- ship between the server and the AS2 process. To define an agreement, Transfer Family combines a server, local profile, partner profile, cer- tificate, and other attributes. The partner is identified with the PartnerProfileId , and the AS2 process is identified with the LocalProfileId . NOTE...
+    /// Creates an agreement. An agreement is a bilateral trading partner agreement, or partnership, between an Transfer Family server and an AS2 process. The agreement defines the file and message transfer relationship between the server and the AS2 process. To define an agreement, Transfer Family combines a server, local profile, partner profile, certificate, and other attributes. The partner is identified with the PartnerProfileId , and the AS2 process is identified with the LocalProfileId . NOTE: Sp...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -72,7 +72,7 @@ public class AwsTransfer : IAwsTransfer
     }
 
     /// <summary>
-    /// Creates the connector, which captures the parameters for a connection for the AS2 or SFTP protocol. For AS2, the connector is required for sending files to an externally hosted AS2 server. For SFTP, the connec- tor is required when sending files to an SFTP server or receiving files from an SFTP server. For more details about connectors, see Configure AS2 connectors and Create SFTP connectors . NOTE: You must specify exactly one configuration object: either for AS2 (As2Config ) or SFTP (SftpConfi...
+    /// Creates the connector, which captures the parameters for a connection for the AS2 or SFTP protocol. For AS2, the connector is required for sending files to an externally hosted AS2 server. For SFTP, the connector is required when sending files to an SFTP server or receiving files from an SFTP server. For more details about connectors, see Configure AS2 connectors and Create SFTP connectors . NOTE: You must specify exactly one configuration object: either for AS2 (As2Config ) or SFTP (SftpConfig ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -117,7 +117,7 @@ public class AwsTransfer : IAwsTransfer
     }
 
     /// <summary>
-    /// Creates a user and associates them with an existing file transfer pro- tocol-enabled server. You can only create and associate users with servers that have the IdentityProviderType set to SERVICE_MANAGED . Us- ing parameters for CreateUser , you can specify the user name, set the home directory, store the user's public key, and assign the user's Identity and Access Management (IAM) role. You can also optionally add a session policy, and assign metadata with tags that can be used to group and sea...
+    /// Creates a user and associates them with an existing file transfer protocol-enabled server. You can only create and associate users with servers that have the IdentityProviderType set to SERVICE_MANAGED . Using parameters for CreateUser , you can specify the user name, set the home directory, store the user's public key, and assign the user's Identity and Access Management (IAM) role. You can also optionally add a session policy, and assign metadata with tags that can be used to group and search ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -132,7 +132,7 @@ public class AwsTransfer : IAwsTransfer
     }
 
     /// <summary>
-    /// Creates a web app based on specified parameters, and returns the ID for the new web app. You can configure the web app to be publicly accessi- ble or hosted within a VPC. For more information about using VPC endpoints with Transfer Family, see Create a Transfer Family web app in a VPC . See also: AWS API Documentation
+    /// Creates a web app based on specified parameters, and returns the ID for the new web app. You can configure the web app to be publicly accessible or hosted within a VPC. For more information about using VPC endpoints with Transfer Family, see Create a Transfer Family web app in a VPC . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -162,7 +162,7 @@ public class AwsTransfer : IAwsTransfer
     }
 
     /// <summary>
-    /// Allows you to delete the access specified in the ServerID and Exter- nalID parameters. See also: AWS API Documentation
+    /// Allows you to delete the access specified in the ServerID and ExternalID parameters. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -192,7 +192,7 @@ public class AwsTransfer : IAwsTransfer
     }
 
     /// <summary>
-    /// Deletes the certificate that's specified in the CertificateId parame- ter. See also: AWS API Documentation
+    /// Deletes the certificate that's specified in the CertificateId parameter. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -372,7 +372,7 @@ public class AwsTransfer : IAwsTransfer
     }
 
     /// <summary>
-    /// Describes the certificate that's identified by the CertificateId . NOTE: Transfer Family automatically publishes a Amazon CloudWatch metric called DaysUntilExpiry for imported certificates. This metric tracks the number of days until the certificate expires based on the Inac- tiveDate . The metric is available in the AWS/Transfer namespace and includes the CertificateId as a dimension. See also: AWS API Documentation
+    /// Describes the certificate that's identified by the CertificateId . NOTE: Transfer Family automatically publishes a Amazon CloudWatch metric called DaysUntilExpiry for imported certificates. This metric tracks the number of days until the certificate expires based on the InactiveDate . The metric is available in the AWS/Transfer namespace and includes the CertificateId as a dimension. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -477,7 +477,7 @@ public class AwsTransfer : IAwsTransfer
     }
 
     /// <summary>
-    /// Describes the user assigned to the specific file transfer protocol-en- abled server, as identified by its ServerId property. The response from this call returns the properties of the user associ- ated with the ServerId value that was specified. See also: AWS API Documentation
+    /// Describes the user assigned to the specific file transfer protocol-enabled server, as identified by its ServerId property. The response from this call returns the properties of the user associated with the ServerId value that was specified. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -492,7 +492,7 @@ public class AwsTransfer : IAwsTransfer
     }
 
     /// <summary>
-    /// Describes the web app customization object that's identified by WebAp- pId . See also: AWS API Documentation
+    /// Describes the web app customization object that's identified by WebAppId . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -507,7 +507,7 @@ public class AwsTransfer : IAwsTransfer
     }
 
     /// <summary>
-    /// Describes the web app that's identified by WebAppId . The response in- cludes endpoint configuration details such as whether the web app is publicly accessible or VPC hosted. For more information about using VPC endpoints with Transfer Family, see Create a Transfer Family web app in a VPC . See also: AWS API Documentation
+    /// Describes the web app that's identified by WebAppId . The response includes endpoint configuration details such as whether the web app is publicly accessible or VPC hosted. For more information about using VPC endpoints with Transfer Family, see Create a Transfer Family web app in a VPC . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -537,7 +537,7 @@ public class AwsTransfer : IAwsTransfer
     }
 
     /// <summary>
-    /// Imports the signing and encryption certificates that you need to create local (AS2) profiles and partner profiles. You can import both the certificate and its chain in the Certificate parameter. After importing a certificate, Transfer Family automatically creates a Amazon CloudWatch metric called DaysUntilExpiry that tracks the number of days until the certificate expires. The metric is based on the Inac- tiveDate parameter and is published daily in the AWS/Transfer name- space. WARNING: It can ...
+    /// Imports the signing and encryption certificates that you need to create local (AS2) profiles and partner profiles. You can import both the certificate and its chain in the Certificate parameter. After importing a certificate, Transfer Family automatically creates a Amazon CloudWatch metric called DaysUntilExpiry that tracks the number of days until the certificate expires. The metric is based on the InactiveDate parameter and is published daily in the AWS/Transfer namespace. WARNING: It can take...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -552,7 +552,7 @@ public class AwsTransfer : IAwsTransfer
     }
 
     /// <summary>
-    /// Adds a host key to the server that's specified by the ServerId parame- ter. See also: AWS API Documentation
+    /// Adds a host key to the server that's specified by the ServerId parameter. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -567,7 +567,7 @@ public class AwsTransfer : IAwsTransfer
     }
 
     /// <summary>
-    /// Adds a Secure Shell (SSH) public key to a Transfer Family user identi- fied by a UserName value assigned to the specific file transfer proto- col-enabled server, identified by ServerId . The response returns the UserName value, the ServerId value, and the name of the SshPublicKeyId . See also: AWS API Documentation
+    /// Adds a Secure Shell (SSH) public key to a Transfer Family user identified by a UserName value assigned to the specific file transfer protocol-enabled server, identified by ServerId . The response returns the UserName value, the ServerId value, and the name of the SshPublicKeyId . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -582,7 +582,7 @@ public class AwsTransfer : IAwsTransfer
     }
 
     /// <summary>
-    /// Lists the details for all the accesses you have on your server. See also: AWS API Documentation list-accesses is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Accesses
+    /// Lists the details for all the accesses you have on your server. See also: AWS API Documentation list-accesses is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Accesses
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -597,7 +597,7 @@ public class AwsTransfer : IAwsTransfer
     }
 
     /// <summary>
-    /// Returns a list of the agreements for the server that's identified by the ServerId that you supply. If you want to limit the results to a certain number, supply a value for the MaxResults parameter. If you ran the command previously and received a value for NextToken , you can supply that value to continue listing agreements from where you left off. See also: AWS API Documentation list-agreements is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set...
+    /// Returns a list of the agreements for the server that's identified by the ServerId that you supply. If you want to limit the results to a certain number, supply a value for the MaxResults parameter. If you ran the command previously and received a value for NextToken , you can supply that value to continue listing agreements from where you left off. See also: AWS API Documentation list-agreements is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set o...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -627,7 +627,7 @@ public class AwsTransfer : IAwsTransfer
     }
 
     /// <summary>
-    /// Lists the connectors for the specified Region. See also: AWS API Documentation list-connectors is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Connectors
+    /// Lists the connectors for the specified Region. See also: AWS API Documentation list-connectors is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Connectors
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -642,7 +642,7 @@ public class AwsTransfer : IAwsTransfer
     }
 
     /// <summary>
-    /// Lists all in-progress executions for the specified workflow. NOTE: If the specified workflow ID cannot be found, ListExecutions returns a ResourceNotFound exception. See also: AWS API Documentation list-executions is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must e...
+    /// Lists all in-progress executions for the specified workflow. NOTE: If the specified workflow ID cannot be found, ListExecutions returns a ResourceNotFound exception. See also: AWS API Documentation list-executions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extra...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -657,7 +657,7 @@ public class AwsTransfer : IAwsTransfer
     }
 
     /// <summary>
-    /// Returns real-time updates and detailed information on the status of each individual file being transferred in a specific file transfer op- eration. You specify the file transfer by providing its ConnectorId and its TransferId . NOTE: File transfer results are available up to 7 days after an operation has been requested. See also: AWS API Documentation list-file-transfer-results is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can...
+    /// Returns real-time updates and detailed information on the status of each individual file being transferred in a specific file transfer operation. You specify the file transfer by providing its ConnectorId and its TransferId . NOTE: File transfer results are available up to 7 days after an operation has been requested. See also: AWS API Documentation list-file-transfer-results is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can d...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -687,7 +687,7 @@ public class AwsTransfer : IAwsTransfer
     }
 
     /// <summary>
-    /// Returns a list of the profiles for your system. If you want to limit the results to a certain number, supply a value for the MaxResults pa- rameter. If you ran the command previously and received a value for NextToken , you can supply that value to continue listing profiles from where you left off. See also: AWS API Documentation list-profiles is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providin...
+    /// Returns a list of the profiles for your system. If you want to limit the results to a certain number, supply a value for the MaxResults parameter. If you ran the command previously and received a value for NextToken , you can supply that value to continue listing profiles from where you left off. See also: AWS API Documentation list-profiles is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -717,7 +717,7 @@ public class AwsTransfer : IAwsTransfer
     }
 
     /// <summary>
-    /// Lists the file transfer protocol-enabled servers that are associated with your Amazon Web Services account. See also: AWS API Documentation list-servers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressio...
+    /// Lists the file transfer protocol-enabled servers that are associated with your Amazon Web Services account. See also: AWS API Documentation list-servers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -747,7 +747,7 @@ public class AwsTransfer : IAwsTransfer
     }
 
     /// <summary>
-    /// Lists the users for a file transfer protocol-enabled server that you specify by passing the ServerId parameter. See also: AWS API Documentation list-users is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- press...
+    /// Lists the users for a file transfer protocol-enabled server that you specify by passing the ServerId parameter. See also: AWS API Documentation list-users is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -762,7 +762,7 @@ public class AwsTransfer : IAwsTransfer
     }
 
     /// <summary>
-    /// Lists all web apps associated with your Amazon Web Services account for your current region. The response includes the endpoint type for each web app, showing whether it is publicly accessible or VPC hosted. For more information about using VPC endpoints with Transfer Family, see Create a Transfer Family web app in a VPC . See also: AWS API Documentation list-web-apps is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- ab...
+    /// Lists all web apps associated with your Amazon Web Services account for your current region. The response includes the endpoint type for each web app, showing whether it is publicly accessible or VPC hosted. For more information about using VPC endpoints with Transfer Family, see Create a Transfer Family web app in a VPC . See also: AWS API Documentation list-web-apps is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable p...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -777,7 +777,7 @@ public class AwsTransfer : IAwsTransfer
     }
 
     /// <summary>
-    /// Lists all workflows associated with your Amazon Web Services account for your current region. See also: AWS API Documentation list-workflows is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Workflow...
+    /// Lists all workflows associated with your Amazon Web Services account for your current region. See also: AWS API Documentation list-workflows is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Workflows
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -792,7 +792,7 @@ public class AwsTransfer : IAwsTransfer
     }
 
     /// <summary>
-    /// Sends a callback for asynchronous custom steps. The ExecutionId , WorkflowId , and Token are passed to the target re- source during execution of a custom step of a workflow. You must in- clude those with their callback as well as providing a status. See also: AWS API Documentation
+    /// Sends a callback for asynchronous custom steps. The ExecutionId , WorkflowId , and Token are passed to the target resource during execution of a custom step of a workflow. You must include those with their callback as well as providing a status. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -807,7 +807,7 @@ public class AwsTransfer : IAwsTransfer
     }
 
     /// <summary>
-    /// Retrieves a list of the contents of a directory from a remote SFTP server. You specify the connector ID, the output path, and the remote directory path. You can also specify the optional MaxItems value to control the maximum number of items that are listed from the remote di- rectory. This API returns a list of all files and directories in the remote directory (up to the maximum value), but does not return files or folders in sub-directories. That is, it only returns a list of files and director...
+    /// Retrieves a list of the contents of a directory from a remote SFTP server. You specify the connector ID, the output path, and the remote directory path. You can also specify the optional MaxItems value to control the maximum number of items that are listed from the remote directory. This API returns a list of all files and directories in the remote directory (up to the maximum value), but does not return files or folders in sub-directories. That is, it only returns a list of files and directorie...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -822,7 +822,7 @@ public class AwsTransfer : IAwsTransfer
     }
 
     /// <summary>
-    /// Begins a file transfer between local Amazon Web Services storage and a remote AS2 or SFTP server. o For an AS2 connector, you specify the ConnectorId and one or more SendFilePaths to identify the files you want to transfer. o For an SFTP connector, the file transfer can be either outbound or inbound. In both cases, you specify the ConnectorId . Depending on the direction of the transfer, you also specify the following items: o If you are transferring file from a partner's SFTP server to Amazon W...
+    /// Begins a file transfer between local Amazon Web Services storage and a remote AS2 or SFTP server. • For an AS2 connector, you specify the ConnectorId and one or more SendFilePaths to identify the files you want to transfer. • For an SFTP connector, the file transfer can be either outbound or inbound. In both cases, you specify the ConnectorId . Depending on the direction of the transfer, you also specify the following items: • If you are transferring file from a partner's SFTP server to Amazon W...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -867,7 +867,7 @@ public class AwsTransfer : IAwsTransfer
     }
 
     /// <summary>
-    /// Changes the state of a file transfer protocol-enabled server from OF- FLINE to ONLINE . It has no impact on a server that is already ONLINE . An ONLINE server can accept and process file transfer jobs. The state of STARTING indicates that the server is in an intermediate state, either not fully able to respond, or not fully online. The val- ues of START_FAILED can indicate an error condition. No response is returned from this call. See also: AWS API Documentation
+    /// Changes the state of a file transfer protocol-enabled server from OFFLINE to ONLINE . It has no impact on a server that is already ONLINE . An ONLINE server can accept and process file transfer jobs. The state of STARTING indicates that the server is in an intermediate state, either not fully able to respond, or not fully online. The values of START_FAILED can indicate an error condition. No response is returned from this call. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -882,7 +882,7 @@ public class AwsTransfer : IAwsTransfer
     }
 
     /// <summary>
-    /// Changes the state of a file transfer protocol-enabled server from ON- LINE to OFFLINE . An OFFLINE server cannot accept and process file transfer jobs. Information tied to your server, such as server and user properties, are not affected by stopping your server. NOTE: Stopping the server does not reduce or impact your file transfer protocol endpoint billing; you must delete the server to stop being billed. The state of STOPPING indicates that the server is in an intermediate state, either not fu...
+    /// Changes the state of a file transfer protocol-enabled server from ONLINE to OFFLINE . An OFFLINE server cannot accept and process file transfer jobs. Information tied to your server, such as server and user properties, are not affected by stopping your server. NOTE: Stopping the server does not reduce or impact your file transfer protocol endpoint billing; you must delete the server to stop being billed. The state of STOPPING indicates that the server is in an intermediate state, either not full...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -897,7 +897,7 @@ public class AwsTransfer : IAwsTransfer
     }
 
     /// <summary>
-    /// Attaches a key-value pair to a resource, as identified by its Amazon Resource Name (ARN). Resources are users, servers, roles, and other en- tities. There is no response returned from this call. See also: AWS API Documentation
+    /// Attaches a key-value pair to a resource, as identified by its Amazon Resource Name (ARN). Resources are users, servers, roles, and other entities. There is no response returned from this call. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -942,7 +942,7 @@ public class AwsTransfer : IAwsTransfer
     }
 
     /// <summary>
-    /// Detaches a key-value pair from a resource, as identified by its Amazon Resource Name (ARN). Resources are users, servers, roles, and other en- tities. No response is returned from this call. See also: AWS API Documentation
+    /// Detaches a key-value pair from a resource, as identified by its Amazon Resource Name (ARN). Resources are users, servers, roles, and other entities. No response is returned from this call. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -972,7 +972,7 @@ public class AwsTransfer : IAwsTransfer
     }
 
     /// <summary>
-    /// Updates some of the parameters for an existing agreement. Provide the AgreementId and the ServerId for the agreement that you want to update, along with the new values for the parameters to update. NOTE: Specify either BaseDirectory or CustomDirectories , but not both. Specifying both causes the command to fail. If you update an agreement from using base directory to custom di- rectories, the base directory is no longer used. Similarly, if you change from custom directories to a base directory, ...
+    /// Updates some of the parameters for an existing agreement. Provide the AgreementId and the ServerId for the agreement that you want to update, along with the new values for the parameters to update. NOTE: Specify either BaseDirectory or CustomDirectories , but not both. Specifying both causes the command to fail. If you update an agreement from using base directory to custom directories, the base directory is no longer used. Similarly, if you change from custom directories to a base directory, th...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1017,7 +1017,7 @@ public class AwsTransfer : IAwsTransfer
     }
 
     /// <summary>
-    /// Updates the description for the host key that's specified by the ServerId and HostKeyId parameters. See also: AWS API Documentation
+    /// Updates the host key that's specified by the ServerId and HostKeyId parameters. You can update the description of the host key, change where the host key is stored by specifying the StorageType , and specify the KMS key used to encrypt the host key when it's stored in Secrets Manager. To change a host key's storage type from SERVICE_MANAGED to SECRETS_MANAGER , you must have the transfer:ExportHostKey permission. transfer:ExportHostKey is a permission-only action that has no corresponding API op...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

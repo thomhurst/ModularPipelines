@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsCloud9DeleteEnvironmentOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes an Cloud9 development environment. If an Amazon EC2 instance is connected to the environment, also terminates the instance. WARNING: Cloud9 is no longer available to new customers. Existing customers of Cloud9 can continue to use the service as normal. Learn more" See also: AWS API Documentation
     /// </summary>
-    /// <param name="EnvironmentId">The ID of the environment to delete. Constraints: o pattern: ^[a-zA-Z0-9]{8,32}$</param>
+    /// <param name="EnvironmentId">The ID of the environment to delete. Constraints: • pattern: ^[a-zA-Z0-9]{8,32}$</param>
     public AwsCloud9DeleteEnvironmentOptions(
         string EnvironmentId
     )
@@ -56,7 +57,7 @@ public record AwsCloud9DeleteEnvironmentOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the environment to delete. Constraints: o pattern: ^[a-zA-Z0-9]{8,32}$
+    /// The ID of the environment to delete. Constraints: • pattern: ^[a-zA-Z0-9]{8,32}$
     /// </summary>
     [CliOption("--environment-id")]
     public string? EnvironmentId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsCloud9DeleteEnvironmentOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

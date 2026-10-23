@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -82,7 +83,7 @@ public record AwsSecurityagentDeleteMembershipOptions : AwsOptions, IValidatable
     public string? MembershipId { get; private init; }
 
     /// <summary>
-    /// The type of member to remove. Possible values: o USER
+    /// The type of member to remove. Possible values: • USER
     /// </summary>
     [CliOption("--member-type")]
     public string? MemberType { get; set; }
@@ -108,6 +109,15 @@ public record AwsSecurityagentDeleteMembershipOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

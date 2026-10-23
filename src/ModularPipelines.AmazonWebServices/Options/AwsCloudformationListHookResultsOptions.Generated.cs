@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns summaries of invoked Hooks. For more information, see View in- vocation summaries for CloudFormation Hooks in the CloudFormation Hooks User Guide . This operation supports the following parameter combinations: o No parameters: Returns all Hook invocation summaries. o TypeArn only: Returns summaries for a specific Hook. o TypeArn and Status : Returns summaries for a specific Hook filtered by status. o TargetId and TargetType : Returns summaries for a specific Hook invo- cation target. See...
+/// Returns summaries of invoked Hooks. For more information, see View invocation summaries for CloudFormation Hooks in the CloudFormation Hooks User Guide . This operation supports the following parameter combinations: • No parameters: Returns all Hook invocation summaries. • TypeArn only: Returns summaries for a specific Hook. • TypeArn and Status : Returns summaries for a specific Hook filtered by status. • TargetId and TargetType : Returns summaries for a specific Hook invocation target. See als...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -24,31 +24,31 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsCloudformationListHookResultsOptions : AwsOptions
 {
     /// <summary>
-    /// Filters results by target type. Currently, only CHANGE_SET and CLOUD_CONTROL are supported filter options. Required when TargetId is specified and cannot be used otherwise. Possible values: o CHANGE_SET o STACK o RESOURCE o CLOUD_CONTROL
+    /// Filters results by target type. Currently, only CHANGE_SET and CLOUD_CONTROL are supported filter options. Required when TargetId is specified and cannot be used otherwise. Possible values: • CHANGE_SET • STACK • RESOURCE • CLOUD_CONTROL
     /// </summary>
     [CliOption("--target-type")]
     public AwsCloudformationListHookResultsTargetType? TargetType { get; set; }
 
     /// <summary>
-    /// Filters results by the unique identifier of the target the Hook was invoked against. For change sets, this is the change set ARN. When the target is a Cloud Control API operation, this value must be the HookRequestToken returned by the Cloud Control API request. For more information on the HookRequestToken , see ProgressEvent . Required when TargetType is specified and cannot be used otherwise. Constraints: o min: 1 o max: 1600 o pattern: [a-zA-Z][-a-zA-Z0-9]*|arn:[-a-zA-Z0-9:/]*|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
+    /// Filters results by the unique identifier of the target the Hook was invoked against. For change sets, this is the change set ARN. When the target is a Cloud Control API operation, this value must be the HookRequestToken returned by the Cloud Control API request. For more information on the HookRequestToken , see ProgressEvent . Required when TargetType is specified and cannot be used otherwise. Constraints: • min: 1 • max: 1600 • pattern: [a-zA-Z][-a-zA-Z0-9]*|arn:[-a-zA-Z0-9:/]*|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
     /// </summary>
     [CliOption("--target-id")]
     public string? TargetId { get; set; }
 
     /// <summary>
-    /// Filters results by the ARN of the Hook. Can be used alone or in com- bination with Status . Constraints: o max: 1024 o pattern: arn:aws[A-Za-z0-9-]{0,64}:cloudforma- tion:[A-Za-z0-9-]{1,64}:([0-9]{12})?:type/hook/[A-Za-z0-9-]+/?
+    /// Filters results by the ARN of the Hook. Can be used alone or in combination with Status . Constraints: • max: 1024 • pattern: arn:aws[A-Za-z0-9-]{0,64}:cloudformation:[A-Za-z0-9-]{1,64}:([0-9]{12})?:type/hook/[A-Za-z0-9-]+/?
     /// </summary>
     [CliOption("--type-arn")]
     public string? TypeArn { get; set; }
 
     /// <summary>
-    /// Filters results by the status of Hook invocations. Can only be used in combination with TypeArn . Valid values are: o HOOK_IN_PROGRESS : The Hook is currently running. o HOOK_COMPLETE_SUCCEEDED : The Hook completed successfully. o HOOK_COMPLETE_FAILED : The Hook completed but failed validation. o HOOK_FAILED : The Hook encountered an error during execution. Possible values: o HOOK_IN_PROGRESS o HOOK_COMPLETE_SUCCEEDED o HOOK_COMPLETE_FAILED o HOOK_FAILED
+    /// Filters results by the status of Hook invocations. Can only be used in combination with TypeArn . Valid values are: • HOOK_IN_PROGRESS : The Hook is currently running. • HOOK_COMPLETE_SUCCEEDED : The Hook completed successfully. • HOOK_COMPLETE_FAILED : The Hook completed but failed validation. • HOOK_FAILED : The Hook encountered an error during execution. Possible values: • HOOK_IN_PROGRESS • HOOK_COMPLETE_SUCCEEDED • HOOK_COMPLETE_FAILED • HOOK_FAILED
     /// </summary>
     [CliOption("--status")]
     public AwsCloudformationListHookResultsStatus? Status { get; set; }
 
     /// <summary>
-    /// The token for the next set of items to return. (You received this token from a previous call.) Constraints: o min: 1 o max: 1024
+    /// The token for the next set of items to return. (You received this token from a previous call.) Constraints: • min: 1 • max: 1024
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -59,5 +59,14 @@ public record AwsCloudformationListHookResultsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

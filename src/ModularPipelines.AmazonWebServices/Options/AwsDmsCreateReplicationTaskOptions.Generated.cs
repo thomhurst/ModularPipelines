@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,12 +28,12 @@ public record AwsDmsCreateReplicationTaskOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Creates a replication task using the specified parameters. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ReplicationTaskIdentifier">An identifier for the replication task. Constraints: o Must contain 1-255 alphanumeric characters or hyphens. o First character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens.</param>
+    /// <param name="ReplicationTaskIdentifier">An identifier for the replication task. Constraints: • Must contain 1-255 alphanumeric characters or hyphens. • First character must be a letter. • Cannot end with a hyphen or contain two consecutive hyphens.</param>
     /// <param name="SourceEndpointArn">An Amazon Resource Name (ARN) that uniquely identifies the source endpoint.</param>
     /// <param name="TargetEndpointArn">An Amazon Resource Name (ARN) that uniquely identifies the target endpoint.</param>
     /// <param name="ReplicationInstanceArn">The Amazon Resource Name (ARN) of a replication instance.</param>
-    /// <param name="MigrationType">The migration type. Valid values: full-load | cdc | full-load-and-cdc Possible values: o full-load o cdc o full-load-and-cdc</param>
-    /// <param name="TableMappings">The table mappings for the task, in JSON format. For more informa- tion, see Using Table Mapping to Specify Task Settings in the Data- base Migration Service User Guide.</param>
+    /// <param name="MigrationType">The migration type. Valid values: full-load | cdc | full-load-and-cdc Possible values: • full-load • cdc • full-load-and-cdc</param>
+    /// <param name="TableMappings">The table mappings for the task, in JSON format. For more information, see Using Table Mapping to Specify Task Settings in the Database Migration Service User Guide.</param>
     public AwsDmsCreateReplicationTaskOptions(
         string ReplicationTaskIdentifier,
         string SourceEndpointArn,
@@ -76,7 +77,7 @@ public record AwsDmsCreateReplicationTaskOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// An identifier for the replication task. Constraints: o Must contain 1-255 alphanumeric characters or hyphens. o First character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens.
+    /// An identifier for the replication task. Constraints: • Must contain 1-255 alphanumeric characters or hyphens. • First character must be a letter. • Cannot end with a hyphen or contain two consecutive hyphens.
     /// </summary>
     [CliOption("--replication-task-identifier")]
     public string? ReplicationTaskIdentifier { get; private init; }
@@ -100,13 +101,13 @@ public record AwsDmsCreateReplicationTaskOptions : AwsOptions, IValidatableObjec
     public string? ReplicationInstanceArn { get; private init; }
 
     /// <summary>
-    /// The migration type. Valid values: full-load | cdc | full-load-and-cdc Possible values: o full-load o cdc o full-load-and-cdc
+    /// The migration type. Valid values: full-load | cdc | full-load-and-cdc Possible values: • full-load • cdc • full-load-and-cdc
     /// </summary>
     [CliOption("--migration-type")]
     public string? MigrationType { get; private init; }
 
     /// <summary>
-    /// The table mappings for the task, in JSON format. For more informa- tion, see Using Table Mapping to Specify Task Settings in the Data- base Migration Service User Guide.
+    /// The table mappings for the task, in JSON format. For more information, see Using Table Mapping to Specify Task Settings in the Database Migration Service User Guide.
     /// </summary>
     [CliOption("--table-mappings")]
     public string? TableMappings { get; private init; }
@@ -118,37 +119,37 @@ public record AwsDmsCreateReplicationTaskOptions : AwsOptions, IValidatableObjec
     public string? ReplicationTaskSettings { get; set; }
 
     /// <summary>
-    /// Indicates the start time for a change data capture (CDC) operation. Use either CdcStartTime or CdcStartPosition to specify when you want a CDC operation to start. Specifying both values results in an er- ror. Timestamp Example: --cdc-start-time 2018-03-08T12:12:12
+    /// Indicates the start time for a change data capture (CDC) operation. Use either CdcStartTime or CdcStartPosition to specify when you want a CDC operation to start. Specifying both values results in an error. Timestamp Example: --cdc-start-time 2018-03-08T12:12:12
     /// </summary>
     [CliOption("--cdc-start-time")]
     public string? CdcStartTime { get; set; }
 
     /// <summary>
-    /// Indicates when you want a change data capture (CDC) operation to start. Use either CdcStartPosition or CdcStartTime to specify when you want a CDC operation to start. Specifying both values results in an error. The value can be in date, checkpoint, or LSN/SCN format. Date Example: --cdc-start-position 2018-03-08T12:12:12 Checkpoint Example: --cdc-start-position "check- point:V1#27#mysql-bin-changelog.157832:1975:-1:2002:677883278264080:mysql-bin-changelog.157832:1876#0#0#*#0#93" LSN Example: --cdc-start-position mysql-bin-changelog.000024:373 NOTE: When you use this task setting with a source PostgreSQL data- base, a logical replication slot should already be created and associated with the source endpoint. You can verify this by set- ting the slotName extra connection attribute to the name of this logical replication slot. For more information, see Extra Con- nection Attributes When Using PostgreSQL as a Source for DMS .
+    /// Indicates when you want a change data capture (CDC) operation to start. Use either CdcStartPosition or CdcStartTime to specify when you want a CDC operation to start. Specifying both values results in an error. The value can be in date, checkpoint, or LSN/SCN format. Date Example: --cdc-start-position 2018-03-08T12:12:12 Checkpoint Example: --cdc-start-position "checkpoint:V1#27#mysql-bin-changelog.157832:1975:-1:2002:677883278264080:mysql-bin-changelog.157832:1876#0#0#*#0#93" LSN Example: --cdc-start-position mysql-bin-changelog.000024:373 NOTE: When you use this task setting with a source PostgreSQL database, a logical replication slot should already be created and associated with the source endpoint. You can verify this by setting the slotName extra connection attribute to the name of this logical replication slot. For more information, see Extra Connection Attributes When Using PostgreSQL as a Source for DMS .
     /// </summary>
     [CliOption("--cdc-start-position")]
     public string? CdcStartPosition { get; set; }
 
     /// <summary>
-    /// Indicates when you want a change data capture (CDC) operation to stop. The value can be either server time or commit time. Server time example: --cdc-stop-position server_time:2018-02-09T12:12:12 Commit time example: --cdc-stop-position com- mit_time:2018-02-09T12:12:12
+    /// Indicates when you want a change data capture (CDC) operation to stop. The value can be either server time or commit time. Server time example: --cdc-stop-position server_time:2018-02-09T12:12:12 Commit time example: --cdc-stop-position commit_time:2018-02-09T12:12:12
     /// </summary>
     [CliOption("--cdc-stop-position")]
     public string? CdcStopPosition { get; set; }
 
     /// <summary>
-    /// One or more tags to be assigned to the replication task. (structure) A user-defined key-value pair that describes metadata added to an DMS resource and that is used by operations such as the fol- lowing: o AddTagsToResource o ListTagsForResource o RemoveTagsFromResource Key -&gt; (string) A key is the required name of the tag. The string value can be 1-128 Unicode characters in length and can't be prefixed with "aws:" or "dms:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regular expressions: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$"). Value -&gt; (string) A value is the optional value of the tag. The string value can be 1-256 Unicode characters in length and can't be pre- fixed with "aws:" or "dms:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regular expressions: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$"). ResourceArn -&gt; (string) The Amazon Resource Name (ARN) string that uniquely identi- fies the resource for which the tag is created. Shorthand Syntax: Key=string,Value=string,ResourceArn=string ... JSON Syntax: [ { "Key": "string", "Value": "string", "ResourceArn": "string" } ... ]
+    /// One or more tags to be assigned to the replication task. (structure) A user-defined key-value pair that describes metadata added to an DMS resource and that is used by operations such as the following: • AddTagsToResource • ListTagsForResource • RemoveTagsFromResource Key -&gt; (string) A key is the required name of the tag. The string value can be 1-128 Unicode characters in length and can't be prefixed with "aws:" or "dms:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regular expressions: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$"). Value -&gt; (string) A value is the optional value of the tag. The string value can be 1-256 Unicode characters in length and can't be prefixed with "aws:" or "dms:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regular expressions: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$"). ResourceArn -&gt; (string) The Amazon Resource Name (ARN) string that uniquely identifies the resource for which the tag is created. Shorthand Syntax: Key=string,Value=string,ResourceArn=string ... JSON Syntax: [ { "Key": "string", "Value": "string", "ResourceArn": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Supplemental information that the task requires to migrate the data for certain source and target endpoints. For more information, see Specifying Supplemental Data for Task Settings in the Database Mi- gration Service User Guide.
+    /// Supplemental information that the task requires to migrate the data for certain source and target endpoints. For more information, see Specifying Supplemental Data for Task Settings in the Database Migration Service User Guide.
     /// </summary>
     [CliOption("--task-data")]
     public string? TaskData { get; set; }
 
     /// <summary>
-    /// A friendly name for the resource identifier at the end of the End- pointArn response parameter that is returned in the created Endpoint object. The value for this parameter can have up to 31 characters. It can contain only ASCII letters, digits, and hyphen ('-'). Also, it can't end with a hyphen or contain two consecutive hyphens, and can only begin with a letter, such as Example-App-ARN1 . For exam- ple, this value might result in the EndpointArn value arn:aws:dms:eu-west-1:012345678901:rep:Example-App-ARN1 . If you don't specify a ResourceIdentifier value, DMS generates a default identifier value for the end of EndpointArn .
+    /// A friendly name for the resource identifier at the end of the EndpointArn response parameter that is returned in the created Endpoint object. The value for this parameter can have up to 31 characters. It can contain only ASCII letters, digits, and hyphen ('-'). Also, it can't end with a hyphen or contain two consecutive hyphens, and can only begin with a letter, such as Example-App-ARN1 . For example, this value might result in the EndpointArn value arn:aws:dms:eu-west-1:012345678901:rep:Example-App-ARN1 . If you don't specify a ResourceIdentifier value, DMS generates a default identifier value for the end of EndpointArn .
     /// </summary>
     [CliOption("--resource-identifier")]
     public string? ResourceIdentifier { get; set; }
@@ -174,6 +175,15 @@ public record AwsDmsCreateReplicationTaskOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

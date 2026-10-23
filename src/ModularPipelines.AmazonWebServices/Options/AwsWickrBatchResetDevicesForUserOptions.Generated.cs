@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,9 +29,9 @@ public record AwsWickrBatchResetDevicesForUserOptions : AwsOptions, IValidatable
     /// <summary>
     /// Resets multiple devices for a specific user in a Wickr network. This operation forces the selected devices to log out and requires users to re-authenticate, which is useful for security purposes or when devices need to be revoked. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NetworkId">The ID of the Wickr network containing the user whose devices will be reset. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}</param>
-    /// <param name="UserId">The ID of the user whose devices will be reset. Constraints: o min: 1 o max: 10 o pattern: [0-9]+</param>
-    /// <param name="AppIds">A list of application IDs identifying the specific devices to be re- set for the user. Maximum 50 devices per batch request. (string) Constraints: o pattern: [\S\s]* Syntax: "string" "string" ...</param>
+    /// <param name="NetworkId">The ID of the Wickr network containing the user whose devices will be reset. Constraints: • min: 8 • max: 8 • pattern: [0-9]{8}</param>
+    /// <param name="UserId">The ID of the user whose devices will be reset. Constraints: • min: 1 • max: 10 • pattern: [0-9]+</param>
+    /// <param name="AppIds">A list of application IDs identifying the specific devices to be reset for the user. Maximum 50 devices per batch request. (string) Constraints: • pattern: [\S\s]* Syntax: "string" "string" ...</param>
     public AwsWickrBatchResetDevicesForUserOptions(
         string NetworkId,
         string UserId,
@@ -76,25 +77,25 @@ public record AwsWickrBatchResetDevicesForUserOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Wickr network containing the user whose devices will be reset. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}
+    /// The ID of the Wickr network containing the user whose devices will be reset. Constraints: • min: 8 • max: 8 • pattern: [0-9]{8}
     /// </summary>
     [CliOption("--network-id")]
     public string? NetworkId { get; private init; }
 
     /// <summary>
-    /// The ID of the user whose devices will be reset. Constraints: o min: 1 o max: 10 o pattern: [0-9]+
+    /// The ID of the user whose devices will be reset. Constraints: • min: 1 • max: 10 • pattern: [0-9]+
     /// </summary>
     [CliOption("--user-id")]
     public string? UserId { get; private init; }
 
     /// <summary>
-    /// A list of application IDs identifying the specific devices to be re- set for the user. Maximum 50 devices per batch request. (string) Constraints: o pattern: [\S\s]* Syntax: "string" "string" ...
+    /// A list of application IDs identifying the specific devices to be reset for the user. Maximum 50 devices per batch request. (string) Constraints: • pattern: [\S\s]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--app-ids", GroupValues = true)]
     public IEnumerable<string>? AppIds { get; private init; }
 
     /// <summary>
-    /// A unique identifier for this request to ensure idempotency. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-_:]+
+    /// A unique identifier for this request to ensure idempotency. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-_:]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -121,6 +122,15 @@ public record AwsWickrBatchResetDevicesForUserOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

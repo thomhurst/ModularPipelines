@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsDmsWaitMetadataModelExportedToTargetOptions : AwsOptions, IVali
     /// <summary>
     /// Wait until DMS metadata model is exported to target. It will poll every 20 seconds until a successful state has been reached. This will exit with a return code of 255 after 90 failed checks. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MigrationProjectIdentifier">The migration project name or Amazon Resource Name (ARN). Constraints: o max: 255</param>
+    /// <param name="MigrationProjectIdentifier">The migration project name or Amazon Resource Name (ARN). Constraints: • max: 255</param>
     public AwsDmsWaitMetadataModelExportedToTargetOptions(
         string MigrationProjectIdentifier
     )
@@ -56,25 +57,25 @@ public record AwsDmsWaitMetadataModelExportedToTargetOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The migration project name or Amazon Resource Name (ARN). Constraints: o max: 255
+    /// The migration project name or Amazon Resource Name (ARN). Constraints: • max: 255
     /// </summary>
     [CliOption("--migration-project-identifier")]
     public string? MigrationProjectIdentifier { get; private init; }
 
     /// <summary>
-    /// The filters to apply to the metadata model export requests. The following filter names are supported: o request-id The request identifier. o status The request status. Valid values: RECEIVED , IN_PROGRESS , SUCCESS , FAILED . (structure) Identifies the name and value of a filter object. This filter is used to limit the number and type of DMS objects that are re- turned for a particular Describe* call or similar operation. Filters are used as an optional parameter for certain API opera- tions. Name -&gt; (string) [required] The name of the filter as specified for a Describe* or simi- lar operation. Values -&gt; (list) [required] The filter value, which can specify one or more values used to narrow the returned results. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
+    /// The filters to apply to the metadata model export requests. The following filter names are supported: • request-id The request identifier. • status The request status. Valid values: RECEIVED , IN_PROGRESS , SUCCESS , FAILED . (structure) Identifies the name and value of a filter object. This filter is used to limit the number and type of DMS objects that are returned for a particular Describe* call or similar operation. Filters are used as an optional parameter for certain API operations. Name -&gt; (string) [required] The name of the filter as specified for a Describe* or similar operation. Values -&gt; (list) [required] The filter value, which can specify one or more values used to narrow the returned results. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
-    /// Specifies the unique pagination token that makes it possible to dis- play the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords . If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the re- turned token and keeping all other arguments unchanged.
+    /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords . If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
     /// </summary>
     [CliOption("--marker")]
     public string? Marker { get; set; }
 
     /// <summary>
-    /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, DMS includes a pagination token in the response so that you can retrieve the re- maining results.
+    /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, DMS includes a pagination token in the response so that you can retrieve the remaining results.
     /// </summary>
     [CliOption("--max-records")]
     public int? MaxRecords { get; set; }
@@ -100,6 +101,15 @@ public record AwsDmsWaitMetadataModelExportedToTargetOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

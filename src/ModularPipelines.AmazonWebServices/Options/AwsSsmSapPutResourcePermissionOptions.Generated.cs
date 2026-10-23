@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsSsmSapPutResourcePermissionOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Adds permissions to the target database. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ActionType">Possible values: o RESTORE</param>
-    /// <param name="SourceResourceArn">Constraints: o pattern: arn:(.+:){2,4}.+$|^arn:(.+:){1,3}.+\/.+</param>
-    /// <param name="ResourceArn">Constraints: o pattern: arn:(.+:){2,4}.+$|^arn:(.+:){1,3}.+\/.+</param>
+    /// <param name="ActionType">Possible values: • RESTORE</param>
+    /// <param name="SourceResourceArn">Constraints: • pattern: arn:(.+:){2,4}.+$|^arn:(.+:){1,3}.+\/.+</param>
+    /// <param name="ResourceArn">Constraints: • pattern: arn:(.+:){2,4}.+$|^arn:(.+:){1,3}.+\/.+</param>
     public AwsSsmSapPutResourcePermissionOptions(
         string ActionType,
         string SourceResourceArn,
@@ -64,19 +65,19 @@ public record AwsSsmSapPutResourcePermissionOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Possible values: o RESTORE
+    /// Possible values: • RESTORE
     /// </summary>
     [CliOption("--action-type")]
     public string? ActionType { get; private init; }
 
     /// <summary>
-    /// Constraints: o pattern: arn:(.+:){2,4}.+$|^arn:(.+:){1,3}.+\/.+
+    /// Constraints: • pattern: arn:(.+:){2,4}.+$|^arn:(.+:){1,3}.+\/.+
     /// </summary>
     [CliOption("--source-resource-arn")]
     public string? SourceResourceArn { get; private init; }
 
     /// <summary>
-    /// Constraints: o pattern: arn:(.+:){2,4}.+$|^arn:(.+:){1,3}.+\/.+
+    /// Constraints: • pattern: arn:(.+:){2,4}.+$|^arn:(.+:){1,3}.+\/.+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
@@ -102,6 +103,15 @@ public record AwsSsmSapPutResourcePermissionOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

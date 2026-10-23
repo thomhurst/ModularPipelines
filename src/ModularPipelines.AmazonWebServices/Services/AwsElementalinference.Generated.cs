@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -33,7 +33,7 @@ public class AwsElementalinference : IAwsElementalinference
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws elementalinference wait sub-commands.
     /// </summary>
     public AwsElementalinferenceWait Wait => _wait ??= new AwsElementalinferenceWait(_command);
 
@@ -42,7 +42,7 @@ public class AwsElementalinference : IAwsElementalinference
     #region Commands
 
     /// <summary>
-    /// Associates a resource with the feed. The resource provides the input that Elemental Inference needs in order to perform an Elemental Infer- ence feature, such as cropping video. You always provide the resource by associating it with a feed. You can associate only one resource with each feed. With an association, a specific source media is claiming ownership of the feed. AssociateFeed is a PATCH operation, which means that you can include only parameters that you want to change. Parameters that y...
+    /// Associates a resource with the feed. The resource provides the input that Elemental Inference needs in order to perform an Elemental Inference feature, such as cropping video. You always provide the resource by associating it with a feed. You can associate only one resource with each feed. With an association, a specific source media is claiming ownership of the feed. AssociateFeed is a PATCH operation, which means that you can include only parameters that you want to change. Parameters that you...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -57,7 +57,7 @@ public class AwsElementalinference : IAwsElementalinference
     }
 
     /// <summary>
-    /// Creates a custom dictionary for improving transcription accuracy. A dictionary contains custom words and phrases that the ASR engine might not recognize, such as brand names, technical terms, or proper nouns. You can reference a dictionary when configuring a smart subtitles out- put. See also: AWS API Documentation
+    /// Creates a custom dictionary for improving transcription accuracy. A dictionary contains custom words and phrases that the ASR engine might not recognize, such as brand names, technical terms, or proper nouns. You can reference a dictionary when configuring a smart subtitles output. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -72,7 +72,7 @@ public class AwsElementalinference : IAwsElementalinference
     }
 
     /// <summary>
-    /// Creates a feed. The feed is the target for the live media stream that is being sent by the calling application. An example of a calling ap- plication is AWS Elemental MediaLive. The key contents of the feed is an array of outputs. Each output repre- sents an Elemental Inference feature. After you create the feed, you must associate a resource with the feed. At that point, you will have a useable feed: resource - feed - output or outputs. See also: AWS API Documentation
+    /// Creates a feed. The feed is the target for the live media stream that is being sent by the calling application. An example of a calling application is AWS Elemental MediaLive. The key contents of the feed is an array of outputs. Each output represents an Elemental Inference feature. After you create the feed, you must associate a resource with the feed. At that point, you will have a useable feed: resource - feed - output or outputs. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -102,7 +102,7 @@ public class AwsElementalinference : IAwsElementalinference
     }
 
     /// <summary>
-    /// Deletes the specified feed. You can delete the feed at any time. Ele- mental Inference doesn't block you from deleting a feed when the call- ing application is calling PutMedia or GetMetadata on that feed, al- though both these calls will start to fail. For more information about managing inactive feeds, see the Elemental Inference User Guide. See also: AWS API Documentation
+    /// Deletes the specified feed. You can delete the feed at any time. Elemental Inference doesn't block you from deleting a feed when the calling application is calling PutMedia or GetMetadata on that feed, although both these calls will start to fail. For more information about managing inactive feeds, see the Elemental Inference User Guide. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -207,7 +207,7 @@ public class AwsElementalinference : IAwsElementalinference
     }
 
     /// <summary>
-    /// Retrieves information about the specified fixture (a sports event, such as a specific basketball game). You obtain a fixtureId from SearchFix- tures, or from the clipping output of a feed. See also: AWS API Documentation
+    /// Retrieves information about the specified fixture (a sports event, such as a specific basketball game). You obtain a fixtureId from SearchFixtures, or from the clipping output of a feed. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -237,7 +237,7 @@ public class AwsElementalinference : IAwsElementalinference
     }
 
     /// <summary>
-    /// Displays a list of feeds that belong to this AWS account. See also: AWS API Documentation list-feeds is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: feeds
+    /// Displays a list of feeds that belong to this AWS account. See also: AWS API Documentation list-feeds is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: feeds
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -252,7 +252,7 @@ public class AwsElementalinference : IAwsElementalinference
     }
 
     /// <summary>
-    /// List all tags that are on an Elemental Inference resource in the cur- rent region. See also: AWS API Documentation
+    /// List all tags that are on an Elemental Inference resource in the current region. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -282,7 +282,7 @@ public class AwsElementalinference : IAwsElementalinference
     }
 
     /// <summary>
-    /// Searches for the fixtures (sports events, such as a specific basketball game) that are available for a sport in a date window. Each fixture in the response includes a fixtureId that you specify in the clipping out- put of a feed, so that Elemental Inference maps the event data for that fixture onto the clipping metadata. This operation is paginated: if there are more fixtures than fit in one page, the response includes a nextToken that you pass in a subsequent request. See also: AWS API Document...
+    /// Searches for the fixtures (sports events, such as a specific basketball game) that are available for a sport in a date window. Each fixture in the response includes a fixtureId that you specify in the clipping output of a feed, so that Elemental Inference maps the event data for that fixture onto the clipping metadata. This operation is paginated: if there are more fixtures than fit in one page, the response includes a nextToken that you pass in a subsequent request. See also: AWS API Documentat...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -297,7 +297,7 @@ public class AwsElementalinference : IAwsElementalinference
     }
 
     /// <summary>
-    /// Associates the specified tags to the resource identified by the speci- fied resourceArn in the current region. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are also deleted. See also: AWS API Documentation
+    /// Associates the specified tags to the resource identified by the specified resourceArn in the current region. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are also deleted. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -312,7 +312,7 @@ public class AwsElementalinference : IAwsElementalinference
     }
 
     /// <summary>
-    /// Deletes specified tags from the specified resource in the current re- gion. See also: AWS API Documentation
+    /// Deletes specified tags from the specified resource in the current region. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

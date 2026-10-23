@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsWorkspacesModifyClientPropertiesOptions : AwsOptions, IValidata
     /// <summary>
     /// Modifies the properties of the specified Amazon WorkSpaces clients. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceId">The resource identifiers, in the form of directory IDs. Constraints: o min: 1</param>
-    /// <param name="ClientProperties">Information about the Amazon WorkSpaces client. ReconnectEnabled -&gt; (string) Specifies whether users can cache their credentials on the Ama- zon WorkSpaces client. When enabled, users can choose to recon- nect to their WorkSpaces without re-entering their credentials. Possible values: o ENABLED o DISABLED LogUploadEnabled -&gt; (string) Specifies whether users can upload diagnostic log files of Ama- zon WorkSpaces client directly to WorkSpaces to troubleshoot is- sues when using the WorkSpaces client. When enabled, the log files will be sent to WorkSpaces automatically and will be ap- plied to all users in the specified directory. Possible values: o ENABLED o DISABLED ClientExperiencePolicy -&gt; (string) The client experience policy that determines which client expe- rience the user sees. Administrators can set this policy to con- trol the client experience for users in a directory. Valid val- ues include FORCE_CLASSIC , FORCE_UI_2026 , and USER_CHOICE . Constraints: o max: 64 o pattern: ^[A-Z_0-9]+$ Shorthand Syntax: ReconnectEnabled=string,LogUploadEnabled=string,ClientExperiencePolicy=string JSON Syntax: { "ReconnectEnabled": "ENABLED"|"DISABLED", "LogUploadEnabled": "ENABLED"|"DISABLED", "ClientExperiencePolicy": "string" }</param>
+    /// <param name="ResourceId">The resource identifiers, in the form of directory IDs. Constraints: • min: 1</param>
+    /// <param name="ClientProperties">Information about the Amazon WorkSpaces client. ReconnectEnabled -&gt; (string) Specifies whether users can cache their credentials on the Amazon WorkSpaces client. When enabled, users can choose to reconnect to their WorkSpaces without re-entering their credentials. Possible values: • ENABLED • DISABLED LogUploadEnabled -&gt; (string) Specifies whether users can upload diagnostic log files of Amazon WorkSpaces client directly to WorkSpaces to troubleshoot issues when using the WorkSpaces client. When enabled, the log files will be sent to WorkSpaces automatically and will be applied to all users in the specified directory. Possible values: • ENABLED • DISABLED ClientExperiencePolicy -&gt; (string) The client experience policy that determines which client experience the user sees. Administrators can set this policy to control the client experience for users in a directory. Valid values include FORCE_CLASSIC , FORCE_UI_2026 , and USER_CHOICE . Constraints: • max: 64 • pattern: ^[A-Z_0-9]+$ Shorthand Syntax: ReconnectEnabled=string,LogUploadEnabled=string,ClientExperiencePolicy=string JSON Syntax: { "ReconnectEnabled": "ENABLED"|"DISABLED", "LogUploadEnabled": "ENABLED"|"DISABLED", "ClientExperiencePolicy": "string" }</param>
     public AwsWorkspacesModifyClientPropertiesOptions(
         string ResourceId,
         string ClientProperties
@@ -60,13 +61,13 @@ public record AwsWorkspacesModifyClientPropertiesOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The resource identifiers, in the form of directory IDs. Constraints: o min: 1
+    /// The resource identifiers, in the form of directory IDs. Constraints: • min: 1
     /// </summary>
     [CliOption("--resource-id")]
     public string? ResourceId { get; private init; }
 
     /// <summary>
-    /// Information about the Amazon WorkSpaces client. ReconnectEnabled -&gt; (string) Specifies whether users can cache their credentials on the Ama- zon WorkSpaces client. When enabled, users can choose to recon- nect to their WorkSpaces without re-entering their credentials. Possible values: o ENABLED o DISABLED LogUploadEnabled -&gt; (string) Specifies whether users can upload diagnostic log files of Ama- zon WorkSpaces client directly to WorkSpaces to troubleshoot is- sues when using the WorkSpaces client. When enabled, the log files will be sent to WorkSpaces automatically and will be ap- plied to all users in the specified directory. Possible values: o ENABLED o DISABLED ClientExperiencePolicy -&gt; (string) The client experience policy that determines which client expe- rience the user sees. Administrators can set this policy to con- trol the client experience for users in a directory. Valid val- ues include FORCE_CLASSIC , FORCE_UI_2026 , and USER_CHOICE . Constraints: o max: 64 o pattern: ^[A-Z_0-9]+$ Shorthand Syntax: ReconnectEnabled=string,LogUploadEnabled=string,ClientExperiencePolicy=string JSON Syntax: { "ReconnectEnabled": "ENABLED"|"DISABLED", "LogUploadEnabled": "ENABLED"|"DISABLED", "ClientExperiencePolicy": "string" }
+    /// Information about the Amazon WorkSpaces client. ReconnectEnabled -&gt; (string) Specifies whether users can cache their credentials on the Amazon WorkSpaces client. When enabled, users can choose to reconnect to their WorkSpaces without re-entering their credentials. Possible values: • ENABLED • DISABLED LogUploadEnabled -&gt; (string) Specifies whether users can upload diagnostic log files of Amazon WorkSpaces client directly to WorkSpaces to troubleshoot issues when using the WorkSpaces client. When enabled, the log files will be sent to WorkSpaces automatically and will be applied to all users in the specified directory. Possible values: • ENABLED • DISABLED ClientExperiencePolicy -&gt; (string) The client experience policy that determines which client experience the user sees. Administrators can set this policy to control the client experience for users in a directory. Valid values include FORCE_CLASSIC , FORCE_UI_2026 , and USER_CHOICE . Constraints: • max: 64 • pattern: ^[A-Z_0-9]+$ Shorthand Syntax: ReconnectEnabled=string,LogUploadEnabled=string,ClientExperiencePolicy=string JSON Syntax: { "ReconnectEnabled": "ENABLED"|"DISABLED", "LogUploadEnabled": "ENABLED"|"DISABLED", "ClientExperiencePolicy": "string" }
     /// </summary>
     [CliOption("--client-properties")]
     public string? ClientProperties { get; private init; }
@@ -92,6 +93,15 @@ public record AwsWorkspacesModifyClientPropertiesOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

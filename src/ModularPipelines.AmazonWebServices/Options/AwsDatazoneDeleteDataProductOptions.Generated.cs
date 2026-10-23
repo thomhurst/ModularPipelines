@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a data product in Amazon DataZone. Prerequisites: o The data product must exist and not be deleted or archived. o The user must have delete permissions for the data product. o Domain and project must be active. See also: AWS API Documentation
+/// Deletes a data product in Amazon DataZone. Prerequisites: • The data product must exist and not be deleted or archived. • The user must have delete permissions for the data product. • Domain and project must be active. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsDatazoneDeleteDataProductOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a data product in Amazon DataZone. Prerequisites: o The data product must exist and not be deleted or archived. o The user must have delete permissions for the data product. o Domain and project must be active. See also: AWS API Documentation
+    /// Deletes a data product in Amazon DataZone. Prerequisites: • The data product must exist and not be deleted or archived. • The user must have delete permissions for the data product. • Domain and project must be active. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain in which the data product is deleted. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="Identifier">The identifier of the data product that is deleted. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain in which the data product is deleted. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="Identifier">The identifier of the data product that is deleted. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}</param>
     public AwsDatazoneDeleteDataProductOptions(
         string DomainIdentifier,
         string Identifier
@@ -60,13 +61,13 @@ public record AwsDatazoneDeleteDataProductOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon DataZone domain in which the data product is deleted. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The ID of the Amazon DataZone domain in which the data product is deleted. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The identifier of the data product that is deleted. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The identifier of the data product that is deleted. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
@@ -92,6 +93,15 @@ public record AwsDatazoneDeleteDataProductOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

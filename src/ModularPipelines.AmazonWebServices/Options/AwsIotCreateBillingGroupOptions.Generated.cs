@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a billing group. If this call is made multiple times using the same billing group name and configuration, the call will succeed. If this call is made with the same billing group name but different con- figuration a ResourceAlreadyExistsException is thrown. Requires permission to access the CreateBillingGroup action. See also: AWS API Documentation
+/// Creates a billing group. If this call is made multiple times using the same billing group name and configuration, the call will succeed. If this call is made with the same billing group name but different configuration a ResourceAlreadyExistsException is thrown. Requires permission to access the CreateBillingGroup action. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsIotCreateBillingGroupOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a billing group. If this call is made multiple times using the same billing group name and configuration, the call will succeed. If this call is made with the same billing group name but different con- figuration a ResourceAlreadyExistsException is thrown. Requires permission to access the CreateBillingGroup action. See also: AWS API Documentation
+    /// Creates a billing group. If this call is made multiple times using the same billing group name and configuration, the call will succeed. If this call is made with the same billing group name but different configuration a ResourceAlreadyExistsException is thrown. Requires permission to access the CreateBillingGroup action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BillingGroupName">The name you wish to give to the billing group. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+</param>
+    /// <param name="BillingGroupName">The name you wish to give to the billing group. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+</param>
     public AwsIotCreateBillingGroupOptions(
         string BillingGroupName
     )
@@ -56,19 +57,19 @@ public record AwsIotCreateBillingGroupOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name you wish to give to the billing group. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+
+    /// The name you wish to give to the billing group. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+
     /// </summary>
     [CliOption("--billing-group-name")]
     public string? BillingGroupName { get; private init; }
 
     /// <summary>
-    /// The properties of the billing group. billingGroupDescription -&gt; (string) The description of the billing group. Constraints: o max: 2028 o pattern: [\p{Graph}\x20]* Shorthand Syntax: billingGroupDescription=string JSON Syntax: { "billingGroupDescription": "string" }
+    /// The properties of the billing group. billingGroupDescription -&gt; (string) The description of the billing group. Constraints: • max: 2028 • pattern: [\p{Graph}\x20]* Shorthand Syntax: billingGroupDescription=string JSON Syntax: { "billingGroupDescription": "string" }
     /// </summary>
     [CliOption("--billing-group-properties")]
     public string? BillingGroupProperties { get; set; }
 
     /// <summary>
-    /// Metadata which can be used to manage the billing group. (structure) A set of key/value pairs that are used to manage the resource. Key -&gt; (string) [required] The tag's key. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) The tag's value. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Metadata which can be used to manage the billing group. (structure) A set of key/value pairs that are used to manage the resource. Key -&gt; (string) [required] The tag's key. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) The tag's value. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -94,6 +95,15 @@ public record AwsIotCreateBillingGroupOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

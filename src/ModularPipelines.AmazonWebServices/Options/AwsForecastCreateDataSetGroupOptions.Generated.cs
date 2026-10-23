@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +29,8 @@ public record AwsForecastCreateDataSetGroupOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Creates a dataset group, which holds a collection of related datasets. You can add datasets to the dataset group when you create the dataset group, or later by using the UpdateDatasetGroup operation. After creating a dataset group and adding datasets, you use the dataset group when you create a predictor. For more information, see Dataset groups . To get a list of all your datasets groups, use the ListDatasetGroups operation. NOTE: The Status of a dataset group must be ACTIVE before you can use ...
     /// </summary>
-    /// <param name="DataSetGroupName">A name for the dataset group. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z][a-zA-Z0-9_]*</param>
-    /// <param name="Domain">The domain associated with the dataset group. When you add a dataset to a dataset group, this value and the value specified for the Do- main parameter of the CreateDataset operation must match. The Domain and DatasetType that you choose determine the fields that must be present in training data that you import to a dataset. For example, if you choose the RETAIL domain and TARGET_TIME_SERIES as the DatasetType , Amazon Forecast requires that item_id , timestamp , and demand fields are present in your data. For more information, see Dataset groups . Possible values: o RETAIL o CUSTOM o INVENTORY_PLANNING o EC2_CAPACITY o WORK_FORCE o WEB_TRAFFIC o METRICS</param>
+    /// <param name="DataSetGroupName">A name for the dataset group. Constraints: • min: 1 • max: 63 • pattern: ^[a-zA-Z][a-zA-Z0-9_]*</param>
+    /// <param name="Domain">The domain associated with the dataset group. When you add a dataset to a dataset group, this value and the value specified for the Domain parameter of the CreateDataset operation must match. The Domain and DatasetType that you choose determine the fields that must be present in training data that you import to a dataset. For example, if you choose the RETAIL domain and TARGET_TIME_SERIES as the DatasetType , Amazon Forecast requires that item_id , timestamp , and demand fields are present in your data. For more information, see Dataset groups . Possible values: • RETAIL • CUSTOM • INVENTORY_PLANNING • EC2_CAPACITY • WORK_FORCE • WEB_TRAFFIC • METRICS</param>
     public AwsForecastCreateDataSetGroupOptions(
         string DataSetGroupName,
         AwsForecastCreateDataSetGroupDomain Domain
@@ -60,25 +61,25 @@ public record AwsForecastCreateDataSetGroupOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A name for the dataset group. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z][a-zA-Z0-9_]*
+    /// A name for the dataset group. Constraints: • min: 1 • max: 63 • pattern: ^[a-zA-Z][a-zA-Z0-9_]*
     /// </summary>
     [CliOption("--dataset-group-name")]
     public string? DataSetGroupName { get; private init; }
 
     /// <summary>
-    /// The domain associated with the dataset group. When you add a dataset to a dataset group, this value and the value specified for the Do- main parameter of the CreateDataset operation must match. The Domain and DatasetType that you choose determine the fields that must be present in training data that you import to a dataset. For example, if you choose the RETAIL domain and TARGET_TIME_SERIES as the DatasetType , Amazon Forecast requires that item_id , timestamp , and demand fields are present in your data. For more information, see Dataset groups . Possible values: o RETAIL o CUSTOM o INVENTORY_PLANNING o EC2_CAPACITY o WORK_FORCE o WEB_TRAFFIC o METRICS
+    /// The domain associated with the dataset group. When you add a dataset to a dataset group, this value and the value specified for the Domain parameter of the CreateDataset operation must match. The Domain and DatasetType that you choose determine the fields that must be present in training data that you import to a dataset. For example, if you choose the RETAIL domain and TARGET_TIME_SERIES as the DatasetType , Amazon Forecast requires that item_id , timestamp , and demand fields are present in your data. For more information, see Dataset groups . Possible values: • RETAIL • CUSTOM • INVENTORY_PLANNING • EC2_CAPACITY • WORK_FORCE • WEB_TRAFFIC • METRICS
     /// </summary>
     [CliOption("--domain")]
     public AwsForecastCreateDataSetGroupDomain? Domain { get; private init; }
 
     /// <summary>
-    /// An array of Amazon Resource Names (ARNs) of the datasets that you want to include in the dataset group. (string) Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+ Syntax: "string" "string" ...
+    /// An array of Amazon Resource Names (ARNs) of the datasets that you want to include in the dataset group. (string) Constraints: • max: 256 • pattern: arn:([a-z\d-]+):forecast:.*:.*:.+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--dataset-arns", GroupValues = true)]
     public IEnumerable<string>? DataSetArns { get; set; }
 
     /// <summary>
-    /// The optional metadata that you apply to the dataset group to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags: o Maximum number of tags per resource - 50. o For each resource, each tag key must be unique, and each tag key can have only one value. o Maximum key length - 128 Unicode characters in UTF-8. o Maximum value length - 256 Unicode characters in UTF-8. o If your tagging schema is used across multiple services and re- sources, remember that other services may have restrictions on al- lowed characters. Generally allowed characters are: letters, num- bers, and spaces representable in UTF-8, and the following charac- ters: + - = . _ : / @. o Tag keys and values are case sensitive. o Do not use aws: , AWS: , or any upper or lowercase combination of such as a prefix for keys as it is reserved for Amazon Web Ser- vices use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit. Constraints: o min: 0 o max: 200 (structure) The optional metadata that you apply to a resource to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags: o Maximum number of tags per resource - 50. o For each resource, each tag key must be unique, and each tag key can have only one value. o Maximum key length - 128 Unicode characters in UTF-8. o Maximum value length - 256 Unicode characters in UTF-8. o If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: let- ters, numbers, and spaces representable in UTF-8, and the fol- lowing characters: + - = . _ : / @. o Tag keys and values are case sensitive. o Do not use aws: , AWS: , or any upper or lowercase combination of such as a prefix for keys as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit. Key -&gt; (string) [required] One part of a key-value pair that makes up a tag. A key is a general label that acts like a category for more specific tag values. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The optional part of a key-value pair that makes up a tag. A value acts as a descriptor within a tag category (key). Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The optional metadata that you apply to the dataset group to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags: • Maximum number of tags per resource - 50. • For each resource, each tag key must be unique, and each tag key can have only one value. • Maximum key length - 128 Unicode characters in UTF-8. • Maximum value length - 256 Unicode characters in UTF-8. • If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @. • Tag keys and values are case sensitive. • Do not use aws: , AWS: , or any upper or lowercase combination of such as a prefix for keys as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit. Constraints: • min: 0 • max: 200 (structure) The optional metadata that you apply to a resource to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags: • Maximum number of tags per resource - 50. • For each resource, each tag key must be unique, and each tag key can have only one value. • Maximum key length - 128 Unicode characters in UTF-8. • Maximum value length - 256 Unicode characters in UTF-8. • If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @. • Tag keys and values are case sensitive. • Do not use aws: , AWS: , or any upper or lowercase combination of such as a prefix for keys as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit. Key -&gt; (string) [required] One part of a key-value pair that makes up a tag. A key is a general label that acts like a category for more specific tag values. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The optional part of a key-value pair that makes up a tag. A value acts as a descriptor within a tag category (key). Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -104,6 +105,15 @@ public record AwsForecastCreateDataSetGroupOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

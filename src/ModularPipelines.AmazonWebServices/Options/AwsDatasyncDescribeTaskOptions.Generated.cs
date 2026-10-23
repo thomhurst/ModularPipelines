@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Provides information about a task , which defines where and how Data- Sync transfers your data. See also: AWS API Documentation
+/// Provides information about a task , which defines where and how DataSync transfers your data. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsDatasyncDescribeTaskOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Provides information about a task , which defines where and how Data- Sync transfers your data. See also: AWS API Documentation
+    /// Provides information about a task , which defines where and how DataSync transfers your data. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TaskArn">Specifies the Amazon Resource Name (ARN) of the transfer task that you want information about. Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):data- sync:[a-z\-0-9]+:[0-9]{12}:task/task-[0-9a-f]{17}$</param>
+    /// <param name="TaskArn">Specifies the Amazon Resource Name (ARN) of the transfer task that you want information about. Constraints: • max: 128 • pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):datasync:[a-z\-0-9]+:[0-9]{12}:task/task-[0-9a-f]{17}$</param>
     public AwsDatasyncDescribeTaskOptions(
         string TaskArn
     )
@@ -56,7 +57,7 @@ public record AwsDatasyncDescribeTaskOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the Amazon Resource Name (ARN) of the transfer task that you want information about. Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):data- sync:[a-z\-0-9]+:[0-9]{12}:task/task-[0-9a-f]{17}$
+    /// Specifies the Amazon Resource Name (ARN) of the transfer task that you want information about. Constraints: • max: 128 • pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):datasync:[a-z\-0-9]+:[0-9]{12}:task/task-[0-9a-f]{17}$
     /// </summary>
     [CliOption("--task-arn")]
     public string? TaskArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsDatasyncDescribeTaskOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

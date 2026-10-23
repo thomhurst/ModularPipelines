@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -33,7 +33,7 @@ public class AwsRedshift : IAwsRedshift
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws redshift wait sub-commands.
     /// </summary>
     public AwsRedshiftWait Wait => _wait ??= new AwsRedshiftWait(_command);
 
@@ -57,7 +57,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Adds a partner integration to a cluster. This operation authorizes a partner to push status updates for the specified database. To complete the integration, you also set up the integration on the partner web- site. See also: AWS API Documentation
+    /// Adds a partner integration to a cluster. This operation authorizes a partner to push status updates for the specified database. To complete the integration, you also set up the integration on the partner website. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -72,7 +72,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// From a datashare consumer account, associates a datashare with the ac- count (AssociateEntireAccount) or the specified namespace (Consumer- Arn). If you make this association, the consumer can consume the datashare. See also: AWS API Documentation
+    /// From a datashare consumer account, associates a datashare with the account (AssociateEntireAccount) or the specified namespace (ConsumerArn). If you make this association, the consumer can consume the datashare. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -87,7 +87,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Adds an inbound (ingress) rule to an Amazon Redshift security group. Depending on whether the application accessing your cluster is running on the Internet or an Amazon EC2 instance, you can authorize inbound access to either a Classless Interdomain Routing (CIDR)/Internet Proto- col (IP) range or to an Amazon EC2 security group. You can add as many as 20 ingress rules to an Amazon Redshift security group. If you authorize access to an Amazon EC2 security group, specify EC2Se- curityGroupName an...
+    /// Adds an inbound (ingress) rule to an Amazon Redshift security group. Depending on whether the application accessing your cluster is running on the Internet or an Amazon EC2 instance, you can authorize inbound access to either a Classless Interdomain Routing (CIDR)/Internet Protocol (IP) range or to an Amazon EC2 security group. You can add as many as 20 ingress rules to an Amazon Redshift security group. If you authorize access to an Amazon EC2 security group, specify EC2SecurityGroupName and EC...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -102,7 +102,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// From a data producer account, authorizes the sharing of a datashare with one or more consumer accounts or managing entities. To authorize a datashare for a data consumer, the producer account must have the cor- rect access permissions. See also: AWS API Documentation
+    /// From a data producer account, authorizes the sharing of a datashare with one or more consumer accounts or managing entities. To authorize a datashare for a data consumer, the producer account must have the correct access permissions. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -132,7 +132,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Authorizes the specified Amazon Web Services account to restore the specified snapshot. For more information about working with snapshots, go to Amazon Red- shift Snapshots in the Amazon Redshift Cluster Management Guide . See also: AWS API Documentation
+    /// Authorizes the specified Amazon Web Services account to restore the specified snapshot. For more information about working with snapshots, go to Amazon Redshift Snapshots in the Amazon Redshift Cluster Management Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -192,7 +192,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Copies the specified automated cluster snapshot to a new manual cluster snapshot. The source must be an automated snapshot and it must be in the available state. When you delete a cluster, Amazon Redshift deletes any automated snap- shots of the cluster. Also, when the retention period of the snapshot expires, Amazon Redshift automatically deletes it. If you want to keep an automated snapshot for a longer period, you can make a manual copy of the snapshot. Manual snapshots are retained until you...
+    /// Copies the specified automated cluster snapshot to a new manual cluster snapshot. The source must be an automated snapshot and it must be in the available state. When you delete a cluster, Amazon Redshift deletes any automated snapshots of the cluster. Also, when the retention period of the snapshot expires, Amazon Redshift automatically deletes it. If you want to keep an automated snapshot for a longer period, you can make a manual copy of the snapshot. Manual snapshots are retained until you d...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -222,7 +222,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Creates a new cluster with the specified parameters. To create a cluster in Virtual Private Cloud (VPC), you must provide a cluster subnet group name. The cluster subnet group identifies the sub- nets of your VPC that Amazon Redshift uses when creating the cluster. For more information about managing clusters, go to Amazon Redshift Clusters in the Amazon Redshift Cluster Management Guide . VPC Block Public Access (BPA) enables you to block resources in VPCs and subnets that you own in a Region f...
+    /// Creates a new cluster with the specified parameters. To create a cluster in Virtual Private Cloud (VPC), you must provide a cluster subnet group name. The cluster subnet group identifies the subnets of your VPC that Amazon Redshift uses when creating the cluster. For more information about managing clusters, go to Amazon Redshift Clusters in the Amazon Redshift Cluster Management Guide . VPC Block Public Access (BPA) enables you to block resources in VPCs and subnets that you own in a Region fro...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -267,7 +267,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Creates a manual snapshot of the specified cluster. The cluster must be in the available state. For more information about working with snapshots, go to Amazon Red- shift Snapshots in the Amazon Redshift Cluster Management Guide . See also: AWS API Documentation
+    /// Creates a manual snapshot of the specified cluster. The cluster must be in the available state. For more information about working with snapshots, go to Amazon Redshift Snapshots in the Amazon Redshift Cluster Management Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -282,7 +282,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Creates a new Amazon Redshift subnet group. You must provide a list of one or more subnets in your existing Amazon Virtual Private Cloud (Ama- zon VPC) when creating Amazon Redshift subnet group. For information about subnet groups, go to Amazon Redshift Cluster Sub- net Groups in the Amazon Redshift Cluster Management Guide . See also: AWS API Documentation
+    /// Creates a new Amazon Redshift subnet group. You must provide a list of one or more subnets in your existing Amazon Virtual Private Cloud (Amazon VPC) when creating Amazon Redshift subnet group. For information about subnet groups, go to Amazon Redshift Cluster Subnet Groups in the Amazon Redshift Cluster Management Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -342,7 +342,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Creates an HSM client certificate that an Amazon Redshift cluster will use to connect to the client's HSM in order to store and retrieve the keys used to encrypt the cluster databases. The command returns a public key, which you must store in the HSM. In addition to creating the HSM certificate, you must create an Amazon Redshift HSM configuration that provides a cluster the information needed to store and use encryption keys in the HSM. For more informa- tion, go to Hardware Security Modules in...
+    /// Creates an HSM client certificate that an Amazon Redshift cluster will use to connect to the client's HSM in order to store and retrieve the keys used to encrypt the cluster databases. The command returns a public key, which you must store in the HSM. In addition to creating the HSM certificate, you must create an Amazon Redshift HSM configuration that provides a cluster the information needed to store and use encryption keys in the HSM. For more information, go to Hardware Security Modules in t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -372,7 +372,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Creates a zero-ETL integration or S3 event integration with Amazon Red- shift. See also: AWS API Documentation
+    /// Creates a zero-ETL integration or S3 event integration with Amazon Redshift. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -387,7 +387,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Creates an Amazon Redshift Query Editor (QEV2) IAM Identity Center ap- plication. See also: AWS API Documentation
+    /// Creates an Amazon Redshift Query Editor (QEV2) IAM Identity Center application. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -402,7 +402,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Creates an Amazon Redshift application for use with IAM Identity Cen- ter. See also: AWS API Documentation
+    /// Creates an Amazon Redshift application for use with IAM Identity Center. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -492,7 +492,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// From a datashare producer account, removes authorization from the spec- ified datashare. See also: AWS API Documentation
+    /// From a datashare producer account, removes authorization from the specified datashare. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -522,7 +522,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Deletes a previously provisioned cluster without its final snapshot be- ing created. A successful response from the web service indicates that the request was received correctly. Use DescribeClusters to monitor the status of the deletion. The delete operation cannot be canceled or reverted once submitted. For more information about managing clusters, go to Amazon Redshift Clusters in the Amazon Redshift Cluster Manage- ment Guide . If you want to shut down the cluster and retain it for future us...
+    /// Deletes a previously provisioned cluster without its final snapshot being created. A successful response from the web service indicates that the request was received correctly. Use DescribeClusters to monitor the status of the deletion. The delete operation cannot be canceled or reverted once submitted. For more information about managing clusters, go to Amazon Redshift Clusters in the Amazon Redshift Cluster Management Guide . If you want to shut down the cluster and retain it for future use, s...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -537,7 +537,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Deletes a specified Amazon Redshift parameter group. NOTE: You cannot delete a parameter group if it is associated with a clus- ter. See also: AWS API Documentation
+    /// Deletes a specified Amazon Redshift parameter group. NOTE: You cannot delete a parameter group if it is associated with a cluster. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -552,7 +552,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Deletes an Amazon Redshift security group. NOTE: You cannot delete a security group that is associated with any clus- ters. You cannot delete the default security group. For information about managing security groups, go to Amazon Redshift Cluster Security Groups in the Amazon Redshift Cluster Management Guide . See also: AWS API Documentation
+    /// Deletes an Amazon Redshift security group. NOTE: You cannot delete a security group that is associated with any clusters. You cannot delete the default security group. For information about managing security groups, go to Amazon Redshift Cluster Security Groups in the Amazon Redshift Cluster Management Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -567,7 +567,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Deletes the specified manual snapshot. The snapshot must be in the available state, with no other users authorized to access the snapshot. Unlike automated snapshots, manual snapshots are retained even after you delete your cluster. Amazon Redshift does not delete your manual snapshots. You must delete manual snapshot explicitly to avoid getting charged. If other accounts are authorized to access the snapshot, you must revoke all of the authorizations before you can delete the snap- shot. See al...
+    /// Deletes the specified manual snapshot. The snapshot must be in the available state, with no other users authorized to access the snapshot. Unlike automated snapshots, manual snapshots are retained even after you delete your cluster. Amazon Redshift does not delete your manual snapshots. You must delete manual snapshot explicitly to avoid getting charged. If other accounts are authorized to access the snapshot, you must revoke all of the authorizations before you can delete the snapshot. See also...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -672,7 +672,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Deletes a zero-ETL integration or S3 event integration with Amazon Red- shift. See also: AWS API Documentation
+    /// Deletes a zero-ETL integration or S3 event integration with Amazon Redshift. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -702,7 +702,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Deletes an Amazon Redshift Query Editor (QEV2) IAM Identity Center ap- plication. See also: AWS API Documentation
+    /// Deletes an Amazon Redshift Query Editor (QEV2) IAM Identity Center application. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -822,7 +822,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Deregisters a cluster or serverless namespace from the Amazon Web Ser- vices Glue Data Catalog. See also: AWS API Documentation
+    /// Deregisters a cluster or serverless namespace from the Amazon Web Services Glue Data Catalog. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -867,7 +867,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Returns an array of ClusterDbRevision objects. See also: AWS API Documentation describe-cluster-db-revisions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ClusterDbRevisions
+    /// Returns an array of ClusterDbRevision objects. See also: AWS API Documentation describe-cluster-db-revisions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ClusterDbRevisions
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -882,7 +882,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Returns a list of Amazon Redshift parameter groups, including parameter groups you created and the default parameter group. For each parameter group, the response includes the parameter group name, description, and parameter group family name. You can optionally specify a name to re- trieve the description of a specific parameter group. For more information about parameters and parameter groups, go to Amazon Redshift Parameter Groups in the Amazon Redshift Cluster Manage- ment Guide . If you spe...
+    /// Returns a list of Amazon Redshift parameter groups, including parameter groups you created and the default parameter group. For each parameter group, the response includes the parameter group name, description, and parameter group family name. You can optionally specify a name to retrieve the description of a specific parameter group. For more information about parameters and parameter groups, go to Amazon Redshift Parameter Groups in the Amazon Redshift Cluster Management Guide . If you specify...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -897,7 +897,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Returns a detailed list of parameters contained within the specified Amazon Redshift parameter group. For each parameter the response in- cludes information such as parameter name, description, data type, value, whether the parameter value is modifiable, and so on. You can specify source filter to retrieve parameters of only specific type. For example, to retrieve parameters that were modified by a user action such as from ModifyClusterParameterGroup , you can specify source equal to user . For ...
+    /// Returns a detailed list of parameters contained within the specified Amazon Redshift parameter group. For each parameter the response includes information such as parameter name, description, data type, value, whether the parameter value is modifiable, and so on. You can specify source filter to retrieve parameters of only specific type. For example, to retrieve parameters that were modified by a user action such as from ModifyClusterParameterGroup , you can specify source equal to user . For mo...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -912,7 +912,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Returns information about Amazon Redshift security groups. If the name of a security group is specified, the response will contain only infor- mation about only that security group. For information about managing security groups, go to Amazon Redshift Cluster Security Groups in the Amazon Redshift Cluster Management Guide . If you specify both tag keys and tag values in the same request, Amazon Redshift returns all security groups that match any combination of the specified keys and values. For ...
+    /// Returns information about Amazon Redshift security groups. If the name of a security group is specified, the response will contain only information about only that security group. For information about managing security groups, go to Amazon Redshift Cluster Security Groups in the Amazon Redshift Cluster Management Guide . If you specify both tag keys and tag values in the same request, Amazon Redshift returns all security groups that match any combination of the specified keys and values. For ex...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -927,7 +927,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Returns one or more snapshot objects, which contain metadata about your cluster snapshots. By default, this operation returns information about all snapshots of all clusters that are owned by your Amazon Web Ser- vices account. No information is returned for snapshots owned by inac- tive Amazon Web Services accounts. If you specify both tag keys and tag values in the same request, Amazon Redshift returns all snapshots that match any combination of the speci- fied keys and values. For example, if...
+    /// Returns one or more snapshot objects, which contain metadata about your cluster snapshots. By default, this operation returns information about all snapshots of all clusters that are owned by your Amazon Web Services account. No information is returned for snapshots owned by inactive Amazon Web Services accounts. If you specify both tag keys and tag values in the same request, Amazon Redshift returns all snapshots that match any combination of the specified keys and values. For example, if you h...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -942,22 +942,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Returns properties of provisioned clusters including general cluster properties, cluster database properties, maintenance and backup proper- ties, and security and access properties. This operation supports pagi- nation. For more information about managing clusters, go to Amazon Red- shift Clusters in the Amazon Redshift Cluster Management Guide . If you specify both tag keys and tag values in the same request, Amazon Redshift returns all clusters that match any combination of the speci- fied ke...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeClustersAsync(
-        AwsRedshiftDescribeClustersOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRedshiftDescribeClustersOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Returns one or more cluster subnet group objects, which contain meta- data about your cluster subnet groups. By default, this operation re- turns information about all cluster subnet groups that are defined in your Amazon Web Services account. If you specify both tag keys and tag values in the same request, Amazon Redshift returns all subnet groups that match any combination of the specified keys and values. For example, if you have owner and environ- ment for tag keys, and admin and test for ta...
+    /// Returns one or more cluster subnet group objects, which contain metadata about your cluster subnet groups. By default, this operation returns information about all cluster subnet groups that are defined in your Amazon Web Services account. If you specify both tag keys and tag values in the same request, Amazon Redshift returns all subnet groups that match any combination of the specified keys and values. For example, if you have owner and environment for tag keys, and admin and test for tag valu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -972,7 +957,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Returns a list of all the available maintenance tracks. See also: AWS API Documentation describe-cluster-tracks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: MaintenanceTracks
+    /// Returns a list of all the available maintenance tracks. See also: AWS API Documentation describe-cluster-tracks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: MaintenanceTracks
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -987,7 +972,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Returns descriptions of the available Amazon Redshift cluster versions. You can call this operation even before creating any clusters to learn more about the Amazon Redshift versions. For more information about managing clusters, go to Amazon Redshift Clusters in the Amazon Red- shift Cluster Management Guide . See also: AWS API Documentation describe-cluster-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable p...
+    /// Returns descriptions of the available Amazon Redshift cluster versions. You can call this operation even before creating any clusters to learn more about the Amazon Redshift versions. For more information about managing clusters, go to Amazon Redshift Clusters in the Amazon Redshift Cluster Management Guide . See also: AWS API Documentation describe-cluster-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pag...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1002,7 +987,22 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Contains information about custom domain associations for a cluster. See also: AWS API Documentation describe-custom-domain-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Associations
+    /// Returns properties of provisioned clusters including general cluster properties, cluster database properties, maintenance and backup properties, and security and access properties. This operation supports pagination. For more information about managing clusters, go to Amazon Redshift Clusters in the Amazon Redshift Cluster Management Guide . If you specify both tag keys and tag values in the same request, Amazon Redshift returns all clusters that match any combination of the specified keys and v...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeClustersAsync(
+        AwsRedshiftDescribeClustersOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRedshiftDescribeClustersOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Contains information about custom domain associations for a cluster. See also: AWS API Documentation describe-custom-domain-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Associations
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1017,7 +1017,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Returns a list of datashares where the account identifier being called is a consumer account identifier. See also: AWS API Documentation describe-data-shares-for-consumer is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the followi...
+    /// Returns a list of datashares where the account identifier being called is a consumer account identifier. See also: AWS API Documentation describe-data-shares-for-consumer is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following q...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1032,7 +1032,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Returns a list of datashares when the account identifier being called is a producer account identifier. See also: AWS API Documentation describe-data-shares-for-producer is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the followin...
+    /// Returns a list of datashares when the account identifier being called is a producer account identifier. See also: AWS API Documentation describe-data-shares-for-producer is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following qu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1062,7 +1062,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Returns a list of parameter settings for the specified parameter group family. For more information about parameters and parameter groups, go to Amazon Redshift Parameter Groups in the Amazon Redshift Cluster Manage- ment Guide . See also: AWS API Documentation describe-default-cluster-parameters is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --outpu...
+    /// Returns a list of parameter settings for the specified parameter group family. For more information about parameters and parameter groups, go to Amazon Redshift Parameter Groups in the Amazon Redshift Cluster Management Guide . See also: AWS API Documentation describe-default-cluster-parameters is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1077,7 +1077,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Describes a Redshift-managed VPC endpoint. See also: AWS API Documentation describe-endpoint-access is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: EndpointAccessList
+    /// Describes a Redshift-managed VPC endpoint. See also: AWS API Documentation describe-endpoint-access is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: EndpointAccessList
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1092,7 +1092,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Describes an endpoint authorization. See also: AWS API Documentation describe-endpoint-authorization is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: EndpointAuthorizationList
+    /// Describes an endpoint authorization. See also: AWS API Documentation describe-endpoint-authorization is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: EndpointAuthorizationList
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1122,22 +1122,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Returns events related to clusters, security groups, snapshots, and pa- rameter groups for the past 14 days. Events specific to a particular cluster, security group, snapshot or parameter group can be obtained by providing the name as a parameter. By default, the past hour of events are returned. See also: AWS API Documentation describe-events is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providin...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeEventsAsync(
-        AwsRedshiftDescribeEventsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRedshiftDescribeEventsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Lists descriptions of all the Amazon Redshift event notification sub- scriptions for a customer account. If you specify a subscription name, lists the description for that subscription. If you specify both tag keys and tag values in the same request, Amazon Redshift returns all event notification subscriptions that match any combination of the specified keys and values. For example, if you have owner and environment for tag keys, and admin and test for tag values, all subscriptions that have any...
+    /// Lists descriptions of all the Amazon Redshift event notification subscriptions for a customer account. If you specify a subscription name, lists the description for that subscription. If you specify both tag keys and tag values in the same request, Amazon Redshift returns all event notification subscriptions that match any combination of the specified keys and values. For example, if you have owner and environment for tag keys, and admin and test for tag values, all subscriptions that have any c...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1152,7 +1137,22 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Returns information about the specified HSM client certificate. If no certificate ID is specified, returns information about all the HSM cer- tificates owned by your Amazon Web Services account. If you specify both tag keys and tag values in the same request, Amazon Redshift returns all HSM client certificates that match any combination of the specified keys and values. For example, if you have owner and environment for tag keys, and admin and test for tag values, all HSM client certificates tha...
+    /// Returns events related to clusters, security groups, snapshots, and parameter groups for the past 14 days. Events specific to a particular cluster, security group, snapshot or parameter group can be obtained by providing the name as a parameter. By default, the past hour of events are returned. See also: AWS API Documentation describe-events is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the ...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeEventsAsync(
+        AwsRedshiftDescribeEventsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRedshiftDescribeEventsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns information about the specified HSM client certificate. If no certificate ID is specified, returns information about all the HSM certificates owned by your Amazon Web Services account. If you specify both tag keys and tag values in the same request, Amazon Redshift returns all HSM client certificates that match any combination of the specified keys and values. For example, if you have owner and environment for tag keys, and admin and test for tag values, all HSM client certificates that ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1167,7 +1167,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Returns information about the specified Amazon Redshift HSM configura- tion. If no configuration ID is specified, returns information about all the HSM configurations owned by your Amazon Web Services account. If you specify both tag keys and tag values in the same request, Amazon Redshift returns all HSM connections that match any combination of the specified keys and values. For example, if you have owner and environ- ment for tag keys, and admin and test for tag values, all HSM connec- tions ...
+    /// Returns information about the specified Amazon Redshift HSM configuration. If no configuration ID is specified, returns information about all the HSM configurations owned by your Amazon Web Services account. If you specify both tag keys and tag values in the same request, Amazon Redshift returns all HSM connections that match any combination of the specified keys and values. For example, if you have owner and environment for tag keys, and admin and test for tag values, all HSM connections that h...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1182,7 +1182,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Returns a list of inbound integrations. See also: AWS API Documentation describe-inbound-integrations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: InboundIntegrations
+    /// Returns a list of inbound integrations. See also: AWS API Documentation describe-inbound-integrations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: InboundIntegrations
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1227,7 +1227,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Returns properties of possible node configurations such as node type, number of nodes, and disk usage for the specified action type. See also: AWS API Documentation describe-node-configuration-options is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data f...
+    /// Returns properties of possible node configurations such as node type, number of nodes, and disk usage for the specified action type. See also: AWS API Documentation describe-node-configuration-options is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1242,7 +1242,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Returns a list of orderable cluster options. Before you create a new cluster you can use this operation to find what options are available, such as the EC2 Availability Zones (AZ) in the specific Amazon Web Ser- vices Region that you can specify, and the node types you can request. The node types differ by available storage, memory, CPU and price. With the cost involved you might want to obtain a list of cluster options in the specific region and specify values when creating a cluster. For more ...
+    /// Returns a list of orderable cluster options. Before you create a new cluster you can use this operation to find what options are available, such as the EC2 Availability Zones (AZ) in the specific Amazon Web Services Region that you can specify, and the node types you can request. The node types differ by available storage, memory, CPU and price. With the cost involved you might want to obtain a list of cluster options in the specific region and specify values when creating a cluster. For more in...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1257,7 +1257,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Returns information about the partner integrations defined for a clus- ter. See also: AWS API Documentation
+    /// Returns information about the partner integrations defined for a cluster. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1272,7 +1272,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Lists the Amazon Redshift Query Editor (QEV2) IAM Identity Center ap- plications. To retrieve additional results, use the MaxRecords and Marker parameters. See also: AWS API Documentation describe-qev2-idc-applications is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument m...
+    /// Lists the Amazon Redshift Query Editor (QEV2) IAM Identity Center applications. To retrieve additional results, use the MaxRecords and Marker parameters. See also: AWS API Documentation describe-qev2-idc-applications is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must ex...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1287,7 +1287,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Lists the Amazon Redshift IAM Identity Center applications. See also: AWS API Documentation describe-redshift-idc-applications is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: RedshiftIdcApplication...
+    /// Lists the Amazon Redshift IAM Identity Center applications. See also: AWS API Documentation describe-redshift-idc-applications is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: RedshiftIdcApplications
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1302,7 +1302,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Returns exchange status details and associated metadata for a re- served-node exchange. Statuses include such values as in progress and requested. See also: AWS API Documentation describe-reserved-node-exchange-status is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument ...
+    /// Returns exchange status details and associated metadata for a reserved-node exchange. Statuses include such values as in progress and requested. See also: AWS API Documentation describe-reserved-node-exchange-status is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must ext...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1317,7 +1317,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Returns a list of the available reserved node offerings by Amazon Red- shift with their descriptions including the node type, the fixed and recurring costs of reserving the node and duration the node will be re- served for you. These descriptions help you determine which reserve node offering you want to purchase. You then use the unique offering ID in you call to PurchaseReservedNodeOffering to reserve one or more nodes for your Amazon Redshift cluster. For more information about reserved node ...
+    /// Returns a list of the available reserved node offerings by Amazon Redshift with their descriptions including the node type, the fixed and recurring costs of reserving the node and duration the node will be reserved for you. These descriptions help you determine which reserve node offering you want to purchase. You then use the unique offering ID in you call to PurchaseReservedNodeOffering to reserve one or more nodes for your Amazon Redshift cluster. For more information about reserved node offe...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1332,7 +1332,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Returns the descriptions of the reserved nodes. See also: AWS API Documentation describe-reserved-nodes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: ReservedNodes
+    /// Returns the descriptions of the reserved nodes. See also: AWS API Documentation describe-reserved-nodes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ReservedNodes
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1347,7 +1347,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Returns information about the last resize operation for the specified cluster. If no resize operation has ever been initiated for the speci- fied cluster, a HTTP 404 error is returned. If a resize operation was initiated and completed, the status of the resize remains as SUCCEEDED until the next resize. A resize operation can be requested using ModifyCluster and specifying a different number or type of nodes for the cluster. See also: AWS API Documentation
+    /// Returns information about the last resize operation for the specified cluster. If no resize operation has ever been initiated for the specified cluster, a HTTP 404 error is returned. If a resize operation was initiated and completed, the status of the resize remains as SUCCEEDED until the next resize. A resize operation can be requested using ModifyCluster and specifying a different number or type of nodes for the cluster. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1362,7 +1362,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Describes properties of scheduled actions. See also: AWS API Documentation describe-scheduled-actions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: ScheduledActions
+    /// Describes properties of scheduled actions. See also: AWS API Documentation describe-scheduled-actions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ScheduledActions
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1377,7 +1377,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Returns a list of snapshot copy grants owned by the Amazon Web Services account in the destination region. For more information about managing snapshot copy grants, go to Amazon Redshift Database Encryption in the Amazon Redshift Cluster Management Guide . See also: AWS API Documentation describe-snapshot-copy-grants is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- men...
+    /// Returns a list of snapshot copy grants owned by the Amazon Web Services account in the destination region. For more information about managing snapshot copy grants, go to Amazon Redshift Database Encryption in the Amazon Redshift Cluster Management Guide . See also: AWS API Documentation describe-snapshot-copy-grants is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. W...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1392,7 +1392,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Returns a list of snapshot schedules. See also: AWS API Documentation describe-snapshot-schedules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: SnapshotSchedules
+    /// Returns a list of snapshot schedules. See also: AWS API Documentation describe-snapshot-schedules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: SnapshotSchedules
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1422,7 +1422,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Lists the status of one or more table restore requests made using the RestoreTableFromClusterSnapshot API action. If you don't specify a value for the TableRestoreRequestId parameter, then DescribeTableRe- storeStatus returns the status of all table restore requests ordered by the date and time of the request in ascending order. Otherwise Descri- beTableRestoreStatus returns the status of the table specified by TableRestoreRequestId . See also: AWS API Documentation describe-table-restore-status...
+    /// Lists the status of one or more table restore requests made using the RestoreTableFromClusterSnapshot API action. If you don't specify a value for the TableRestoreRequestId parameter, then DescribeTableRestoreStatus returns the status of all table restore requests ordered by the date and time of the request in ascending order. Otherwise DescribeTableRestoreStatus returns the status of the table specified by TableRestoreRequestId . See also: AWS API Documentation describe-table-restore-status is ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1437,7 +1437,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Returns a list of tags. You can return tags from a specific resource by specifying an ARN, or you can return all tags for a given type of re- source, such as clusters, snapshots, and so on. The following are limitations for DescribeTags : o You cannot specify an ARN and a resource-type value together in the same request. o You cannot use the MaxRecords and Marker parameters together with the ARN parameter. o The MaxRecords parameter can be a range from 10 to 50 results to re- turn in a request. ...
+    /// Returns a list of tags. You can return tags from a specific resource by specifying an ARN, or you can return all tags for a given type of resource, such as clusters, snapshots, and so on. The following are limitations for DescribeTags : • You cannot specify an ARN and a resource-type value together in the same request. • You cannot use the MaxRecords and Marker parameters together with the ARN parameter. • The MaxRecords parameter can be a range from 10 to 50 results to return in a request. If y...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1452,7 +1452,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Shows usage limits on a cluster. Results are filtered based on the com- bination of input usage limit identifier, cluster identifier, and fea- ture type parameters: o If usage limit identifier, cluster identifier, and feature type are not provided, then all usage limit objects for the current account in the current region are returned. o If usage limit identifier is provided, then the corresponding usage limit object is returned. o If cluster identifier is provided, then all usage limit objects ...
+    /// Shows usage limits on a cluster. Results are filtered based on the combination of input usage limit identifier, cluster identifier, and feature type parameters: • If usage limit identifier, cluster identifier, and feature type are not provided, then all usage limit objects for the current account in the current region are returned. • If usage limit identifier is provided, then the corresponding usage limit object is returned. • If cluster identifier is provided, then all usage limit objects for ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1482,7 +1482,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Disables the automatic copying of snapshots from one region to another region for a specified cluster. If your cluster and its snapshots are encrypted using an encrypted sym- metric key from Key Management Service, use DeleteSnapshotCopyGrant to delete the grant that grants Amazon Redshift permission to the key in the destination region. See also: AWS API Documentation
+    /// Disables the automatic copying of snapshots from one region to another region for a specified cluster. If your cluster and its snapshots are encrypted using an encrypted symmetric key from Key Management Service, use DeleteSnapshotCopyGrant to delete the grant that grants Amazon Redshift permission to the key in the destination region. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1527,7 +1527,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Enables the automatic copy of snapshots from one region to another re- gion for a specified cluster. See also: AWS API Documentation
+    /// Enables the automatic copy of snapshots from one region to another region for a specified cluster. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1557,7 +1557,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Returns a database user name and temporary password with temporary au- thorization to log on to an Amazon Redshift database. The action re- turns the database user name prefixed with IAM: if AutoCreate is False or IAMA: if AutoCreate is True . You can optionally specify one or more database user groups that the user will join at log on. By default, the temporary credentials expire in 900 seconds. You can optionally specify a duration between 900 seconds (15 minutes) and 3600 seconds (60 min- ute...
+    /// Returns a database user name and temporary password with temporary authorization to log on to an Amazon Redshift database. The action returns the database user name prefixed with IAM: if AutoCreate is False or IAMA: if AutoCreate is True . You can optionally specify one or more database user groups that the user will join at log on. By default, the temporary credentials expire in 900 seconds. You can optionally specify a duration between 900 seconds (15 minutes) and 3600 seconds (60 minutes). Fo...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1572,7 +1572,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Returns a database user name and temporary password with temporary au- thorization to log in to an Amazon Redshift database. The database user is mapped 1:1 to the source Identity and Access Management (IAM) iden- tity. For more information about IAM identities, see IAM Identities (users, user groups, and roles) in the Amazon Web Services Identity and Access Management User Guide. The Identity and Access Management (IAM) identity that runs this opera- tion must have an IAM policy attached that a...
+    /// Returns a database user name and temporary password with temporary authorization to log in to an Amazon Redshift database. The database user is mapped 1:1 to the source Identity and Access Management (IAM) identity. For more information about IAM identities, see IAM Identities (users, user groups, and roles) in the Amazon Web Services Identity and Access Management User Guide. The Identity and Access Management (IAM) identity that runs this operation must have an IAM policy attached that allows ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1587,7 +1587,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Generates an encrypted authentication token that propagates the caller's Amazon Web Services IAM Identity Center identity to Amazon Redshift clusters. This API extracts the Amazon Web Services IAM Iden- tity Center identity from enhanced credentials and creates a secure to- ken that Amazon Redshift drivers can use for authentication. The token is encrypted using Key Management Service (KMS) and can only be decrypted by the specified Amazon Redshift clusters. The token con- tains the caller's Ama...
+    /// Generates an encrypted authentication token that propagates the caller's Amazon Web Services IAM Identity Center identity to Amazon Redshift clusters. This API extracts the Amazon Web Services IAM Identity Center identity from enhanced credentials and creates a secure token that Amazon Redshift drivers can use for authentication. The token is encrypted using Key Management Service (KMS) and can only be decrypted by the specified Amazon Redshift clusters. The token contains the caller's Amazon We...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1602,7 +1602,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Gets the configuration options for the reserved-node exchange. These options include information about the source reserved node and target reserved node offering. Details include the node type, the price, the node count, and the offering type. See also: AWS API Documentation get-reserved-node-exchange-configuration-options is a paginated opera- tion. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate arg...
+    /// Gets the configuration options for the reserved-node exchange. These options include information about the source reserved node and target reserved node offering. Details include the node type, the price, the node count, and the offering type. See also: AWS API Documentation get-reserved-node-exchange-configuration-options is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argum...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1617,7 +1617,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Returns an array of DC2 ReservedNodeOfferings that matches the payment type, term, and usage price of the given DC1 reserved node. See also: AWS API Documentation get-reserved-node-exchange-offerings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data fr...
+    /// Returns an array of DC2 ReservedNodeOfferings that matches the payment type, term, and usage price of the given DC1 reserved node. See also: AWS API Documentation get-reserved-node-exchange-offerings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1707,7 +1707,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Modifies the list of Identity and Access Management (IAM) roles that can be used by the cluster to access other Amazon Web Services ser- vices. The maximum number of IAM roles that you can associate is subject to a quota. For more information, go to Quotas and limits in the Amazon Red- shift Cluster Management Guide . See also: AWS API Documentation
+    /// Modifies the list of Identity and Access Management (IAM) roles that can be used by the cluster to access other Amazon Web Services services. The maximum number of IAM roles that you can associate is subject to a quota. For more information, go to Quotas and limits in the Amazon Redshift Cluster Management Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1737,7 +1737,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Modifies the settings for a cluster. You can also change node type and the number of nodes to scale up or down the cluster. When resizing a cluster, you must specify both the number of nodes and the node type even if one of the parameters does not change. You can add another security or parameter group, or change the admin user password. Resetting a cluster password or modifying the security groups associated with a cluster do not need a reboot. However, modify- ing a parameter group requires a ...
+    /// Modifies the settings for a cluster. You can also change node type and the number of nodes to scale up or down the cluster. When resizing a cluster, you must specify both the number of nodes and the node type even if one of the parameters does not change. You can add another security or parameter group, or change the admin user password. Resetting a cluster password or modifying the security groups associated with a cluster do not need a reboot. However, modifying a parameter group requires a re...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1752,7 +1752,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Modifies the parameters of a parameter group. For the parameters para- meter, it can't contain ASCII characters. For more information about parameters and parameter groups, go to Amazon Redshift Parameter Groups in the Amazon Redshift Cluster Manage- ment Guide . See also: AWS API Documentation
+    /// Modifies the parameters of a parameter group. For the parameters parameter, it can't contain ASCII characters. For more information about parameters and parameter groups, go to Amazon Redshift Parameter Groups in the Amazon Redshift Cluster Management Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1767,7 +1767,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Modifies the settings for a snapshot. This exanmple modifies the manual retention period setting for a clus- ter snapshot. See also: AWS API Documentation
+    /// Modifies the settings for a snapshot. This exanmple modifies the manual retention period setting for a cluster snapshot. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1872,7 +1872,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Modifies the lakehouse configuration for a cluster. This operation al- lows you to manage Amazon Redshift federated permissions and Amazon Web Services IAM Identity Center trusted identity propagation. See also: AWS API Documentation
+    /// Modifies the lakehouse configuration for a cluster. This operation allows you to manage Amazon Redshift federated permissions and Amazon Web Services IAM Identity Center trusted identity propagation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1887,7 +1887,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Modifies an Amazon Redshift Query Editor (QEV2) IAM Identity Center ap- plication. See also: AWS API Documentation
+    /// Modifies an Amazon Redshift Query Editor (QEV2) IAM Identity Center application. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1932,7 +1932,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Modifies the number of days to retain snapshots in the destination Ama- zon Web Services Region after they are copied from the source Amazon Web Services Region. By default, this operation only changes the reten- tion period of copied automated snapshots. The retention periods for both new and existing copied automated snapshots are updated with the new retention period. You can set the manual option to change only the retention periods of copied manual snapshots. If you set this option, only ne...
+    /// Modifies the number of days to retain snapshots in the destination Amazon Web Services Region after they are copied from the source Amazon Web Services Region. By default, this operation only changes the retention period of copied automated snapshots. The retention periods for both new and existing copied automated snapshots are updated with the new retention period. You can set the manual option to change only the retention periods of copied manual snapshots. If you set this option, only newly ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1992,7 +1992,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Allows you to purchase reserved nodes. Amazon Redshift offers a prede- fined set of reserved node offerings. You can purchase one or more of the offerings. You can call the DescribeReservedNodeOfferings API to obtain the available reserved node offerings. You can call this API by providing a specific reserved node offering and the number of nodes you want to reserve. For more information about reserved node offerings, go to Purchasing Reserved Nodes in the Amazon Redshift Cluster Management Guid...
+    /// Allows you to purchase reserved nodes. Amazon Redshift offers a predefined set of reserved node offerings. You can purchase one or more of the offerings. You can call the DescribeReservedNodeOfferings API to obtain the available reserved node offerings. You can call this API by providing a specific reserved node offering and the number of nodes you want to reserve. For more information about reserved node offerings, go to Purchasing Reserved Nodes in the Amazon Redshift Cluster Management Guide ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2022,7 +2022,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Reboots a cluster. This action is taken as soon as possible. It results in a momentary outage to the cluster, during which the cluster status is set to rebooting . A cluster event is created when the reboot is completed. Any pending cluster modifications (see ModifyCluster ) are applied at this reboot. For more information about managing clusters, go to Amazon Redshift Clusters in the Amazon Redshift Cluster Manage- ment Guide . See also: AWS API Documentation
+    /// Reboots a cluster. This action is taken as soon as possible. It results in a momentary outage to the cluster, during which the cluster status is set to rebooting . A cluster event is created when the reboot is completed. Any pending cluster modifications (see ModifyCluster ) are applied at this reboot. For more information about managing clusters, go to Amazon Redshift Clusters in the Amazon Redshift Cluster Management Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2067,7 +2067,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Sets one or more parameters of the specified parameter group to their default values and sets the source values of the parameters to "en- gine-default". To reset the entire parameter group specify the Rese- tAllParameters parameter. For parameter changes to take effect you must reboot any associated clusters. See also: AWS API Documentation
+    /// Sets one or more parameters of the specified parameter group to their default values and sets the source values of the parameters to "engine-default". To reset the entire parameter group specify the ResetAllParameters parameter. For parameter changes to take effect you must reboot any associated clusters. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2082,7 +2082,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Changes the size of the cluster. You can change the cluster's type, or change the number or type of nodes. The default behavior is to use the elastic resize method. With an elastic resize, your cluster is avail- able for read and write operations more quickly than with the classic resize method. Elastic resize operations have the following restrictions: o You can only resize clusters of the following types: o dc2.large o dc2.8xlarge o rg.large o rg.xlarge o rg.4xlarge o rg.12xlarge o ra3.large o...
+    /// Changes the size of the cluster. You can change the cluster's type, or change the number or type of nodes. The default behavior is to use the elastic resize method. With an elastic resize, your cluster is available for read and write operations more quickly than with the classic resize method. Elastic resize operations have the following restrictions: • You can only resize clusters of the following types: • dc2.large • dc2.8xlarge • rg.large • rg.xlarge • rg.4xlarge • rg.12xlarge • ra3.large • r...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2097,7 +2097,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Creates a new cluster from a snapshot. By default, Amazon Redshift cre- ates the resulting cluster with the same configuration as the original cluster from which the snapshot was created, except that the new clus- ter is created with the default cluster security and parameter groups. After Amazon Redshift creates the cluster, you can use the ModifyClus- ter API to associate a different security group and different parameter group with the restored cluster. If you are using a DS node type, you ca...
+    /// Creates a new cluster from a snapshot. By default, Amazon Redshift creates the resulting cluster with the same configuration as the original cluster from which the snapshot was created, except that the new cluster is created with the default cluster security and parameter groups. After Amazon Redshift creates the cluster, you can use the ModifyCluster API to associate a different security group and different parameter group with the restored cluster. If you are using a DS node type, you can also...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2112,7 +2112,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Creates a new table from a table in an Amazon Redshift cluster snap- shot. You must create the new table within the Amazon Redshift cluster that the snapshot was taken from. You cannot use RestoreTableFromClusterSnapshot to restore a table with the same name as an existing table in an Amazon Redshift cluster. That is, you cannot overwrite an existing table in a cluster with a restored table. If you want to replace your original table with a new, restored table, then rename or drop your original ...
+    /// Creates a new table from a table in an Amazon Redshift cluster snapshot. You must create the new table within the Amazon Redshift cluster that the snapshot was taken from. You cannot use RestoreTableFromClusterSnapshot to restore a table with the same name as an existing table in an Amazon Redshift cluster. That is, you cannot overwrite an existing table in a cluster with a restored table. If you want to replace your original table with a new, restored table, then rename or drop your original ta...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2142,7 +2142,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Revokes an ingress rule in an Amazon Redshift security group for a pre- viously authorized IP range or Amazon EC2 security group. To add an ingress rule, see AuthorizeClusterSecurityGroupIngress . For informa- tion about managing security groups, go to Amazon Redshift Cluster Se- curity Groups in the Amazon Redshift Cluster Management Guide . See also: AWS API Documentation
+    /// Revokes an ingress rule in an Amazon Redshift security group for a previously authorized IP range or Amazon EC2 security group. To add an ingress rule, see AuthorizeClusterSecurityGroupIngress . For information about managing security groups, go to Amazon Redshift Cluster Security Groups in the Amazon Redshift Cluster Management Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2172,7 +2172,7 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Removes the ability of the specified Amazon Web Services account to re- store the specified snapshot. If the account is currently restoring the snapshot, the restore will run to completion. For more information about working with snapshots, go to Amazon Red- shift Snapshots in the Amazon Redshift Cluster Management Guide . See also: AWS API Documentation
+    /// Removes the ability of the specified Amazon Web Services account to restore the specified snapshot. If the account is currently restoring the snapshot, the restore will run to completion. For more information about working with snapshots, go to Amazon Redshift Snapshots in the Amazon Redshift Cluster Management Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

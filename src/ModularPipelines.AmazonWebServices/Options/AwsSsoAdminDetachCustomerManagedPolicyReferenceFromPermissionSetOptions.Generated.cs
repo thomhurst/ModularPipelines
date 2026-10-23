@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Detaches the specified customer managed policy from the specified Per- missionSet . See also: AWS API Documentation
+/// Detaches the specified customer managed policy from the specified PermissionSet . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsSsoAdminDetachCustomerManagedPolicyReferenceFromPermissionSetOp
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Detaches the specified customer managed policy from the specified Per- missionSet . See also: AWS API Documentation
+    /// Detaches the specified customer managed policy from the specified PermissionSet . See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceArn">The ARN of the IAM Identity Center instance under which the opera- tion will be executed. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}</param>
-    /// <param name="PermissionSetArn">The ARN of the PermissionSet . Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::permission- Set/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}</param>
-    /// <param name="CustomerManagedPolicyReference">Specifies the name and path of a customer managed policy. You must have an IAM policy that matches the name and path in each Amazon Web Services account where you want to deploy your permission set. Name -&gt; (string) [required] The name of the IAM policy that you have configured in each ac- count where you want to deploy your permission set. Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+ Path -&gt; (string) The path to the IAM policy that you have configured in each ac- count where you want to deploy your permission set. The default is / . For more information, see Friendly names and paths in the IAM User Guide . Constraints: o min: 1 o max: 512 o pattern: ((/[A-Za-z0-9\.,\+@=_-]+)*)/ Shorthand Syntax: Name=string,Path=string JSON Syntax: { "Name": "string", "Path": "string" }</param>
+    /// <param name="InstanceArn">The ARN of the IAM Identity Center instance under which the operation will be executed. Constraints: • min: 10 • max: 1224 • pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}</param>
+    /// <param name="PermissionSetArn">The ARN of the PermissionSet . Constraints: • min: 10 • max: 1224 • pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}</param>
+    /// <param name="CustomerManagedPolicyReference">Specifies the name and path of a customer managed policy. You must have an IAM policy that matches the name and path in each Amazon Web Services account where you want to deploy your permission set. Name -&gt; (string) [required] The name of the IAM policy that you have configured in each account where you want to deploy your permission set. Constraints: • min: 1 • max: 128 • pattern: [\w+=,.@-]+ Path -&gt; (string) The path to the IAM policy that you have configured in each account where you want to deploy your permission set. The default is / . For more information, see Friendly names and paths in the IAM User Guide . Constraints: • min: 1 • max: 512 • pattern: ((/[A-Za-z0-9\.,\+@=_-]+)*)/ Shorthand Syntax: Name=string,Path=string JSON Syntax: { "Name": "string", "Path": "string" }</param>
     public AwsSsoAdminDetachCustomerManagedPolicyReferenceFromPermissionSetOptions(
         string InstanceArn,
         string PermissionSetArn,
@@ -64,19 +65,19 @@ public record AwsSsoAdminDetachCustomerManagedPolicyReferenceFromPermissionSetOp
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the IAM Identity Center instance under which the opera- tion will be executed. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}
+    /// The ARN of the IAM Identity Center instance under which the operation will be executed. Constraints: • min: 10 • max: 1224 • pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}
     /// </summary>
     [CliOption("--instance-arn")]
     public string? InstanceArn { get; private init; }
 
     /// <summary>
-    /// The ARN of the PermissionSet . Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::permission- Set/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}
+    /// The ARN of the PermissionSet . Constraints: • min: 10 • max: 1224 • pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}
     /// </summary>
     [CliOption("--permission-set-arn")]
     public string? PermissionSetArn { get; private init; }
 
     /// <summary>
-    /// Specifies the name and path of a customer managed policy. You must have an IAM policy that matches the name and path in each Amazon Web Services account where you want to deploy your permission set. Name -&gt; (string) [required] The name of the IAM policy that you have configured in each ac- count where you want to deploy your permission set. Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+ Path -&gt; (string) The path to the IAM policy that you have configured in each ac- count where you want to deploy your permission set. The default is / . For more information, see Friendly names and paths in the IAM User Guide . Constraints: o min: 1 o max: 512 o pattern: ((/[A-Za-z0-9\.,\+@=_-]+)*)/ Shorthand Syntax: Name=string,Path=string JSON Syntax: { "Name": "string", "Path": "string" }
+    /// Specifies the name and path of a customer managed policy. You must have an IAM policy that matches the name and path in each Amazon Web Services account where you want to deploy your permission set. Name -&gt; (string) [required] The name of the IAM policy that you have configured in each account where you want to deploy your permission set. Constraints: • min: 1 • max: 128 • pattern: [\w+=,.@-]+ Path -&gt; (string) The path to the IAM policy that you have configured in each account where you want to deploy your permission set. The default is / . For more information, see Friendly names and paths in the IAM User Guide . Constraints: • min: 1 • max: 512 • pattern: ((/[A-Za-z0-9\.,\+@=_-]+)*)/ Shorthand Syntax: Name=string,Path=string JSON Syntax: { "Name": "string", "Path": "string" }
     /// </summary>
     [CliOption("--customer-managed-policy-reference")]
     public string? CustomerManagedPolicyReference { get; private init; }
@@ -102,6 +103,15 @@ public record AwsSsoAdminDetachCustomerManagedPolicyReferenceFromPermissionSetOp
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

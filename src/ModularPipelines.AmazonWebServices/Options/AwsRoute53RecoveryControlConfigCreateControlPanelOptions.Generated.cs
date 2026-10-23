@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -29,8 +29,8 @@ public record AwsRoute53RecoveryControlConfigCreateControlPanelOptions : AwsOpti
     /// <summary>
     /// Creates a new control panel. A control panel represents a group of routing controls that can be changed together in a single transaction. You can use a control panel to centrally view the operational status of applications across your organization, and trigger multi-app failovers in a single transaction, for example, to fail over an Availability Zone or Amazon Web Services Region. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClusterArn">The Amazon Resource Name (ARN) of the cluster for the control panel. Constraints: o min: 1 o max: 256 o pattern: ^[A-Za-z0-9:\/_-]*$</param>
-    /// <param name="ControlPanelName">The name of the control panel. Constraints: o min: 1 o max: 64 o pattern: ^\S+$</param>
+    /// <param name="ClusterArn">The Amazon Resource Name (ARN) of the cluster for the control panel. Constraints: • min: 1 • max: 256 • pattern: ^[A-Za-z0-9:\/_-]*$</param>
+    /// <param name="ControlPanelName">The name of the control panel. Constraints: • min: 1 • max: 64 • pattern: ^\S+$</param>
     public AwsRoute53RecoveryControlConfigCreateControlPanelOptions(
         string ClusterArn,
         string ControlPanelName
@@ -62,26 +62,26 @@ public record AwsRoute53RecoveryControlConfigCreateControlPanelOptions : AwsOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the cluster for the control panel. Constraints: o min: 1 o max: 256 o pattern: ^[A-Za-z0-9:\/_-]*$
+    /// The Amazon Resource Name (ARN) of the cluster for the control panel. Constraints: • min: 1 • max: 256 • pattern: ^[A-Za-z0-9:\/_-]*$
     /// </summary>
     [CliOption("--cluster-arn")]
     public string? ClusterArn { get; private init; }
 
     /// <summary>
-    /// The name of the control panel. Constraints: o min: 1 o max: 64 o pattern: ^\S+$
+    /// The name of the control panel. Constraints: • min: 1 • max: 64 • pattern: ^\S+$
     /// </summary>
     [CliOption("--control-panel-name")]
     public string? ControlPanelName { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive string of up to 64 ASCII characters. To make an idempotent API request with an action, specify a client to- ken in the request. Constraints: o min: 1 o max: 64 o pattern: ^\S+$
+    /// A unique, case-sensitive string of up to 64 ASCII characters. To make an idempotent API request with an action, specify a client token in the request. Constraints: • min: 1 • max: 64 • pattern: ^\S+$
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The tags associated with the control panel. key -&gt; (string) value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ^\S+$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags associated with the control panel. key -&gt; (string) value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: ^\S+$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -107,6 +107,15 @@ public record AwsRoute53RecoveryControlConfigCreateControlPanelOptions : AwsOpti
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

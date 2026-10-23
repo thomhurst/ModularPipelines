@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +29,8 @@ public record AwsCleanroomsDeleteConfiguredTableAnalysisRuleOptions : AwsOptions
     /// <summary>
     /// Deletes a configured table analysis rule. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConfiguredTableIdentifier">The unique identifier for the configured table that the analysis rule applies to. Currently accepts the configured table ID. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
-    /// <param name="AnalysisRuleType">The analysis rule type to be deleted. Configured table analysis rules are uniquely identified by their configured table identifier and analysis rule type. Possible values: o AGGREGATION o LIST o CUSTOM</param>
+    /// <param name="ConfiguredTableIdentifier">The unique identifier for the configured table that the analysis rule applies to. Currently accepts the configured table ID. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="AnalysisRuleType">The analysis rule type to be deleted. Configured table analysis rules are uniquely identified by their configured table identifier and analysis rule type. Possible values: • AGGREGATION • LIST • CUSTOM</param>
     public AwsCleanroomsDeleteConfiguredTableAnalysisRuleOptions(
         string ConfiguredTableIdentifier,
         AwsCleanroomsDeleteConfiguredTableAnalysisRuleAnalysisRuleType AnalysisRuleType
@@ -60,13 +61,13 @@ public record AwsCleanroomsDeleteConfiguredTableAnalysisRuleOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the configured table that the analysis rule applies to. Currently accepts the configured table ID. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The unique identifier for the configured table that the analysis rule applies to. Currently accepts the configured table ID. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--configured-table-identifier")]
     public string? ConfiguredTableIdentifier { get; private init; }
 
     /// <summary>
-    /// The analysis rule type to be deleted. Configured table analysis rules are uniquely identified by their configured table identifier and analysis rule type. Possible values: o AGGREGATION o LIST o CUSTOM
+    /// The analysis rule type to be deleted. Configured table analysis rules are uniquely identified by their configured table identifier and analysis rule type. Possible values: • AGGREGATION • LIST • CUSTOM
     /// </summary>
     [CliOption("--analysis-rule-type")]
     public AwsCleanroomsDeleteConfiguredTableAnalysisRuleAnalysisRuleType? AnalysisRuleType { get; private init; }
@@ -92,6 +93,15 @@ public record AwsCleanroomsDeleteConfiguredTableAnalysisRuleOptions : AwsOptions
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

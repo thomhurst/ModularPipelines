@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns the SqlInjectionMatchSet that is specified by SqlInjection- MatchSetId . See also: AWS API Documentation
+/// NOTE: This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns the SqlInjectionMatchSet that is specified by SqlInjectionMatchSetId . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsWafRegionalGetSqlInjectionMatchSetOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns the SqlInjectionMatchSet that is specified by SqlInjection- MatchSetId . See also: AWS API Documentation
+    /// NOTE: This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns the SqlInjectionMatchSet that is specified by SqlInjectionMatchSetId . See also: AWS API Documentation
     /// </summary>
-    /// <param name="SqlInjectionMatchSetId">The SqlInjectionMatchSetId of the SqlInjectionMatchSet that you want to get. SqlInjectionMatchSetId is returned by CreateSqlInjec- tionMatchSet and by ListSqlInjectionMatchSets . Constraints: o min: 1 o max: 128 o pattern: .*\S.*</param>
+    /// <param name="SqlInjectionMatchSetId">The SqlInjectionMatchSetId of the SqlInjectionMatchSet that you want to get. SqlInjectionMatchSetId is returned by CreateSqlInjectionMatchSet and by ListSqlInjectionMatchSets . Constraints: • min: 1 • max: 128 • pattern: .*\S.*</param>
     public AwsWafRegionalGetSqlInjectionMatchSetOptions(
         string SqlInjectionMatchSetId
     )
@@ -56,7 +57,7 @@ public record AwsWafRegionalGetSqlInjectionMatchSetOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The SqlInjectionMatchSetId of the SqlInjectionMatchSet that you want to get. SqlInjectionMatchSetId is returned by CreateSqlInjec- tionMatchSet and by ListSqlInjectionMatchSets . Constraints: o min: 1 o max: 128 o pattern: .*\S.*
+    /// The SqlInjectionMatchSetId of the SqlInjectionMatchSet that you want to get. SqlInjectionMatchSetId is returned by CreateSqlInjectionMatchSet and by ListSqlInjectionMatchSets . Constraints: • min: 1 • max: 128 • pattern: .*\S.*
     /// </summary>
     [CliOption("--sql-injection-match-set-id")]
     public string? SqlInjectionMatchSetId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsWafRegionalGetSqlInjectionMatchSetOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a summary of metrics for an account from a specified date, in- cluding number of open findings, the categories with most findings, the scans with most open findings, and scans with most open critical find- ings. See also: AWS API Documentation
+/// Returns a summary of metrics for an account from a specified date, including number of open findings, the categories with most findings, the scans with most open findings, and scans with most open critical findings. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsCodeguruSecurityGetMetricsSummaryOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns a summary of metrics for an account from a specified date, in- cluding number of open findings, the categories with most findings, the scans with most open findings, and scans with most open critical find- ings. See also: AWS API Documentation
+    /// Returns a summary of metrics for an account from a specified date, including number of open findings, the categories with most findings, the scans with most open findings, and scans with most open critical findings. See also: AWS API Documentation
     /// </summary>
     /// <param name="Date">The date you want to retrieve summary metrics from, rounded to the nearest day. The date must be within the past two years.</param>
     public AwsCodeguruSecurityGetMetricsSummaryOptions(
@@ -82,6 +83,15 @@ public record AwsCodeguruSecurityGetMetricsSummaryOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

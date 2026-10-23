@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API works with the following fleet types: EC2, Anywhere Updates a fleet's mutable attributes, such as game session protection and resource creation limits. To update fleet attributes, specify the fleet ID and the property val- ues that you want to change. If successful, Amazon GameLift Servers re- turns the identifiers for the updated fleet. NOTE: A managed fleet's runtime environment, which depends on the fleet's Amazon Machine Image {AMI} version, can't be updated. You must create a new f...
+/// This API works with the following fleet types: EC2, Anywhere Updates a fleet's mutable attributes, such as game session protection and resource creation limits. To update fleet attributes, specify the fleet ID and the property values that you want to change. If successful, Amazon GameLift Servers returns the identifiers for the updated fleet. NOTE: A managed fleet's runtime environment, which depends on the fleet's Amazon Machine Image (AMI) version, can't be updated. You must create a new fleet...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsGameliftUpdateFleetAttributesOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere Updates a fleet's mutable attributes, such as game session protection and resource creation limits. To update fleet attributes, specify the fleet ID and the property val- ues that you want to change. If successful, Amazon GameLift Servers re- turns the identifiers for the updated fleet. NOTE: A managed fleet's runtime environment, which depends on the fleet's Amazon Machine Image {AMI} version, can't be updated. You must create a new f...
+    /// This API works with the following fleet types: EC2, Anywhere Updates a fleet's mutable attributes, such as game session protection and resource creation limits. To update fleet attributes, specify the fleet ID and the property values that you want to change. If successful, Amazon GameLift Servers returns the identifiers for the updated fleet. NOTE: A managed fleet's runtime environment, which depends on the fleet's Amazon Machine Image (AMI) version, can't be updated. You must create a new fleet...
     /// </summary>
-    /// <param name="FleetId">A unique identifier for the fleet to update attribute metadata for. You can use either the fleet ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$</param>
+    /// <param name="FleetId">A unique identifier for the fleet to update attribute metadata for. You can use either the fleet ID or ARN value. Constraints: • min: 1 • max: 512 • pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$</param>
     public AwsGameliftUpdateFleetAttributesOptions(
         string FleetId
     )
@@ -57,43 +58,43 @@ public record AwsGameliftUpdateFleetAttributesOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the fleet to update attribute metadata for. You can use either the fleet ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$
+    /// A unique identifier for the fleet to update attribute metadata for. You can use either the fleet ID or ARN value. Constraints: • min: 1 • max: 512 • pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$
     /// </summary>
     [CliOption("--fleet-id")]
     public string? FleetId { get; private init; }
 
     /// <summary>
-    /// A descriptive label that is associated with a fleet. Fleet names do not need to be unique. Constraints: o min: 1 o max: 1024
+    /// A descriptive label that is associated with a fleet. Fleet names do not need to be unique. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// A human-readable description of a fleet. Constraints: o min: 1 o max: 1024
+    /// A human-readable description of a fleet. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The game session protection policy to apply to all new game sessions created in this fleet. Game sessions that already exist are not af- fected. You can set protection for individual game sessions using UpdateGameSession . o NoProtection -- The game session can be terminated during a scale-down event. o FullProtection -- If the game session is in an ACTIVE status, it cannot be terminated during a scale-down event. Possible values: o NoProtection o FullProtection
+    /// The game session protection policy to apply to all new game sessions created in this fleet. Game sessions that already exist are not affected. You can set protection for individual game sessions using UpdateGameSession . • NoProtection -- The game session can be terminated during a scale-down event. • FullProtection -- If the game session is in an ACTIVE status, it cannot be terminated during a scale-down event. Possible values: • NoProtection • FullProtection
     /// </summary>
     [CliOption("--new-game-session-protection-policy")]
     public AwsGameliftUpdateFleetAttributesNewGameSessionProtectionPolicy? NewGameSessionProtectionPolicy { get; set; }
 
     /// <summary>
-    /// Policy settings that limit the number of game sessions an individual player can create over a span of time. NewGameSessionsPerCreator -&gt; (integer) A policy that puts limits on the number of game sessions that a player can create within a specified span of time. With this policy, you can control players' ability to consume available resources. The policy is evaluated when a player tries to create a new game session. On receiving a CreateGameSession request, Amazon GameLift Servers checks that the player (identified by CreatorId ) has created fewer than game session limit in the specified time period. Constraints: o min: 0 PolicyPeriodInMinutes -&gt; (integer) The time span used in evaluating the resource creation limit policy. Constraints: o min: 0 Shorthand Syntax: NewGameSessionsPerCreator=integer,PolicyPeriodInMinutes=integer JSON Syntax: { "NewGameSessionsPerCreator": integer, "PolicyPeriodInMinutes": integer }
+    /// Policy settings that limit the number of game sessions an individual player can create over a span of time. NewGameSessionsPerCreator -&gt; (integer) A policy that puts limits on the number of game sessions that a player can create within a specified span of time. With this policy, you can control players' ability to consume available resources. The policy is evaluated when a player tries to create a new game session. On receiving a CreateGameSession request, Amazon GameLift Servers checks that the player (identified by CreatorId ) has created fewer than the game session limit in the specified time period. Constraints: • min: 0 PolicyPeriodInMinutes -&gt; (integer) The time span used in evaluating the resource creation limit policy. Constraints: • min: 0 Shorthand Syntax: NewGameSessionsPerCreator=integer,PolicyPeriodInMinutes=integer JSON Syntax: { "NewGameSessionsPerCreator": integer, "PolicyPeriodInMinutes": integer }
     /// </summary>
     [CliOption("--resource-creation-limit-policy")]
     public string? ResourceCreationLimitPolicy { get; set; }
 
     /// <summary>
-    /// The name of a metric group to add this fleet to. Use a metric group in Amazon CloudWatch to aggregate the metrics from multiple fleets. Provide an existing metric group name, or create a new metric group by providing a new name. A fleet can only be in one metric group at a time. Constraints: o max: 1 (string) Constraints: o min: 1 o max: 255 Syntax: "string" "string" ...
+    /// The name of a metric group to add this fleet to. Use a metric group in Amazon CloudWatch to aggregate the metrics from multiple fleets. Provide an existing metric group name, or create a new metric group by providing a new name. A fleet can only be in one metric group at a time. Constraints: • max: 1 (string) Constraints: • min: 1 • max: 255 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--metric-groups", GroupValues = true)]
     public IEnumerable<string>? MetricGroups { get; set; }
 
     /// <summary>
-    /// Amazon GameLift Servers Anywhere configuration options. Cost -&gt; (string) [required] The cost to run your fleet per hour. Amazon GameLift Servers uses the provided cost of your fleet to balance usage in queues. For more information about queues, see Setting up queues in the Amazon GameLift Servers Developer Guide . Constraints: o min: 1 o max: 11 o pattern: ^\d{1,5}(?:\.\d{1,5})?$ Shorthand Syntax: Cost=string JSON Syntax: { "Cost": "string" }
+    /// Amazon GameLift Servers Anywhere configuration options. Cost -&gt; (string) [required] The cost to run your fleet per hour. Amazon GameLift Servers uses the provided cost of your fleet to balance usage in queues. For more information about queues, see Setting up queues in the Amazon GameLift Servers Developer Guide . Constraints: • min: 1 • max: 11 • pattern: ^\d{1,5}(?:\.\d{1,5})?$ Shorthand Syntax: Cost=string JSON Syntax: { "Cost": "string" }
     /// </summary>
     [CliOption("--anywhere-configuration")]
     public string? AnywhereConfiguration { get; set; }
@@ -119,6 +120,15 @@ public record AwsGameliftUpdateFleetAttributesOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

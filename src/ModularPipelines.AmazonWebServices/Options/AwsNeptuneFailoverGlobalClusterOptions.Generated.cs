@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Initiates the failover process for a Neptune global database. A failover for a Neptune global database promotes one of secondary read-only DB clusters to be the primary DB cluster and demotes the pri- mary DB cluster to being a secondary (read-only) DB cluster. In other words, the role of the current primary DB cluster and the selected tar- get secondary DB cluster are switched. The selected secondary DB clus- ter assumes full read/write capabilities for the Neptune global data- base. NOTE: This...
+/// Initiates the failover process for a Neptune global database. A failover for a Neptune global database promotes one of secondary read-only DB clusters to be the primary DB cluster and demotes the primary DB cluster to being a secondary (read-only) DB cluster. In other words, the role of the current primary DB cluster and the selected target secondary DB cluster are switched. The selected secondary DB cluster assumes full read/write capabilities for the Neptune global database. NOTE: This action ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsNeptuneFailoverGlobalClusterOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Initiates the failover process for a Neptune global database. A failover for a Neptune global database promotes one of secondary read-only DB clusters to be the primary DB cluster and demotes the pri- mary DB cluster to being a secondary (read-only) DB cluster. In other words, the role of the current primary DB cluster and the selected tar- get secondary DB cluster are switched. The selected secondary DB clus- ter assumes full read/write capabilities for the Neptune global data- base. NOTE: This...
+    /// Initiates the failover process for a Neptune global database. A failover for a Neptune global database promotes one of secondary read-only DB clusters to be the primary DB cluster and demotes the primary DB cluster to being a secondary (read-only) DB cluster. In other words, the role of the current primary DB cluster and the selected target secondary DB cluster are switched. The selected secondary DB cluster assumes full read/write capabilities for the Neptune global database. NOTE: This action ...
     /// </summary>
-    /// <param name="GlobalClusterIdentifier">Identifier of the Neptune global database that should be failed over. The identifier is the unique key assigned by the user when the Neptune global database was created. In other words, it's the name of the global database that you want to fail over. Constraints: Must match the identifier of an existing Neptune global database. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][0-9A-Za-z-:._]*</param>
+    /// <param name="GlobalClusterIdentifier">Identifier of the Neptune global database that should be failed over. The identifier is the unique key assigned by the user when the Neptune global database was created. In other words, it's the name of the global database that you want to fail over. Constraints: Must match the identifier of an existing Neptune global database. Constraints: • min: 1 • max: 255 • pattern: [A-Za-z][0-9A-Za-z-:._]*</param>
     /// <param name="TargetDbClusterIdentifier">The Amazon Resource Name (ARN) of the secondary Neptune DB cluster that you want to promote to primary for the global database.</param>
     public AwsNeptuneFailoverGlobalClusterOptions(
         string GlobalClusterIdentifier,
@@ -60,7 +61,7 @@ public record AwsNeptuneFailoverGlobalClusterOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Identifier of the Neptune global database that should be failed over. The identifier is the unique key assigned by the user when the Neptune global database was created. In other words, it's the name of the global database that you want to fail over. Constraints: Must match the identifier of an existing Neptune global database. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][0-9A-Za-z-:._]*
+    /// Identifier of the Neptune global database that should be failed over. The identifier is the unique key assigned by the user when the Neptune global database was created. In other words, it's the name of the global database that you want to fail over. Constraints: Must match the identifier of an existing Neptune global database. Constraints: • min: 1 • max: 255 • pattern: [A-Za-z][0-9A-Za-z-:._]*
     /// </summary>
     [CliOption("--global-cluster-identifier")]
     public string? GlobalClusterIdentifier { get; private init; }
@@ -72,13 +73,13 @@ public record AwsNeptuneFailoverGlobalClusterOptions : AwsOptions, IValidatableO
     public string? TargetDbClusterIdentifier { get; private init; }
 
     /// <summary>
-    /// Specifies whether to allow data loss for this global database clus- ter operation. Allowing data loss triggers a global failover opera- tion. If you don't specify AllowDataLoss , the global database cluster op- eration defaults to a switchover. Constraints: Can't be specified together with the Switchover parame- ter.
+    /// Specifies whether to allow data loss for this global database cluster operation. Allowing data loss triggers a global failover operation. If you don't specify AllowDataLoss , the global database cluster operation defaults to a switchover. Constraints: Can't be specified together with the Switchover parameter.
     /// </summary>
     [CliFlag("--allow-data-loss", NegatedName = "--no-allow-data-loss")]
     public bool? AllowDataLoss { get; set; }
 
     /// <summary>
-    /// Specifies whether to switch over this global database cluster. Constraints: Can't be specified together with the AllowDataLoss pa- rameter.
+    /// Specifies whether to switch over this global database cluster. Constraints: Can't be specified together with the AllowDataLoss parameter.
     /// </summary>
     [CliFlag("--switchover", NegatedName = "--no-switchover")]
     public bool? Switchover { get; set; }
@@ -104,6 +105,15 @@ public record AwsNeptuneFailoverGlobalClusterOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

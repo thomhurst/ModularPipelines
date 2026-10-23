@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +29,8 @@ public record AwsOpensearchStartDomainMaintenanceOptions : AwsOptions, IValidata
     /// <summary>
     /// Starts the node maintenance process on the data node. These processes can include a node reboot, an Opensearch or Elasticsearch process restart, or a Dashboard or Kibana restart. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">The name of the domain. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+</param>
-    /// <param name="Action">The name of the action. Possible values: o REBOOT_NODE o RESTART_SEARCH_PROCESS o RESTART_DASHBOARD</param>
+    /// <param name="DomainName">The name of the domain. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+</param>
+    /// <param name="Action">The name of the action. Possible values: • REBOOT_NODE • RESTART_SEARCH_PROCESS • RESTART_DASHBOARD</param>
     public AwsOpensearchStartDomainMaintenanceOptions(
         string DomainName,
         AwsOpensearchStartDomainMaintenanceAction Action
@@ -60,19 +61,19 @@ public record AwsOpensearchStartDomainMaintenanceOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the domain. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+
+    /// The name of the domain. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// The name of the action. Possible values: o REBOOT_NODE o RESTART_SEARCH_PROCESS o RESTART_DASHBOARD
+    /// The name of the action. Possible values: • REBOOT_NODE • RESTART_SEARCH_PROCESS • RESTART_DASHBOARD
     /// </summary>
     [CliOption("--action")]
     public AwsOpensearchStartDomainMaintenanceAction? Action { get; private init; }
 
     /// <summary>
-    /// The ID of the data node. Constraints: o min: 10 o max: 40
+    /// The ID of the data node. Constraints: • min: 10 • max: 40
     /// </summary>
     [CliOption("--node-id")]
     public string? NodeId { get; set; }
@@ -98,6 +99,15 @@ public record AwsOpensearchStartDomainMaintenanceOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

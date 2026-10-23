@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +29,8 @@ public record AwsS3vectorsQueryVectorsOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Performs an approximate nearest neighbor search query in a vector index using a query vector. By default, it returns the keys of approximate nearest neighbors. You can optionally include the computed distance (between the query vector and each vector in the response) and metadata of each vector in the response. To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN). Permissions You must have the s3...
     /// </summary>
-    /// <param name="TopK">The number of results to return for each query. Constraints: o min: 1</param>
-    /// <param name="QueryVector">The query vector. Ensure that the query vector has the same dimen- sion as the dimension of the vector index that's being queried. For example, if your vector index contains vectors with 384 dimensions, your query vector must also have 384 dimensions. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: float32. float32 -&gt; (list) The vector data as 32-bit floating point numbers. The number of elements in this array must exactly match the dimension of the vector index where the operation is being performed. (float) Shorthand Syntax: float32=float,float JSON Syntax: { "float32": [float, ...] }</param>
+    /// <param name="TopK">The number of results to return for each query. Constraints: • min: 1</param>
+    /// <param name="QueryVector">The query vector. Ensure that the query vector has the same dimension as the dimension of the vector index that's being queried. For example, if your vector index contains vectors with 384 dimensions, your query vector must also have 384 dimensions. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: float32. float32 -&gt; (list) The vector data as 32-bit floating point numbers. The number of elements in this array must exactly match the dimension of the vector index where the operation is being performed. (float) Shorthand Syntax: float32=float,float JSON Syntax: { "float32": [float, ...] }</param>
     public AwsS3vectorsQueryVectorsOptions(
         int TopK,
         string QueryVector
@@ -60,31 +61,31 @@ public record AwsS3vectorsQueryVectorsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The number of results to return for each query. Constraints: o min: 1
+    /// The number of results to return for each query. Constraints: • min: 1
     /// </summary>
     [CliOption("--top-k")]
     public int? TopK { get; private init; }
 
     /// <summary>
-    /// The query vector. Ensure that the query vector has the same dimen- sion as the dimension of the vector index that's being queried. For example, if your vector index contains vectors with 384 dimensions, your query vector must also have 384 dimensions. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: float32. float32 -&gt; (list) The vector data as 32-bit floating point numbers. The number of elements in this array must exactly match the dimension of the vector index where the operation is being performed. (float) Shorthand Syntax: float32=float,float JSON Syntax: { "float32": [float, ...] }
+    /// The query vector. Ensure that the query vector has the same dimension as the dimension of the vector index that's being queried. For example, if your vector index contains vectors with 384 dimensions, your query vector must also have 384 dimensions. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: float32. float32 -&gt; (list) The vector data as 32-bit floating point numbers. The number of elements in this array must exactly match the dimension of the vector index where the operation is being performed. (float) Shorthand Syntax: float32=float,float JSON Syntax: { "float32": [float, ...] }
     /// </summary>
     [CliOption("--query-vector")]
     public string? QueryVector { get; private init; }
 
     /// <summary>
-    /// The name of the vector bucket that contains the vector index. Constraints: o min: 3 o max: 63
+    /// The name of the vector bucket that contains the vector index. Constraints: • min: 3 • max: 63
     /// </summary>
     [CliOption("--vector-bucket-name")]
     public string? VectorBucketName { get; set; }
 
     /// <summary>
-    /// The name of the vector index that you want to query. Constraints: o min: 3 o max: 63
+    /// The name of the vector index that you want to query. Constraints: • min: 3 • max: 63
     /// </summary>
     [CliOption("--index-name")]
     public string? IndexName { get; set; }
 
     /// <summary>
-    /// The ARN of the vector index that you want to query. Constraints: o pattern: arn:aws[-a-z0-9]*:s3vec- tors:[a-z0-9-]+:[0-9]{12}:bucket/[a-z0-9][a-z0-9-.]{1,61}[a-z0-9]/in- dex/[a-z0-9][a-z0-9-.]{1,61}[a-z0-9]
+    /// The ARN of the vector index that you want to query. Constraints: • pattern: arn:aws[-a-z0-9]*:s3vectors:[a-z0-9-]+:[0-9]{12}:bucket/[a-z0-9][a-z0-9-.]{1,61}[a-z0-9]/index/[a-z0-9][a-z0-9-.]{1,61}[a-z0-9]
     /// </summary>
     [CliOption("--index-arn")]
     public string? IndexArn { get; set; }
@@ -96,7 +97,7 @@ public record AwsS3vectorsQueryVectorsOptions : AwsOptions, IValidatableObject
     public string? Filter { get; set; }
 
     /// <summary>
-    /// The mode to use to process the query. If you don't specify a query mode, the operation uses the mode that's currently configured for the vector index. Valid values: o CLASSIC - Applies metadata filters during the vector search. You can't specify CLASSIC for an ENHANCED index. o ENHANCED - Applies metadata filters before the vector search. Possible values: o CLASSIC o ENHANCED
+    /// The mode to use to process the query. If you don't specify a query mode, the operation uses the mode that's currently configured for the vector index. Valid values: • CLASSIC - Applies metadata filters during the vector search. You can't specify CLASSIC for an ENHANCED index. • ENHANCED - Applies metadata filters before the vector search. Possible values: • CLASSIC • ENHANCED
     /// </summary>
     [CliOption("--query-mode")]
     public string? QueryMode { get; set; }
@@ -116,9 +117,6 @@ public record AwsS3vectorsQueryVectorsOptions : AwsOptions, IValidatableObject
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
-
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
@@ -127,10 +125,13 @@ public record AwsS3vectorsQueryVectorsOptions : AwsOptions, IValidatableObject
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -147,6 +148,15 @@ public record AwsS3vectorsQueryVectorsOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

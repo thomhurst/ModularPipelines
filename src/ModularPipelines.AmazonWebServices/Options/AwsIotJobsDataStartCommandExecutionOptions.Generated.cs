@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -29,7 +29,7 @@ public record AwsIotJobsDataStartCommandExecutionOptions : AwsOptions, IValidata
     /// <summary>
     /// Using the command created with the CreateCommand API, start a command execution on a specific device. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TargetArn">The Amazon Resource Number (ARN) of the device where the command ex- ecution is occurring. Constraints: o max: 2048</param>
+    /// <param name="TargetArn">The Amazon Resource Number (ARN) of the device where the command execution is occurring. Constraints: • max: 2048</param>
     /// <param name="CommandArn">The Amazon Resource Number (ARN) of the command. For example, arn:aws:iot:&lt;region&gt;:&lt;accountid&gt;:command/&lt;commandName&gt;</param>
     public AwsIotJobsDataStartCommandExecutionOptions(
         string TargetArn,
@@ -62,7 +62,7 @@ public record AwsIotJobsDataStartCommandExecutionOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Number (ARN) of the device where the command ex- ecution is occurring. Constraints: o max: 2048
+    /// The Amazon Resource Number (ARN) of the device where the command execution is occurring. Constraints: • max: 2048
     /// </summary>
     [CliOption("--target-arn")]
     public string? TargetArn { get; private init; }
@@ -74,19 +74,19 @@ public record AwsIotJobsDataStartCommandExecutionOptions : AwsOptions, IValidata
     public string? CommandArn { get; private init; }
 
     /// <summary>
-    /// A list of parameters that are required by the StartCommandExecution API when performing the command on a device. Constraints: o min: 1 key -&gt; (string) Constraints: o min: 1 o max: 192 o pattern: ^[.$a-zA-Z0-9_-]+$ value -&gt; (structure) The list of values used to describe a specific command parame- ter. S -&gt; (string) An attribute of type String. For example: "S": "Hello" Constraints: o min: 1 B -&gt; (boolean) An attribute of type Boolean. For example: "BOOL": true I -&gt; (integer) An attribute of type Integer (Thirty-Two Bits). L -&gt; (long) An attribute of type Long. D -&gt; (double) An attribute of type Double (Sixty-Four Bits). BIN -&gt; (blob) An attribute of type Binary. Constraints: o min: 1 UL -&gt; (string) An attribute of type Unsigned Long. Constraints: o min: 1 o max: 20 o pattern: ^[0-9]*$ Shorthand Syntax: KeyName1={S=string,B=boolean,I=integer,L=long,D=double,BIN=blob,UL=string},KeyName2={S=string,B=boolean,I=integer,L=long,D=double,BIN=blob,UL=string} JSON Syntax: {"string": { "S": "string", "B": true|false, "I": integer, "L": long, "D": double, "BIN": blob, "UL": "string" } ...}
+    /// A list of parameters that are required by the StartCommandExecution API when performing the command on a device. Constraints: • min: 1 key -&gt; (string) Constraints: • min: 1 • max: 192 • pattern: ^[.$a-zA-Z0-9_-]+$ value -&gt; (structure) The list of values used to describe a specific command parameter. S -&gt; (string) An attribute of type String. For example: "S": "Hello" Constraints: • min: 1 B -&gt; (boolean) An attribute of type Boolean. For example: "BOOL": true I -&gt; (integer) An attribute of type Integer (Thirty-Two Bits). L -&gt; (long) An attribute of type Long. D -&gt; (double) An attribute of type Double (Sixty-Four Bits). BIN -&gt; (blob) An attribute of type Binary. Constraints: • min: 1 UL -&gt; (string) An attribute of type Unsigned Long. Constraints: • min: 1 • max: 20 • pattern: ^[0-9]*$ Shorthand Syntax: KeyName1={S=string,B=boolean,I=integer,L=long,D=double,BIN=blob,UL=string},KeyName2={S=string,B=boolean,I=integer,L=long,D=double,BIN=blob,UL=string} JSON Syntax: {"string": { "S": "string", "B": true|false, "I": integer, "L": long, "D": double, "BIN": blob, "UL": "string" } ...}
     /// </summary>
     [CliOption("--parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Parameters { get; set; }
 
     /// <summary>
-    /// Specifies the amount of time in second the device has to finish the command execution. A timer is started as soon as the command execu- tion is created. If the command execution status is not set to an- other terminal state before the timer expires, it will automatically update to TIMED_OUT . Constraints: o min: 1
+    /// Specifies the amount of time in second the device has to finish the command execution. A timer is started as soon as the command execution is created. If the command execution status is not set to another terminal state before the timer expires, it will automatically update to TIMED_OUT . Constraints: • min: 1
     /// </summary>
     [CliOption("--execution-timeout-seconds")]
-    public int? ExecutionTimeoutSeconds { get; set; }
+    public long? ExecutionTimeoutSeconds { get; set; }
 
     /// <summary>
-    /// The client token is used to implement idempotency. It ensures that the request completes no more than one time. If you retry a request with the same token and the same parameters, the request will com- plete successfully. However, if you retry the request using the same token but different parameters, an HTTP 409 conflict occurs. If you omit this value, Amazon Web Services SDKs will automatically gener- ate a unique client request. Constraints: o min: 1 o max: 64 o pattern: ^[\x21-\x7E]+$
+    /// The client token is used to implement idempotency. It ensures that the request completes no more than one time. If you retry a request with the same token and the same parameters, the request will complete successfully. However, if you retry the request using the same token but different parameters, an HTTP 409 conflict occurs. If you omit this value, Amazon Web Services SDKs will automatically generate a unique client request. Constraints: • min: 1 • max: 64 • pattern: ^[\x21-\x7E]+$
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -113,6 +113,15 @@ public record AwsIotJobsDataStartCommandExecutionOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

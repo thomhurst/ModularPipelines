@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsPartnercentralChannelUntagResourceOptions : AwsOptions, IValida
     /// <summary>
     /// Removes tags from a specified resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource to remove tags from. Constraints: o min: 1 o max: 1011 o pattern: arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:cata- log/[a-zA-Z]+/(program-management-account/pma-[a-z0-9]{13}(/rela- tionship/rs-[a-z0-9]{13})?|channel-handshake/ch-[a-z0-9]{13})</param>
-    /// <param name="TagKeys">The keys of the tags to remove from the resource. (string) Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource to remove tags from. Constraints: • min: 1 • max: 1011 • pattern: arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:catalog/[a-zA-Z]+/(program-management-account/pma-[a-z0-9]{13}(/relationship/rs-[a-z0-9]{13})?|channel-handshake/ch-[a-z0-9]{13})</param>
+    /// <param name="TagKeys">The keys of the tags to remove from the resource. (string) Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Syntax: "string" "string" ...</param>
     public AwsPartnercentralChannelUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -71,13 +72,13 @@ public record AwsPartnercentralChannelUntagResourceOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource to remove tags from. Constraints: o min: 1 o max: 1011 o pattern: arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:cata- log/[a-zA-Z]+/(program-management-account/pma-[a-z0-9]{13}(/rela- tionship/rs-[a-z0-9]{13})?|channel-handshake/ch-[a-z0-9]{13})
+    /// The Amazon Resource Name (ARN) of the resource to remove tags from. Constraints: • min: 1 • max: 1011 • pattern: arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:catalog/[a-zA-Z]+/(program-management-account/pma-[a-z0-9]{13}(/relationship/rs-[a-z0-9]{13})?|channel-handshake/ch-[a-z0-9]{13})
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The keys of the tags to remove from the resource. (string) Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Syntax: "string" "string" ...
+    /// The keys of the tags to remove from the resource. (string) Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }
@@ -103,6 +104,15 @@ public record AwsPartnercentralChannelUntagResourceOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

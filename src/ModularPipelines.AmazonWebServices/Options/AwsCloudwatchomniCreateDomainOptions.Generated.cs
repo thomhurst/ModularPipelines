@@ -11,13 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a domain with identity provider configuration. Use GetDomain to retrieve the domain, UpdateDomain to change its con- figuration, and CreateSpace to add spaces within it. See also: AWS API Documentation
+/// Creates a domain with identity provider configuration. Use GetDomain to retrieve the domain, UpdateDomain to change its configuration, and CreateSpace to add spaces within it. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +27,10 @@ public record AwsCloudwatchomniCreateDomainOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a domain with identity provider configuration. Use GetDomain to retrieve the domain, UpdateDomain to change its con- figuration, and CreateSpace to add spaces within it. See also: AWS API Documentation
+    /// Creates a domain with identity provider configuration. Use GetDomain to retrieve the domain, UpdateDomain to change its configuration, and CreateSpace to add spaces within it. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">A name that identifies the domain. Must be 3-63 characters: lower- case letters, numbers, and hyphens. It must begin and end with a letter or number and cannot contain consecutive hyphens. Constraints: o min: 3 o max: 63 o pattern: [a-z0-9]+(-[a-z0-9]+)*</param>
-    /// <param name="IdentityProviders">The identity providers to configure for the domain. Constraints: o min: 1 o max: 2 (string) Identity provider type for a domain. Determines which identity mechanisms are active for authentication. Possible values: o IAM o IDC Syntax: "string" "string" ...</param>
+    /// <param name="Name">A name that identifies the domain. Must be 3-63 characters: lowercase letters, numbers, and hyphens. It must begin and end with a letter or number and cannot contain consecutive hyphens. Constraints: • min: 3 • max: 63 • pattern: [a-z0-9]+(-[a-z0-9]+)*</param>
+    /// <param name="IdentityProviders">The identity providers to configure for the domain. Constraints: • min: 1 • max: 2 (string) Identity provider type for a domain. Determines which identity mechanisms are active for authentication. Possible values: • IAM • IDC Syntax: "string" "string" ...</param>
     public AwsCloudwatchomniCreateDomainOptions(
         string Name,
         IEnumerable<string> IdentityProviders
@@ -73,31 +73,31 @@ public record AwsCloudwatchomniCreateDomainOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A name that identifies the domain. Must be 3-63 characters: lower- case letters, numbers, and hyphens. It must begin and end with a letter or number and cannot contain consecutive hyphens. Constraints: o min: 3 o max: 63 o pattern: [a-z0-9]+(-[a-z0-9]+)*
+    /// A name that identifies the domain. Must be 3-63 characters: lowercase letters, numbers, and hyphens. It must begin and end with a letter or number and cannot contain consecutive hyphens. Constraints: • min: 3 • max: 63 • pattern: [a-z0-9]+(-[a-z0-9]+)*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The identity providers to configure for the domain. Constraints: o min: 1 o max: 2 (string) Identity provider type for a domain. Determines which identity mechanisms are active for authentication. Possible values: o IAM o IDC Syntax: "string" "string" ...
+    /// The identity providers to configure for the domain. Constraints: • min: 1 • max: 2 (string) Identity provider type for a domain. Determines which identity mechanisms are active for authentication. Possible values: • IAM • IDC Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--identity-providers", GroupValues = true)]
     public IEnumerable<string>? IdentityProviders { get; private init; }
 
     /// <summary>
-    /// Identity provider configuration for the domain. identityCenterConfiguration -&gt; (structure) Identity Center configuration. Required when identityProviders includes IDC. identityCenterInstanceArn -&gt; (string) Identity Center instance ARN Constraints: o min: 1 o max: 2048 o pattern: arn:aws[a-z-]*:sso:::instance/[a-zA-Z0-9-]+ Shorthand Syntax: identityCenterConfiguration={identityCenterInstanceArn=string} JSON Syntax: { "identityCenterConfiguration": { "identityCenterInstanceArn": "string" } }
+    /// Identity provider configuration for the domain. identityCenterConfiguration -&gt; (structure) Identity Center configuration. Required when identityProviders includes IDC. identityCenterInstanceArn -&gt; (string) Identity Center instance ARN Constraints: • min: 1 • max: 2048 • pattern: arn:aws[a-z-]*:sso:::instance/[a-zA-Z0-9-]+ Shorthand Syntax: identityCenterConfiguration={identityCenterInstanceArn=string} JSON Syntax: { "identityCenterConfiguration": { "identityCenterInstanceArn": "string" } }
     /// </summary>
     [CliOption("--identity-provider-configuration")]
     public string? IdentityProviderConfiguration { get; set; }
 
     /// <summary>
-    /// The tags to associate with the domain. Constraints: o min: 0 o max: 50 key -&gt; (string) Tag key. Must be non-empty; AWS-standard maximum length. Con- straining the key (rather than a bare String) rejects empty-key payloads at the edge with a 400 ValidationException instead of faulting downstream as a 500. Constraints: o min: 1 o max: 128 value -&gt; (string) Tag value. AWS-standard maximum length; may be empty. Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags to associate with the domain. Constraints: • min: 0 • max: 50 key -&gt; (string) Tag key. Must be non-empty; AWS-standard maximum length. Constraining the key (rather than a bare String) rejects empty-key payloads at the edge with a 400 ValidationException instead of faulting downstream as a 500. Constraints: • min: 1 • max: 128 value -&gt; (string) Tag value. AWS-standard maximum length; may be empty. Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// Idempotency token for safe retries. Repeated requests with the same token return the original result instead of creating a duplicate. Constraints: o min: 1 o max: 64 o pattern: [!-~]+
+    /// Idempotency token for safe retries. Repeated requests with the same token return the original result instead of creating a duplicate. Constraints: • min: 1 • max: 64 • pattern: [!-~]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -124,6 +124,15 @@ public record AwsCloudwatchomniCreateDomainOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

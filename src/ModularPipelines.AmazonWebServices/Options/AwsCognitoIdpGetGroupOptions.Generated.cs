@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Given a user pool ID and a group name, returns information about the user group. For more information about user pool groups, see Adding groups to a user pool . NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more o Signing Amazon Web Services API Requests o Using the Amazon Cogni...
+/// Given a user pool ID and a group name, returns information about the user group. For more information about user pool groups, see Adding groups to a user pool . NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more • Signing Amazon Web Services API Requests • Using the Amazon Cognito...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsCognitoIdpGetGroupOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Given a user pool ID and a group name, returns information about the user group. For more information about user pool groups, see Adding groups to a user pool . NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more o Signing Amazon Web Services API Requests o Using the Amazon Cogni...
+    /// Given a user pool ID and a group name, returns information about the user group. For more information about user pool groups, see Adding groups to a user pool . NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more • Signing Amazon Web Services API Requests • Using the Amazon Cognito...
     /// </summary>
-    /// <param name="GroupName">The name of the group that you want to get information about. Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+</param>
-    /// <param name="UserPoolId">The ID of the user pool that contains the group that you want to query. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+</param>
+    /// <param name="GroupName">The name of the group that you want to get information about. Constraints: • min: 1 • max: 128 • pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+</param>
+    /// <param name="UserPoolId">The ID of the user pool that contains the group that you want to query. Constraints: • min: 1 • max: 55 • pattern: [\w-]+_[0-9a-zA-Z]+</param>
     public AwsCognitoIdpGetGroupOptions(
         string GroupName,
         string UserPoolId
@@ -60,13 +61,13 @@ public record AwsCognitoIdpGetGroupOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the group that you want to get information about. Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+
+    /// The name of the group that you want to get information about. Constraints: • min: 1 • max: 128 • pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+
     /// </summary>
     [CliOption("--group-name")]
     public string? GroupName { get; private init; }
 
     /// <summary>
-    /// The ID of the user pool that contains the group that you want to query. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+
+    /// The ID of the user pool that contains the group that you want to query. Constraints: • min: 1 • max: 55 • pattern: [\w-]+_[0-9a-zA-Z]+
     /// </summary>
     [CliOption("--user-pool-id")]
     public string? UserPoolId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsCognitoIdpGetGroupOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

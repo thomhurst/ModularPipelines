@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,12 +28,12 @@ public record AwsCustomerProfilesCreateDomainLayoutOptions : AwsOptions, IValida
     /// <summary>
     /// Creates the layout to view data for a specific domain. This API can only be invoked from the Amazon Connect admin website. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
-    /// <param name="LayoutDefinitionName">The unique name of the layout. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
-    /// <param name="Description">The description of the layout Constraints: o min: 1 o max: 1000</param>
-    /// <param name="DisplayName">The display name of the layout Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z_][a-zA-Z_0-9-\s]*$</param>
-    /// <param name="LayoutType">The type of layout that can be used to view data under a Customer Profiles domain. Possible values: o PROFILE_EXPLORER</param>
-    /// <param name="Layout">A customizable layout that can be used to view data under a Customer Profiles domain. Constraints: o min: 1 o max: 2000000</param>
+    /// <param name="DomainName">The unique name of the domain. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="LayoutDefinitionName">The unique name of the layout. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="Description">The description of the layout Constraints: • min: 1 • max: 1000</param>
+    /// <param name="DisplayName">The display name of the layout Constraints: • min: 1 • max: 255 • pattern: ^[a-zA-Z_][a-zA-Z_0-9-\s]*$</param>
+    /// <param name="LayoutType">The type of layout that can be used to view data under a Customer Profiles domain. Possible values: • PROFILE_EXPLORER</param>
+    /// <param name="Layout">A customizable layout that can be used to view data under a Customer Profiles domain. Constraints: • min: 1 • max: 2000000</param>
     public AwsCustomerProfilesCreateDomainLayoutOptions(
         string DomainName,
         string LayoutDefinitionName,
@@ -77,49 +77,49 @@ public record AwsCustomerProfilesCreateDomainLayoutOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The unique name of the domain. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// The unique name of the layout. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The unique name of the layout. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--layout-definition-name")]
     public string? LayoutDefinitionName { get; private init; }
 
     /// <summary>
-    /// The description of the layout Constraints: o min: 1 o max: 1000
+    /// The description of the layout Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; private init; }
 
     /// <summary>
-    /// The display name of the layout Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z_][a-zA-Z_0-9-\s]*$
+    /// The display name of the layout Constraints: • min: 1 • max: 255 • pattern: ^[a-zA-Z_][a-zA-Z_0-9-\s]*$
     /// </summary>
     [CliOption("--display-name")]
     public string? DisplayName { get; private init; }
 
     /// <summary>
-    /// The type of layout that can be used to view data under a Customer Profiles domain. Possible values: o PROFILE_EXPLORER
+    /// The type of layout that can be used to view data under a Customer Profiles domain. Possible values: • PROFILE_EXPLORER
     /// </summary>
     [CliOption("--layout-type")]
     public string? LayoutType { get; private init; }
 
     /// <summary>
-    /// A customizable layout that can be used to view data under a Customer Profiles domain. Constraints: o min: 1 o max: 2000000
+    /// A customizable layout that can be used to view data under a Customer Profiles domain. Constraints: • min: 1 • max: 2000000
     /// </summary>
     [CliOption("--layout")]
     public string? Layout { get; private init; }
 
     /// <summary>
-    /// If set to true for a layout, this layout will be used by default to view data. If set to false, then the layout will not be used by de- fault, but it can be used to view data by explicitly selecting it in the console.
+    /// If set to true for a layout, this layout will be used by default to view data. If set to false, then the layout will not be used by default, but it can be used to view data by explicitly selecting it in the console.
     /// </summary>
     [CliFlag("--is-default", NegatedName = "--no-is-default")]
     public bool? IsDefault { get; set; }
 
     /// <summary>
-    /// The tags used to organize, track, or control access for this re- source. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags used to organize, track, or control access for this resource. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -145,6 +145,15 @@ public record AwsCustomerProfilesCreateDomainLayoutOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

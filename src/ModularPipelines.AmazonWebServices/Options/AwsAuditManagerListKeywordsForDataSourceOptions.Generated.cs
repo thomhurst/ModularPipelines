@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,7 +30,7 @@ public record AwsAuditManagerListKeywordsForDataSourceOptions : AwsOptions, IVal
     /// <summary>
     /// Returns a list of keywords that are pre-mapped to the specified control data source. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Source">The control mapping data source that the keywords apply to. Possible values: o AWS_Cloudtrail o AWS_Config o AWS_Security_Hub o AWS_API_Call o MANUAL</param>
+    /// <param name="Source">The control mapping data source that the keywords apply to. Possible values: • AWS_Cloudtrail • AWS_Config • AWS_Security_Hub • AWS_API_Call • MANUAL</param>
     public AwsAuditManagerListKeywordsForDataSourceOptions(
         AwsAuditManagerListKeywordsForDataSourceSource Source
     )
@@ -57,20 +58,20 @@ public record AwsAuditManagerListKeywordsForDataSourceOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The control mapping data source that the keywords apply to. Possible values: o AWS_Cloudtrail o AWS_Config o AWS_Security_Hub o AWS_API_Call o MANUAL
+    /// The control mapping data source that the keywords apply to. Possible values: • AWS_Cloudtrail • AWS_Config • AWS_Security_Hub • AWS_API_Call • MANUAL
     /// </summary>
     [CliOption("--source")]
     public AwsAuditManagerListKeywordsForDataSourceSource? Source { get; private init; }
 
     /// <summary>
-    /// The pagination token that's used to fetch the next set of results. Constraints: o min: 1 o max: 1000 o pattern: ^[A-Za-z0-9+\/=]*$
+    /// The pagination token that's used to fetch the next set of results. Constraints: • min: 1 • max: 1000 • pattern: ^[A-Za-z0-9+\/=]*$
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// Represents the maximum number of results on a page or for an API re- quest call. Constraints: o min: 1 o max: 1000
+    /// Represents the maximum number of results on a page or for an API request call. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -96,6 +97,15 @@ public record AwsAuditManagerListKeywordsForDataSourceOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

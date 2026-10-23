@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsMpaStartApprovalTeamBaselineOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Starts a baseline session for specified approvers on an ACTIVE approval team. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">Amazon Resource Name (ARN) for the approval team. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:mpa:[a-z0-9-]{1,20}:[0-9]{12}:ap- proval-team/[a-zA-Z0-9._-]+</param>
+    /// <param name="Arn">Amazon Resource Name (ARN) for the approval team. Constraints: • min: 20 • max: 2048 • pattern: arn:aws(-[^:]+)?:mpa:[a-z0-9-]{1,20}:[0-9]{12}:approval-team/[a-zA-Z0-9._-]+</param>
     public AwsMpaStartApprovalTeamBaselineOptions(
         string Arn
     )
@@ -56,13 +57,13 @@ public record AwsMpaStartApprovalTeamBaselineOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Amazon Resource Name (ARN) for the approval team. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:mpa:[a-z0-9-]{1,20}:[0-9]{12}:ap- proval-team/[a-zA-Z0-9._-]+
+    /// Amazon Resource Name (ARN) for the approval team. Constraints: • min: 20 • max: 2048 • pattern: arn:aws(-[^:]+)?:mpa:[a-z0-9-]{1,20}:[0-9]{12}:approval-team/[a-zA-Z0-9._-]+
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// Array of approver IDs. Constraints: o min: 0 o max: 20 (string) Constraints: o min: 1 o max: 100 Syntax: "string" "string" ...
+    /// Array of approver IDs. Constraints: • min: 0 • max: 20 (string) Constraints: • min: 1 • max: 100 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--approver-ids", GroupValues = true)]
     public IEnumerable<string>? ApproverIds { get; set; }
@@ -88,6 +89,15 @@ public record AwsMpaStartApprovalTeamBaselineOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

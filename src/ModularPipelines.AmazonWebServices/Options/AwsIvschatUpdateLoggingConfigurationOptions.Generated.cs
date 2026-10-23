@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsIvschatUpdateLoggingConfigurationOptions : AwsOptions, IValidat
     /// <summary>
     /// Updates a specified logging configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identifier">Identifier of the logging configuration to be updated. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivschat:[a-z0-9-]+:[0-9]+:logging-configura- tion/[a-zA-Z0-9-]+</param>
+    /// <param name="Identifier">Identifier of the logging configuration to be updated. Constraints: • min: 1 • max: 128 • pattern: arn:aws:ivschat:[a-z0-9-]+:[0-9]+:logging-configuration/[a-zA-Z0-9-]+</param>
     public AwsIvschatUpdateLoggingConfigurationOptions(
         string Identifier
     )
@@ -56,19 +57,19 @@ public record AwsIvschatUpdateLoggingConfigurationOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Identifier of the logging configuration to be updated. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivschat:[a-z0-9-]+:[0-9]+:logging-configura- tion/[a-zA-Z0-9-]+
+    /// Identifier of the logging configuration to be updated. Constraints: • min: 1 • max: 128 • pattern: arn:aws:ivschat:[a-z0-9-]+:[0-9]+:logging-configuration/[a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// Logging-configuration name. The value does not need to be unique. Constraints: o min: 0 o max: 128 o pattern: [a-zA-Z0-9-_]*
+    /// Logging-configuration name. The value does not need to be unique. Constraints: • min: 0 • max: 128 • pattern: [a-zA-Z0-9-_]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// A complex type that contains a destination configuration for where chat content will be logged. There can be only one type of destina- tion (cloudWatchLogs , firehose , or s3 ) in a destinationConfigura- tion . NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: s3, cloudWatchLogs, firehose. s3 -&gt; (structure) An Amazon S3 destination configuration where chat activity will be logged. bucketName -&gt; (string) [required] Name of the Amazon S3 bucket where chat activity will be logged. Constraints: o min: 3 o max: 63 o pattern: [a-z0-9-.]+ cloudWatchLogs -&gt; (structure) An Amazon CloudWatch Logs destination configuration where chat activity will be logged. logGroupName -&gt; (string) [required] Name of the Amazon Cloudwatch Logs destination where chat ac- tivity will be logged. Constraints: o min: 1 o max: 512 o pattern: [\.\-_/#A-Za-z0-9]+ firehose -&gt; (structure) An Amazon Kinesis Data Firehose destination configuration where chat activity will be logged. deliveryStreamName -&gt; (string) [required] Name of the Amazon Kinesis Firehose delivery stream where chat activity will be logged. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+ Shorthand Syntax: s3={bucketName=string},cloudWatchLogs={logGroupName=string},firehose={deliveryStreamName=string} JSON Syntax: { "s3": { "bucketName": "string" }, "cloudWatchLogs": { "logGroupName": "string" }, "firehose": { "deliveryStreamName": "string" } }
+    /// A complex type that contains a destination configuration for where chat content will be logged. There can be only one type of destination (cloudWatchLogs , firehose , or s3 ) in a destinationConfiguration . NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: s3, cloudWatchLogs, firehose. s3 -&gt; (structure) An Amazon S3 destination configuration where chat activity will be logged. bucketName -&gt; (string) [required] Name of the Amazon S3 bucket where chat activity will be logged. Constraints: • min: 3 • max: 63 • pattern: [a-z0-9-.]+ cloudWatchLogs -&gt; (structure) An Amazon CloudWatch Logs destination configuration where chat activity will be logged. logGroupName -&gt; (string) [required] Name of the Amazon Cloudwatch Logs destination where chat activity will be logged. Constraints: • min: 1 • max: 512 • pattern: [\.\-_/#A-Za-z0-9]+ firehose -&gt; (structure) An Amazon Kinesis Data Firehose destination configuration where chat activity will be logged. deliveryStreamName -&gt; (string) [required] Name of the Amazon Kinesis Firehose delivery stream where chat activity will be logged. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_.-]+ Shorthand Syntax: s3={bucketName=string},cloudWatchLogs={logGroupName=string},firehose={deliveryStreamName=string} JSON Syntax: { "s3": { "bucketName": "string" }, "cloudWatchLogs": { "logGroupName": "string" }, "firehose": { "deliveryStreamName": "string" } }
     /// </summary>
     [CliOption("--destination-configuration")]
     public string? DestinationConfiguration { get; set; }
@@ -94,6 +95,15 @@ public record AwsIvschatUpdateLoggingConfigurationOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

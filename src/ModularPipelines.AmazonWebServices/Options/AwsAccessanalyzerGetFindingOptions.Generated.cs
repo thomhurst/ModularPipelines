@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves information about the specified finding. GetFinding and GetFindingV2 both use access-analyzer:GetFinding in the Action element of an IAM policy statement. You must have permission to perform the ac- cess-analyzer:GetFinding action. NOTE: GetFinding is supported only for external access analyzers. You must use GetFindingV2 for internal and unused access analyzers. See also: AWS API Documentation
+/// Retrieves information about the specified finding. GetFinding and GetFindingV2 both use access-analyzer:GetFinding in the Action element of an IAM policy statement. You must have permission to perform the access-analyzer:GetFinding action. NOTE: GetFinding is supported only for external access analyzers. You must use GetFindingV2 for internal and unused access analyzers. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsAccessanalyzerGetFindingOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves information about the specified finding. GetFinding and GetFindingV2 both use access-analyzer:GetFinding in the Action element of an IAM policy statement. You must have permission to perform the ac- cess-analyzer:GetFinding action. NOTE: GetFinding is supported only for external access analyzers. You must use GetFindingV2 for internal and unused access analyzers. See also: AWS API Documentation
+    /// Retrieves information about the specified finding. GetFinding and GetFindingV2 both use access-analyzer:GetFinding in the Action element of an IAM policy statement. You must have permission to perform the access-analyzer:GetFinding action. NOTE: GetFinding is supported only for external access analyzers. You must use GetFindingV2 for internal and unused access analyzers. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AnalyzerArn">The ARN of the analyzer that generated the finding. Constraints: o pattern: [^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}</param>
+    /// <param name="AnalyzerArn">The ARN of the analyzer that generated the finding. Constraints: • pattern: [^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}</param>
     /// <param name="Id">The ID of the finding to retrieve.</param>
     public AwsAccessanalyzerGetFindingOptions(
         string AnalyzerArn,
@@ -60,7 +61,7 @@ public record AwsAccessanalyzerGetFindingOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the analyzer that generated the finding. Constraints: o pattern: [^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}
+    /// The ARN of the analyzer that generated the finding. Constraints: • pattern: [^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}
     /// </summary>
     [CliOption("--analyzer-arn")]
     public string? AnalyzerArn { get; private init; }
@@ -92,6 +93,15 @@ public record AwsAccessanalyzerGetFindingOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

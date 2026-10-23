@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// o This feature API is subject to changing at any time. For more in- formation, see the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Betas and Previews). * Sends a validation request for a procurement portal preference. This operation initiates the validation process by issuing a validation code that confirms ownership and connectivity of the configured procurement portal endpoint. Use VerifyProcurementPortalValidation to submit the received code and complete val...
+/// • This feature API is subject to changing at any time. For more information, see the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Betas and Previews). * Sends a validation request for a procurement portal preference. This operation initiates the validation process by issuing a validation code that confirms ownership and connectivity of the configured procurement portal endpoint. Use VerifyProcurementPortalValidation to submit the received code and complete valid...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsInvoicingSendProcurementPortalValidationOptions : AwsOptions, I
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// o This feature API is subject to changing at any time. For more in- formation, see the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Betas and Previews). * Sends a validation request for a procurement portal preference. This operation initiates the validation process by issuing a validation code that confirms ownership and connectivity of the configured procurement portal endpoint. Use VerifyProcurementPortalValidation to submit the received code and complete val...
+    /// • This feature API is subject to changing at any time. For more information, see the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Betas and Previews). * Sends a validation request for a procurement portal preference. This operation initiates the validation process by issuing a validation code that confirms ownership and connectivity of the configured procurement portal endpoint. Use VerifyProcurementPortalValidation to submit the received code and complete valid...
     /// </summary>
-    /// <param name="ProcurementPortalPreferenceArn">The Amazon Resource Name (ARN) of the procurement portal preference to validate. Constraints: o min: 1 o max: 256 o pattern: arn:aws:invoicing::[0-9]{12}:procurement-portal-prefer- ence/[-a-zA-Z0-9]+</param>
+    /// <param name="ProcurementPortalPreferenceArn">The Amazon Resource Name (ARN) of the procurement portal preference to validate. Constraints: • min: 1 • max: 256 • pattern: arn:aws:invoicing::[0-9]{12}:procurement-portal-preference/[-a-zA-Z0-9]+</param>
     public AwsInvoicingSendProcurementPortalValidationOptions(
         string ProcurementPortalPreferenceArn
     )
@@ -57,13 +58,13 @@ public record AwsInvoicingSendProcurementPortalValidationOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the procurement portal preference to validate. Constraints: o min: 1 o max: 256 o pattern: arn:aws:invoicing::[0-9]{12}:procurement-portal-prefer- ence/[-a-zA-Z0-9]+
+    /// The Amazon Resource Name (ARN) of the procurement portal preference to validate. Constraints: • min: 1 • max: 256 • pattern: arn:aws:invoicing::[0-9]{12}:procurement-portal-preference/[-a-zA-Z0-9]+
     /// </summary>
     [CliOption("--procurement-portal-preference-arn")]
     public string? ProcurementPortalPreferenceArn { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure idem- potency of the request. Constraints: o min: 0 o max: 1024 o pattern: \S+
+    /// A unique, case-sensitive identifier that you provide to ensure idempotency of the request. Constraints: • min: 0 • max: 1024 • pattern: \S+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -90,6 +91,15 @@ public record AwsInvoicingSendProcurementPortalValidationOptions : AwsOptions, I
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

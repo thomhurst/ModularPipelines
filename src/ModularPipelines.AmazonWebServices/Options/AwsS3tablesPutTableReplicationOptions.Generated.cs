@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates or updates the replication configuration for a specific table. This operation allows you to define table-level replication indepen- dently of bucket-level replication, providing granular control over which tables are replicated and where. Permissions o You must have the s3tables:PutTableReplication permission to use this operation. The IAM role specified in the configuration must have per- missions to read from the source table and write to all destination tables. o You must also have th...
+/// Creates or updates the replication configuration for a specific table. This operation allows you to define table-level replication independently of bucket-level replication, providing granular control over which tables are replicated and where. Permissions • You must have the s3tables:PutTableReplication permission to use this operation. The IAM role specified in the configuration must have permissions to read from the source table and write to all destination tables. • You must also have the fo...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsS3tablesPutTableReplicationOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates or updates the replication configuration for a specific table. This operation allows you to define table-level replication indepen- dently of bucket-level replication, providing granular control over which tables are replicated and where. Permissions o You must have the s3tables:PutTableReplication permission to use this operation. The IAM role specified in the configuration must have per- missions to read from the source table and write to all destination tables. o You must also have th...
+    /// Creates or updates the replication configuration for a specific table. This operation allows you to define table-level replication independently of bucket-level replication, providing granular control over which tables are replicated and where. Permissions • You must have the s3tables:PutTableReplication permission to use this operation. The IAM role specified in the configuration must have permissions to read from the source table and write to all destination tables. • You must also have the fo...
     /// </summary>
-    /// <param name="TableArn">The Amazon Resource Name (ARN) of the source table. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63}/ta- ble/[a-zA-Z0-9-_]{1,255})</param>
-    /// <param name="Configuration">The replication configuration to apply to the table, including the IAM role and replication rules. role -&gt; (string) [required] The Amazon Resource Name (ARN) of the IAM role that S3 Tables assumes to replicate the table on your behalf. Constraints: o min: 20 o max: 2048 o pattern: arn:.+:iam::[0-9]{12}:role/.+ rules -&gt; (list) [required] An array of replication rules that define where this table should be replicated. Constraints: o min: 1 o max: 1 (structure) Defines a rule for replicating a table to one or more desti- nation tables. destinations -&gt; (list) [required] An array of destination table buckets where this table should be replicated. Constraints: o min: 1 o max: 5 (structure) Specifies a destination table bucket for replication. destinationTableBucketARN -&gt; (string) [required] The Amazon Resource Name (ARN) of the destination table bucket where tables will be replicated. Constraints: o pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63}) JSON Syntax: { "role": "string", "rules": [ { "destinations": [ { "destinationTableBucketARN": "string" } ... ] } ... ] }</param>
+    /// <param name="TableArn">The Amazon Resource Name (ARN) of the source table. Constraints: • min: 1 • max: 2048 • pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63}/table/[a-zA-Z0-9-_]{1,255})</param>
+    /// <param name="Configuration">The replication configuration to apply to the table, including the IAM role and replication rules. role -&gt; (string) [required] The Amazon Resource Name (ARN) of the IAM role that S3 Tables assumes to replicate the table on your behalf. Constraints: • min: 20 • max: 2048 • pattern: arn:.+:iam::[0-9]{12}:role/.+ rules -&gt; (list) [required] An array of replication rules that define where this table should be replicated. Constraints: • min: 1 • max: 1 (structure) Defines a rule for replicating a table to one or more destination tables. destinations -&gt; (list) [required] An array of destination table buckets where this table should be replicated. Constraints: • min: 1 • max: 5 (structure) Specifies a destination table bucket for replication. destinationTableBucketARN -&gt; (string) [required] The Amazon Resource Name (ARN) of the destination table bucket where tables will be replicated. Constraints: • pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63}) JSON Syntax: { "role": "string", "rules": [ { "destinations": [ { "destinationTableBucketARN": "string" } ... ] } ... ] }</param>
     public AwsS3tablesPutTableReplicationOptions(
         string TableArn,
         string Configuration
@@ -61,19 +62,19 @@ public record AwsS3tablesPutTableReplicationOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the source table. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63}/ta- ble/[a-zA-Z0-9-_]{1,255})
+    /// The Amazon Resource Name (ARN) of the source table. Constraints: • min: 1 • max: 2048 • pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63}/table/[a-zA-Z0-9-_]{1,255})
     /// </summary>
     [CliOption("--table-arn")]
     public string? TableArn { get; private init; }
 
     /// <summary>
-    /// The replication configuration to apply to the table, including the IAM role and replication rules. role -&gt; (string) [required] The Amazon Resource Name (ARN) of the IAM role that S3 Tables assumes to replicate the table on your behalf. Constraints: o min: 20 o max: 2048 o pattern: arn:.+:iam::[0-9]{12}:role/.+ rules -&gt; (list) [required] An array of replication rules that define where this table should be replicated. Constraints: o min: 1 o max: 1 (structure) Defines a rule for replicating a table to one or more desti- nation tables. destinations -&gt; (list) [required] An array of destination table buckets where this table should be replicated. Constraints: o min: 1 o max: 5 (structure) Specifies a destination table bucket for replication. destinationTableBucketARN -&gt; (string) [required] The Amazon Resource Name (ARN) of the destination table bucket where tables will be replicated. Constraints: o pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63}) JSON Syntax: { "role": "string", "rules": [ { "destinations": [ { "destinationTableBucketARN": "string" } ... ] } ... ] }
+    /// The replication configuration to apply to the table, including the IAM role and replication rules. role -&gt; (string) [required] The Amazon Resource Name (ARN) of the IAM role that S3 Tables assumes to replicate the table on your behalf. Constraints: • min: 20 • max: 2048 • pattern: arn:.+:iam::[0-9]{12}:role/.+ rules -&gt; (list) [required] An array of replication rules that define where this table should be replicated. Constraints: • min: 1 • max: 1 (structure) Defines a rule for replicating a table to one or more destination tables. destinations -&gt; (list) [required] An array of destination table buckets where this table should be replicated. Constraints: • min: 1 • max: 5 (structure) Specifies a destination table bucket for replication. destinationTableBucketARN -&gt; (string) [required] The Amazon Resource Name (ARN) of the destination table bucket where tables will be replicated. Constraints: • pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63}) JSON Syntax: { "role": "string", "rules": [ { "destinations": [ { "destinationTableBucketARN": "string" } ... ] } ... ] }
     /// </summary>
     [CliOption("--configuration")]
     public string? Configuration { get; private init; }
 
     /// <summary>
-    /// A version token from a previous GetTableReplication call. Use this token to ensure you're updating the expected version of the configu- ration.
+    /// A version token from a previous GetTableReplication call. Use this token to ensure you're updating the expected version of the configuration.
     /// </summary>
     [SecretValue]
     [CliOption("--version-token")]
@@ -100,6 +101,15 @@ public record AwsS3tablesPutTableReplicationOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

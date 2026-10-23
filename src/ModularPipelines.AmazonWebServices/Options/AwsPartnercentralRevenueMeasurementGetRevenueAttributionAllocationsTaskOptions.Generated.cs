@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the current status of a previously submitted allocations task. When COMPLETE, includes the latest revision. When FAILED, in- cludes error details. See also: AWS API Documentation
+/// Retrieves the current status of a previously submitted allocations task. When COMPLETE, includes the latest revision. When FAILED, includes error details. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsPartnercentralRevenueMeasurementGetRevenueAttributionAllocation
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves the current status of a previously submitted allocations task. When COMPLETE, includes the latest revision. When FAILED, in- cludes error details. See also: AWS API Documentation
+    /// Retrieves the current status of a previously submitted allocations task. When COMPLETE, includes the latest revision. When FAILED, includes error details. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Catalog">The catalog that contains the resource. Possible values: o AWS o Sandbox</param>
-    /// <param name="RevenueAttributionIdentifier">The revenue attribution identifier. Constraints: o min: 16 o max: 1011 o pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:cata- log/[a-zA-Z]+/revenue-attribution/ra-[a-z0-9]{13}|ra-[a-z0-9]{13})</param>
+    /// <param name="Catalog">The catalog that contains the resource. Possible values: • AWS • Sandbox</param>
+    /// <param name="RevenueAttributionIdentifier">The revenue attribution identifier. Constraints: • min: 16 • max: 1011 • pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:catalog/[a-zA-Z]+/revenue-attribution/ra-[a-z0-9]{13}|ra-[a-z0-9]{13})</param>
     public AwsPartnercentralRevenueMeasurementGetRevenueAttributionAllocationsTaskOptions(
         AwsPartnercentralRevenueMeasurementGetRevenueAttributionAllocationsTaskCatalog Catalog,
         string RevenueAttributionIdentifier
@@ -60,13 +61,13 @@ public record AwsPartnercentralRevenueMeasurementGetRevenueAttributionAllocation
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The catalog that contains the resource. Possible values: o AWS o Sandbox
+    /// The catalog that contains the resource. Possible values: • AWS • Sandbox
     /// </summary>
     [CliOption("--catalog")]
     public AwsPartnercentralRevenueMeasurementGetRevenueAttributionAllocationsTaskCatalog? Catalog { get; private init; }
 
     /// <summary>
-    /// The revenue attribution identifier. Constraints: o min: 16 o max: 1011 o pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:cata- log/[a-zA-Z]+/revenue-attribution/ra-[a-z0-9]{13}|ra-[a-z0-9]{13})
+    /// The revenue attribution identifier. Constraints: • min: 16 • max: 1011 • pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:catalog/[a-zA-Z]+/revenue-attribution/ra-[a-z0-9]{13}|ra-[a-z0-9]{13})
     /// </summary>
     [CliOption("--revenue-attribution-identifier")]
     public string? RevenueAttributionIdentifier { get; private init; }
@@ -92,6 +93,15 @@ public record AwsPartnercentralRevenueMeasurementGetRevenueAttributionAllocation
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -78,13 +79,13 @@ public record AwsEc2RevokeClientVpnIngressOptions : AwsOptions, IValidatableObje
     public string? AccessGroupId { get; set; }
 
     /// <summary>
-    /// Indicates whether access should be revoked for all groups for a sin- gle TargetNetworkCidr that earlier authorized ingress for all groups using AuthorizeAllGroups . This does not impact other authorization rules that allowed ingress to the same TargetNetworkCidr with a spe- cific AccessGroupId .
+    /// Indicates whether access should be revoked for all groups for a single TargetNetworkCidr that earlier authorized ingress for all groups using AuthorizeAllGroups . This does not impact other authorization rules that allowed ingress to the same TargetNetworkCidr with a specific AccessGroupId .
     /// </summary>
     [CliFlag("--revoke-all-groups", NegatedName = "--no-revoke-all-groups")]
     public bool? RevokeAllGroups { get; set; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -110,6 +111,15 @@ public record AwsEc2RevokeClientVpnIngressOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

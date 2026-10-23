@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets the import token and the wrapping key certificate in PEM format (base64 encoded) to initiate a TR-34 WrappedKeyBlock or a RSA WrappedK- eyCryptogram import into Amazon Web Services Payment Cryptography. The wrapping key certificate wraps the key under import. The import to- ken and wrapping key certificate must be in place and operational be- fore calling ImportKey . The import token expires in 30 days. You can use the same import token to import multiple keys into your service ac- count. T...
+/// Gets the import token and the wrapping key certificate in PEM format (base64 encoded) to initiate a TR-34 WrappedKeyBlock or a RSA WrappedKeyCryptogram import into Amazon Web Services Payment Cryptography. The wrapping key certificate wraps the key under import. The import token and wrapping key certificate must be in place and operational before calling ImportKey . The import token expires in 30 days. You can use the same import token to import multiple keys into your service account. To return...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsPaymentCryptographyGetParametersForImportOptions : AwsOptions, 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets the import token and the wrapping key certificate in PEM format (base64 encoded) to initiate a TR-34 WrappedKeyBlock or a RSA WrappedK- eyCryptogram import into Amazon Web Services Payment Cryptography. The wrapping key certificate wraps the key under import. The import to- ken and wrapping key certificate must be in place and operational be- fore calling ImportKey . The import token expires in 30 days. You can use the same import token to import multiple keys into your service ac- count. T...
+    /// Gets the import token and the wrapping key certificate in PEM format (base64 encoded) to initiate a TR-34 WrappedKeyBlock or a RSA WrappedKeyCryptogram import into Amazon Web Services Payment Cryptography. The wrapping key certificate wraps the key under import. The import token and wrapping key certificate must be in place and operational before calling ImportKey . The import token expires in 30 days. You can use the same import token to import multiple keys into your service account. To return...
     /// </summary>
-    /// <param name="KeyMaterialType">The method to use for key material import. Import token is only re- quired for TR-34 WrappedKeyBlock (TR34_KEY_BLOCK ) and RSA WrappedK- eyCryptogram (KEY_CRYPTOGRAM ). Import token is not required for TR-31, root public key cerificate or trusted public key certificate. Possible values: o TR34_KEY_BLOCK o TR31_KEY_BLOCK o ROOT_PUBLIC_KEY_CERTIFICATE o TRUSTED_PUBLIC_KEY_CERTIFICATE o KEY_CRYPTOGRAM</param>
-    /// <param name="WrappingKeyAlgorithm">The wrapping key algorithm to generate a wrapping key certificate. This certificate wraps the key under import. At this time, RSA_2048 is the allowed algorithm for TR-34 Wrapped- KeyBlock import. Additionally, RSA_2048 , RSA_3072 , RSA_4096 are the allowed algorithms for RSA WrappedKeyCryptogram import. Possible values: o TDES_2KEY o TDES_3KEY o AES_128 o AES_192 o AES_256 o HMAC_SHA256 o HMAC_SHA384 o HMAC_SHA512 o HMAC_SHA224 o RSA_2048 o RSA_3072 o RSA_4096 o ECC_NIST_P256 o ECC_NIST_P384 o ECC_NIST_P521</param>
+    /// <param name="KeyMaterialType">The method to use for key material import. Import token is only required for TR-34 WrappedKeyBlock (TR34_KEY_BLOCK ) and RSA WrappedKeyCryptogram (KEY_CRYPTOGRAM ). Import token is not required for TR-31, root public key cerificate or trusted public key certificate. Possible values: • TR34_KEY_BLOCK • TR31_KEY_BLOCK • ROOT_PUBLIC_KEY_CERTIFICATE • TRUSTED_PUBLIC_KEY_CERTIFICATE • KEY_CRYPTOGRAM</param>
+    /// <param name="WrappingKeyAlgorithm">The wrapping key algorithm to generate a wrapping key certificate. This certificate wraps the key under import. At this time, RSA_2048 is the allowed algorithm for TR-34 WrappedKeyBlock import. Additionally, RSA_2048 , RSA_3072 , RSA_4096 are the allowed algorithms for RSA WrappedKeyCryptogram import. Possible values: • TDES_2KEY • TDES_3KEY • AES_128 • AES_192 • AES_256 • HMAC_SHA256 • HMAC_SHA384 • HMAC_SHA512 • HMAC_SHA224 • RSA_2048 • RSA_3072 • RSA_4096 • ECC_NIST_P256 • ECC_NIST_P384 • ECC_NIST_P521</param>
     public AwsPaymentCryptographyGetParametersForImportOptions(
         AwsPaymentCryptographyGetParametersForImportKeyMaterialType KeyMaterialType,
         AwsPaymentCryptographyGetParametersForImportWrappingKeyAlgorithm WrappingKeyAlgorithm
@@ -59,13 +60,13 @@ public record AwsPaymentCryptographyGetParametersForImportOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The method to use for key material import. Import token is only re- quired for TR-34 WrappedKeyBlock (TR34_KEY_BLOCK ) and RSA WrappedK- eyCryptogram (KEY_CRYPTOGRAM ). Import token is not required for TR-31, root public key cerificate or trusted public key certificate. Possible values: o TR34_KEY_BLOCK o TR31_KEY_BLOCK o ROOT_PUBLIC_KEY_CERTIFICATE o TRUSTED_PUBLIC_KEY_CERTIFICATE o KEY_CRYPTOGRAM
+    /// The method to use for key material import. Import token is only required for TR-34 WrappedKeyBlock (TR34_KEY_BLOCK ) and RSA WrappedKeyCryptogram (KEY_CRYPTOGRAM ). Import token is not required for TR-31, root public key cerificate or trusted public key certificate. Possible values: • TR34_KEY_BLOCK • TR31_KEY_BLOCK • ROOT_PUBLIC_KEY_CERTIFICATE • TRUSTED_PUBLIC_KEY_CERTIFICATE • KEY_CRYPTOGRAM
     /// </summary>
     [CliOption("--key-material-type")]
     public AwsPaymentCryptographyGetParametersForImportKeyMaterialType? KeyMaterialType { get; private init; }
 
     /// <summary>
-    /// The wrapping key algorithm to generate a wrapping key certificate. This certificate wraps the key under import. At this time, RSA_2048 is the allowed algorithm for TR-34 Wrapped- KeyBlock import. Additionally, RSA_2048 , RSA_3072 , RSA_4096 are the allowed algorithms for RSA WrappedKeyCryptogram import. Possible values: o TDES_2KEY o TDES_3KEY o AES_128 o AES_192 o AES_256 o HMAC_SHA256 o HMAC_SHA384 o HMAC_SHA512 o HMAC_SHA224 o RSA_2048 o RSA_3072 o RSA_4096 o ECC_NIST_P256 o ECC_NIST_P384 o ECC_NIST_P521
+    /// The wrapping key algorithm to generate a wrapping key certificate. This certificate wraps the key under import. At this time, RSA_2048 is the allowed algorithm for TR-34 WrappedKeyBlock import. Additionally, RSA_2048 , RSA_3072 , RSA_4096 are the allowed algorithms for RSA WrappedKeyCryptogram import. Possible values: • TDES_2KEY • TDES_3KEY • AES_128 • AES_192 • AES_256 • HMAC_SHA256 • HMAC_SHA384 • HMAC_SHA512 • HMAC_SHA224 • RSA_2048 • RSA_3072 • RSA_4096 • ECC_NIST_P256 • ECC_NIST_P384 • ECC_NIST_P521
     /// </summary>
     [CliOption("--wrapping-key-algorithm")]
     public AwsPaymentCryptographyGetParametersForImportWrappingKeyAlgorithm? WrappingKeyAlgorithm { get; private init; }
@@ -97,6 +98,15 @@ public record AwsPaymentCryptographyGetParametersForImportOptions : AwsOptions, 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

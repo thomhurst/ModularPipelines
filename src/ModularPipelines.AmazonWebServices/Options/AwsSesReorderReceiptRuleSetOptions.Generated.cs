@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Reorders the receipt rules within a receipt rule set. NOTE: All of the rules in the rule set must be represented in this re- quest. That is, it is error if the reorder request doesn't explic- itly position all of the rules. For information about managing receipt rule sets, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
+/// Reorders the receipt rules within a receipt rule set. NOTE: All of the rules in the rule set must be represented in this request. That is, it is error if the reorder request doesn't explicitly position all of the rules. For information about managing receipt rule sets, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsSesReorderReceiptRuleSetOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Reorders the receipt rules within a receipt rule set. NOTE: All of the rules in the rule set must be represented in this re- quest. That is, it is error if the reorder request doesn't explic- itly position all of the rules. For information about managing receipt rule sets, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
+    /// Reorders the receipt rules within a receipt rule set. NOTE: All of the rules in the rule set must be represented in this request. That is, it is error if the reorder request doesn't explicitly position all of the rules. For information about managing receipt rule sets, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
     /// </summary>
     /// <param name="RuleSetName">The name of the receipt rule set to reorder.</param>
     /// <param name="RuleNames">The specified receipt rule set's receipt rules, in order. (string) Syntax: "string" "string" ...</param>
@@ -103,6 +104,15 @@ public record AwsSesReorderReceiptRuleSetOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

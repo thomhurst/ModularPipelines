@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes a monitor resource. In addition to listing the properties provided in the CreateMonitor request, this operation lists the fol- lowing properties: o Baseline o CreationTime o LastEvaluationTime o LastEvaluationState o LastModificationTime o Message o Status See also: AWS API Documentation
+/// Describes a monitor resource. In addition to listing the properties provided in the CreateMonitor request, this operation lists the following properties: • Baseline • CreationTime • LastEvaluationTime • LastEvaluationState • LastModificationTime • Message • Status See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsForecastDescribeMonitorOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Describes a monitor resource. In addition to listing the properties provided in the CreateMonitor request, this operation lists the fol- lowing properties: o Baseline o CreationTime o LastEvaluationTime o LastEvaluationState o LastModificationTime o Message o Status See also: AWS API Documentation
+    /// Describes a monitor resource. In addition to listing the properties provided in the CreateMonitor request, this operation lists the following properties: • Baseline • CreationTime • LastEvaluationTime • LastEvaluationState • LastModificationTime • Message • Status See also: AWS API Documentation
     /// </summary>
-    /// <param name="MonitorArn">The Amazon Resource Name (ARN) of the monitor resource to describe. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+</param>
+    /// <param name="MonitorArn">The Amazon Resource Name (ARN) of the monitor resource to describe. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):forecast:.*:.*:.+</param>
     public AwsForecastDescribeMonitorOptions(
         string MonitorArn
     )
@@ -56,7 +57,7 @@ public record AwsForecastDescribeMonitorOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the monitor resource to describe. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+
+    /// The Amazon Resource Name (ARN) of the monitor resource to describe. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):forecast:.*:.*:.+
     /// </summary>
     [CliOption("--monitor-arn")]
     public string? MonitorArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsForecastDescribeMonitorOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

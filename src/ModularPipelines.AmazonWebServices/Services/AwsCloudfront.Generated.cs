@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -33,7 +33,7 @@ public class AwsCloudfront : IAwsCloudfront
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws cloudfront wait sub-commands.
     /// </summary>
     public AwsCloudfrontWait Wait => _wait ??= new AwsCloudfrontWait(_command);
 
@@ -42,7 +42,7 @@ public class AwsCloudfront : IAwsCloudfront
     #region Commands
 
     /// <summary>
-    /// NOTE: The AssociateAlias API operation only supports standard distribu- tions. To move domains between distribution tenants and/or standard distributions, we recommend that you use the UpdateDomainAssociation API operation instead. Associates an alias with a CloudFront standard distribution. An alias is commonly known as a custom domain or vanity domain. It can also be called a CNAME or alternate domain name. With this operation, you can move an alias that's already used for a standard distribut...
+    /// NOTE: The AssociateAlias API operation only supports standard distributions. To move domains between distribution tenants and/or standard distributions, we recommend that you use the UpdateDomainAssociation API operation instead. Associates an alias with a CloudFront standard distribution. An alias is commonly known as a custom domain or vanity domain. It can also be called a CNAME or alternate domain name. With this operation, you can move an alias that's already used for a standard distributio...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -117,7 +117,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Creates a cache policy. After you create a cache policy, you can attach it to one or more cache behaviors. When it's attached to a cache behavior, the cache policy de- termines the following: o The values that CloudFront includes in the cache key . These values can include HTTP headers, cookies, and URL query strings. CloudFront uses the cache key to find an object in its cache that it can return to the viewer. o The default, minimum, and maximum time to live (TTL) values that you want objects t...
+    /// Creates a cache policy. After you create a cache policy, you can attach it to one or more cache behaviors. When it's attached to a cache behavior, the cache policy determines the following: • The values that CloudFront includes in the cache key . These values can include HTTP headers, cookies, and URL query strings. CloudFront uses the cache key to find an object in its cache that it can return to the viewer. • The default, minimum, and maximum time to live (TTL) values that you want objects to ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -177,7 +177,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Creates a continuous deployment policy that distributes traffic for a custom domain name to two different CloudFront distributions. To use a continuous deployment policy, first use CopyDistribution to create a staging distribution, then use UpdateDistribution to modify the staging distribution's configuration. After you create and update a staging distribution, you can use a con- tinuous deployment policy to incrementally move traffic to the staging distribution. This workflow enables you to tes...
+    /// Creates a continuous deployment policy that distributes traffic for a custom domain name to two different CloudFront distributions. To use a continuous deployment policy, first use CopyDistribution to create a staging distribution, then use UpdateDistribution to modify the staging distribution's configuration. After you create and update a staging distribution, you can use a continuous deployment policy to incrementally move traffic to the staging distribution. This workflow enables you to test ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -222,7 +222,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Create a new distribution with tags. This API operation requires the following IAM permissions: o CreateDistribution o TagResource See also: AWS API Documentation
+    /// Create a new distribution with tags. This API operation requires the following IAM permissions: • CreateDistribution • TagResource See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -267,7 +267,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Creates a CloudFront function. To create a function, you provide the function code and some configura- tion information about the function. The response contains an Amazon Resource Name (ARN) that uniquely identifies the function. When you create a function, it's in the DEVELOPMENT stage. In this stage, you can test the function with TestFunction , and update it with UpdateFunction . When you're ready to use your function with a CloudFront distribution, use PublishFunction to copy the function f...
+    /// Creates a CloudFront function. To create a function, you provide the function code and some configuration information about the function. The response contains an Amazon Resource Name (ARN) that uniquely identifies the function. When you create a function, it's in the DEVELOPMENT stage. In this stage, you can test the function with TestFunction , and update it with UpdateFunction . When you're ready to use your function with a CloudFront distribution, use PublishFunction to copy the function fro...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -282,7 +282,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Creates an invalidation for a distribution tenant. For more informa- tion, see Invalidating files in the Amazon CloudFront Developer Guide . See also: AWS API Documentation
+    /// Creates an invalidation for a distribution tenant. For more information, see Invalidating files in the Amazon CloudFront Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -312,7 +312,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Creates a key group that you can use with CloudFront signed URLs and signed cookies . To create a key group, you must specify at least one public key for the key group. After you create a key group, you can reference it from one or more cache behaviors. When you reference a key group in a cache be- havior, CloudFront requires signed URLs or signed cookies for all re- quests that match the cache behavior. The URLs or cookies must be signed with a private key whose corresponding public key is in t...
+    /// Creates a key group that you can use with CloudFront signed URLs and signed cookies . To create a key group, you must specify at least one public key for the key group. After you create a key group, you can reference it from one or more cache behaviors. When you reference a key group in a cache behavior, CloudFront requires signed URLs or signed cookies for all requests that match the cache behavior. The URLs or cookies must be signed with a private key whose corresponding public key is in the k...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -342,7 +342,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Enables or disables additional Amazon CloudWatch metrics for the speci- fied CloudFront distribution. The additional metrics incur an addi- tional cost. For more information, see Viewing additional CloudFront distribution metrics in the Amazon CloudFront Developer Guide . See also: AWS API Documentation
+    /// Enables or disables additional Amazon CloudWatch metrics for the specified CloudFront distribution. The additional metrics incur an additional cost. For more information, see Viewing additional CloudFront distribution metrics in the Amazon CloudFront Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -357,7 +357,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Creates a new origin access control in CloudFront. After you create an origin access control, you can add it to an origin in a CloudFront dis- tribution so that CloudFront sends authenticated (signed) requests to the origin. This makes it possible to block public access to the origin, allowing viewers (users) to access the origin's content only through CloudFront. For more information about using a CloudFront origin access control, see Restricting access to an Amazon Web Services origin in the A...
+    /// Creates a new origin access control in CloudFront. After you create an origin access control, you can add it to an origin in a CloudFront distribution so that CloudFront sends authenticated (signed) requests to the origin. This makes it possible to block public access to the origin, allowing viewers (users) to access the origin's content only through CloudFront. For more information about using a CloudFront origin access control, see Restricting access to an Amazon Web Services origin in the Ama...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -372,7 +372,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Creates an origin request policy. After you create an origin request policy, you can attach it to one or more cache behaviors. When it's attached to a cache behavior, the ori- gin request policy determines the values that CloudFront includes in requests that it sends to the origin. Each request that CloudFront sends to the origin includes the following: o The request body and the URL path (without the domain name) from the viewer request. o The headers that CloudFront automatically includes in e...
+    /// Creates an origin request policy. After you create an origin request policy, you can attach it to one or more cache behaviors. When it's attached to a cache behavior, the origin request policy determines the values that CloudFront includes in requests that it sends to the origin. Each request that CloudFront sends to the origin includes the following: • The request body and the URL path (without the domain name) from the viewer request. • The headers that CloudFront automatically includes in eve...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -417,7 +417,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Creates a response headers policy. A response headers policy contains information about a set of HTTP headers. To create a response headers policy, you provide some metadata about the policy and a set of configurations that specify the headers. After you create a response headers policy, you can use its ID to at- tach it to one or more cache behaviors in a CloudFront distribution. When it's attached to a cache behavior, the response headers policy af- fects the HTTP headers that CloudFront inclu...
+    /// Creates a response headers policy. A response headers policy contains information about a set of HTTP headers. To create a response headers policy, you provide some metadata about the policy and a set of configurations that specify the headers. After you create a response headers policy, you can use its ID to attach it to one or more cache behaviors in a CloudFront distribution. When it's attached to a cache behavior, the response headers policy affects the HTTP headers that CloudFront includes ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -432,7 +432,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// This API is deprecated. Amazon CloudFront is deprecating real-time mes- saging protocol (RTMP) distributions on December 31, 2020. For more in- formation, read the announcement on the Amazon CloudFront discussion forum. See also: AWS API Documentation
+    /// This API is deprecated. Amazon CloudFront is deprecating real-time messaging protocol (RTMP) distributions on December 31, 2020. For more information, read the announcement on the Amazon CloudFront discussion forum. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -447,7 +447,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// This API is deprecated. Amazon CloudFront is deprecating real-time mes- saging protocol (RTMP) distributions on December 31, 2020. For more in- formation, read the announcement on the Amazon CloudFront discussion forum. See also: AWS API Documentation
+    /// This API is deprecated. Amazon CloudFront is deprecating real-time messaging protocol (RTMP) distributions on December 31, 2020. For more information, read the announcement on the Amazon CloudFront discussion forum. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -507,7 +507,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Deletes a cache policy. You cannot delete a cache policy if it's attached to a cache behavior. First update your distributions to remove the cache policy from all cache behaviors, then delete the cache policy. To delete a cache policy, you must provide the policy's identifier and version. To get these values, you can use ListCachePolicies or Get- CachePolicy . See also: AWS API Documentation
+    /// Deletes a cache policy. You cannot delete a cache policy if it's attached to a cache behavior. First update your distributions to remove the cache policy from all cache behaviors, then delete the cache policy. To delete a cache policy, you must provide the policy's identifier and version. To get these values, you can use ListCachePolicies or GetCachePolicy . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -567,7 +567,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Deletes a continuous deployment policy. You cannot delete a continuous deployment policy that's attached to a primary distribution. First update your distribution to remove the con- tinuous deployment policy, then you can delete the policy. See also: AWS API Documentation
+    /// Deletes a continuous deployment policy. You cannot delete a continuous deployment policy that's attached to a primary distribution. First update your distribution to remove the continuous deployment policy, then you can delete the policy. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -582,7 +582,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Delete a distribution. WARNING: Before you can delete a distribution, you must disable it, which re- quires permission to update the distribution. Once deleted, a dis- tribution cannot be recovered. See also: AWS API Documentation
+    /// Delete a distribution. WARNING: Before you can delete a distribution, you must disable it, which requires permission to update the distribution. Once deleted, a distribution cannot be recovered. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -597,7 +597,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Deletes a distribution tenant. If you use this API operation to delete a distribution tenant that is currently enabled, the request will fail. To delete a distribution tenant, you must first disable the distribu- tion tenant by using the UpdateDistributionTenant API operation. See also: AWS API Documentation
+    /// Deletes a distribution tenant. If you use this API operation to delete a distribution tenant that is currently enabled, the request will fail. To delete a distribution tenant, you must first disable the distribution tenant by using the UpdateDistributionTenant API operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -642,7 +642,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Deletes a CloudFront function. You cannot delete a function if it's associated with a cache behavior. First, update your distributions to remove the function association from all cache behaviors, then delete the function. To delete a function, you must provide the function's name and version (ETag value). To get these values, you can use ListFunctions and De- scribeFunction . See also: AWS API Documentation
+    /// Deletes a CloudFront function. You cannot delete a function if it's associated with a cache behavior. First, update your distributions to remove the function association from all cache behaviors, then delete the function. To delete a function, you must provide the function's name and version (ETag value). To get these values, you can use ListFunctions and DescribeFunction . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -702,7 +702,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Deletes a CloudFront origin access control. You cannot delete an origin access control if it's in use. First, up- date all distributions to remove the origin access control from all origins, then delete the origin access control. See also: AWS API Documentation
+    /// Deletes a CloudFront origin access control. You cannot delete an origin access control if it's in use. First, update all distributions to remove the origin access control from all origins, then delete the origin access control. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -717,7 +717,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Deletes an origin request policy. You cannot delete an origin request policy if it's attached to any cache behaviors. First update your distributions to remove the origin request policy from all cache behaviors, then delete the origin request policy. To delete an origin request policy, you must provide the policy's iden- tifier and version. To get the identifier, you can use ListOriginRe- questPolicies or GetOriginRequestPolicy . See also: AWS API Documentation
+    /// Deletes an origin request policy. You cannot delete an origin request policy if it's attached to any cache behaviors. First update your distributions to remove the origin request policy from all cache behaviors, then delete the origin request policy. To delete an origin request policy, you must provide the policy's identifier and version. To get the identifier, you can use ListOriginRequestPolicies or GetOriginRequestPolicy . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -747,7 +747,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Deletes a real-time log configuration. You cannot delete a real-time log configuration if it's attached to a cache behavior. First update your distributions to remove the real-time log configuration from all cache behaviors, then delete the real-time log configuration. To delete a real-time log configuration, you can provide the configura- tion's name or its Amazon Resource Name (ARN). You must provide at least one. If you provide both, CloudFront uses the name to identify the real-time log conf...
+    /// Deletes a real-time log configuration. You cannot delete a real-time log configuration if it's attached to a cache behavior. First update your distributions to remove the real-time log configuration from all cache behaviors, then delete the real-time log configuration. To delete a real-time log configuration, you can provide the configuration's name or its Amazon Resource Name (ARN). You must provide at least one. If you provide both, CloudFront uses the name to identify the real-time log config...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -777,7 +777,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Deletes a response headers policy. You cannot delete a response headers policy if it's attached to a cache behavior. First update your distributions to remove the response head- ers policy from all cache behaviors, then delete the response headers policy. To delete a response headers policy, you must provide the policy's identifier and version. To get these values, you can use ListResponse- HeadersPolicies or GetResponseHeadersPolicy . See also: AWS API Documentation
+    /// Deletes a response headers policy. You cannot delete a response headers policy if it's attached to a cache behavior. First update your distributions to remove the response headers policy from all cache behaviors, then delete the response headers policy. To delete a response headers policy, you must provide the policy's identifier and version. To get these values, you can use ListResponseHeadersPolicies or GetResponseHeadersPolicy . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -792,7 +792,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Delete a streaming distribution. To delete an RTMP distribution using the CloudFront API, perform the following steps. To delete an RTMP distribution using the CloudFront API : o Disable the RTMP distribution. o Submit a GET Streaming Distribution Config request to get the current configuration and the Etag header for the distribution. o Update the XML document that was returned in the response to your GET Streaming Distribution Config request to change the value of Enabled to false . o Submit a...
+    /// Delete a streaming distribution. To delete an RTMP distribution using the CloudFront API, perform the following steps. To delete an RTMP distribution using the CloudFront API : • Disable the RTMP distribution. • Submit a GET Streaming Distribution Config request to get the current configuration and the Etag header for the distribution. • Update the XML document that was returned in the response to your GET Streaming Distribution Config request to change the value of Enabled to false . • Submit a...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -852,7 +852,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Gets configuration information and metadata about a CloudFront func- tion, but not the function's code. To get a function's code, use Get- Function . To get configuration information and metadata about a function, you must provide the function's name and stage. To get these values, you can use ListFunctions . See also: AWS API Documentation
+    /// Gets configuration information and metadata about a CloudFront function, but not the function's code. To get a function's code, use GetFunction . To get configuration information and metadata about a function, you must provide the function's name and stage. To get these values, you can use ListFunctions . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -927,7 +927,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Gets a cache policy configuration. To get a cache policy configuration, you must provide the policy's identifier. If the cache policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution . If the cache policy is not attached to a cache be- havior, you can get the identifier using ListCachePolicies . See also: AWS API Documentation
+    /// Gets a cache policy configuration. To get a cache policy configuration, you must provide the policy's identifier. If the cache policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution . If the cache policy is not attached to a cache behavior, you can get the identifier using ListCachePolicies . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -942,7 +942,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Gets a cache policy, including the following metadata: o The policy's identifier. o The date and time when the policy was last modified. To get a cache policy, you must provide the policy's identifier. If the cache policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution . If the cache policy is not attached to a cache behavior, you can get the identifier using ListCachePolicies . See also: AWS API Documentation
+    /// Gets a cache policy, including the following metadata: • The policy's identifier. • The date and time when the policy was last modified. To get a cache policy, you must provide the policy's identifier. If the cache policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution . If the cache policy is not attached to a cache behavior, you can get the identifier using ListCachePolicies . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1182,7 +1182,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Gets the code of a CloudFront function. To get configuration informa- tion and metadata about a function, use DescribeFunction . To get a function's code, you must provide the function's name and stage. To get these values, you can use ListFunctions . See also: AWS API Documentation
+    /// Gets the code of a CloudFront function. To get configuration information and metadata about a function, use DescribeFunction . To get a function's code, you must provide the function's name and stage. To get these values, you can use ListFunctions . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1197,7 +1197,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Gets information about a specific invalidation for a distribution ten- ant. See also: AWS API Documentation
+    /// Gets information about a specific invalidation for a distribution tenant. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1227,7 +1227,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Gets a key group configuration. To get a key group configuration, you must provide the key group's identifier. If the key group is referenced in a distribution's cache behavior, you can get the key group's identifier using ListDistribu- tions or GetDistribution . If the key group is not referenced in a cache behavior, you can get the identifier using ListKeyGroups . See also: AWS API Documentation
+    /// Gets a key group configuration. To get a key group configuration, you must provide the key group's identifier. If the key group is referenced in a distribution's cache behavior, you can get the key group's identifier using ListDistributions or GetDistribution . If the key group is not referenced in a cache behavior, you can get the identifier using ListKeyGroups . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1272,7 +1272,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Gets information about whether additional CloudWatch metrics are en- abled for the specified CloudFront distribution. See also: AWS API Documentation
+    /// Gets information about whether additional CloudWatch metrics are enabled for the specified CloudFront distribution. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1302,7 +1302,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Gets a CloudFront origin access control, including its unique identi- fier. See also: AWS API Documentation
+    /// Gets a CloudFront origin access control, including its unique identifier. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1317,7 +1317,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Gets an origin request policy configuration. To get an origin request policy configuration, you must provide the policy's identifier. If the origin request policy is attached to a dis- tribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution . If the origin request policy is not attached to a cache behavior, you can get the identifier using Lis- tOriginRequestPolicies . See also: AWS API Documentation
+    /// Gets an origin request policy configuration. To get an origin request policy configuration, you must provide the policy's identifier. If the origin request policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution . If the origin request policy is not attached to a cache behavior, you can get the identifier using ListOriginRequestPolicies . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1332,7 +1332,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Gets an origin request policy, including the following metadata: o The policy's identifier. o The date and time when the policy was last modified. To get an origin request policy, you must provide the policy's identi- fier. If the origin request policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistribu- tions or GetDistribution . If the origin request policy is not attached to a cache behavior, you can get the identifier using ListOriginRe- que...
+    /// Gets an origin request policy, including the following metadata: • The policy's identifier. • The date and time when the policy was last modified. To get an origin request policy, you must provide the policy's identifier. If the origin request policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution . If the origin request policy is not attached to a cache behavior, you can get the identifier using ListOriginRequestPoli...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1377,7 +1377,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Gets a real-time log configuration. To get a real-time log configuration, you can provide the configura- tion's name or its Amazon Resource Name (ARN). You must provide at least one. If you provide both, CloudFront uses the name to identify the real-time log configuration to get. See also: AWS API Documentation
+    /// Gets a real-time log configuration. To get a real-time log configuration, you can provide the configuration's name or its Amazon Resource Name (ARN). You must provide at least one. If you provide both, CloudFront uses the name to identify the real-time log configuration to get. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1407,7 +1407,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Gets a response headers policy configuration. To get a response headers policy configuration, you must provide the policy's identifier. If the response headers policy is attached to a distribution's cache behavior, you can get the policy's identifier us- ing ListDistributions or GetDistribution . If the response headers pol- icy is not attached to a cache behavior, you can get the identifier us- ing ListResponseHeadersPolicies . See also: AWS API Documentation
+    /// Gets a response headers policy configuration. To get a response headers policy configuration, you must provide the policy's identifier. If the response headers policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution . If the response headers policy is not attached to a cache behavior, you can get the identifier using ListResponseHeadersPolicies . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1422,7 +1422,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Gets a response headers policy, including metadata (the policy's iden- tifier and the date and time when the policy was last modified). To get a response headers policy, you must provide the policy's identi- fier. If the response headers policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistribu- tions or GetDistribution . If the response headers policy is not at- tached to a cache behavior, you can get the identifier using ListRe- sponseHeaders...
+    /// Gets a response headers policy, including metadata (the policy's identifier and the date and time when the policy was last modified). To get a response headers policy, you must provide the policy's identifier. If the response headers policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution . If the response headers policy is not attached to a cache behavior, you can get the identifier using ListResponseHeadersPolicies ....
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1512,7 +1512,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Gets a list of cache policies. You can optionally apply a filter to return only the managed policies created by Amazon Web Services, or only the custom policies created in your Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the max- imum that you specify, or the default maximum, the response is pagi- nated. To get the next page of items, send a subsequent request that specifies the N...
+    /// Gets a list of cache policies. You can optionally apply a filter to return only the managed policies created by Amazon Web Services, or only the custom policies created in your Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextM...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1527,7 +1527,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Lists origin access identities. See also: AWS API Documentation list-cloud-front-origin-access-identities is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following query expressions: CloudFrontOriginAccessIden- tityList.Items
+    /// Lists origin access identities. See also: AWS API Documentation list-cloud-front-origin-access-identities is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: CloudFrontOriginAccessIdentityList.Items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1542,7 +1542,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// NOTE: The ListConflictingAliases API operation only supports standard dis- tributions. To list domain conflicts for both standard distributions and distribution tenants, we recommend that you use the ListDomainConflicts API operation instead. Gets a list of aliases that conflict or overlap with the provided alias, and the associated CloudFront standard distribution and Amazon Web Services accounts for each conflicting alias. An alias is commonly known as a custom domain or vanity domain. It can ...
+    /// NOTE: The ListConflictingAliases API operation only supports standard distributions. To list domain conflicts for both standard distributions and distribution tenants, we recommend that you use the ListDomainConflicts API operation instead. Gets a list of aliases that conflict or overlap with the provided alias, and the associated CloudFront standard distribution and Amazon Web Services accounts for each conflicting alias. An alias is commonly known as a custom domain or vanity domain. It can al...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1557,7 +1557,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Lists connection functions. See also: AWS API Documentation list-connection-functions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: ConnectionFunctions
+    /// Lists connection functions. See also: AWS API Documentation list-connection-functions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ConnectionFunctions
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1587,7 +1587,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Gets a list of the continuous deployment policies in your Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the max- imum that you specify, or the default maximum, the response is pagi- nated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request. See also: AWS API Documentatio...
+    /// Gets a list of the continuous deployment policies in your Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1599,6 +1599,36 @@ public class AwsCloudfront : IAwsCloudfront
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsCloudfrontListContinuousDeploymentPoliciesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists distribution tenants by the customization that you specify. You must specify either the CertificateArn parameter or WebACLArn parameter, but not both in the same request. See also: AWS API Documentation list-distribution-tenants-by-customization is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated res...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListDistributionTenantsByCustomizationAsync(
+        AwsCloudfrontListDistributionTenantsByCustomizationOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsCloudfrontListDistributionTenantsByCustomizationOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists the distribution tenants in your Amazon Web Services account. See also: AWS API Documentation list-distribution-tenants is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: DistributionTenantList
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListDistributionTenantsAsync(
+        AwsCloudfrontListDistributionTenantsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsCloudfrontListDistributionTenantsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1617,7 +1647,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Gets a list of distribution IDs for distributions that have a cache be- havior that's associated with the specified cache policy. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the max- imum that you specify, or the default maximum, the response is pagi- nated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequ...
+    /// Gets a list of distribution IDs for distributions that have a cache behavior that's associated with the specified cache policy. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent re...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1632,7 +1662,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Lists distributions by connection function. See also: AWS API Documentation list-distributions-by-connection-function is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following query expressions: DistributionList.Items
+    /// Lists distributions by connection function. See also: AWS API Documentation list-distributions-by-connection-function is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: DistributionList.Items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1647,7 +1677,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Lists the distributions by the connection mode that you specify. See also: AWS API Documentation list-distributions-by-connection-mode is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: Distribution...
+    /// Lists the distributions by the connection mode that you specify. See also: AWS API Documentation list-distributions-by-connection-mode is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: DistributionList.I...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1662,7 +1692,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Gets a list of distribution IDs for distributions that have a cache be- havior that references the specified key group. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the max- imum that you specify, or the default maximum, the response is pagi- nated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent reques...
+    /// Gets a list of distribution IDs for distributions that have a cache behavior that references the specified key group. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request. See...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1677,7 +1707,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Gets a list of distribution IDs for distributions that have a cache be- havior that's associated with the specified origin request policy. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the max- imum that you specify, or the default maximum, the response is pagi- nated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in th...
+    /// Gets a list of distribution IDs for distributions that have a cache behavior that's associated with the specified origin request policy. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subs...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1692,7 +1722,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Lists the CloudFront distributions that are associated with the speci- fied resource that you own. See also: AWS API Documentation
+    /// Lists the CloudFront distributions that are associated with the specified resource that you own. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1707,7 +1737,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Gets a list of distributions that have a cache behavior that's associ- ated with the specified real-time log configuration. You can specify the real-time log configuration by its name or its Ama- zon Resource Name (ARN). You must provide at least one. If you provide both, CloudFront uses the name to identify the real-time log configura- tion to list distributions for. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list excee...
+    /// Gets a list of distributions that have a cache behavior that's associated with the specified real-time log configuration. You can specify the real-time log configuration by its name or its Amazon Resource Name (ARN). You must provide at least one. If you provide both, CloudFront uses the name to identify the real-time log configuration to list distributions for. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1722,7 +1752,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Gets a list of distribution IDs for distributions that have a cache be- havior that's associated with the specified response headers policy. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the max- imum that you specify, or the default maximum, the response is pagi- nated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in ...
+    /// Gets a list of distribution IDs for distributions that have a cache behavior that's associated with the specified response headers policy. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the su...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1737,7 +1767,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Lists distributions by trust store. See also: AWS API Documentation list-distributions-by-trust-store is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: DistributionList.Items
+    /// Lists distributions by trust store. See also: AWS API Documentation list-distributions-by-trust-store is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: DistributionList.Items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1797,37 +1827,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Lists distribution tenants by the customization that you specify. You must specify either the CertificateArn parameter or WebACLArn para- meter, but not both in the same request. See also: AWS API Documentation list-distribution-tenants-by-customization is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListDistributionTenantsByCustomizationAsync(
-        AwsCloudfrontListDistributionTenantsByCustomizationOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsCloudfrontListDistributionTenantsByCustomizationOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Lists the distribution tenants in your Amazon Web Services account. See also: AWS API Documentation list-distribution-tenants is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: DistributionTenantList
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListDistributionTenantsAsync(
-        AwsCloudfrontListDistributionTenantsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsCloudfrontListDistributionTenantsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// NOTE: We recommend that you use the ListDomainConflicts API operation to check for domain conflicts, as it supports both standard distribu- tions and distribution tenants. ListConflictingAliases performs sim- ilar checks but only supports standard distributions. Lists existing domain associations that conflict with the domain that you specify. You can use this API operation to identify potential domain conflicts when moving domains between standard distributions and/or distribution tenants. Doma...
+    /// NOTE: We recommend that you use the ListDomainConflicts API operation to check for domain conflicts, as it supports both standard distributions and distribution tenants. ListConflictingAliases performs similar checks but only supports standard distributions. Lists existing domain associations that conflict with the domain that you specify. You can use this API operation to identify potential domain conflicts when moving domains between standard distributions and/or distribution tenants. Domain c...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1857,7 +1857,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Request a list of field-level encryption profiles that have been cre- ated in CloudFront for this account. See also: AWS API Documentation
+    /// Request a list of field-level encryption profiles that have been created in CloudFront for this account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1872,7 +1872,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Gets a list of all CloudFront functions in your Amazon Web Services ac- count. You can optionally apply a filter to return only the functions that are in the specified stage, either DEVELOPMENT or LIVE . You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the max- imum that you specify, or the default maximum, the response is pagi- nated. To get the next page of items, send a subsequent request that specifies the Nex...
+    /// Gets a list of all CloudFront functions in your Amazon Web Services account. You can optionally apply a filter to return only the functions that are in the specified stage, either DEVELOPMENT or LIVE . You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarke...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1887,7 +1887,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Lists the invalidations for a distribution tenant. See also: AWS API Documentation list-invalidations-for-distribution-tenant is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following query expressions: InvalidationList.Items
+    /// Lists the invalidations for a distribution tenant. See also: AWS API Documentation list-invalidations-for-distribution-tenant is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: InvalidationList.Items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1917,7 +1917,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Gets a list of key groups. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the max- imum that you specify, or the default maximum, the response is pagi- nated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request. See also: AWS API Documentation
+    /// Gets a list of key groups. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1947,7 +1947,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Gets the list of CloudFront origin access controls (OACs) in this Ama- zon Web Services account. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the max- imum that you specify, or the default maximum, the response is pagi- nated. To get the next page of items, send another request that speci- fies the NextMarker value from the current response as the Marker value in the next request. NOTE: If you're not using ori...
+    /// Gets the list of CloudFront origin access controls (OACs) in this Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send another request that specifies the NextMarker value from the current response as the Marker value in the next request. NOTE: If you're not using origin acce...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1962,7 +1962,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Gets a list of origin request policies. You can optionally apply a filter to return only the managed policies created by Amazon Web Services, or only the custom policies created in your Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the max- imum that you specify, or the default maximum, the response is pagi- nated. To get the next page of items, send a subsequent request that specif...
+    /// Gets a list of origin request policies. You can optionally apply a filter to return only the managed policies created by Amazon Web Services, or only the custom policies created in your Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1977,7 +1977,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// List all public keys that have been added to CloudFront for this ac- count. See also: AWS API Documentation list-public-keys is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: PublicKeyList.Items
+    /// List all public keys that have been added to CloudFront for this account. See also: AWS API Documentation list-public-keys is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: PublicKeyList.Items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1992,7 +1992,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Gets a list of real-time log configurations. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the max- imum that you specify, or the default maximum, the response is pagi- nated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request. See also: AWS API Documentation
+    /// Gets a list of real-time log configurations. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2007,7 +2007,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Gets a list of response headers policies. You can optionally apply a filter to get only the managed policies cre- ated by Amazon Web Services, or only the custom policies created in your Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the max- imum that you specify, or the default maximum, the response is pagi- nated. To get the next page of items, send a subsequent request that speci...
+    /// Gets a list of response headers policies. You can optionally apply a filter to get only the managed policies created by Amazon Web Services, or only the custom policies created in your Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2022,7 +2022,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// List streaming distributions. See also: AWS API Documentation list-streaming-distributions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: StreamingDistributionList.Items
+    /// List streaming distributions. See also: AWS API Documentation list-streaming-distributions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: StreamingDistributionList.Items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2097,7 +2097,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Publishes a CloudFront function by copying the function code from the DEVELOPMENT stage to LIVE . This automatically updates all cache behav- iors that are using this function to use the newly published copy in the LIVE stage. When a function is published to the LIVE stage, you can attach the function to a distribution's cache behavior, using the function's Ama- zon Resource Name (ARN). To publish a function, you must provide the function's name and version (ETag value). To get these values, you...
+    /// Publishes a CloudFront function by copying the function code from the DEVELOPMENT stage to LIVE . This automatically updates all cache behaviors that are using this function to use the newly published copy in the LIVE stage. When a function is published to the LIVE stage, you can attach the function to a distribution's cache behavior, using the function's Amazon Resource Name (ARN). To publish a function, you must provide the function's name and version (ETag value). To get these values, you can...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2217,7 +2217,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Updates a cache policy configuration. When you update a cache policy configuration, all the fields are up- dated with the values provided in the request. You cannot update some fields independent of others. To update a cache policy configuration: o Use GetCachePolicyConfig to get the current configuration. o Locally modify the fields in the cache policy configuration that you want to update. o Call UpdateCachePolicy by providing the entire cache policy configu- ration, including the fields that ...
+    /// Updates a cache policy configuration. When you update a cache policy configuration, all the fields are updated with the values provided in the request. You cannot update some fields independent of others. To update a cache policy configuration: • Use GetCachePolicyConfig to get the current configuration. • Locally modify the fields in the cache policy configuration that you want to update. • Call UpdateCachePolicy by providing the entire cache policy configuration, including the fields that you ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2277,7 +2277,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Updates a continuous deployment policy. You can update a continuous de- ployment policy to enable or disable it, to change the percentage of traffic that it sends to the staging distribution, or to change the staging distribution that it sends traffic to. When you update a continuous deployment policy configuration, all the fields are updated with the values that are provided in the request. You cannot update some fields independent of others. To update a con- tinuous deployment policy configura...
+    /// Updates a continuous deployment policy. You can update a continuous deployment policy to enable or disable it, to change the percentage of traffic that it sends to the staging distribution, or to change the staging distribution that it sends traffic to. When you update a continuous deployment policy configuration, all the fields are updated with the values that are provided in the request. You cannot update some fields independent of others. To update a continuous deployment policy configuration...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2292,7 +2292,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Updates the configuration for a CloudFront distribution. The update process includes getting the current distribution configura- tion, updating it to make your changes, and then submitting an Update- Distribution request to make the updates. To update a web distribution using the CloudFront API o Use GetDistributionConfig to get the current configuration, including the version identifier (ETag ). o Update the distribution configuration that was returned in the re- sponse. Note the following impo...
+    /// Updates the configuration for a CloudFront distribution. The update process includes getting the current distribution configuration, updating it to make your changes, and then submitting an UpdateDistribution request to make the updates. To update a web distribution using the CloudFront API • Use GetDistributionConfig to get the current configuration, including the version identifier (ETag ). • Update the distribution configuration that was returned in the response. Note the following important ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2322,7 +2322,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Copies the staging distribution's configuration to its corresponding primary distribution. The primary distribution retains its Aliases (also known as alternate domain names or CNAMEs) and ContinuousDeploy- mentPolicyId value, but otherwise its configuration is overwritten to match the staging distribution. You can use this operation in a continuous deployment workflow after you have tested configuration changes on the staging distribution. Af- ter using a continuous deployment policy to move a ...
+    /// Copies the staging distribution's configuration to its corresponding primary distribution. The primary distribution retains its Aliases (also known as alternate domain names or CNAMEs) and ContinuousDeploymentPolicyId value, but otherwise its configuration is overwritten to match the staging distribution. You can use this operation in a continuous deployment workflow after you have tested configuration changes on the staging distribution. After using a continuous deployment policy to move a port...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2337,7 +2337,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// NOTE: We recommend that you use the UpdateDomainAssociation API operation to move a domain association, as it supports both standard distribu- tions and distribution tenants. AssociateAlias performs similar checks but only supports standard distributions. Moves a domain from its current standard distribution or distribution tenant to another one. You must first disable the source distribution (standard distribution or distribution tenant) and then separately call this operation to move the domai...
+    /// NOTE: We recommend that you use the UpdateDomainAssociation API operation to move a domain association, as it supports both standard distributions and distribution tenants. AssociateAlias performs similar checks but only supports standard distributions. Moves a domain from its current standard distribution or distribution tenant to another one. You must first disable the source distribution (standard distribution or distribution tenant) and then separately call this operation to move the domain ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2382,7 +2382,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Updates a CloudFront function. You can update a function's code or the comment that describes the function. You cannot update a function's name. To update a function, you provide the function's name and version (ETag value) along with the updated function code. To get the name and ver- sion, you can use ListFunctions and DescribeFunction . See also: AWS API Documentation
+    /// Updates a CloudFront function. You can update a function's code or the comment that describes the function. You cannot update a function's name. To update a function, you provide the function's name and version (ETag value) along with the updated function code. To get the name and version, you can use ListFunctions and DescribeFunction . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2397,7 +2397,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Updates a key group. When you update a key group, all the fields are updated with the values provided in the request. You cannot update some fields independent of others. To update a key group: o Get the current key group with GetKeyGroup or GetKeyGroupConfig . o Locally modify the fields in the key group that you want to update. For example, add or remove public key IDs. o Call UpdateKeyGroup with the entire key group object, including the fields that you modified and those that you didn't. See...
+    /// Updates a key group. When you update a key group, all the fields are updated with the values provided in the request. You cannot update some fields independent of others. To update a key group: • Get the current key group with GetKeyGroup or GetKeyGroupConfig . • Locally modify the fields in the key group that you want to update. For example, add or remove public key IDs. • Call UpdateKeyGroup with the entire key group object, including the fields that you modified and those that you didn't. See...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2442,7 +2442,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Updates an origin request policy configuration. When you update an origin request policy configuration, all the fields are updated with the values provided in the request. You cannot update some fields independent of others. To update an origin request policy configuration: o Use GetOriginRequestPolicyConfig to get the current configuration. o Locally modify the fields in the origin request policy configuration that you want to update. o Call UpdateOriginRequestPolicy by providing the entire ori...
+    /// Updates an origin request policy configuration. When you update an origin request policy configuration, all the fields are updated with the values provided in the request. You cannot update some fields independent of others. To update an origin request policy configuration: • Use GetOriginRequestPolicyConfig to get the current configuration. • Locally modify the fields in the origin request policy configuration that you want to update. • Call UpdateOriginRequestPolicy by providing the entire ori...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2472,7 +2472,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Updates a real-time log configuration. When you update a real-time log configuration, all the parameters are updated with the values provided in the request. You cannot update some parameters independent of others. To update a real-time log configura- tion: o Call GetRealtimeLogConfig to get the current real-time log configura- tion. o Locally modify the parameters in the real-time log configuration that you want to update. o Call this API (UpdateRealtimeLogConfig ) by providing the entire real-...
+    /// Updates a real-time log configuration. When you update a real-time log configuration, all the parameters are updated with the values provided in the request. You cannot update some parameters independent of others. To update a real-time log configuration: • Call GetRealtimeLogConfig to get the current real-time log configuration. • Locally modify the parameters in the real-time log configuration that you want to update. • Call this API (UpdateRealtimeLogConfig ) by providing the entire real-time...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2487,7 +2487,7 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
-    /// Updates a response headers policy. When you update a response headers policy, the entire policy is re- placed. You cannot update some policy fields independent of others. To update a response headers policy configuration: o Use GetResponseHeadersPolicyConfig to get the current policy's con- figuration. o Modify the fields in the response headers policy configuration that you want to update. o Call UpdateResponseHeadersPolicy , providing the entire response headers policy configuration, including...
+    /// Updates a response headers policy. When you update a response headers policy, the entire policy is replaced. You cannot update some policy fields independent of others. To update a response headers policy configuration: • Use GetResponseHeadersPolicyConfig to get the current policy's configuration. • Modify the fields in the response headers policy configuration that you want to update. • Call UpdateResponseHeadersPolicy , providing the entire response headers policy configuration, including the...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Delete a streaming distribution. To delete an RTMP distribution using the CloudFront API, perform the following steps. To delete an RTMP distribution using the CloudFront API : o Disable the RTMP distribution. o Submit a GET Streaming Distribution Config request to get the current configuration and the Etag header for the distribution. o Update the XML document that was returned in the response to your GET Streaming Distribution Config request to change the value of Enabled to false . o Submit a...
+/// Delete a streaming distribution. To delete an RTMP distribution using the CloudFront API, perform the following steps. To delete an RTMP distribution using the CloudFront API : • Disable the RTMP distribution. • Submit a GET Streaming Distribution Config request to get the current configuration and the Etag header for the distribution. • Update the XML document that was returned in the response to your GET Streaming Distribution Config request to change the value of Enabled to false . • Submit a...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsCloudfrontDeleteStreamingDistributionOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Delete a streaming distribution. To delete an RTMP distribution using the CloudFront API, perform the following steps. To delete an RTMP distribution using the CloudFront API : o Disable the RTMP distribution. o Submit a GET Streaming Distribution Config request to get the current configuration and the Etag header for the distribution. o Update the XML document that was returned in the response to your GET Streaming Distribution Config request to change the value of Enabled to false . o Submit a...
+    /// Delete a streaming distribution. To delete an RTMP distribution using the CloudFront API, perform the following steps. To delete an RTMP distribution using the CloudFront API : • Disable the RTMP distribution. • Submit a GET Streaming Distribution Config request to get the current configuration and the Etag header for the distribution. • Update the XML document that was returned in the response to your GET Streaming Distribution Config request to change the value of Enabled to false . • Submit a...
     /// </summary>
     /// <param name="Id">The distribution ID.</param>
     public AwsCloudfrontDeleteStreamingDistributionOptions(
@@ -88,6 +89,15 @@ public record AwsCloudfrontDeleteStreamingDistributionOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

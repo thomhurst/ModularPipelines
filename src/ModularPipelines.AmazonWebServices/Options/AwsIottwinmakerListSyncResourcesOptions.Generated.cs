@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +29,8 @@ public record AwsIottwinmakerListSyncResourcesOptions : AwsOptions, IValidatable
     /// <summary>
     /// Lists the sync resources. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkspaceId">The ID of the workspace that contains the sync job. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+</param>
-    /// <param name="SyncSource">The sync source. NOTE: Currently the only supported syncSource is SITEWISE . Constraints: o pattern: [a-zA-Z_0-9]+</param>
+    /// <param name="WorkspaceId">The ID of the workspace that contains the sync job. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+</param>
+    /// <param name="SyncSource">The sync source. NOTE: Currently the only supported syncSource is SITEWISE . Constraints: • pattern: [a-zA-Z_0-9]+</param>
     public AwsIottwinmakerListSyncResourcesOptions(
         string WorkspaceId,
         string SyncSource
@@ -61,31 +62,31 @@ public record AwsIottwinmakerListSyncResourcesOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the workspace that contains the sync job. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+
+    /// The ID of the workspace that contains the sync job. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+
     /// </summary>
     [CliOption("--workspace-id")]
     public string? WorkspaceId { get; private init; }
 
     /// <summary>
-    /// The sync source. NOTE: Currently the only supported syncSource is SITEWISE . Constraints: o pattern: [a-zA-Z_0-9]+
+    /// The sync source. NOTE: Currently the only supported syncSource is SITEWISE . Constraints: • pattern: [a-zA-Z_0-9]+
     /// </summary>
     [CliOption("--sync-source")]
     public string? SyncSource { get; private init; }
 
     /// <summary>
-    /// A list of objects that filter the request. The following filter combinations are supported: o Filter with state o Filter with ResourceType and ResourceId o Filter with ResourceType and ExternalId (tagged union structure) The sync resource filter. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: state, resourceType, resourceId, externalId. state -&gt; (string) The sync resource filter's state. Possible values: o INITIALIZING o PROCESSING o DELETED o IN_SYNC o ERROR resourceType -&gt; (string) The sync resource filter resource type Possible values: o ENTITY o COMPONENT_TYPE resourceId -&gt; (string) The sync resource filter resource ID. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+ externalId -&gt; (string) The external ID. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+ Shorthand Syntax: state=string,resourceType=string,resourceId=string,externalId=string ... JSON Syntax: [ { "state": "INITIALIZING"|"PROCESSING"|"DELETED"|"IN_SYNC"|"ERROR", "resourceType": "ENTITY"|"COMPONENT_TYPE", "resourceId": "string", "externalId": "string" } ... ]
+    /// A list of objects that filter the request. The following filter combinations are supported: • Filter with state • Filter with ResourceType and ResourceId • Filter with ResourceType and ExternalId (tagged union structure) The sync resource filter. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: state, resourceType, resourceId, externalId. state -&gt; (string) The sync resource filter's state. Possible values: • INITIALIZING • PROCESSING • DELETED • IN_SYNC • ERROR resourceType -&gt; (string) The sync resource filter resource type Possible values: • ENTITY • COMPONENT_TYPE resourceId -&gt; (string) The sync resource filter resource ID. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+ externalId -&gt; (string) The external ID. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+ Shorthand Syntax: state=string,resourceType=string,resourceId=string,externalId=string ... JSON Syntax: [ { "state": "INITIALIZING"|"PROCESSING"|"DELETED"|"IN_SYNC"|"ERROR", "resourceType": "ENTITY"|"COMPONENT_TYPE", "resourceId": "string", "externalId": "string" } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return at one time. The default is 50. Valid Range: Minimum value of 0. Maximum value of 200. Constraints: o min: 0 o max: 200
+    /// The maximum number of results to return at one time. The default is 50. Valid Range: Minimum value of 0. Maximum value of 200. Constraints: • min: 0 • max: 200
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The string that specifies the next page of results. Constraints: o min: 0 o max: 17880 o pattern: .*
+    /// The string that specifies the next page of results. Constraints: • min: 0 • max: 17880 • pattern: .*
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -112,6 +113,15 @@ public record AwsIottwinmakerListSyncResourcesOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

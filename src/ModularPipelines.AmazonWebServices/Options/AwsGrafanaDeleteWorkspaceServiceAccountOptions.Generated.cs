@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a workspace service account from the workspace. This will delete any tokens created for the service account, as well. If the tokens are currently in use, the will fail to authenticate / au- thorize after they are deleted. Service accounts are only available for workspaces that are compatible with Grafana version 9 and above. See also: AWS API Documentation
+/// Deletes a workspace service account from the workspace. This will delete any tokens created for the service account, as well. If the tokens are currently in use, the will fail to authenticate / authorize after they are deleted. Service accounts are only available for workspaces that are compatible with Grafana version 9 and above. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsGrafanaDeleteWorkspaceServiceAccountOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a workspace service account from the workspace. This will delete any tokens created for the service account, as well. If the tokens are currently in use, the will fail to authenticate / au- thorize after they are deleted. Service accounts are only available for workspaces that are compatible with Grafana version 9 and above. See also: AWS API Documentation
+    /// Deletes a workspace service account from the workspace. This will delete any tokens created for the service account, as well. If the tokens are currently in use, the will fail to authenticate / authorize after they are deleted. Service accounts are only available for workspaces that are compatible with Grafana version 9 and above. See also: AWS API Documentation
     /// </summary>
     /// <param name="ServiceAccountId">The ID of the service account to delete.</param>
-    /// <param name="WorkspaceId">The ID of the workspace where the service account resides. Constraints: o pattern: g-[0-9a-f]{10}</param>
+    /// <param name="WorkspaceId">The ID of the workspace where the service account resides. Constraints: • pattern: g-[0-9a-f]{10}</param>
     public AwsGrafanaDeleteWorkspaceServiceAccountOptions(
         string ServiceAccountId,
         string WorkspaceId
@@ -66,7 +67,7 @@ public record AwsGrafanaDeleteWorkspaceServiceAccountOptions : AwsOptions, IVali
     public string? ServiceAccountId { get; private init; }
 
     /// <summary>
-    /// The ID of the workspace where the service account resides. Constraints: o pattern: g-[0-9a-f]{10}
+    /// The ID of the workspace where the service account resides. Constraints: • pattern: g-[0-9a-f]{10}
     /// </summary>
     [CliOption("--workspace-id")]
     public string? WorkspaceId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsGrafanaDeleteWorkspaceServiceAccountOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

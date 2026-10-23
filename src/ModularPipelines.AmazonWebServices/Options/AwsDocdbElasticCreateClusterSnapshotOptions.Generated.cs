@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +28,8 @@ public record AwsDocdbElasticCreateClusterSnapshotOptions : AwsOptions, IValidat
     /// <summary>
     /// Creates a snapshot of an elastic cluster. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClusterArn">The ARN identifier of the elastic cluster of which you want to cre- ate a snapshot.</param>
-    /// <param name="SnapshotName">The name of the new elastic cluster snapshot. Constraints: o min: 1 o max: 63</param>
+    /// <param name="ClusterArn">The ARN identifier of the elastic cluster of which you want to create a snapshot.</param>
+    /// <param name="SnapshotName">The name of the new elastic cluster snapshot. Constraints: • min: 1 • max: 63</param>
     public AwsDocdbElasticCreateClusterSnapshotOptions(
         string ClusterArn,
         string SnapshotName
@@ -61,19 +61,19 @@ public record AwsDocdbElasticCreateClusterSnapshotOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN identifier of the elastic cluster of which you want to cre- ate a snapshot.
+    /// The ARN identifier of the elastic cluster of which you want to create a snapshot.
     /// </summary>
     [CliOption("--cluster-arn")]
     public string? ClusterArn { get; private init; }
 
     /// <summary>
-    /// The name of the new elastic cluster snapshot. Constraints: o min: 1 o max: 63
+    /// The name of the new elastic cluster snapshot. Constraints: • min: 1 • max: 63
     /// </summary>
     [CliOption("--snapshot-name")]
     public string? SnapshotName { get; private init; }
 
     /// <summary>
-    /// The tags to be assigned to the new elastic cluster snapshot. key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags to be assigned to the new elastic cluster snapshot. key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -99,6 +99,15 @@ public record AwsDocdbElasticCreateClusterSnapshotOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

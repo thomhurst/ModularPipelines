@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsDatasyncDescribeTaskExecutionOptions : AwsOptions, IValidatable
     /// <summary>
     /// Provides information about an execution of your DataSync task. You can use this operation to help monitor the progress of an ongoing data transfer or check the results of the transfer. NOTE: Some DescribeTaskExecution response elements are only relevant to a specific task mode. For information, see Understanding task mode differences and Understanding data transfer performance counters . See also: AWS API Documentation
     /// </summary>
-    /// <param name="TaskExecutionArn">Specifies the Amazon Resource Name (ARN) of the task execution that you want information about. Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):data- sync:[a-z\-0-9]+:[0-9]{12}:task/task-[0-9a-f]{17}/execu- tion/exec-[0-9a-f]{17}$</param>
+    /// <param name="TaskExecutionArn">Specifies the Amazon Resource Name (ARN) of the task execution that you want information about. Constraints: • max: 128 • pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):datasync:[a-z\-0-9]+:[0-9]{12}:task/task-[0-9a-f]{17}/execution/exec-[0-9a-f]{17}$</param>
     public AwsDatasyncDescribeTaskExecutionOptions(
         string TaskExecutionArn
     )
@@ -56,7 +57,7 @@ public record AwsDatasyncDescribeTaskExecutionOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the Amazon Resource Name (ARN) of the task execution that you want information about. Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):data- sync:[a-z\-0-9]+:[0-9]{12}:task/task-[0-9a-f]{17}/execu- tion/exec-[0-9a-f]{17}$
+    /// Specifies the Amazon Resource Name (ARN) of the task execution that you want information about. Constraints: • max: 128 • pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):datasync:[a-z\-0-9]+:[0-9]{12}:task/task-[0-9a-f]{17}/execution/exec-[0-9a-f]{17}$
     /// </summary>
     [CliOption("--task-execution-arn")]
     public string? TaskExecutionArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsDatasyncDescribeTaskExecutionOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

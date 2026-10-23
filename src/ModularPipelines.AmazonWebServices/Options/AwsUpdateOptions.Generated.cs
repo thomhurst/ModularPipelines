@@ -14,11 +14,20 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Update the AWS CLI to the latest version. Note that update is only supported if the current CLI instance was in- stalled using an official installer, install script, or the update com- mand. Other distribution mechanisms such as source or container images are not supported.
+/// Update the AWS CLI to the latest version. Note that update is only supported if the current CLI instance was installed using an official installer, install script, or the update command. Other distribution mechanisms such as source or container images are not supported.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("update")]
 public record AwsUpdateOptions : AwsOptions
 {
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
+
 }

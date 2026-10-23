@@ -23,13 +23,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsDevicefarmListTestGridProjectsOptions : AwsOptions
 {
     /// <summary>
-    /// Return no more than this number of results. Constraints: o min: 1 o max: 1000
+    /// Return no more than this number of results. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-result")]
     public int? MaxResult { get; set; }
 
     /// <summary>
-    /// From a response, used to continue a paginated listing. Constraints: o min: 4 o max: 1024
+    /// From a response, used to continue a paginated listing. Constraints: • min: 4 • max: 1024
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -40,5 +40,14 @@ public record AwsDevicefarmListTestGridProjectsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

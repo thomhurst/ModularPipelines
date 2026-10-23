@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -62,7 +63,7 @@ public record AwsCloudfrontCreateInvalidationOptions : AwsOptions, IValidatableO
     public string? DistributionId { get; private init; }
 
     /// <summary>
-    /// The batch information for the invalidation. Paths -&gt; (structure) [required] A complex type that contains information about the objects that you want to invalidate. For more information, see Specifying the Objects to Invalidate in the Amazon CloudFront Developer Guide . Quantity -&gt; (integer) [required] The number of invalidation paths specified for the objects that you want to invalidate. Items -&gt; (list) A complex type that contains a list of the paths that you want to invalidate. (string) CallerReference -&gt; (string) [required] A value that you specify to uniquely identify an invalidation request. CloudFront uses the value to prevent you from acciden- tally resubmitting an identical request. Whenever you create a new invalidation request, you must specify a new value for CallerReference and change other values in the request as ap- plicable. One way to ensure that the value of CallerReference is unique is to use a timestamp , for example, 20120301090000 . If you make a second invalidation request with the same value for CallerReference , and if the rest of the request is the same, CloudFront doesn't create a new invalidation request. In- stead, CloudFront returns information about the invalidation re- quest that you previously created with the same CallerReference . If CallerReference is a value you already sent in a previous in- validation batch request but the content of any Path is differ- ent from the original request, CloudFront returns an Invalida- tionBatchAlreadyExists error. Shorthand Syntax: Paths={Quantity=integer,Items=[string,string]},CallerReference=string JSON Syntax: { "Paths": { "Quantity": integer, "Items": ["string", ...] }, "CallerReference": "string" }
+    /// The batch information for the invalidation. Paths -&gt; (structure) [required] A complex type that contains information about the objects that you want to invalidate. For more information, see Specifying the Objects to Invalidate in the Amazon CloudFront Developer Guide . Quantity -&gt; (integer) [required] The number of invalidation paths specified for the objects that you want to invalidate. Items -&gt; (list) A complex type that contains a list of the paths that you want to invalidate. (string) CallerReference -&gt; (string) [required] A value that you specify to uniquely identify an invalidation request. CloudFront uses the value to prevent you from accidentally resubmitting an identical request. Whenever you create a new invalidation request, you must specify a new value for CallerReference and change other values in the request as applicable. One way to ensure that the value of CallerReference is unique is to use a timestamp , for example, 20120301090000 . If you make a second invalidation request with the same value for CallerReference , and if the rest of the request is the same, CloudFront doesn't create a new invalidation request. Instead, CloudFront returns information about the invalidation request that you previously created with the same CallerReference . If CallerReference is a value you already sent in a previous invalidation batch request but the content of any Path is different from the original request, CloudFront returns an InvalidationBatchAlreadyExists error. Shorthand Syntax: Paths={Quantity=integer,Items=[string,string]},CallerReference=string JSON Syntax: { "Paths": { "Quantity": integer, "Items": ["string", ...] }, "CallerReference": "string" }
     /// </summary>
     [CliOption("--invalidation-batch")]
     public string? InvalidationBatch { get; set; }
@@ -91,6 +92,15 @@ public record AwsCloudfrontCreateInvalidationOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

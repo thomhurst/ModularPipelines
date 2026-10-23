@@ -23,25 +23,25 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsIotManagedIntegrationsCreateOtaTaskConfigurationOptions : AwsOptions
 {
     /// <summary>
-    /// A description of the over-the-air (OTA) task configuration. Constraints: o min: 1 o max: 256 o pattern: [0-9A-Za-z_\- ]+
+    /// A description of the over-the-air (OTA) task configuration. Constraints: • min: 1 • max: 256 • pattern: [0-9A-Za-z_\- ]+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The name of the over-the-air (OTA) task. Constraints: o min: 1 o max: 128 o pattern: [A-Za-z0-9-_ ]+
+    /// The name of the over-the-air (OTA) task. Constraints: • min: 1 • max: 128 • pattern: [A-Za-z0-9-_ ]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// Describes the type of configuration used for the over-the-air (OTA) task. AbortConfig -&gt; (structure) Structure representing one abort config. AbortConfigCriteriaList -&gt; (list) The list of criteria for the abort config. (structure) Structure representing one abort config criteria. Action -&gt; (string) The action taken by the abort configuration. Possible values: o CANCEL FailureType -&gt; (string) Over-the-air (OTA) task abort criteria failure type. Possible values: o FAILED o REJECTED o TIMED_OUT o ALL MinNumberOfExecutedThings -&gt; (integer) The minimum number of things that must receive task execution notifications before the task can be aborted. Constraints: o min: 1 o max: 100 ThresholdPercentage -&gt; (double) The minimum percentage of over-the-air (OTA) task exe- cution failures that must occur to initiate the last abort. Constraints: o max: 100 RolloutConfig -&gt; (structure) Structure representing one rollout config. ExponentialRolloutRate -&gt; (structure) Structure representing exponential rate of rollout for an over-the-air (OTA) task. BaseRatePerMinute -&gt; (integer) The base rate per minute for the rollout of an over-the-air (OTA) task. Constraints: o min: 1 o max: 100 IncrementFactor -&gt; (double) The incremental factor for increasing the rollout rate of an over-the-air (OTA) task. Constraints: o min: 1.1 o max: 5 RateIncreaseCriteria -&gt; (structure) The criteria for increasing the rollout rate of an over-the-air (OTA) task. numberOfNotifiedThings -&gt; (integer) The threshold for number of notified things that will initiate the increase in rate of rollout. Constraints: o min: 1 o max: 100 numberOfSucceededThings -&gt; (integer) The threshold for number of succeeded things that will initiate the increase in rate of rollout. Constraints: o min: 1 o max: 100 MaximumPerMinute -&gt; (integer) The maximum number of things that will be notified of a pend- ing task, per minute. Constraints: o min: 1 TimeoutConfig -&gt; (structure) Structure representing one timeout config. InProgressTimeoutInMinutes -&gt; (long) Specifies the amount of time the device has to finish execu- tion of this task. The timeout interval can be anywhere be- tween 1 minute and 7 days. Constraints: o min: 1 o max: 10080 JSON Syntax: { "AbortConfig": { "AbortConfigCriteriaList": [ { "Action": "CANCEL", "FailureType": "FAILED"|"REJECTED"|"TIMED_OUT"|"ALL", "MinNumberOfExecutedThings": integer, "ThresholdPercentage": double } ... ] }, "RolloutConfig": { "ExponentialRolloutRate": { "BaseRatePerMinute": integer, "IncrementFactor": double, "RateIncreaseCriteria": { "numberOfNotifiedThings": integer, "numberOfSucceededThings": integer } }, "MaximumPerMinute": integer }, "TimeoutConfig": { "InProgressTimeoutInMinutes": long } }
+    /// Describes the type of configuration used for the over-the-air (OTA) task. AbortConfig -&gt; (structure) Structure representing one abort config. AbortConfigCriteriaList -&gt; (list) The list of criteria for the abort config. (structure) Structure representing one abort config criteria. Action -&gt; (string) The action taken by the abort configuration. Possible values: • CANCEL FailureType -&gt; (string) Over-the-air (OTA) task abort criteria failure type. Possible values: • FAILED • REJECTED • TIMED_OUT • ALL MinNumberOfExecutedThings -&gt; (integer) The minimum number of things that must receive task execution notifications before the task can be aborted. Constraints: • min: 1 • max: 100 ThresholdPercentage -&gt; (double) The minimum percentage of over-the-air (OTA) task execution failures that must occur to initiate the last abort. Constraints: • max: 100 RolloutConfig -&gt; (structure) Structure representing one rollout config. ExponentialRolloutRate -&gt; (structure) Structure representing exponential rate of rollout for an over-the-air (OTA) task. BaseRatePerMinute -&gt; (integer) The base rate per minute for the rollout of an over-the-air (OTA) task. Constraints: • min: 1 • max: 100 IncrementFactor -&gt; (double) The incremental factor for increasing the rollout rate of an over-the-air (OTA) task. Constraints: • min: 1.1 • max: 5 RateIncreaseCriteria -&gt; (structure) The criteria for increasing the rollout rate of an over-the-air (OTA) task. numberOfNotifiedThings -&gt; (integer) The threshold for number of notified things that will initiate the increase in rate of rollout. Constraints: • min: 1 • max: 100 numberOfSucceededThings -&gt; (integer) The threshold for number of succeeded things that will initiate the increase in rate of rollout. Constraints: • min: 1 • max: 100 MaximumPerMinute -&gt; (integer) The maximum number of things that will be notified of a pending task, per minute. Constraints: • min: 1 TimeoutConfig -&gt; (structure) Structure representing one timeout config. InProgressTimeoutInMinutes -&gt; (long) Specifies the amount of time the device has to finish execution of this task. The timeout interval can be anywhere between 1 minute and 7 days. Constraints: • min: 1 • max: 10080 JSON Syntax: { "AbortConfig": { "AbortConfigCriteriaList": [ { "Action": "CANCEL", "FailureType": "FAILED"|"REJECTED"|"TIMED_OUT"|"ALL", "MinNumberOfExecutedThings": integer, "ThresholdPercentage": double } ... ] }, "RolloutConfig": { "ExponentialRolloutRate": { "BaseRatePerMinute": integer, "IncrementFactor": double, "RateIncreaseCriteria": { "numberOfNotifiedThings": integer, "numberOfSucceededThings": integer } }, "MaximumPerMinute": integer }, "TimeoutConfig": { "InProgressTimeoutInMinutes": long } }
     /// </summary>
     [CliOption("--push-config")]
     public string? PushConfig { get; set; }
 
     /// <summary>
-    /// An idempotency token. If you retry a request that completed success- fully initially using the same client token and parameters, then the retry attempt will succeed without performing any further actions. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9=_-]+
+    /// An idempotency token. If you retry a request that completed successfully initially using the same client token and parameters, then the retry attempt will succeed without performing any further actions. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9=_-]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -52,5 +52,14 @@ public record AwsIotManagedIntegrationsCreateOtaTaskConfigurationOptions : AwsOp
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

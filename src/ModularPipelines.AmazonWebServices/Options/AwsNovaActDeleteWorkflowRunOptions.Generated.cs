@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsNovaActDeleteWorkflowRunOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Terminates and cleans up a workflow run, stopping all associated acts and sessions. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkflowDefinitionName">The name of the workflow definition containing the workflow run. Constraints: o min: 1 o max: 40 o pattern: [a-zA-Z0-9_-]{1,40}</param>
-    /// <param name="WorkflowRunId">The unique identifier of the workflow run to delete. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="WorkflowDefinitionName">The name of the workflow definition containing the workflow run. Constraints: • min: 1 • max: 40 • pattern: [a-zA-Z0-9_-]{1,40}</param>
+    /// <param name="WorkflowRunId">The unique identifier of the workflow run to delete. Constraints: • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
     public AwsNovaActDeleteWorkflowRunOptions(
         string WorkflowDefinitionName,
         string WorkflowRunId
@@ -60,13 +61,13 @@ public record AwsNovaActDeleteWorkflowRunOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the workflow definition containing the workflow run. Constraints: o min: 1 o max: 40 o pattern: [a-zA-Z0-9_-]{1,40}
+    /// The name of the workflow definition containing the workflow run. Constraints: • min: 1 • max: 40 • pattern: [a-zA-Z0-9_-]{1,40}
     /// </summary>
     [CliOption("--workflow-definition-name")]
     public string? WorkflowDefinitionName { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the workflow run to delete. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The unique identifier of the workflow run to delete. Constraints: • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--workflow-run-id")]
     public string? WorkflowRunId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsNovaActDeleteWorkflowRunOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

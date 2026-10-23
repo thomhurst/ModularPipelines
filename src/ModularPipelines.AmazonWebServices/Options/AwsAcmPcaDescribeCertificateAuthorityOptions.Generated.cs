@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists information about your private certificate authority (CA) or one that has been shared with you. You specify the private CA on input by its ARN (Amazon Resource Name). The output contains the status of your CA. This can be any of the following: o CREATING - Amazon Web Services Private CA is creating your private certificate authority. o PENDING_CERTIFICATE - The certificate is pending. You must use your Amazon Web Services Private CA-hosted or on-premises root or subordi- nate CA to sign yo...
+/// Lists information about your private certificate authority (CA) or one that has been shared with you. You specify the private CA on input by its ARN (Amazon Resource Name). The output contains the status of your CA. This can be any of the following: • CREATING - Amazon Web Services Private CA is creating your private certificate authority. • PENDING_CERTIFICATE - The certificate is pending. You must use your Amazon Web Services Private CA-hosted or on-premises root or subordinate CA to sign your...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsAcmPcaDescribeCertificateAuthorityOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists information about your private certificate authority (CA) or one that has been shared with you. You specify the private CA on input by its ARN (Amazon Resource Name). The output contains the status of your CA. This can be any of the following: o CREATING - Amazon Web Services Private CA is creating your private certificate authority. o PENDING_CERTIFICATE - The certificate is pending. You must use your Amazon Web Services Private CA-hosted or on-premises root or subordi- nate CA to sign yo...
+    /// Lists information about your private certificate authority (CA) or one that has been shared with you. You specify the private CA on input by its ARN (Amazon Resource Name). The output contains the status of your CA. This can be any of the following: • CREATING - Amazon Web Services Private CA is creating your private certificate authority. • PENDING_CERTIFICATE - The certificate is pending. You must use your Amazon Web Services Private CA-hosted or on-premises root or subordinate CA to sign your...
     /// </summary>
-    /// <param name="CertificateAuthorityArn">The Amazon Resource Name (ARN) that was returned when you called CreateCertificateAuthority . This must be of the form: `` arn:aws:acm-pca:region :account :certificate-author- ity/12345678-1234-1234-1234-123456789012 `` . System Message: WARNING/2 (&lt;string&gt;:, line 90) Inline literal start-string without end-string. Constraints: o min: 5 o max: 200 o pattern: arn:[\w+=/,.@-]+:acm-pca:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=,.@-]+)*</param>
+    /// <param name="CertificateAuthorityArn">The Amazon Resource Name (ARN) that was returned when you called CreateCertificateAuthority . This must be of the form: `` arn:aws:acm-pca:region :account :certificate-authority/12345678-1234-1234-1234-123456789012 `` . System Message: WARNING/2 (&lt;string&gt;:, line 90) Inline literal start-string without end-string. Constraints: • min: 5 • max: 200 • pattern: arn:[\w+=/,.@-]+:acm-pca:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=,.@-]+)*</param>
     public AwsAcmPcaDescribeCertificateAuthorityOptions(
         string CertificateAuthorityArn
     )
@@ -56,7 +57,7 @@ public record AwsAcmPcaDescribeCertificateAuthorityOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) that was returned when you called CreateCertificateAuthority . This must be of the form: `` arn:aws:acm-pca:region :account :certificate-author- ity/12345678-1234-1234-1234-123456789012 `` . System Message: WARNING/2 (&lt;string&gt;:, line 90) Inline literal start-string without end-string. Constraints: o min: 5 o max: 200 o pattern: arn:[\w+=/,.@-]+:acm-pca:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=,.@-]+)*
+    /// The Amazon Resource Name (ARN) that was returned when you called CreateCertificateAuthority . This must be of the form: `` arn:aws:acm-pca:region :account :certificate-authority/12345678-1234-1234-1234-123456789012 `` . System Message: WARNING/2 (&lt;string&gt;:, line 90) Inline literal start-string without end-string. Constraints: • min: 5 • max: 200 • pattern: arn:[\w+=/,.@-]+:acm-pca:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=,.@-]+)*
     /// </summary>
     [CliOption("--certificate-authority-arn")]
     public string? CertificateAuthorityArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsAcmPcaDescribeCertificateAuthorityOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsServiceQuotasGetServiceQuotaIncreaseRequestFromTemplateOptions 
     /// <summary>
     /// Retrieves information about the specified quota increase request in your quota request template. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ServiceCode">Specifies the service identifier. To find the service code value for an Amazon Web Services service, use the ListServices operation. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z][a-zA-Z0-9-]{1,63}</param>
-    /// <param name="QuotaCode">Specifies the quota identifier. To find the quota code for a spe- cific quota, use the ListServiceQuotas operation, and look for the QuotaCode response in the output for the quota you want. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z][a-zA-Z0-9-]{1,128}</param>
-    /// <param name="AwsRegion">Specifies the Amazon Web Services Region for which you made the re- quest. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z][a-zA-Z0-9-]{1,128}</param>
+    /// <param name="ServiceCode">Specifies the service identifier. To find the service code value for an Amazon Web Services service, use the ListServices operation. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z][a-zA-Z0-9-]{1,63}</param>
+    /// <param name="QuotaCode">Specifies the quota identifier. To find the quota code for a specific quota, use the ListServiceQuotas operation, and look for the QuotaCode response in the output for the quota you want. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z][a-zA-Z0-9-]{1,128}</param>
+    /// <param name="AwsRegion">Specifies the Amazon Web Services Region for which you made the request. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z][a-zA-Z0-9-]{1,128}</param>
     public AwsServiceQuotasGetServiceQuotaIncreaseRequestFromTemplateOptions(
         string ServiceCode,
         string QuotaCode,
@@ -64,19 +65,19 @@ public record AwsServiceQuotasGetServiceQuotaIncreaseRequestFromTemplateOptions 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the service identifier. To find the service code value for an Amazon Web Services service, use the ListServices operation. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z][a-zA-Z0-9-]{1,63}
+    /// Specifies the service identifier. To find the service code value for an Amazon Web Services service, use the ListServices operation. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z][a-zA-Z0-9-]{1,63}
     /// </summary>
     [CliOption("--service-code")]
     public string? ServiceCode { get; private init; }
 
     /// <summary>
-    /// Specifies the quota identifier. To find the quota code for a spe- cific quota, use the ListServiceQuotas operation, and look for the QuotaCode response in the output for the quota you want. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z][a-zA-Z0-9-]{1,128}
+    /// Specifies the quota identifier. To find the quota code for a specific quota, use the ListServiceQuotas operation, and look for the QuotaCode response in the output for the quota you want. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z][a-zA-Z0-9-]{1,128}
     /// </summary>
     [CliOption("--quota-code")]
     public string? QuotaCode { get; private init; }
 
     /// <summary>
-    /// Specifies the Amazon Web Services Region for which you made the re- quest. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z][a-zA-Z0-9-]{1,128}
+    /// Specifies the Amazon Web Services Region for which you made the request. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z][a-zA-Z0-9-]{1,128}
     /// </summary>
     [CliOption("--aws-region")]
     public string? AwsRegion { get; private init; }
@@ -102,6 +103,15 @@ public record AwsServiceQuotasGetServiceQuotaIncreaseRequestFromTemplateOptions 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

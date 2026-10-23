@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsConnectcampaignsv2UpdateCampaignEntryLimitsOptions : AwsOptions
     /// <summary>
     /// Updates the entry limits config for a campaign. This API is idempotent. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">Identifier representing a Campaign Constraints: o min: 1 o max: 256 o pattern: [-:/a-zA-Z0-9]+</param>
-    /// <param name="EntryLimitsConfig">Campaign entry limits config maxEntryCount -&gt; (integer) [required] Maximum number of times a participant can enter the campaign. A value of 0 indicates unlimited entries. Values of 1 or greater specify the exact number of entries allowed. Constraints: o min: 0 minEntryInterval -&gt; (string) [required] Minimum time interval that must pass before a participant can enter the campaign again. Constraints: o min: 0 o max: 50 o pattern: P(?:([-+]?[0-9]+)D)?(T(?:([-+]?[0-9]+)H)?(?:([-+]?[0-9]+)M)?(?:([-+]?[0-9]+)(?:[.,]([0-9]{0,9}))?S)?)? Shorthand Syntax: maxEntryCount=integer,minEntryInterval=string JSON Syntax: { "maxEntryCount": integer, "minEntryInterval": "string" }</param>
+    /// <param name="Id">Identifier representing a Campaign Constraints: • min: 1 • max: 256 • pattern: [-:/a-zA-Z0-9]+</param>
+    /// <param name="EntryLimitsConfig">Campaign entry limits config maxEntryCount -&gt; (integer) [required] Maximum number of times a participant can enter the campaign. A value of 0 indicates unlimited entries. Values of 1 or greater specify the exact number of entries allowed. Constraints: • min: 0 minEntryInterval -&gt; (string) [required] Minimum time interval that must pass before a participant can enter the campaign again. Constraints: • min: 0 • max: 50 • pattern: P(?:([-+]?[0-9]+)D)?(T(?:([-+]?[0-9]+)H)?(?:([-+]?[0-9]+)M)?(?:([-+]?[0-9]+)(?:[.,]([0-9]{0,9}))?S)?)? Shorthand Syntax: maxEntryCount=integer,minEntryInterval=string JSON Syntax: { "maxEntryCount": integer, "minEntryInterval": "string" }</param>
     public AwsConnectcampaignsv2UpdateCampaignEntryLimitsOptions(
         string Id,
         string EntryLimitsConfig
@@ -60,13 +61,13 @@ public record AwsConnectcampaignsv2UpdateCampaignEntryLimitsOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Identifier representing a Campaign Constraints: o min: 1 o max: 256 o pattern: [-:/a-zA-Z0-9]+
+    /// Identifier representing a Campaign Constraints: • min: 1 • max: 256 • pattern: [-:/a-zA-Z0-9]+
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// Campaign entry limits config maxEntryCount -&gt; (integer) [required] Maximum number of times a participant can enter the campaign. A value of 0 indicates unlimited entries. Values of 1 or greater specify the exact number of entries allowed. Constraints: o min: 0 minEntryInterval -&gt; (string) [required] Minimum time interval that must pass before a participant can enter the campaign again. Constraints: o min: 0 o max: 50 o pattern: P(?:([-+]?[0-9]+)D)?(T(?:([-+]?[0-9]+)H)?(?:([-+]?[0-9]+)M)?(?:([-+]?[0-9]+)(?:[.,]([0-9]{0,9}))?S)?)? Shorthand Syntax: maxEntryCount=integer,minEntryInterval=string JSON Syntax: { "maxEntryCount": integer, "minEntryInterval": "string" }
+    /// Campaign entry limits config maxEntryCount -&gt; (integer) [required] Maximum number of times a participant can enter the campaign. A value of 0 indicates unlimited entries. Values of 1 or greater specify the exact number of entries allowed. Constraints: • min: 0 minEntryInterval -&gt; (string) [required] Minimum time interval that must pass before a participant can enter the campaign again. Constraints: • min: 0 • max: 50 • pattern: P(?:([-+]?[0-9]+)D)?(T(?:([-+]?[0-9]+)H)?(?:([-+]?[0-9]+)M)?(?:([-+]?[0-9]+)(?:[.,]([0-9]{0,9}))?S)?)? Shorthand Syntax: maxEntryCount=integer,minEntryInterval=string JSON Syntax: { "maxEntryCount": integer, "minEntryInterval": "string" }
     /// </summary>
     [CliOption("--entry-limits-config")]
     public string? EntryLimitsConfig { get; private init; }
@@ -92,6 +93,15 @@ public record AwsConnectcampaignsv2UpdateCampaignEntryLimitsOptions : AwsOptions
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

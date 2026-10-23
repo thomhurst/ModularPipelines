@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves information about a state template. WARNING: Access to certain Amazon Web Services IoT FleetWise features is cur- rently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
+/// Retrieves information about a state template. WARNING: Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsIotfleetwiseGetStateTemplateOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves information about a state template. WARNING: Access to certain Amazon Web Services IoT FleetWise features is cur- rently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
+    /// Retrieves information about a state template. WARNING: Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identifier">The unique ID of the state template. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z\d\-_:]+</param>
+    /// <param name="Identifier">The unique ID of the state template. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z\d\-_:]+</param>
     public AwsIotfleetwiseGetStateTemplateOptions(
         string Identifier
     )
@@ -56,7 +57,7 @@ public record AwsIotfleetwiseGetStateTemplateOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique ID of the state template. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z\d\-_:]+
+    /// The unique ID of the state template. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z\d\-_:]+
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
@@ -82,6 +83,15 @@ public record AwsIotfleetwiseGetStateTemplateOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

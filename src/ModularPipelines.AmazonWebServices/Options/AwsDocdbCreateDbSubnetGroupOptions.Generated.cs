@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsDocdbCreateDbSubnetGroupOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Creates a new subnet group. subnet groups must contain at least one subnet in at least two Availability Zones in the Amazon Web Services Region. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DbSubnetGroupName">The name for the subnet group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 letters, numbers, peri- ods, underscores, spaces, or hyphens. Must not be default. Example: mySubnetgroup</param>
+    /// <param name="DbSubnetGroupName">The name for the subnet group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 letters, numbers, periods, underscores, spaces, or hyphens. Must not be default. Example: mySubnetgroup</param>
     /// <param name="DbSubnetGroupDescription">The description for the subnet group.</param>
     /// <param name="SubnetIds">The Amazon EC2 subnet IDs for the subnet group. (string) Syntax: "string" "string" ...</param>
     public AwsDocdbCreateDbSubnetGroupOptions(
@@ -75,7 +76,7 @@ public record AwsDocdbCreateDbSubnetGroupOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name for the subnet group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 letters, numbers, peri- ods, underscores, spaces, or hyphens. Must not be default. Example: mySubnetgroup
+    /// The name for the subnet group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 letters, numbers, periods, underscores, spaces, or hyphens. Must not be default. Example: mySubnetgroup
     /// </summary>
     [CliOption("--db-subnet-group-name")]
     public string? DbSubnetGroupName { get; private init; }
@@ -119,6 +120,15 @@ public record AwsDocdbCreateDbSubnetGroupOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

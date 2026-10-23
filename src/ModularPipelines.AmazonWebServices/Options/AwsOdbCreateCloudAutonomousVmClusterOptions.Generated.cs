@@ -11,14 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new Autonomous VM cluster in the specified Exadata infra- structure. See also: AWS API Documentation
+/// Creates a new Autonomous VM cluster in the specified Exadata infrastructure. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -28,20 +28,20 @@ public record AwsOdbCreateCloudAutonomousVmClusterOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new Autonomous VM cluster in the specified Exadata infra- structure. See also: AWS API Documentation
+    /// Creates a new Autonomous VM cluster in the specified Exadata infrastructure. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CloudExadataInfrastructureId">The unique identifier of the Exadata infrastructure where the VM cluster will be created. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})</param>
-    /// <param name="OdbNetworkId">The unique identifier of the ODB network to be used for the VM clus- ter. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})</param>
-    /// <param name="DisplayName">The display name for the Autonomous VM cluster. The name does not need to be unique. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z_](?!.*--)[a-zA-Z0-9_-]*</param>
-    /// <param name="AutonomousDataStorageSizeInTbs">The data disk group size to be allocated for Autonomous Databases, in terabytes (TB). Constraints: o min: 0</param>
-    /// <param name="CpuCoreCountPerNode">The number of CPU cores to be enabled per VM cluster node. Constraints: o min: 0</param>
-    /// <param name="MemoryPerOracleComputeUnitInGbs">The amount of memory to be allocated per OCPU, in GB. Constraints: o min: 0</param>
-    /// <param name="TotalContainerDatabases">The total number of Autonomous CDBs that you can create in the Au- tonomous VM cluster. Constraints: o min: 0</param>
+    /// <param name="CloudExadataInfrastructureId">The unique identifier of the Exadata infrastructure where the VM cluster will be created. Constraints: • min: 6 • max: 2048 • pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})</param>
+    /// <param name="OdbNetworkId">The unique identifier of the ODB network to be used for the VM cluster. Constraints: • min: 6 • max: 2048 • pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})</param>
+    /// <param name="DisplayName">The display name for the Autonomous VM cluster. The name does not need to be unique. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z_](?!.*--)[a-zA-Z0-9_-]*</param>
+    /// <param name="AutonomousDataStorageSizeInTbs">The data disk group size to be allocated for Autonomous Databases, in terabytes (TB). Constraints: • min: 0</param>
+    /// <param name="CpuCoreCountPerNode">The number of CPU cores to be enabled per VM cluster node. Constraints: • min: 0</param>
+    /// <param name="MemoryPerOracleComputeUnitInGbs">The amount of memory to be allocated per OCPU, in GB. Constraints: • min: 0</param>
+    /// <param name="TotalContainerDatabases">The total number of Autonomous CDBs that you can create in the Autonomous VM cluster. Constraints: • min: 0</param>
     public AwsOdbCreateCloudAutonomousVmClusterOptions(
         string CloudExadataInfrastructureId,
         string OdbNetworkId,
         string DisplayName,
-        int AutonomousDataStorageSizeInTbs,
+        double AutonomousDataStorageSizeInTbs,
         int CpuCoreCountPerNode,
         int MemoryPerOracleComputeUnitInGbs,
         int TotalContainerDatabases
@@ -79,62 +79,62 @@ public record AwsOdbCreateCloudAutonomousVmClusterOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the Exadata infrastructure where the VM cluster will be created. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})
+    /// The unique identifier of the Exadata infrastructure where the VM cluster will be created. Constraints: • min: 6 • max: 2048 • pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})
     /// </summary>
     [CliOption("--cloud-exadata-infrastructure-id")]
     public string? CloudExadataInfrastructureId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the ODB network to be used for the VM clus- ter. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})
+    /// The unique identifier of the ODB network to be used for the VM cluster. Constraints: • min: 6 • max: 2048 • pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})
     /// </summary>
     [CliOption("--odb-network-id")]
     public string? OdbNetworkId { get; private init; }
 
     /// <summary>
-    /// The display name for the Autonomous VM cluster. The name does not need to be unique. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z_](?!.*--)[a-zA-Z0-9_-]*
+    /// The display name for the Autonomous VM cluster. The name does not need to be unique. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z_](?!.*--)[a-zA-Z0-9_-]*
     /// </summary>
     [CliOption("--display-name")]
     public string? DisplayName { get; private init; }
 
     /// <summary>
-    /// The data disk group size to be allocated for Autonomous Databases, in terabytes (TB). Constraints: o min: 0
+    /// The data disk group size to be allocated for Autonomous Databases, in terabytes (TB). Constraints: • min: 0
     /// </summary>
     [CliOption("--autonomous-data-storage-size-in-tbs")]
-    public int? AutonomousDataStorageSizeInTbs { get; private init; }
+    public double? AutonomousDataStorageSizeInTbs { get; private init; }
 
     /// <summary>
-    /// The number of CPU cores to be enabled per VM cluster node. Constraints: o min: 0
+    /// The number of CPU cores to be enabled per VM cluster node. Constraints: • min: 0
     /// </summary>
     [CliOption("--cpu-core-count-per-node")]
     public int? CpuCoreCountPerNode { get; private init; }
 
     /// <summary>
-    /// The amount of memory to be allocated per OCPU, in GB. Constraints: o min: 0
+    /// The amount of memory to be allocated per OCPU, in GB. Constraints: • min: 0
     /// </summary>
     [CliOption("--memory-per-oracle-compute-unit-in-gbs")]
     public int? MemoryPerOracleComputeUnitInGbs { get; private init; }
 
     /// <summary>
-    /// The total number of Autonomous CDBs that you can create in the Au- tonomous VM cluster. Constraints: o min: 0
+    /// The total number of Autonomous CDBs that you can create in the Autonomous VM cluster. Constraints: • min: 0
     /// </summary>
     [CliOption("--total-container-databases")]
     public int? TotalContainerDatabases { get; private init; }
 
     /// <summary>
-    /// A client-provided token to ensure idempotency of the request. Constraints: o min: 8 o max: 64 o pattern: [a-zA-Z0-9_\/.=-]+
+    /// A client-provided token to ensure idempotency of the request. Constraints: • min: 8 • max: 64 • pattern: [a-zA-Z0-9_\/.=-]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The list of database servers to be used for the Autonomous VM clus- ter. Constraints: o min: 1 o max: 1024 (string) Syntax: "string" "string" ...
+    /// The list of database servers to be used for the Autonomous VM cluster. Constraints: • min: 1 • max: 1024 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--db-servers", GroupValues = true)]
     public IEnumerable<string>? DbServers { get; set; }
 
     /// <summary>
-    /// A user-provided description of the Autonomous VM cluster. Constraints: o min: 1 o max: 400
+    /// A user-provided description of the Autonomous VM cluster. Constraints: • min: 1 • max: 400
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
@@ -146,37 +146,37 @@ public record AwsOdbCreateCloudAutonomousVmClusterOptions : AwsOptions, IValidat
     public bool? IsMtlsEnabledVmCluster { get; set; }
 
     /// <summary>
-    /// The Oracle license model to apply to the Autonomous VM cluster. Possible values: o BRING_YOUR_OWN_LICENSE o LICENSE_INCLUDED
+    /// The Oracle license model to apply to the Autonomous VM cluster. Possible values: • BRING_YOUR_OWN_LICENSE • LICENSE_INCLUDED
     /// </summary>
     [CliOption("--license-model")]
     public AwsOdbCreateCloudAutonomousVmClusterLicenseModel? LicenseModel { get; set; }
 
     /// <summary>
-    /// The scheduling details for the maintenance window. Patching and sys- tem updates take place during the maintenance window. customActionTimeoutInMins -&gt; (integer) The custom action timeout in minutes for the maintenance window. Constraints: o min: 15 o max: 120 daysOfWeek -&gt; (list) The days of the week when maintenance can be performed. (structure) An enumeration of days of the week used for scheduling main- tenance windows. name -&gt; (string) The name of the day of the week. Possible values: o MONDAY o TUESDAY o WEDNESDAY o THURSDAY o FRIDAY o SATURDAY o SUNDAY hoursOfDay -&gt; (list) The hours of the day when maintenance can be performed. (integer) isCustomActionTimeoutEnabled -&gt; (boolean) Indicates whether custom action timeout is enabled for the main- tenance window. leadTimeInWeeks -&gt; (integer) The lead time in weeks before the maintenance window. Constraints: o min: 1 o max: 4 months -&gt; (list) The months when maintenance can be performed. (structure) An enumeration of months used for scheduling maintenance win- dows. name -&gt; (string) The name of the month. Possible values: o JANUARY o FEBRUARY o MARCH o APRIL o MAY o JUNE o JULY o AUGUST o SEPTEMBER o OCTOBER o NOVEMBER o DECEMBER patchingMode -&gt; (string) The patching mode for the maintenance window. Possible values: o ROLLING o NONROLLING preference -&gt; (string) The preference for the maintenance window scheduling. Possible values: o NO_PREFERENCE o CUSTOM_PREFERENCE skipRu -&gt; (boolean) Indicates whether to skip release updates during maintenance. weeksOfMonth -&gt; (list) The weeks of the month when maintenance can be performed. (integer) Shorthand Syntax: customActionTimeoutInMins=integer,daysOfWeek=[{name=string},{name=string}],hoursOfDay=integer,integer,isCustomActionTimeoutEnabled=boolean,leadTimeInWeeks=integer,months=[{name=string},{name=string}],patchingMode=string,preference=string,skipRu=boolean,weeksOfMonth=integer,integer JSON Syntax: { "customActionTimeoutInMins": integer, "daysOfWeek": [ { "name": "MONDAY"|"TUESDAY"|"WEDNESDAY"|"THURSDAY"|"FRIDAY"|"SATURDAY"|"SUNDAY" } ... ], "hoursOfDay": [integer, ...], "isCustomActionTimeoutEnabled": true|false, "leadTimeInWeeks": integer, "months": [ { "name": "JANUARY"|"FEBRUARY"|"MARCH"|"APRIL"|"MAY"|"JUNE"|"JULY"|"AUGUST"|"SEPTEMBER"|"OCTOBER"|"NOVEMBER"|"DECEMBER" } ... ], "patchingMode": "ROLLING"|"NONROLLING", "preference": "NO_PREFERENCE"|"CUSTOM_PREFERENCE", "skipRu": true|false, "weeksOfMonth": [integer, ...] }
+    /// The scheduling details for the maintenance window. Patching and system updates take place during the maintenance window. customActionTimeoutInMins -&gt; (integer) The custom action timeout in minutes for the maintenance window. Constraints: • min: 15 • max: 120 daysOfWeek -&gt; (list) The days of the week when maintenance can be performed. (structure) An enumeration of days of the week used for scheduling maintenance windows. name -&gt; (string) The name of the day of the week. Possible values: • MONDAY • TUESDAY • WEDNESDAY • THURSDAY • FRIDAY • SATURDAY • SUNDAY hoursOfDay -&gt; (list) The hours of the day when maintenance can be performed. (integer) isCustomActionTimeoutEnabled -&gt; (boolean) Indicates whether custom action timeout is enabled for the maintenance window. leadTimeInWeeks -&gt; (integer) The lead time in weeks before the maintenance window. Constraints: • min: 1 • max: 4 months -&gt; (list) The months when maintenance can be performed. (structure) An enumeration of months used for scheduling maintenance windows. name -&gt; (string) The name of the month. Possible values: • JANUARY • FEBRUARY • MARCH • APRIL • MAY • JUNE • JULY • AUGUST • SEPTEMBER • OCTOBER • NOVEMBER • DECEMBER patchingMode -&gt; (string) The patching mode for the maintenance window. Possible values: • ROLLING • NONROLLING preference -&gt; (string) The preference for the maintenance window scheduling. Possible values: • NO_PREFERENCE • CUSTOM_PREFERENCE skipRu -&gt; (boolean) Indicates whether to skip release updates during maintenance. weeksOfMonth -&gt; (list) The weeks of the month when maintenance can be performed. (integer) Shorthand Syntax: customActionTimeoutInMins=integer,daysOfWeek=[{name=string},{name=string}],hoursOfDay=integer,integer,isCustomActionTimeoutEnabled=boolean,leadTimeInWeeks=integer,months=[{name=string},{name=string}],patchingMode=string,preference=string,skipRu=boolean,weeksOfMonth=integer,integer JSON Syntax: { "customActionTimeoutInMins": integer, "daysOfWeek": [ { "name": "MONDAY"|"TUESDAY"|"WEDNESDAY"|"THURSDAY"|"FRIDAY"|"SATURDAY"|"SUNDAY" } ... ], "hoursOfDay": [integer, ...], "isCustomActionTimeoutEnabled": true|false, "leadTimeInWeeks": integer, "months": [ { "name": "JANUARY"|"FEBRUARY"|"MARCH"|"APRIL"|"MAY"|"JUNE"|"JULY"|"AUGUST"|"SEPTEMBER"|"OCTOBER"|"NOVEMBER"|"DECEMBER" } ... ], "patchingMode": "ROLLING"|"NONROLLING", "preference": "NO_PREFERENCE"|"CUSTOM_PREFERENCE", "skipRu": true|false, "weeksOfMonth": [integer, ...] }
     /// </summary>
     [CliOption("--maintenance-window")]
     public string? MaintenanceWindow { get; set; }
 
     /// <summary>
-    /// The SCAN listener port for non-TLS (TCP) protocol. Constraints: o min: 1024 o max: 8999
+    /// The SCAN listener port for non-TLS (TCP) protocol. Constraints: • min: 1024 • max: 8999
     /// </summary>
     [CliOption("--scan-listener-port-non-tls")]
     public int? ScanListenerPortNonTls { get; set; }
 
     /// <summary>
-    /// The SCAN listener port for TLS (TCP) protocol. Constraints: o min: 1024 o max: 8999
+    /// The SCAN listener port for TLS (TCP) protocol. Constraints: • min: 1024 • max: 8999
     /// </summary>
     [CliOption("--scan-listener-port-tls")]
     public int? ScanListenerPortTls { get; set; }
 
     /// <summary>
-    /// Free-form tags for this resource. Each tag is a key-value pair with no predefined name, type, or namespace. Constraints: o min: 1 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Free-form tags for this resource. Each tag is a key-value pair with no predefined name, type, or namespace. Constraints: • min: 1 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// The time zone to use for the Autonomous VM cluster. Constraints: o min: 1 o max: 255
+    /// The time zone to use for the Autonomous VM cluster. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--time-zone")]
     public string? TimeZone { get; set; }
@@ -202,6 +202,15 @@ public record AwsOdbCreateCloudAutonomousVmClusterOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsBedrockAgentcoreControlGetAgentRuntimeOptions : AwsOptions, IVa
     /// <summary>
     /// Gets an Amazon Bedrock AgentCore Runtime. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AgentRuntimeId">The unique identifier of the AgentCore Runtime to retrieve. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9_]{0,99}-[a-zA-Z0-9]{10}</param>
+    /// <param name="AgentRuntimeId">The unique identifier of the AgentCore Runtime to retrieve. Constraints: • pattern: [a-zA-Z][a-zA-Z0-9_]{0,99}-[a-zA-Z0-9]{10}</param>
     public AwsBedrockAgentcoreControlGetAgentRuntimeOptions(
         string AgentRuntimeId
     )
@@ -56,13 +57,13 @@ public record AwsBedrockAgentcoreControlGetAgentRuntimeOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the AgentCore Runtime to retrieve. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9_]{0,99}-[a-zA-Z0-9]{10}
+    /// The unique identifier of the AgentCore Runtime to retrieve. Constraints: • pattern: [a-zA-Z][a-zA-Z0-9_]{0,99}-[a-zA-Z0-9]{10}
     /// </summary>
     [CliOption("--agent-runtime-id")]
     public string? AgentRuntimeId { get; private init; }
 
     /// <summary>
-    /// The version of the AgentCore Runtime to retrieve. Constraints: o min: 1 o max: 5 o pattern: ([1-9][0-9]{0,4})
+    /// The version of the AgentCore Runtime to retrieve. Constraints: • min: 1 • max: 5 • pattern: ([1-9][0-9]{0,4})
     /// </summary>
     [CliOption("--agent-runtime-version")]
     public string? AgentRuntimeVersion { get; set; }
@@ -88,6 +89,15 @@ public record AwsBedrockAgentcoreControlGetAgentRuntimeOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associate a configuration set with a dedicated IP pool. You can use dedicated IP pools to create groups of dedicated IP addresses for send- ing specific types of email. See also: AWS API Documentation
+/// Associate a configuration set with a dedicated IP pool. You can use dedicated IP pools to create groups of dedicated IP addresses for sending specific types of email. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +27,7 @@ public record AwsPinpointEmailPutConfigurationSetDeliveryOptionsOptions : AwsOpt
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associate a configuration set with a dedicated IP pool. You can use dedicated IP pools to create groups of dedicated IP addresses for send- ing specific types of email. See also: AWS API Documentation
+    /// Associate a configuration set with a dedicated IP pool. You can use dedicated IP pools to create groups of dedicated IP addresses for sending specific types of email. See also: AWS API Documentation
     /// </summary>
     /// <param name="ConfigurationSetName">The name of the configuration set that you want to associate with a dedicated IP pool.</param>
     public AwsPinpointEmailPutConfigurationSetDeliveryOptionsOptions(
@@ -63,7 +64,7 @@ public record AwsPinpointEmailPutConfigurationSetDeliveryOptionsOptions : AwsOpt
     public string? ConfigurationSetName { get; private init; }
 
     /// <summary>
-    /// Specifies whether messages that use the configuration set are re- quired to use Transport Layer Security (TLS). If the value is Re- quire , messages are only delivered if a TLS connection can be es- tablished. If the value is Optional , messages can be delivered in plain text if a TLS connection can't be established. Possible values: o REQUIRE o OPTIONAL
+    /// Specifies whether messages that use the configuration set are required to use Transport Layer Security (TLS). If the value is Require , messages are only delivered if a TLS connection can be established. If the value is Optional , messages can be delivered in plain text if a TLS connection can't be established. Possible values: • REQUIRE • OPTIONAL
     /// </summary>
     [CliOption("--tls-policy")]
     public AwsPinpointEmailPutConfigurationSetDeliveryOptionsTlsPolicy? TlsPolicy { get; set; }
@@ -95,6 +96,15 @@ public record AwsPinpointEmailPutConfigurationSetDeliveryOptionsOptions : AwsOpt
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

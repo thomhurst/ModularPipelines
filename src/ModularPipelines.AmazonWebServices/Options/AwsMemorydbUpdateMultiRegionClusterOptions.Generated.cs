@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -87,13 +88,13 @@ public record AwsMemorydbUpdateMultiRegionClusterOptions : AwsOptions, IValidata
     public string? ShardConfiguration { get; set; }
 
     /// <summary>
-    /// The new multi-Region parameter group to be associated with the clus- ter.
+    /// The new multi-Region parameter group to be associated with the cluster.
     /// </summary>
     [CliOption("--multi-region-parameter-group-name")]
     public string? MultiRegionParameterGroupName { get; set; }
 
     /// <summary>
-    /// The strategy to use for the update operation. Supported values are "coordinated" or "uncoordinated". Possible values: o coordinated o uncoordinated
+    /// The strategy to use for the update operation. Supported values are "coordinated" or "uncoordinated". Possible values: • coordinated • uncoordinated
     /// </summary>
     [CliOption("--update-strategy")]
     public AwsMemorydbUpdateMultiRegionClusterUpdateStrategy? UpdateStrategy { get; set; }
@@ -119,6 +120,15 @@ public record AwsMemorydbUpdateMultiRegionClusterOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

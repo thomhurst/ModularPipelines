@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +29,8 @@ public record AwsCodestarConnectionsListSyncConfigurationsOptions : AwsOptions, 
     /// <summary>
     /// Returns a list of sync configurations for a specified repository. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RepositoryLinkId">The ID of the repository link for the requested list of sync config- urations. Constraints: o pattern: ^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$</param>
-    /// <param name="SyncType">The sync type for the requested list of sync configurations. Possible values: o CFN_STACK_SYNC</param>
+    /// <param name="RepositoryLinkId">The ID of the repository link for the requested list of sync configurations. Constraints: • pattern: ^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$</param>
+    /// <param name="SyncType">The sync type for the requested list of sync configurations. Possible values: • CFN_STACK_SYNC</param>
     public AwsCodestarConnectionsListSyncConfigurationsOptions(
         string RepositoryLinkId,
         string SyncType
@@ -61,25 +62,25 @@ public record AwsCodestarConnectionsListSyncConfigurationsOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the repository link for the requested list of sync config- urations. Constraints: o pattern: ^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$
+    /// The ID of the repository link for the requested list of sync configurations. Constraints: • pattern: ^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$
     /// </summary>
     [CliOption("--repository-link-id")]
     public string? RepositoryLinkId { get; private init; }
 
     /// <summary>
-    /// The sync type for the requested list of sync configurations. Possible values: o CFN_STACK_SYNC
+    /// The sync type for the requested list of sync configurations. Possible values: • CFN_STACK_SYNC
     /// </summary>
     [CliOption("--sync-type")]
     public string? SyncType { get; private init; }
 
     /// <summary>
-    /// A non-zero, non-negative integer used to limit the number of re- turned results. Constraints: o min: 0 o max: 100
+    /// A non-zero, non-negative integer used to limit the number of returned results. Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// An enumeration token that allows the operation to batch the results of the operation. Constraints: o min: 1 o max: 2048 o pattern: ^.*$
+    /// An enumeration token that allows the operation to batch the results of the operation. Constraints: • min: 1 • max: 2048 • pattern: ^.*$
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -106,6 +107,15 @@ public record AwsCodestarConnectionsListSyncConfigurationsOptions : AwsOptions, 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

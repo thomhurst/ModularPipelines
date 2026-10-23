@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsNeptuneDeleteDbClusterOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// The DeleteDBCluster action deletes a previously provisioned DB cluster. When you delete a DB cluster, all automated backups for that DB cluster are deleted and can't be recovered. Manual DB cluster snapshots of the specified DB cluster are not deleted. Note that the DB Cluster cannot be deleted if deletion protection is enabled. To delete it, you must first set its DeletionProtection field to False . See also: AWS API Documentation
     /// </summary>
-    /// <param name="DbClusterIdentifier">The DB cluster identifier for the DB cluster to be deleted. This pa- rameter isn't case-sensitive. Constraints: o Must match an existing DBClusterIdentifier.</param>
+    /// <param name="DbClusterIdentifier">The DB cluster identifier for the DB cluster to be deleted. This parameter isn't case-sensitive. Constraints: • Must match an existing DBClusterIdentifier.</param>
     public AwsNeptuneDeleteDbClusterOptions(
         string DbClusterIdentifier
     )
@@ -56,19 +57,19 @@ public record AwsNeptuneDeleteDbClusterOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The DB cluster identifier for the DB cluster to be deleted. This pa- rameter isn't case-sensitive. Constraints: o Must match an existing DBClusterIdentifier.
+    /// The DB cluster identifier for the DB cluster to be deleted. This parameter isn't case-sensitive. Constraints: • Must match an existing DBClusterIdentifier.
     /// </summary>
     [CliOption("--db-cluster-identifier")]
     public string? DbClusterIdentifier { get; private init; }
 
     /// <summary>
-    /// Determines whether a final DB cluster snapshot is created before the DB cluster is deleted. If true is specified, no DB cluster snapshot is created. If false is specified, a DB cluster snapshot is created before the DB cluster is deleted. NOTE: You must specify a FinalDBSnapshotIdentifier parameter if Skip- FinalSnapshot is false . Default: false
+    /// Determines whether a final DB cluster snapshot is created before the DB cluster is deleted. If true is specified, no DB cluster snapshot is created. If false is specified, a DB cluster snapshot is created before the DB cluster is deleted. NOTE: You must specify a FinalDBSnapshotIdentifier parameter if SkipFinalSnapshot is false . Default: false
     /// </summary>
     [CliFlag("--skip-final-snapshot", NegatedName = "--no-skip-final-snapshot")]
     public bool? SkipFinalSnapshot { get; set; }
 
     /// <summary>
-    /// The DB cluster snapshot identifier of the new DB cluster snapshot created when SkipFinalSnapshot is set to false . NOTE: Specifying this parameter and also setting the SkipFinalSnapshot parameter to true results in an error. Constraints: o Must be 1 to 255 letters, numbers, or hyphens. o First character must be a letter o Cannot end with a hyphen or contain two consecutive hyphens
+    /// The DB cluster snapshot identifier of the new DB cluster snapshot created when SkipFinalSnapshot is set to false . NOTE: Specifying this parameter and also setting the SkipFinalSnapshot parameter to true results in an error. Constraints: • Must be 1 to 255 letters, numbers, or hyphens. • First character must be a letter • Cannot end with a hyphen or contain two consecutive hyphens
     /// </summary>
     [CliOption("--final-db-snapshot-identifier")]
     public string? FinalDbSnapshotIdentifier { get; set; }
@@ -94,6 +95,15 @@ public record AwsNeptuneDeleteDbClusterOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

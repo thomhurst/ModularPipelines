@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsMachinelearningUpdateBatchPredictionOptions : AwsOptions, IVali
     /// <summary>
     /// Updates the BatchPredictionName of a BatchPrediction . You can use the GetBatchPrediction operation to view the contents of the updated data element. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BatchPredictionId">The ID assigned to the BatchPrediction during creation. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+</param>
-    /// <param name="BatchPredictionName">A new user-supplied name or description of the BatchPrediction . Constraints: o max: 1024 o pattern: .*\S.*|^$</param>
+    /// <param name="BatchPredictionId">The ID assigned to the BatchPrediction during creation. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="BatchPredictionName">A new user-supplied name or description of the BatchPrediction . Constraints: • max: 1024 • pattern: .*\S.*|^$</param>
     public AwsMachinelearningUpdateBatchPredictionOptions(
         string BatchPredictionId,
         string BatchPredictionName
@@ -60,13 +61,13 @@ public record AwsMachinelearningUpdateBatchPredictionOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID assigned to the BatchPrediction during creation. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+
+    /// The ID assigned to the BatchPrediction during creation. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--batch-prediction-id")]
     public string? BatchPredictionId { get; private init; }
 
     /// <summary>
-    /// A new user-supplied name or description of the BatchPrediction . Constraints: o max: 1024 o pattern: .*\S.*|^$
+    /// A new user-supplied name or description of the BatchPrediction . Constraints: • max: 1024 • pattern: .*\S.*|^$
     /// </summary>
     [CliOption("--batch-prediction-name")]
     public string? BatchPredictionName { get; private init; }
@@ -92,6 +93,15 @@ public record AwsMachinelearningUpdateBatchPredictionOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

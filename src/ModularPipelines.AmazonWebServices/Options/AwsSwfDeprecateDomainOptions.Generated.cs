@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deprecates the specified domain. After a domain has been deprecated it cannot be used to create new workflow executions or register new types. However, you can still use visibility actions on this domain. Deprecat- ing a domain also deprecates all activity and workflow types registered in the domain. Executions that were started before the domain was dep- recated continues to run. NOTE: This operation is eventually consistent. The results are best effort and may not exactly reflect recent update...
+/// Deprecates the specified domain. After a domain has been deprecated it cannot be used to create new workflow executions or register new types. However, you can still use visibility actions on this domain. Deprecating a domain also deprecates all activity and workflow types registered in the domain. Executions that were started before the domain was deprecated continues to run. NOTE: This operation is eventually consistent. The results are best effort and may not exactly reflect recent updates an...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsSwfDeprecateDomainOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deprecates the specified domain. After a domain has been deprecated it cannot be used to create new workflow executions or register new types. However, you can still use visibility actions on this domain. Deprecat- ing a domain also deprecates all activity and workflow types registered in the domain. Executions that were started before the domain was dep- recated continues to run. NOTE: This operation is eventually consistent. The results are best effort and may not exactly reflect recent update...
+    /// Deprecates the specified domain. After a domain has been deprecated it cannot be used to create new workflow executions or register new types. However, you can still use visibility actions on this domain. Deprecating a domain also deprecates all activity and workflow types registered in the domain. Executions that were started before the domain was deprecated continues to run. NOTE: This operation is eventually consistent. The results are best effort and may not exactly reflect recent updates an...
     /// </summary>
-    /// <param name="Name">The name of the domain to deprecate. Constraints: o min: 1 o max: 256</param>
+    /// <param name="Name">The name of the domain to deprecate. Constraints: • min: 1 • max: 256</param>
     public AwsSwfDeprecateDomainOptions(
         string Name
     )
@@ -56,7 +57,7 @@ public record AwsSwfDeprecateDomainOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the domain to deprecate. Constraints: o min: 1 o max: 256
+    /// The name of the domain to deprecate. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSwfDeprecateDomainOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

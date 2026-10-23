@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves details about an inference endpoint. See Managing inference endpoints using the endpoints command . When invoking this operation in a Neptune cluster that has IAM authen- tication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetMLEndpointStatus IAM ac- tion in that cluster. See also: AWS API Documentation
+/// Retrieves details about an inference endpoint. See Managing inference endpoints using the endpoints command . When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetMLEndpointStatus IAM action in that cluster. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsNeptunedataGetMlEndpointOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves details about an inference endpoint. See Managing inference endpoints using the endpoints command . When invoking this operation in a Neptune cluster that has IAM authen- tication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetMLEndpointStatus IAM ac- tion in that cluster. See also: AWS API Documentation
+    /// Retrieves details about an inference endpoint. See Managing inference endpoints using the endpoints command . When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetMLEndpointStatus IAM action in that cluster. See also: AWS API Documentation
     /// </summary>
     /// <param name="Id">The unique identifier of the inference endpoint.</param>
     public AwsNeptunedataGetMlEndpointOptions(
@@ -62,7 +63,7 @@ public record AwsNeptunedataGetMlEndpointOptions : AwsOptions, IValidatableObjec
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The ARN of an IAM role that provides Neptune access to SageMaker and Amazon S3 resources. This must be listed in your DB cluster parame- ter group or an error will occur.
+    /// The ARN of an IAM role that provides Neptune access to SageMaker and Amazon S3 resources. This must be listed in your DB cluster parameter group or an error will occur.
     /// </summary>
     [CliOption("--neptune-iam-role-arn")]
     public string? NeptuneIamRoleArn { get; set; }
@@ -88,6 +89,15 @@ public record AwsNeptunedataGetMlEndpointOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

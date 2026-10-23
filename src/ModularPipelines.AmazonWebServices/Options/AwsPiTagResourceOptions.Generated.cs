@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +29,9 @@ public record AwsPiTagResourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Adds metadata tags to the Amazon RDS Performance Insights resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ServiceType">The Amazon Web Services service for which Performance Insights re- turns metrics. Valid value is RDS . Possible values: o RDS o DOCDB</param>
-    /// <param name="ResourceArn">The Amazon RDS Performance Insights resource that the tags are added to. This value is an Amazon Resource Name (ARN). For information about creating an ARN, see Constructing an RDS Amazon Resource Name (ARN) . Constraints: o min: 1 o max: 1011 o pattern: ^arn:.*:pi:.*$</param>
-    /// <param name="Tags">The metadata assigned to an Amazon RDS resource consisting of a key-value pair. Constraints: o min: 0 o max: 200 (structure) Metadata assigned to an Amazon RDS resource consisting of a key-value pair. Key -&gt; (string) [required] A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$" ). Constraints: o min: 1 o max: 128 o pattern: ^.*$ Value -&gt; (string) [required] A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$"). Constraints: o min: 0 o max: 256 o pattern: ^.*$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
+    /// <param name="ServiceType">The Amazon Web Services service for which Performance Insights returns metrics. Valid value is RDS . Possible values: • RDS • DOCDB</param>
+    /// <param name="ResourceArn">The Amazon RDS Performance Insights resource that the tags are added to. This value is an Amazon Resource Name (ARN). For information about creating an ARN, see Constructing an RDS Amazon Resource Name (ARN) . Constraints: • min: 1 • max: 1011 • pattern: ^arn:.*:pi:.*$</param>
+    /// <param name="Tags">The metadata assigned to an Amazon RDS resource consisting of a key-value pair. Constraints: • min: 0 • max: 200 (structure) Metadata assigned to an Amazon RDS resource consisting of a key-value pair. Key -&gt; (string) [required] A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$" ). Constraints: • min: 1 • max: 128 • pattern: ^.*$ Value -&gt; (string) [required] A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$"). Constraints: • min: 0 • max: 256 • pattern: ^.*$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
     public AwsPiTagResourceOptions(
         AwsPiTagResourceServiceType ServiceType,
         string ResourceArn,
@@ -75,19 +76,19 @@ public record AwsPiTagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services service for which Performance Insights re- turns metrics. Valid value is RDS . Possible values: o RDS o DOCDB
+    /// The Amazon Web Services service for which Performance Insights returns metrics. Valid value is RDS . Possible values: • RDS • DOCDB
     /// </summary>
     [CliOption("--service-type")]
     public AwsPiTagResourceServiceType? ServiceType { get; private init; }
 
     /// <summary>
-    /// The Amazon RDS Performance Insights resource that the tags are added to. This value is an Amazon Resource Name (ARN). For information about creating an ARN, see Constructing an RDS Amazon Resource Name (ARN) . Constraints: o min: 1 o max: 1011 o pattern: ^arn:.*:pi:.*$
+    /// The Amazon RDS Performance Insights resource that the tags are added to. This value is an Amazon Resource Name (ARN). For information about creating an ARN, see Constructing an RDS Amazon Resource Name (ARN) . Constraints: • min: 1 • max: 1011 • pattern: ^arn:.*:pi:.*$
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The metadata assigned to an Amazon RDS resource consisting of a key-value pair. Constraints: o min: 0 o max: 200 (structure) Metadata assigned to an Amazon RDS resource consisting of a key-value pair. Key -&gt; (string) [required] A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$" ). Constraints: o min: 1 o max: 128 o pattern: ^.*$ Value -&gt; (string) [required] A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$"). Constraints: o min: 0 o max: 256 o pattern: ^.*$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The metadata assigned to an Amazon RDS resource consisting of a key-value pair. Constraints: • min: 0 • max: 200 (structure) Metadata assigned to an Amazon RDS resource consisting of a key-value pair. Key -&gt; (string) [required] A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$" ). Constraints: • min: 1 • max: 128 • pattern: ^.*$ Value -&gt; (string) [required] A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$"). Constraints: • min: 0 • max: 256 • pattern: ^.*$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; private init; }
@@ -113,6 +114,15 @@ public record AwsPiTagResourceOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists all global tables that have a replica in the specified Region. WARNING: This documentation is for version 2017.11.29 (Legacy) of global ta- bles, which should be avoided for new global tables. Customers should use Global Tables version 2019.11.21 (Current) when possible, because it provides greater flexibility, higher efficiency, and con- sumes less write capacity than 2017.11.29 (Legacy). To determine which version you're using, see Determining the global table version you are using . To ...
+/// Lists all global tables that have a replica in the specified Region. WARNING: This documentation is for version 2017.11.29 (Legacy) of global tables, which should be avoided for new global tables. Customers should use Global Tables version 2019.11.21 (Current) when possible, because it provides greater flexibility, higher efficiency, and consumes less write capacity than 2017.11.29 (Legacy). To determine which version you're using, see Determining the global table version you are using . To upda...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,13 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsDynamodbListGlobalTablesOptions : AwsOptions
 {
     /// <summary>
-    /// The first global table name that this operation will evaluate. Constraints: o min: 3 o max: 255 o pattern: [a-zA-Z0-9_.-]+
+    /// The first global table name that this operation will evaluate. Constraints: • min: 3 • max: 255 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--exclusive-start-global-table-name")]
     public string? ExclusiveStartGlobalTableName { get; set; }
 
     /// <summary>
-    /// The maximum number of table names to return, if the parameter is not specified DynamoDB defaults to 100. If the number of global tables DynamoDB finds reaches this limit, it stops the operation and returns the table names collected up to that point, with a table name in the LastEvaluatedGlobalTableName to ap- ply in a subsequent operation to the ExclusiveStartGlobalTableName parameter. Constraints: o min: 1
+    /// The maximum number of table names to return, if the parameter is not specified DynamoDB defaults to 100. If the number of global tables DynamoDB finds reaches this limit, it stops the operation and returns the table names collected up to that point, with a table name in the LastEvaluatedGlobalTableName to apply in a subsequent operation to the ExclusiveStartGlobalTableName parameter. Constraints: • min: 1
     /// </summary>
     [CliOption("--limit")]
     public int? Limit { get; set; }
@@ -44,5 +44,14 @@ public record AwsDynamodbListGlobalTablesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

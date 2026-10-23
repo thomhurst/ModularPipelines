@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,10 +29,10 @@ public record AwsConnectCreateContactFlowOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Creates a flow for the specified Connect Customer instance. You can also create and update flows using the Connect Customer Flow language . See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="Name">The name of the flow. Constraints: o min: 1</param>
-    /// <param name="Type">The type of the flow. For descriptions of the available types, see Choose a flow type in the Connect Customer Administrator Guide . Possible values: o CONTACT_FLOW o CUSTOMER_QUEUE o CUSTOMER_HOLD o CUSTOMER_WHISPER o AGENT_HOLD o AGENT_WHISPER o OUTBOUND_WHISPER o AGENT_TRANSFER o QUEUE_TRANSFER o CAMPAIGN</param>
-    /// <param name="Content">The JSON string that represents the content of the flow. For an ex- ample, see Example flow in Connect Customer Flow language . Length Constraints: Minimum length of 1. Maximum length of 256000.</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="Name">The name of the flow. Constraints: • min: 1</param>
+    /// <param name="Type">The type of the flow. For descriptions of the available types, see Choose a flow type in the Connect Customer Administrator Guide . Possible values: • CONTACT_FLOW • CUSTOMER_QUEUE • CUSTOMER_HOLD • CUSTOMER_WHISPER • AGENT_HOLD • AGENT_WHISPER • OUTBOUND_WHISPER • AGENT_TRANSFER • QUEUE_TRANSFER • CAMPAIGN</param>
+    /// <param name="Content">The JSON string that represents the content of the flow. For an example, see Example flow in Connect Customer Flow language . Length Constraints: Minimum length of 1. Maximum length of 256000.</param>
     public AwsConnectCreateContactFlowOptions(
         string InstanceId,
         string Name,
@@ -69,25 +69,25 @@ public record AwsConnectCreateContactFlowOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The name of the flow. Constraints: o min: 1
+    /// The name of the flow. Constraints: • min: 1
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The type of the flow. For descriptions of the available types, see Choose a flow type in the Connect Customer Administrator Guide . Possible values: o CONTACT_FLOW o CUSTOMER_QUEUE o CUSTOMER_HOLD o CUSTOMER_WHISPER o AGENT_HOLD o AGENT_WHISPER o OUTBOUND_WHISPER o AGENT_TRANSFER o QUEUE_TRANSFER o CAMPAIGN
+    /// The type of the flow. For descriptions of the available types, see Choose a flow type in the Connect Customer Administrator Guide . Possible values: • CONTACT_FLOW • CUSTOMER_QUEUE • CUSTOMER_HOLD • CUSTOMER_WHISPER • AGENT_HOLD • AGENT_WHISPER • OUTBOUND_WHISPER • AGENT_TRANSFER • QUEUE_TRANSFER • CAMPAIGN
     /// </summary>
     [CliOption("--type")]
     public AwsConnectCreateContactFlowType? Type { get; private init; }
 
     /// <summary>
-    /// The JSON string that represents the content of the flow. For an ex- ample, see Example flow in Connect Customer Flow language . Length Constraints: Minimum length of 1. Maximum length of 256000.
+    /// The JSON string that represents the content of the flow. For an example, see Example flow in Connect Customer Flow language . Length Constraints: Minimum length of 1. Maximum length of 256000.
     /// </summary>
     [CliOption("--content")]
     public string? Content { get; private init; }
@@ -99,13 +99,13 @@ public record AwsConnectCreateContactFlowOptions : AwsOptions, IValidatableObjec
     public string? Description { get; set; }
 
     /// <summary>
-    /// Indicates the flow status as either SAVED or PUBLISHED . The PUB- LISHED status will initiate validation on the content. the SAVED status does not initiate validation of the content. SAVED | PUB- LISHED . Possible values: o PUBLISHED o SAVED
+    /// Indicates the flow status as either SAVED or PUBLISHED . The PUBLISHED status will initiate validation on the content. the SAVED status does not initiate validation of the content. SAVED | PUBLISHED . Possible values: • PUBLISHED • SAVED
     /// </summary>
     [CliOption("--status")]
     public AwsConnectCreateContactFlowStatus? Status { get; set; }
 
     /// <summary>
-    /// The tags used to organize, track, or control access for this re- source. For example, { "Tags": {"key1":"value1", "key2":"value2"} }. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -131,6 +131,15 @@ public record AwsConnectCreateContactFlowOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

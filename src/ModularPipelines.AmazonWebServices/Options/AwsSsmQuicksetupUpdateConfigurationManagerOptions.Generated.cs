@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsSsmQuicksetupUpdateConfigurationManagerOptions : AwsOptions, IV
     /// <summary>
     /// Updates a Quick Setup configuration manager. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ManagerArn">The ARN of the configuration manager. Constraints: o pattern: ^arn:aws:ssm-quicksetup:([^:]+):(\d{12}):configura- tion-man- ager/[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$</param>
+    /// <param name="ManagerArn">The ARN of the configuration manager. Constraints: • pattern: ^arn:aws:ssm-quicksetup:([^:]+):(\d{12}):configuration-manager/[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$</param>
     public AwsSsmQuicksetupUpdateConfigurationManagerOptions(
         string ManagerArn
     )
@@ -56,19 +57,19 @@ public record AwsSsmQuicksetupUpdateConfigurationManagerOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the configuration manager. Constraints: o pattern: ^arn:aws:ssm-quicksetup:([^:]+):(\d{12}):configura- tion-man- ager/[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$
+    /// The ARN of the configuration manager. Constraints: • pattern: ^arn:aws:ssm-quicksetup:([^:]+):(\d{12}):configuration-manager/[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$
     /// </summary>
     [CliOption("--manager-arn")]
     public string? ManagerArn { get; private init; }
 
     /// <summary>
-    /// A description of the configuration manager. Constraints: o pattern: ^.{0,512}$
+    /// A description of the configuration manager. Constraints: • pattern: ^.{0,512}$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// A name for the configuration manager. Constraints: o pattern: ^[ A-Za-z0-9._-]{0,120}$
+    /// A name for the configuration manager. Constraints: • pattern: ^[ A-Za-z0-9._-]{0,120}$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
@@ -94,6 +95,15 @@ public record AwsSsmQuicksetupUpdateConfigurationManagerOptions : AwsOptions, IV
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

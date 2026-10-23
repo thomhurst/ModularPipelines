@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves details about a specific scheduled query, including its con- figuration, execution status, and metadata. See also: AWS API Documentation
+/// Retrieves details about a specific scheduled query, including its configuration, execution status, and metadata. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsLogsGetScheduledQueryOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves details about a specific scheduled query, including its con- figuration, execution status, and metadata. See also: AWS API Documentation
+    /// Retrieves details about a specific scheduled query, including its configuration, execution status, and metadata. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identifier">The ARN or name of the scheduled query to retrieve. Constraints: o min: 1 o max: 300</param>
+    /// <param name="Identifier">The ARN or name of the scheduled query to retrieve. Constraints: • min: 1 • max: 300</param>
     public AwsLogsGetScheduledQueryOptions(
         string Identifier
     )
@@ -56,7 +57,7 @@ public record AwsLogsGetScheduledQueryOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN or name of the scheduled query to retrieve. Constraints: o min: 1 o max: 300
+    /// The ARN or name of the scheduled query to retrieve. Constraints: • min: 1 • max: 300
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
@@ -82,6 +83,15 @@ public record AwsLogsGetScheduledQueryOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

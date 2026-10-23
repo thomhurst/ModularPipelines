@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Provides the details that are necessary to update an ID namespace asso- ciation. See also: AWS API Documentation update-id-namespace-association uses document type values. Document types follow the JSON data model where valid values are: strings, num- bers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+/// Provides the details that are necessary to update an ID namespace association. See also: AWS API Documentation update-id-namespace-association uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsCleanroomsUpdateIdNamespaceAssociationOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Provides the details that are necessary to update an ID namespace asso- ciation. See also: AWS API Documentation update-id-namespace-association uses document type values. Document types follow the JSON data model where valid values are: strings, num- bers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Provides the details that are necessary to update an ID namespace association. See also: AWS API Documentation update-id-namespace-association uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
-    /// <param name="IdNamespaceAssociationIdentifier">The unique identifier of the ID namespace association that you want to update. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
-    /// <param name="MembershipIdentifier">The unique identifier of the membership that contains the ID name- space association that you want to update. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="IdNamespaceAssociationIdentifier">The unique identifier of the ID namespace association that you want to update. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="MembershipIdentifier">The unique identifier of the membership that contains the ID namespace association that you want to update. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
     public AwsCleanroomsUpdateIdNamespaceAssociationOptions(
         string IdNamespaceAssociationIdentifier,
         string MembershipIdentifier
@@ -60,31 +61,31 @@ public record AwsCleanroomsUpdateIdNamespaceAssociationOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the ID namespace association that you want to update. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The unique identifier of the ID namespace association that you want to update. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--id-namespace-association-identifier")]
     public string? IdNamespaceAssociationIdentifier { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the membership that contains the ID name- space association that you want to update. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The unique identifier of the membership that contains the ID namespace association that you want to update. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--membership-identifier")]
     public string? MembershipIdentifier { get; private init; }
 
     /// <summary>
-    /// A new name for the ID namespace association. Constraints: o min: 1 o max: 100 o pattern: (?!\s*$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]*
+    /// A new name for the ID namespace association. Constraints: • min: 1 • max: 100 • pattern: (?!\s*$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// A new description for the ID namespace association. Constraints: o min: 0 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t\r\n]*
+    /// A new description for the ID namespace association. Constraints: • min: 0 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t\r\n]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The configuration settings for the ID mapping table. allowUseAsDimensionColumn -&gt; (boolean) [required] An indicator as to whether you can use your column as a dimen- sion column in the ID mapping table (TRUE ) or not (FALSE ). Default is FALSE . Shorthand Syntax: allowUseAsDimensionColumn=boolean JSON Syntax: { "allowUseAsDimensionColumn": true|false }
+    /// The configuration settings for the ID mapping table. allowUseAsDimensionColumn -&gt; (boolean) [required] An indicator as to whether you can use your column as a dimension column in the ID mapping table (TRUE ) or not (FALSE ). Default is FALSE . Shorthand Syntax: allowUseAsDimensionColumn=boolean JSON Syntax: { "allowUseAsDimensionColumn": true|false }
     /// </summary>
     [CliOption("--id-mapping-config")]
     public string? IdMappingConfig { get; set; }
@@ -110,6 +111,15 @@ public record AwsCleanroomsUpdateIdNamespaceAssociationOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

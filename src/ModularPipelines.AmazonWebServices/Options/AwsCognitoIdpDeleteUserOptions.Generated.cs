@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the profile of the currently signed-in user. A deleted user profile can no longer be used to sign in and can't be restored. Authorize this action with a signed-in user's access token. It must in- clude the scope aws.cognito.signin.user.admin . NOTE: Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For mo...
+/// Deletes the profile of the currently signed-in user. A deleted user profile can no longer be used to sign in and can't be restored. Authorize this action with a signed-in user's access token. It must include the scope aws.cognito.signin.user.admin . NOTE: Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsCognitoIdpDeleteUserOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the profile of the currently signed-in user. A deleted user profile can no longer be used to sign in and can't be restored. Authorize this action with a signed-in user's access token. It must in- clude the scope aws.cognito.signin.user.admin . NOTE: Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For mo...
+    /// Deletes the profile of the currently signed-in user. A deleted user profile can no longer be used to sign in and can't be restored. Authorize this action with a signed-in user's access token. It must include the scope aws.cognito.signin.user.admin . NOTE: Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more...
     /// </summary>
-    /// <param name="AccessToken">A valid access token that Amazon Cognito issued to the currently signed-in user. Must include a scope claim for aws.cog- nito.signin.user.admin . Constraints: o pattern: [A-Za-z0-9-_=.]+</param>
+    /// <param name="AccessToken">A valid access token that Amazon Cognito issued to the currently signed-in user. Must include a scope claim for aws.cognito.signin.user.admin . Constraints: • pattern: [A-Za-z0-9-_=.]+</param>
     public AwsCognitoIdpDeleteUserOptions(
         string AccessToken
     )
@@ -57,7 +58,7 @@ public record AwsCognitoIdpDeleteUserOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A valid access token that Amazon Cognito issued to the currently signed-in user. Must include a scope claim for aws.cog- nito.signin.user.admin . Constraints: o pattern: [A-Za-z0-9-_=.]+
+    /// A valid access token that Amazon Cognito issued to the currently signed-in user. Must include a scope claim for aws.cognito.signin.user.admin . Constraints: • pattern: [A-Za-z0-9-_=.]+
     /// </summary>
     [SecretValue]
     [CliOption("--access-token")]
@@ -84,6 +85,15 @@ public record AwsCognitoIdpDeleteUserOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

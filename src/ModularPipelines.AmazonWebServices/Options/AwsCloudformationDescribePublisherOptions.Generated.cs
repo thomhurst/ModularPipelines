@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns information about a CloudFormation extension publisher. If you don't supply a PublisherId , and you have registered as an ex- tension publisher, DescribePublisher returns information about your own publisher account. For more information about registering as a publisher, see: o RegisterPublisher o Publishing extensions to make them available for public use in the CloudFormation Command Line Interface (CLI) User Guide See also: AWS API Documentation
+/// Returns information about a CloudFormation extension publisher. If you don't supply a PublisherId , and you have registered as an extension publisher, DescribePublisher returns information about your own publisher account. For more information about registering as a publisher, see: • RegisterPublisher • Publishing extensions to make them available for public use in the CloudFormation Command Line Interface (CLI) User Guide See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsCloudformationDescribePublisherOptions : AwsOptions
 {
     /// <summary>
-    /// The ID of the extension publisher. If you don't supply a PublisherId , and you have registered as an extension publisher, DescribePublisher returns information about your own publisher account. Constraints: o min: 1 o max: 40 o pattern: [0-9a-zA-Z]{12,40}
+    /// The ID of the extension publisher. If you don't supply a PublisherId , and you have registered as an extension publisher, DescribePublisher returns information about your own publisher account. Constraints: • min: 1 • max: 40 • pattern: [0-9a-zA-Z]{12,40}
     /// </summary>
     [CliOption("--publisher-id")]
     public string? PublisherId { get; set; }
@@ -32,5 +32,14 @@ public record AwsCloudformationDescribePublisherOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

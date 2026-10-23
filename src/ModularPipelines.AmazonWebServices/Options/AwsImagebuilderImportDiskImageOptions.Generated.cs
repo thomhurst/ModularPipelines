@@ -11,13 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Imports a Windows operating system image from a verified Microsoft ISO disk file. The following disk images are supported: o Windows 11 Enterprise The response returns as soon as Image Builder creates the new image re- source in the PENDING state. The conversion from ISO file to AMI then runs asynchronously on an EC2 instance that Image Builder launches with the specified infrastructure configuration. See also: AWS API Documentation
+/// Imports a Windows operating system image from a verified Microsoft ISO disk file. The following disk images are supported: • Windows 11 Enterprise The response returns as soon as Image Builder creates the new image resource in the PENDING state. The conversion from ISO file to AMI then runs asynchronously on an EC2 instance that Image Builder launches with the specified infrastructure configuration. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,13 +27,13 @@ public record AwsImagebuilderImportDiskImageOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Imports a Windows operating system image from a verified Microsoft ISO disk file. The following disk images are supported: o Windows 11 Enterprise The response returns as soon as Image Builder creates the new image re- source in the PENDING state. The conversion from ISO file to AMI then runs asynchronously on an EC2 instance that Image Builder launches with the specified infrastructure configuration. See also: AWS API Documentation
+    /// Imports a Windows operating system image from a verified Microsoft ISO disk file. The following disk images are supported: • Windows 11 Enterprise The response returns as soon as Image Builder creates the new image resource in the PENDING state. The conversion from ISO file to AMI then runs asynchronously on an EC2 instance that Image Builder launches with the specified infrastructure configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the image resource that's created from the import. Image Builder generates the image ARN from a normalized form of the name, so names that differ only in case, spaces, or underscores count as the same name. If an image with the same name and semantic version already exists in your account in the same Amazon Web Services Re- gion, the import creates a new build version for it. Constraints: o pattern: ^[-_A-Za-z-0-9][-_A-Za-z0-9 ]{1,126}[-_A-Za-z-0-9]$</param>
-    /// <param name="SemanticVersion">The semantic version to attach to the image that's created during the import process. This version follows the semantic version syn- tax. Constraints: o pattern: ^[0-9]+\.[0-9]+\.[0-9]+$</param>
-    /// <param name="Platform">The operating system platform for the imported image. Allowed values include the following: Windows . Constraints: o min: 1 o max: 1024</param>
-    /// <param name="OsVersion">The operating system version for the imported image. The only sup- ported value is Microsoft Windows 11 . Constraints: o min: 1</param>
-    /// <param name="InfrastructureConfigurationArn">The Amazon Resource Name (ARN) of the infrastructure configuration resource that's used for launching the EC2 instance on which the ISO image is built. Constraints: o pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):infra- structure-configuration/[a-z0-9-_]+$</param>
+    /// <param name="Name">The name of the image resource that's created from the import. Image Builder generates the image ARN from a normalized form of the name, so names that differ only in case, spaces, or underscores count as the same name. If an image with the same name and semantic version already exists in your account in the same Amazon Web Services Region, the import creates a new build version for it. Constraints: • pattern: ^[-_A-Za-z-0-9][-_A-Za-z0-9 ]{1,126}[-_A-Za-z-0-9]$</param>
+    /// <param name="SemanticVersion">The semantic version to attach to the image that's created during the import process. This version follows the semantic version syntax. Constraints: • pattern: ^[0-9]+\.[0-9]+\.[0-9]+$</param>
+    /// <param name="Platform">The operating system platform for the imported image. Allowed values include the following: Windows . Constraints: • min: 1 • max: 1024</param>
+    /// <param name="OsVersion">The operating system version for the imported image. The only supported value is Microsoft Windows 11 . Constraints: • min: 1</param>
+    /// <param name="InfrastructureConfigurationArn">The Amazon Resource Name (ARN) of the infrastructure configuration resource that's used for launching the EC2 instance on which the ISO image is built. Constraints: • pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):infrastructure-configuration/[a-z0-9-_]+$</param>
     /// <param name="Uri">The uri of the ISO disk file that's stored in Amazon S3, in s3://bucket/key format. The key must end with the .iso , .ISO , or .Iso extension, and the bucket must be owned by the account that makes the request.</param>
     public AwsImagebuilderImportDiskImageOptions(
         string Name,
@@ -78,31 +78,31 @@ public record AwsImagebuilderImportDiskImageOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the image resource that's created from the import. Image Builder generates the image ARN from a normalized form of the name, so names that differ only in case, spaces, or underscores count as the same name. If an image with the same name and semantic version already exists in your account in the same Amazon Web Services Re- gion, the import creates a new build version for it. Constraints: o pattern: ^[-_A-Za-z-0-9][-_A-Za-z0-9 ]{1,126}[-_A-Za-z-0-9]$
+    /// The name of the image resource that's created from the import. Image Builder generates the image ARN from a normalized form of the name, so names that differ only in case, spaces, or underscores count as the same name. If an image with the same name and semantic version already exists in your account in the same Amazon Web Services Region, the import creates a new build version for it. Constraints: • pattern: ^[-_A-Za-z-0-9][-_A-Za-z0-9 ]{1,126}[-_A-Za-z-0-9]$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The semantic version to attach to the image that's created during the import process. This version follows the semantic version syn- tax. Constraints: o pattern: ^[0-9]+\.[0-9]+\.[0-9]+$
+    /// The semantic version to attach to the image that's created during the import process. This version follows the semantic version syntax. Constraints: • pattern: ^[0-9]+\.[0-9]+\.[0-9]+$
     /// </summary>
     [CliOption("--semantic-version")]
     public string? SemanticVersion { get; private init; }
 
     /// <summary>
-    /// The operating system platform for the imported image. Allowed values include the following: Windows . Constraints: o min: 1 o max: 1024
+    /// The operating system platform for the imported image. Allowed values include the following: Windows . Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--platform")]
     public string? Platform { get; private init; }
 
     /// <summary>
-    /// The operating system version for the imported image. The only sup- ported value is Microsoft Windows 11 . Constraints: o min: 1
+    /// The operating system version for the imported image. The only supported value is Microsoft Windows 11 . Constraints: • min: 1
     /// </summary>
     [CliOption("--os-version")]
     public string? OsVersion { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the infrastructure configuration resource that's used for launching the EC2 instance on which the ISO image is built. Constraints: o pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):infra- structure-configuration/[a-z0-9-_]+$
+    /// The Amazon Resource Name (ARN) of the infrastructure configuration resource that's used for launching the EC2 instance on which the ISO image is built. Constraints: • pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):infrastructure-configuration/[a-z0-9-_]+$
     /// </summary>
     [CliOption("--infrastructure-configuration-arn")]
     public string? InfrastructureConfigurationArn { get; private init; }
@@ -114,43 +114,43 @@ public record AwsImagebuilderImportDiskImageOptions : AwsOptions, IValidatableOb
     public string? Uri { get; private init; }
 
     /// <summary>
-    /// The description for your disk image import. Constraints: o min: 1 o max: 1024
+    /// The description for your disk image import. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The name or Amazon Resource Name (ARN) for the IAM role you create that grants Image Builder access to perform workflow actions to im- port an image from a Microsoft ISO file. If you don't provide a role, Image Builder uses the Image Builder service-linked role in your account, and creates it if it doesn't exist. Constraints: o min: 1 o max: 2048 o pattern: ^(?:arn:aws(?:-[a-z]+)*:iam::[0-9]{12}:role/)?[a-zA-Z_0-9+=,.@\-_/]+$
+    /// The name or Amazon Resource Name (ARN) for the IAM role you create that grants Image Builder access to perform workflow actions to import an image from a Microsoft ISO file. If you don't provide a role, Image Builder uses the Image Builder service-linked role in your account, and creates it if it doesn't exist. Constraints: • min: 1 • max: 2048 • pattern: ^(?:arn:aws(?:-[a-z]+)*:iam::[0-9]{12}:role/)?[a-zA-Z_0-9+=,.@\-_/]+$
     /// </summary>
     [CliOption("--execution-role")]
     public string? ExecutionRole { get; set; }
 
     /// <summary>
-    /// The CloudWatch Logs log group where Image Builder sends the import logs. If you specify a log group name outside of the /aws/image- builder/ namespace, you must also provide an executionRole that has permission to write to that log group. logGroupName -&gt; (string) The log group name that Image Builder uses for image creation. If not specified, the log group name defaults to /aws/image- builder/image-name . Constraints: o min: 1 o max: 512 o pattern: ^[a-zA-Z0-9\-_/\.]{1,512}$ Shorthand Syntax: logGroupName=string JSON Syntax: { "logGroupName": "string" }
+    /// The CloudWatch Logs log group where Image Builder sends the import logs. If you specify a log group name outside of the /aws/imagebuilder/ namespace, you must also provide an executionRole that has permission to write to that log group. logGroupName -&gt; (string) The log group name that Image Builder uses for image creation. If not specified, the log group name defaults to /aws/imagebuilder/image-name . Constraints: • min: 1 • max: 512 • pattern: ^[a-zA-Z0-9\-_/\.]{1,512}$ Shorthand Syntax: logGroupName=string JSON Syntax: { "logGroupName": "string" }
     /// </summary>
     [CliOption("--logging-configuration")]
     public string? LoggingConfiguration { get; set; }
 
     /// <summary>
-    /// Tags that are attached to image resources created from the import. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z0-9\s_.:/=+\-@]*$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Tags that are attached to image resources created from the import. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[a-zA-Z0-9\s_.:/=+\-@]*$ value -&gt; (string) Constraints: • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// Configures Secure Boot and UEFI settings for the imported image. secureBootEnabled -&gt; (boolean) Specifies whether Secure Boot is enabled for the output AMI. The default value is true . To disable Secure Boot for custom un- signed drivers, set this value to false . uefiData -&gt; (string) A Base64-encoded representation of the non-volatile UEFI vari- able store. You can specify this parameter only when secure- BootEnabled is true or unspecified. You can inspect and modify the UEFI data by using the python-uefivars tool on GitHub . For more information, see UEFI variables for Amazon EC2 in- stances . Constraints: o min: 0 o max: 64000 Shorthand Syntax: secureBootEnabled=boolean,uefiData=string JSON Syntax: { "secureBootEnabled": true|false, "uefiData": "string" }
+    /// Configures Secure Boot and UEFI settings for the imported image. secureBootEnabled -&gt; (boolean) Specifies whether Secure Boot is enabled for the output AMI. The default value is true . To disable Secure Boot for custom unsigned drivers, set this value to false . uefiData -&gt; (string) A Base64-encoded representation of the non-volatile UEFI variable store. You can specify this parameter only when secureBootEnabled is true or unspecified. You can inspect and modify the UEFI data by using the python-uefivars tool on GitHub . For more information, see UEFI variables for Amazon EC2 instances . Constraints: • min: 0 • max: 64000 Shorthand Syntax: secureBootEnabled=boolean,uefiData=string JSON Syntax: { "secureBootEnabled": true|false, "uefiData": "string" }
     /// </summary>
     [CliOption("--register-image-options")]
     public string? RegisterImageOptions { get; set; }
 
     /// <summary>
-    /// Specifies Windows settings for ISO imports. imageIndex -&gt; (long) [required] The 1-based index that specifies which Windows edition to in- stall from a multi-edition Windows ISO file. A Windows ISO can contain a .wim file with multiple image indexes, each represent- ing a different edition. Constraints: o min: 1 o max: 4294967295 Shorthand Syntax: imageIndex=long JSON Syntax: { "imageIndex": long }
+    /// Specifies Windows settings for ISO imports. imageIndex -&gt; (long) [required] The 1-based index that specifies which Windows edition to install from a multi-edition Windows ISO file. A Windows ISO can contain a .wim file with multiple image indexes, each representing a different edition. Constraints: • min: 1 • max: 4294967295 Shorthand Syntax: imageIndex=long JSON Syntax: { "imageIndex": long }
     /// </summary>
     [CliOption("--windows-configuration")]
     public string? WindowsConfiguration { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client token, Image Builder returns the original response without running the operation again. For more information, see Ensuring idempotency in the Amazon EC2 API Reference . Constraints: o min: 1 o max: 64
+    /// A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client token, Image Builder returns the original response without running the operation again. For more information, see Ensuring idempotency in the Amazon EC2 API Reference . Constraints: • min: 1 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -177,6 +177,15 @@ public record AwsImagebuilderImportDiskImageOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

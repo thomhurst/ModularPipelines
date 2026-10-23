@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -33,7 +33,7 @@ public class AwsCodecommit : IAwsCodecommit
     #region Sub-command Groups
 
     /// <summary>
-    /// aws credential-helper sub-commands.
+    /// aws codecommit credential-helper sub-commands.
     /// </summary>
     public AwsCodecommitCredentialHelper CredentialHelper => _credentialHelper ??= new AwsCodecommitCredentialHelper(_command);
 
@@ -42,7 +42,7 @@ public class AwsCodecommit : IAwsCodecommit
     #region Commands
 
     /// <summary>
-    /// Creates an association between an approval rule template and a speci- fied repository. Then, the next time a pull request is created in the repository where the destination reference (if specified) matches the destination reference (branch) for the pull request, an approval rule that matches the template conditions is automatically created for that pull request. If no destination references are specified in the tem- plate, an approval rule that matches the template contents is created for all pu...
+    /// Creates an association between an approval rule template and a specified repository. Then, the next time a pull request is created in the repository where the destination reference (if specified) matches the destination reference (branch) for the pull request, an approval rule that matches the template conditions is automatically created for that pull request. If no destination references are specified in the template, an approval rule that matches the template contents is created for all pull r...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -117,7 +117,7 @@ public class AwsCodecommit : IAwsCodecommit
     }
 
     /// <summary>
-    /// Returns information about one or more repositories. NOTE: The description field for a repository accepts all HTML characters and all valid Unicode characters. Applications that do not HTML-en- code the description and display it in a webpage can expose users to potentially malicious code. Make sure that you HTML-encode the de- scription field in any application that uses this API to display the repository description on a webpage. See also: AWS API Documentation
+    /// Returns information about one or more repositories. NOTE: The description field for a repository accepts all HTML characters and all valid Unicode characters. Applications that do not HTML-encode the description and display it in a webpage can expose users to potentially malicious code. Make sure that you HTML-encode the description field in any application that uses this API to display the repository description on a webpage. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -147,7 +147,7 @@ public class AwsCodecommit : IAwsCodecommit
     }
 
     /// <summary>
-    /// Creates a branch in a repository and points the branch to a commit. NOTE: Calling the create branch operation does not set a repository's de- fault branch. To do this, call the update default branch operation. See also: AWS API Documentation
+    /// Creates a branch in a repository and points the branch to a commit. NOTE: Calling the create branch operation does not set a repository's default branch. To do this, call the update default branch operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -222,7 +222,7 @@ public class AwsCodecommit : IAwsCodecommit
     }
 
     /// <summary>
-    /// Creates an unreferenced commit that represents the result of merging two branches using a specified merge strategy. This can help you deter- mine the outcome of a potential merge. This API cannot be used with the fast-forward merge strategy because that strategy does not create a merge commit. NOTE: This unreferenced merge commit can only be accessed using the Get- Commit API or through git commands such as git fetch. To retrieve this commit, you must specify its commit ID or otherwise reference...
+    /// Creates an unreferenced commit that represents the result of merging two branches using a specified merge strategy. This can help you determine the outcome of a potential merge. This API cannot be used with the fast-forward merge strategy because that strategy does not create a merge commit. NOTE: This unreferenced merge commit can only be accessed using the GetCommit API or through git commands such as git fetch. To retrieve this commit, you must specify its commit ID or otherwise reference it....
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -297,7 +297,7 @@ public class AwsCodecommit : IAwsCodecommit
     }
 
     /// <summary>
-    /// Deletes an approval rule from a specified pull request. Approval rules can be deleted from a pull request only if the pull request is open, and if the approval rule was created specifically for a pull request and not generated from an approval rule template associated with the repository where the pull request was created. You cannot delete an ap- proval rule from a merged or closed pull request. See also: AWS API Documentation
+    /// Deletes an approval rule from a specified pull request. Approval rules can be deleted from a pull request only if the pull request is open, and if the approval rule was created specifically for a pull request and not generated from an approval rule template associated with the repository where the pull request was created. You cannot delete an approval rule from a merged or closed pull request. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -312,7 +312,7 @@ public class AwsCodecommit : IAwsCodecommit
     }
 
     /// <summary>
-    /// Deletes a repository. If a specified repository was already deleted, a null repository ID is returned. WARNING: Deleting a repository also deletes all associated objects and meta- data. After a repository is deleted, all future push calls to the deleted repository fail. See also: AWS API Documentation
+    /// Deletes a repository. If a specified repository was already deleted, a null repository ID is returned. WARNING: Deleting a repository also deletes all associated objects and metadata. After a repository is deleted, all future push calls to the deleted repository fail. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -342,7 +342,7 @@ public class AwsCodecommit : IAwsCodecommit
     }
 
     /// <summary>
-    /// Returns information about one or more pull request events. See also: AWS API Documentation describe-pull-request-events is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: pullRequestEvents
+    /// Returns information about one or more pull request events. See also: AWS API Documentation describe-pull-request-events is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: pullRequestEvents
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -357,7 +357,7 @@ public class AwsCodecommit : IAwsCodecommit
     }
 
     /// <summary>
-    /// Removes the association between a template and a repository so that ap- proval rules based on the template are not automatically created when pull requests are created in the specified repository. This does not delete any approval rules previously created for pull requests through the template association. See also: AWS API Documentation
+    /// Removes the association between a template and a repository so that approval rules based on the template are not automatically created when pull requests are created in the specified repository. This does not delete any approval rules previously created for pull requests through the template association. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -402,7 +402,7 @@ public class AwsCodecommit : IAwsCodecommit
     }
 
     /// <summary>
-    /// Returns a structured, line-level diff between two blob versions in a repository. The diff is returned as an ordered list of hunks, where each hunk represents a contiguous run of changed lines together with any surrounding unchanged context lines. Results are paginated. Use MaxResults and NextToken to retrieve addi- tional pages. For the typical usage workflow, see GetDifferences . See also: AWS API Documentation get-blob-differences is a paginated operation. Multiple API calls may be issued in o...
+    /// Returns a structured, line-level diff between two blob versions in a repository. The diff is returned as an ordered list of hunks, where each hunk represents a contiguous run of changed lines together with any surrounding unchanged context lines. Results are paginated. Use MaxResults and NextToken to retrieve additional pages. For the typical usage workflow, see GetDifferences . See also: AWS API Documentation get-blob-differences is a paginated operation. Multiple API calls may be issued in ord...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -417,7 +417,7 @@ public class AwsCodecommit : IAwsCodecommit
     }
 
     /// <summary>
-    /// Returns the base-64 encoded content of an individual blob in a reposi- tory. See also: AWS API Documentation
+    /// Returns the base-64 encoded content of an individual blob in a repository. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -462,7 +462,7 @@ public class AwsCodecommit : IAwsCodecommit
     }
 
     /// <summary>
-    /// Returns information about reactions to a specified comment ID. Reac- tions from users who have been deleted will not be included in the count. See also: AWS API Documentation
+    /// Returns information about reactions to a specified comment ID. Reactions from users who have been deleted will not be included in the count. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -477,7 +477,7 @@ public class AwsCodecommit : IAwsCodecommit
     }
 
     /// <summary>
-    /// Returns information about comments made on the comparison between two commits. NOTE: Reaction counts might include numbers from user identities who were deleted after the reaction was made. For a count of reactions from active identities, use GetCommentReactions. See also: AWS API Documentation get-comments-for-compared-commit is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate...
+    /// Returns information about comments made on the comparison between two commits. NOTE: Reaction counts might include numbers from user identities who were deleted after the reaction was made. For a count of reactions from active identities, use GetCommentReactions. See also: AWS API Documentation get-comments-for-compared-commit is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate a...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -492,7 +492,7 @@ public class AwsCodecommit : IAwsCodecommit
     }
 
     /// <summary>
-    /// Returns comments made on a pull request. NOTE: Reaction counts might include numbers from user identities who were deleted after the reaction was made. For a count of reactions from active identities, use GetCommentReactions. See also: AWS API Documentation get-comments-for-pull-request is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and...
+    /// Returns comments made on a pull request. NOTE: Reaction counts might include numbers from user identities who were deleted after the reaction was made. For a count of reactions from active identities, use GetCommentReactions. See also: AWS API Documentation get-comments-for-pull-request is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -507,7 +507,7 @@ public class AwsCodecommit : IAwsCodecommit
     }
 
     /// <summary>
-    /// Returns information about a commit, including commit message and com- mitter information. See also: AWS API Documentation
+    /// Returns information about a commit, including commit message and committer information. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -522,7 +522,7 @@ public class AwsCodecommit : IAwsCodecommit
     }
 
     /// <summary>
-    /// Returns information about the differences in a valid commit specifier (such as a branch, tag, HEAD, commit ID, or other fully qualified ref- erence). Results can be limited to a specified path. For line-level diff details, pass the beforeBlob.blobId and af- terBlob.blobId values from a Difference object to GetBlobDifferences . See also: AWS API Documentation get-differences is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can d...
+    /// Returns information about the differences in a valid commit specifier (such as a branch, tag, HEAD, commit ID, or other fully qualified reference). Results can be limited to a specified path. For line-level diff details, pass the beforeBlob.blobId and afterBlob.blobId values from a Difference object to GetBlobDifferences . See also: AWS API Documentation get-differences is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -537,7 +537,7 @@ public class AwsCodecommit : IAwsCodecommit
     }
 
     /// <summary>
-    /// Returns the base-64 encoded contents of a specified file and its meta- data. See also: AWS API Documentation
+    /// Returns the base-64 encoded contents of a specified file and its metadata. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -597,7 +597,7 @@ public class AwsCodecommit : IAwsCodecommit
     }
 
     /// <summary>
-    /// Returns information about the merge options available for merging two specified branches. For details about why a merge option is not avail- able, use GetMergeConflicts or DescribeMergeConflicts. See also: AWS API Documentation
+    /// Returns information about the merge options available for merging two specified branches. For details about why a merge option is not available, use GetMergeConflicts or DescribeMergeConflicts. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -612,7 +612,7 @@ public class AwsCodecommit : IAwsCodecommit
     }
 
     /// <summary>
-    /// Gets information about the approval states for a specified pull re- quest. Approval states only apply to pull requests that have one or more approval rules applied to them. See also: AWS API Documentation
+    /// Gets information about the approval states for a specified pull request. Approval states only apply to pull requests that have one or more approval rules applied to them. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -642,7 +642,7 @@ public class AwsCodecommit : IAwsCodecommit
     }
 
     /// <summary>
-    /// Returns information about whether approval rules have been set aside (overridden) for a pull request, and if so, the Amazon Resource Name (ARN) of the user or identity that overrode the rules and their re- quirements for the pull request. See also: AWS API Documentation
+    /// Returns information about whether approval rules have been set aside (overridden) for a pull request, and if so, the Amazon Resource Name (ARN) of the user or identity that overrode the rules and their requirements for the pull request. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -657,7 +657,7 @@ public class AwsCodecommit : IAwsCodecommit
     }
 
     /// <summary>
-    /// Returns information about a repository. NOTE: The description field for a repository accepts all HTML characters and all valid Unicode characters. Applications that do not HTML-en- code the description and display it in a webpage can expose users to potentially malicious code. Make sure that you HTML-encode the de- scription field in any application that uses this API to display the repository description on a webpage. See also: AWS API Documentation
+    /// Returns information about a repository. NOTE: The description field for a repository accepts all HTML characters and all valid Unicode characters. Applications that do not HTML-encode the description and display it in a webpage can expose users to potentially malicious code. Make sure that you HTML-encode the description field in any application that uses this API to display the repository description on a webpage. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -717,7 +717,7 @@ public class AwsCodecommit : IAwsCodecommit
     }
 
     /// <summary>
-    /// Gets information about one or more branches in a repository. See also: AWS API Documentation list-branches is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: branches
+    /// Gets information about one or more branches in a repository. See also: AWS API Documentation list-branches is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: branches
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -762,7 +762,7 @@ public class AwsCodecommit : IAwsCodecommit
     }
 
     /// <summary>
-    /// Lists all repositories associated with the specified approval rule tem- plate. See also: AWS API Documentation
+    /// Lists all repositories associated with the specified approval rule template. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -852,7 +852,7 @@ public class AwsCodecommit : IAwsCodecommit
     }
 
     /// <summary>
-    /// Attempts to merge the source commit of a pull request into the speci- fied destination branch for that pull request at the specified commit using the fast-forward merge strategy. If the merge is successful, it closes the pull request. See also: AWS API Documentation
+    /// Attempts to merge the source commit of a pull request into the specified destination branch for that pull request at the specified commit using the fast-forward merge strategy. If the merge is successful, it closes the pull request. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -867,7 +867,7 @@ public class AwsCodecommit : IAwsCodecommit
     }
 
     /// <summary>
-    /// Attempts to merge the source commit of a pull request into the speci- fied destination branch for that pull request at the specified commit using the squash merge strategy. If the merge is successful, it closes the pull request. See also: AWS API Documentation
+    /// Attempts to merge the source commit of a pull request into the specified destination branch for that pull request at the specified commit using the squash merge strategy. If the merge is successful, it closes the pull request. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -882,7 +882,7 @@ public class AwsCodecommit : IAwsCodecommit
     }
 
     /// <summary>
-    /// Attempts to merge the source commit of a pull request into the speci- fied destination branch for that pull request at the specified commit using the three-way merge strategy. If the merge is successful, it closes the pull request. See also: AWS API Documentation
+    /// Attempts to merge the source commit of a pull request into the specified destination branch for that pull request at the specified commit using the three-way merge strategy. If the merge is successful, it closes the pull request. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -957,7 +957,7 @@ public class AwsCodecommit : IAwsCodecommit
     }
 
     /// <summary>
-    /// Adds or updates a reaction to a specified comment for the user whose identity is used to make the request. You can only add or update a re- action for yourself. You cannot add, modify, or delete a reaction for another user. See also: AWS API Documentation
+    /// Adds or updates a reaction to a specified comment for the user whose identity is used to make the request. You can only add or update a reaction for yourself. You cannot add, modify, or delete a reaction for another user. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -987,7 +987,7 @@ public class AwsCodecommit : IAwsCodecommit
     }
 
     /// <summary>
-    /// Replaces all triggers for a repository. Used to create or delete trig- gers. See also: AWS API Documentation
+    /// Replaces all triggers for a repository. Used to create or delete triggers. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1032,7 +1032,7 @@ public class AwsCodecommit : IAwsCodecommit
     }
 
     /// <summary>
-    /// Removes tags for a resource in CodeCommit. For a list of valid re- sources in CodeCommit, see CodeCommit Resources and Operations in the CodeCommit User Guide . See also: AWS API Documentation
+    /// Removes tags for a resource in CodeCommit. For a list of valid resources in CodeCommit, see CodeCommit Resources and Operations in the CodeCommit User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1122,7 +1122,7 @@ public class AwsCodecommit : IAwsCodecommit
     }
 
     /// <summary>
-    /// Updates the structure of an approval rule created specifically for a pull request. For example, you can change the number of required ap- provers and the approval pool for approvers. See also: AWS API Documentation
+    /// Updates the structure of an approval rule created specifically for a pull request. For example, you can change the number of required approvers and the approval pool for approvers. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1197,7 +1197,7 @@ public class AwsCodecommit : IAwsCodecommit
     }
 
     /// <summary>
-    /// Sets or changes the comment or description for a repository. NOTE: The description field for a repository accepts all HTML characters and all valid Unicode characters. Applications that do not HTML-en- code the description and display it in a webpage can expose users to potentially malicious code. Make sure that you HTML-encode the de- scription field in any application that uses this API to display the repository description on a webpage. See also: AWS API Documentation
+    /// Sets or changes the comment or description for a repository. NOTE: The description field for a repository accepts all HTML characters and all valid Unicode characters. Applications that do not HTML-encode the description and display it in a webpage can expose users to potentially malicious code. Make sure that you HTML-encode the description field in any application that uses this API to display the repository description on a webpage. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

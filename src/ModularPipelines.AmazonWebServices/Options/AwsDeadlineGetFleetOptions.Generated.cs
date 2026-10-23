@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsDeadlineGetFleetOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Get a fleet. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FarmId">The farm ID of the farm in the fleet. Constraints: o pattern: farm-[0-9a-f]{32}</param>
-    /// <param name="FleetId">The fleet ID of the fleet to get. Constraints: o pattern: fleet-[0-9a-f]{32}</param>
+    /// <param name="FarmId">The farm ID of the farm in the fleet. Constraints: • pattern: farm-[0-9a-f]{32}</param>
+    /// <param name="FleetId">The fleet ID of the fleet to get. Constraints: • pattern: fleet-[0-9a-f]{32}</param>
     public AwsDeadlineGetFleetOptions(
         string FarmId,
         string FleetId
@@ -60,13 +61,13 @@ public record AwsDeadlineGetFleetOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The farm ID of the farm in the fleet. Constraints: o pattern: farm-[0-9a-f]{32}
+    /// The farm ID of the farm in the fleet. Constraints: • pattern: farm-[0-9a-f]{32}
     /// </summary>
     [CliOption("--farm-id")]
     public string? FarmId { get; private init; }
 
     /// <summary>
-    /// The fleet ID of the fleet to get. Constraints: o pattern: fleet-[0-9a-f]{32}
+    /// The fleet ID of the fleet to get. Constraints: • pattern: fleet-[0-9a-f]{32}
     /// </summary>
     [CliOption("--fleet-id")]
     public string? FleetId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsDeadlineGetFleetOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

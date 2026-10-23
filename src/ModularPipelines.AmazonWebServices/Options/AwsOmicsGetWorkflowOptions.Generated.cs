@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets all information about a workflow using its ID. If a workflow is shared with you, you cannot export the workflow. For more information about your workflow status, see Verify the work- flow status in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation
+/// Gets all information about a workflow using its ID. If a workflow is shared with you, you cannot export the workflow. For more information about your workflow status, see Verify the workflow status in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsOmicsGetWorkflowOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets all information about a workflow using its ID. If a workflow is shared with you, you cannot export the workflow. For more information about your workflow status, see Verify the work- flow status in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation
+    /// Gets all information about a workflow using its ID. If a workflow is shared with you, you cannot export the workflow. For more information about your workflow status, see Verify the workflow status in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The workflow's ID. Constraints: o min: 1 o max: 18 o pattern: [0-9]+</param>
+    /// <param name="Id">The workflow's ID. Constraints: • min: 1 • max: 18 • pattern: [0-9]+</param>
     public AwsOmicsGetWorkflowOptions(
         string Id
     )
@@ -57,25 +58,25 @@ public record AwsOmicsGetWorkflowOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The workflow's ID. Constraints: o min: 1 o max: 18 o pattern: [0-9]+
+    /// The workflow's ID. Constraints: • min: 1 • max: 18 • pattern: [0-9]+
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The workflow's type. Possible values: o PRIVATE o READY2RUN Constraints: o min: 1 o max: 64
+    /// The workflow's type. Possible values: • PRIVATE • READY2RUN Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--type")]
     public AwsOmicsGetWorkflowType? Type { get; set; }
 
     /// <summary>
-    /// The export format for the workflow. Constraints: o min: 0 o max: 32 (string) Possible values: o DEFINITION o README Constraints: o min: 1 o max: 64 Syntax: "string" "string" ...
+    /// The export format for the workflow. Constraints: • min: 0 • max: 32 (string) Possible values: • DEFINITION • README Constraints: • min: 1 • max: 64 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--export", GroupValues = true)]
     public IEnumerable<string>? Export { get; set; }
 
     /// <summary>
-    /// The ID of the workflow owner. Constraints: o pattern: [0-9]{12}
+    /// The ID of the workflow owner. Constraints: • pattern: [0-9]{12}
     /// </summary>
     [CliOption("--workflow-owner-id")]
     public string? WorkflowOwnerId { get; set; }
@@ -101,6 +102,15 @@ public record AwsOmicsGetWorkflowOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

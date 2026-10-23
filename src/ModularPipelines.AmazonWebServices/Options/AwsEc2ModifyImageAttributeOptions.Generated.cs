@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modifies the specified attribute of the specified AMI. You can specify only one attribute at a time. To specify the attribute, you can use the Attribute parameter, or one of the following parameters: Description , ImdsSupport , or LaunchPer- mission . Images with an Amazon Web Services Marketplace product code cannot be made public. To enable the SriovNetSupport enhanced networking attribute of an im- age, enable SriovNetSupport on an instance and create an AMI from the instance. See also: AWS A...
+/// Modifies the specified attribute of the specified AMI. You can specify only one attribute at a time. To specify the attribute, you can use the Attribute parameter, or one of the following parameters: Description , ImdsSupport , or LaunchPermission . Images with an Amazon Web Services Marketplace product code cannot be made public. To enable the SriovNetSupport enhanced networking attribute of an image, enable SriovNetSupport on an instance and create an AMI from the instance. See also: AWS API D...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +27,7 @@ public record AwsEc2ModifyImageAttributeOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Modifies the specified attribute of the specified AMI. You can specify only one attribute at a time. To specify the attribute, you can use the Attribute parameter, or one of the following parameters: Description , ImdsSupport , or LaunchPer- mission . Images with an Amazon Web Services Marketplace product code cannot be made public. To enable the SriovNetSupport enhanced networking attribute of an im- age, enable SriovNetSupport on an instance and create an AMI from the instance. See also: AWS A...
+    /// Modifies the specified attribute of the specified AMI. You can specify only one attribute at a time. To specify the attribute, you can use the Attribute parameter, or one of the following parameters: Description , ImdsSupport , or LaunchPermission . Images with an Amazon Web Services Marketplace product code cannot be made public. To enable the SriovNetSupport enhanced networking attribute of an image, enable SriovNetSupport on an instance and create an AMI from the instance. See also: AWS API D...
     /// </summary>
     /// <param name="ImageId">The ID of the AMI.</param>
     public AwsEc2ModifyImageAttributeOptions(
@@ -75,13 +76,13 @@ public record AwsEc2ModifyImageAttributeOptions : AwsOptions, IValidatableObject
     public string? Description { get; set; }
 
     /// <summary>
-    /// A new launch permission for the AMI. Add -&gt; (list) The Amazon Web Services account ID, organization ARN, or OU ARN to add to the list of launch permissions for the AMI. (structure) Describes a launch permission. OrganizationArn -&gt; (string) The Amazon Resource Name (ARN) of an organization. OrganizationalUnitArn -&gt; (string) The Amazon Resource Name (ARN) of an organizational unit (OU). UserId -&gt; (string) The Amazon Web Services account ID. Constraints: Up to 10 000 account IDs can be specified in a single request. Group -&gt; (string) The name of the group. Possible values: o all Remove -&gt; (list) The Amazon Web Services account ID, organization ARN, or OU ARN to remove from the list of launch permissions for the AMI. (structure) Describes a launch permission. OrganizationArn -&gt; (string) The Amazon Resource Name (ARN) of an organization. OrganizationalUnitArn -&gt; (string) The Amazon Resource Name (ARN) of an organizational unit (OU). UserId -&gt; (string) The Amazon Web Services account ID. Constraints: Up to 10 000 account IDs can be specified in a single request. Group -&gt; (string) The name of the group. Possible values: o all Shorthand Syntax: Add=[{OrganizationArn=string,OrganizationalUnitArn=string,UserId=string,Group=string},{OrganizationArn=string,OrganizationalUnitArn=string,UserId=string,Group=string}],Remove=[{OrganizationArn=string,OrganizationalUnitArn=string,UserId=string,Group=string},{OrganizationArn=string,OrganizationalUnitArn=string,UserId=string,Group=string}] JSON Syntax: { "Add": [ { "OrganizationArn": "string", "OrganizationalUnitArn": "string", "UserId": "string", "Group": "all" } ... ], "Remove": [ { "OrganizationArn": "string", "OrganizationalUnitArn": "string", "UserId": "string", "Group": "all" } ... ] }
+    /// A new launch permission for the AMI. Add -&gt; (list) The Amazon Web Services account ID, organization ARN, or OU ARN to add to the list of launch permissions for the AMI. (structure) Describes a launch permission. OrganizationArn -&gt; (string) The Amazon Resource Name (ARN) of an organization. OrganizationalUnitArn -&gt; (string) The Amazon Resource Name (ARN) of an organizational unit (OU). UserId -&gt; (string) The Amazon Web Services account ID. Constraints: Up to 10 000 account IDs can be specified in a single request. Group -&gt; (string) The name of the group. Possible values: • all Remove -&gt; (list) The Amazon Web Services account ID, organization ARN, or OU ARN to remove from the list of launch permissions for the AMI. (structure) Describes a launch permission. OrganizationArn -&gt; (string) The Amazon Resource Name (ARN) of an organization. OrganizationalUnitArn -&gt; (string) The Amazon Resource Name (ARN) of an organizational unit (OU). UserId -&gt; (string) The Amazon Web Services account ID. Constraints: Up to 10 000 account IDs can be specified in a single request. Group -&gt; (string) The name of the group. Possible values: • all Shorthand Syntax: Add=[{OrganizationArn=string,OrganizationalUnitArn=string,UserId=string,Group=string},{OrganizationArn=string,OrganizationalUnitArn=string,UserId=string,Group=string}],Remove=[{OrganizationArn=string,OrganizationalUnitArn=string,UserId=string,Group=string},{OrganizationArn=string,OrganizationalUnitArn=string,UserId=string,Group=string}] JSON Syntax: { "Add": [ { "OrganizationArn": "string", "OrganizationalUnitArn": "string", "UserId": "string", "Group": "all" } ... ], "Remove": [ { "OrganizationArn": "string", "OrganizationalUnitArn": "string", "UserId": "string", "Group": "all" } ... ] }
     /// </summary>
     [CliOption("--launch-permission")]
     public string? LaunchPermission { get; set; }
 
     /// <summary>
-    /// The operation type. This parameter can be used only when the At- tribute parameter is launchPermission . Possible values: o add o remove
+    /// The operation type. This parameter can be used only when the Attribute parameter is launchPermission . Possible values: • add • remove
     /// </summary>
     [CliOption("--operation-type")]
     public AwsEc2ModifyImageAttributeOperationType? OperationType { get; set; }
@@ -117,19 +118,19 @@ public record AwsEc2ModifyImageAttributeOptions : AwsOptions, IValidatableObject
     public IEnumerable<string>? OrganizationArns { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of an organizational unit (OU). This parameter can be used only when the Attribute parameter is launch- Permission . (string) Syntax: "string" "string" ...
+    /// The Amazon Resource Name (ARN) of an organizational unit (OU). This parameter can be used only when the Attribute parameter is launchPermission . (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--organizational-unit-arns", GroupValues = true)]
     public IEnumerable<string>? OrganizationalUnitArns { get; set; }
 
     /// <summary>
-    /// Set to v2.0 to indicate that IMDSv2 is specified in the AMI. In- stances launched from this AMI will have HttpTokens automatically set to required so that, by default, the instance requires that IMDSv2 is used when requesting instance metadata. In addition, Http- PutResponseHopLimit is set to 2 . For more information, see Configure the AMI in the Amazon EC2 User Guide . WARNING: Do not use this parameter unless your AMI software supports IMDSv2. After you set the value to v2.0 , you can't undo it. The only way to reset your AMI is to create a new AMI from the un- derlying snapshot. Value -&gt; (string) The attribute value. The value is case-sensitive.
+    /// Set to v2.0 to indicate that IMDSv2 is specified in the AMI. Instances launched from this AMI will have HttpTokens automatically set to required so that, by default, the instance requires that IMDSv2 is used when requesting instance metadata. In addition, HttpPutResponseHopLimit is set to 2 . For more information, see Configure the AMI in the Amazon EC2 User Guide . WARNING: Do not use this parameter unless your AMI software supports IMDSv2. After you set the value to v2.0 , you can't undo it. The only way to reset your AMI is to create a new AMI from the underlying snapshot. Value -&gt; (string) The attribute value. The value is case-sensitive.
     /// </summary>
     [CliOption("--imds-support")]
     public string? ImdsSupport { get; set; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -155,6 +156,15 @@ public record AwsEc2ModifyImageAttributeOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

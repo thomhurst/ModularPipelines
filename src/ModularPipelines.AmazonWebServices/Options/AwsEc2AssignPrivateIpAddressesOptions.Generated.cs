@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Assigns the specified secondary private IP addresses to the specified network interface. You can specify specific secondary IP addresses, or you can specify the number of secondary IP addresses to be automatically assigned from the subnet's CIDR block range. The number of secondary IP addresses that you can assign to an instance varies by instance type. For more infor- mation about Elastic IP addresses, see Elastic IP Addresses in the Ama- zon EC2 User Guide . When you move a secondary private I...
+/// Assigns the specified secondary private IP addresses to the specified network interface. You can specify specific secondary IP addresses, or you can specify the number of secondary IP addresses to be automatically assigned from the subnet's CIDR block range. The number of secondary IP addresses that you can assign to an instance varies by instance type. For more information about Elastic IP addresses, see Elastic IP Addresses in the Amazon EC2 User Guide . When you move a secondary private IP ad...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsEc2AssignPrivateIpAddressesOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Assigns the specified secondary private IP addresses to the specified network interface. You can specify specific secondary IP addresses, or you can specify the number of secondary IP addresses to be automatically assigned from the subnet's CIDR block range. The number of secondary IP addresses that you can assign to an instance varies by instance type. For more infor- mation about Elastic IP addresses, see Elastic IP Addresses in the Ama- zon EC2 User Guide . When you move a secondary private I...
+    /// Assigns the specified secondary private IP addresses to the specified network interface. You can specify specific secondary IP addresses, or you can specify the number of secondary IP addresses to be automatically assigned from the subnet's CIDR block range. The number of secondary IP addresses that you can assign to an instance varies by instance type. For more information about Elastic IP addresses, see Elastic IP Addresses in the Amazon EC2 User Guide . When you move a secondary private IP ad...
     /// </summary>
     /// <param name="NetworkInterfaceId">The ID of the network interface.</param>
     public AwsEc2AssignPrivateIpAddressesOptions(
@@ -80,13 +81,13 @@ public record AwsEc2AssignPrivateIpAddressesOptions : AwsOptions, IValidatableOb
     public IEnumerable<string>? PrivateIpAddresses { get; set; }
 
     /// <summary>
-    /// The number of secondary IP addresses to assign to the network inter- face. You can't specify this parameter when also specifying private IP addresses.
+    /// The number of secondary IP addresses to assign to the network interface. You can't specify this parameter when also specifying private IP addresses.
     /// </summary>
     [CliOption("--secondary-private-ip-address-count")]
     public int? SecondaryPrivateIpAddressCount { get; set; }
 
     /// <summary>
-    /// Indicates whether to allow an IP address that is already assigned to another network interface or instance to be reassigned to the speci- fied network interface.
+    /// Indicates whether to allow an IP address that is already assigned to another network interface or instance to be reassigned to the specified network interface.
     /// </summary>
     [CliFlag("--allow-reassignment", NegatedName = "--no-allow-reassignment")]
     public bool? AllowReassignment { get; set; }
@@ -112,6 +113,15 @@ public record AwsEc2AssignPrivateIpAddressesOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

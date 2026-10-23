@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Configures and starts the asynchronous process of rotating the secret. For information about rotation, see Rotate secrets in the Secrets Man- ager User Guide . If you include the configuration parameters, the op- eration sets the values for the secret and then immediately starts a rotation. If you don't include the configuration parameters, the opera- tion starts a rotation with the values already stored in the secret. When rotation is successful, the AWSPENDING staging label might be at- tached...
+/// Configures and starts the asynchronous process of rotating the secret. For information about rotation, see Rotate secrets in the Secrets Manager User Guide . If you include the configuration parameters, the operation sets the values for the secret and then immediately starts a rotation. If you don't include the configuration parameters, the operation starts a rotation with the values already stored in the secret. When rotation is successful, the AWSPENDING staging label might be attached to the ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsSecretsmanagerRotateSecretOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Configures and starts the asynchronous process of rotating the secret. For information about rotation, see Rotate secrets in the Secrets Man- ager User Guide . If you include the configuration parameters, the op- eration sets the values for the secret and then immediately starts a rotation. If you don't include the configuration parameters, the opera- tion starts a rotation with the values already stored in the secret. When rotation is successful, the AWSPENDING staging label might be at- tached...
+    /// Configures and starts the asynchronous process of rotating the secret. For information about rotation, see Rotate secrets in the Secrets Manager User Guide . If you include the configuration parameters, the operation sets the values for the secret and then immediately starts a rotation. If you don't include the configuration parameters, the operation starts a rotation with the values already stored in the secret. When rotation is successful, the AWSPENDING staging label might be attached to the ...
     /// </summary>
-    /// <param name="SecretId">The ARN or name of the secret to rotate. For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See Finding a secret from a partial ARN . Constraints: o min: 1 o max: 2048</param>
+    /// <param name="SecretId">The ARN or name of the secret to rotate. For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See Finding a secret from a partial ARN . Constraints: • min: 1 • max: 2048</param>
     public AwsSecretsmanagerRotateSecretOptions(
         string SecretId
     )
@@ -57,47 +58,47 @@ public record AwsSecretsmanagerRotateSecretOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN or name of the secret to rotate. For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See Finding a secret from a partial ARN . Constraints: o min: 1 o max: 2048
+    /// The ARN or name of the secret to rotate. For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See Finding a secret from a partial ARN . Constraints: • min: 1 • max: 2048
     /// </summary>
     [SecretValue]
     [CliOption("--secret-id")]
     public string? SecretId { get; private init; }
 
     /// <summary>
-    /// A unique identifier for the new version of the secret. You only need to specify this value if you implement your own retry logic and you want to ensure that Secrets Manager doesn't attempt to create a se- cret version twice. NOTE: If you use the Amazon Web Services CLI or one of the Amazon Web Services SDKs to call this operation, then you can leave this parameter empty. The CLI or SDK generates a random UUID for you and includes it as the value for this parameter in the request. If you generate a raw HTTP request to the Secrets Manager service endpoint, then you must generate a ClientRequestToken and include it in the request. This value helps ensure idempotency. Secrets Manager uses this value to prevent the accidental creation of duplicate versions if there are failures and retries during a rotation. We recommend that you generate a UUID-type value to ensure uniqueness of your versions within the specified secret. Constraints: o min: 32 o max: 64
+    /// A unique identifier for the new version of the secret. You only need to specify this value if you implement your own retry logic and you want to ensure that Secrets Manager doesn't attempt to create a secret version twice. NOTE: If you use the Amazon Web Services CLI or one of the Amazon Web Services SDKs to call this operation, then you can leave this parameter empty. The CLI or SDK generates a random UUID for you and includes it as the value for this parameter in the request. If you generate a raw HTTP request to the Secrets Manager service endpoint, then you must generate a ClientRequestToken and include it in the request. This value helps ensure idempotency. Secrets Manager uses this value to prevent the accidental creation of duplicate versions if there are failures and retries during a rotation. We recommend that you generate a UUID-type value to ensure uniqueness of your versions within the specified secret. Constraints: • min: 32 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
     /// <summary>
-    /// For secrets that use a Lambda rotation function to rotate, the ARN of the Lambda rotation function. For secrets that use managed rotation , omit this field. For more information, see Managed rotation in the Secrets Manager User Guide . Constraints: o min: 0 o max: 2048
+    /// For secrets that use a Lambda rotation function to rotate, the ARN of the Lambda rotation function. For secrets that use managed rotation , omit this field. For more information, see Managed rotation in the Secrets Manager User Guide . Constraints: • min: 0 • max: 2048
     /// </summary>
     [CliOption("--rotation-lambda-arn")]
     public string? RotationLambdaArn { get; set; }
 
     /// <summary>
-    /// A structure that defines the rotation configuration for this secret. WARNING: When changing an existing rotation schedule and setting Ro- tateImmediately to false : o If using AutomaticallyAfterDays or a ScheduleExpression with rate() , the previously scheduled rotation might still occur. o To prevent unintended rotations, use a ScheduleExpression with cron() for granular control over rotation windows. AutomaticallyAfterDays -&gt; (long) The number of days between rotations of the secret. You can use this value to check that your secret meets your compliance guidelines for how often secrets must be rotated. If you use this field to set the rotation schedule, Secrets Manager calcu- lates the next rotation date based on the previous rotation. Manually updating the secret value by calling PutSecretValue or UpdateSecret is considered a valid rotation. In DescribeSecret and ListSecrets , this value is calculated from the rotation schedule after every successful rotation. In RotateSecret , you can set the rotation schedule in Rotation- Rules with AutomaticallyAfterDays or ScheduleExpression , but not both. To set a rotation schedule in hours, use ScheduleEx- pression . Constraints: o min: 1 o max: 1000 Duration -&gt; (string) The length of the rotation window in hours, for example 3h for a three hour window. Secrets Manager rotates your secret at any time during this window. The window must not extend into the next rotation window or the next UTC day. The window starts ac- cording to the ScheduleExpression . If you don't specify a Dura- tion , for a ScheduleExpression in hours, the window automati- cally closes after one hour. For a ScheduleExpression in days, the window automatically closes at the end of the UTC day. For more information, including examples, see Schedule expressions in Secrets Manager rotation in the Secrets Manager Users Guide . Constraints: o min: 2 o max: 3 o pattern: [0-9]+h ScheduleExpression -&gt; (string) A cron() or rate() expression that defines the schedule for ro- tating your secret. Secrets Manager rotation schedules use UTC time zone. Secrets Manager rotates your secret any time during a rotation window. Secrets Manager rate() expressions represent the interval in hours or days that you want to rotate your secret, for example rate(12 hours) or rate(10 days) . You can rotate a secret as of- ten as every four hours. If you use a rate() expression, the ro- tation window starts at midnight. For a rate in hours, the de- fault rotation window closes after one hour. For a rate in days, the default rotation window closes at the end of the day. You can set the Duration to change the rotation window. The rotation window must not extend into the next UTC day or into the next rotation window. You can use a cron() expression to create a rotation schedule that is more detailed than a rotation interval. For more infor- mation, including examples, see Schedule expressions in Secrets Manager rotation in the Secrets Manager Users Guide . For a cron expression that represents a schedule in hours, the default ro- tation window closes after one hour. For a cron expression that represents a schedule in days, the default rotation window closes at the end of the day. You can set the Duration to change the rotation window. The rotation window must not extend into the next UTC day or into the next rotation window. Constraints: o min: 1 o max: 256 o pattern: [0-9A-Za-z\(\)#\?\*\-\/, ]+ Shorthand Syntax: AutomaticallyAfterDays=long,Duration=string,ScheduleExpression=string JSON Syntax: { "AutomaticallyAfterDays": long, "Duration": "string", "ScheduleExpression": "string" }
+    /// A structure that defines the rotation configuration for this secret. WARNING: When changing an existing rotation schedule and setting RotateImmediately to false : • If using AutomaticallyAfterDays or a ScheduleExpression with rate() , the previously scheduled rotation might still occur. • To prevent unintended rotations, use a ScheduleExpression with cron() for granular control over rotation windows. AutomaticallyAfterDays -&gt; (long) The number of days between rotations of the secret. You can use this value to check that your secret meets your compliance guidelines for how often secrets must be rotated. If you use this field to set the rotation schedule, Secrets Manager calculates the next rotation date based on the previous rotation. Manually updating the secret value by calling PutSecretValue or UpdateSecret is considered a valid rotation. In DescribeSecret and ListSecrets , this value is calculated from the rotation schedule after every successful rotation. In RotateSecret , you can set the rotation schedule in RotationRules with AutomaticallyAfterDays or ScheduleExpression , but not both. To set a rotation schedule in hours, use ScheduleExpression . Constraints: • min: 1 • max: 1000 Duration -&gt; (string) The length of the rotation window in hours, for example 3h for a three hour window. Secrets Manager rotates your secret at any time during this window. The window must not extend into the next rotation window or the next UTC day. The window starts according to the ScheduleExpression . If you don't specify a Duration , for a ScheduleExpression in hours, the window automatically closes after one hour. For a ScheduleExpression in days, the window automatically closes at the end of the UTC day. For more information, including examples, see Schedule expressions in Secrets Manager rotation in the Secrets Manager Users Guide . Constraints: • min: 2 • max: 3 • pattern: [0-9]+h ScheduleExpression -&gt; (string) A cron() or rate() expression that defines the schedule for rotating your secret. Secrets Manager rotation schedules use UTC time zone. Secrets Manager rotates your secret any time during a rotation window. Secrets Manager rate() expressions represent the interval in hours or days that you want to rotate your secret, for example rate(12 hours) or rate(10 days) . You can rotate a secret as often as every four hours. If you use a rate() expression, the rotation window starts at midnight. For a rate in hours, the default rotation window closes after one hour. For a rate in days, the default rotation window closes at the end of the day. You can set the Duration to change the rotation window. The rotation window must not extend into the next UTC day or into the next rotation window. You can use a cron() expression to create a rotation schedule that is more detailed than a rotation interval. For more information, including examples, see Schedule expressions in Secrets Manager rotation in the Secrets Manager Users Guide . For a cron expression that represents a schedule in hours, the default rotation window closes after one hour. For a cron expression that represents a schedule in days, the default rotation window closes at the end of the day. You can set the Duration to change the rotation window. The rotation window must not extend into the next UTC day or into the next rotation window. Constraints: • min: 1 • max: 256 • pattern: [0-9A-Za-z\(\)#\?\*\-\/, ]+ Shorthand Syntax: AutomaticallyAfterDays=long,Duration=string,ScheduleExpression=string JSON Syntax: { "AutomaticallyAfterDays": long, "Duration": "string", "ScheduleExpression": "string" }
     /// </summary>
     [SecretValue]
     [CliOption("--rotation-rules")]
     public string? RotationRules { get; set; }
 
     /// <summary>
-    /// The metadata needed to successfully rotate a managed external se- cret. A list of key value pairs in JSON format specified by the partner. For more information about the required information, see Using Secrets Manager managed external secrets (structure) The metadata needed to successfully rotate a managed external secret. A list of key value pairs in JSON format specified by the partner. For more information, see Managed external secret partners . Key -&gt; (string) The key that identifies the item. Constraints: o min: 1 o max: 256 Value -&gt; (string) The value of the specified item. Constraints: o min: 1 o max: 2048 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The metadata needed to successfully rotate a managed external secret. A list of key value pairs in JSON format specified by the partner. For more information about the required information, see Using Secrets Manager managed external secrets (structure) The metadata needed to successfully rotate a managed external secret. A list of key value pairs in JSON format specified by the partner. For more information, see Managed external secret partners . Key -&gt; (string) The key that identifies the item. Constraints: • min: 1 • max: 256 Value -&gt; (string) The value of the specified item. Constraints: • min: 1 • max: 2048 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [SecretValue]
     [CliOption("--external-secret-rotation-metadata", GroupValues = true)]
     public IEnumerable<string>? ExternalSecretRotationMetadata { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the role that allows Secrets Man- ager to rotate a secret held by a third-party partner. For more in- formation, see Security and permissions . Constraints: o min: 20 o max: 2048
+    /// The Amazon Resource Name (ARN) of the role that allows Secrets Manager to rotate a secret held by a third-party partner. For more information, see Security and permissions . Constraints: • min: 20 • max: 2048
     /// </summary>
     [CliOption("--external-secret-rotation-role-arn")]
     public string? ExternalSecretRotationRoleArn { get; set; }
 
     /// <summary>
-    /// Specifies whether to rotate the secret immediately or wait until the next scheduled rotation window. The rotation schedule is defined in RotateSecretRequest$RotationRules . The default for RotateImmediately is true . If you don't specify this value, Secrets Manager rotates the secret immediately. If you set RotateImmediately to false , Secrets Manager tests the rotation configuration by running the ` testSecret step &lt;- https://docs.aws.amazon.com/secretsmanager/latest/userguide/ro- tate-secrets_how.html&gt;`__ of the Lambda rotation function. This test creates an AWSPENDING version of the secret and then removes it. When changing an existing rotation schedule and setting RotateImme- diately to false : o If using AutomaticallyAfterDays or a ScheduleExpression with rate() , the previously scheduled rotation might still occur. o To prevent unintended rotations, use a ScheduleExpression with cron() for granular control over rotation windows. Rotation is an asynchronous process. For more information, see How rotation works .
+    /// Specifies whether to rotate the secret immediately or wait until the next scheduled rotation window. The rotation schedule is defined in RotateSecretRequest$RotationRules . The default for RotateImmediately is true . If you don't specify this value, Secrets Manager rotates the secret immediately. If you set RotateImmediately to false , Secrets Manager tests the rotation configuration by running the ` testSecret step &lt;https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotate-secrets_how.html&gt;`__ of the Lambda rotation function. This test creates an AWSPENDING version of the secret and then removes it. When changing an existing rotation schedule and setting RotateImmediately to false : • If using AutomaticallyAfterDays or a ScheduleExpression with rate() , the previously scheduled rotation might still occur. • To prevent unintended rotations, use a ScheduleExpression with cron() for granular control over rotation windows. Rotation is an asynchronous process. For more information, see How rotation works .
     /// </summary>
     [CliFlag("--rotate-immediately", NegatedName = "--no-rotate-immediately")]
     public bool? RotateImmediately { get; set; }
@@ -123,6 +124,15 @@ public record AwsSecretsmanagerRotateSecretOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

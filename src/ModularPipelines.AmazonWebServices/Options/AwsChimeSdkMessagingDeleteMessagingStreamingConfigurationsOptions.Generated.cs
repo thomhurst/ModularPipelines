@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the streaming configurations for an AppInstance . For more in- formation, see Streaming messaging data in the Amazon Chime SDK Devel- oper Guide . See also: AWS API Documentation
+/// Deletes the streaming configurations for an AppInstance . For more information, see Streaming messaging data in the Amazon Chime SDK Developer Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsChimeSdkMessagingDeleteMessagingStreamingConfigurationsOptions 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the streaming configurations for an AppInstance . For more in- formation, see Streaming messaging data in the Amazon Chime SDK Devel- oper Guide . See also: AWS API Documentation
+    /// Deletes the streaming configurations for an AppInstance . For more information, see Streaming messaging data in the Amazon Chime SDK Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="AppInstanceArn">The ARN of the streaming configurations being deleted. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
+    /// <param name="AppInstanceArn">The ARN of the streaming configurations being deleted. Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
     public AwsChimeSdkMessagingDeleteMessagingStreamingConfigurationsOptions(
         string AppInstanceArn
     )
@@ -56,7 +57,7 @@ public record AwsChimeSdkMessagingDeleteMessagingStreamingConfigurationsOptions 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the streaming configurations being deleted. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
+    /// The ARN of the streaming configurations being deleted. Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
     /// </summary>
     [CliOption("--app-instance-arn")]
     public string? AppInstanceArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsChimeSdkMessagingDeleteMessagingStreamingConfigurationsOptions 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

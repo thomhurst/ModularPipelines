@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsS3vectorsPutVectorBucketDefaultIndexModeOptions : AwsOptions, I
     /// <summary>
     /// Updates the default index mode for a vector bucket. The updated default applies to vector indexes that you create after the request succeeds. The operation doesn't change existing vector indexes. To specify the vector bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN). Permissions You must have the s3vectors:PutVectorBucketDefaultIndexMode permission to use this operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DefaultIndexMode">The default mode to assign to new vector indexes in the vector bucket. This change doesn't affect existing vector indexes. Possible values: o CLASSIC o ENHANCED</param>
+    /// <param name="DefaultIndexMode">The default mode to assign to new vector indexes in the vector bucket. This change doesn't affect existing vector indexes. Possible values: • CLASSIC • ENHANCED</param>
     public AwsS3vectorsPutVectorBucketDefaultIndexModeOptions(
         AwsS3vectorsPutVectorBucketDefaultIndexModeDefaultIndexMode DefaultIndexMode
     )
@@ -56,19 +57,19 @@ public record AwsS3vectorsPutVectorBucketDefaultIndexModeOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The default mode to assign to new vector indexes in the vector bucket. This change doesn't affect existing vector indexes. Possible values: o CLASSIC o ENHANCED
+    /// The default mode to assign to new vector indexes in the vector bucket. This change doesn't affect existing vector indexes. Possible values: • CLASSIC • ENHANCED
     /// </summary>
     [CliOption("--default-index-mode")]
     public AwsS3vectorsPutVectorBucketDefaultIndexModeDefaultIndexMode? DefaultIndexMode { get; private init; }
 
     /// <summary>
-    /// The name of the vector bucket to update. Constraints: o min: 3 o max: 63
+    /// The name of the vector bucket to update. Constraints: • min: 3 • max: 63
     /// </summary>
     [CliOption("--vector-bucket-name")]
     public string? VectorBucketName { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the vector bucket to update. Constraints: o pattern: arn:aws[-a-z0-9]*:s3vec- tors:[a-z0-9-]+:[0-9]{12}:bucket/[a-z0-9][a-z0-9-.]{1,61}[a-z0-9]
+    /// The Amazon Resource Name (ARN) of the vector bucket to update. Constraints: • pattern: arn:aws[-a-z0-9]*:s3vectors:[a-z0-9-]+:[0-9]{12}:bucket/[a-z0-9][a-z0-9-.]{1,61}[a-z0-9]
     /// </summary>
     [CliOption("--vector-bucket-arn")]
     public string? VectorBucketArn { get; set; }
@@ -94,6 +95,15 @@ public record AwsS3vectorsPutVectorBucketDefaultIndexModeOptions : AwsOptions, I
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

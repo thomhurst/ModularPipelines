@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsNetworkFirewallDescribeFirewallMetadataOptions : AwsOptions
 {
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the firewall. Constraints: o min: 1 o max: 256 o pattern: ^arn:aws.*
+    /// The Amazon Resource Name (ARN) of the firewall. Constraints: • min: 1 • max: 256 • pattern: ^arn:aws.*
     /// </summary>
     [CliOption("--firewall-arn")]
     public string? FirewallArn { get; set; }
@@ -32,5 +32,14 @@ public record AwsNetworkFirewallDescribeFirewallMetadataOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

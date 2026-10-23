@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modifies the configuration of an existing route server. Amazon VPC Route Server simplifies routing for traffic between work- loads that are deployed within a VPC and its internet gateways. With this feature, VPC Route Server dynamically updates VPC and internet gateway route tables with your preferred IPv4 or IPv6 routes to achieve routing fault tolerance for those workloads. This enables you to auto- matically reroute traffic within a VPC, which increases the manageabil- ity of VPC routing and ...
+/// Modifies the configuration of an existing route server. Amazon VPC Route Server simplifies routing for traffic between workloads that are deployed within a VPC and its internet gateways. With this feature, VPC Route Server dynamically updates VPC and internet gateway route tables with your preferred IPv4 or IPv6 routes to achieve routing fault tolerance for those workloads. This enables you to automatically reroute traffic within a VPC, which increases the manageability of VPC routing and intero...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +27,7 @@ public record AwsEc2ModifyRouteServerOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Modifies the configuration of an existing route server. Amazon VPC Route Server simplifies routing for traffic between work- loads that are deployed within a VPC and its internet gateways. With this feature, VPC Route Server dynamically updates VPC and internet gateway route tables with your preferred IPv4 or IPv6 routes to achieve routing fault tolerance for those workloads. This enables you to auto- matically reroute traffic within a VPC, which increases the manageabil- ity of VPC routing and ...
+    /// Modifies the configuration of an existing route server. Amazon VPC Route Server simplifies routing for traffic between workloads that are deployed within a VPC and its internet gateways. With this feature, VPC Route Server dynamically updates VPC and internet gateway route tables with your preferred IPv4 or IPv6 routes to achieve routing fault tolerance for those workloads. This enables you to automatically reroute traffic within a VPC, which increases the manageability of VPC routing and intero...
     /// </summary>
     /// <param name="RouteServerId">The ID of the route server to modify.</param>
     public AwsEc2ModifyRouteServerOptions(
@@ -63,16 +64,16 @@ public record AwsEc2ModifyRouteServerOptions : AwsOptions, IValidatableObject
     public string? RouteServerId { get; private init; }
 
     /// <summary>
-    /// Specifies whether to persist routes after all BGP sessions are ter- minated. o enable: Routes will be persisted in FIB and RIB after all BGP ses- sions are terminated. o disable: Routes will not be persisted in FIB and RIB after all BGP sessions are terminated. o reset: If a route server has persisted routes due to all BGP ses- sions having ended, reset will withdraw all routes and reset route server to an empty FIB and RIB. Possible values: o enable o disable o reset
+    /// Specifies whether to persist routes after all BGP sessions are terminated. • enable: Routes will be persisted in FIB and RIB after all BGP sessions are terminated. • disable: Routes will not be persisted in FIB and RIB after all BGP sessions are terminated. • reset: If a route server has persisted routes due to all BGP sessions having ended, reset will withdraw all routes and reset route server to an empty FIB and RIB. Possible values: • enable • disable • reset
     /// </summary>
     [CliOption("--persist-routes")]
     public AwsEc2ModifyRouteServerPersistRoutes? PersistRoutes { get; set; }
 
     /// <summary>
-    /// The number of minutes a route server will wait after BGP is re-es- tablished to unpersist the routes in the FIB and RIB. Value must be in the range of 1-5. Required if PersistRoutes is enabled . If you set the duration to 1 minute, then when your network appli- ance re-establishes BGP with route server, it has 1 minute to re- learn it's adjacent network and advertise those routes to route server before route server resumes normal functionality. In most cases, 1 minute is probably sufficient. If, however, you have con- cerns that your BGP network may not be capable of fully re-estab- lishing and re-learning everything in 1 minute, you can increase the duration up to 5 minutes.
+    /// The number of minutes a route server will wait after BGP is re-established to unpersist the routes in the FIB and RIB. Value must be in the range of 1-5. Required if PersistRoutes is enabled . If you set the duration to 1 minute, then when your network appliance re-establishes BGP with route server, it has 1 minute to relearn it's adjacent network and advertise those routes to route server before route server resumes normal functionality. In most cases, 1 minute is probably sufficient. If, however, you have concerns that your BGP network may not be capable of fully re-establishing and re-learning everything in 1 minute, you can increase the duration up to 5 minutes.
     /// </summary>
     [CliOption("--persist-routes-duration")]
-    public int? PersistRoutesDuration { get; set; }
+    public long? PersistRoutesDuration { get; set; }
 
     /// <summary>
     /// Specifies whether to enable SNS notifications for route server events. Enabling SNS notifications persists BGP status changes to an SNS topic provisioned by Amazon Web Services.
@@ -81,7 +82,7 @@ public record AwsEc2ModifyRouteServerOptions : AwsOptions, IValidatableObject
     public bool? SnsNotificationsEnabled { get; set; }
 
     /// <summary>
-    /// A check for whether you have the required permissions for the action without actually making the request and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// A check for whether you have the required permissions for the action without actually making the request and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -107,6 +108,15 @@ public record AwsEc2ModifyRouteServerOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

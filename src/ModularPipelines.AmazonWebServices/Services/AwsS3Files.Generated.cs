@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -32,7 +32,7 @@ public class AwsS3Files : IAwsS3Files
     #region Commands
 
     /// <summary>
-    /// Creates an S3 File System Access Point for application-specific access with POSIX user identity and root directory enforcement. Access points provide a way to manage access to shared datasets in multi-tenant sce- narios. See also: AWS API Documentation
+    /// Creates an S3 File System Access Point for application-specific access with POSIX user identity and root directory enforcement. Access points provide a way to manage access to shared datasets in multi-tenant scenarios. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsS3Files : IAwsS3Files
     }
 
     /// <summary>
-    /// Creates an S3 File System resource scoped to a bucket or prefix within a bucket, enabling file system access to S3 data. To create a file sys- tem, you need an S3 bucket and an IAM role that grants the service per- mission to access the bucket. See also: AWS API Documentation
+    /// Creates an S3 File System resource scoped to a bucket or prefix within a bucket, enabling file system access to S3 data. To create a file system, you need an S3 bucket and an IAM role that grants the service permission to access the bucket. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsS3Files : IAwsS3Files
     }
 
     /// <summary>
-    /// Returns resource information for all S3 File System Access Points asso- ciated with the specified S3 File System. See also: AWS API Documentation list-access-points is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query e...
+    /// Returns resource information for all S3 File System Access Points associated with the specified S3 File System. See also: AWS API Documentation list-access-points is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query exp...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +227,7 @@ public class AwsS3Files : IAwsS3Files
     }
 
     /// <summary>
-    /// Returns a list of all S3 File Systems owned by the account with op- tional filtering by bucket. See also: AWS API Documentation list-file-systems is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: fileSys...
+    /// Returns a list of all S3 File Systems owned by the account with optional filtering by bucket. See also: AWS API Documentation list-file-systems is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: fileSyste...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -242,7 +242,7 @@ public class AwsS3Files : IAwsS3Files
     }
 
     /// <summary>
-    /// Returns resource information for all mount targets with optional fil- tering by file system, access point, and VPC. See also: AWS API Documentation list-mount-targets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query...
+    /// Returns resource information for all mount targets with optional filtering by file system, access point, and VPC. See also: AWS API Documentation list-mount-targets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query e...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -332,7 +332,7 @@ public class AwsS3Files : IAwsS3Files
     }
 
     /// <summary>
-    /// Updates the mount target resource, specifically security group configu- rations. See also: AWS API Documentation
+    /// Updates the mount target resource, specifically security group configurations. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

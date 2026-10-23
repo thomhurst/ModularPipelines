@@ -11,13 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a SCEP connector. A SCEP connector links Amazon Web Services Private Certificate Authority to your SCEP-compatible devices and mo- bile device management (MDM) systems. Before you create a connector, you must complete a set of prerequisites, including creation of a pri- vate certificate authority (CA) to use with this connector. For more information, see Connector for SCEP prerequisites . See also: AWS API Documentation
+/// Creates a SCEP connector. A SCEP connector links Amazon Web Services Private Certificate Authority to your SCEP-compatible devices and mobile device management (MDM) systems. Before you create a connector, you must complete a set of prerequisites, including creation of a private certificate authority (CA) to use with this connector. For more information, see Connector for SCEP prerequisites . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +27,9 @@ public record AwsPcaConnectorScepCreateConnectorOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a SCEP connector. A SCEP connector links Amazon Web Services Private Certificate Authority to your SCEP-compatible devices and mo- bile device management (MDM) systems. Before you create a connector, you must complete a set of prerequisites, including creation of a pri- vate certificate authority (CA) to use with this connector. For more information, see Connector for SCEP prerequisites . See also: AWS API Documentation
+    /// Creates a SCEP connector. A SCEP connector links Amazon Web Services Private Certificate Authority to your SCEP-compatible devices and mobile device management (MDM) systems. Before you create a connector, you must complete a set of prerequisites, including creation of a private certificate authority (CA) to use with this connector. For more information, see Connector for SCEP prerequisites . See also: AWS API Documentation
     /// </summary>
-    /// <param name="CertificateAuthorityArn">The Amazon Resource Name (ARN) of the Amazon Web Services Private Certificate Authority certificate authority to use with this connec- tor. Due to security vulnerabilities present in the SCEP protocol, we recommend using a private CA that's dedicated for use with the connector. To retrieve the private CAs associated with your account, you can call ListCertificateAuthorities using the Amazon Web Services Pri- vate CA API. Constraints: o min: 5 o max: 200 o pattern: arn:aws(-[a-z]+)*:acm-pca:[a-z]+(-[a-z]+)+-[1-9]\d*:\d{12}:cer- tificate-authority\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}</param>
+    /// <param name="CertificateAuthorityArn">The Amazon Resource Name (ARN) of the Amazon Web Services Private Certificate Authority certificate authority to use with this connector. Due to security vulnerabilities present in the SCEP protocol, we recommend using a private CA that's dedicated for use with the connector. To retrieve the private CAs associated with your account, you can call ListCertificateAuthorities using the Amazon Web Services Private CA API. Constraints: • min: 5 • max: 200 • pattern: arn:aws(-[a-z]+)*:acm-pca:[a-z]+(-[a-z]+)+-[1-9]\d*:\d{12}:certificate-authority\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}</param>
     public AwsPcaConnectorScepCreateConnectorOptions(
         string CertificateAuthorityArn
     )
@@ -58,25 +58,25 @@ public record AwsPcaConnectorScepCreateConnectorOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Amazon Web Services Private Certificate Authority certificate authority to use with this connec- tor. Due to security vulnerabilities present in the SCEP protocol, we recommend using a private CA that's dedicated for use with the connector. To retrieve the private CAs associated with your account, you can call ListCertificateAuthorities using the Amazon Web Services Pri- vate CA API. Constraints: o min: 5 o max: 200 o pattern: arn:aws(-[a-z]+)*:acm-pca:[a-z]+(-[a-z]+)+-[1-9]\d*:\d{12}:cer- tificate-authority\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}
+    /// The Amazon Resource Name (ARN) of the Amazon Web Services Private Certificate Authority certificate authority to use with this connector. Due to security vulnerabilities present in the SCEP protocol, we recommend using a private CA that's dedicated for use with the connector. To retrieve the private CAs associated with your account, you can call ListCertificateAuthorities using the Amazon Web Services Private CA API. Constraints: • min: 5 • max: 200 • pattern: arn:aws(-[a-z]+)*:acm-pca:[a-z]+(-[a-z]+)+-[1-9]\d*:\d{12}:certificate-authority\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--certificate-authority-arn")]
     public string? CertificateAuthorityArn { get; private init; }
 
     /// <summary>
-    /// If you don't supply a value, by default Connector for SCEP creates a connector for general-purpose use. A general-purpose connector is designed to work with clients or endpoints that support the SCEP protocol, except Connector for SCEP for Microsoft Intune. With con- nectors for general-purpose use, you manage SCEP challenge passwords using Connector for SCEP. For information about considerations and limitations with using Connector for SCEP, see Considerations and Limitations . If you provide an IntuneConfiguration , Connector for SCEP creates a connector for use with Microsoft Intune, and you manage the chal- lenge passwords using Microsoft Intune. For more information, see Using Connector for SCEP for Microsoft Intune . NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Intune. Intune -&gt; (structure) Configuration settings for use with Microsoft Intune. For infor- mation about using Connector for SCEP for Microsoft Intune, see Using Connector for SCEP for Microsoft Intune . AzureApplicationId -&gt; (string) [required] The directory (tenant) ID from your Microsoft Entra ID app registration. Constraints: o min: 15 o max: 100 o pattern: [a-zA-Z0-9]{2,15}-[a-zA-Z0-9]{2,15}-[a-zA-Z0-9]{2,15}-[a-zA-Z0-9]{2,15}-[a-zA-Z0-9]{2,15} Domain -&gt; (string) [required] The primary domain from your Microsoft Entra ID app registra- tion. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._-]+ Shorthand Syntax: Intune={AzureApplicationId=string,Domain=string} JSON Syntax: { "Intune": { "AzureApplicationId": "string", "Domain": "string" } }
+    /// If you don't supply a value, by default Connector for SCEP creates a connector for general-purpose use. A general-purpose connector is designed to work with clients or endpoints that support the SCEP protocol, except Connector for SCEP for Microsoft Intune. With connectors for general-purpose use, you manage SCEP challenge passwords using Connector for SCEP. For information about considerations and limitations with using Connector for SCEP, see Considerations and Limitations . If you provide an IntuneConfiguration , Connector for SCEP creates a connector for use with Microsoft Intune, and you manage the challenge passwords using Microsoft Intune. For more information, see Using Connector for SCEP for Microsoft Intune . NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Intune. Intune -&gt; (structure) Configuration settings for use with Microsoft Intune. For information about using Connector for SCEP for Microsoft Intune, see Using Connector for SCEP for Microsoft Intune . AzureApplicationId -&gt; (string) [required] The directory (tenant) ID from your Microsoft Entra ID app registration. Constraints: • min: 15 • max: 100 • pattern: [a-zA-Z0-9]{2,15}-[a-zA-Z0-9]{2,15}-[a-zA-Z0-9]{2,15}-[a-zA-Z0-9]{2,15}-[a-zA-Z0-9]{2,15} Domain -&gt; (string) [required] The primary domain from your Microsoft Entra ID app registration. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9._-]+ Shorthand Syntax: Intune={AzureApplicationId=string,Domain=string} JSON Syntax: { "Intune": { "AzureApplicationId": "string", "Domain": "string" } }
     /// </summary>
     [CliOption("--mobile-device-management")]
     public string? MobileDeviceManagement { get; set; }
 
     /// <summary>
-    /// If you don't supply a value, by default Connector for SCEP creates a connector accessible over the public internet. If you provide a VPC endpoint ID, creates a connector accessible only through that spe- cific VPC endpoint. Constraints: o min: 13 o max: 22 o pattern: vpce-[0-9a-f]{8}([0-9a-f]{9})?
+    /// If you don't supply a value, by default Connector for SCEP creates a connector accessible over the public internet. If you provide a VPC endpoint ID, creates a connector accessible only through that specific VPC endpoint. Constraints: • min: 13 • max: 22 • pattern: vpce-[0-9a-f]{8}([0-9a-f]{9})?
     /// </summary>
     [CliOption("--vpc-endpoint-id")]
     public string? VpcEndpointId { get; set; }
 
     /// <summary>
-    /// Custom string that can be used to distinguish between calls to the CreateChallenge action. Client tokens for CreateChallenge time out after five minutes. Therefore, if you call CreateChallenge multiple times with the same client token within five minutes, Connector for SCEP recognizes that you are requesting only one challenge and will only respond with one. If you change the client token for each call, Connector for SCEP recognizes that you are requesting multiple chal- lenge passwords. Constraints: o min: 1 o max: 64 o pattern: [!-~]+
+    /// Custom string that can be used to distinguish between calls to the CreateChallenge action. Client tokens for CreateChallenge time out after five minutes. Therefore, if you call CreateChallenge multiple times with the same client token within five minutes, Connector for SCEP recognizes that you are requesting only one challenge and will only respond with one. If you change the client token for each call, Connector for SCEP recognizes that you are requesting multiple challenge passwords. Constraints: • min: 1 • max: 64 • pattern: [!-~]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -109,6 +109,15 @@ public record AwsPcaConnectorScepCreateConnectorOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

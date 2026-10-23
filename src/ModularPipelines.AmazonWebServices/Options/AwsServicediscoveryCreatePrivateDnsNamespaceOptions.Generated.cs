@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a private namespace based on DNS, which is visible only inside a specified Amazon VPC. The namespace defines your service naming scheme. For example, if you name your namespace example.com and name your service backend , the resulting DNS name for the service is back- end.example.com . Service instances that are registered using a private DNS namespace can be discovered using either a DiscoverInstances re- quest or using DNS. For the current quota on the number of namespaces that you can...
+/// Creates a private namespace based on DNS, which is visible only inside a specified Amazon VPC. The namespace defines your service naming scheme. For example, if you name your namespace example.com and name your service backend , the resulting DNS name for the service is backend.example.com . Service instances that are registered using a private DNS namespace can be discovered using either a DiscoverInstances request or using DNS. For the current quota on the number of namespaces that you can cre...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsServicediscoveryCreatePrivateDnsNamespaceOptions : AwsOptions, 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a private namespace based on DNS, which is visible only inside a specified Amazon VPC. The namespace defines your service naming scheme. For example, if you name your namespace example.com and name your service backend , the resulting DNS name for the service is back- end.example.com . Service instances that are registered using a private DNS namespace can be discovered using either a DiscoverInstances re- quest or using DNS. For the current quota on the number of namespaces that you can...
+    /// Creates a private namespace based on DNS, which is visible only inside a specified Amazon VPC. The namespace defines your service naming scheme. For example, if you name your namespace example.com and name your service backend , the resulting DNS name for the service is backend.example.com . Service instances that are registered using a private DNS namespace can be discovered using either a DiscoverInstances request or using DNS. For the current quota on the number of namespaces that you can cre...
     /// </summary>
-    /// <param name="Name">The name that you want to assign to this namespace. When you create a private DNS namespace, Cloud Map automatically creates an Amazon Route 53 private hosted zone that has the same name as the name- space. Constraints: o max: 253 o pattern: ^(?!arn:)[!-~]{1,253}$</param>
-    /// <param name="Vpc">The ID of the Amazon VPC that you want to associate the namespace with. Constraints: o max: 64</param>
+    /// <param name="Name">The name that you want to assign to this namespace. When you create a private DNS namespace, Cloud Map automatically creates an Amazon Route 53 private hosted zone that has the same name as the namespace. Constraints: • max: 253 • pattern: ^(?!arn:)[!-~]{1,253}$</param>
+    /// <param name="Vpc">The ID of the Amazon VPC that you want to associate the namespace with. Constraints: • max: 64</param>
     public AwsServicediscoveryCreatePrivateDnsNamespaceOptions(
         string Name,
         string Vpc
@@ -60,37 +61,37 @@ public record AwsServicediscoveryCreatePrivateDnsNamespaceOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name that you want to assign to this namespace. When you create a private DNS namespace, Cloud Map automatically creates an Amazon Route 53 private hosted zone that has the same name as the name- space. Constraints: o max: 253 o pattern: ^(?!arn:)[!-~]{1,253}$
+    /// The name that you want to assign to this namespace. When you create a private DNS namespace, Cloud Map automatically creates an Amazon Route 53 private hosted zone that has the same name as the namespace. Constraints: • max: 253 • pattern: ^(?!arn:)[!-~]{1,253}$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The ID of the Amazon VPC that you want to associate the namespace with. Constraints: o max: 64
+    /// The ID of the Amazon VPC that you want to associate the namespace with. Constraints: • max: 64
     /// </summary>
     [CliOption("--vpc")]
     public string? Vpc { get; private init; }
 
     /// <summary>
-    /// A unique string that identifies the request and that allows failed CreatePrivateDnsNamespace requests to be retried without the risk of running the operation twice. CreatorRequestId can be any unique string (for example, a date/timestamp). Constraints: o max: 64
+    /// A unique string that identifies the request and that allows failed CreatePrivateDnsNamespace requests to be retried without the risk of running the operation twice. CreatorRequestId can be any unique string (for example, a date/timestamp). Constraints: • max: 64
     /// </summary>
     [CliOption("--creator-request-id")]
     public string? CreatorRequestId { get; set; }
 
     /// <summary>
-    /// A description for the namespace. Constraints: o max: 1024
+    /// A description for the namespace. Constraints: • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The tags to add to the namespace. Each tag consists of a key and an optional value that you define. Tags keys can be up to 128 charac- ters in length, and tag values can be up to 256 characters in length. Constraints: o min: 0 o max: 200 (structure) A custom key-value pair that's associated with a resource. Key -&gt; (string) [required] The key identifier, or name, of the tag. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The string value that's associated with the key of the tag. You can set the value of a tag to an empty string, but you can't set the value of a tag to null. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tags to add to the namespace. Each tag consists of a key and an optional value that you define. Tags keys can be up to 128 characters in length, and tag values can be up to 256 characters in length. Constraints: • min: 0 • max: 200 (structure) A custom key-value pair that's associated with a resource. Key -&gt; (string) [required] The key identifier, or name, of the tag. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] The string value that's associated with the key of the tag. You can set the value of a tag to an empty string, but you can't set the value of a tag to null. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Properties for the private DNS namespace. DnsProperties -&gt; (structure) [required] DNS properties for the private DNS namespace. SOA -&gt; (structure) [required] Fields for the Start of Authority (SOA) record for the hosted zone for the private DNS namespace. TTL -&gt; (long) [required] The time to live (TTL) for purposes of negative caching. Constraints: o min: 0 o max: 2147483647 Shorthand Syntax: DnsProperties={SOA={TTL=long}} JSON Syntax: { "DnsProperties": { "SOA": { "TTL": long } } }
+    /// Properties for the private DNS namespace. DnsProperties -&gt; (structure) [required] DNS properties for the private DNS namespace. SOA -&gt; (structure) [required] Fields for the Start of Authority (SOA) record for the hosted zone for the private DNS namespace. TTL -&gt; (long) [required] The time to live (TTL) for purposes of negative caching. Constraints: • min: 0 • max: 2147483647 Shorthand Syntax: DnsProperties={SOA={TTL=long}} JSON Syntax: { "DnsProperties": { "SOA": { "TTL": long } } }
     /// </summary>
     [CliOption("--properties")]
     public string? Properties { get; set; }
@@ -116,6 +117,15 @@ public record AwsServicediscoveryCreatePrivateDnsNamespaceOptions : AwsOptions, 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

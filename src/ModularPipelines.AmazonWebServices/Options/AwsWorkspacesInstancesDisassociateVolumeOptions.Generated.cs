@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +29,8 @@ public record AwsWorkspacesInstancesDisassociateVolumeOptions : AwsOptions, IVal
     /// <summary>
     /// Detaches a volume from a WorkSpace Instance. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkspaceInstanceId">WorkSpace Instance to detach volume from. Constraints: o min: 15 o max: 70 o pattern: wsinst-[0-9a-zA-Z]{8,63}</param>
-    /// <param name="VolumeId">Volume to be detached. Constraints: o pattern: vol-[0-9a-zA-Z]{1,63}</param>
+    /// <param name="WorkspaceInstanceId">WorkSpace Instance to detach volume from. Constraints: • min: 15 • max: 70 • pattern: wsinst-[0-9a-zA-Z]{8,63}</param>
+    /// <param name="VolumeId">Volume to be detached. Constraints: • pattern: vol-[0-9a-zA-Z]{1,63}</param>
     public AwsWorkspacesInstancesDisassociateVolumeOptions(
         string WorkspaceInstanceId,
         string VolumeId
@@ -61,25 +62,25 @@ public record AwsWorkspacesInstancesDisassociateVolumeOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// WorkSpace Instance to detach volume from. Constraints: o min: 15 o max: 70 o pattern: wsinst-[0-9a-zA-Z]{8,63}
+    /// WorkSpace Instance to detach volume from. Constraints: • min: 15 • max: 70 • pattern: wsinst-[0-9a-zA-Z]{8,63}
     /// </summary>
     [CliOption("--workspace-instance-id")]
     public string? WorkspaceInstanceId { get; private init; }
 
     /// <summary>
-    /// Volume to be detached. Constraints: o pattern: vol-[0-9a-zA-Z]{1,63}
+    /// Volume to be detached. Constraints: • pattern: vol-[0-9a-zA-Z]{1,63}
     /// </summary>
     [CliOption("--volume-id")]
     public string? VolumeId { get; private init; }
 
     /// <summary>
-    /// Device path of volume to detach. Constraints: o min: 0 o max: 32
+    /// Device path of volume to detach. Constraints: • min: 0 • max: 32
     /// </summary>
     [CliOption("--device")]
     public string? Device { get; set; }
 
     /// <summary>
-    /// Mode for volume detachment. Possible values: o FORCE o NO_FORCE
+    /// Mode for volume detachment. Possible values: • FORCE • NO_FORCE
     /// </summary>
     [CliOption("--disassociate-mode")]
     public AwsWorkspacesInstancesDisassociateVolumeDisassociateMode? DisassociateMode { get; set; }
@@ -105,6 +106,15 @@ public record AwsWorkspacesInstancesDisassociateVolumeOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

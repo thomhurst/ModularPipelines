@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the configuration of an existing hybrid directory. You can re- cover hybrid directory administrator account or modify self-managed in- stance settings. Updates are applied asynchronously. Use DescribeHybridADUpdate to mon- itor the progress of configuration changes. The InstanceIds must have a one-to-one correspondence with Cus- tomerDnsIps , meaning that if the IP address for instance i-10243410 is 10.24.34.100 and the IP address for instance i-10243420 is 10.24.34.200, then the input a...
+/// Updates the configuration of an existing hybrid directory. You can recover hybrid directory administrator account or modify self-managed instance settings. Updates are applied asynchronously. Use DescribeHybridADUpdate to monitor the progress of configuration changes. The InstanceIds must have a one-to-one correspondence with CustomerDnsIps , meaning that if the IP address for instance i-10243410 is 10.24.34.100 and the IP address for instance i-10243420 is 10.24.34.200, then the input arrays mu...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsDsUpdateHybridAdOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the configuration of an existing hybrid directory. You can re- cover hybrid directory administrator account or modify self-managed in- stance settings. Updates are applied asynchronously. Use DescribeHybridADUpdate to mon- itor the progress of configuration changes. The InstanceIds must have a one-to-one correspondence with Cus- tomerDnsIps , meaning that if the IP address for instance i-10243410 is 10.24.34.100 and the IP address for instance i-10243420 is 10.24.34.200, then the input a...
+    /// Updates the configuration of an existing hybrid directory. You can recover hybrid directory administrator account or modify self-managed instance settings. Updates are applied asynchronously. Use DescribeHybridADUpdate to monitor the progress of configuration changes. The InstanceIds must have a one-to-one correspondence with CustomerDnsIps , meaning that if the IP address for instance i-10243410 is 10.24.34.100 and the IP address for instance i-10243420 is 10.24.34.200, then the input arrays mu...
     /// </summary>
-    /// <param name="DirectoryId">The identifier of the hybrid directory to update. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="DirectoryId">The identifier of the hybrid directory to update. Constraints: • pattern: ^d-[0-9a-f]{10}$</param>
     public AwsDsUpdateHybridAdOptions(
         string DirectoryId
     )
@@ -56,19 +57,19 @@ public record AwsDsUpdateHybridAdOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the hybrid directory to update. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// The identifier of the hybrid directory to update. Constraints: • pattern: ^d-[0-9a-f]{10}$
     /// </summary>
     [CliOption("--directory-id")]
     public string? DirectoryId { get; private init; }
 
     /// <summary>
-    /// We create a hybrid directory administrator account when we create a hybrid directory. Use HybridAdministratorAccountUpdate to recover the hybrid directory administrator account if you have deleted it. To recover your hybrid directory administrator account, we need tem- porary access to a user in your self-managed AD with administrator permissions in the form of a secret from Amazon Web Services Secrets Manager. We use these credentials once during recovery and don't store them. If your hybrid directory administrator account exists, then you dont need to use HybridAdministratorAccountUpdate , even if you have up- dated your self-managed AD administrator user. SecretArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Amazon Web Services Se- crets Manager secret that contains the credentials for the AD administrator user, and enables hybrid domain controllers to join the managed AD domain. For example: {"customerAdAdminDomainUsername":"carlos_salazar","customer- AdAdminDomainPassword":"ExamplePassword123!"}. Constraints: o pattern: ^arn:aws:secretsmanager:[a-z0-9-]+:\d{12}:se- cret:[a-zA-Z0-9/_+=.@-]+-[a-zA-Z0-9]{6}$ Shorthand Syntax: SecretArn=string JSON Syntax: { "SecretArn": "string" }
+    /// We create a hybrid directory administrator account when we create a hybrid directory. Use HybridAdministratorAccountUpdate to recover the hybrid directory administrator account if you have deleted it. To recover your hybrid directory administrator account, we need temporary access to a user in your self-managed AD with administrator permissions in the form of a secret from Amazon Web Services Secrets Manager. We use these credentials once during recovery and don't store them. If your hybrid directory administrator account exists, then you dont need to use HybridAdministratorAccountUpdate , even if you have updated your self-managed AD administrator user. SecretArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that contains the credentials for the AD administrator user, and enables hybrid domain controllers to join the managed AD domain. For example: {"customerAdAdminDomainUsername":"carlos_salazar","customerAdAdminDomainPassword":"ExamplePassword123!"}. Constraints: • pattern: ^arn:aws:secretsmanager:[a-z0-9-]+:\d{12}:secret:[a-zA-Z0-9/_+=.@-]+-[a-zA-Z0-9]{6}$ Shorthand Syntax: SecretArn=string JSON Syntax: { "SecretArn": "string" }
     /// </summary>
     [CliOption("--hybrid-administrator-account-update")]
     public string? HybridAdministratorAccountUpdate { get; set; }
 
     /// <summary>
-    /// Updates to the self-managed AD configuration, including DNS server IP addresses and Amazon Web Services System Manager managed node identifiers. CustomerDnsIps -&gt; (list) [required] The IP addresses of the DNS servers or domain controllers in your self-managed AD environment. Constraints: o min: 2 o max: 2 (string) Constraints: o pattern: ^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$ InstanceIds -&gt; (list) [required] The identifiers of the self-managed instances with SSM used in hybrid directory. Constraints: o min: 2 o max: 2 (string) Constraints: o pattern: ^(i-[0-9a-f]{8}|i-[0-9a-f]{17}|mi-[0-9a-f]{8}|mi-[0-9a-f]{17})$ Shorthand Syntax: CustomerDnsIps=string,string,InstanceIds=string,string JSON Syntax: { "CustomerDnsIps": ["string", ...], "InstanceIds": ["string", ...] }
+    /// Updates to the self-managed AD configuration, including DNS server IP addresses and Amazon Web Services System Manager managed node identifiers. CustomerDnsIps -&gt; (list) [required] The IP addresses of the DNS servers or domain controllers in your self-managed AD environment. Constraints: • min: 2 • max: 2 (string) Constraints: • pattern: ^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$ InstanceIds -&gt; (list) [required] The identifiers of the self-managed instances with SSM used in hybrid directory. Constraints: • min: 2 • max: 2 (string) Constraints: • pattern: ^(i-[0-9a-f]{8}|i-[0-9a-f]{17}|mi-[0-9a-f]{8}|mi-[0-9a-f]{17})$ Shorthand Syntax: CustomerDnsIps=string,string,InstanceIds=string,string JSON Syntax: { "CustomerDnsIps": ["string", ...], "InstanceIds": ["string", ...] }
     /// </summary>
     [CliOption("--self-managed-instances-settings")]
     public string? SelfManagedInstancesSettings { get; set; }
@@ -94,6 +95,15 @@ public record AwsDsUpdateHybridAdOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

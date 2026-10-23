@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsChimeSdkVoiceGetVoiceConnectorStreamingConfigurationOptions : A
     /// <summary>
     /// Retrieves the streaming configuration details for the specified Amazon Chime SDK Voice Connector. Shows whether media streaming is enabled for sending to Amazon Kinesis. It also shows the retention period, in hours, for the Amazon Kinesis data. See also: AWS API Documentation
     /// </summary>
-    /// <param name="VoiceConnectorId">The Voice Connector ID. Constraints: o pattern: ([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})</param>
+    /// <param name="VoiceConnectorId">The Voice Connector ID. Constraints: • pattern: ([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})</param>
     public AwsChimeSdkVoiceGetVoiceConnectorStreamingConfigurationOptions(
         string VoiceConnectorId
     )
@@ -56,7 +57,7 @@ public record AwsChimeSdkVoiceGetVoiceConnectorStreamingConfigurationOptions : A
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Voice Connector ID. Constraints: o pattern: ([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})
+    /// The Voice Connector ID. Constraints: • pattern: ([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})
     /// </summary>
     [CliOption("--voice-connector-id")]
     public string? VoiceConnectorId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsChimeSdkVoiceGetVoiceConnectorStreamingConfigurationOptions : A
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

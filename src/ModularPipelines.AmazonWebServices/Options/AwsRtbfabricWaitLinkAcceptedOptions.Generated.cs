@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsRtbfabricWaitLinkAcceptedOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Wait until JMESPath query status returns ACCEPTED when polling with get-link. It will poll every 30 seconds until a successful state has been reached. This will exit with a return code of 255 after 5 failed checks. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GatewayId">The unique identifier of the gateway. Constraints: o min: 8 o max: 32 o pattern: rtb-gw-[a-z0-9-]{1,25}</param>
-    /// <param name="LinkId">The unique identifier of the link. Constraints: o min: 6 o max: 30 o pattern: link-[a-z0-9-]{1,25}</param>
+    /// <param name="GatewayId">The unique identifier of the gateway. Constraints: • min: 8 • max: 32 • pattern: rtb-gw-[a-z0-9-]{1,25}</param>
+    /// <param name="LinkId">The unique identifier of the link. Constraints: • min: 6 • max: 30 • pattern: link-[a-z0-9-]{1,25}</param>
     public AwsRtbfabricWaitLinkAcceptedOptions(
         string GatewayId,
         string LinkId
@@ -60,13 +61,13 @@ public record AwsRtbfabricWaitLinkAcceptedOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the gateway. Constraints: o min: 8 o max: 32 o pattern: rtb-gw-[a-z0-9-]{1,25}
+    /// The unique identifier of the gateway. Constraints: • min: 8 • max: 32 • pattern: rtb-gw-[a-z0-9-]{1,25}
     /// </summary>
     [CliOption("--gateway-id")]
     public string? GatewayId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the link. Constraints: o min: 6 o max: 30 o pattern: link-[a-z0-9-]{1,25}
+    /// The unique identifier of the link. Constraints: • min: 6 • max: 30 • pattern: link-[a-z0-9-]{1,25}
     /// </summary>
     [CliOption("--link-id")]
     public string? LinkId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsRtbfabricWaitLinkAcceptedOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsCleanroomsUpdateProtectedQueryOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Updates the processing of a currently running query. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MembershipIdentifier">The identifier for a member of a protected query instance. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
-    /// <param name="ProtectedQueryIdentifier">The identifier for a protected query instance. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
-    /// <param name="TargetStatus">The target status of a query. Used to update the execution status of a currently running query. Possible values: o CANCELLED</param>
+    /// <param name="MembershipIdentifier">The identifier for a member of a protected query instance. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="ProtectedQueryIdentifier">The identifier for a protected query instance. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="TargetStatus">The target status of a query. Used to update the execution status of a currently running query. Possible values: • CANCELLED</param>
     public AwsCleanroomsUpdateProtectedQueryOptions(
         string MembershipIdentifier,
         string ProtectedQueryIdentifier,
@@ -64,19 +65,19 @@ public record AwsCleanroomsUpdateProtectedQueryOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier for a member of a protected query instance. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The identifier for a member of a protected query instance. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--membership-identifier")]
     public string? MembershipIdentifier { get; private init; }
 
     /// <summary>
-    /// The identifier for a protected query instance. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The identifier for a protected query instance. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--protected-query-identifier")]
     public string? ProtectedQueryIdentifier { get; private init; }
 
     /// <summary>
-    /// The target status of a query. Used to update the execution status of a currently running query. Possible values: o CANCELLED
+    /// The target status of a query. Used to update the execution status of a currently running query. Possible values: • CANCELLED
     /// </summary>
     [CliOption("--target-status")]
     public string? TargetStatus { get; private init; }
@@ -102,6 +103,15 @@ public record AwsCleanroomsUpdateProtectedQueryOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the details for the Security Hub CSPM member accounts for the specified account IDs. An administrator account can be either the delegated Security Hub CSPM administrator account for an organization or an administrator account that enabled Security Hub CSPM manually. The results include both member accounts that are managed using Organi- zations and accounts that were invited manually. See also: AWS API Documentation
+/// Returns the details for the Security Hub CSPM member accounts for the specified account IDs. An administrator account can be either the delegated Security Hub CSPM administrator account for an organization or an administrator account that enabled Security Hub CSPM manually. The results include both member accounts that are managed using Organizations and accounts that were invited manually. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsSecurityhubGetMembersOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the details for the Security Hub CSPM member accounts for the specified account IDs. An administrator account can be either the delegated Security Hub CSPM administrator account for an organization or an administrator account that enabled Security Hub CSPM manually. The results include both member accounts that are managed using Organi- zations and accounts that were invited manually. See also: AWS API Documentation
+    /// Returns the details for the Security Hub CSPM member accounts for the specified account IDs. An administrator account can be either the delegated Security Hub CSPM administrator account for an organization or an administrator account that enabled Security Hub CSPM manually. The results include both member accounts that are managed using Organizations and accounts that were invited manually. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountIds">The list of account IDs for the Security Hub CSPM member accounts to return the details for. (string) Constraints: o pattern: .*\S.* Syntax: "string" "string" ...</param>
+    /// <param name="AccountIds">The list of account IDs for the Security Hub CSPM member accounts to return the details for. (string) Constraints: • pattern: .*\S.* Syntax: "string" "string" ...</param>
     public AwsSecurityhubGetMembersOptions(
         IEnumerable<string> AccountIds
     )
@@ -67,7 +68,7 @@ public record AwsSecurityhubGetMembersOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The list of account IDs for the Security Hub CSPM member accounts to return the details for. (string) Constraints: o pattern: .*\S.* Syntax: "string" "string" ...
+    /// The list of account IDs for the Security Hub CSPM member accounts to return the details for. (string) Constraints: • pattern: .*\S.* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--account-ids", GroupValues = true)]
     public IEnumerable<string>? AccountIds { get; private init; }
@@ -93,6 +94,15 @@ public record AwsSecurityhubGetMembersOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +29,9 @@ public record AwsWorkmailCreateResourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a new WorkMail resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OrganizationId">The identifier associated with the organization for which the re- source is created. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$</param>
-    /// <param name="Name">The name of the new resource. Constraints: o min: 1 o max: 20 o pattern: [\w\-.]+(@[a-zA-Z0-9.\-]+\.[a-zA-Z0-9-]{2,})?</param>
-    /// <param name="Type">The type of the new resource. The available types are equipment and room . Possible values: o ROOM o EQUIPMENT</param>
+    /// <param name="OrganizationId">The identifier associated with the organization for which the resource is created. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$</param>
+    /// <param name="Name">The name of the new resource. Constraints: • min: 1 • max: 20 • pattern: [\w\-.]+(@[a-zA-Z0-9.\-]+\.[a-zA-Z0-9-]{2,})?</param>
+    /// <param name="Type">The type of the new resource. The available types are equipment and room . Possible values: • ROOM • EQUIPMENT</param>
     public AwsWorkmailCreateResourceOptions(
         string OrganizationId,
         string Name,
@@ -64,31 +65,31 @@ public record AwsWorkmailCreateResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier associated with the organization for which the re- source is created. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$
+    /// The identifier associated with the organization for which the resource is created. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$
     /// </summary>
     [CliOption("--organization-id")]
     public string? OrganizationId { get; private init; }
 
     /// <summary>
-    /// The name of the new resource. Constraints: o min: 1 o max: 20 o pattern: [\w\-.]+(@[a-zA-Z0-9.\-]+\.[a-zA-Z0-9-]{2,})?
+    /// The name of the new resource. Constraints: • min: 1 • max: 20 • pattern: [\w\-.]+(@[a-zA-Z0-9.\-]+\.[a-zA-Z0-9-]{2,})?
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The type of the new resource. The available types are equipment and room . Possible values: o ROOM o EQUIPMENT
+    /// The type of the new resource. The available types are equipment and room . Possible values: • ROOM • EQUIPMENT
     /// </summary>
     [CliOption("--type")]
     public AwsWorkmailCreateResourceType? Type { get; private init; }
 
     /// <summary>
-    /// Resource description. Constraints: o min: 1 o max: 64
+    /// Resource description. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// dress-list (boolean) If this parameter is enabled, the resource will be hidden from the address book.
+    /// If this parameter is enabled, the resource will be hidden from the address book.
     /// </summary>
     [CliFlag("--hidden-from-global-address-list", NegatedName = "--no-hidden-from-global-address-list")]
     public bool? HiddenFromGlobalAddressList { get; set; }
@@ -114,6 +115,15 @@ public record AwsWorkmailCreateResourceOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

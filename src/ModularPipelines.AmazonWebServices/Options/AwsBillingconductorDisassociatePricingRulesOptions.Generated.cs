@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsBillingconductorDisassociatePricingRulesOptions : AwsOptions, I
     /// <summary>
     /// Disassociates a list of pricing rules from a pricing plan. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The pricing plan Amazon Resource Name (ARN) to disassociate pricing rules from. Constraints: o pattern: (arn:aws(-cn)?:billingconductor::(aws|[0-9]{12}):pricing- plan/)?(BasicPricingPlan|Passthrough|[a-zA-Z0-9]{10})</param>
-    /// <param name="PricingRuleArns">A list containing the Amazon Resource Name (ARN) of the pricing rules that will be disassociated. Constraints: o min: 1 o max: 30 (string) Constraints: o pattern: (arn:aws(-cn)?:billingconductor::[0-9]{12}:pricin- grule/)?[a-zA-Z0-9]{10} Syntax: "string" "string" ...</param>
+    /// <param name="Arn">The pricing plan Amazon Resource Name (ARN) to disassociate pricing rules from. Constraints: • pattern: (arn:aws(-cn)?:billingconductor::(aws|[0-9]{12}):pricingplan/)?(BasicPricingPlan|Passthrough|[a-zA-Z0-9]{10})</param>
+    /// <param name="PricingRuleArns">A list containing the Amazon Resource Name (ARN) of the pricing rules that will be disassociated. Constraints: • min: 1 • max: 30 (string) Constraints: • pattern: (arn:aws(-cn)?:billingconductor::[0-9]{12}:pricingrule/)?[a-zA-Z0-9]{10} Syntax: "string" "string" ...</param>
     public AwsBillingconductorDisassociatePricingRulesOptions(
         string Arn,
         IEnumerable<string> PricingRuleArns
@@ -71,13 +72,13 @@ public record AwsBillingconductorDisassociatePricingRulesOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The pricing plan Amazon Resource Name (ARN) to disassociate pricing rules from. Constraints: o pattern: (arn:aws(-cn)?:billingconductor::(aws|[0-9]{12}):pricing- plan/)?(BasicPricingPlan|Passthrough|[a-zA-Z0-9]{10})
+    /// The pricing plan Amazon Resource Name (ARN) to disassociate pricing rules from. Constraints: • pattern: (arn:aws(-cn)?:billingconductor::(aws|[0-9]{12}):pricingplan/)?(BasicPricingPlan|Passthrough|[a-zA-Z0-9]{10})
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// A list containing the Amazon Resource Name (ARN) of the pricing rules that will be disassociated. Constraints: o min: 1 o max: 30 (string) Constraints: o pattern: (arn:aws(-cn)?:billingconductor::[0-9]{12}:pricin- grule/)?[a-zA-Z0-9]{10} Syntax: "string" "string" ...
+    /// A list containing the Amazon Resource Name (ARN) of the pricing rules that will be disassociated. Constraints: • min: 1 • max: 30 (string) Constraints: • pattern: (arn:aws(-cn)?:billingconductor::[0-9]{12}:pricingrule/)?[a-zA-Z0-9]{10} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--pricing-rule-arns", GroupValues = true)]
     public IEnumerable<string>? PricingRuleArns { get; private init; }
@@ -103,6 +104,15 @@ public record AwsBillingconductorDisassociatePricingRulesOptions : AwsOptions, I
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Delete a policy for the specified data stream or consumer. Request pat- terns can be one of the following: o Data stream pattern: arn:aws.*:kinesis:.*:\d{12}:.*stream/\S+ o Consumer pattern: ^(arn):aws.*:kine- sis:.*:\d{12}:.*stream\/[a-zA-Z0-9_.-]+\/con- sumer\/[a-zA-Z0-9_.-]+:[0-9]+ See also: AWS API Documentation
+/// Delete a policy for the specified data stream or consumer. Request patterns can be one of the following: • Data stream pattern: arn:aws.*:kinesis:.*:\d{12}:.*stream/\S+ • Consumer pattern: ^(arn):aws.*:kinesis:.*:\d{12}:.*stream\/[a-zA-Z0-9_.-]+\/consumer\/[a-zA-Z0-9_.-]+:[0-9]+ See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsKinesisDeleteResourcePolicyOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Delete a policy for the specified data stream or consumer. Request pat- terns can be one of the following: o Data stream pattern: arn:aws.*:kinesis:.*:\d{12}:.*stream/\S+ o Consumer pattern: ^(arn):aws.*:kine- sis:.*:\d{12}:.*stream\/[a-zA-Z0-9_.-]+\/con- sumer\/[a-zA-Z0-9_.-]+:[0-9]+ See also: AWS API Documentation
+    /// Delete a policy for the specified data stream or consumer. Request patterns can be one of the following: • Data stream pattern: arn:aws.*:kinesis:.*:\d{12}:.*stream/\S+ • Consumer pattern: ^(arn):aws.*:kinesis:.*:\d{12}:.*stream\/[a-zA-Z0-9_.-]+\/consumer\/[a-zA-Z0-9_.-]+:[0-9]+ See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the data stream or consumer. Constraints: o min: 1 o max: 2048 o pattern: arn:aws.*:kinesis:.*:\d{12}:.*(stream|channel)/\S+</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the data stream or consumer. Constraints: • min: 1 • max: 2048 • pattern: arn:aws.*:kinesis:.*:\d{12}:.*(stream|channel)/\S+</param>
     public AwsKinesisDeleteResourcePolicyOptions(
         string ResourceArn
     )
@@ -56,13 +57,13 @@ public record AwsKinesisDeleteResourcePolicyOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the data stream or consumer. Constraints: o min: 1 o max: 2048 o pattern: arn:aws.*:kinesis:.*:\d{12}:.*(stream|channel)/\S+
+    /// The Amazon Resource Name (ARN) of the data stream or consumer. Constraints: • min: 1 • max: 2048 • pattern: arn:aws.*:kinesis:.*:\d{12}:.*(stream|channel)/\S+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// Not Implemented. Reserved for future use. Constraints: o min: 1 o max: 24 o pattern: [a-z0-9]{20}-[a-z0-9]{3}
+    /// Not Implemented. Reserved for future use. Constraints: • min: 1 • max: 24 • pattern: [a-z0-9]{20}-[a-z0-9]{3}
     /// </summary>
     [CliOption("--stream-id")]
     public string? StreamId { get; set; }
@@ -88,6 +89,15 @@ public record AwsKinesisDeleteResourcePolicyOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

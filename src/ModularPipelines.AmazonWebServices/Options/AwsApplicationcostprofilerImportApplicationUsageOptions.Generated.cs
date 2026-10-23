@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Ingests application usage data from Amazon Simple Storage Service (Ama- zon S3). The data must already exist in the S3 location. As part of the action, AWS Application Cost Profiler copies the object from your S3 bucket to an S3 bucket owned by Amazon for processing asynchronously. See also: AWS API Documentation
+/// Ingests application usage data from Amazon Simple Storage Service (Amazon S3). The data must already exist in the S3 location. As part of the action, AWS Application Cost Profiler copies the object from your S3 bucket to an S3 bucket owned by Amazon for processing asynchronously. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsApplicationcostprofilerImportApplicationUsageOptions : AwsOptio
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Ingests application usage data from Amazon Simple Storage Service (Ama- zon S3). The data must already exist in the S3 location. As part of the action, AWS Application Cost Profiler copies the object from your S3 bucket to an S3 bucket owned by Amazon for processing asynchronously. See also: AWS API Documentation
+    /// Ingests application usage data from Amazon Simple Storage Service (Amazon S3). The data must already exist in the S3 location. As part of the action, AWS Application Cost Profiler copies the object from your S3 bucket to an S3 bucket owned by Amazon for processing asynchronously. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SourceS3Location">Amazon S3 location to import application usage data from. bucket -&gt; (string) [required] Name of the bucket. Constraints: o min: 3 o max: 63 o pattern: (?=^.{3,63}$)(?!^(\d+\.)+\d+$)(^(([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])\.)*([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])$) key -&gt; (string) [required] Key of the object. Constraints: o min: 1 o max: 512 o pattern: .*\S.* region -&gt; (string) Region of the bucket. Only required for Regions that are dis- abled by default. For more infomration about Regions that are disabled by default, see Enabling a Region in the AWS General Reference guide . Possible values: o ap-east-1 o me-south-1 o eu-south-1 o af-south-1 Shorthand Syntax: bucket=string,key=string,region=string JSON Syntax: { "bucket": "string", "key": "string", "region": "ap-east-1"|"me-south-1"|"eu-south-1"|"af-south-1" }</param>
+    /// <param name="SourceS3Location">Amazon S3 location to import application usage data from. bucket -&gt; (string) [required] Name of the bucket. Constraints: • min: 3 • max: 63 • pattern: (?=^.{3,63}$)(?!^(\d+\.)+\d+$)(^(([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])\.)*([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])$) key -&gt; (string) [required] Key of the object. Constraints: • min: 1 • max: 512 • pattern: .*\S.* region -&gt; (string) Region of the bucket. Only required for Regions that are disabled by default. For more infomration about Regions that are disabled by default, see Enabling a Region in the AWS General Reference guide . Possible values: • ap-east-1 • me-south-1 • eu-south-1 • af-south-1 Shorthand Syntax: bucket=string,key=string,region=string JSON Syntax: { "bucket": "string", "key": "string", "region": "ap-east-1"|"me-south-1"|"eu-south-1"|"af-south-1" }</param>
     public AwsApplicationcostprofilerImportApplicationUsageOptions(
         string SourceS3Location
     )
@@ -56,7 +57,7 @@ public record AwsApplicationcostprofilerImportApplicationUsageOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Amazon S3 location to import application usage data from. bucket -&gt; (string) [required] Name of the bucket. Constraints: o min: 3 o max: 63 o pattern: (?=^.{3,63}$)(?!^(\d+\.)+\d+$)(^(([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])\.)*([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])$) key -&gt; (string) [required] Key of the object. Constraints: o min: 1 o max: 512 o pattern: .*\S.* region -&gt; (string) Region of the bucket. Only required for Regions that are dis- abled by default. For more infomration about Regions that are disabled by default, see Enabling a Region in the AWS General Reference guide . Possible values: o ap-east-1 o me-south-1 o eu-south-1 o af-south-1 Shorthand Syntax: bucket=string,key=string,region=string JSON Syntax: { "bucket": "string", "key": "string", "region": "ap-east-1"|"me-south-1"|"eu-south-1"|"af-south-1" }
+    /// Amazon S3 location to import application usage data from. bucket -&gt; (string) [required] Name of the bucket. Constraints: • min: 3 • max: 63 • pattern: (?=^.{3,63}$)(?!^(\d+\.)+\d+$)(^(([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])\.)*([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])$) key -&gt; (string) [required] Key of the object. Constraints: • min: 1 • max: 512 • pattern: .*\S.* region -&gt; (string) Region of the bucket. Only required for Regions that are disabled by default. For more infomration about Regions that are disabled by default, see Enabling a Region in the AWS General Reference guide . Possible values: • ap-east-1 • me-south-1 • eu-south-1 • af-south-1 Shorthand Syntax: bucket=string,key=string,region=string JSON Syntax: { "bucket": "string", "key": "string", "region": "ap-east-1"|"me-south-1"|"eu-south-1"|"af-south-1" }
     /// </summary>
     [CliOption("--source-s3-location")]
     public string? SourceS3Location { get; private init; }
@@ -82,6 +83,15 @@ public record AwsApplicationcostprofilerImportApplicationUsageOptions : AwsOptio
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }
