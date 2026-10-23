@@ -130,9 +130,15 @@ public record CommandExecutionOptions
     /// <summary>
     /// Gets the time allowed for standard output and error to reach EOF after the direct child exits.
     /// Defaults to two seconds. When the deadline expires, remaining reads stop and the result's
-    /// <see cref="CommandResult.OutputMayBeIncomplete"/> is set. Descendants are not terminated.
+    /// <see cref="CommandResult.OutputMayBeIncomplete"/> is set. The drain deadline itself does not terminate descendants.
     /// Set to <see cref="Timeout.InfiniteTimeSpan"/> to wait for EOF without a drain deadline.
     /// </summary>
+    /// <remarks>
+    /// After the direct child exits normally, background descendants in the command's Windows job object
+    /// can continue running until pipeline disposal, which terminates them. On Linux and macOS, pipeline
+    /// disposal does not terminate descendants left running after the direct child exits.
+    /// Explicitly stop background servers or daemons during cleanup for consistent behavior across platforms.
+    /// </remarks>
     public TimeSpan OutputDrainTimeout { get; init; } = TimeSpan.FromSeconds(2);
 
     internal bool InternalDryRun { get; set; }
