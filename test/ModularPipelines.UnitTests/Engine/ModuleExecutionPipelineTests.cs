@@ -77,6 +77,94 @@ public class ModuleExecutionPipelineTests
         }
     }
 
+    private class FailingModule : Module<int>
+    {
+        public Exception Failure { get; } = new InvalidOperationException("Original execution failure");
+
+        protected internal override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+            => Task.FromException<int>(Failure);
+    }
+
+    private sealed class IgnoredFailingModule : FailingModule
+    {
+        protected override void Configure(ModuleConfigurationBuilder module) => module.WithIgnoreFailures();
+    }
+
+    [Test]
+    [Arguments(ModuleStatus.Succeeded)]
+    [Arguments(ModuleStatus.Failed)]
+    [Arguments(ModuleStatus.FailureIgnored)]
+    public async Task ExecuteAsync_ThrowingSkipInvokerPreservesOriginalResultAndContext(ModuleStatus originalStatus)
+    {
+        Module<int> module = originalStatus switch
+        {
+            ModuleStatus.Failed => new FailingModule(),
+            ModuleStatus.FailureIgnored => new IgnoredFailingModule(),
+            _ => new SuccessfulModule(),
+        };
+        var executionContext = new ModuleExecutionContext<int>(module, module.GetType());
+        var originalException = (module as FailingModule)?.Failure;
+        var logger = new Mock<IInternalModuleLogger>();
+        var services = new Mock<IServicesContext>();
+        services.SetupGet(x => x.Options).Returns(new PipelineOptions());
+        var moduleContext = new Mock<IModuleContext>();
+        moduleContext.SetupGet(x => x.Logger).Returns(logger.Object);
+        moduleContext.SetupGet(x => x.Services).Returns(services.Object);
+        var hooks = new Mock<IDirectHookInvoker>();
+        ModuleResult<int>? originalResult = null;
+        hooks.Setup(x => x.InvokeAfterExecuteAsync(
+                module, moduleContext.Object, It.IsAny<ModuleResult<int>>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync((Module<int> _, IModuleContext _, ModuleResult<int> result, CancellationToken _) =>
+            {
+                originalResult = result;
+                return new ModuleResult<int>.Skipped(SkipDecision.Skip("Replacement skip"))
+                {
+                    Name = result.Name,
+                    Duration = result.Duration,
+                    StartTime = result.StartTime,
+                    EndTime = result.EndTime,
+                    Status = ModuleStatus.Skipped,
+                };
+            });
+        hooks.Setup(x => x.InvokeSkippedAsync(
+                module, moduleContext.Object, It.IsAny<SkipDecision>(), It.IsAny<CancellationToken>()))
+            .ThrowsAsync(new InvalidOperationException("Skip invoker failed"));
+        var conditions = new Mock<IModuleConditionHandler>();
+        conditions.Setup(x => x.ShouldIgnore(module, It.IsAny<CancellationToken>())).ReturnsAsync((false, null));
+        using var engineCancellation = new PipelineEngineCancellationToken(new PrimaryExceptionContainer());
+        var pipeline = new ModuleExecutionPipeline(
+            Mock.Of<IModuleResultRepository>(), engineCancellation, hooks.Object, conditions.Object,
+            OptionsFactory.Create(new PipelineOptions()));
+
+        var execution = pipeline.ExecuteAsync(module, executionContext, moduleContext.Object, CancellationToken.None);
+        if (originalStatus == ModuleStatus.Failed)
+        {
+            await Assert.ThrowsAsync<ModuleFailedException>(() => execution);
+        }
+        else
+        {
+            await execution;
+        }
+
+        var publishedResult = await module;
+        using (Assert.Multiple())
+        {
+            await Assert.That(publishedResult).IsSameReferenceAs(originalResult);
+            await Assert.That(publishedResult.Status).IsEqualTo(originalStatus);
+            await Assert.That(publishedResult.ExceptionOrDefault).IsSameReferenceAs(originalException);
+            await Assert.That(executionContext.Status).IsEqualTo(originalStatus);
+            await Assert.That(executionContext.Exception).IsSameReferenceAs(originalException);
+            await Assert.That(executionContext.SkipResult).IsSameReferenceAs(SkipDecision.DoNotSkip);
+            await Assert.That(engineCancellation.IsCancellationRequested).IsEqualTo(originalStatus == ModuleStatus.Failed);
+            await Assert.That(engineCancellation.OriginalException?.InnerException)
+                .IsSameReferenceAs(originalStatus == ModuleStatus.Failed ? originalException : null);
+        }
+
+        logger.Verify(x => x.SetStatus(originalStatus), Times.Once);
+        hooks.Verify(x => x.InvokeSkippedAsync(
+            module, moduleContext.Object, It.IsAny<SkipDecision>(), It.IsAny<CancellationToken>()), Times.Once);
+    }
+
     private sealed class IgnoredTimeoutExceptionModule : TimeoutExceptionModule
     {
         protected override void Configure(ModuleConfigurationBuilder module) => module

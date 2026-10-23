@@ -872,14 +872,16 @@ internal class ModuleExecutionPipeline(
                 Duration = moduleResult.Duration,
                 Status = status,
             };
-            executionContext.Status = normalized.Status;
-            executionContext.Exception = normalized.ExceptionOrDefault;
-            executionContext.SkipResult = normalized.SkipDecisionOrDefault ?? SkipDecision.DoNotSkip;
             if (normalized is ModuleResult<T>.Skipped skipped)
             {
                 await _directHookInvoker.InvokeSkippedAsync(module, moduleContext, skipped.Decision, cancellationToken)
                     .ConfigureAwait(false);
             }
+
+            // Commit replacement state only after its hooks have completed successfully.
+            executionContext.Status = normalized.Status;
+            executionContext.Exception = normalized.ExceptionOrDefault;
+            executionContext.SkipResult = normalized.SkipDecisionOrDefault ?? SkipDecision.DoNotSkip;
 
             return normalized;
         }
