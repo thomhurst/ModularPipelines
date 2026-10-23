@@ -13,7 +13,10 @@ public interface IShellContext
     /// </summary>
     /// <param name="options">The command-line tool options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <param name="cancellationToken">
+    /// A token to cancel the command. A noncancelable token defaults to the current module's token,
+    /// including its current attempt timeout. An explicit cancelable token takes precedence.
+    /// </param>
     /// <returns>The command result.</returns>
 #pragma warning disable RS0026 // Strongly typed and raw command overloads intentionally share execution defaults.
     Task<CommandResult> RunAsync(
@@ -27,7 +30,10 @@ public interface IShellContext
     /// <param name="tool">The name or path of the command-line tool.</param>
     /// <param name="arguments">The command arguments.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <param name="cancellationToken">
+    /// A token to cancel the command. A noncancelable token defaults to the current module's token,
+    /// including its current attempt timeout. An explicit cancelable token takes precedence.
+    /// </param>
     /// <returns>The command result.</returns>
     Task<CommandResult> RunAsync(
         string tool,
@@ -40,7 +46,10 @@ public interface IShellContext
     /// </summary>
     /// <param name="tool">The name or path of the command-line tool.</param>
     /// <param name="arguments">The command arguments.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <param name="cancellationToken">
+    /// A token to cancel the command. A noncancelable token defaults to the current module's token,
+    /// including its current attempt timeout. An explicit cancelable token takes precedence.
+    /// </param>
     /// <returns>The command result.</returns>
     Task<CommandResult> RunAsync(
         string tool,

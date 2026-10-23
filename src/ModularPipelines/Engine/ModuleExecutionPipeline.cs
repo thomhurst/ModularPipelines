@@ -118,11 +118,14 @@ internal class ModuleExecutionPipeline(
 
         // Get configuration once at the start
         var config = ((IModule) module).Configuration;
+        ModuleCancellationScope? cancellationScope = null;
 
         try
         {
             // Setup cancellation based on AlwaysRun behavior
             SetupCancellation(config, executionContext, engineCancellationToken);
+            cancellationScope = new ModuleCancellationScope(executionContext.ModuleCancellationTokenSource.Token);
+            executionContext.ModuleCancellationTokenSource.Token.ThrowIfCancellationRequested();
 
             var skipDecision = await GetSkipDecisionAsync(
                     module,
@@ -248,6 +251,10 @@ internal class ModuleExecutionPipeline(
             }
 
             return moduleResult;
+        }
+        finally
+        {
+            cancellationScope?.Dispose();
         }
     }
 
@@ -438,8 +445,6 @@ internal class ModuleExecutionPipeline(
                 engineCancellationToken,
                 originalToken);
         }
-
-        executionContext.ModuleCancellationTokenSource.Token.ThrowIfCancellationRequested();
     }
 
     private async Task<ModuleResult<T>> HandleSkipped<T>(
@@ -699,6 +704,7 @@ internal class ModuleExecutionPipeline(
             {
                 // The async invocation scopes this token to the attempt and its children.
                 executionContext.CurrentCancellationToken = attemptToken;
+                using var attemptScope = new ModuleCancellationScope(attemptToken);
                 return await module.ExecuteAsync(moduleContext, attemptToken).ConfigureAwait(false);
             },
             timeout == Timeout.InfiniteTimeSpan ? null : timeout,
@@ -843,6 +849,8 @@ internal class ModuleExecutionPipeline(
         ModuleExecutionContext<T> executionContext,
         CancellationToken cancellationToken)
     {
+        // Commands must use the hook's token, including uncanceled failure cleanup.
+        using var cancellationScope = new ModuleCancellationScope(cancellationToken);
         var previousProvisionalResult = module.SetProvisionalResult(moduleResult);
         try
         {

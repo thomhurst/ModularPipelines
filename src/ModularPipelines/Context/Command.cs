@@ -64,6 +64,11 @@ internal sealed class Command(
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
+        if (!cancellationToken.CanBeCanceled)
+        {
+            cancellationToken = ModuleCancellationScope.CurrentToken;
+        }
+
         return ExecuteCommandAsync(options, executionOptions, interceptCommands: true, cancellationToken);
     }
 
