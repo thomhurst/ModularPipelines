@@ -1,4 +1,4 @@
-namespace ModularPipelines.Models;
+namespace ModularPipelines;
 
 /// <summary>
 /// Represents two consecutive values belonging to one command-line option.

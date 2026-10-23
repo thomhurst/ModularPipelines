@@ -1,7 +1,6 @@
 using ModularPipelines.Attributes;
 using ModularPipelines.Generated;
 using ModularPipelines.Helpers.Internal;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using static ModularPipelines.TestHelpers.OptionsRenderingTestHelper;
 

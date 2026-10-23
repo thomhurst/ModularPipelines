@@ -1,4 +1,4 @@
-namespace ModularPipelines.Models;
+namespace ModularPipelines;
 
 /// <summary>
 /// Represents a fully-built command line ready for execution.

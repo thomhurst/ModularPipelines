@@ -16,9 +16,9 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     private const int RuntimeRegistrationChunkSize = 32;
     private const int RuntimeMetadataSchemaVersion = 2;
     private const int CommandMetadataSchemaVersion = 4;
-    private const string CliOptionValueFullName = "ModularPipelines.Models.CliOptionValue";
-    private const string CliValuePairFullName = "ModularPipelines.Models.CliValuePair";
-    private const string CliValueGroupFullName = "ModularPipelines.Models.CliValueGroup";
+    private const string CliOptionValueFullName = "ModularPipelines.CliOptionValue";
+    private const string CliValuePairFullName = "ModularPipelines.CliValuePair";
+    private const string CliValueGroupFullName = "ModularPipelines.CliValueGroup";
 
     internal const string CommandLineToolOptionsFullName = "ModularPipelines.Options.CommandLineToolOptions";
     internal const string OptionsNamespace = "Microsoft.Extensions.Options";

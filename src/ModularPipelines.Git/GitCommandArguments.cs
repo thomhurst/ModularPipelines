@@ -1,7 +1,6 @@
 using ModularPipelines.Context;
 using ModularPipelines.Git.Options;
 using ModularPipelines.Helpers.Internal;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Secrets;
 

@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace ModularPipelines.Models;
+namespace ModularPipelines;
 
 /// <summary>
 /// Validates the explicit values carried by a <see cref="CliOptionValue"/> property.

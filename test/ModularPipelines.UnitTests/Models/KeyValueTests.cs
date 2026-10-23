@@ -1,5 +1,3 @@
-﻿using ModularPipelines.Models;
-
 namespace ModularPipelines.UnitTests.Models;
 
 public class KeyValueTests

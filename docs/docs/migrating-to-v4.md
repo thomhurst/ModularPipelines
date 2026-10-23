@@ -104,6 +104,8 @@ Most module-authoring types now live directly in `ModularPipelines`:
 | `ModularPipelines.Configuration.ModuleConfigurationBuilder`, `ModuleConfiguration` | `ModularPipelines` |
 | `ModularPipelines.Modules.IModule` | `ModularPipelines.IModule` |
 | `ModularPipelines.Models.PipelinePlan`, `PipelinePlanModule`, `PipelinePlanWave` | `ModularPipelines` |
+| `ModularPipelines.Models.CommandLine`, `KeyValue`, `CliOptionValue`, `CliValuePair`, `CliValueGroup` | `ModularPipelines` |
+| `ModularPipelines.Models.CliOptionValueRangeAttribute`, `CliOptionValueRegularExpressionAttribute` | `ModularPipelines` |
 | `ModularPipelines.DependencyInjection.ICancellableInitializer` | `ModularPipelines.ICancellableInitializer` |
 | `ModularPipelines.Plugins.IModularPipelinesPlugin` | `ModularPipelines.IModularPipelinesPlugin` |
 | `ModularPipelines.Models.RequirementDecision` | `ModularPipelines.Requirements.RequirementDecision` |
@@ -129,10 +131,15 @@ and generated CLI option namespaces.
 Remove `using ModularPipelines.Extensions;` from V4 code. That namespace now contains only internal
 types; public builder APIs are available through `ModularPipelines`.
 
+Replace `using ModularPipelines.Models;` with `using ModularPipelines;` for CLI contracts and their
+value validation attributes. Update fully qualified references as well, for example
+`ModularPipelines.Models.KeyValue` becomes `ModularPipelines.KeyValue`. No public core types remain
+in `ModularPipelines.Models`; the old names have no compatibility aliases. `RequirementDecision`
+uses `ModularPipelines.Requirements`, while reporting models keep their feature namespace.
+
 Do not replace whole namespaces blindly. Some types did not move:
 
 - CLI attributes such as `CliOptionAttribute` stay in `ModularPipelines.Attributes`.
-- CLI value types such as `KeyValue` and `CliOptionValue` still use `ModularPipelines.Models` while their generated integrations migrate.
 - Generated `context.Tools.<Tool>` properties need `using ModularPipelines.Context;`.
 
 The V4 package adds a `buildTransitive` global `using ModularPipelines;` to C# consumers. If your

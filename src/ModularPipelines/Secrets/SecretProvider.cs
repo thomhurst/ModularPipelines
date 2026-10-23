@@ -11,7 +11,6 @@ using ModularPipelines.Attributes;
 using ModularPipelines.Engine;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Generated;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 
 namespace ModularPipelines.Secrets;
