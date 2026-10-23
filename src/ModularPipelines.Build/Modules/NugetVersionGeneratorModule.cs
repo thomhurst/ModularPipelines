@@ -1,4 +1,3 @@
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Build.Settings;
@@ -15,11 +14,23 @@ public class NugetVersionGeneratorModule(IOptions<PublishSettings> publishSettin
 
     protected override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        var gitVersionInformation = await context.Tools.Git.Versioning.GetVersioningInformationAsync(cancellationToken);
+        var settings = _publishSettings.Value;
+        if (settings.ShouldPublish && string.IsNullOrWhiteSpace(settings.ExpectedVersion))
+        {
+            throw new InvalidOperationException("Publishing requires Publish:ExpectedVersion (the expected-version dispatch input).");
+        }
 
-        var version = _publishSettings.Value.IsAlpha
+        var gitVersionInformation = await context.Tools.Git.Versioning.GetVersioningInformationAsync(cancellationToken).ConfigureAwait(false);
+
+        var version = settings.IsAlpha
             ? $"{gitVersionInformation.FullSemVer}-alpha{gitVersionInformation.CommitsSinceVersionSourcePadded!}"
             : gitVersionInformation.FullSemVer!;
+
+        if (settings.ShouldPublish && !string.Equals(version, settings.ExpectedVersion, StringComparison.Ordinal))
+        {
+            throw new InvalidOperationException(
+                $"Computed package version '{version}' does not match expected version '{settings.ExpectedVersion}'. Publication stopped before packing; select the intended release commit and version.");
+        }
 
         context.Summary.KeyValue("Version", "Generated Version Number", version);
 
