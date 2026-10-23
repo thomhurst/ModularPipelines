@@ -10,7 +10,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Yarn.Options;
 using ModularPipelines;
-using ModularPipelines.Models;
 
 namespace ModularPipelines.Yarn.Options;
 
