@@ -11,6 +11,7 @@ public class CliCommandFactoryTests
     {
         if (!OperatingSystem.IsWindows())
         {
+            Skip.Test("Windows only test");
             return;
         }
 
@@ -58,6 +59,7 @@ public class CliCommandFactoryTests
     {
         if (!OperatingSystem.IsWindows())
         {
+            Skip.Test("Windows only test");
             return;
         }
 
@@ -96,6 +98,7 @@ public class CliCommandFactoryTests
     {
         if (OperatingSystem.IsWindows())
         {
+            Skip.Test("Unix only test");
             return;
         }
 
@@ -115,6 +118,7 @@ public class CliCommandFactoryTests
     {
         if (!OperatingSystem.IsWindows())
         {
+            Skip.Test("Windows only test");
             return;
         }
 
@@ -149,6 +153,7 @@ public class CliCommandFactoryTests
     {
         if (!OperatingSystem.IsWindows())
         {
+            Skip.Test("Windows only test");
             return;
         }
 

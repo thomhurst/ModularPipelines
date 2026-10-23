@@ -701,6 +701,7 @@ public class InMemoryFileSystemProviderTests
     {
         if (OperatingSystem.IsWindows())
         {
+            Skip.Test("Unix only test");
             return;
         }
 
@@ -743,6 +744,7 @@ public class InMemoryFileSystemProviderTests
     {
         if (!OperatingSystem.IsWindows())
         {
+            Skip.Test("Windows only test");
             return;
         }
 

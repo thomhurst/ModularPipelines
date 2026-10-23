@@ -343,6 +343,7 @@ public class ArtifactContextApiTests
     {
         if (OperatingSystem.IsWindows())
         {
+            Skip.Test("Unix only test");
             return;
         }
 
