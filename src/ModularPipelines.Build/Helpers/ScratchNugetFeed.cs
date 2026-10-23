@@ -77,9 +77,7 @@ internal sealed class ScratchNugetFeed : IAsyncDisposable
         // NuGet omits SemVer build metadata from archive filenames.
         var version = metadata.Elements().Single(element => element.Name.LocalName == "version").Value.Split('+')[0];
         // Treat request metadata as untrusted even though this endpoint is local.
-        if (string.IsNullOrWhiteSpace(id) || string.IsNullOrWhiteSpace(version)
-            || id.Any(character => !char.IsAsciiLetterOrDigit(character) && character is not '.' and not '-' and not '_')
-            || version.Any(character => !char.IsAsciiLetterOrDigit(character) && character is not '.' and not '-' and not '+'))
+        if (HasInvalidPackageIdentity(id, version))
         {
             context.Response.StatusCode = StatusCodes.Status400BadRequest;
             return;
@@ -97,4 +95,9 @@ internal sealed class ScratchNugetFeed : IAsyncDisposable
         await payload.CopyToAsync(file, token).ConfigureAwait(false);
         context.Response.StatusCode = StatusCodes.Status201Created;
     }
+
+    private static bool HasInvalidPackageIdentity(string id, string version) =>
+        string.IsNullOrWhiteSpace(id) || string.IsNullOrWhiteSpace(version)
+        || id.Any(character => !char.IsAsciiLetterOrDigit(character) && character is not '.' and not '-' and not '_')
+        || version.Any(character => !char.IsAsciiLetterOrDigit(character) && character is not '.' and not '-' and not '+');
 }
