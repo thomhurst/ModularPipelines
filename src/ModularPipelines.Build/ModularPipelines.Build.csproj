@@ -5,6 +5,7 @@
   </PropertyGroup>
   <ItemGroup>
     <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute" />
+    <InternalsVisibleTo Include="ModularPipelines.Build.UnitTests" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ModularPipelines.DotNet\ModularPipelines.DotNet.csproj" />
