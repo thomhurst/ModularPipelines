@@ -239,6 +239,9 @@ public sealed record PipelineOptions
     /// <para>
     /// Set to <c>false</c> for scenarios where you want to inspect the <see cref="PipelineSummary"/>
     /// programmatically without catching exceptions (e.g., in tests or when implementing custom failure handling).
+    /// This requires <see cref="FailureMode"/> to be set to <see cref="FailureMode.ContinueOnFailure"/>,
+    /// which waits for all modules to complete. With the default <see cref="FailureMode.FailFast"/>,
+    /// the original exception is always rethrown regardless of this setting.
     /// </para>
     /// </remarks>
     public bool ThrowOnPipelineFailure { get; init; } = true;
