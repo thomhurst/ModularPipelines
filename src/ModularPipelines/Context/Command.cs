@@ -1247,7 +1247,7 @@ internal sealed class Command(
     {
         private static readonly TimeSpan DescendantPollingInterval = TimeSpan.FromMilliseconds(10);
         private readonly Lock _lock = new();
-        private readonly Dictionary<int, Process> _descendants = [];
+        private readonly Dictionary<int, CapturedDescendant> _descendants = [];
         private readonly TaskCompletionSource _killCompleted = new(TaskCreationOptions.RunContinuationsAsynchronously);
         private Process? _process;
         private SafeFileHandle? _windowsJob;
@@ -1307,7 +1307,7 @@ internal sealed class Command(
         {
             Process? process;
             SafeFileHandle? windowsJob;
-            Process[] descendants;
+            CapturedDescendant[] descendants;
 
             lock (_lock)
             {
@@ -1323,7 +1323,7 @@ internal sealed class Command(
             }
 
             return (process is not null && IsRunning(process)) ||
-                   descendants.Any(IsRunning);
+                   descendants.Any(descendant => descendant.IsRunning());
         }
 
         public void Kill()
@@ -1342,7 +1342,7 @@ internal sealed class Command(
         {
             Process? process;
             SafeFileHandle? windowsJob;
-            Process[] descendants;
+            CapturedDescendant[] descendants;
             Timer? descendantCaptureTimer;
 
             lock (_lock)
@@ -1364,21 +1364,19 @@ internal sealed class Command(
 
             foreach (var descendant in descendants)
             {
-                TryKill(descendant, null, ProcessTerminationReason.ForcefulCancellation);
+                TryKillDescendant(descendant, ProcessTerminationReason.ForcefulCancellation);
             }
         }
 
         public void Dispose()
         {
             SafeFileHandle? windowsJob;
-            Process[] descendants;
             Timer? descendantCaptureTimer;
 
             lock (_lock)
             {
                 _disposed = true;
                 windowsJob = _windowsJob;
-                descendants = [.. _descendants.Values];
                 descendantCaptureTimer = _descendantCaptureTimer;
                 _windowsJob = null;
                 _process = null;
@@ -1393,11 +1391,6 @@ internal sealed class Command(
                 !WindowsNativeMethods.HasActiveProcesses(windowsJob))
             {
                 windowsJobLifetime.Release(windowsJob);
-            }
-
-            foreach (var descendant in descendants)
-            {
-                descendant.Dispose();
             }
         }
 
@@ -1414,13 +1407,16 @@ internal sealed class Command(
 
                 try
                 {
-                    processIds = _process is null
-                        ? []
-                        : [_process.Id, .. _descendants.Keys];
+                    var descendantProcessIds = _descendants.Values
+                        .Where(descendant => descendant.IsRunning())
+                        .Select(descendant => descendant.ProcessId);
+                    processIds = _process is not null && IsRunning(_process)
+                        ? [_process.Id, .. descendantProcessIds]
+                        : [.. descendantProcessIds];
                 }
                 catch (InvalidOperationException)
                 {
-                    processIds = [.. _descendants.Keys];
+                    processIds = [];
                 }
             }
 
@@ -1443,52 +1439,82 @@ internal sealed class Command(
 
         private void CaptureDescendant(int processId)
         {
-            Process? descendant = null;
-
             try
             {
-                descendant = Process.GetProcessById(processId);
-                var capturedDescendant = descendant;
-                var killDescendant = false;
-                var interruptDescendant = false;
+                using var descendant = Process.GetProcessById(processId);
+                CaptureDescendant(new CapturedDescendant(processId, descendant.StartTime));
+            }
+            catch (Exception exception) when (exception is ArgumentException or InvalidOperationException or Win32Exception)
+            {
+                // The descendant exited or its identity could not be read while it was being captured.
+            }
+        }
 
-                lock (_lock)
+        internal void CaptureDescendant(CapturedDescendant descendant)
+        {
+            bool killDescendant;
+            lock (_lock)
+            {
+                if (_disposed || !_descendants.TryAdd(descendant.ProcessId, descendant))
                 {
-                    if (_disposed)
-                    {
-                        descendant.Dispose();
-                    }
-                    else if (_descendants.TryAdd(processId, descendant))
-                    {
-                        killDescendant = _killRequested;
-                        interruptDescendant = !killDescendant;
-                    }
-                    else
-                    {
-                        descendant.Dispose();
-                    }
-
-                    descendant = null;
+                    return;
                 }
 
-                if (killDescendant)
+                killDescendant = _killRequested;
+            }
+
+            if (killDescendant)
+            {
+                TryKillDescendant(descendant, ProcessTerminationReason.DescendantCapturedAfterCancellation);
+            }
+            else
+            {
+                // Interrupt each descendant once, including those spawned during grace.
+                // A shell can defer its own SIGINT while waiting for a foreground child.
+                using var process = descendant.TryOpenProcess();
+                if (process is not null)
                 {
-                    TryKill(capturedDescendant, null, ProcessTerminationReason.DescendantCapturedAfterCancellation);
-                }
-                else if (interruptDescendant)
-                {
-                    // Interrupt each descendant once, including those spawned during grace.
-                    // A shell can defer its own SIGINT while waiting for a foreground child.
-                    ProcessRunner.Interrupt(capturedDescendant);
+                    ProcessRunner.Interrupt(process);
                 }
             }
-            catch (ArgumentException)
+        }
+
+        private void TryKillDescendant(CapturedDescendant descendant, ProcessTerminationReason reason)
+        {
+            using var process = descendant.TryOpenProcess();
+            if (process is not null)
             {
-                // The descendant exited while it was being captured.
+                TryKill(process, null, reason);
             }
-            finally
+        }
+
+        internal readonly record struct CapturedDescendant(int ProcessId, DateTime StartTime)
+        {
+            public bool IsRunning()
             {
-                descendant?.Dispose();
+                using var process = TryOpenProcess();
+                return process is not null && ProcessTreeTerminator.IsRunning(process);
+            }
+
+            public Process? TryOpenProcess()
+            {
+                Process? process = null;
+                try
+                {
+                    // StartTime is cached by Process: reopen the PID so this reads its current identity.
+                    process = Process.GetProcessById(ProcessId);
+                    if (process.StartTime == StartTime)
+                    {
+                        return process;
+                    }
+                }
+                catch (Exception exception) when (exception is ArgumentException or InvalidOperationException or Win32Exception)
+                {
+                    // An exited or inaccessible process cannot be verified as our descendant.
+                }
+
+                process?.Dispose();
+                return null;
             }
         }
 
