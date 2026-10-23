@@ -93,6 +93,7 @@ internal class ModuleResultSerializer(
             : result with
             {
                 ModuleType = moduleType,
+                ModuleId = serialized.ModuleId,
                 TypeName = ModuleTypeIdentifier.Get(moduleType),
                 WorkerId = serialized.WorkerId,
             };
@@ -115,6 +116,7 @@ internal class ModuleResultSerializer(
         ModuleResult failure = new ModuleResult.Failure(exception)
         {
             Name = moduleId.Value,
+            ModuleId = moduleId,
             Duration = TimeSpan.Zero,
             StartTime = now,
             EndTime = now,

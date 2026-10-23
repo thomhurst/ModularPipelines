@@ -5,7 +5,6 @@ using ModularPipelines.Caching;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Engine.Execution;
-using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Helpers;
 using ModularPipelines.Logging;
@@ -535,7 +534,11 @@ internal class ModuleExecutionPipeline(
     {
         executionContext.Status = ModuleStatus.RestoredFromHistory;
         executionContext.SkipResult = skipDecision;
-        var usedHistoryResult = historicalResult with { Status = ModuleStatus.RestoredFromHistory };
+        var usedHistoryResult = historicalResult with
+        {
+            Status = ModuleStatus.RestoredFromHistory,
+            ModuleId = ModuleId.FromType(executionContext.ModuleType),
+        };
         if (logger.IsEnabled(LogLevel.Debug))
         {
             logger.LogDebug("{Message}", message);
@@ -550,7 +553,11 @@ internal class ModuleExecutionPipeline(
         ILogger logger)
     {
         executionContext.Status = ModuleStatus.RestoredFromCache;
-        var result = cachedResult with { Status = ModuleStatus.RestoredFromCache };
+        var result = cachedResult with
+        {
+            Status = ModuleStatus.RestoredFromCache,
+            ModuleId = ModuleId.FromType(executionContext.ModuleType),
+        };
         logger.LogDebug("Using cached module result");
         return result;
     }
@@ -865,6 +872,7 @@ internal class ModuleExecutionPipeline(
             {
                 Name = moduleResult.Name,
                 TypeName = moduleResult.TypeName,
+                ModuleId = moduleResult.ModuleId,
                 ModuleType = moduleResult.ModuleType,
                 WorkerId = moduleResult.WorkerId,
                 StartTime = moduleResult.StartTime,

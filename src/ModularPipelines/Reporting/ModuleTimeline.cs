@@ -1,6 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
-using ModularPipelines.Enums;
 
 namespace ModularPipelines.Reporting;
 
@@ -17,13 +16,21 @@ public record ModuleTimeline
     /// Gets the name of the module.
     /// </summary>
     [JsonInclude]
-    public string ModuleName { get; init; } = string.Empty;
+    [JsonPropertyName("ModuleName")]
+    public string Name { get; init; } = string.Empty;
 
     /// <summary>
     /// Gets the stable assembly-qualified type identifier of the module.
     /// </summary>
     [JsonInclude]
-    public string ModuleTypeName { get; init; } = string.Empty;
+    [JsonPropertyName("ModuleTypeName")]
+    public string TypeName { get; init; } = string.Empty;
+
+    /// <summary>
+    /// Gets the stable module identifier.
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public ModuleId ModuleId { get; init; }
 
     /// <summary>
     /// Gets the priority of the module.

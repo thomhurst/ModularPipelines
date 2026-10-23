@@ -1,7 +1,6 @@
 using ModularPipelines.Distributed;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.Executors;
-using ModularPipelines.Enums;
 using ModularPipelines.Helpers;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -173,7 +172,7 @@ public class PipelineExecutorTests
             await Assert.That(summary.Metrics!.TotalModules).IsEqualTo(1);
             await Assert.That(summary.Metrics.FailedModules).IsEqualTo(1);
             await Assert.That(summary.Metrics.PendingModules).IsEqualTo(0);
-            await Assert.That(timeline.ModuleName).IsEqualTo(nameof(UnexecutedModule));
+            await Assert.That(timeline.Name).IsEqualTo(nameof(UnexecutedModule));
             await Assert.That(timeline.Status).IsEqualTo(ModuleStatus.Failed);
             await Assert.That(timeline.ExecutionDuration).IsNull();
         }

@@ -17,7 +17,6 @@ using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
 using PipelineEngineCancellationToken = ModularPipelines.Engine.EngineCancellationToken;
-using ModularPipelines.Enums;
 using Moq;
 
 namespace ModularPipelines.UnitTests.Execution;
@@ -824,7 +823,7 @@ public class EngineCancellationTokenTests : TestBase
 
         var summary = await host.RunAsync();
         var dependentResult = resultRegistry.GetResult(typeof(Module1));
-        var dependentTimeline = summary.ModuleTimelines!.Single(x => x.ModuleName == nameof(Module1));
+        var dependentTimeline = summary.ModuleTimelines!.Single(x => x.Name == nameof(Module1));
 
         using (Assert.Multiple())
         {

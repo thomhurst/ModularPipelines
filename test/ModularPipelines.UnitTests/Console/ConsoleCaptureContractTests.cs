@@ -107,9 +107,9 @@ public class ConsoleCaptureContractTests
 
         var summary = await builder.RunAsync();
         var first = summary.RunReport!.Modules.Single(module =>
-            module.ModuleName == nameof(FirstConsoleModule));
+            module.Name == nameof(FirstConsoleModule));
         var second = summary.RunReport.Modules.Single(module =>
-            module.ModuleName == nameof(SecondConsoleModule));
+            module.Name == nameof(SecondConsoleModule));
 
         using (Assert.Multiple())
         {

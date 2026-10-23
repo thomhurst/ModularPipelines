@@ -2,7 +2,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Engine;
-using ModularPipelines.Enums;
 using ModularPipelines.Extensions;
 using ModularPipelines.Logging;
 using ModularPipelines.Models;
@@ -179,7 +178,7 @@ internal class SpectreResultsPrinter(
         var timelineLookup = pipelineSummary.ModuleTimelines?
             .ToFirstByKeyDictionary(
                 static timeline => string.IsNullOrWhiteSpace(timeline.RuntimeModuleTypeName)
-                    ? timeline.ModuleTypeName
+                    ? timeline.TypeName
                     : timeline.RuntimeModuleTypeName)
             ?? [with(StringComparer.Ordinal)];
 

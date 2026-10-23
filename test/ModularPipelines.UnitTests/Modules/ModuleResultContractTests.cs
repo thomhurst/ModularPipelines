@@ -3,7 +3,6 @@ using System.Text.Json;
 using ModularPipelines.Context;
 using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Serialization;
-using ModularPipelines.Enums;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
@@ -19,6 +18,7 @@ public class ModuleResultContractTests
         var original = (skipped ? CreateSkipped("original skip") : CreateFailure()) with
         {
             ModuleType = typeof(IntModule),
+            ModuleId = new ModuleId("converted-module"),
             TypeName = typeof(IntModule).FullName,
             WorkerId = new WorkerId("worker-1"),
             Duration = TimeSpan.FromSeconds(2),
@@ -33,6 +33,7 @@ public class ModuleResultContractTests
             {
                 await Assert.That(result.Name).IsEqualTo(original.Name);
                 await Assert.That(result.TypeName).IsEqualTo(original.TypeName);
+                await Assert.That(result.ModuleId).IsEqualTo(original.ModuleId);
                 await Assert.That(result.ModuleType).IsEqualTo(original.ModuleType);
                 await Assert.That(result.WorkerId).IsEqualTo(original.WorkerId);
                 await Assert.That(result.StartTime).IsEqualTo(original.StartTime);
@@ -79,6 +80,7 @@ public class ModuleResultContractTests
             [
                 "Name",
                 "TypeName",
+                "ModuleId",
                 "Duration",
                 "StartTime",
                 "EndTime",

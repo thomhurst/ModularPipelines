@@ -25,7 +25,10 @@ internal sealed class ModuleResultHistoryProvider(
         try
         {
             var getResult = ResultRepositoryDelegateFactory.GetResultDelegateFor(module.ResultType);
-            return await getResult(resultRepository, module, pipelineContext, cancellationToken).ConfigureAwait(false);
+            var result = await getResult(resultRepository, module, pipelineContext, cancellationToken).ConfigureAwait(false);
+            return result is ModuleResult moduleResult
+                ? moduleResult with { ModuleId = ModuleId.FromType(module.GetType()) }
+                : result;
         }
         catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
         {

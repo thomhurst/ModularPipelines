@@ -2629,13 +2629,13 @@ ModularPipelines.Reporting.ModuleRunReport.DurationDelta.get -> System.TimeSpan?
 ModularPipelines.Reporting.ModuleRunReport.DurationDelta.init -> void
 ModularPipelines.Reporting.ModuleRunReport.DurationMeasured.get -> bool
 ModularPipelines.Reporting.ModuleRunReport.DurationMeasured.init -> void
-ModularPipelines.Reporting.ModuleRunReport.End.get -> System.DateTimeOffset?
-ModularPipelines.Reporting.ModuleRunReport.End.init -> void
+ModularPipelines.Reporting.ModuleRunReport.EndTime.get -> System.DateTimeOffset?
+ModularPipelines.Reporting.ModuleRunReport.EndTime.init -> void
 ModularPipelines.Reporting.ModuleRunReport.Equals(ModularPipelines.Reporting.ModuleRunReport? other) -> bool
 ModularPipelines.Reporting.ModuleRunReport.Exception.get -> ModularPipelines.Reporting.RunReportExceptionDetails?
 ModularPipelines.Reporting.ModuleRunReport.Exception.init -> void
-ModularPipelines.Reporting.ModuleRunReport.ModuleName.get -> string!
-ModularPipelines.Reporting.ModuleRunReport.ModuleName.init -> void
+ModularPipelines.Reporting.ModuleRunReport.Name.get -> string!
+ModularPipelines.Reporting.ModuleRunReport.Name.init -> void
 ModularPipelines.Reporting.ModuleRunReport.ModuleRunReport() -> void
 ModularPipelines.Reporting.ModuleRunReport.ModuleId.get -> ModularPipelines.ModuleId
 ModularPipelines.Reporting.ModuleRunReport.ModuleId.init -> void
@@ -2645,8 +2645,8 @@ ModularPipelines.Reporting.ModuleRunReport.PreviousDuration.get -> System.TimeSp
 ModularPipelines.Reporting.ModuleRunReport.PreviousDuration.init -> void
 ModularPipelines.Reporting.ModuleRunReport.SkipReason.get -> string?
 ModularPipelines.Reporting.ModuleRunReport.SkipReason.init -> void
-ModularPipelines.Reporting.ModuleRunReport.Start.get -> System.DateTimeOffset?
-ModularPipelines.Reporting.ModuleRunReport.Start.init -> void
+ModularPipelines.Reporting.ModuleRunReport.StartTime.get -> System.DateTimeOffset?
+ModularPipelines.Reporting.ModuleRunReport.StartTime.init -> void
 ModularPipelines.Reporting.ModuleRunReport.Status.get -> ModularPipelines.ModuleStatus
 ModularPipelines.Reporting.ModuleRunReport.Status.init -> void
 ModularPipelines.Reporting.ModuleTimeline
@@ -2658,12 +2658,12 @@ ModularPipelines.Reporting.ModuleTimeline.ExecutionDuration.get -> System.TimeSp
 ModularPipelines.Reporting.ModuleTimeline.ExecutionDuration.init -> void
 ModularPipelines.Reporting.ModuleTimeline.ExecutionHint.get -> ModularPipelines.ExecutionHint
 ModularPipelines.Reporting.ModuleTimeline.ExecutionHint.init -> void
-ModularPipelines.Reporting.ModuleTimeline.ModuleName.get -> string!
-ModularPipelines.Reporting.ModuleTimeline.ModuleName.init -> void
+ModularPipelines.Reporting.ModuleTimeline.Name.get -> string!
+ModularPipelines.Reporting.ModuleTimeline.Name.init -> void
 ModularPipelines.Reporting.ModuleTimeline.ModuleTimeline() -> void
 ModularPipelines.Reporting.ModuleTimeline.ModuleTimeline(ModularPipelines.Reporting.ModuleTimeline! original) -> void
-ModularPipelines.Reporting.ModuleTimeline.ModuleTypeName.get -> string!
-ModularPipelines.Reporting.ModuleTimeline.ModuleTypeName.init -> void
+ModularPipelines.Reporting.ModuleTimeline.TypeName.get -> string!
+ModularPipelines.Reporting.ModuleTimeline.TypeName.init -> void
 ModularPipelines.Reporting.ModuleTimeline.Priority.get -> ModularPipelines.ModulePriority
 ModularPipelines.Reporting.ModuleTimeline.Priority.init -> void
 ModularPipelines.Reporting.ModuleTimeline.QueueWaitTime.get -> System.TimeSpan?
@@ -3682,7 +3682,7 @@ ModularPipelines.PipelinePlanModule.IsSkipDecisionKnown.get -> bool
 *REMOVED*ModularPipelines.Models.PipelinePlanModule.Module.get -> ModularPipelines.Modules.IModule!
 ModularPipelines.PipelinePlanModule.Module.get -> ModularPipelines.IModule!
 *REMOVED*ModularPipelines.Models.PipelinePlanModule.ModuleName.get -> string!
-ModularPipelines.PipelinePlanModule.ModuleName.get -> string!
+ModularPipelines.PipelinePlanModule.Name.get -> string!
 *REMOVED*ModularPipelines.Models.PipelinePlanModule.ShouldSkip.get -> bool
 ModularPipelines.PipelinePlanModule.ShouldSkip.get -> bool
 *REMOVED*ModularPipelines.Models.PipelinePlanWave
@@ -3962,3 +3962,10 @@ ModularPipelines.ProducesArtifactAttribute.PathPattern.get -> string!
 ModularPipelines.ProducesArtifactAttribute.ProducesArtifactAttribute(string! name, string! pathPattern) -> void
 *REMOVED*ModularPipelines.Attributes.RequiresCapabilityAttribute
 ModularPipelines.RequiresCapabilityAttribute
+ModularPipelines.IModuleResult.ModuleId.get -> ModularPipelines.ModuleId
+ModularPipelines.ModuleResult.ModuleId.get -> ModularPipelines.ModuleId
+ModularPipelines.ModuleResult.ModuleId.init -> void
+ModularPipelines.PipelinePlanModule.ModuleId.get -> ModularPipelines.ModuleId
+ModularPipelines.PipelinePlanModule.TypeName.get -> string!
+ModularPipelines.Reporting.ModuleTimeline.ModuleId.get -> ModularPipelines.ModuleId
+ModularPipelines.Reporting.ModuleTimeline.ModuleId.init -> void
