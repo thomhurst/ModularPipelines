@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Helm.Options;
 using ModularPipelines;
-using ModularPipelines.Models;
 using ModularPipelines.Helm.Enums;
 
 namespace ModularPipelines.Helm.Options;
