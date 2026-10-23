@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <Description>Redis-based distributed coordinator for ModularPipelines, built on the Respire client. Enables multi-process and multi-machine pipeline execution using Redis for coordination.</Description>
+    <!-- Keep this integration beta: ConfigureConnection intentionally exposes pre-1.0 Respire APIs. -->
     <VersionSuffix>beta</VersionSuffix>
   </PropertyGroup>
 

@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <Description>Redis-based master endpoint discovery for distributed coordinators. Enables cross-network pipeline distribution by advertising the master endpoint via Redis.</Description>
+    <!-- Keep this integration beta: ConfigureConnection intentionally exposes pre-1.0 Respire APIs. -->
     <VersionSuffix>beta</VersionSuffix>
   </PropertyGroup>
 

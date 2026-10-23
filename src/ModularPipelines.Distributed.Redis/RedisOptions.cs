@@ -24,6 +24,11 @@ public sealed record RedisOptions
     /// reused for lazy connections and retries. Use it for passwords containing commas, TLS, and
     /// timeouts. Later changes to these options do not change that snapshot.
     /// </summary>
+    /// <remarks>
+    /// This beta package intentionally exposes Respire's connection options so callers can use its full
+    /// configuration surface. Respire is pre-1.0; upgrading this package may require changes to this
+    /// callback. The stable core v4 API compatibility guarantee does not cover this beta integration.
+    /// </remarks>
     public Func<RespireOptions, RespireOptions>? ConfigureConnection { get; init; }
 
     /// <summary>

@@ -9,10 +9,21 @@ through Redis. It implements the transport-neutral `IMasterDiscovery` contract, 
 carries the master's URL and access token; SignalR uses it so workers can locate and authenticate to the
 current master.
 
+:::warning Beta API compatibility
+
+This package remains **beta**, independently of the stable ModularPipelines core v4 release.
+`RedisDiscoveryOptions.ConfigureConnection` intentionally exposes the pre-1.0 Respire client's `RespireOptions`
+so callers can use its full connection configuration without waiting for a ModularPipelines wrapper.
+Upgrading this beta package may update Respire and require changes to your callback; its API is outside
+the stable core v4 compatibility guarantee. Pin the package version and review Respire API changes
+when upgrading. A stable release of this integration will require a separate compatibility decision.
+
+:::
+
 ## Installation
 
 ```shell
-dotnet add package ModularPipelines.Distributed.Discovery.Redis
+dotnet add package ModularPipelines.Distributed.Discovery.Redis --prerelease
 ```
 
 ## Configuration
