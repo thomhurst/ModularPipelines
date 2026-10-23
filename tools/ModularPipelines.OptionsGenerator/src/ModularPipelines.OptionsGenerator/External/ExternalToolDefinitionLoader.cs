@@ -386,6 +386,8 @@ public static class ExternalToolDefinitionLoader
         var type = cSharpType.Replace(" ", string.Empty, StringComparison.Ordinal);
         return type is "IReadOnlyList<KeyValue>"
             or "IReadOnlyList<KeyValue>?"
+            or "System.Collections.Generic.IReadOnlyList<ModularPipelines.KeyValue>"
+            or "System.Collections.Generic.IReadOnlyList<ModularPipelines.KeyValue>?"
             or "System.Collections.Generic.IReadOnlyList<ModularPipelines.Models.KeyValue>"
             or "System.Collections.Generic.IReadOnlyList<ModularPipelines.Models.KeyValue>?";
     }

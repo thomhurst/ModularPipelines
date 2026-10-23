@@ -1024,6 +1024,43 @@ public class ExternalToolDefinitionTests
     }
 
     [Test]
+    [Arguments("IReadOnlyList<KeyValue>")]
+    [Arguments("IReadOnlyList<KeyValue>?")]
+    [Arguments("System.Collections.Generic.IReadOnlyList<ModularPipelines.KeyValue>")]
+    [Arguments("System.Collections.Generic.IReadOnlyList<ModularPipelines.KeyValue>?")]
+    [Arguments("System.Collections.Generic.IReadOnlyList<ModularPipelines.Models.KeyValue>")]
+    [Arguments("System.Collections.Generic.IReadOnlyList<ModularPipelines.Models.KeyValue>?")]
+    public async Task External_Metadata_Accepts_Secret_Keys_On_KeyValue_Collections(string cSharpType)
+    {
+        var workspace = CreateTemporaryDirectory();
+        var outputDirectory = Path.Combine(workspace, "integration");
+
+        try
+        {
+            var tool = await LoadValidToolAsync(workspace, outputDirectory);
+            var command = tool.Commands.Single();
+            var option = command.Options.Single() with
+            {
+                CSharpType = cSharpType,
+                IsSecret = true,
+                IsKeyValue = true,
+                SecretValueKeys = ["token"],
+            };
+            tool = tool with
+            {
+                Commands = [command with { Options = [option] }],
+            };
+
+            await CreateOrchestrator().GenerateFromDefinitionAsync(tool, outputDirectory);
+            await Assert.That(Directory.GetFiles(outputDirectory, "*.cs", SearchOption.AllDirectories)).IsNotEmpty();
+        }
+        finally
+        {
+            Directory.Delete(workspace, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task External_Metadata_Rejects_Secret_Keys_On_Nonsecret_Option()
     {
         var workspace = CreateTemporaryDirectory();

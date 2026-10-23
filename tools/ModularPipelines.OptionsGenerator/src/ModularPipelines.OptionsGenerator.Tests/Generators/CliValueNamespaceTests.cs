@@ -21,28 +21,25 @@ public class CliValueNamespaceTests
 
     [Test]
     [MatrixDataSource]
-    public async Task Generated_Options_Work_With_Either_Contract_Namespace(
-        [Matrix(false, true)] bool rootNamespace,
+    public async Task Generated_Options_Work_With_Root_Contract_Namespace(
         [Matrix("objects", "non-generic", "keys", "pairs", "optional", "groups")] string shape,
         [Matrix("", "ModularPipelines.Models.", "global::ModularPipelines.Models.", "ModularPipelines.", "global::ModularPipelines.")] string qualifier)
     {
-        await VerifyConsumer(rootNamespace, shape, positional: false, qualifier);
+        await VerifyConsumer(shape, positional: false, qualifier);
     }
 
     [Test]
     [MatrixDataSource]
-    public async Task Generated_Operands_Work_With_Either_Contract_Namespace(
-        [Matrix(false, true)] bool rootNamespace,
+    public async Task Generated_Operands_Work_With_Root_Contract_Namespace(
         [Matrix("objects", "keys")] string shape,
         [Matrix("", "ModularPipelines.Models.", "global::ModularPipelines.Models.", "ModularPipelines.", "global::ModularPipelines.")] string qualifier)
     {
-        await VerifyConsumer(rootNamespace, shape, positional: true, qualifier);
+        await VerifyConsumer(shape, positional: true, qualifier);
     }
 
     [Test]
     [MatrixDataSource]
-    public async Task Required_Constructors_Work_With_Either_Contract_Namespace(
-        [Matrix(false, true)] bool rootNamespace,
+    public async Task Required_Constructors_Work_With_Root_Contract_Namespace(
         [Matrix(false, true)] bool positional,
         [Matrix("ModularPipelines.Models.", "global::ModularPipelines.Models.", "ModularPipelines.", "global::ModularPipelines.")] string qualifier)
     {
@@ -60,14 +57,14 @@ public class CliValueNamespaceTests
                 },
             ],
         };
-        var assembly = CompileConsumer(rootNamespace,
+        var assembly = CompileConsumer(
         [
             (await new GlobalOptionsBaseGenerator().GenerateAsync(tool)).Single().Content,
             (await new OptionsClassGenerator().GenerateAsync(tool)).Single().Content,
         ]);
         var parameter = assembly.GetType("External.Tool.Options.ToolRunOptions")!.GetConstructors().Single().GetParameters().Single();
         await Assert.That(parameter.ParameterType.GenericTypeArguments[0].Namespace)
-            .IsEqualTo(rootNamespace ? "ModularPipelines" : "ModularPipelines.Models");
+            .IsEqualTo("ModularPipelines");
     }
 
     [Test]
@@ -83,7 +80,7 @@ public class CliValueNamespaceTests
         await Assert.That(argument.PropertyType).IsEqualTo(cSharpType);
     }
 
-    private static async Task VerifyConsumer(bool rootNamespace, string shape, bool positional, string qualifier)
+    private static async Task VerifyConsumer(string shape, bool positional, string qualifier)
     {
         var elementType = shape switch
         {
@@ -104,14 +101,11 @@ public class CliValueNamespaceTests
         }
 
         var harness = CreateHarness(shape, positional, elementType);
-        var assembly = CompileConsumer(rootNamespace, [.. sources, rootNamespace
-            ? harness.Replace("ModularPipelines.Models", "ModularPipelines", StringComparison.Ordinal)
-            : harness]);
-        var expectedNamespace = rootNamespace ? "ModularPipelines" : "ModularPipelines.Models";
+        var assembly = CompileConsumer([.. sources, harness]);
         var globalProperty = assembly.GetType("External.Tool.Options.ToolOptions")!.GetProperty("GlobalValues")!;
         if (globalProperty.PropertyType.IsGenericType && shape is not "objects")
         {
-            await Assert.That(globalProperty.PropertyType.GenericTypeArguments[0].Namespace).IsEqualTo(expectedNamespace);
+            await Assert.That(globalProperty.PropertyType.GenericTypeArguments[0].Namespace).IsEqualTo("ModularPipelines");
         }
 
         var actual = (string[]) assembly.GetType("Consumer")!.GetMethod("Run")!.Invoke(null, null)!;
@@ -195,7 +189,7 @@ public class CliValueNamespaceTests
             ? "new ArgumentPart(\"Values\", property.GetValue, new CliArgumentAttribute(0))"
             : $"new OptionPart(\"Values\", property.GetValue, new CliOptionAttribute(\"--values\") {{ ValueArity = CliOptionValueArity.{(optional ? "Optional" : "Required")}, GroupValues = {(shape == "groups" ? "true" : "false")} }})";
         return $$"""
-            using ModularPipelines.Models;
+            using ModularPipelines;
             using ModularPipelines.Generated;
             using ModularPipelines.Attributes;
             using ModularPipelines.Helpers.Internal;
@@ -239,7 +233,7 @@ public class CliValueNamespaceTests
             """;
     }
 
-    private static Assembly CompileConsumer(bool rootNamespace, string[] generated)
+    private static Assembly CompileConsumer(string[] generated)
     {
         const string support = """
             global using System;
@@ -255,8 +249,7 @@ public class CliValueNamespaceTests
             }
             """;
         var runtimeSources = Directory.GetFiles(Path.Combine(AppContext.BaseDirectory, "Fixtures", "NamespaceRuntime"))
-            .Select(File.ReadAllText)
-            .Select(source => rootNamespace ? source.Replace("ModularPipelines.Models", "ModularPipelines", StringComparison.Ordinal) : source);
+            .Select(File.ReadAllText);
         // Exclude both host assemblies so no old CLI contract can accidentally satisfy a reference.
         var excluded = new[] { typeof(CliValueNamespaceTests).Assembly.Location, typeof(CliToolDefinition).Assembly.Location };
         var references = ((string) AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES")!).Split(Path.PathSeparator)

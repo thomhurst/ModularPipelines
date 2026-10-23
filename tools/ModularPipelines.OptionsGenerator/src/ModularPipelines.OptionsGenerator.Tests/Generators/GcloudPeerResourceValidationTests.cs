@@ -166,9 +166,9 @@ public partial class RequiredConstructorValidationTests
                 {
                     value = new[] { "value" };
                 }
-                else if (property.PropertyType == typeof(IReadOnlyList<ModularPipelines.Models.KeyValue>))
+                else if (property.PropertyType == typeof(IReadOnlyList<ModularPipelines.KeyValue>))
                 {
-                    value = new[] { new ModularPipelines.Models.KeyValue("key", "value", "=") };
+                    value = new[] { new ModularPipelines.KeyValue("key", "value", "=") };
                 }
                 property.SetValue(instance, value);
             }

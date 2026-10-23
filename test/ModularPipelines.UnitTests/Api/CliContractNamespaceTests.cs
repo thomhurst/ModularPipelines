@@ -25,6 +25,7 @@ public class CliContractNamespaceTests
 
         await Assert.That(assembly.ExportedTypes)
             .DoesNotContain(type => type.Namespace == "ModularPipelines.Models");
+        // Generated imports still require Models to exist; this internal record anchors that namespace.
         await Assert.That(assembly.GetType("ModularPipelines.Models.DeclaredDependency")).IsNotNull();
     }
 }

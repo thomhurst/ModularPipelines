@@ -259,10 +259,10 @@ public partial class RequiredConstructorValidationTests
     {
         var assembly = Compile(await GenerateAlternativeCollection(false, collectionType));
         var options = assembly.GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
-        var elementType = typeof(ModularPipelines.Models.KeyValue);
+        var elementType = typeof(ModularPipelines.KeyValue);
         var values = Array.CreateInstance(elementType, 2);
-        values.SetValue(new ModularPipelines.Models.KeyValue("first", "value"), 0);
-        values.SetValue(new ModularPipelines.Models.KeyValue("second", "value"), 1);
+        values.SetValue(new ModularPipelines.KeyValue("first", "value"), 0);
+        values.SetValue(new ModularPipelines.KeyValue("second", "value"), 1);
         var supplied = Activator.CreateInstance(typeof(List<>).MakeGenericType(elementType), [values]);
         var instance = Activator.CreateInstance(options)!;
         options.GetProperty("Values")!.SetValue(instance, supplied);
@@ -336,7 +336,7 @@ public partial class RequiredConstructorValidationTests
             .GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
         var instance = Activator.CreateInstance(options)!;
         var property = options.GetProperty("Values")!;
-        ModularPipelines.Models.CliValuePair[] input = [new("first", "second"), new("third", "fourth")];
+        ModularPipelines.CliValuePair[] input = [new("first", "second"), new("third", "fourth")];
         property.SetValue(instance, collectionType == "object[]?" ? input : input.ToList());
         input[0] = new("changed", "input");
         for (var pass = 0; pass < 2; pass++)
@@ -350,7 +350,7 @@ public partial class RequiredConstructorValidationTests
         {
             var retained = (IList) property.GetValue(instance)!;
             retained.Clear();
-            retained.Add(new ModularPipelines.Models.CliValuePair("fifth", "sixth"));
+            retained.Add(new ModularPipelines.CliValuePair("fifth", "sixth"));
             await Assert.That(RenderAlternativeCollection(instance, false))
                 .IsEquivalentTo(["--requirement", "fifth", "sixth"]);
         }
@@ -386,7 +386,7 @@ public partial class RequiredConstructorValidationTests
         var options = Compile(await GenerateAlternativeCollection(false, collectionType))
             .GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
         var instance = Activator.CreateInstance(options)!;
-        options.GetProperty("Values")!.SetValue(instance, default(System.Collections.Immutable.ImmutableArray<ModularPipelines.Models.CliValuePair>));
+        options.GetProperty("Values")!.SetValue(instance, default(System.Collections.Immutable.ImmutableArray<ModularPipelines.CliValuePair>));
         await Assert.That(((IValidatableObject) instance).Validate(new(instance))).Count().IsEqualTo(1);
         await Assert.That(RenderAlternativeCollection(instance, false)).IsEmpty();
         options.GetProperty("Fallback")!.SetValue(instance, "fallback");
@@ -415,7 +415,7 @@ public partial class RequiredConstructorValidationTests
         await Assert.That(input.EnumerationCount).IsEqualTo(1);
         var retained = (IList) options.GetProperty("Values")!.GetValue(instance)!;
         retained.Clear();
-        retained.Add(new ModularPipelines.Models.CliValuePair("third", "fourth"));
+        retained.Add(new ModularPipelines.CliValuePair("third", "fourth"));
         await Assert.That(RenderAlternativeCollection(instance, false))
             .IsEquivalentTo(["--requirement", "third", "fourth"]);
         retained.Add("ordinary object addition");
@@ -423,7 +423,7 @@ public partial class RequiredConstructorValidationTests
         await Assert.That(retained.Count).IsEqualTo(3);
         await Assert.That(RenderAlternativeCollection(instance, false))
             .IsEquivalentTo(["--requirement", "third", "fourth"]);
-        retained.Remove(new ModularPipelines.Models.CliValuePair("third", "fourth"));
+        retained.Remove(new ModularPipelines.CliValuePair("third", "fourth"));
         await Assert.That(retained.Count).IsEqualTo(2);
         await Assert.That(RenderAlternativeCollection(instance, false)).IsEmpty();
         await Assert.That(((IValidatableObject) instance).Validate(new(instance))).Count().IsEqualTo(1);
@@ -494,7 +494,7 @@ public partial class RequiredConstructorValidationTests
         if (property.GetValue(instance) is IList { IsFixedSize: false } retained)
         {
             retained.Clear();
-            var pair = new ModularPipelines.Models.KeyValue("third", "fourth", ":");
+            var pair = new ModularPipelines.KeyValue("third", "fourth", ":");
             retained.Add(pair);
             retained.Add("ordinary object addition");
             retained.Add(null!);
@@ -523,7 +523,7 @@ public partial class RequiredConstructorValidationTests
         var options = Compile(await GenerateAlternativeCollection(positional, collectionType))
             .GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
         var instance = Activator.CreateInstance(options)!;
-        options.GetProperty("Values")!.SetValue(instance, default(System.Collections.Immutable.ImmutableArray<ModularPipelines.Models.KeyValue>));
+        options.GetProperty("Values")!.SetValue(instance, default(System.Collections.Immutable.ImmutableArray<ModularPipelines.KeyValue>));
         await Assert.That(((IValidatableObject) instance).Validate(new(instance))).Count().IsEqualTo(1);
         await Assert.That(RenderAlternativeCollection(instance, positional)).IsEmpty();
         options.GetProperty("Fallback")!.SetValue(instance, "fallback");
@@ -646,8 +646,8 @@ public partial class RequiredConstructorValidationTests
     [Test]
     [Arguments(false, "IEnumerable<KeyValue>?")]
     [Arguments(true, "IEnumerable<KeyValue>?")]
-    [Arguments(false, "IEnumerable<global::ModularPipelines.Models.KeyValue>?")]
-    [Arguments(true, "IEnumerable<global::ModularPipelines.Models.KeyValue>?")]
+    [Arguments(false, "IEnumerable<global::ModularPipelines.KeyValue>?")]
+    [Arguments(true, "IEnumerable<global::ModularPipelines.KeyValue>?")]
     [Arguments(false, "IEnumerable<KeyValue?>?")]
     [Arguments(true, "IEnumerable<KeyValue?>?")]
     public async Task Alternative_Matching_Typed_Views_Still_Snapshot_Once(bool positional, string collectionType)
@@ -667,11 +667,11 @@ public partial class RequiredConstructorValidationTests
         await Assert.That(input.EnumerationCount).IsEqualTo(1);
     }
 
-    private sealed class SingleUseKeyValues : IEnumerable<ModularPipelines.Models.KeyValue>
+    private sealed class SingleUseKeyValues : IEnumerable<ModularPipelines.KeyValue>
     {
         public int EnumerationCount { get; private set; }
 
-        public IEnumerator<ModularPipelines.Models.KeyValue> GetEnumerator()
+        public IEnumerator<ModularPipelines.KeyValue> GetEnumerator()
         {
             if (++EnumerationCount != 1)
             {
@@ -684,12 +684,12 @@ public partial class RequiredConstructorValidationTests
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 
-    private static IEnumerator<ModularPipelines.Models.CliValuePair> CreatePairView()
+    private static IEnumerator<ModularPipelines.CliValuePair> CreatePairView()
     {
         yield return new("typed", "value");
     }
 
-    private static IEnumerator<ModularPipelines.Models.KeyValue> CreateKeyValueView()
+    private static IEnumerator<ModularPipelines.KeyValue> CreateKeyValueView()
     {
         yield return new("typed", "value");
     }
@@ -730,7 +730,7 @@ public partial class RequiredConstructorValidationTests
         await Assert.That(input.KeyValueEnumerationCount).IsEqualTo(positional ? 1 : 0);
     }
 
-    private sealed class StringRendererViews : List<string>, IEnumerable<ModularPipelines.Models.CliValuePair>, IEnumerable<ModularPipelines.Models.KeyValue>
+    private sealed class StringRendererViews : List<string>, IEnumerable<ModularPipelines.CliValuePair>, IEnumerable<ModularPipelines.KeyValue>
     {
         private readonly bool _singleUse;
 
@@ -744,7 +744,7 @@ public partial class RequiredConstructorValidationTests
 
         public int KeyValueEnumerationCount { get; private set; }
 
-        IEnumerator<ModularPipelines.Models.CliValuePair> IEnumerable<ModularPipelines.Models.CliValuePair>.GetEnumerator()
+        IEnumerator<ModularPipelines.CliValuePair> IEnumerable<ModularPipelines.CliValuePair>.GetEnumerator()
         {
             if (++PairEnumerationCount > 1 && _singleUse)
             {
@@ -754,7 +754,7 @@ public partial class RequiredConstructorValidationTests
             yield return new("typed", "value");
         }
 
-        IEnumerator<ModularPipelines.Models.KeyValue> IEnumerable<ModularPipelines.Models.KeyValue>.GetEnumerator()
+        IEnumerator<ModularPipelines.KeyValue> IEnumerable<ModularPipelines.KeyValue>.GetEnumerator()
         {
             if (++KeyValueEnumerationCount > 1 && _singleUse)
             {
@@ -765,30 +765,30 @@ public partial class RequiredConstructorValidationTests
         }
     }
 
-    private sealed class KeyValueListWithPairView : List<ModularPipelines.Models.KeyValue>, IEnumerable<ModularPipelines.Models.CliValuePair>
+    private sealed class KeyValueListWithPairView : List<ModularPipelines.KeyValue>, IEnumerable<ModularPipelines.CliValuePair>
     {
         public KeyValueListWithPairView() => Add(new("ordinary", "value"));
 
-        IEnumerator<ModularPipelines.Models.CliValuePair> IEnumerable<ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+        IEnumerator<ModularPipelines.CliValuePair> IEnumerable<ModularPipelines.CliValuePair>.GetEnumerator() =>
             CreatePairView();
     }
 
-    private sealed class PairListWithKeyValueView : List<ModularPipelines.Models.CliValuePair>, IEnumerable<ModularPipelines.Models.KeyValue>
+    private sealed class PairListWithKeyValueView : List<ModularPipelines.CliValuePair>, IEnumerable<ModularPipelines.KeyValue>
     {
         public PairListWithKeyValueView() => Add(new("ordinary", "value"));
 
-        IEnumerator<ModularPipelines.Models.KeyValue> IEnumerable<ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+        IEnumerator<ModularPipelines.KeyValue> IEnumerable<ModularPipelines.KeyValue>.GetEnumerator() =>
             CreateKeyValueView();
     }
 
-    private sealed class ArrayListRendererViews : ArrayList, IEnumerable<ModularPipelines.Models.CliValuePair>, IEnumerable<ModularPipelines.Models.KeyValue>
+    private sealed class ArrayListRendererViews : ArrayList, IEnumerable<ModularPipelines.CliValuePair>, IEnumerable<ModularPipelines.KeyValue>
     {
         public ArrayListRendererViews() => Add("ordinary");
 
-        IEnumerator<ModularPipelines.Models.CliValuePair> IEnumerable<ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+        IEnumerator<ModularPipelines.CliValuePair> IEnumerable<ModularPipelines.CliValuePair>.GetEnumerator() =>
             CreatePairView();
 
-        IEnumerator<ModularPipelines.Models.KeyValue> IEnumerable<ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+        IEnumerator<ModularPipelines.KeyValue> IEnumerable<ModularPipelines.KeyValue>.GetEnumerator() =>
             CreateKeyValueView();
     }
 
@@ -846,20 +846,20 @@ public partial class RequiredConstructorValidationTests
         }
     }
 
-    private sealed class SingleUseStringSetViews : HashSet<string>, IEnumerable<ModularPipelines.Models.CliValuePair>, IEnumerable<ModularPipelines.Models.KeyValue>
+    private sealed class SingleUseStringSetViews : HashSet<string>, IEnumerable<ModularPipelines.CliValuePair>, IEnumerable<ModularPipelines.KeyValue>
     {
         public SingleUseStringSetViews() : base(StringComparer.OrdinalIgnoreCase) => Add("ordinary");
 
         public StringRendererViews Renderer { get; } = new(singleUse: true);
 
-        IEnumerator<ModularPipelines.Models.CliValuePair> IEnumerable<ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
-            ((IEnumerable<ModularPipelines.Models.CliValuePair>) Renderer).GetEnumerator();
+        IEnumerator<ModularPipelines.CliValuePair> IEnumerable<ModularPipelines.CliValuePair>.GetEnumerator() =>
+            ((IEnumerable<ModularPipelines.CliValuePair>) Renderer).GetEnumerator();
 
-        IEnumerator<ModularPipelines.Models.KeyValue> IEnumerable<ModularPipelines.Models.KeyValue>.GetEnumerator() =>
-            ((IEnumerable<ModularPipelines.Models.KeyValue>) Renderer).GetEnumerator();
+        IEnumerator<ModularPipelines.KeyValue> IEnumerable<ModularPipelines.KeyValue>.GetEnumerator() =>
+            ((IEnumerable<ModularPipelines.KeyValue>) Renderer).GetEnumerator();
     }
 
-    private sealed class IndependentSetViews : HashSet<object>, IEnumerable<ModularPipelines.Models.CliValuePair>, IEnumerable<ModularPipelines.Models.KeyValue>
+    private sealed class IndependentSetViews : HashSet<object>, IEnumerable<ModularPipelines.CliValuePair>, IEnumerable<ModularPipelines.KeyValue>
     {
         private readonly bool _singleUse;
 
@@ -878,36 +878,36 @@ public partial class RequiredConstructorValidationTests
 
         public int KeyValueEnumerationCount { get; private set; }
 
-        IEnumerator<ModularPipelines.Models.CliValuePair> IEnumerable<ModularPipelines.Models.CliValuePair>.GetEnumerator()
+        IEnumerator<ModularPipelines.CliValuePair> IEnumerable<ModularPipelines.CliValuePair>.GetEnumerator()
         {
             if (++PairEnumerationCount > 1 && _singleUse)
             {
                 throw new InvalidOperationException("Pair input can only be enumerated once.");
             }
 
-            var pair = new ModularPipelines.Models.CliValuePair("first", "second");
+            var pair = new ModularPipelines.CliValuePair("first", "second");
             yield return pair;
             yield return pair;
         }
 
-        IEnumerator<ModularPipelines.Models.KeyValue> IEnumerable<ModularPipelines.Models.KeyValue>.GetEnumerator()
+        IEnumerator<ModularPipelines.KeyValue> IEnumerable<ModularPipelines.KeyValue>.GetEnumerator()
         {
             if (++KeyValueEnumerationCount > 1 && _singleUse)
             {
                 throw new InvalidOperationException("KeyValue input can only be enumerated once.");
             }
 
-            var pair = new ModularPipelines.Models.KeyValue("first", "second");
+            var pair = new ModularPipelines.KeyValue("first", "second");
             yield return pair;
             yield return pair;
         }
     }
 
-    private class PairAndKeyValueViews : SingleUseMutableKeyValues, IEnumerable<ModularPipelines.Models.CliValuePair>
+    private class PairAndKeyValueViews : SingleUseMutableKeyValues, IEnumerable<ModularPipelines.CliValuePair>
     {
         public int PairEnumerationCount { get; private set; }
 
-        IEnumerator<ModularPipelines.Models.CliValuePair> IEnumerable<ModularPipelines.Models.CliValuePair>.GetEnumerator()
+        IEnumerator<ModularPipelines.CliValuePair> IEnumerable<ModularPipelines.CliValuePair>.GetEnumerator()
         {
             if (++PairEnumerationCount != 1)
             {
@@ -926,13 +926,13 @@ public partial class RequiredConstructorValidationTests
             throw new InvalidOperationException("Scalar character sequences must not be enumerated.");
     }
 
-    private class SingleUseMutableKeyValues : List<object>, IEnumerable<ModularPipelines.Models.KeyValue>
+    private class SingleUseMutableKeyValues : List<object>, IEnumerable<ModularPipelines.KeyValue>
     {
         public int EnumerationCount { get; private set; }
 
         public SingleUseMutableKeyValues() => Add("ordinary object view");
 
-        IEnumerator<ModularPipelines.Models.KeyValue> IEnumerable<ModularPipelines.Models.KeyValue>.GetEnumerator()
+        IEnumerator<ModularPipelines.KeyValue> IEnumerable<ModularPipelines.KeyValue>.GetEnumerator()
         {
             if (++EnumerationCount != 1)
             {
@@ -943,7 +943,7 @@ public partial class RequiredConstructorValidationTests
         }
     }
 
-    private sealed class SingleUseMutablePairs : List<object>, IEnumerable<ModularPipelines.Models.CliValuePair>
+    private sealed class SingleUseMutablePairs : List<object>, IEnumerable<ModularPipelines.CliValuePair>
     {
         public int EnumerationCount { get; private set; }
 
@@ -951,7 +951,7 @@ public partial class RequiredConstructorValidationTests
         // snapshots must use the specialized interface selected by the command builder.
         public SingleUseMutablePairs() => Add("ordinary object view");
 
-        IEnumerator<ModularPipelines.Models.CliValuePair> IEnumerable<ModularPipelines.Models.CliValuePair>.GetEnumerator()
+        IEnumerator<ModularPipelines.CliValuePair> IEnumerable<ModularPipelines.CliValuePair>.GetEnumerator()
         {
             if (++EnumerationCount != 1)
             {
@@ -962,11 +962,11 @@ public partial class RequiredConstructorValidationTests
         }
     }
 
-    private sealed class SingleUseValuePairs : IEnumerable<ModularPipelines.Models.CliValuePair>
+    private sealed class SingleUseValuePairs : IEnumerable<ModularPipelines.CliValuePair>
     {
         public int EnumerationCount { get; private set; }
 
-        public IEnumerator<ModularPipelines.Models.CliValuePair> GetEnumerator()
+        public IEnumerator<ModularPipelines.CliValuePair> GetEnumerator()
         {
             if (++EnumerationCount != 1)
             {

@@ -4,7 +4,6 @@ using Microsoft.CodeAnalysis.CSharp;
 using ModularPipelines.Attributes;
 using ModularPipelines.Generated;
 using ModularPipelines.Helpers.Internal;
-using ModularPipelines.Models;
 using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Tests.Scrapers;
 

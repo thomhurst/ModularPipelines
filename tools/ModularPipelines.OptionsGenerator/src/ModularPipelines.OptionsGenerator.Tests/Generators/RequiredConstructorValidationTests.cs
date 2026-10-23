@@ -116,9 +116,9 @@ public partial class RequiredConstructorValidationTests
     {
         var assembly = Compile(await Generate(collectionType, alternateInput: false, isCollection: null));
         var options = assembly.GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
-        var elementType = typeof(ModularPipelines.Models.KeyValue);
+        var elementType = typeof(ModularPipelines.KeyValue);
         var values = Array.CreateInstance(elementType, 1);
-        values.SetValue(new ModularPipelines.Models.KeyValue("key", "value"), 0);
+        values.SetValue(new ModularPipelines.KeyValue("key", "value"), 0);
         var listType = typeof(List<>).MakeGenericType(elementType);
         var supplied = (System.Collections.IList) Activator.CreateInstance(listType, [values])!;
         object argument = supplied;
@@ -149,7 +149,7 @@ public partial class RequiredConstructorValidationTests
     {
         var assembly = Compile(await Generate("IReadOnlyList<KeyValue>?", alternateInput: false, isCollection: null));
         var options = assembly.GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
-        var elementType = typeof(ModularPipelines.Models.KeyValue);
+        var elementType = typeof(ModularPipelines.KeyValue);
 
         foreach (var count in new[] { 0, 1 })
         {

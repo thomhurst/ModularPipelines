@@ -31,11 +31,11 @@
 
   <!-- Compile the production renderer directly; the generator already links its shared phase/arity enums. -->
   <ItemGroup>
-    <!-- Copy production sources as text so the test can compile isolated consumers against either contract namespace. -->
-    <Content Include="../../../../src/ModularPipelines/Models/KeyValue.cs;
-                      ../../../../src/ModularPipelines/Models/CliOptionValue.cs;
-                      ../../../../src/ModularPipelines/Models/CliValuePair.cs;
-                      ../../../../src/ModularPipelines/Models/CliValueGroup.cs;
+    <!-- Copy production sources as text so the test can compile isolated consumers against the root contract namespace. -->
+    <Content Include="../../../../src/ModularPipelines/KeyValue.cs;
+                      ../../../../src/ModularPipelines/CliOptionValue.cs;
+                      ../../../../src/ModularPipelines/CliValuePair.cs;
+                      ../../../../src/ModularPipelines/CliValueGroup.cs;
                       ../../../../src/ModularPipelines/Helpers/Internal/CommandArgumentBuilder.cs;
                       ../../../../src/ModularPipelines/Helpers/Internal/ICommandArgumentBuilder.cs;
                       ../../../../src/ModularPipelines/Generated/PropertyCommandLinePart.cs;
@@ -58,10 +58,10 @@
     <Compile Include="../../../../src/ModularPipelines/Generated/PropertyCommandLinePart.cs" Link="Runtime/Generated/PropertyCommandLinePart.cs" />
     <Compile Include="../../../../src/ModularPipelines/Helpers/Internal/CommandArgumentBuilder.cs" Link="Runtime/Helpers/Internal/CommandArgumentBuilder.cs" />
     <Compile Include="../../../../src/ModularPipelines/Helpers/Internal/ICommandArgumentBuilder.cs" Link="Runtime/Helpers/Internal/ICommandArgumentBuilder.cs" />
-    <Compile Include="../../../../src/ModularPipelines/Models/CliOptionValue.cs" Link="Runtime/Models/CliOptionValue.cs" />
-    <Compile Include="../../../../src/ModularPipelines/Models/CliValuePair.cs" Link="Runtime/Models/CliValuePair.cs" />
-    <Compile Include="../../../../src/ModularPipelines/Models/CliValueGroup.cs" Link="Runtime/Models/CliValueGroup.cs" />
-    <Compile Include="../../../../src/ModularPipelines/Models/KeyValue.cs" Link="Runtime/Models/KeyValue.cs" />
+    <Compile Include="../../../../src/ModularPipelines/CliOptionValue.cs" Link="Runtime/CliOptionValue.cs" />
+    <Compile Include="../../../../src/ModularPipelines/CliValuePair.cs" Link="Runtime/CliValuePair.cs" />
+    <Compile Include="../../../../src/ModularPipelines/CliValueGroup.cs" Link="Runtime/CliValueGroup.cs" />
+    <Compile Include="../../../../src/ModularPipelines/KeyValue.cs" Link="Runtime/KeyValue.cs" />
   </ItemGroup>
 
 </Project>
