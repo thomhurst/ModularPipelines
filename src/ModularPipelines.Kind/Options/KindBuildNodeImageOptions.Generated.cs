@@ -14,7 +14,7 @@ using ModularPipelines.Kind.Enums;
 namespace ModularPipelines.Kind.Options;
 
 /// <summary>
-/// Build the node image which contains Kubernetes build artifacts and other kind requirements.
+/// Build the node image which contains Kubernetes build artifacts and other kind requirements. By default, this will build from a local Kubernetes source directory (auto-detected if omitted).
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
