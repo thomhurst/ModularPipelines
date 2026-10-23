@@ -96,6 +96,7 @@ public class OptionsClassGenerator : ICodeGenerator
             usesExplicitRequiredConstructor,
             requiredPropertiesAreNonNullable: usesExplicitRequiredConstructor && !supportsAlternateInputModes);
         GenerateValidation(sb, command, positionalArguments, emittedOptions);
+        GeneratorUtils.GenerateRedactingPrintMembers(sb);
         sb.AppendLine("}");
 
         return sb.ToString();

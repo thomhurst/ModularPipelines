@@ -15,11 +15,12 @@ public class CommandLineTests
     }
 
     [Test]
-    public async Task CommandLine_ToString_FormatsCorrectly()
+    public async Task CommandLine_ToString_RedactsArguments()
     {
-        var commandLine = new CommandLine("git", ["commit", "-m", "test message"]);
+        var commandLine = new CommandLine("git", ["clone", "https://user:secret@example.com/repo?token=secret"]);
 
-        await Assert.That(commandLine.ToString()).IsEqualTo("git commit -m test message");
+        await Assert.That(commandLine.ToString()).IsEqualTo("git <redacted>");
+        await Assert.That(commandLine.Arguments[1]).Contains("secret");
     }
 
     [Test]
