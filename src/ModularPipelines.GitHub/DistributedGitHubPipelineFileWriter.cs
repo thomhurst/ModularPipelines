@@ -48,6 +48,9 @@ internal sealed class DistributedGitHubPipelineFileWriter : IBuildSystemPipeline
     {
         ValidateOptions();
 
+        var redisSecretExpression = GitHubPipelineFileWriter.GetSecretExpression(
+            _options.RedisSecretName,
+            nameof(DistributedWorkflowOptions.RedisSecretName));
         var matrix = BuildMatrix();
         var environmentVariables = new Dictionary<string, string>(
             _options.EnvironmentVariables ?? new Dictionary<string, string>(),
@@ -55,7 +58,7 @@ internal sealed class DistributedGitHubPipelineFileWriter : IBuildSystemPipeline
         {
             ["MODULARPIPELINES_INSTANCE_INDEX"] = "${{ matrix.instance }}",
             ["MODULARPIPELINES_TOTAL_INSTANCES"] = matrix.Length.ToString(System.Globalization.CultureInfo.InvariantCulture),
-            ["REDIS_URL"] = $"${{{{ secrets.{_options.RedisSecretName} }}}}",
+            ["REDIS_URL"] = redisSecretExpression,
             ["MODULARPIPELINES_RUN_ID"] = "${{ needs.initialize.outputs.run-identifier }}",
         };
 
@@ -416,7 +419,6 @@ internal sealed class DistributedGitHubPipelineFileWriter : IBuildSystemPipeline
         ArgumentException.ThrowIfNullOrWhiteSpace(_options.Name);
         ArgumentException.ThrowIfNullOrWhiteSpace(_options.DotNetVersion);
         ArgumentException.ThrowIfNullOrWhiteSpace(_options.DefaultRunner);
-        ArgumentException.ThrowIfNullOrWhiteSpace(_options.RedisSecretName);
         ArgumentNullException.ThrowIfNull(_options.OutputPath);
         ArgumentNullException.ThrowIfNull(_options.PipelineProjectPath);
         ArgumentNullException.ThrowIfNull(_options.TriggerCondition);

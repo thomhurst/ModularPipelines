@@ -58,7 +58,8 @@ public sealed record DistributedWorkflowOptions
     public string DefaultRunner { get; init; } = "ubuntu-latest";
 
     /// <summary>
-    /// Gets the GitHub Actions secret containing the Redis connection string.
+    /// Gets the name of the GitHub Actions secret containing the Redis connection string.
+    /// Supply a secret name, not the connection string or a GitHub expression.
     /// </summary>
     public string RedisSecretName { get; init; } = "REDIS_URL";
 
