@@ -58,6 +58,11 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
+      - name: Validate SDK pins for the GA switch
+        shell: pwsh
+        run: |
+          ./scripts/Test-SdkPins.ps1
+          ./scripts/Assert-SdkPins.ps1
       - name: Detect generated integration pull request
         id: generated_integration
         uses: ./.github/actions/detect-generated-integration
