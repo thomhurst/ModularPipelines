@@ -723,6 +723,8 @@ jobs:
           GitHub__AdminToken: ${{ matrix.instance == 0 && secrets.ADMIN_TOKEN || '' }}
           Publish__ShouldPublish: ${{ github.ref == 'refs/heads/main' && inputs.publish-packages == true && matrix.instance == 0 }}
           Publish__ExpectedVersion: ${{ inputs.expected-version }}
+          # Exercise every packed package and its symbols against a disposable local feed.
+          Publish__RehearsalFeedPath: ${{ matrix.instance == 0 && runner.os == 'Linux' && format('{0}/nuget-publish-rehearsal', runner.temp) || '' }}
           # Only a publishing dispatch may select stable versions; validation runs use alpha package versions.
           Publish__IsAlpha: ${{ github.event_name != 'workflow_dispatch' || inputs.publish-packages != true || inputs.is-alpha }}
           Codacy__ApiKey: ${{ matrix.instance == 0 && secrets.CODACY_APIKEY || '' }}
@@ -733,6 +735,15 @@ jobs:
           MODULARPIPELINES_RUN_ID: ${{ needs.fast-fail.outputs.run_identifier }}
           REDIS_ENDPOINT: ${{ needs.fast-fail.outputs.distributed == 'true' && secrets.REDIS_ENDPOINT || '' }}
           REDIS_KEY: ${{ needs.fast-fail.outputs.distributed == 'true' && secrets.REDIS_KEY || '' }}
+
+      - name: Upload publish rehearsal evidence
+        if: always() && matrix.instance == 0 && runner.os == 'Linux'
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: publish-rehearsal-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/nuget-publish-rehearsal/manifest.json
+          if-no-files-found: warn
+          retention-days: 14
 
       - name: Summarize pipeline efficiency
         if: always() && matrix.instance == 0 && steps.checkout.outcome == 'success'

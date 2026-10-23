@@ -12,18 +12,21 @@ public static class NugetUploadHelper
         IEnumerable<FilePath> packagePaths,
         string source,
         string? apiKey,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken,
+        Action<DotNetNuGetPushOptions>? configurePush = null)
     {
         var results = new List<CommandResult>();
         foreach (var nugetFile in packagePaths)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            results.Add(await context.Tools.DotNet.NuGet.PushAsync(new DotNetNuGetPushOptions(GetPushPaths(nugetFile))
+            var options = new DotNetNuGetPushOptions(GetPushPaths(nugetFile))
             {
                 Source = source,
                 ApiKey = apiKey,
                 SkipDuplicate = true,
-            }, cancellationToken: cancellationToken).ConfigureAwait(false));
+            };
+            configurePush?.Invoke(options);
+            results.Add(await context.Tools.DotNet.NuGet.PushAsync(options, cancellationToken: cancellationToken).ConfigureAwait(false));
         }
 
         return results.ToArray();

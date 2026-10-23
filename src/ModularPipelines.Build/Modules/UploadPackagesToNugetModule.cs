@@ -15,6 +15,7 @@ namespace ModularPipelines.Build.Modules;
 [RequiresCapability("ci-master")]
 [DependsOn<RunAllUnitTestsModule>]
 [DependsOn<PackagePathsParserModule>]
+[DependsOn<RehearsePublishModule>(Optional = true)]
 [RunIf<ModularPipelines.OnLinux>]
 [SkipIfNoGitHubToken]
 [RunOnlyOnBranch("main")]
