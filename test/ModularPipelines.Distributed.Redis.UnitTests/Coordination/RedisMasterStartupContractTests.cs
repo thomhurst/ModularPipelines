@@ -1,3 +1,5 @@
+using Microsoft.Extensions.Time.Testing;
+using ModularPipelines.Distributed.Coordination;
 using ModularPipelines.Distributed.Redis.Coordination;
 using ModularPipelines.Testing.Distributed;
 using Respire;
@@ -128,6 +130,39 @@ public class RedisMasterStartupContractTests
             {
                 await client.DeleteAsync([.. freshKeys.ScriptKeys.Select(key => (RespireKey) key)]);
             }
+        });
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public Task Worker_Startup_Deadline_Depends_On_Whether_The_Master_Starts(bool startMaster) =>
+        RunAsync(async (factory, client, keys, options) =>
+        {
+            var clock = new FakeTimeProvider();
+            var redisOptions = new RedisOptions
+            {
+                TimeToLive = TimeSpan.FromMinutes(2),
+                MasterStartTimeout = TimeSpan.FromSeconds(30),
+            };
+            await using var worker = new RedisDistributedCoordinator(
+                client, keys, redisOptions, distributedOptions: options, timeProvider: clock);
+            await worker.RegisterWorkerAsync(new WorkerRegistration
+            {
+                WorkerId = new WorkerId("startup-deadline-worker"),
+                RunId = options.RunId,
+                Capabilities = [],
+                RegisteredAt = DateTimeOffset.UtcNow,
+            }, CancellationToken.None);
+            clock.Advance(TimeSpan.FromSeconds(29));
+            await Assert.That(await worker.GetMasterStateAsync(CancellationToken.None))
+                .IsEqualTo(DistributedMasterState.Running);
+
+            await using var master = startMaster
+                ? (RedisDistributedCoordinator) await factory.CreateMasterAsync(CancellationToken.None)
+                : null;
+            clock.Advance(TimeSpan.FromSeconds(1));
+            await Assert.That(await worker.GetMasterStateAsync(CancellationToken.None))
+                .IsEqualTo(startMaster ? DistributedMasterState.Running : DistributedMasterState.Lost);
         });
 
     private static async Task AssertReusedRunAsync(

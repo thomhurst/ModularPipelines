@@ -67,6 +67,10 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
     private readonly TimeSpan _workerTimeout;
     private readonly int _maxModuleLeaseExpirations;
     private readonly TimeSpan _masterTimeout;
+    private readonly TimeProvider _timeProvider;
+    private readonly TimeSpan _masterStartTimeout;
+    private long _workerRegisteredAt = -1;
+    private bool _masterStarted;
     private readonly CancellationTokenSource _masterHeartbeatCts = new();
     private int _disposed;
     private Task _masterHeartbeatTask = Task.CompletedTask;
@@ -81,9 +85,12 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
         Action? onWaitReady = null,
         DistributedOptions? distributedOptions = null,
         ILogger<RedisDistributedCoordinator>? logger = null,
-        RedisCoordinationDiagnostics? diagnostics = null)
+        RedisCoordinationDiagnostics? diagnostics = null,
+        TimeProvider? timeProvider = null)
     {
         _redis = redis;
+        _timeProvider = timeProvider ?? TimeProvider.System;
+        _masterStartTimeout = options.MasterStartTimeout;
         _keys = keys;
         _scriptKeys = [.. keys.ScriptKeys.Select(static key => (RespireKey) key)];
         _keyExpiration = options.TimeToLive;
@@ -300,6 +307,9 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
                 $"Worker '{registration.WorkerId}' is already registered by another live process. "
                 + "Give every distributed process a unique instance index.");
         }
+
+        // A reconnect of this worker session must not extend the startup deadline.
+        Interlocked.CompareExchange(ref _workerRegisteredAt, _timeProvider.GetTimestamp(), -1);
     }
 
     public async Task SendHeartbeatAsync(WorkerStatus status, CancellationToken cancellationToken)
@@ -517,6 +527,30 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
                     [(long) _masterTimeout.TotalMilliseconds],
                     cancellationToken)
                 .ConfigureAwait(false);
+
+            // Lua uses 3 internally for a run whose master has never sent a heartbeat.
+            // Keep the public state contract and enforce a worker-local, monotonic deadline.
+            if (state == 3)
+            {
+                var registeredAt = Interlocked.Read(ref _workerRegisteredAt);
+                if (_masterStarted)
+                {
+                    return DistributedMasterState.Lost;
+                }
+
+                if (registeredAt >= 0 && _timeProvider.GetElapsedTime(registeredAt) >= _masterStartTimeout)
+                {
+                    _logger?.LogError(
+                        "The distributed master did not start within {MasterStartTimeout} of worker registration; "
+                        + "check that the master job started and uses the same RunId",
+                        _masterStartTimeout);
+                    return DistributedMasterState.Lost;
+                }
+
+                return DistributedMasterState.Running;
+            }
+
+            _masterStarted = true;
             return (DistributedMasterState) state;
         }
         catch (Exception exception) when (RedisTransientRetry.IsTransient(exception))

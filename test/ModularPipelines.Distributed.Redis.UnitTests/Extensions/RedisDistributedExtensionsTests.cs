@@ -548,6 +548,67 @@ public class RedisDistributedExtensionsTests
     }
 
     [Test]
+    [Arguments(9)]
+    [Arguments(10)]
+    public async Task MasterStartTimeout_Allows_Heartbeat_Intervals_Up_To_The_Deadline(int heartbeatSeconds)
+    {
+        var builder = Pipeline.CreateBuilder();
+        builder.AddModule<NoOpModule>();
+        builder.AddDistributedMode(options => options with
+        {
+            RunId = "startup-interval-validation",
+            WorkerHeartbeatInterval = TimeSpan.FromSeconds(heartbeatSeconds),
+        });
+        builder.AddRedisDistributed(options => options with
+        {
+            ConnectionString = "unused",
+            MasterStartTimeout = TimeSpan.FromSeconds(10),
+        });
+
+        await using var pipeline = await builder.BuildAsync();
+        await Assert.That(pipeline.Services.GetRequiredService<IOptions<RedisOptions>>().Value.MasterStartTimeout)
+            .IsEqualTo(TimeSpan.FromSeconds(10));
+    }
+
+    [Test]
+    public async Task MasterStartTimeout_Rejects_A_Longer_Heartbeat_Interval_At_Startup()
+    {
+        var builder = Pipeline.CreateBuilder();
+        builder.AddModule<NoOpModule>();
+        builder.AddDistributedMode(options => options with
+        {
+            RunId = "startup-interval-validation",
+            WorkerHeartbeatInterval = TimeSpan.FromSeconds(11),
+        });
+        builder.AddRedisDistributed(options => options with
+        {
+            ConnectionString = "unused",
+            MasterStartTimeout = TimeSpan.FromSeconds(10),
+        });
+
+        await Assert.That(async () => await builder.BuildAsync())
+            .Throws<OptionsValidationException>()
+            .WithMessageContaining("RedisOptions.MasterStartTimeout must be at least DistributedOptions.WorkerHeartbeatInterval.");
+    }
+
+    [Test]
+    public async Task ModuleCache_Does_Not_Compare_MasterStartTimeout_With_The_Heartbeat_Interval()
+    {
+        var builder = Pipeline.CreateBuilder();
+        builder.AddModule<NoOpModule>();
+        builder.AddRedisModuleCache(options => options with
+        {
+            ConnectionString = "unused",
+            MasterStartTimeout = TimeSpan.FromMilliseconds(1),
+        });
+
+        await using var pipeline = await builder.BuildAsync();
+        await Assert.That(pipeline.Services.GetRequiredService<IOptionsMonitor<RedisOptions>>()
+                .Get("ModularPipelines.RedisModuleCache").MasterStartTimeout)
+            .IsEqualTo(TimeSpan.FromMilliseconds(1));
+    }
+
+    [Test]
     public async Task TimeToLive_Must_Exceed_ModuleResultTimeout()
     {
         var builder = Pipeline.CreateBuilder();

@@ -59,6 +59,14 @@ public sealed record RedisOptions
     /// </summary>
     public bool FailOnUnsafeMemoryPolicy { get; init; }
 
+    /// <summary>
+    /// Gets how long a registered worker waits for the master to start before reporting it as lost.
+    /// Must be positive and finite, and at least <see cref="DistributedOptions.WorkerHeartbeatInterval"/>
+    /// for the coordinator and artifact store. Default: 5 minutes. Once the master starts,
+    /// <see cref="DistributedOptions.MasterTimeout"/> governs heartbeat loss instead.
+    /// </summary>
+    public TimeSpan MasterStartTimeout { get; init; } = TimeSpan.FromMinutes(5);
+
     private bool PrintMembers(StringBuilder builder)
     {
         builder.Append("ConnectionString = <redacted>");

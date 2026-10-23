@@ -18,6 +18,39 @@ internal sealed class RedisOptionsValidator(string optionsName, IOptions<Distrib
         }
 
         var failures = new List<string>();
+        ValidateConnection(options, failures);
+
+        if (string.IsNullOrWhiteSpace(options.KeyPrefix))
+        {
+            failures.Add($"{nameof(RedisOptions)}.{nameof(RedisOptions.KeyPrefix)} must not be empty.");
+        }
+
+        if (options.ChunkSizeBytes <= 0)
+        {
+            failures.Add($"{nameof(RedisOptions)}.{nameof(RedisOptions.ChunkSizeBytes)} must be positive.");
+        }
+
+        if (options.MasterStartTimeout <= TimeSpan.Zero)
+        {
+            failures.Add($"{nameof(RedisOptions)}.{nameof(RedisOptions.MasterStartTimeout)} must be positive and finite.");
+        }
+        else if (string.IsNullOrEmpty(name)
+                 && options.MasterStartTimeout < distributedOptions.Value.WorkerHeartbeatInterval)
+        {
+            failures.Add(
+                $"{nameof(RedisOptions)}.{nameof(RedisOptions.MasterStartTimeout)} must be at least " +
+                $"{nameof(DistributedOptions)}.{nameof(DistributedOptions.WorkerHeartbeatInterval)}.");
+        }
+
+        ValidateKeyLifetime(name, options, failures);
+
+        return failures.Count == 0
+            ? ValidateOptionsResult.Success
+            : ValidateOptionsResult.Fail(failures);
+    }
+
+    private static void ValidateConnection(RedisOptions options, List<string> failures)
+    {
         try
         {
             if (RedisConnectionProvider.CreateConfiguration(options).Endpoints.Count == 0)
@@ -33,17 +66,10 @@ internal sealed class RedisOptionsValidator(string optionsName, IOptions<Distrib
             failures.Add(
                 $"{nameof(RedisOptions)}.{nameof(RedisOptions.ConnectionString)} is invalid: {exception.Message}");
         }
+    }
 
-        if (string.IsNullOrWhiteSpace(options.KeyPrefix))
-        {
-            failures.Add($"{nameof(RedisOptions)}.{nameof(RedisOptions.KeyPrefix)} must not be empty.");
-        }
-
-        if (options.ChunkSizeBytes <= 0)
-        {
-            failures.Add($"{nameof(RedisOptions)}.{nameof(RedisOptions.ChunkSizeBytes)} must be positive.");
-        }
-
+    private void ValidateKeyLifetime(string? name, RedisOptions options, List<string> failures)
+    {
         if (options.TimeToLive <= TimeSpan.Zero)
         {
             failures.Add($"{nameof(RedisOptions)}.{nameof(RedisOptions.TimeToLive)} must be positive.");
@@ -69,9 +95,5 @@ internal sealed class RedisOptionsValidator(string optionsName, IOptions<Distrib
                     "so workers see a stopped master's heartbeat go stale before it expires.");
             }
         }
-
-        return failures.Count == 0
-            ? ValidateOptionsResult.Success
-            : ValidateOptionsResult.Fail(failures);
     }
 }
