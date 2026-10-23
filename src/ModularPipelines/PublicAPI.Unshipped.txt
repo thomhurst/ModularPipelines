@@ -1,4 +1,8 @@
 #nullable enable
+ModularPipelines.Serialization.ModuleTimelineJsonConverter
+ModularPipelines.Serialization.ModuleTimelineJsonConverter.ModuleTimelineJsonConverter() -> void
+override ModularPipelines.Serialization.ModuleTimelineJsonConverter.Read(ref System.Text.Json.Utf8JsonReader reader, System.Type! typeToConvert, System.Text.Json.JsonSerializerOptions! options) -> ModularPipelines.Reporting.ModuleTimeline?
+override ModularPipelines.Serialization.ModuleTimelineJsonConverter.Write(System.Text.Json.Utf8JsonWriter! writer, ModularPipelines.Reporting.ModuleTimeline! value, System.Text.Json.JsonSerializerOptions! options) -> void
 ModularPipelines.Options.DownloadOptions.Timeout.get -> System.TimeSpan?
 ModularPipelines.Options.DownloadOptions.Timeout.init -> void
 static ModularPipelines.Options.HttpResilienceOptions.RetryEnabled.get -> System.Net.Http.HttpRequestOptionsKey<bool>

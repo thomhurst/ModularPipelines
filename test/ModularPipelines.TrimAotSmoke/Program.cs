@@ -1,3 +1,5 @@
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -11,6 +13,7 @@ using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
+using ModularPipelines.Reporting;
 using ModularPipelines.Secrets;
 
 if (args is [SmokeState.ChildArgument, var childValue])
@@ -103,7 +106,28 @@ if (!closedInterfaceSelector.ShouldDependOn(typeof(ClosedGenericModule<int>), nu
     throw new InvalidOperationException("Closed generic interface dependency selection failed after trimming.");
 }
 
+// This consumer has no friend access to the library's converters or generated JSON contracts.
+var timelineContext = new SmokeTimelineJsonContext(new JsonSerializerOptions
+{
+    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+});
+var timeline = JsonSerializer.Deserialize(
+    """{ "moduleName": "legacy-name", "moduleTypeName": "legacy-type" }""",
+    timelineContext.ModuleTimeline)! with
+{ ModuleId = new ModuleId("smoke-timeline") };
+var timelineJson = JsonSerializer.Serialize(timeline, timelineContext.ModuleTimeline);
+var restoredTimeline = JsonSerializer.Deserialize(timelineJson, timelineContext.ModuleTimeline)!;
+if (restoredTimeline.Name != "legacy-name"
+    || restoredTimeline.TypeName != "legacy-type"
+    || restoredTimeline.ModuleId != new ModuleId("smoke-timeline"))
+{
+    throw new InvalidOperationException("Timeline JSON identity was lost after trimming.");
+}
+
 Console.WriteLine("TRIM_AOT_SMOKE_OK");
+
+[JsonSerializable(typeof(ModuleTimeline))]
+internal sealed partial class SmokeTimelineJsonContext : JsonSerializerContext;
 
 internal static class SmokeState
 {

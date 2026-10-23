@@ -1,4 +1,5 @@
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
@@ -148,14 +149,88 @@ public class ModuleMetadataTests
     }
 
     [Test]
-    public async Task TimelineNamesKeepExistingJsonKeys()
+    [Arguments("default", false)]
+    [Arguments("camel", false)]
+    [Arguments("snake", false)]
+    [Arguments("kebab", false)]
+    [Arguments("default", true)]
+    [Arguments("camel", true)]
+    [Arguments("snake", true)]
+    [Arguments("kebab", true)]
+    public async Task TimelineNamesKeepExistingJsonKeys(string namingPolicy, bool sourceGenerated)
     {
-        const string json = """{ "ModuleName": "old-name", "ModuleTypeName": "old-type" }""";
-        var timeline = JsonSerializer.Deserialize<ModuleTimeline>(json)!;
-        var restored = JsonSerializer.Deserialize<ModuleTimeline>(JsonSerializer.Serialize(timeline))!;
+        var options = new JsonSerializerOptions
+        {
+            PropertyNamingPolicy = namingPolicy switch
+            {
+                "camel" => JsonNamingPolicy.CamelCase,
+                "snake" => JsonNamingPolicy.SnakeCaseLower,
+                "kebab" => JsonNamingPolicy.KebabCaseLower,
+                _ => null,
+            },
+        };
+        // Match the pre-rename contract with the caller's case-sensitive naming options.
+        var json = JsonSerializer.Serialize(new { ModuleName = "old-name", ModuleTypeName = "old-type" }, options);
+        options = new JsonSerializerOptions(options);
+        if (sourceGenerated)
+        {
+            options.TypeInfoResolver = TimelineTestJsonContext.Default;
+        }
+
+        var timeline = JsonSerializer.Deserialize<ModuleTimeline>(json, options)!;
+        await Assert.That(timeline.Name).IsEqualTo("old-name");
+        await Assert.That(timeline.TypeName).IsEqualTo("old-type");
+        var serialized = JsonSerializer.Serialize(timeline, options);
+        var restored = JsonSerializer.Deserialize<ModuleTimeline>(serialized, options)!;
         await Assert.That(restored.Name).IsEqualTo("old-name");
         await Assert.That(restored.TypeName).IsEqualTo("old-type");
         await Assert.That(restored.ModuleId).IsEqualTo(default(ModuleId));
+        using var legacy = JsonDocument.Parse(json);
+        using var current = JsonDocument.Parse(serialized);
+        foreach (var property in legacy.RootElement.EnumerateObject())
+        {
+            await Assert.That(current.RootElement.GetProperty(property.Name).GetString()).IsEqualTo(property.Value.GetString());
+        }
+
+        var nameKey = options.PropertyNamingPolicy?.ConvertName(nameof(ModuleTimeline.Name)) ?? nameof(ModuleTimeline.Name);
+        var typeNameKey = options.PropertyNamingPolicy?.ConvertName(nameof(ModuleTimeline.TypeName)) ?? nameof(ModuleTimeline.TypeName);
+        await Assert.That(current.RootElement.TryGetProperty(nameKey, out _)).IsFalse();
+        await Assert.That(current.RootElement.TryGetProperty(typeNameKey, out _)).IsFalse();
+    }
+
+    [Test]
+    public async Task TimelineJsonPreservesIdentityAndLifecycleMetadataWithoutReflection()
+    {
+        var start = DateTimeOffset.Parse("2026-10-01T00:00:00+00:00");
+        var timeline = new ModuleTimeline
+        {
+            Name = "module-name",
+            TypeName = "module-type",
+            ModuleId = new ModuleId("configured-id"),
+            Priority = ModulePriority.High,
+            ExecutionHint = ExecutionHint.IoBound,
+            ReadyTime = start,
+            QueuedTime = start.AddSeconds(1),
+            StartTime = start.AddSeconds(2),
+            EndTime = start.AddSeconds(5),
+            DependencyWaitTime = TimeSpan.FromSeconds(1),
+            QueueWaitTime = TimeSpan.FromSeconds(2),
+            ExecutionDuration = TimeSpan.FromSeconds(3),
+            WasSkipped = true,
+            WasSuccessful = true,
+            Status = ModuleStatus.Succeeded,
+        };
+        var options = new JsonSerializerOptions
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault,
+            TypeInfoResolver = TimelineTestJsonContext.Default,
+        };
+
+        var serialized = JsonSerializer.Serialize(timeline, options);
+        var restored = JsonSerializer.Deserialize<ModuleTimeline>(serialized, options);
+
+        await Assert.That(restored).IsEqualTo(timeline);
     }
 
     private sealed class PassthroughSecretObfuscator : ISecretObfuscator
@@ -170,3 +245,7 @@ public class ModuleMetadataTests
             Task.FromResult(42);
     }
 }
+
+[JsonSourceGenerationOptions(GenerationMode = JsonSourceGenerationMode.Metadata)]
+[JsonSerializable(typeof(ModuleTimeline))]
+internal sealed partial class TimelineTestJsonContext : JsonSerializerContext;
