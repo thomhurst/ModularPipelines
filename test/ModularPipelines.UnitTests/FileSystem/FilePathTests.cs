@@ -396,15 +396,39 @@ public class FilePathTests : TestBase
     [Test]
     public async Task MoveTo_Folder()
     {
-        var file = await CreateRandomFile();
-        file.MoveTo(new FolderPath(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)));
+        await using var temporary = new TempFolder();
+        var file = new FilePath(Path.Combine(temporary.Folder.Path, "source.txt"));
+        await System.IO.File.WriteAllTextAsync(file.Path, TestConstants.TestString);
+        var destination = new FolderPath(Path.Combine(temporary.Folder.Path, "destination"));
+
+        var result = file.MoveTo(destination);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.Path).IsEqualTo(Path.Combine(destination.Path, file.Name));
+            await Assert.That(result.Exists).IsTrue();
+            await Assert.That(await System.IO.File.ReadAllTextAsync(result.Path)).IsEqualTo(TestConstants.TestString);
+            await Assert.That(file.Exists).IsFalse();
+        }
     }
 
     [Test]
     public async Task CopyTo_Folder()
     {
-        var file = await CreateRandomFile();
-        file.CopyTo(new FolderPath(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)));
+        await using var temporary = new TempFolder();
+        var file = new FilePath(Path.Combine(temporary.Folder.Path, "source.txt"));
+        await System.IO.File.WriteAllTextAsync(file.Path, TestConstants.TestString);
+        var destination = new FolderPath(Path.Combine(temporary.Folder.Path, "destination"));
+
+        var result = file.CopyTo(destination);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.Path).IsEqualTo(Path.Combine(destination.Path, file.Name));
+            await Assert.That(result.Exists).IsTrue();
+            await Assert.That(await System.IO.File.ReadAllTextAsync(result.Path)).IsEqualTo(TestConstants.TestString);
+            await Assert.That(file.Exists).IsTrue();
+        }
     }
 
     private static async Task<FilePath> CreateRandomFile()

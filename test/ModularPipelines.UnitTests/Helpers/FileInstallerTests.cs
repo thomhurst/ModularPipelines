@@ -297,6 +297,7 @@ public class InstallersContextTests : TestBase
     {
         if (OperatingSystem.IsWindows())
         {
+            Skip.Test("Unix only test");
             return;
         }
 

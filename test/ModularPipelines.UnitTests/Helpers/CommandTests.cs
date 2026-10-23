@@ -722,6 +722,7 @@ public class CommandTests : TestBase
     {
         if (OperatingSystem.IsWindows())
         {
+            Skip.Test("Unix only test");
             return;
         }
 
@@ -753,6 +754,7 @@ public class CommandTests : TestBase
     {
         if (!OperatingSystem.IsWindows())
         {
+            Skip.Test("Windows only test");
             return;
         }
 
@@ -807,6 +809,7 @@ public class CommandTests : TestBase
     {
         if (!OperatingSystem.IsWindows())
         {
+            Skip.Test("Windows only test");
             return;
         }
 
@@ -861,6 +864,7 @@ public class CommandTests : TestBase
     {
         if (!OperatingSystem.IsWindows())
         {
+            Skip.Test("Windows only test");
             return;
         }
 
@@ -918,6 +922,7 @@ public class CommandTests : TestBase
     {
         if (!OperatingSystem.IsWindows())
         {
+            Skip.Test("Windows only test");
             return;
         }
 
@@ -950,6 +955,7 @@ public class CommandTests : TestBase
     {
         if (!OperatingSystem.IsWindows())
         {
+            Skip.Test("Windows only test");
             return;
         }
 
@@ -986,6 +992,7 @@ public class CommandTests : TestBase
     {
         if (!OperatingSystem.IsWindows())
         {
+            Skip.Test("Windows only test");
             return;
         }
 
@@ -1034,6 +1041,7 @@ public class CommandTests : TestBase
     {
         if (!OperatingSystem.IsWindows())
         {
+            Skip.Test("Windows only test");
             return;
         }
 
@@ -1078,6 +1086,7 @@ public class CommandTests : TestBase
     {
         if (!OperatingSystem.IsWindows() && !OperatingSystem.IsLinux())
         {
+            Skip.Test("Requires Windows or Linux process lifetime behavior");
             return;
         }
 
@@ -1104,6 +1113,7 @@ public class CommandTests : TestBase
     {
         if (!OperatingSystem.IsWindows())
         {
+            Skip.Test("Windows only test");
             return;
         }
 
@@ -1148,6 +1158,7 @@ public class CommandTests : TestBase
     {
         if (!OperatingSystem.IsWindows())
         {
+            Skip.Test("Windows only test");
             return;
         }
 
@@ -1284,6 +1295,7 @@ public class CommandTests : TestBase
     {
         if (!OperatingSystem.IsWindows())
         {
+            Skip.Test("Windows only test");
             return;
         }
 
@@ -1531,6 +1543,7 @@ public class CommandTests : TestBase
     {
         if (!OperatingSystem.IsWindows())
         {
+            Skip.Test("Windows only test");
             return;
         }
 

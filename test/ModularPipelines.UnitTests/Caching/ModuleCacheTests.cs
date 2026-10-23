@@ -1112,6 +1112,7 @@ public class ModuleCacheTests
     {
         if (!OperatingSystem.IsWindows() && !OperatingSystem.IsMacOS())
         {
+            Skip.Test("Requires a Windows or macOS file system");
             return;
         }
 
@@ -1798,6 +1799,7 @@ public class ModuleCacheTests
     {
         if (!OperatingSystem.IsWindows())
         {
+            Skip.Test("Windows only test");
             return;
         }
 
@@ -2074,6 +2076,7 @@ public class ModuleCacheTests
     {
         if (OperatingSystem.IsWindows())
         {
+            Skip.Test("Unix only test");
             return;
         }
 
@@ -2323,6 +2326,7 @@ public class ModuleCacheTests
     {
         if (OperatingSystem.IsWindows())
         {
+            Skip.Test("Unix only test");
             return;
         }
 
@@ -2685,6 +2689,7 @@ public class ModuleCacheTests
     {
         if (OperatingSystem.IsWindows())
         {
+            Skip.Test("Unix only test");
             return;
         }
 
@@ -2810,6 +2815,7 @@ public class ModuleCacheTests
     {
         if (OperatingSystem.IsWindows())
         {
+            Skip.Test("Unix only test");
             return;
         }
 
@@ -3108,6 +3114,7 @@ public class ModuleCacheTests
     {
         if (OperatingSystem.IsWindows())
         {
+            Skip.Test("Unix only test");
             return;
         }
 
@@ -3265,6 +3272,7 @@ public class ModuleCacheTests
     {
         if (OperatingSystem.IsWindows())
         {
+            Skip.Test("Unix only test");
             return;
         }
 
@@ -3333,6 +3341,7 @@ public class ModuleCacheTests
     {
         if (OperatingSystem.IsWindows())
         {
+            Skip.Test("Unix only test");
             return;
         }
 
@@ -3389,6 +3398,7 @@ public class ModuleCacheTests
     {
         if (OperatingSystem.IsWindows())
         {
+            Skip.Test("Unix only test");
             return;
         }
 

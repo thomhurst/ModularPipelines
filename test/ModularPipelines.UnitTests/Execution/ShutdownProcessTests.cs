@@ -21,6 +21,7 @@ public class ShutdownProcessTests
     {
         if (OperatingSystem.IsWindows())
         {
+            Skip.Test("Unix only test");
             return;
         }
 
@@ -32,6 +33,7 @@ public class ShutdownProcessTests
     {
         if (OperatingSystem.IsWindows())
         {
+            Skip.Test("Unix only test");
             return;
         }
 

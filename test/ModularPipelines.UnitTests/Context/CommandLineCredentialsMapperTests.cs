@@ -11,6 +11,7 @@ public class CommandLineCredentialsMapperTests
     {
         if (!OperatingSystem.IsWindows())
         {
+            Skip.Test("Windows only test");
             return;
         }
 
