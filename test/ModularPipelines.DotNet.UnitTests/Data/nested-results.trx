@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TestRun xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Results>
+    <UnitTestResult executionId="parent-1" testId="parent-1" testName="ParentWithOutput"
+      computerName="agent" duration="00:00:01" startTime="2026-10-23T12:00:00Z"
+      endTime="2026-10-23T12:00:01Z" testType="type" outcome="Failed"
+      testListId="list" relativeResultsDirectory="results/parent-1">
+      <InnerResults>
+        <UnitTestResult executionId="child-1" testId="child-1" testName="Child1"
+          computerName="agent" duration="00:00:01" startTime="2026-10-23T12:00:00Z"
+          endTime="2026-10-23T12:00:01Z" testType="type" outcome="Failed"
+          testListId="list" relativeResultsDirectory="results/child-1">
+          <Output>
+            <StdOut>Child stdout</StdOut>
+            <DebugTrace>Child debug trace</DebugTrace>
+            <ErrorInfo>
+              <Message>Child error</Message>
+              <StackTrace>Child stack trace</StackTrace>
+            </ErrorInfo>
+          </Output>
+        </UnitTestResult>
+      </InnerResults>
+      <Output>
+        <StdOut>Parent stdout</StdOut>
+        <DebugTrace>Parent debug trace</DebugTrace>
+        <ErrorInfo>
+          <Message>Parent error</Message>
+          <StackTrace>Parent stack trace</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="parent-2" testId="parent-2" testName="ParentWithoutOutput"
+      computerName="agent" duration="00:00:01" startTime="2026-10-23T12:00:00Z"
+      endTime="2026-10-23T12:00:01Z" testType="type" outcome="Failed"
+      testListId="list" relativeResultsDirectory="results/parent-2">
+      <InnerResults>
+        <UnitTestResult executionId="child-2" testId="child-2" testName="Child2"
+          computerName="agent" duration="00:00:01" startTime="2026-10-23T12:00:00Z"
+          endTime="2026-10-23T12:00:01Z" testType="type" outcome="Failed"
+          testListId="list" relativeResultsDirectory="results/child-2">
+          <Output>
+            <StdOut>Child stdout</StdOut>
+            <DebugTrace>Child debug trace</DebugTrace>
+            <ErrorInfo>
+              <Message>Child error</Message>
+              <StackTrace>Child stack trace</StackTrace>
+            </ErrorInfo>
+          </Output>
+        </UnitTestResult>
+      </InnerResults>
+    </UnitTestResult>
+  </Results>
+  <ResultSummary outcome="Failed">
+    <Counters total="2" executed="2" passed="0" failed="2" error="0"
+      timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0"
+      notRunnable="0" notExecuted="0" disconnected="0" warning="0"
+      completed="0" inProgress="0" pending="0" />
+  </ResultSummary>
+</TestRun>

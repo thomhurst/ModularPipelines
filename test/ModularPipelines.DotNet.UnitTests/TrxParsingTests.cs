@@ -87,9 +87,74 @@ public class TrxParsingTests
             .IsEqualTo(TestOutcome.Failed);
     }
 
-    private static async Task<DotNetTestResult> ParseFixture()
+    [Test]
+    public async Task Parses_Only_Top_Level_Results()
     {
-        var contents = await System.IO.File.ReadAllTextAsync(TrxFixturePath);
+        var result = await ParseFixture("nested-results.trx");
+
+        await Assert.That(result.UnitTestResults).Count().IsEqualTo(2);
+        await Assert.That(result.UnitTestResults[0].TestName).IsEqualTo("ParentWithOutput");
+        await Assert.That(result.UnitTestResults[1].TestName).IsEqualTo("ParentWithoutOutput");
+    }
+
+    [Test]
+    public async Task Parses_Parents_Own_Output()
+    {
+        var result = await ParseFixture("nested-results.trx");
+        var parent = result.UnitTestResults.Single(x => x.TestName == "ParentWithOutput");
+
+        await Assert.That(parent.Output?.StdOut).IsEqualTo("Parent stdout");
+        await Assert.That(parent.Output?.DebugTrace).IsEqualTo("Parent debug trace");
+        await Assert.That(parent.Output?.ErrorInfo?.Message).IsEqualTo("Parent error");
+        await Assert.That(parent.Output?.ErrorInfo?.StackTrace).IsEqualTo("Parent stack trace");
+        await Assert.That(parent.Duration).IsEqualTo(TimeSpan.FromSeconds(1));
+        await Assert.That(parent.StartTime).IsEqualTo(new DateTimeOffset(2026, 10, 23, 12, 0, 0, TimeSpan.Zero));
+        await Assert.That(parent.EndTime).IsEqualTo(new DateTimeOffset(2026, 10, 23, 12, 0, 1, TimeSpan.Zero));
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Does_Not_Inherit_Child_Output(bool addEmptyOutput)
+    {
+        var document = XDocument.Load(Path.Combine(AppContext.BaseDirectory, "Data", "nested-results.trx"));
+        var parentElement = document.Descendants()
+            .Single(x => x.Name.LocalName == "UnitTestResult" && x.Attribute("testName")?.Value == "ParentWithoutOutput");
+        if (addEmptyOutput)
+        {
+            parentElement.Add(new XElement(parentElement.Name.Namespace + "Output"));
+        }
+
+        var result = new TrxParser().ParseTrxContents(document.ToString());
+        var parent = result.UnitTestResults.Single(x => x.TestName == "ParentWithoutOutput");
+
+        await Assert.That(parent.Output?.StdOut).IsNull();
+        await Assert.That(parent.Output?.DebugTrace).IsNull();
+        await Assert.That(parent.Output?.ErrorInfo).IsNull();
+    }
+
+    [Test]
+    public async Task Parses_Missing_Result_Attributes_As_Null()
+    {
+        var result = await ParseFixture("missing-attributes.trx");
+        var test = result.UnitTestResults.Single();
+
+        await Assert.That(test.ExecutionId).IsNull();
+        await Assert.That(test.TestId).IsNull();
+        await Assert.That(test.TestName).IsNull();
+        await Assert.That(test.ComputerName).IsNull();
+        await Assert.That(test.Duration).IsNull();
+        await Assert.That(test.StartTime).IsNull();
+        await Assert.That(test.EndTime).IsNull();
+        await Assert.That(test.TestType).IsNull();
+        await Assert.That(test.TestListId).IsNull();
+        await Assert.That(test.RelativeResultsDirectory).IsNull();
+        await Assert.That(test.Outcome).IsEqualTo(TestOutcome.Unknown);
+    }
+
+    private static async Task<DotNetTestResult> ParseFixture(string fileName = "test-results.trx")
+    {
+        var contents = await System.IO.File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "Data", fileName));
         return new TrxParser().ParseTrxContents(contents);
     }
 }

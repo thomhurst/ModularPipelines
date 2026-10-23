@@ -9,16 +9,15 @@ using ModularPipelines.DotNet.Services;
 namespace ModularPipelines.DotNet.Extensions;
 
 /// <summary>
-/// Provides extension methods for integrating .NET CLI functionality into the ModularPipelines framework.
+/// Provides extension methods for integrating TRX test result parsing into the ModularPipelines framework.
 /// </summary>
 [ExcludeFromCodeCoverage]
 public static class TrxExtensions
 {
     /// <summary>
-    /// Registers .NET CLI services with the dependency injection container.
-    /// This includes services for running dotnet commands such as build, test, pack, publish, and NuGet operations.
+    /// Registers TRX test result parsing services with the dependency injection container.
     /// </summary>
-    /// <param name="services">The service collection to add the .NET services to.</param>
+    /// <param name="services">The service collection to add the TRX services to.</param>
     /// <returns>The service collection for method chaining.</returns>
     [ModularPipelinesIntegration]
     public static IServiceCollection RegisterTrxContext(this IServiceCollection services)
