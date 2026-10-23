@@ -18,7 +18,7 @@ public class PulumiOptionsTests : TestBase
             ArgumentsContainToolOptions = true,
         });
 
-        await Assert.That(commandLine.ToString())
+        await Assert.That(RenderCommand(commandLine))
             .IsEqualTo("pulumi --color=never package info aws -- param");
     }
 
@@ -32,7 +32,7 @@ public class PulumiOptionsTests : TestBase
             Args = ["hello"],
         });
 
-        await Assert.That(commandLine.ToString())
+        await Assert.That(RenderCommand(commandLine))
             .IsEqualTo("pulumi env run development -- echo hello");
     }
 
@@ -46,7 +46,7 @@ public class PulumiOptionsTests : TestBase
             Args = ["-c", "echo hello"],
         });
 
-        await Assert.That(commandLine.ToString())
+        await Assert.That(RenderCommand(commandLine))
             .IsEqualTo("pulumi env run development -- bash -c echo hello");
     }
 
@@ -57,6 +57,6 @@ public class PulumiOptionsTests : TestBase
 
         var commandLine = builder.Build(new PulumiLogoutOptions { Local = "file://~" });
 
-        await Assert.That(commandLine.ToString()).IsEqualTo("pulumi logout --local=file://~");
+        await Assert.That(RenderCommand(commandLine)).IsEqualTo("pulumi logout --local=file://~");
     }
 }

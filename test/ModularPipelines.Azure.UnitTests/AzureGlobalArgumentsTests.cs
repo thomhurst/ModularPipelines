@@ -91,6 +91,6 @@ public class AzureGlobalArgumentsTests : TestBase
     {
         var (builder, _) = await GetService<ICommandLineBuilder>(
             services => services.AddAzureArmClient(new DefaultAzureCredential()));
-        return builder.Build(options).ToString();
+        return RenderCommand(builder.Build(options));
     }
 }

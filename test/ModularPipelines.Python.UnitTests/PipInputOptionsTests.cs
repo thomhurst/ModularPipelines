@@ -90,7 +90,7 @@ public class PipInputOptionsTests : TestBase
             _ => throw new ArgumentOutOfRangeException(nameof(verb)),
         };
         var operand = verb is "index" or "list" ? string.Empty : " example";
-        await Assert.That(builder.Build(options).ToString()).IsEqualTo(
+        await Assert.That(RenderCommand(builder.Build(options))).IsEqualTo(
             $"pip {verb} --refresh-package :none: --refresh-package first,second{operand}");
     }
 
@@ -150,7 +150,7 @@ public class PipInputOptionsTests : TestBase
             }
             else
             {
-                await Assert.That(builder.Build(options).ToString()).IsEqualTo(
+                await Assert.That(RenderCommand(builder.Build(options))).IsEqualTo(
                     $"pip {verb} --group development --group testing");
             }
         }
@@ -194,7 +194,7 @@ public class PipInputOptionsTests : TestBase
             else
             {
                 var arguments = string.Join(" ", values.Select(value => requirementFile ? $"--requirement {value}" : value));
-                await Assert.That(builder.Build(options).ToString()).IsEqualTo(
+                await Assert.That(RenderCommand(builder.Build(options))).IsEqualTo(
                     $"pip {(wheel ? "wheel" : "uninstall")} {arguments}");
             }
         }
@@ -214,7 +214,7 @@ public class PipInputOptionsTests : TestBase
 
         var commandLine = builder.Build(options);
 
-        await Assert.That(commandLine.ToString()).IsEqualTo(
+        await Assert.That(RenderCommand(commandLine)).IsEqualTo(
             $"pip {(wheel ? "wheel" : "uninstall")} --requirement requirements.txt");
     }
 
@@ -228,7 +228,7 @@ public class PipInputOptionsTests : TestBase
             ? new PipWheelOptions { RequirementSpecifier = ["example-package"] }
             : new PipUninstallOptions { Package = ["example-package"] };
 
-        await Assert.That(builder.Build(options).ToString()).IsEqualTo(
+        await Assert.That(RenderCommand(builder.Build(options))).IsEqualTo(
             $"pip {(wheel ? "wheel" : "uninstall")} example-package");
     }
 
@@ -250,7 +250,7 @@ public class PipInputOptionsTests : TestBase
 
         var commandLine = builder.Build(new PipWheelOptions { Editable = ["./project"] });
 
-        await Assert.That(commandLine.ToString()).IsEqualTo("pip wheel --editable ./project");
+        await Assert.That(RenderCommand(commandLine)).IsEqualTo("pip wheel --editable ./project");
     }
 
     private sealed class SingleUseValues(string[] values) : IEnumerable<string>

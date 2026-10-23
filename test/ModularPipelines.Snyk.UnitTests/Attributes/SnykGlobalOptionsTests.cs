@@ -11,7 +11,7 @@ public class SnykGlobalOptionsTests : TestBase
     {
         var builder = await GetService<ICommandLineBuilder>();
         var options = new SnykPolicyOptions { Debug = true, PathToPolicyFile = ".snyk" };
-        await Assert.That(builder.Build(options).ToString()).IsEqualTo("snyk -d policy .snyk");
+        await Assert.That(RenderCommand(builder.Build(options))).IsEqualTo("snyk -d policy .snyk");
         await Assert.That(typeof(SnykPolicyOptions).GetProperty(nameof(SnykOptions.Debug))!.DeclaringType)
             .IsEqualTo(typeof(SnykOptions));
     }

@@ -87,7 +87,7 @@ public class PipGlobalOptionsTests : TestBase
             RequirementSpecifier = ["example-package"],
         };
 
-        await Assert.That(builder.Build(options).ToString()).IsEqualTo(
+        await Assert.That(RenderCommand(builder.Build(options))).IsEqualTo(
             "pip --python python3 --require-virtualenv install --target packages --index-url https://example.test/simple example-package");
         await Assert.That(typeof(PipInstallOptions).GetProperty(nameof(PipOptions.Python))!.DeclaringType)
             .IsEqualTo(typeof(PipOptions));
@@ -105,7 +105,7 @@ public class PipGlobalOptionsTests : TestBase
             UseFeature = ["feature-one", "feature-two"],
         };
 
-        await Assert.That(builder.Build(options).ToString()).IsEqualTo(
+        await Assert.That(RenderCommand(builder.Build(options))).IsEqualTo(
             "pip --exists-action s --exists-action i --trusted-host first.test --trusted-host second.test --use-deprecated legacy-one --use-deprecated legacy-two --use-feature feature-one --use-feature feature-two check");
     }
 
@@ -122,7 +122,7 @@ public class PipGlobalOptionsTests : TestBase
             ResumeRetries = "3",
         };
 
-        await Assert.That(builder.Build(options).ToString()).IsEqualTo(
+        await Assert.That(RenderCommand(builder.Build(options))).IsEqualTo(
             "pip --debug --disable-pip-version-check --isolated --keyring-provider disabled --resume-retries 3 check");
     }
 

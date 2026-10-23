@@ -17,7 +17,7 @@ public class GoOptionsTests : TestBase
             U = CliOptionValue.Bare,
         });
 
-        await Assert.That(commandLine.ToString()).IsEqualTo("go get -u");
+        await Assert.That(RenderCommand(commandLine)).IsEqualTo("go get -u");
     }
 
     [Test]
@@ -30,7 +30,7 @@ public class GoOptionsTests : TestBase
             U = "patch",
         });
 
-        await Assert.That(commandLine.ToString()).IsEqualTo("go get -u=patch");
+        await Assert.That(RenderCommand(commandLine)).IsEqualTo("go get -u=patch");
     }
 
     [Test]
@@ -44,7 +44,7 @@ public class GoOptionsTests : TestBase
             Args = ["payload", "-test.v"],
         });
 
-        await Assert.That(commandLine.ToString()).IsEqualTo("go test ./pkg -args payload -test.v");
+        await Assert.That(RenderCommand(commandLine)).IsEqualTo("go test ./pkg -args payload -test.v");
     }
 
     [Test]
@@ -57,7 +57,7 @@ public class GoOptionsTests : TestBase
             Json = CliOptionValue.Bare,
         });
 
-        await Assert.That(commandLine.ToString()).IsEqualTo("go list -json");
+        await Assert.That(RenderCommand(commandLine)).IsEqualTo("go list -json");
     }
 
     [Test]
@@ -70,7 +70,7 @@ public class GoOptionsTests : TestBase
             Json = "ImportPath,Name",
         });
 
-        await Assert.That(commandLine.ToString()).IsEqualTo("go list -json=ImportPath,Name");
+        await Assert.That(RenderCommand(commandLine)).IsEqualTo("go list -json=ImportPath,Name");
     }
 
     [Test]
@@ -87,7 +87,7 @@ public class GoOptionsTests : TestBase
             ],
         });
 
-        await Assert.That(commandLine.ToString()).IsEqualTo(
+        await Assert.That(RenderCommand(commandLine)).IsEqualTo(
             "go mod edit -droprequire=example.com/module -require=example.com/module@v1.0.0");
     }
 
@@ -105,7 +105,7 @@ public class GoOptionsTests : TestBase
             ],
         });
 
-        await Assert.That(commandLine.ToString()).IsEqualTo(
+        await Assert.That(RenderCommand(commandLine)).IsEqualTo(
             "go work edit -dropuse=./module -use=./module");
     }
 }

@@ -17,7 +17,7 @@ public class GhCodespaceCpOptionsTests : TestBase
             ScpFlags = ["-F", "config"],
         });
 
-        await Assert.That(commandLine.ToString())
+        await Assert.That(RenderCommand(commandLine))
             .IsEqualTo("gh codespace cp --recursive -- -F config source destination");
     }
 
@@ -29,7 +29,7 @@ public class GhCodespaceCpOptionsTests : TestBase
         var commandLine = builder.Build(
             new GhCodespaceCpOptions(["source"], "destination"));
 
-        await Assert.That(commandLine.ToString())
+        await Assert.That(RenderCommand(commandLine))
             .IsEqualTo("gh codespace cp source destination");
     }
 }
