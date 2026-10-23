@@ -16,6 +16,7 @@
     <ProjectReference Include="..\ModularPipelines.Distributed.Redis\ModularPipelines.Distributed.Redis.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.Build" />
     <PackageReference Include="Newtonsoft.Json" />
     <PackageReference Include="Sourcy.DotNet">

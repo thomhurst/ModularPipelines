@@ -44,6 +44,7 @@ public class CreateReleaseModule(IOptions<GitHubSettings> githubSettings,
             {
                 Name = versionInfoResult.Value,
                 GenerateReleaseNotes = true,
+                Prerelease = versionInfoResult.Value.Split('+')[0].Contains('-'),
             });
     }
 }

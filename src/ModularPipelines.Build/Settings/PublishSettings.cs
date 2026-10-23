@@ -7,4 +7,6 @@ public record PublishSettings
     public bool IsAlpha { get; init; }
 
     public string? ExpectedVersion { get; init; }
+
+    public string? RehearsalFeedPath { get; init; }
 }

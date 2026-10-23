@@ -55,6 +55,7 @@ builder
     .AddModule<PackProjectsModule>()
     .AddModule<PackageFilesRemovalModule>()
     .AddModule<PackagePathsParserModule>()
+    .AddModule<RehearsePublishModule>()
     .AddModule<GenerateReadMeModule>()
     .AddModule<PrintGitInformationModule>()
     .AddModule<PushVersionTagModule>();
