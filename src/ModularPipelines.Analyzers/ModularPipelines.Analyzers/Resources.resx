@@ -169,7 +169,7 @@
     <value>Module should be async</value>
   </data>
   <data name="AsyncModuleAnalyzerDescription" xml:space="preserve">
-    <value>Module should be async.</value>
+    <value>Prefer async/await in Module&lt;T&gt; so method-scoped resources and cleanup remain active until the returned task completes. Non-generic Module and Task.FromResult returns are exempt; intentional pass-through tasks can suppress this warning.</value>
   </data>
   <data name="AwaitThisAnalyzerTitle" xml:space="preserve">
     <value>Prohibit await this in modules</value>

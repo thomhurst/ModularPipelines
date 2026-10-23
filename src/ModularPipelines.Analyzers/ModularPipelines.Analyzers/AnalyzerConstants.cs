@@ -104,6 +104,11 @@ internal static class AnalyzerConstants
         internal const string Module = "ModularPipelines.Module`1";
 
         /// <summary>
+        /// The metadata name for the non-generic Module base type.
+        /// </summary>
+        internal const string NonGenericModule = "ModularPipelines.Module";
+
+        /// <summary>
         /// The metadata name for System.Console.
         /// </summary>
         internal const string SystemConsole = "System.Console";
