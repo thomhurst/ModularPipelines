@@ -3,5 +3,5 @@
   "toolName": "terraform",
   "toolVersion": "Terraform v1.16.6",
   "commandTreeSha256": "cc9b81b25fa196b26fa78434fa6adc5ac84173e28b6f6679cd8026292d33cd65",
-  "generatorSourceSha256": "d184d16e24e9f447d7980ceebd865a2bef90be395bb60ca9ccf208b346386617"
+  "generatorSourceSha256": "25da050741aad2bb62a201de95bee5c5a90c8e828ec7262ab7724ab94c86773b"
 }
