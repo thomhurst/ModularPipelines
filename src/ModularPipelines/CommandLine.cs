@@ -2,7 +2,7 @@ namespace ModularPipelines;
 
 /// <summary>
 /// Represents a fully-built command line ready for execution.
-/// This is the output of the internal command-line builder and input to ICommandExecutor.
+/// This is the output of the internal command-line builder and input to the command execution pipeline.
 /// </summary>
 public record CommandLine
 {
@@ -26,6 +26,30 @@ public record CommandLine
     {
         Tool = tool;
         Arguments = arguments.ToList().AsReadOnly();
+    }
+
+    /// <inheritdoc />
+    public virtual bool Equals(CommandLine? other)
+    {
+        return other is not null
+            && EqualityContract == other.EqualityContract
+            && StringComparer.Ordinal.Equals(Tool, other.Tool)
+            && Arguments.SequenceEqual(other.Arguments, StringComparer.Ordinal);
+    }
+
+    /// <inheritdoc />
+    public override int GetHashCode()
+    {
+        var hash = default(HashCode);
+        hash.Add(EqualityContract);
+        hash.Add(Tool, StringComparer.Ordinal);
+
+        foreach (var argument in Arguments)
+        {
+            hash.Add(argument, StringComparer.Ordinal);
+        }
+
+        return hash.ToHashCode();
     }
 
     /// <summary>
