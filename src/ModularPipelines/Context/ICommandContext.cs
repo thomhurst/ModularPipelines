@@ -17,7 +17,11 @@ public interface ICommandContext
     /// </summary>
     /// <param name="options">The tool-specific options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <param name="cancellationToken">
+    /// A token to cancel the command. If it cannot be canceled (including <see cref="CancellationToken.None"/>),
+    /// the current module's cancellation token is used, including its current attempt timeout.
+    /// Outside a module execution context, no module token is applied. An explicit cancelable token takes precedence.
+    /// </param>
     /// <returns>A task representing the asynchronous operation.</returns>
     Task<CommandResult> ExecuteCommandLineToolAsync(
         CommandLineToolOptions options,
