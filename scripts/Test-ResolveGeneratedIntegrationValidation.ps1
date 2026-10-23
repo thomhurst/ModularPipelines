@@ -341,12 +341,14 @@ foreach ($testCommand in @(
     }
 }
 
+$sdkPinStepCount = 0
 foreach ($step in [regex]::Matches($fastFailJob, '(?ms)^      - .*?(?=^      - |\z)')) {
     # SDK pin safety applies to every PR, including generated refreshes.
     if ($step.Value -match '(?m)^      - name: Validate SDK pins for the GA switch\r?$') {
+        $sdkPinStepCount++
         if ($step.Value -match '(?m)^        if:' -or
-            -not $step.Value.Contains('./scripts/Test-SdkPins.ps1', [StringComparison]::Ordinal) -or
-            -not $step.Value.Contains('./scripts/Assert-SdkPins.ps1', [StringComparison]::Ordinal)) {
+            $step.Value -notmatch '(?m)^[ \t]+(?:run:[ \t]*)?\./scripts/Test-SdkPins\.ps1(?:[ \t]|\r?$)' -or
+            $step.Value -notmatch '(?m)^[ \t]+(?:run:[ \t]*)?\./scripts/Assert-SdkPins\.ps1(?:[ \t]|\r?$)') {
             throw 'SDK pin validation must run both pin checks unconditionally.'
         }
         continue
@@ -357,6 +359,9 @@ foreach ($step in [regex]::Matches($fastFailJob, '(?ms)^      - .*?(?=^      - |
     if (-not $step.Value.Contains("steps.generated_integration.outputs.is_generated_integration != 'true'", [StringComparison]::Ordinal)) {
         throw "Unrelated fast-fail step runs for generated PRs: $($step.Value.Split([char]10)[0])"
     }
+}
+if ($sdkPinStepCount -ne 1) {
+    throw 'Fast-fail validation must contain exactly one SDK pin validation step.'
 }
 
 foreach ($jobName in @('pipeline', 'pipeline-workers', 'cross-platform-build', 'analyzers', 'trim-aot')) {
