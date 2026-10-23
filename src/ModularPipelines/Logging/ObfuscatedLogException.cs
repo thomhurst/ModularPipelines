@@ -44,8 +44,19 @@ internal sealed class ObfuscatedLogException : Exception, IOriginalExceptionIden
             null => null,
             AggregateException aggregateException =>
                 new ObfuscatedAggregateLogException(aggregateException, secretObfuscator),
+            OperationCanceledException cancellationException =>
+                new ObfuscatedCancellationLogException(cancellationException, secretObfuscator),
             _ => new ObfuscatedLogException(exception, secretObfuscator),
         };
+
+    internal static Exception CreateIfNeeded(Exception exception, ISecretObfuscator secretObfuscator)
+    {
+        // Inspect every surface while taking the snapshot, including aggregate branches and Data.
+        // Comparing only ToString() would miss inner exceptions hidden by custom formatting.
+        var trackingObfuscator = new ChangeTrackingObfuscator(secretObfuscator);
+        var snapshot = Create(exception, trackingObfuscator)!;
+        return trackingObfuscator.WasChanged ? snapshot : exception;
+    }
 
     Exception IOriginalExceptionIdentity.OriginalException => _originalException;
 
@@ -228,9 +239,57 @@ internal sealed class ObfuscatedLogException : Exception, IOriginalExceptionIden
     [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_idxFirstFreeStackTraceEntry")]
     private static extern ref int GetNativeAotStackTraceCount(Exception exception);
 
+    private sealed class ChangeTrackingObfuscator(ISecretObfuscator secretObfuscator) : ISecretObfuscator
+    {
+        public bool WasChanged { get; private set; }
+
+        public string Obfuscate(string? input, object? optionsObject)
+        {
+            try
+            {
+                var output = secretObfuscator.Obfuscate(input, optionsObject);
+                WasChanged |= !string.Equals(input, output, StringComparison.Ordinal);
+                return output;
+            }
+            catch
+            {
+                WasChanged = true;
+                throw;
+            }
+        }
+    }
+
+    private sealed class ObfuscatedCancellationLogException : OperationCanceledException, IOriginalExceptionIdentity
+    {
+        private readonly Exception _originalException;
+        private readonly string? _obfuscatedStackTrace;
+        private readonly string _obfuscatedText;
+
+        public ObfuscatedCancellationLogException(
+            OperationCanceledException exception,
+            ISecretObfuscator secretObfuscator)
+            : base(
+                GetObfuscatedMessage(exception, secretObfuscator),
+                Create(exception.InnerException, secretObfuscator),
+                exception.CancellationToken)
+        {
+            _originalException = exception;
+            _obfuscatedStackTrace = GetObfuscatedDiagnostic(() => exception.StackTrace, secretObfuscator);
+            _obfuscatedText = GetObfuscatedText(exception, secretObfuscator);
+            CopyDiagnostics(this, exception, secretObfuscator);
+        }
+
+        Exception IOriginalExceptionIdentity.OriginalException => _originalException;
+
+        public override string? StackTrace => _obfuscatedStackTrace;
+
+        public override string ToString() => _obfuscatedText;
+    }
+
     private sealed class ObfuscatedAggregateLogException : AggregateException, IOriginalExceptionIdentity
     {
         private readonly Exception _originalException;
+        private readonly string _obfuscatedMessage;
         private readonly string? _obfuscatedStackTrace;
         private readonly string _obfuscatedText;
 
@@ -242,6 +301,9 @@ internal sealed class ObfuscatedLogException : Exception, IOriginalExceptionIden
                 exception.InnerExceptions.Select(inner => Create(inner, secretObfuscator)!))
         {
             _originalException = exception;
+            // AggregateException.Message already includes its inner messages. Preserve that
+            // snapshot rather than appending the sanitized branches a second time.
+            _obfuscatedMessage = GetObfuscatedMessage(exception, secretObfuscator);
             _obfuscatedStackTrace = GetObfuscatedDiagnostic(
                 () => exception.StackTrace,
                 secretObfuscator);
@@ -250,6 +312,8 @@ internal sealed class ObfuscatedLogException : Exception, IOriginalExceptionIden
         }
 
         Exception IOriginalExceptionIdentity.OriginalException => _originalException;
+
+        public override string Message => _obfuscatedMessage;
 
         public override string? StackTrace => _obfuscatedStackTrace;
 

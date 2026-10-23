@@ -467,8 +467,10 @@ public class TelemetryIntegrationTests
 
         var builder = TestPipelineBuilder.Create();
         builder.Services.AddSingleton<ICommandInterceptor, ThrowingCommandInterceptor>();
-        await Assert.ThrowsAsync<ModuleFailedException>(async () =>
+        var failure = await Assert.ThrowsAsync<Exception>(async () =>
             await builder.AddModule<CommandModule>().RunAsync());
+        await Assert.That(failure!.Message).Contains("**********");
+        await Assert.That(failure.ToString()).DoesNotContain(Secret);
 
         var failureActivities = stoppedActivities.Where(activity =>
                 activity.OperationName is "Pipeline.Run"

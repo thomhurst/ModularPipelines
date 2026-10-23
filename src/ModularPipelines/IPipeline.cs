@@ -31,6 +31,11 @@ public interface IPipeline : IAsyncDisposable
     /// </summary>
     /// <param name="cancellationToken">Optional cancellation token.</param>
     /// <returns>A summary of the pipeline execution results.</returns>
+    /// <remarks>
+    /// Exceptions containing registered secrets are replaced with sanitized snapshots, including
+    /// their inner exceptions. Concrete exception types can change; aggregate exceptions and
+    /// cancellation semantics are preserved. Exceptions that need no masking are rethrown unchanged.
+    /// </remarks>
     Task<PipelineSummary> RunAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
