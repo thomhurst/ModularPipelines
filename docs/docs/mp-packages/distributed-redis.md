@@ -47,6 +47,8 @@ the master as lost, logs that it did not start, and fails. Reconnecting the same
 the deadline. Set it long enough to cover CI scheduling and master startup. After the first master
 heartbeat, `DistributedOptions.MasterTimeout` controls heartbeat loss instead. Workers check the
 state every `DistributedOptions.WorkerHeartbeatInterval`, so detection can lag by one polling interval.
+Startup validation requires `MasterStartTimeout` to be at least that interval; reduce the interval
+when configuring a shorter startup timeout. Named module-cache options are exempt from this comparison.
 
 `RedisOptions.FailOnUnsafeMemoryPolicy` defaults to `false`: coordinator and artifact-store startup logs a
 warning and continues when `INFO memory` reports finite `maxmemory` with an evicting policy, or when diagnostics

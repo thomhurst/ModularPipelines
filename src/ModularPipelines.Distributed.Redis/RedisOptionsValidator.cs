@@ -34,6 +34,13 @@ internal sealed class RedisOptionsValidator(string optionsName, IOptions<Distrib
         {
             failures.Add($"{nameof(RedisOptions)}.{nameof(RedisOptions.MasterStartTimeout)} must be positive and finite.");
         }
+        else if (string.IsNullOrEmpty(name)
+                 && options.MasterStartTimeout < distributedOptions.Value.WorkerHeartbeatInterval)
+        {
+            failures.Add(
+                $"{nameof(RedisOptions)}.{nameof(RedisOptions.MasterStartTimeout)} must be at least " +
+                $"{nameof(DistributedOptions)}.{nameof(DistributedOptions.WorkerHeartbeatInterval)}.");
+        }
 
         ValidateKeyLifetime(name, options, failures);
 

@@ -291,7 +291,7 @@ builder.AddRedisDistributed(o => o with
 | `KeyPrefix` | `string` | `"modpipe"` | Prefix for all Redis keys. Change this if multiple different pipelines share the same Redis instance. |
 | `TimeToLive` | `TimeSpan` | `TimeSpan.FromHours(1)` | TTL for all Redis keys, including artifacts and module cache entries. Keys are automatically cleaned up after this duration, and [run data cleanup](#run-data-cleanup) deletes a finished run's keys earlier. |
 | `ChunkSizeBytes` | `int` | 1 MB | Size of each Redis value used for artifacts and module cache entries. Content that fits in one chunk is stored under a single key. Each chunk must transfer within the connection's `CommandTimeout`, so lower it or raise the timeout for slow or shared links. |
-| `MasterStartTimeout` | `TimeSpan` | `TimeSpan.FromMinutes(5)` | Positive, finite deadline from worker registration for the master to start. Expiry fails the worker as a lost master. Reconnects do not reset it; after startup, `DistributedOptions.MasterTimeout` governs heartbeat loss. |
+| `MasterStartTimeout` | `TimeSpan` | `TimeSpan.FromMinutes(5)` | Positive, finite deadline from worker registration for the master to start. Must be at least `DistributedOptions.WorkerHeartbeatInterval`. Expiry fails the worker as a lost master. Reconnects do not reset it; after startup, `DistributedOptions.MasterTimeout` governs heartbeat loss. |
 | `FailOnUnsafeMemoryPolicy` | `bool` | `false` | Fail coordinator and artifact-store startup with `InvalidOperationException` when `INFO memory` reports finite `maxmemory` with an evicting policy, or diagnostics cannot establish the configuration. The default logs a warning and continues. Module-cache connections are not checked. |
 
 Use `noeviction` or unlimited `maxmemory` to prevent run state and artifact chunks from being evicted before
@@ -317,6 +317,8 @@ their own snapshots.
 
 A missing connection, an empty `KeyPrefix`, or a
 non-positive `TimeToLive`, `MasterStartTimeout` or `ChunkSizeBytes` fails fast with `OptionsValidationException`. For the coordinator
+and artifact store, `MasterStartTimeout` must be at least `DistributedOptions.WorkerHeartbeatInterval`,
+so polling cannot take longer than the startup timeout. For the coordinator
 and artifact store, `TimeToLive` must also exceed `DistributedOptions.ModuleResultTimeout` so run keys and
 artifacts cannot expire mid-run, and `DistributedOptions.MasterTimeout` so workers see a stopped master's
 heartbeat go stale before it expires. An infinite module result timeout does not disable Redis key
