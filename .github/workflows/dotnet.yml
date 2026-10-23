@@ -660,6 +660,14 @@ jobs:
             dotnet restore "$SOLUTION"
           done < <(sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' BuildSolutions.txt)
 
+      - name: Resolve package version before building
+        working-directory: src/ModularPipelines.Build
+        if: needs.fast-fail.outputs.distributed != 'true'
+        shell: bash
+        env:
+          Publish__IsAlpha: ${{ github.event_name != 'workflow_dispatch' || inputs.publish-packages != true || inputs.is-alpha }}
+        run: dotnet "$RUNNER_TEMP/pipeline-host/ModularPipelines.Build.dll" --write-package-version "$GITHUB_ENV"
+
       - name: Build solutions
         if: needs.fast-fail.outputs.distributed != 'true'
         shell: bash
@@ -675,7 +683,7 @@ jobs:
           do
             [[ -z "$SOLUTION" || "$SOLUTION" == \#* ]] && continue
             echo "::group::Build $SOLUTION"
-            dotnet build "$SOLUTION" -c Release --no-restore
+            dotnet build "$SOLUTION" -c Release --no-restore -p:Version="$Pipeline__PackageVersion"
             echo "::endgroup::"
           done < <(sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' BuildSolutions.txt)
 

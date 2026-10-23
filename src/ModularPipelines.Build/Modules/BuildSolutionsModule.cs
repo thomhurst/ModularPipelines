@@ -12,12 +12,14 @@ using ModularPipelines.Modules;
 namespace ModularPipelines.Build.Modules;
 
 [RequiresCapability("ci-master")]
+[DependsOn<NugetVersionGeneratorModule>]
 [RunIf<ModularPipelines.OnLinux>]
 [ProducesArtifact("build-output", "../../" + BuildOutputArchive.FileName)]
 public class BuildSolutionsModule(IOptions<PipelineSettings> pipelineSettings) : Module<CommandResult[]>
 {
     protected override async Task<CommandResult[]> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
+        var packageVersion = await context.GetModule<NugetVersionGeneratorModule>();
         var repositoryInfo = await context.Tools.Git.Information.GetInfoAsync(cancellationToken).ConfigureAwait(false)
             ?? throw new InvalidOperationException("Git repository information is unavailable.");
         var gitRoot = repositoryInfo.Root.Path;
@@ -38,6 +40,7 @@ public class BuildSolutionsModule(IOptions<PipelineSettings> pipelineSettings) :
                     ProjectSolution = Path.Combine(gitRoot, solution),
                     Configuration = "Release",
                     NoRestore = true,
+                    Properties = [("Version", packageVersion.Value)],
                 }, cancellationToken: cancellationToken))
                 .ProcessOneAtATime();
         }

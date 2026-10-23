@@ -4,7 +4,7 @@ import test from 'node:test';
 import { runInNewContext } from 'node:vm';
 
 const workflow = readFileSync(new URL('../workflows/dotnet.yml', import.meta.url), 'utf8');
-const expression = workflow.match(/Publish__IsAlpha:\s*\$\{\{\s*(.*?)\s*\}\}/)?.[1];
+const expression = [...workflow.matchAll(/Publish__IsAlpha:\s*\$\{\{\s*(.*?)\s*\}\}/g)].at(-1)?.[1];
 assert.ok(expression, 'The workflow must set Publish__IsAlpha');
 
 test('manual releases default to stable', () => {
@@ -32,4 +32,13 @@ test('publishing dispatches accept an explicit expected package version', () => 
   // Validation dispatches may omit it; the version module requires it when publishing.
   assert.match(workflow, /expected-version:\r?\n(?: {8}[^\r\n]*\r?\n)*? {8}required: false/);
   assert.match(workflow, /Publish__ExpectedVersion:\s*\$\{\{\s*inputs\.expected-version\s*\}\}/);
+});
+
+test('prebuild and packing share the publishing policy and compiled version', () => {
+  const resolution = workflow.match(/- name: Resolve package version before building([\s\S]*?)- name: Build solutions/)?.[1];
+  assert.ok(resolution, 'Resolve the package version before compilation');
+  assert.match(resolution, /working-directory: src\/ModularPipelines.Build/);
+  assert.match(resolution, /--write-package-version "\$GITHUB_ENV"/);
+  assert.equal(resolution.match(/Publish__IsAlpha:\s*\$\{\{\s*(.*?)\s*\}\}/)?.[1], expression);
+  assert.match(workflow, /dotnet build "\$SOLUTION" -c Release --no-restore -p:Version="\$Pipeline__PackageVersion"/);
 });

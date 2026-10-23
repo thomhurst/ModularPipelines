@@ -55,8 +55,46 @@ public class NugetVersionGeneratorTests
         await Assert.That(await module.Execute(context)).IsEqualTo(packageVersion);
     }
 
+    [Test]
+    [Arguments(false, "4.2.3")]
+    [Arguments(true, "4.2.3-alpha0012")]
+    public async Task Packing_Reuses_The_Exact_Prebuild_Version(bool shouldPublish, string version)
+    {
+        var (module, context) = CreateModule(shouldPublish, false, version, "different-git-version",
+            new PipelineSettings { BuildAlreadyCompleted = true, PackageVersion = version });
+
+        await Assert.That(await module.Execute(context)).IsEqualTo(version);
+        Mock.Get(context).Verify(x => x.Tools.Get<IGit>(), Times.Never);
+    }
+
+    [Test]
+    [Arguments(null)]
+    [Arguments("")]
+    [Arguments(" ")]
+    public async Task Rejects_Prebuild_Without_Its_Version(string? version)
+    {
+        var (module, context) = CreateModule(false, false, null, "4.2.3",
+            new PipelineSettings { BuildAlreadyCompleted = true, PackageVersion = version });
+
+        await Assert.That(async () => { await module.Execute(context); })
+            .Throws<InvalidOperationException>().And.HasMessageContaining("Pipeline:PackageVersion");
+        Mock.Get(context).Verify(x => x.Tools.Get<IGit>(), Times.Never);
+    }
+
+    [Test]
+    [Arguments(null)]
+    [Arguments("4.2.4")]
+    public async Task Publishing_Validates_The_Prebuild_Version(string? expectedVersion)
+    {
+        var (module, context) = CreateModule(true, false, expectedVersion, "4.2.3",
+            new PipelineSettings { BuildAlreadyCompleted = true, PackageVersion = "4.2.3" });
+
+        await Assert.That(async () => { await module.Execute(context); }).Throws<InvalidOperationException>();
+        Mock.Get(context).Verify(x => x.Tools.Get<IGit>(), Times.Never);
+    }
+
     private static (ExposedVersionModule Module, IModuleContext Context) CreateModule(
-        bool shouldPublish, bool isAlpha, string? expectedVersion, string computedVersion)
+        bool shouldPublish, bool isAlpha, string? expectedVersion, string computedVersion, PipelineSettings? pipelineSettings = null)
     {
         var git = new Mock<IGit> { DefaultValue = DefaultValue.Mock };
         git.Setup(x => x.Versioning.GetVersioningInformationAsync(It.IsAny<CancellationToken>()))
@@ -72,12 +110,12 @@ public class NugetVersionGeneratorTests
             ShouldPublish = shouldPublish,
             IsAlpha = isAlpha,
             ExpectedVersion = expectedVersion,
-        }));
+        }), Microsoft.Extensions.Options.Options.Create(pipelineSettings ?? new PipelineSettings()));
         return (module, context.Object);
     }
 
     // Exercise the module body independently of its CI capability requirement.
-    private class ExposedVersionModule(IOptions<PublishSettings> settings) : NugetVersionGeneratorModule(settings)
+    private class ExposedVersionModule(IOptions<PublishSettings> settings, IOptions<PipelineSettings> pipelineSettings) : NugetVersionGeneratorModule(settings, pipelineSettings)
     {
         public Task<string> Execute(IModuleContext context) => base.ExecuteAsync(context, CancellationToken.None);
     }
