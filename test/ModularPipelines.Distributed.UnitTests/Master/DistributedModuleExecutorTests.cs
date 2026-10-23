@@ -73,6 +73,7 @@ public class DistributedModuleExecutorTests
             => Task.FromResult<SimpleResult>(new SimpleResult { Message = "done" });
     }
 
+    [ModuleId("cached-distributed-module")]
     private class CachedDistributedModule : Module<SimpleResult>
     {
         protected override void Configure(ModuleConfigurationBuilder module) =>
@@ -714,7 +715,9 @@ public class DistributedModuleExecutorTests
     }
 
     [Test]
-    public async Task Master_Cache_Hit_Completes_Module_Without_Dispatch()
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Master_Cache_Hit_Completes_Module_Without_Dispatch(bool hasStoredId)
     {
         var module = new CachedDistributedModule();
         var moduleState = new ModuleState(module, typeof(CachedDistributedModule));
@@ -727,7 +730,10 @@ public class DistributedModuleExecutorTests
             .Returns(Task.CompletedTask);
         var cachedResult = CreateSuccessResult(
             new SimpleResult { Message = "cached" },
-            nameof(CachedDistributedModule));
+            nameof(CachedDistributedModule)) with
+        {
+            ModuleId = hasStoredId ? new ModuleId("stale-cache-id") : default,
+        };
         var cache = new Mock<IModuleCacheResultRepository>();
         cache.Setup(c => c.GetResultAsync(
                 It.IsAny<Module<SimpleResult>>(),
@@ -755,6 +761,10 @@ public class DistributedModuleExecutorTests
         await executor.ExecuteAsync([module], new Dictionary<Type, TimeSpan>(), executionContext.Object, CancellationToken.None);
 
         var result = await ((IInternalModule) module).ResultTask;
+        await Assert.That(result.ModuleId).IsEqualTo(ModuleId.FromType(typeof(CachedDistributedModule)));
+        await Assert.That(cachedResult.ModuleId).IsEqualTo(hasStoredId ? new ModuleId("stale-cache-id") : default);
+        await Assert.That(result.StartTime).IsEqualTo(cachedResult.StartTime);
+        await Assert.That(result.EndTime).IsEqualTo(cachedResult.EndTime);
         await Assert.That(result.Status).IsEqualTo(ModuleStatus.RestoredFromCache);
         await Assert.That(result.ValueOrDefault).IsSameReferenceAs(cachedResult.ValueOrDefault);
         await Assert.That(moduleState.Result).IsSameReferenceAs(result);

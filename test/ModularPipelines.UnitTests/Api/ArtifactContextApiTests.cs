@@ -716,7 +716,8 @@ public class ArtifactContextApiTests
             }
 
             _readStarted.TrySetResult();
-            return _releaseReads.Task.WaitAsync(cancellationToken);
+            // ZIP streams can omit the caller token on asynchronous reads.
+            return _releaseReads.Task.WaitAsync(_blockingCancellationToken).WaitAsync(cancellationToken);
         }
 
         private void WaitForRelease()

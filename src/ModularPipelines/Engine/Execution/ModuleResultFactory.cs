@@ -90,23 +90,23 @@ internal static class ModuleResultFactory
     }
 
     /// <summary>
-    /// Creates a copy of the result with a different status (type-erased version for engine use).
+    /// Creates a copy of the result with a different status and optional module identifier (type-erased version for engine use).
     /// </summary>
     [UnconditionalSuppressMessage(
         "AOT",
         "IL3050",
         Justification = "Type-erased result mutation is used by dynamic and history paths that are unsupported in Native AOT.")]
-    public static IModuleResult WithStatus(IModuleResult result, ModuleStatus status)
+    public static IModuleResult WithStatus(IModuleResult result, ModuleStatus status, ModuleId? moduleId = null)
     {
         // Handle non-generic Failure/Skipped types directly (most efficient path)
         if (result is ModuleResult.Failure failure)
         {
-            return failure with { Status = status };
+            return failure with { Status = status, ModuleId = moduleId ?? failure.ModuleId };
         }
 
         if (result is ModuleResult.Skipped skipped)
         {
-            return skipped with { Status = status };
+            return skipped with { Status = status, ModuleId = moduleId ?? skipped.ModuleId };
         }
 
         // Generic variants require reflection to call WithStatusGeneric<T>, which handles
@@ -130,7 +130,7 @@ internal static class ModuleResultFactory
             .GetMethod(nameof(WithStatusGeneric), System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)!
             .MakeGenericMethod(valueType);
 
-        return (IModuleResult) method.Invoke(null, [result, status])!;
+        return (IModuleResult) method.Invoke(null, [result, status, moduleId])!;
     }
 
     private static IModuleResult CreateSkippedGeneric<T>(SkipDecision decision, ModuleExecutionContext ctx)
@@ -143,8 +143,8 @@ internal static class ModuleResultFactory
         return ModuleResult<T>.CreateFailure(exception, ctx);
     }
 
-    private static IModuleResult WithStatusGeneric<T>(ModuleResult<T> result, ModuleStatus status)
+    private static IModuleResult WithStatusGeneric<T>(ModuleResult<T> result, ModuleStatus status, ModuleId? moduleId)
     {
-        return result with { Status = status };
+        return result with { Status = status, ModuleId = moduleId ?? result.ModuleId };
     }
 }
