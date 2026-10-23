@@ -849,6 +849,8 @@ internal class ModuleExecutionPipeline(
         ModuleExecutionContext<T> executionContext,
         CancellationToken cancellationToken)
     {
+        // Commands must use the hook's token, including uncanceled failure cleanup.
+        using var cancellationScope = new ModuleCancellationScope(cancellationToken);
         var previousProvisionalResult = module.SetProvisionalResult(moduleResult);
         try
         {

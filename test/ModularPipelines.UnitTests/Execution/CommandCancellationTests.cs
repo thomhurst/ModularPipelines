@@ -4,6 +4,7 @@ using Microsoft.Extensions.Time.Testing;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Exceptions;
+using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using ModularPipelines.ProcessTestHost;
@@ -119,6 +120,40 @@ public class CommandCancellationTests : TestBase
     }
 
     [Test]
+    [Arguments(false, false)]
+    [Arguments(false, true)]
+    [Arguments(true, false)]
+    [Arguments(true, true)]
+    public async Task Failure_Cleanup_Command_Completes_After_Pipeline_Cancellation(bool useShell, bool forwardHookToken)
+    {
+        var interceptor = new WaitingInterceptor();
+        interceptor.Complete();
+        var builder = TestPipelineBuilder.Create().AddModule<CleanupCommandModule>();
+        builder.Services.AddSingleton<ICommandInterceptor>(interceptor);
+        await using var host = await builder.BuildAsync();
+        var module = host.Services.GetServices<IModule>().OfType<CleanupCommandModule>().Single();
+        module.UseShell = useShell;
+        module.ForwardHookToken = forwardHookToken;
+        var run = host.RunAsync();
+        try
+        {
+            await module.Started.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
+            host.Services.GetRequiredService<EngineCancellationToken>().Cancel();
+            await run.WaitAsync(TestHostSettings.DefaultTestTimeout);
+
+            await Assert.That(module.CleanupCompleted).IsTrue();
+            await Assert.That(interceptor.Started.Reader.TryRead(out var cleanupToken)).IsTrue();
+            await Assert.That(cleanupToken.IsCancellationRequested).IsFalse();
+            await Assert.That(ModuleCancellationScope.CurrentToken).IsEqualTo(CancellationToken.None);
+        }
+        finally
+        {
+            host.Services.GetRequiredService<EngineCancellationToken>().Cancel();
+            await run.WaitAsync(TestHostSettings.DefaultTestTimeout).ContinueWith(_ => { });
+        }
+    }
+
+    [Test]
     public async Task Default_Command_Outside_Module_Completes()
     {
         var interceptor = new WaitingInterceptor();
@@ -224,6 +259,53 @@ public class CommandCancellationTests : TestBase
                 }
             }));
             return 42;
+        }
+    }
+
+    private sealed class CleanupCommandModule : Module<int>
+    {
+        public TaskCompletionSource Started { get; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
+        public bool UseShell { get; set; }
+        public bool ForwardHookToken { get; set; }
+        public bool CleanupCompleted { get; private set; }
+
+        protected internal override async Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        {
+            Started.TrySetResult();
+            await Task.Delay(Timeout.InfiniteTimeSpan, cancellationToken);
+            return 42;
+        }
+
+        protected override async Task<ModuleResult<int>?> OnAfterExecuteAsync(
+            IModuleContext context, ModuleResult<int> result, CancellationToken cancellationToken)
+        {
+            var options = new CommandLineToolOptions("cleanup");
+            if (UseShell)
+            {
+                if (ForwardHookToken)
+                {
+                    await context.Shell.RunAsync(options, cancellationToken: cancellationToken);
+                }
+                else
+                {
+                    await context.Shell.RunAsync(options);
+                }
+            }
+            else
+            {
+                var command = context.Services.GetRequiredService<ICommandContext>();
+                if (ForwardHookToken)
+                {
+                    await command.ExecuteCommandLineToolAsync(options, cancellationToken: cancellationToken);
+                }
+                else
+                {
+                    await command.ExecuteCommandLineToolAsync(options);
+                }
+            }
+
+            CleanupCompleted = true;
+            return null;
         }
     }
 
