@@ -3,7 +3,6 @@ using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Enums;
-using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -160,7 +159,9 @@ public class GitHubMarkdownSummaryGeneratorTests
             var builder = Pipeline.CreateBuilder();
             builder.AddModule<SecretFailureModule>();
 
-            await Assert.ThrowsAsync<PipelineException>(() => builder.RunAsync());
+            var failure = await Assert.ThrowsAsync<Exception>(() => builder.RunAsync());
+            await Assert.That(failure!.ToString()).DoesNotContain(SummarySecret);
+            await Assert.That(failure.ToString()).Contains("**********");
 
             var summary = await File.ReadAllTextAsync(path);
             using (Assert.Multiple())

@@ -57,7 +57,13 @@ masked messages, stack traces, and inner exceptions, including every aggregate e
 The snapshot remains masked after the pipeline is disposed, so unhandled exception output also
 uses the masked text. The original exception is not exposed through `InnerException`.
 
-Sanitized exceptions can have a different concrete type from the original exception. Aggregate
+Structured or opaque `Exception.Data` keys and values become text snapshots so their original
+objects cannot expose unmasked contents. This conservatively requires a sanitized exception even
+when the object's text contains no secret. Plain scalar values retain their types when unchanged.
+
+Sanitized exceptions can have a different concrete type from the original exception. For example,
+`ModuleFailedException` and `PipelineFailedException` are replaced, so catches for those types and
+access to `PipelineFailedException.Summary` do not apply to sanitized exceptions. Aggregate
 exceptions remain `AggregateException` instances, and cancellation remains an
 `OperationCanceledException` with the original cancellation token. When nothing needs masking,
 the original exception and its type are preserved. Register secrets before throwing an exception

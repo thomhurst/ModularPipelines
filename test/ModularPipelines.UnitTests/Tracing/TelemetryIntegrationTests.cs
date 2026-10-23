@@ -839,10 +839,10 @@ public class TelemetryIntegrationTests
 
         await Assert.That(measurements).Count().IsEqualTo(10);
         await Assert.That(measurements.Select(measurement => measurement.Name).Distinct()).Count().IsEqualTo(5);
-        foreach (var measurement in measurements)
+        foreach (var (_, tags) in measurements)
         {
-            await Assert.That(measurement.Tags.Any(tag => tag.Key == PipelineTelemetry.ModuleTypeFullNameTag)).IsFalse();
-            await Assert.That(measurement.Tags.Single(tag => tag.Key == PipelineTelemetry.ModuleTypeTag).Value)
+            await Assert.That(tags.Any(tag => tag.Key == PipelineTelemetry.ModuleTypeFullNameTag)).IsFalse();
+            await Assert.That(tags.Single(tag => tag.Key == PipelineTelemetry.ModuleTypeTag).Value)
                 .IsEqualTo(typeof(GenericModule<>).Name);
         }
     }

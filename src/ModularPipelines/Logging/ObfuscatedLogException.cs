@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using ModularPipelines.Constants;
 using ModularPipelines.Engine;
 using ModularPipelines.Exceptions;
+using ModularPipelines.Models;
 using ModularPipelines.Secrets;
 
 namespace ModularPipelines.Logging;
@@ -72,16 +73,7 @@ internal sealed class ObfuscatedLogException : Exception, IOriginalExceptionIden
 
         if (exception is PipelineFailedException pipelineFailure)
         {
-            foreach (var result in pipelineFailure.Summary.Results)
-            {
-                if (result.ExceptionOrDefault is { } failure)
-                {
-                    // The snapshot omits Summary. Still inspect its retained exceptions so
-                    // the boundary cannot return an original with sensitive result data.
-                    _ = Create(failure, secretObfuscator);
-                    InspectSummaryExceptions(failure, secretObfuscator, visited);
-                }
-            }
+            InspectResultExceptions(pipelineFailure.Summary, secretObfuscator, visited);
         }
 
         if (exception is AggregateException aggregate)
@@ -94,6 +86,23 @@ internal sealed class ObfuscatedLogException : Exception, IOriginalExceptionIden
         else if (exception.InnerException is { } inner)
         {
             InspectSummaryExceptions(inner, secretObfuscator, visited);
+        }
+    }
+
+    private static void InspectResultExceptions(
+        PipelineSummary summary,
+        ChangeTrackingObfuscator secretObfuscator,
+        HashSet<Exception> visited)
+    {
+        foreach (var result in summary.Results)
+        {
+            if (result.ExceptionOrDefault is { } failure)
+            {
+                // The snapshot omits Summary. Still inspect its retained exceptions so
+                // the boundary cannot return an original with sensitive result data.
+                _ = Create(failure, secretObfuscator);
+                InspectSummaryExceptions(failure, secretObfuscator, visited);
+            }
         }
     }
 
@@ -219,6 +228,7 @@ internal sealed class ObfuscatedLogException : Exception, IOriginalExceptionIden
         catch (Exception)
         {
             // Diagnostic data must never make logging fail.
+            RequireSnapshot(secretObfuscator);
         }
     }
 
@@ -251,13 +261,35 @@ internal sealed class ObfuscatedLogException : Exception, IOriginalExceptionIden
 
         try
         {
+            // ToString() cannot prove that an arbitrary object has no sensitive state.
+            // Keep only known scalars; never expose an opaque object's fields or contents.
+            var preserveValue = IsScalarDataValue(value);
+            if (!preserveValue)
+            {
+                RequireSnapshot(secretObfuscator);
+            }
+
             var text = value.ToString() ?? string.Empty;
             var obfuscated = secretObfuscator.Obfuscate(text, null);
-            return obfuscated.Equals(text, StringComparison.Ordinal) ? value : obfuscated;
+            return preserveValue && obfuscated.Equals(text, StringComparison.Ordinal) ? value : obfuscated;
         }
         catch (Exception)
         {
+            RequireSnapshot(secretObfuscator);
             return LoggingConstants.SecretMask;
+        }
+    }
+
+    private static bool IsScalarDataValue(object value) =>
+        value is string or decimal or DateTime or DateTimeOffset or TimeSpan or Guid
+        || value.GetType().IsPrimitive
+        || value.GetType().IsEnum;
+
+    private static void RequireSnapshot(ISecretObfuscator secretObfuscator)
+    {
+        if (secretObfuscator is ChangeTrackingObfuscator tracker)
+        {
+            tracker.MarkChanged();
         }
     }
 
@@ -281,6 +313,8 @@ internal sealed class ObfuscatedLogException : Exception, IOriginalExceptionIden
     private sealed class ChangeTrackingObfuscator(ISecretObfuscator secretObfuscator) : ISecretObfuscator
     {
         public bool WasChanged { get; private set; }
+
+        public void MarkChanged() => WasChanged = true;
 
         public string Obfuscate(string? input, object? optionsObject)
         {

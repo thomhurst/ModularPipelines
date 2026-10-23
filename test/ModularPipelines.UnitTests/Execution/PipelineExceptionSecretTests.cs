@@ -92,6 +92,85 @@ public class PipelineExceptionSecretTests
     }
 
     [Test]
+    [Arguments(0, false)]
+    [Arguments(0, true)]
+    [Arguments(1, false)]
+    [Arguments(1, true)]
+    [Arguments(2, false)]
+    [Arguments(2, true)]
+    [Arguments(3, false)]
+    [Arguments(3, true)]
+    [Arguments(4, false)]
+    [Arguments(4, true)]
+    [Arguments(5, false)]
+    [Arguments(5, true)]
+    public async Task StructuredData_DoesNotExposeOriginalObjects(int kind, bool sensitiveMessage)
+    {
+        object value = kind switch
+        {
+            0 => Secret.ToCharArray(),
+            1 => new List<string> { Secret },
+            2 => new Dictionary<string, string> { ["token"] = Secret },
+            3 => new SecretHolder(Secret),
+            4 => new SecretStruct(Secret),
+            _ => new ThrowingDiagnostic(),
+        };
+        var original = new Exception(sensitiveMessage ? Secret : "ordinary failure");
+        original.Data["token"] = value;
+        original.Data[value] = "structured key";
+
+        var failure = await RunWithFailure(original, registerSecret: true);
+
+        await Assert.That(failure).IsNotSameReferenceAs(original);
+        await Assert.That(failure.Data["token"]).IsAssignableTo<string>();
+        await Assert.That(original.Data["token"]).IsSameReferenceAs(value);
+        foreach (var key in failure.Data.Keys)
+        {
+            await Assert.That(key).IsAssignableTo<string>();
+        }
+
+        await AssertMasked(failure);
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task ScalarData_PreservesOriginalException(bool registerSecret)
+    {
+        var original = new Exception("ordinary failure");
+        original.Data["number"] = 42;
+        original.Data["text"] = "ordinary diagnostic";
+        original.Data["missing"] = null;
+
+        var failure = await RunWithFailure(original, registerSecret);
+
+        await Assert.That(failure).IsSameReferenceAs(original);
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task SummaryFailure_InspectsStructuredResultData(bool aggregate)
+    {
+        var resultException = new Exception("ordinary failure");
+        resultException.Data["token"] = Secret.ToCharArray();
+        var result = Mock.Of<IModuleResult>(result => result.Status == ModuleStatus.Failed
+            && result.Name == nameof(SecretFailureModule)
+            && result.ExceptionOrDefault == resultException);
+        var now = DateTimeOffset.UtcNow;
+        var summary = new PipelineSummary([], [result], TimeSpan.Zero, now, now);
+        var summaryFailure = new PipelineFailedException(summary, [nameof(SecretFailureModule)]);
+        Exception original = aggregate ? new AggregateException(summaryFailure) : summaryFailure;
+
+        var failure = await RunWithFailure(original, registerSecret: true);
+
+        await Assert.That(failure).IsNotSameReferenceAs(original);
+        var snapshot = aggregate ? ((AggregateException) failure).InnerExceptions[0] : failure;
+        await Assert.That(snapshot is PipelineFailedException).IsFalse();
+        await AssertMasked(failure);
+    }
+
+    [Test]
     [Arguments(false, false)]
     [Arguments(false, true)]
     [Arguments(true, false)]
@@ -194,5 +273,22 @@ public class PipelineExceptionSecretTests
     private sealed class HiddenInnerException(Exception inner) : Exception("ordinary failure", inner)
     {
         public override string ToString() => Message;
+    }
+
+    private sealed class SecretHolder(string token)
+    {
+        public string Token { get; } = token;
+
+        public override string ToString() => "opaque diagnostic";
+    }
+
+    private readonly record struct SecretStruct(string Token)
+    {
+        public override string ToString() => "opaque diagnostic";
+    }
+
+    private sealed class ThrowingDiagnostic
+    {
+        public override string ToString() => throw new InvalidOperationException("unavailable diagnostic");
     }
 }

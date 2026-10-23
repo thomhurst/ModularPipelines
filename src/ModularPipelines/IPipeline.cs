@@ -34,7 +34,8 @@ public interface IPipeline : IAsyncDisposable
     /// <remarks>
     /// Exceptions containing registered secrets are replaced with sanitized snapshots, including
     /// their inner exceptions. Concrete exception types can change; aggregate exceptions and
-    /// cancellation semantics are preserved. Exceptions that need no masking are rethrown unchanged.
+    /// cancellation semantics are preserved. Structured or opaque diagnostic data is replaced with
+    /// text snapshots. Exceptions that need no masking are rethrown unchanged.
     /// </remarks>
     Task<PipelineSummary> RunAsync(CancellationToken cancellationToken = default);
 
