@@ -53,6 +53,17 @@ jobs:
       integration_test_project: ${{ steps.generated_integration.outputs.test_project }}
     permissions:
       contents: read
+    services:
+      redis:
+        # Hash field expiry in the coordinator requires Redis 7.4 or later.
+        image: redis:7.4-alpine
+        ports:
+          - 6379/tcp
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 10
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -315,6 +326,29 @@ jobs:
         if: steps.generated_integration.outputs.is_generated_integration != 'true'
         shell: pwsh
         run: ./scripts/Test-DocumentationFsi.ps1 -PackageDirectory "$env:RUNNER_TEMP/template-pack" -PackageVersion '0.0.0-local'
+      - name: Run real Redis contract and integration tests
+        if: steps.generated_integration.outputs.is_generated_integration != 'true'
+        shell: bash
+        env:
+          MODULAR_PIPELINES_REDIS_TEST_CONNECTION_STRING: 127.0.0.1:${{ job.services.redis.ports['6379'] }}
+        run: |
+          # Keep subsecond lease checks from competing with hundreds of unrelated tests.
+          for PACKAGE in ModularPipelines.Distributed.Redis ModularPipelines.Distributed.Discovery.Redis
+          do
+            dotnet run --project "test/$PACKAGE.UnitTests/$PACKAGE.UnitTests.csproj" \
+              --configuration Release --framework net11.0 -- \
+              --maximum-parallel-tests 4 \
+              --results-directory "$RUNNER_TEMP/redis-test-results/$PACKAGE" \
+              --report-trx --report-trx-filename test-results.trx
+          done
+      - name: Upload Redis test results
+        if: always() && steps.generated_integration.outputs.is_generated_integration != 'true'
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: redis-test-results-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/redis-test-results
+          if-no-files-found: warn
+          retention-days: 7
       - name: Test build pipeline modules
         if: steps.generated_integration.outputs.is_generated_integration != 'true'
         run: dotnet run --project test/ModularPipelines.Build.UnitTests/ModularPipelines.Build.UnitTests.csproj --configuration Release --framework net11.0
