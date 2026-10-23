@@ -4,6 +4,12 @@ namespace RootNamespaceConsumer;
 
 internal static class RootNamespaceGoldenPathCompileFixture
 {
+    public static (CommandLine Command, KeyValue Pair, CliOptionValue? Optional, CliValuePair Operands,
+        CliValueGroup Group, CliOptionValueRangeAttribute Range, CliOptionValueRegularExpressionAttribute Pattern)
+        CreateCliContracts()
+        => (new("tool", ["--flag"]), new("key", "value"), CliOptionValue.Bare,
+            new("first", "second"), new(["first", "second"]), new(1, 3), new(".*"));
+
     public static async Task ConfigureAndRunAsync(PipelineBuilder builder)
     {
         builder.AddCapabilities(Capability.Docker);

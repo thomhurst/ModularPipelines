@@ -504,29 +504,29 @@ public partial class RequiredConstructorValidationTests
     }
 
     private sealed class OpaqueRendererSet(HashSet<string> members) : OpaqueReadOnlySet(members),
-        IEnumerable<ModularPipelines.Models.CliValuePair>, IEnumerable<ModularPipelines.Models.KeyValue>
+        IEnumerable<ModularPipelines.CliValuePair>, IEnumerable<ModularPipelines.KeyValue>
     {
-        IEnumerator<ModularPipelines.Models.CliValuePair> IEnumerable<ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
-            ((IEnumerable<ModularPipelines.Models.CliValuePair>) [new ModularPipelines.Models.CliValuePair("typed", "value")]).GetEnumerator();
+        IEnumerator<ModularPipelines.CliValuePair> IEnumerable<ModularPipelines.CliValuePair>.GetEnumerator() =>
+            ((IEnumerable<ModularPipelines.CliValuePair>) [new ModularPipelines.CliValuePair("typed", "value")]).GetEnumerator();
 
-        IEnumerator<ModularPipelines.Models.KeyValue> IEnumerable<ModularPipelines.Models.KeyValue>.GetEnumerator() =>
-            ((IEnumerable<ModularPipelines.Models.KeyValue>) [new ModularPipelines.Models.KeyValue("typed", "value")]).GetEnumerator();
+        IEnumerator<ModularPipelines.KeyValue> IEnumerable<ModularPipelines.KeyValue>.GetEnumerator() =>
+            ((IEnumerable<ModularPipelines.KeyValue>) [new ModularPipelines.KeyValue("typed", "value")]).GetEnumerator();
     }
 
     private sealed class MutableRendererSet() : HashSet<string>(["first", "valid"], StringComparer.OrdinalIgnoreCase),
-        IEnumerable<ModularPipelines.Models.CliValuePair>, IEnumerable<ModularPipelines.Models.KeyValue>
+        IEnumerable<ModularPipelines.CliValuePair>, IEnumerable<ModularPipelines.KeyValue>
     {
         public string RendererValue { get; set; } = "value";
         public int PairEnumerationCount { get; private set; }
         public int KeyValueEnumerationCount { get; private set; }
 
-        IEnumerator<ModularPipelines.Models.CliValuePair> IEnumerable<ModularPipelines.Models.CliValuePair>.GetEnumerator()
+        IEnumerator<ModularPipelines.CliValuePair> IEnumerable<ModularPipelines.CliValuePair>.GetEnumerator()
         {
             PairEnumerationCount++;
             yield return new("typed", RendererValue);
         }
 
-        IEnumerator<ModularPipelines.Models.KeyValue> IEnumerable<ModularPipelines.Models.KeyValue>.GetEnumerator()
+        IEnumerator<ModularPipelines.KeyValue> IEnumerable<ModularPipelines.KeyValue>.GetEnumerator()
         {
             KeyValueEnumerationCount++;
             yield return new("typed", RendererValue);
@@ -552,18 +552,18 @@ public partial class RequiredConstructorValidationTests
 
     private sealed class ComparerAwareRendererSet(string entry, SingleUseStringRendererViews values)
         : HashSet<string>(["first", entry], StringComparer.OrdinalIgnoreCase), IReadOnlySet<string>,
-            IEnumerable<ModularPipelines.Models.CliValuePair>, IEnumerable<ModularPipelines.Models.KeyValue>
+            IEnumerable<ModularPipelines.CliValuePair>, IEnumerable<ModularPipelines.KeyValue>
     {
         IEnumerator<string> IEnumerable<string>.GetEnumerator() => values.GetEnumerator();
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => values.GetEnumerator();
-        IEnumerator<ModularPipelines.Models.CliValuePair> IEnumerable<ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
-            ((IEnumerable<ModularPipelines.Models.CliValuePair>) values).GetEnumerator();
-        IEnumerator<ModularPipelines.Models.KeyValue> IEnumerable<ModularPipelines.Models.KeyValue>.GetEnumerator() =>
-            ((IEnumerable<ModularPipelines.Models.KeyValue>) values).GetEnumerator();
+        IEnumerator<ModularPipelines.CliValuePair> IEnumerable<ModularPipelines.CliValuePair>.GetEnumerator() =>
+            ((IEnumerable<ModularPipelines.CliValuePair>) values).GetEnumerator();
+        IEnumerator<ModularPipelines.KeyValue> IEnumerable<ModularPipelines.KeyValue>.GetEnumerator() =>
+            ((IEnumerable<ModularPipelines.KeyValue>) values).GetEnumerator();
     }
 
     private sealed class SingleUseStringRendererViews(string entry) : IReadOnlyList<string>, IReadOnlySet<string>, System.Collections.ICollection,
-        IEnumerable<ModularPipelines.Models.CliValuePair>, IEnumerable<ModularPipelines.Models.KeyValue>
+        IEnumerable<ModularPipelines.CliValuePair>, IEnumerable<ModularPipelines.KeyValue>
     {
         private readonly HashSet<string> _members = new(["first", entry], StringComparer.OrdinalIgnoreCase);
 
@@ -596,7 +596,7 @@ public partial class RequiredConstructorValidationTests
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => GetEnumerator();
 
-        IEnumerator<ModularPipelines.Models.CliValuePair> IEnumerable<ModularPipelines.Models.CliValuePair>.GetEnumerator()
+        IEnumerator<ModularPipelines.CliValuePair> IEnumerable<ModularPipelines.CliValuePair>.GetEnumerator()
         {
             if (++PairEnumerationCount > 1)
             {
@@ -606,7 +606,7 @@ public partial class RequiredConstructorValidationTests
             yield return new("typed", "value");
         }
 
-        IEnumerator<ModularPipelines.Models.KeyValue> IEnumerable<ModularPipelines.Models.KeyValue>.GetEnumerator()
+        IEnumerator<ModularPipelines.KeyValue> IEnumerable<ModularPipelines.KeyValue>.GetEnumerator()
         {
             if (++KeyValueEnumerationCount > 1)
             {
@@ -673,7 +673,7 @@ public partial class RequiredConstructorValidationTests
     }
 
     private sealed class MutableStringRendererViews(string? entry) : List<string>(["first", entry!]),
-        IEnumerable<string>, IEnumerable<ModularPipelines.Models.CliValuePair>, IEnumerable<ModularPipelines.Models.KeyValue>
+        IEnumerable<string>, IEnumerable<ModularPipelines.CliValuePair>, IEnumerable<ModularPipelines.KeyValue>
     {
         public int OrdinaryEnumerationCount { get; private set; }
         public int PairEnumerationCount { get; private set; }
@@ -692,7 +692,7 @@ public partial class RequiredConstructorValidationTests
             return base.GetEnumerator();
         }
 
-        IEnumerator<ModularPipelines.Models.CliValuePair> IEnumerable<ModularPipelines.Models.CliValuePair>.GetEnumerator()
+        IEnumerator<ModularPipelines.CliValuePair> IEnumerable<ModularPipelines.CliValuePair>.GetEnumerator()
         {
             if (++PairEnumerationCount > 1)
             {
@@ -702,7 +702,7 @@ public partial class RequiredConstructorValidationTests
             yield return new("typed", "value");
         }
 
-        IEnumerator<ModularPipelines.Models.KeyValue> IEnumerable<ModularPipelines.Models.KeyValue>.GetEnumerator()
+        IEnumerator<ModularPipelines.KeyValue> IEnumerable<ModularPipelines.KeyValue>.GetEnumerator()
         {
             if (++KeyValueEnumerationCount > 1)
             {
@@ -790,7 +790,7 @@ public partial class RequiredConstructorValidationTests
     }
 
     private sealed class MutableObjectRendererViews(string? entry) : List<object>(["first", entry!]),
-        IEnumerable<ModularPipelines.Models.CliValuePair>, IEnumerable<ModularPipelines.Models.KeyValue>
+        IEnumerable<ModularPipelines.CliValuePair>, IEnumerable<ModularPipelines.KeyValue>
     {
         public int OrdinaryEnumerationCount { get; private set; }
         public int PairEnumerationCount { get; private set; }
@@ -806,7 +806,7 @@ public partial class RequiredConstructorValidationTests
             return base.GetEnumerator();
         }
 
-        IEnumerator<ModularPipelines.Models.CliValuePair> IEnumerable<ModularPipelines.Models.CliValuePair>.GetEnumerator()
+        IEnumerator<ModularPipelines.CliValuePair> IEnumerable<ModularPipelines.CliValuePair>.GetEnumerator()
         {
             if (++PairEnumerationCount > 1)
             {
@@ -816,7 +816,7 @@ public partial class RequiredConstructorValidationTests
             yield return new("typed", "value");
         }
 
-        IEnumerator<ModularPipelines.Models.KeyValue> IEnumerable<ModularPipelines.Models.KeyValue>.GetEnumerator()
+        IEnumerator<ModularPipelines.KeyValue> IEnumerable<ModularPipelines.KeyValue>.GetEnumerator()
         {
             if (++KeyValueEnumerationCount > 1)
             {
@@ -1071,12 +1071,12 @@ public partial class RequiredConstructorValidationTests
     }
 
     private sealed class CharacterRendererReadOnlyList(string? entry, CharacterViews views) : CharacterReadOnlyList(entry, views),
-        IEnumerable<ModularPipelines.Models.CliValuePair>, IEnumerable<ModularPipelines.Models.KeyValue>
+        IEnumerable<ModularPipelines.CliValuePair>, IEnumerable<ModularPipelines.KeyValue>
     {
-        IEnumerator<ModularPipelines.Models.CliValuePair> IEnumerable<ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
-            ((IEnumerable<ModularPipelines.Models.CliValuePair>) [new("typed", "value")]).GetEnumerator();
-        IEnumerator<ModularPipelines.Models.KeyValue> IEnumerable<ModularPipelines.Models.KeyValue>.GetEnumerator() =>
-            ((IEnumerable<ModularPipelines.Models.KeyValue>) [new("typed", "value")]).GetEnumerator();
+        IEnumerator<ModularPipelines.CliValuePair> IEnumerable<ModularPipelines.CliValuePair>.GetEnumerator() =>
+            ((IEnumerable<ModularPipelines.CliValuePair>) [new("typed", "value")]).GetEnumerator();
+        IEnumerator<ModularPipelines.KeyValue> IEnumerable<ModularPipelines.KeyValue>.GetEnumerator() =>
+            ((IEnumerable<ModularPipelines.KeyValue>) [new("typed", "value")]).GetEnumerator();
     }
 
     private sealed class CharacterObjectList(string? entry, CharacterViews views) : List<object>(["first", entry!]),

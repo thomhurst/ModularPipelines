@@ -11,7 +11,6 @@ using ModularPipelines.Engine;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Helpers.Internal;
 using ModularPipelines.Logging;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Secrets;
 using ModularPipelines.Tracing;

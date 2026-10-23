@@ -1,4 +1,4 @@
-namespace ModularPipelines.Models;
+namespace ModularPipelines;
 
 /// <summary>
 /// Represents a key-value pair with a configurable separator.

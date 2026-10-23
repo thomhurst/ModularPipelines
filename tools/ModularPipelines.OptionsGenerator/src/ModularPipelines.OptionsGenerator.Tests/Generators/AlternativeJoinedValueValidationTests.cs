@@ -1,7 +1,6 @@
 using System.Collections;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Attributes;
-using ModularPipelines.Models;
 
 namespace ModularPipelines.OptionsGenerator.Tests.Generators;
 

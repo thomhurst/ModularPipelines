@@ -51,9 +51,9 @@ public sealed class CliOptionAttribute(string name) : Attribute
     /// <summary>
     /// Gets or sets whether this option requires a value.
     /// For <see cref="CliOptionValueArity.Optional"/>, a null property omits the option,
-    /// <see cref="ModularPipelines.Models.CliOptionValue.Bare"/> renders the bare option, and a value renders
+    /// <see cref="ModularPipelines.CliOptionValue.Bare"/> renders the bare option, and a value renders
     /// the option with that value. Non-null string values are rendered literally, including empty and whitespace values.
-    /// A <see cref="ModularPipelines.Models.CliValueGroup"/> keeps several values in one occurrence;
+    /// A <see cref="ModularPipelines.CliValueGroup"/> keeps several values in one occurrence;
     /// a collection of groups repeats the option, and an empty group renders a bare optional-value option.
     /// </summary>
     public CliOptionValueArity ValueArity { get; set; } = CliOptionValueArity.Required;
@@ -62,8 +62,8 @@ public sealed class CliOptionAttribute(string name) : Attribute
     /// Gets or sets a value indicating whether collection values share one option occurrence.
     /// By default, collections repeat the option for every value.
     /// Grouped values require <see cref="OptionFormat.SpaceSeparated"/>.
-    /// A collection of <see cref="ModularPipelines.Models.CliValueGroup"/> preserves one occurrence per group.
-    /// For optional values, a collection containing only <see cref="ModularPipelines.Models.CliOptionValue.Bare"/>
+    /// A collection of <see cref="ModularPipelines.CliValueGroup"/> preserves one occurrence per group.
+    /// For optional values, a collection containing only <see cref="ModularPipelines.CliOptionValue.Bare"/>
     /// renders the bare option. Bare values cannot be combined with other values in a group.
     /// </summary>
     /// <example><c>--arguments first=value second=value</c></example>

@@ -1,6 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 
-namespace ModularPipelines.Models;
+namespace ModularPipelines;
 
 /// <summary>
 /// Represents either a bare CLI option or an option with an explicit value.

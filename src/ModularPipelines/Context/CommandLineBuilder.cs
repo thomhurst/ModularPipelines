@@ -2,7 +2,6 @@ using ModularPipelines.Attributes;
 using ModularPipelines.Engine;
 using ModularPipelines.Generated;
 using ModularPipelines.Helpers.Internal;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Secrets;
 

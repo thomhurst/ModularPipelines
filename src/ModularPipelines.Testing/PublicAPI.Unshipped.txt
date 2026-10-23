@@ -77,3 +77,5 @@ ModularPipelines.Testing.ModuleTestBuilderBase<TModule, TBuilder>.WithFile(strin
 ModularPipelines.Testing.ModuleTestBuilderBase<TModule, TBuilder>.WithDependencyFailure<TDependency, TResult>(System.Exception! exception) -> TBuilder!
 ModularPipelines.Testing.ModuleTestBuilderBase<TModule, TBuilder>.WithSkippedDependency<TDependency, TResult>(string! reason) -> TBuilder!
 ModularPipelines.Testing.ModuleTestBuilderBase<TModule, TBuilder>.InterceptHttp(System.Func<System.Net.Http.HttpRequestMessage!, System.Threading.CancellationToken, System.Threading.Tasks.ValueTask<System.Net.Http.HttpResponseMessage!>>! handler) -> TBuilder!
+*REMOVED*ModularPipelines.Testing.RecordedCommand.CommandLine.get -> ModularPipelines.Models.CommandLine!
+ModularPipelines.Testing.RecordedCommand.CommandLine.get -> ModularPipelines.CommandLine!

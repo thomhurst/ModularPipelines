@@ -136,12 +136,12 @@ internal sealed class CommandModelProvider : ICommandModelProvider
     internal static int GetManualOperandCount(Type propertyType)
     {
         propertyType = Nullable.GetUnderlyingType(propertyType) ?? propertyType;
-        return typeof(ModularPipelines.Models.CliValuePair).IsAssignableFrom(propertyType)
+        return typeof(ModularPipelines.CliValuePair).IsAssignableFrom(propertyType)
                || propertyType.GetInterfaces()
                    .Append(propertyType)
                    .Any(type => type.IsGenericType
                                 && type.GetGenericTypeDefinition() == typeof(IEnumerable<>)
-                                && typeof(ModularPipelines.Models.CliValuePair)
+                                && typeof(ModularPipelines.CliValuePair)
                                     .IsAssignableFrom(type.GetGenericArguments()[0]))
             ? 2
             : 1;
@@ -243,10 +243,10 @@ internal sealed class CommandModelProvider : ICommandModelProvider
     private static bool IsSupportedOptionalValueType(Type propertyType)
     {
         propertyType = Nullable.GetUnderlyingType(propertyType) ?? propertyType;
-        return propertyType == typeof(ModularPipelines.Models.CliOptionValue)
-               || propertyType.IsAssignableTo(typeof(IEnumerable<ModularPipelines.Models.CliOptionValue>))
-               || propertyType == typeof(ModularPipelines.Models.CliValueGroup)
-               || propertyType.IsAssignableTo(typeof(IEnumerable<ModularPipelines.Models.CliValueGroup>));
+        return propertyType == typeof(ModularPipelines.CliOptionValue)
+               || propertyType.IsAssignableTo(typeof(IEnumerable<ModularPipelines.CliOptionValue>))
+               || propertyType == typeof(ModularPipelines.CliValueGroup)
+               || propertyType.IsAssignableTo(typeof(IEnumerable<ModularPipelines.CliValueGroup>));
     }
 
     private static void ValidateModel(

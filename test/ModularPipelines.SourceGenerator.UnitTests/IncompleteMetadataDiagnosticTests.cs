@@ -254,6 +254,40 @@ public class IncompleteMetadataDiagnosticTests
     }
 
     [Test]
+    [Arguments("ModularPipelines.CliOptionValue?")]
+    [Arguments("ModularPipelines.CliOptionValue?[]?")]
+    [Arguments("ModularPipelines.CliValueGroup?")]
+    [Arguments("System.Collections.Generic.IReadOnlyList<ModularPipelines.CliValueGroup?>?")]
+    public async Task Root_Cli_Value_Types_Support_Optional_Options(string propertyType)
+    {
+        var result = GeneratorTestRunner.Run(
+            new CommandOptionsGenerator(),
+            CommandInfrastructure,
+            $$"""
+            #nullable enable
+            namespace ModularPipelines
+            {
+                public sealed class CliOptionValue;
+                public sealed class CliValueGroup;
+            }
+
+            public sealed class TestOptions : ModularPipelines.Options.CommandLineToolOptions
+            {
+                [ModularPipelines.Attributes.CliOption(
+                    "--value",
+                    ValueArity = ModularPipelines.Attributes.CliOptionValueArity.Optional)]
+                public {{propertyType}} Value { get; }
+            }
+            """);
+
+        var generatedSource = result.GeneratedTrees.Single().ToString();
+
+        await Assert.That(result.Diagnostics).IsEmpty();
+        await Assert.That(generatedSource).Contains("IsSupportedPropertyType = true");
+        await Assert.That(generatedSource).DoesNotContain("IsSupportedPropertyType = false");
+    }
+
+    [Test]
     public async Task Inaccessible_Command_Property_Reports_Diagnostic()
     {
         var result = GeneratorTestRunner.Run(
@@ -410,7 +444,7 @@ public class IncompleteMetadataDiagnosticTests
             new CommandOptionsGenerator(),
             CommandInfrastructure,
             """
-            namespace ModularPipelines.Models
+            namespace ModularPipelines
             {
                 public sealed class CliValuePair;
             }
@@ -418,7 +452,7 @@ public class IncompleteMetadataDiagnosticTests
             public sealed class TestOptions : ModularPipelines.Options.CommandLineToolOptions
             {
                 [ModularPipelines.Attributes.CliOption("--arg")]
-                public ModularPipelines.Models.CliValuePair[] Arguments { get; } = [];
+                public ModularPipelines.CliValuePair[] Arguments { get; } = [];
             }
             """);
 
@@ -440,7 +474,7 @@ public class IncompleteMetadataDiagnosticTests
             """
             #nullable enable
 
-            namespace ModularPipelines.Models
+            namespace ModularPipelines
             {
                 public sealed class CliValuePair;
             }
@@ -448,14 +482,14 @@ public class IncompleteMetadataDiagnosticTests
             public sealed class TestOptions : ModularPipelines.Options.CommandLineToolOptions
             {
                 [ModularPipelines.Attributes.CliOption("--arg")]
-                public ModularPipelines.Models.CliValuePair? Argument { get; }
+                public ModularPipelines.CliValuePair? Argument { get; }
 
                 [ModularPipelines.Attributes.CliOption("--args")]
-                public ModularPipelines.Models.CliValuePair?[] Arguments { get; } = [];
+                public ModularPipelines.CliValuePair?[] Arguments { get; } = [];
 
                 [ModularPipelines.Attributes.CliOption("--more-args")]
                 public System.Collections.Generic.IReadOnlyList<
-                    ModularPipelines.Models.CliValuePair?>? MoreArguments { get; }
+                    ModularPipelines.CliValuePair?>? MoreArguments { get; }
             }
             """);
 
@@ -476,13 +510,13 @@ public class IncompleteMetadataDiagnosticTests
             new CommandOptionsGenerator(),
             CommandInfrastructure,
             """
-            namespace ModularPipelines.Models
+            namespace ModularPipelines
             {
                 public class CliValuePair;
             }
 
             public sealed class DerivedCliValuePair
-                : ModularPipelines.Models.CliValuePair;
+                : ModularPipelines.CliValuePair;
 
             public sealed class TestOptions : ModularPipelines.Options.CommandLineToolOptions
             {

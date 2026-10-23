@@ -4,7 +4,6 @@ using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.Attributes;
 using ModularPipelines.Generated;
 using ModularPipelines.Helpers.Internal;
-using ModularPipelines.Models;
 using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.Scrapers.Cli;

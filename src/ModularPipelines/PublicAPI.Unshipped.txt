@@ -1716,10 +1716,10 @@ ModularPipelines.CommandInvocation
 ModularPipelines.CommandInvocation.<Clone>$() -> ModularPipelines.CommandInvocation!
 ModularPipelines.CommandInvocation.CommandInput.get -> string!
 ModularPipelines.CommandInvocation.CommandInput.init -> void
-ModularPipelines.CommandInvocation.CommandInvocation(ModularPipelines.Models.CommandLine! CommandLine, ModularPipelines.Options.CommandLineToolOptions? ToolOptions, ModularPipelines.Options.CommandExecutionOptions! ExecutionOptions, string! CommandInput, string! WorkingDirectory, System.Collections.Generic.IReadOnlyDictionary<string!, string?>! EnvironmentVariables) -> void
-ModularPipelines.CommandInvocation.CommandLine.get -> ModularPipelines.Models.CommandLine!
+ModularPipelines.CommandInvocation.CommandInvocation(ModularPipelines.CommandLine! CommandLine, ModularPipelines.Options.CommandLineToolOptions? ToolOptions, ModularPipelines.Options.CommandExecutionOptions! ExecutionOptions, string! CommandInput, string! WorkingDirectory, System.Collections.Generic.IReadOnlyDictionary<string!, string?>! EnvironmentVariables) -> void
+ModularPipelines.CommandInvocation.CommandLine.get -> ModularPipelines.CommandLine!
 ModularPipelines.CommandInvocation.CommandLine.init -> void
-ModularPipelines.CommandInvocation.Deconstruct(out ModularPipelines.Models.CommandLine! CommandLine, out ModularPipelines.Options.CommandLineToolOptions? ToolOptions, out ModularPipelines.Options.CommandExecutionOptions! ExecutionOptions, out string! CommandInput, out string! WorkingDirectory, out System.Collections.Generic.IReadOnlyDictionary<string!, string?>! EnvironmentVariables) -> void
+ModularPipelines.CommandInvocation.Deconstruct(out ModularPipelines.CommandLine! CommandLine, out ModularPipelines.Options.CommandLineToolOptions? ToolOptions, out ModularPipelines.Options.CommandExecutionOptions! ExecutionOptions, out string! CommandInput, out string! WorkingDirectory, out System.Collections.Generic.IReadOnlyDictionary<string!, string?>! EnvironmentVariables) -> void
 ModularPipelines.CommandInvocation.EnvironmentVariables.get -> System.Collections.Generic.IReadOnlyDictionary<string!, string?>!
 ModularPipelines.CommandInvocation.EnvironmentVariables.init -> void
 ModularPipelines.CommandInvocation.Equals(ModularPipelines.CommandInvocation? other) -> bool
@@ -3438,9 +3438,9 @@ ModularPipelines.Context.IHashContext.Sha512FileAsync(string! path, ModularPipel
 ModularPipelines.Context.IZipContext.CreateFromDirectoryAsync(ModularPipelines.FileSystem.FolderPath! folder, string! outputPath, System.IO.Compression.CompressionLevel compressionLevel = System.IO.Compression.CompressionLevel.Optimal, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.FileSystem.FilePath!>!
 ModularPipelines.Context.IZipContext.ExtractToDirectoryAsync(string! zipPath, string! outputFolderPath, bool overwriteFiles = true, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.FileSystem.FolderPath!>!
 static ModularPipelines.CommandResult.Fail(int exitCode = 1, string! standardOutput = "", string! standardError = "") -> ModularPipelines.CommandResult!
-ModularPipelines.Models.CliValueGroup
-ModularPipelines.Models.CliValueGroup.CliValueGroup(System.Collections.Generic.IEnumerable<string!>! values) -> void
-ModularPipelines.Models.CliValueGroup.Values.get -> System.Collections.Generic.IReadOnlyList<string!>!
+ModularPipelines.CliValueGroup
+ModularPipelines.CliValueGroup.CliValueGroup(System.Collections.Generic.IEnumerable<string!>! values) -> void
+ModularPipelines.CliValueGroup.Values.get -> System.Collections.Generic.IReadOnlyList<string!>!
 *REMOVED*ModularPipelines.Attributes.ExecutionHintAttribute
 ModularPipelines.ExecutionHintAttribute
 *REMOVED*ModularPipelines.Attributes.NotInParallelAttribute
@@ -3780,3 +3780,147 @@ ModularPipelines.Context.ICertificatesContext.GetCertificateBy(System.Security.C
 ModularPipelines.Context.ICertificatesContext.GetCertificateBySerialNumber(System.Security.Cryptography.X509Certificates.StoreName storeName, System.Security.Cryptography.X509Certificates.StoreLocation storeLocation, string! serialNumber, bool validOnly = true) -> System.Security.Cryptography.X509Certificates.X509Certificate2?
 ModularPipelines.Context.ICertificatesContext.GetCertificateBySubject(System.Security.Cryptography.X509Certificates.StoreName storeName, System.Security.Cryptography.X509Certificates.StoreLocation storeLocation, string! subject, bool validOnly = true, bool exactMatch = true) -> System.Security.Cryptography.X509Certificates.X509Certificate2?
 ModularPipelines.Context.ICertificatesContext.GetCertificateByThumbprint(System.Security.Cryptography.X509Certificates.StoreName storeName, System.Security.Cryptography.X509Certificates.StoreLocation storeLocation, string! thumbprint, bool validOnly = true) -> System.Security.Cryptography.X509Certificates.X509Certificate2?
+*REMOVED*ModularPipelines.Models.CliOptionValue
+ModularPipelines.CliOptionValue
+*REMOVED*ModularPipelines.Models.CliOptionValue.<Clone>$() -> ModularPipelines.Models.CliOptionValue!
+ModularPipelines.CliOptionValue.<Clone>$() -> ModularPipelines.CliOptionValue!
+*REMOVED*ModularPipelines.Models.CliOptionValue.Equals(ModularPipelines.Models.CliOptionValue? other) -> bool
+ModularPipelines.CliOptionValue.Equals(ModularPipelines.CliOptionValue? other) -> bool
+*REMOVED*ModularPipelines.Models.CliOptionValue.IsBare.get -> bool
+ModularPipelines.CliOptionValue.IsBare.get -> bool
+*REMOVED*ModularPipelines.Models.CliOptionValue.Value.get -> string?
+ModularPipelines.CliOptionValue.Value.get -> string?
+*REMOVED*ModularPipelines.Models.CliOptionValueRangeAttribute
+ModularPipelines.CliOptionValueRangeAttribute
+*REMOVED*ModularPipelines.Models.CliOptionValueRangeAttribute.CliOptionValueRangeAttribute(int minimum, int maximum) -> void
+ModularPipelines.CliOptionValueRangeAttribute.CliOptionValueRangeAttribute(int minimum, int maximum) -> void
+*REMOVED*ModularPipelines.Models.CliOptionValueRegularExpressionAttribute
+ModularPipelines.CliOptionValueRegularExpressionAttribute
+*REMOVED*ModularPipelines.Models.CliOptionValueRegularExpressionAttribute.CliOptionValueRegularExpressionAttribute(string! pattern) -> void
+ModularPipelines.CliOptionValueRegularExpressionAttribute.CliOptionValueRegularExpressionAttribute(string! pattern) -> void
+*REMOVED*ModularPipelines.Models.CliValuePair
+ModularPipelines.CliValuePair
+*REMOVED*ModularPipelines.Models.CliValuePair.CliValuePair(ModularPipelines.Models.CliValuePair! original) -> void
+ModularPipelines.CliValuePair.CliValuePair(ModularPipelines.CliValuePair! original) -> void
+*REMOVED*ModularPipelines.Models.CliValuePair.CliValuePair(string? First, string? Second) -> void
+ModularPipelines.CliValuePair.CliValuePair(string? First, string? Second) -> void
+*REMOVED*ModularPipelines.Models.CliValuePair.Deconstruct(out string? First, out string? Second) -> void
+ModularPipelines.CliValuePair.Deconstruct(out string? First, out string? Second) -> void
+*REMOVED*ModularPipelines.Models.CliValuePair.First.get -> string?
+ModularPipelines.CliValuePair.First.get -> string?
+*REMOVED*ModularPipelines.Models.CliValuePair.First.init -> void
+ModularPipelines.CliValuePair.First.init -> void
+*REMOVED*ModularPipelines.Models.CliValuePair.Second.get -> string?
+ModularPipelines.CliValuePair.Second.get -> string?
+*REMOVED*ModularPipelines.Models.CliValuePair.Second.init -> void
+ModularPipelines.CliValuePair.Second.init -> void
+*REMOVED*ModularPipelines.Models.CommandLine
+ModularPipelines.CommandLine
+*REMOVED*ModularPipelines.Models.CommandLine.Arguments.get -> System.Collections.Generic.IReadOnlyList<string!>!
+ModularPipelines.CommandLine.Arguments.get -> System.Collections.Generic.IReadOnlyList<string!>!
+*REMOVED*ModularPipelines.Models.CommandLine.CommandLine(ModularPipelines.Models.CommandLine! original) -> void
+ModularPipelines.CommandLine.CommandLine(ModularPipelines.CommandLine! original) -> void
+*REMOVED*ModularPipelines.Models.CommandLine.CommandLine(string! tool, System.Collections.Generic.IEnumerable<string!>! arguments) -> void
+ModularPipelines.CommandLine.CommandLine(string! tool, System.Collections.Generic.IEnumerable<string!>! arguments) -> void
+*REMOVED*ModularPipelines.Models.CommandLine.Tool.get -> string!
+ModularPipelines.CommandLine.Tool.get -> string!
+*REMOVED*ModularPipelines.Models.KeyValue
+ModularPipelines.KeyValue
+*REMOVED*ModularPipelines.Models.KeyValue.Deconstruct(out string! Key, out string! Value, out string! Separator) -> void
+ModularPipelines.KeyValue.Deconstruct(out string! Key, out string! Value, out string! Separator) -> void
+*REMOVED*ModularPipelines.Models.KeyValue.Key.get -> string!
+ModularPipelines.KeyValue.Key.get -> string!
+*REMOVED*ModularPipelines.Models.KeyValue.Key.init -> void
+ModularPipelines.KeyValue.Key.init -> void
+*REMOVED*ModularPipelines.Models.KeyValue.KeyValue(ModularPipelines.Models.KeyValue! original) -> void
+ModularPipelines.KeyValue.KeyValue(ModularPipelines.KeyValue! original) -> void
+*REMOVED*ModularPipelines.Models.KeyValue.KeyValue(string! Key, string! Value, string! Separator) -> void
+ModularPipelines.KeyValue.KeyValue(string! Key, string! Value, string! Separator) -> void
+*REMOVED*ModularPipelines.Models.KeyValue.KeyValue(string! key, string! value) -> void
+ModularPipelines.KeyValue.KeyValue(string! key, string! value) -> void
+*REMOVED*ModularPipelines.Models.KeyValue.Separator.get -> string!
+ModularPipelines.KeyValue.Separator.get -> string!
+*REMOVED*ModularPipelines.Models.KeyValue.Separator.init -> void
+ModularPipelines.KeyValue.Separator.init -> void
+*REMOVED*ModularPipelines.Models.KeyValue.Value.get -> string!
+ModularPipelines.KeyValue.Value.get -> string!
+*REMOVED*ModularPipelines.Models.KeyValue.Value.init -> void
+ModularPipelines.KeyValue.Value.init -> void
+*REMOVED*override ModularPipelines.Models.CliOptionValue.Equals(object? obj) -> bool
+override ModularPipelines.CliOptionValue.Equals(object? obj) -> bool
+*REMOVED*override ModularPipelines.Models.CliOptionValue.GetHashCode() -> int
+override ModularPipelines.CliOptionValue.GetHashCode() -> int
+*REMOVED*override ModularPipelines.Models.CliOptionValue.ToString() -> string!
+override ModularPipelines.CliOptionValue.ToString() -> string!
+*REMOVED*override ModularPipelines.Models.CliOptionValueRangeAttribute.IsValid(object? value) -> bool
+override ModularPipelines.CliOptionValueRangeAttribute.IsValid(object? value) -> bool
+*REMOVED*override ModularPipelines.Models.CliOptionValueRegularExpressionAttribute.IsValid(object? value) -> bool
+override ModularPipelines.CliOptionValueRegularExpressionAttribute.IsValid(object? value) -> bool
+*REMOVED*override ModularPipelines.Models.CliValuePair.Equals(object? obj) -> bool
+override ModularPipelines.CliValuePair.Equals(object? obj) -> bool
+*REMOVED*override ModularPipelines.Models.CliValuePair.GetHashCode() -> int
+override ModularPipelines.CliValuePair.GetHashCode() -> int
+*REMOVED*override ModularPipelines.Models.CliValuePair.ToString() -> string!
+override ModularPipelines.CliValuePair.ToString() -> string!
+*REMOVED*override ModularPipelines.Models.CommandLine.Equals(object? obj) -> bool
+override ModularPipelines.CommandLine.Equals(object? obj) -> bool
+*REMOVED*override ModularPipelines.Models.CommandLine.GetHashCode() -> int
+override ModularPipelines.CommandLine.GetHashCode() -> int
+*REMOVED*override ModularPipelines.Models.CommandLine.ToString() -> string!
+override ModularPipelines.CommandLine.ToString() -> string!
+*REMOVED*override ModularPipelines.Models.KeyValue.Equals(object? obj) -> bool
+override ModularPipelines.KeyValue.Equals(object? obj) -> bool
+*REMOVED*override ModularPipelines.Models.KeyValue.GetHashCode() -> int
+override ModularPipelines.KeyValue.GetHashCode() -> int
+*REMOVED*override ModularPipelines.Models.KeyValue.ToString() -> string!
+override ModularPipelines.KeyValue.ToString() -> string!
+*REMOVED*static ModularPipelines.Models.CliOptionValue.Bare.get -> ModularPipelines.Models.CliOptionValue!
+static ModularPipelines.CliOptionValue.Bare.get -> ModularPipelines.CliOptionValue!
+*REMOVED*static ModularPipelines.Models.CliOptionValue.implicit operator ModularPipelines.Models.CliOptionValue?(string? value) -> ModularPipelines.Models.CliOptionValue?
+static ModularPipelines.CliOptionValue.implicit operator ModularPipelines.CliOptionValue?(string? value) -> ModularPipelines.CliOptionValue?
+*REMOVED*static ModularPipelines.Models.CliOptionValue.operator !=(ModularPipelines.Models.CliOptionValue? left, ModularPipelines.Models.CliOptionValue? right) -> bool
+static ModularPipelines.CliOptionValue.operator !=(ModularPipelines.CliOptionValue? left, ModularPipelines.CliOptionValue? right) -> bool
+*REMOVED*static ModularPipelines.Models.CliOptionValue.operator ==(ModularPipelines.Models.CliOptionValue? left, ModularPipelines.Models.CliOptionValue? right) -> bool
+static ModularPipelines.CliOptionValue.operator ==(ModularPipelines.CliOptionValue? left, ModularPipelines.CliOptionValue? right) -> bool
+*REMOVED*static ModularPipelines.Models.CliValuePair.operator !=(ModularPipelines.Models.CliValuePair? left, ModularPipelines.Models.CliValuePair? right) -> bool
+static ModularPipelines.CliValuePair.operator !=(ModularPipelines.CliValuePair? left, ModularPipelines.CliValuePair? right) -> bool
+*REMOVED*static ModularPipelines.Models.CliValuePair.operator ==(ModularPipelines.Models.CliValuePair? left, ModularPipelines.Models.CliValuePair? right) -> bool
+static ModularPipelines.CliValuePair.operator ==(ModularPipelines.CliValuePair? left, ModularPipelines.CliValuePair? right) -> bool
+*REMOVED*static ModularPipelines.Models.CommandLine.operator !=(ModularPipelines.Models.CommandLine? left, ModularPipelines.Models.CommandLine? right) -> bool
+static ModularPipelines.CommandLine.operator !=(ModularPipelines.CommandLine? left, ModularPipelines.CommandLine? right) -> bool
+*REMOVED*static ModularPipelines.Models.CommandLine.operator ==(ModularPipelines.Models.CommandLine? left, ModularPipelines.Models.CommandLine? right) -> bool
+static ModularPipelines.CommandLine.operator ==(ModularPipelines.CommandLine? left, ModularPipelines.CommandLine? right) -> bool
+*REMOVED*static ModularPipelines.Models.KeyValue.implicit operator ModularPipelines.Models.KeyValue!((string! Key, string! Value) stringTuple) -> ModularPipelines.Models.KeyValue!
+static ModularPipelines.KeyValue.implicit operator ModularPipelines.KeyValue!((string! Key, string! Value) stringTuple) -> ModularPipelines.KeyValue!
+*REMOVED*static ModularPipelines.Models.KeyValue.implicit operator ModularPipelines.Models.KeyValue!(System.Collections.Generic.KeyValuePair<string!, string!> tuple) -> ModularPipelines.Models.KeyValue!
+static ModularPipelines.KeyValue.implicit operator ModularPipelines.KeyValue!(System.Collections.Generic.KeyValuePair<string!, string!> tuple) -> ModularPipelines.KeyValue!
+*REMOVED*static ModularPipelines.Models.KeyValue.implicit operator ModularPipelines.Models.KeyValue!(System.Tuple<string!, string!>! tuple) -> ModularPipelines.Models.KeyValue!
+static ModularPipelines.KeyValue.implicit operator ModularPipelines.KeyValue!(System.Tuple<string!, string!>! tuple) -> ModularPipelines.KeyValue!
+*REMOVED*static ModularPipelines.Models.KeyValue.operator !=(ModularPipelines.Models.KeyValue? left, ModularPipelines.Models.KeyValue? right) -> bool
+static ModularPipelines.KeyValue.operator !=(ModularPipelines.KeyValue? left, ModularPipelines.KeyValue? right) -> bool
+*REMOVED*static ModularPipelines.Models.KeyValue.operator ==(ModularPipelines.Models.KeyValue? left, ModularPipelines.Models.KeyValue? right) -> bool
+static ModularPipelines.KeyValue.operator ==(ModularPipelines.KeyValue? left, ModularPipelines.KeyValue? right) -> bool
+*REMOVED*virtual ModularPipelines.Models.CliValuePair.<Clone>$() -> ModularPipelines.Models.CliValuePair!
+virtual ModularPipelines.CliValuePair.<Clone>$() -> ModularPipelines.CliValuePair!
+*REMOVED*virtual ModularPipelines.Models.CliValuePair.EqualityContract.get -> System.Type!
+virtual ModularPipelines.CliValuePair.EqualityContract.get -> System.Type!
+*REMOVED*virtual ModularPipelines.Models.CliValuePair.Equals(ModularPipelines.Models.CliValuePair? other) -> bool
+virtual ModularPipelines.CliValuePair.Equals(ModularPipelines.CliValuePair? other) -> bool
+*REMOVED*virtual ModularPipelines.Models.CliValuePair.PrintMembers(System.Text.StringBuilder! builder) -> bool
+virtual ModularPipelines.CliValuePair.PrintMembers(System.Text.StringBuilder! builder) -> bool
+*REMOVED*virtual ModularPipelines.Models.CommandLine.<Clone>$() -> ModularPipelines.Models.CommandLine!
+virtual ModularPipelines.CommandLine.<Clone>$() -> ModularPipelines.CommandLine!
+*REMOVED*virtual ModularPipelines.Models.CommandLine.EqualityContract.get -> System.Type!
+virtual ModularPipelines.CommandLine.EqualityContract.get -> System.Type!
+*REMOVED*virtual ModularPipelines.Models.CommandLine.Equals(ModularPipelines.Models.CommandLine? other) -> bool
+virtual ModularPipelines.CommandLine.Equals(ModularPipelines.CommandLine? other) -> bool
+*REMOVED*virtual ModularPipelines.Models.CommandLine.PrintMembers(System.Text.StringBuilder! builder) -> bool
+virtual ModularPipelines.CommandLine.PrintMembers(System.Text.StringBuilder! builder) -> bool
+*REMOVED*virtual ModularPipelines.Models.KeyValue.<Clone>$() -> ModularPipelines.Models.KeyValue!
+virtual ModularPipelines.KeyValue.<Clone>$() -> ModularPipelines.KeyValue!
+*REMOVED*virtual ModularPipelines.Models.KeyValue.EqualityContract.get -> System.Type!
+virtual ModularPipelines.KeyValue.EqualityContract.get -> System.Type!
+*REMOVED*virtual ModularPipelines.Models.KeyValue.Equals(ModularPipelines.Models.KeyValue? other) -> bool
+virtual ModularPipelines.KeyValue.Equals(ModularPipelines.KeyValue? other) -> bool
+*REMOVED*virtual ModularPipelines.Models.KeyValue.PrintMembers(System.Text.StringBuilder! builder) -> bool
+virtual ModularPipelines.KeyValue.PrintMembers(System.Text.StringBuilder! builder) -> bool
