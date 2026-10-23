@@ -19,11 +19,11 @@ if (args is ["--redis-info"])
     return;
 }
 
-var versionOutputPath = args is ["--write-package-version", var outputPath] ? outputPath : null;
+var versionOutput = new PackageVersionOutput(args);
 
 var builder = Pipeline.CreateBuilder(new PipelineBuilderSettings
 {
-    Args = versionOutputPath is null ? args : [],
+    Args = versionOutput.PipelineArguments,
     LoadModularPipelinesAssemblies = true,
 });
 
@@ -46,14 +46,8 @@ builder.Services.Configure<CodacySettings>(builder.Configuration.GetSection("Cod
 builder.Services.Configure<CodeCovSettings>(builder.Configuration.GetSection("CodeCov"));
 
 // Resolve exactly the same version before the native CI build without running release modules.
-if (versionOutputPath is not null)
+if (await versionOutput.TryWriteAsync(builder).ConfigureAwait(false))
 {
-    builder.AddCapabilities(new Capability("ci-master"));
-    builder.AddModule<NugetVersionGeneratorModule>();
-    await using var versionPipeline = await builder.BuildAsync().ConfigureAwait(false);
-    var summary = await versionPipeline.RunAsync().ConfigureAwait(false);
-    var version = summary.GetResult<NugetVersionGeneratorModule, string>().Value;
-    await File.AppendAllTextAsync(versionOutputPath, $"Pipeline__PackageVersion={version}{Environment.NewLine}").ConfigureAwait(false);
     return;
 }
 

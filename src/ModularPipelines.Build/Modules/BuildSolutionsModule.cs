@@ -40,7 +40,8 @@ public class BuildSolutionsModule(IOptions<PipelineSettings> pipelineSettings) :
                     ProjectSolution = Path.Combine(gitRoot, solution),
                     Configuration = "Release",
                     NoRestore = true,
-                    Properties = [("Version", packageVersion.Value)],
+                    // Let the SDK retain project-specific suffixes for stable releases.
+                    Properties = [(packageVersion.Value.Contains('-') ? "Version" : "VersionPrefix", packageVersion.Value)],
                 }, cancellationToken: cancellationToken))
                 .ProcessOneAtATime();
         }

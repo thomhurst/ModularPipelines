@@ -665,6 +665,8 @@ jobs:
         if: needs.fast-fail.outputs.distributed != 'true'
         shell: bash
         env:
+          Publish__ShouldPublish: ${{ github.ref == 'refs/heads/main' && inputs.publish-packages == true && matrix.instance == 0 }}
+          Publish__ExpectedVersion: ${{ inputs.expected-version }}
           Publish__IsAlpha: ${{ github.event_name != 'workflow_dispatch' || inputs.publish-packages != true || inputs.is-alpha }}
         run: dotnet "$RUNNER_TEMP/pipeline-host/ModularPipelines.Build.dll" --write-package-version "$GITHUB_ENV"
 
@@ -679,11 +681,14 @@ jobs:
         # the huge AWS/Azure/Google SDK metadata into one compilation unit. That test was removed,
         # so each integration now compiles with only its own SDK and the parallel build fits.
         run: |
+          # VersionPrefix preserves each project's beta suffix on stable releases.
+          VERSION_PROPERTY=VersionPrefix
+          [[ "$Pipeline__PackageVersion" == *-* ]] && VERSION_PROPERTY=Version
           while IFS= read -r SOLUTION || [[ -n "$SOLUTION" ]]
           do
             [[ -z "$SOLUTION" || "$SOLUTION" == \#* ]] && continue
             echo "::group::Build $SOLUTION"
-            dotnet build "$SOLUTION" -c Release --no-restore -p:Version="$Pipeline__PackageVersion"
+            dotnet build "$SOLUTION" -c Release --no-restore "-p:$VERSION_PROPERTY=$Pipeline__PackageVersion"
             echo "::endgroup::"
           done < <(sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' BuildSolutions.txt)
 
