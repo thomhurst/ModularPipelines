@@ -1,8 +1,7 @@
 using System.IO.Compression;
+using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Context;
 using ModularPipelines.FileSystem;
-using ModularPipelines.Models;
-using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
 using ModularPipelines.TestHelpers.Assertions;
 using Moq;
@@ -11,102 +10,47 @@ namespace ModularPipelines.UnitTests.Helpers;
 
 public class ZipTests : TestBase
 {
-    private static readonly List<string> CreatedArtifacts = [];
-
-    [Before(Class)]
-    public static void ResetArtifacts()
+    private sealed class ZipFixture : IDisposable
     {
-        CreatedArtifacts.Clear();
+        private readonly DirectoryInfo _root = Directory.CreateTempSubdirectory("ModularPipelines-zip-tests-");
+
+        public static string SourceDirectory => Path.Combine(AppContext.BaseDirectory, "Data", "Zip");
+
+        public string ArchivePath => Path.Combine(_root.FullName, "LoremData.zip");
+
+        public string ExtractionPath => Path.Combine(_root.FullName, "LoremDataUnzipped");
+
+        public void CreateArchive() => ZipFile.CreateFromDirectory(SourceDirectory, ArchivePath);
+
+        public void Dispose() => _root.Delete(recursive: true);
     }
 
-    [After(Class)]
-    public static async Task Cleanup()
+    private class ZipModule(ZipFixture fixture) : SyncModule
     {
-        await Task.CompletedTask;
-
-        // Clean up tracked artifacts
-        foreach (var artifact in CreatedArtifacts)
+        protected override void Execute(IModuleContext context, CancellationToken cancellationToken)
         {
-            try
-            {
-                if (System.IO.File.Exists(artifact))
-                {
-                    System.IO.File.Delete(artifact);
-                }
-                else if (Directory.Exists(artifact))
-                {
-                    Directory.Delete(artifact, recursive: true);
-                }
-            }
-            catch
-            {
-                // Best effort cleanup - ignore errors
-            }
-        }
-
-        CreatedArtifacts.Clear();
-
-        // Also clean up known test artifact locations as fallback
-        var zipFile = Path.Combine(TestContext.WorkingDirectory, "LoremData.zip");
-        var unzippedDir = Path.Combine(TestContext.WorkingDirectory, "LoremDataUnzipped");
-
-        if (System.IO.File.Exists(zipFile))
-        {
-            System.IO.File.Delete(zipFile);
-        }
-
-        if (Directory.Exists(unzippedDir))
-        {
-            Directory.Delete(unzippedDir, recursive: true);
-        }
-    }
-
-    private static void TrackArtifact(string path)
-    {
-        if (!CreatedArtifacts.Contains(path))
-        {
-            CreatedArtifacts.Add(path);
-        }
-    }
-
-    private class ZipModule : Module<None>
-    {
-        protected internal override async Task<None> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-        {
-            var directory = context.Files.GetFolder(Path.Combine(
-                TestContext.OutputDirectory!,
-                "Data",
-                "Zip"));
-
-            var fileToWrite = context.Files.GetFile(Path.Combine(context.Environment.WorkingDirectory, "LoremData.zip"));
-
-            // Track for cleanup
-            TrackArtifact(fileToWrite.Path);
-
-            fileToWrite.Delete();
-
-            context.Files.Zip.CreateFromDirectory(directory, fileToWrite.Path);
-
-            return None.Value;
+            var directory = context.Files.GetFolder(ZipFixture.SourceDirectory);
+            context.Files.Zip.CreateFromDirectory(directory, fixture.ArchivePath);
         }
     }
 
     [Test]
-    [TUnit.Core.NotInParallel(nameof(ZipTests), Order = 1)]
     public async Task Has_Not_Errored()
     {
-        var moduleResult = await await RunModule<ZipModule>();
+        using var fixture = new ZipFixture();
+        var moduleResult = await await RunModule<ZipModule>(services => services.AddSingleton(fixture));
 
         await ModuleResultAssertions.AssertSuccess(moduleResult);
     }
 
     [Test]
-    [TUnit.Core.NotInParallel(nameof(ZipTests), Order = 2)]
     public async Task Zip_File_Exists()
     {
-        await RunModule<ZipModule>();
+        using var fixture = new ZipFixture();
+        var moduleResult = await await RunModule<ZipModule>(services => services.AddSingleton(fixture));
+        await ModuleResultAssertions.AssertSuccess(moduleResult);
 
-        var expectedFile = new FileInfo(Path.Combine(TestContext.WorkingDirectory, "LoremData.zip"));
+        var expectedFile = new FileInfo(fixture.ArchivePath);
 
         using (Assert.Multiple())
         {
@@ -115,46 +59,41 @@ public class ZipTests : TestBase
         }
     }
 
-    private class UnZipModule : Module<None>
+    private class UnZipModule(ZipFixture fixture) : SyncModule
     {
-        protected internal override async Task<None> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected override void Execute(IModuleContext context, CancellationToken cancellationToken)
         {
-            await Task.Yield();
-
-            var zipLocation = context.Files.GetFile(Path.Combine(context.Environment.WorkingDirectory, "LoremData.zip"));
-
-            var unzippedLocation = context.Files.GetFolder(Path.Combine(context.Environment.WorkingDirectory, "LoremDataUnzipped"));
-
-            // Track for cleanup
-            TrackArtifact(unzippedLocation.Path);
-
-            context.Files.Zip.ExtractToDirectory(zipLocation.Path, unzippedLocation.Path);
-
-            return None.Value;
+            // Extraction is synchronous; yielding here needlessly queues it behind other suite work.
+            context.Files.Zip.ExtractToDirectory(fixture.ArchivePath, fixture.ExtractionPath);
         }
     }
 
     [Test]
-    [TUnit.Core.NotInParallel(nameof(ZipTests), Order = 3)]
     public async Task UnZip_Has_Not_Errored()
     {
-        var moduleResult = await await RunModule<UnZipModule>();
+        using var fixture = new ZipFixture();
+        fixture.CreateArchive();
+        var moduleResult = await await RunModule<UnZipModule>(services => services.AddSingleton(fixture));
 
         await ModuleResultAssertions.AssertSuccess(moduleResult);
     }
 
     [Test]
-    [TUnit.Core.NotInParallel(nameof(ZipTests), Order = 4)]
     public async Task UnZipped_Folder_Exists()
     {
-        await RunModule<UnZipModule>();
+        using var fixture = new ZipFixture();
+        fixture.CreateArchive();
+        var moduleResult = await await RunModule<UnZipModule>(services => services.AddSingleton(fixture));
+        await ModuleResultAssertions.AssertSuccess(moduleResult);
 
-        var expectedFolder = new DirectoryInfo(Path.Combine(TestContext.WorkingDirectory, "LoremDataUnzipped"));
+        var expectedFolder = new DirectoryInfo(fixture.ExtractionPath);
 
         using (Assert.Multiple())
         {
             await Assert.That(expectedFolder.Exists).IsTrue();
             await Assert.That(expectedFolder.GetFiles("*", SearchOption.AllDirectories)).Count().IsEqualTo(1);
+            await Assert.That(await System.IO.File.ReadAllTextAsync(Path.Combine(fixture.ExtractionPath, "Lorem.txt")))
+                .IsEqualTo(await System.IO.File.ReadAllTextAsync(Path.Combine(ZipFixture.SourceDirectory, "Lorem.txt")));
         }
     }
 
