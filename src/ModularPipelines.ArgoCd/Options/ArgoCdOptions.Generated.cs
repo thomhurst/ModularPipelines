@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Options;
 using ModularPipelines;
-using ModularPipelines.Models;
 using ModularPipelines.ArgoCd.Enums;
 
 namespace ModularPipelines.ArgoCd.Options;
