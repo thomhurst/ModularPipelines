@@ -12,6 +12,46 @@ namespace ModularPipelines.Distributed.Redis.UnitTests.Coordination;
 public class RedisDistributedCoordinatorTests
 {
     [Test]
+    [Arguments(false, false)]
+    [Arguments(false, true)]
+    [Arguments(true, false)]
+    [Arguments(true, true)]
+    public async Task Script_Writes_Retry_Only_Transient_Failures(bool publishResult, bool transient)
+    {
+        var scripts = new Mock<IRespireScriptCommands>(MockBehavior.Strict);
+        scripts.Setup(commands => commands.ExecuteIntegerAsync(
+                It.IsAny<RespireScript>(), It.IsAny<RespireKey[]>(), It.IsAny<RespireValue[]>(), It.IsAny<CancellationToken>()))
+            .ThrowsAsync(new RespireServerException(transient ? "LOADING Redis is loading" : "WRONGTYPE invalid key type", "EVALSHA"));
+        var client = new Mock<IRespireClient>(MockBehavior.Strict);
+        client.SetupGet(connection => connection.Scripts).Returns(scripts.Object);
+        await using var coordinator = new RedisDistributedCoordinator(
+            client.Object, new RedisKeyBuilder("modpipe", "write-retry"), new RedisOptions());
+
+        await Assert.That(async () =>
+            {
+                if (publishResult)
+                {
+                    await coordinator.PublishResultAsync(new SerializedModuleResult
+                    {
+                        ModuleId = new ModuleId("Retried"),
+                        WorkerId = new WorkerId("worker"),
+                        Payload = "completed",
+                        CompletedAt = DateTimeOffset.UtcNow,
+                    }, null, CancellationToken.None);
+                }
+                else
+                {
+                    await coordinator.EnqueueModuleAsync(CreateAssignment("Retried"), CancellationToken.None);
+                }
+            })
+            .Throws<RespireServerException>();
+
+        scripts.Verify(commands => commands.ExecuteIntegerAsync(
+                It.IsAny<RespireScript>(), It.IsAny<RespireKey[]>(), It.IsAny<RespireValue[]>(), It.IsAny<CancellationToken>()),
+            Times.Exactly(transient ? RedisTransientRetry.MaxAttempts : 1));
+    }
+
+    [Test]
     [Arguments("GPU-Ä", "gpu-ä")]
     [Arguments("Σ", "ς")]
     [Arguments("𐐀", "𐐨")]

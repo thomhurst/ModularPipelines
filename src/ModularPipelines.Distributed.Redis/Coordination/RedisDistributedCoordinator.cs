@@ -58,7 +58,7 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
 
     private readonly IRespireClient _redis;
     private readonly RedisCoordinationDiagnostics _diagnostics;
-    private readonly Shield _claimRetry = RedisTransientRetry.Create(RedisTransientRetry.DefaultBaseDelay);
+    private readonly Shield _scriptRetry = RedisTransientRetry.Create(RedisTransientRetry.DefaultBaseDelay);
     private readonly RedisKeyBuilder _keys;
     private readonly RespireKey[] _scriptKeys;
     private readonly TimeSpan _keyExpiration;
@@ -155,10 +155,11 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
         var classJson = JsonSerializer.Serialize(RedisQueueMember.GetClass(assignment));
         var classId = RedisQueueMember.GetClassId(classJson);
         var member = RedisQueueMember.Create(classId, assignment, JsonSerializer.Serialize(assignment));
-        await _redis.Scripts.ExecuteIntegerAsync(
-                EnqueueScript,
-                _scriptKeys,
-                [_keyExpirationMilliseconds, classId, classJson, member, assignment.ModuleId.Value],
+        // Reuse the queue member's identifier when an executed script loses its response.
+        RespireValue[] arguments = [_keyExpirationMilliseconds, classId, classJson, member, assignment.ModuleId.Value];
+        await _scriptRetry.ExecuteAsync(
+                async token => await _redis.Scripts.ExecuteIntegerAsync(EnqueueScript, _scriptKeys, arguments, token)
+                    .ConfigureAwait(false),
                 cancellationToken)
             .ConfigureAwait(false);
         await NotifyAsync(_keys.WorkAvailableChannel, cancellationToken).ConfigureAwait(false);
@@ -216,12 +217,13 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
         }
 
         var json = JsonSerializer.Serialize(result);
+        RespireValue[] arguments = [_keyExpirationMilliseconds, result.ModuleId.Value, json, lease?.LeaseId ?? string.Empty, lease?.WorkerId.Value ?? string.Empty];
 
         // Validate the lease atomically with accepting the result and releasing ownership.
-        await _redis.Scripts.ExecuteIntegerAsync(
-                PublishResultScript,
-                _scriptKeys,
-                [_keyExpirationMilliseconds, result.ModuleId.Value, json, lease?.LeaseId ?? string.Empty, lease?.WorkerId.Value ?? string.Empty],
+        // Replaying the same result and lease cannot overwrite a result already accepted by Redis.
+        await _scriptRetry.ExecuteAsync(
+                async token => await _redis.Scripts.ExecuteIntegerAsync(PublishResultScript, _scriptKeys, arguments, token)
+                    .ConfigureAwait(false),
                 cancellationToken)
             .ConfigureAwait(false);
         cancellationToken.ThrowIfCancellationRequested();
@@ -772,7 +774,7 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
         {
             try
             {
-                return await _claimRetry.ExecuteAsync(
+                return await _scriptRetry.ExecuteAsync(
                         async token => await _redis.Scripts.ExecuteStringAsync(ClaimScript, _scriptKeys, arguments, token)
                             .ConfigureAwait(false),
                         cancellationToken)

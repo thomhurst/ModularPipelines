@@ -18,6 +18,64 @@ public class RedisDistributedCoordinatorContractTests
     private const string ConnectionStringVariable = "MODULAR_PIPELINES_REDIS_TEST_CONNECTION_STRING";
 
     [Test]
+    public Task Lost_Enqueue_Response_Retries_Without_Duplicating_Queued_Work() =>
+        RunAsync(async (coordinator, client, keys) =>
+        {
+            var attempts = new List<RespireValue[]>();
+            await using var writer = new RedisDistributedCoordinator(LoseFirstWriteResponse(client, attempts), keys, new RedisOptions());
+            var assignment = DistributedCoordinatorContract.CreateAssignment("Retried");
+
+            await writer.EnqueueModuleAsync(assignment, CancellationToken.None);
+
+            await Assert.That(attempts).Count().IsEqualTo(2);
+            await Assert.That(attempts[1]).IsEquivalentTo(attempts[0]);
+            await Assert.That(await client.Hashes.GetAsync<string>(keys.QueueIndex, assignment.ModuleId.Value))
+                .IsEqualTo(attempts[0][3].ToString());
+            var worker = new WorkerId("worker");
+            var (_, lease) = await ((RedisDistributedCoordinator) coordinator).TryClaimAsync(worker, new HashSet<Capability>(), CancellationToken.None);
+            await Assert.That(lease!.Assignment.ModuleId).IsEqualTo(assignment.ModuleId);
+            var (_, duplicate) = await ((RedisDistributedCoordinator) coordinator).TryClaimAsync(worker, new HashSet<Capability>(), CancellationToken.None);
+            await Assert.That(duplicate).IsNull();
+        });
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public Task Lost_Publish_Response_Retries_Without_Losing_The_Result(bool useLease) =>
+        RunAsync(async (coordinator, client, keys, ready) =>
+        {
+            var assignment = DistributedCoordinatorContract.CreateAssignment("Retried");
+            var worker = new WorkerId("worker");
+            ModuleLease? lease = null;
+            if (useLease)
+            {
+                await coordinator.EnqueueModuleAsync(assignment, CancellationToken.None);
+                (_, lease) = await ((RedisDistributedCoordinator) coordinator).TryClaimAsync(worker, new HashSet<Capability>(), CancellationToken.None);
+                await Assert.That(lease).IsNotNull();
+            }
+
+            var attempts = new List<RespireValue[]>();
+            await using var writer = new RedisDistributedCoordinator(LoseFirstWriteResponse(client, attempts), keys, new RedisOptions());
+            var result = new SerializedModuleResult
+            {
+                ModuleId = assignment.ModuleId,
+                WorkerId = worker,
+                Payload = "completed",
+                CompletedAt = DateTimeOffset.UtcNow,
+            };
+
+            await writer.PublishResultAsync(result, lease, CancellationToken.None);
+
+            await Assert.That(attempts).Count().IsEqualTo(2);
+            await Assert.That(attempts[1]).IsEquivalentTo(attempts[0]);
+            using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+            await Assert.That(JsonSerializer.Serialize(await coordinator.WaitForResultAsync(assignment.ModuleId, timeout.Token)))
+                .IsEqualTo(JsonSerializer.Serialize(result));
+            await Assert.That(await coordinator.GetActiveLeasesAsync(CancellationToken.None)).IsEmpty();
+            await Assert.That(await coordinator.RequeueExpiredLeasesAsync(CancellationToken.None)).IsEmpty();
+        }, readySignalCount: 1, workerTimeout: TimeSpan.FromSeconds(30));
+
+    [Test]
     [Arguments(1, false)]
     [Arguments(5, false)]
     [Arguments(1, true)]
@@ -931,6 +989,31 @@ public class RedisDistributedCoordinatorContractTests
         RunAsync((coordinator, _, _) =>
             ModularPipelines.TestHelpers.LeaseReconciliationChecks.ReconnectAfterReassignmentAsync(
                 coordinator, () => Task.Delay(DistributedCoordinatorContract.LeaseTimeout * 3), sameWorker));
+
+    private static IRespireClient LoseFirstWriteResponse(IRespireClient client, List<RespireValue[]> attempts)
+    {
+        var scripts = new Mock<IRespireScriptCommands>(MockBehavior.Strict);
+        scripts.Setup(commands => commands.ExecuteIntegerAsync(
+                It.IsAny<RespireScript>(), It.IsAny<RespireKey[]>(), It.IsAny<RespireValue[]>(), It.IsAny<CancellationToken>()))
+            .Returns(async (RespireScript script, RespireKey[] scriptKeys, RespireValue[] arguments, CancellationToken token) =>
+            {
+                attempts.Add([.. arguments]);
+                var result = await client.Scripts.ExecuteIntegerAsync(script, scriptKeys, arguments, token);
+                if (attempts.Count == 1)
+                {
+                    // The script committed, but its response never reached the caller.
+                    throw new RespireTimeoutException("EVALSHA", TimeSpan.FromSeconds(1));
+                }
+
+                return result;
+            });
+        var connection = new Mock<IRespireClient>(MockBehavior.Strict);
+        connection.SetupGet(redis => redis.Scripts).Returns(scripts.Object);
+        connection.Setup(redis => redis.PublishShardedAsync(
+                It.IsAny<RespireChannel>(), It.IsAny<RespireValue>(), It.IsAny<CancellationToken>()))
+            .Returns((RespireChannel channel, RespireValue message, CancellationToken token) => client.PublishShardedAsync(channel, message, token));
+        return connection.Object;
+    }
 
     private static Task WaitForMasterStateAsync(RedisDistributedCoordinator redis, DistributedMasterState expected) =>
         WaitUntilAsync(async () => await redis.GetMasterStateAsync(CancellationToken.None) == expected);
