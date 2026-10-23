@@ -8,7 +8,7 @@ namespace ModularPipelines.Build.Modules;
 
 [RequiresCapability("ci-master")]
 [ModuleCategory("VersionTag")]
-public class NugetVersionGeneratorModule(IOptions<PublishSettings> publishSettings) : Module<string>
+public class NugetVersionGeneratorModule(IOptions<PublishSettings> publishSettings, IOptions<PipelineSettings> pipelineSettings) : Module<string>
 {
     private readonly IOptions<PublishSettings> _publishSettings = publishSettings;
 
@@ -20,11 +20,19 @@ public class NugetVersionGeneratorModule(IOptions<PublishSettings> publishSettin
             throw new InvalidOperationException("Publishing requires Publish:ExpectedVersion (the expected-version dispatch input).");
         }
 
-        var gitVersionInformation = await context.Tools.Git.Versioning.GetVersioningInformationAsync(cancellationToken).ConfigureAwait(false);
+        var version = pipelineSettings.Value.PackageVersion;
+        if (string.IsNullOrWhiteSpace(version))
+        {
+            if (pipelineSettings.Value.BuildAlreadyCompleted)
+            {
+                throw new InvalidOperationException("A prebuilt checkout requires Pipeline:PackageVersion to match its compiled assemblies.");
+            }
 
-        var version = settings.IsAlpha
-            ? $"{gitVersionInformation.FullSemVer}-alpha{gitVersionInformation.CommitsSinceVersionSourcePadded!}"
-            : gitVersionInformation.FullSemVer!;
+            var gitVersionInformation = await context.Tools.Git.Versioning.GetVersioningInformationAsync(cancellationToken).ConfigureAwait(false);
+            version = settings.IsAlpha
+                ? $"{gitVersionInformation.FullSemVer}-alpha{gitVersionInformation.CommitsSinceVersionSourcePadded!}"
+                : gitVersionInformation.FullSemVer!;
+        }
 
         if (settings.ShouldPublish && !string.Equals(version, settings.ExpectedVersion, StringComparison.Ordinal))
         {

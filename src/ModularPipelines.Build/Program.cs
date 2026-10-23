@@ -19,9 +19,11 @@ if (args is ["--redis-info"])
     return;
 }
 
+var versionOutput = new PackageVersionOutput(args);
+
 var builder = Pipeline.CreateBuilder(new PipelineBuilderSettings
 {
-    Args = args,
+    Args = versionOutput.PipelineArguments,
     LoadModularPipelinesAssemblies = true,
 });
 
@@ -42,6 +44,12 @@ builder.Services.Configure<GitHubSettings>(builder.Configuration.GetSection("Git
 builder.Services.Configure<PublishSettings>(builder.Configuration.GetSection("Publish"));
 builder.Services.Configure<CodacySettings>(builder.Configuration.GetSection("Codacy"));
 builder.Services.Configure<CodeCovSettings>(builder.Configuration.GetSection("CodeCov"));
+
+// Resolve exactly the same version before the native CI build without running release modules.
+if (await versionOutput.TryWriteAsync(builder).ConfigureAwait(false))
+{
+    return;
+}
 
 builder
     .AddModule<BuildSolutionsModule>()

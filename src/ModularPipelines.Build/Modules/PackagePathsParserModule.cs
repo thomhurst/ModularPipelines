@@ -1,4 +1,5 @@
 using ModularPipelines.Attributes;
+using ModularPipelines.Build.Helpers;
 using ModularPipelines.Context;
 using ModularPipelines.FileSystem;
 using ModularPipelines.Models;
@@ -18,10 +19,17 @@ public class PackagePathsParserModule : Module<List<FilePath>>
     {
         var packPackagesModuleResult = await context.GetModule<PackProjectsModule>();
 
-        return [.. packPackagesModuleResult.Value
+        List<FilePath> packages = [.. packPackagesModuleResult.Value
             .Select(x => x.StandardOutput)
             .Select(x => x.Split(PackageCreationSuccessPrefix)[1])
             .Select(x => x.Split(PackagePathSuffix)[0])
             .Select(x => new FilePath(x))];
+
+        foreach (var package in packages)
+        {
+            PackedAssemblyVersionValidator.Validate(package.Path);
+        }
+
+        return packages;
     }
 }
