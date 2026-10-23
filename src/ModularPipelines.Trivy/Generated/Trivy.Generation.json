@@ -3,5 +3,5 @@
   "toolName": "trivy",
   "toolVersion": "0.75.0",
   "commandTreeSha256": "0bd0140c9a6c333fc5fdc85a5da490ba0459d299178abc50af7866d3ab9730ee",
-  "generatorSourceSha256": "cd13368872c02c9729fb2d7fbc4191b2d48795464ce5e8441c7a5e60fb48cce5"
+  "generatorSourceSha256": "991d98978f467dcbadae3bdeb4a86a5950fd107cb813733546539c019e95fcde"
 }
