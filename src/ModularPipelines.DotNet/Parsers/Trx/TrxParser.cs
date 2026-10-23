@@ -11,14 +11,14 @@ public class TrxParser : ITrxParser
         return new DotNetTestResult(GetUnitTestResults(xDocument), GetResultSummary(xDocument));
     }
 
-    private ResultSummary GetResultSummary(XDocument document)
+    private static ResultSummary GetResultSummary(XDocument document)
     {
         return ParseResultSummary(document
             .Descendants()
             .First(e => e.Name.LocalName == "ResultSummary"));
     }
 
-    private ResultSummary ParseResultSummary(XElement element)
+    private static ResultSummary ParseResultSummary(XElement element)
     {
         var outcome = element.Attribute("outcome")!.Value;
 
@@ -27,7 +27,7 @@ public class TrxParser : ITrxParser
         return new ResultSummary(outcome, counters);
     }
 
-    private Counters ParseCounters(XElement element)
+    private static Counters ParseCounters(XElement element)
     {
         return new Counters(
             int.Parse(element.Attribute("total")!.Value),
@@ -49,39 +49,41 @@ public class TrxParser : ITrxParser
         );
     }
 
-    private List<UnitTestResult> GetUnitTestResults(XDocument xDocument)
+    private static List<UnitTestResult> GetUnitTestResults(XDocument xDocument)
     {
-        return xDocument.Descendants()
+        return [.. xDocument.Descendants()
+            .Where(d => d.Name.LocalName == "Results")
+            .Elements()
             .Where(d => d.Name.LocalName == "UnitTestResult")
-            .Select(ParseUnitTestResult)
-            .ToList();
+            .Select(ParseUnitTestResult)];
     }
 
-    private UnitTestResult ParseUnitTestResult(XElement element)
+    private static UnitTestResult ParseUnitTestResult(XElement element)
     {
-        var errorInfo = element.Descendants().FirstOrDefault(x => x.Name.LocalName == "ErrorInfo");
+        var output = element.Elements().FirstOrDefault(x => x.Name.LocalName == "Output");
+        var errorInfo = output?.Elements().FirstOrDefault(x => x.Name.LocalName == "ErrorInfo");
 
         return new UnitTestResult
         {
-            ExecutionId = element.Attribute("executionId")!.Value,
-            TestId = element.Attribute("testId")!.Value,
-            TestName = element.Attribute("testName")!.Value,
-            ComputerName = element.Attribute("computerName")!.Value,
-            Duration = TimeSpan.Parse(element.Attribute("duration")!.Value),
-            StartTime = DateTimeOffset.Parse(element.Attribute("startTime")!.Value),
-            EndTime = DateTimeOffset.Parse(element.Attribute("endTime")!.Value),
-            TestType = element.Attribute("testType")!.Value,
+            ExecutionId = element.Attribute("executionId")?.Value,
+            TestId = element.Attribute("testId")?.Value,
+            TestName = element.Attribute("testName")?.Value,
+            ComputerName = element.Attribute("computerName")?.Value,
+            Duration = element.Attribute("duration") is { } duration ? TimeSpan.Parse(duration.Value) : null,
+            StartTime = element.Attribute("startTime") is { } startTime ? DateTimeOffset.Parse(startTime.Value) : null,
+            EndTime = element.Attribute("endTime") is { } endTime ? DateTimeOffset.Parse(endTime.Value) : null,
+            TestType = element.Attribute("testType")?.Value,
             Outcome = ParseTestOutcome(element.Attribute("outcome")?.Value),
-            TestListId = element.Attribute("testListId")!.Value,
-            RelativeResultsDirectory = element.Attribute("relativeResultsDirectory")!.Value,
+            TestListId = element.Attribute("testListId")?.Value,
+            RelativeResultsDirectory = element.Attribute("relativeResultsDirectory")?.Value,
             Output = new TestOutput
             {
-                StdOut = element.Descendants().FirstOrDefault(x => x.Name.LocalName == "StdOut")?.Value,
-                DebugTrace = element.Descendants().FirstOrDefault(x => x.Name.LocalName == "DebugTrace")?.Value,
+                StdOut = output?.Elements().FirstOrDefault(x => x.Name.LocalName == "StdOut")?.Value,
+                DebugTrace = output?.Elements().FirstOrDefault(x => x.Name.LocalName == "DebugTrace")?.Value,
                 ErrorInfo = errorInfo == null ? null : new ErrorInfo
                 {
-                    Message = errorInfo.Descendants().FirstOrDefault(x => x.Name.LocalName == "Message")?.Value,
-                    StackTrace = errorInfo.Descendants().FirstOrDefault(x => x.Name.LocalName == "StackTrace")?.Value,
+                    Message = errorInfo.Elements().FirstOrDefault(x => x.Name.LocalName == "Message")?.Value,
+                    StackTrace = errorInfo.Elements().FirstOrDefault(x => x.Name.LocalName == "StackTrace")?.Value,
                 },
             },
         };
