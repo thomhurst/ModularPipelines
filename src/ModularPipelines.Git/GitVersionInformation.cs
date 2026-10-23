@@ -1,6 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 
-namespace ModularPipelines.Git.Models;
+namespace ModularPipelines.Git;
 
 [ExcludeFromCodeCoverage]
 public record GitVersionInformation

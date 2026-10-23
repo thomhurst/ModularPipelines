@@ -2,7 +2,6 @@ using Microsoft.Extensions.Options;
 using ModularPipelines.Build.Modules;
 using ModularPipelines.Build.Settings;
 using ModularPipelines.Git;
-using ModularPipelines.Git.Models;
 using Moq;
 
 namespace ModularPipelines.Build.UnitTests;

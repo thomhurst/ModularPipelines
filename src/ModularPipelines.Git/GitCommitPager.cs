@@ -1,6 +1,5 @@
 using System.Runtime.CompilerServices;
 using ModularPipelines.Exceptions;
-using ModularPipelines.Git.Models;
 using ModularPipelines.Git.Options;
 using ModularPipelines.Options;
 

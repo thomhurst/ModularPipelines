@@ -6,7 +6,7 @@ using ModularPipelines.Options;
 namespace ModularPipelines.Git;
 
 /// <inheritdoc />
-public class GitCommandRunner(IPipelineContext context, ILogger<GitCommandRunner> logger) : IGitCommandRunner, IRawGitCommandRunner
+internal sealed class GitCommandRunner(IPipelineContext context, ILogger<GitCommandRunner> logger) : IGitCommandRunner, IRawGitCommandRunner
 {
     private readonly IPipelineContext _context = context;
     private readonly ILogger<GitCommandRunner> _logger = logger;

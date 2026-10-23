@@ -3,8 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Engine;
 using ModularPipelines.Enums;
 using ModularPipelines.FileSystem;
-using ModularPipelines.Git.Extensions;
-using ModularPipelines.Git.Models;
+using ModularPipelines.Git;
 using Moq;
 
 namespace ModularPipelines.Git.UnitTests;

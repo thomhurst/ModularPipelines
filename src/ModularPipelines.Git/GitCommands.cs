@@ -1,6 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Context;
-using ModularPipelines.Git.Models;
 using ModularPipelines.Git.Options;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -8,7 +7,7 @@ using ModularPipelines.Options;
 namespace ModularPipelines.Git;
 
 [ExcludeFromCodeCoverage]
-public class GitCommands(ICommandContext command, IGitCommandRunner gitCommandRunner, IGitCommitMapper gitCommitMapper) :
+internal class GitCommands(ICommandContext command, IGitCommandRunner gitCommandRunner, IGitCommitMapper gitCommitMapper) :
     IGitCommands,
     IGitRepositoryCommands,
     IGitWorkingTreeCommands,

@@ -4,7 +4,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Context;
 using ModularPipelines.FileSystem;
-using ModularPipelines.Git.Models;
 using ModularPipelines.Git.Options;
 using ModularPipelines.Logging;
 using ModularPipelines.Options;

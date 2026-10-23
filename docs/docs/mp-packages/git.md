@@ -113,7 +113,7 @@ folder. A .NET SDK and access to the package feed are required when the version 
 To select another exact tool version, configure the integration during service registration:
 
 ```csharp
-using ModularPipelines.Git.Extensions;
+using ModularPipelines.Git;
 
 builder.Services.RegisterGitContext(options => options.ToolVersion = "6.8.2");
 ```
@@ -129,13 +129,39 @@ Results are cached per integration instance (the pipeline's dependency injection
 Concurrent requests on that instance share one calculation. Separate instances calculate
 independently and never reuse another repository's result.
 
+## Branch conditions
+
+Import `ModularPipelines.Git` for branch conditions, repository models, and service registration.
+Branch names and prefixes use case-sensitive ordinal comparison.
+
+`RunIfBranch` and `RunIfBranchStartsWith` share an alternative group: a module with both
+runs when either condition matches. Each `RunOnlyOnBranch` or `RunOnlyIfBranchStartsWith`
+attribute adds a separate requirement that must also match. `SkipIfBranch` skips a module
+when its branch matches, regardless of run conditions.
+
+```csharp
+using ModularPipelines.Git;
+
+// Run on main or any release branch.
+[RunIfBranch("main")]
+[RunIfBranchStartsWith("release/")]
+public class PublishModule : Module<CommandResult>
+{
+    // ...
+}
+```
+
+Use `RunOnlyIfBranchStartsWith("release/")` when a release branch is mandatory even if
+another grouped run condition matches. A missing branch (for example, an unresolved detached
+HEAD) does not match an exact branch or prefix.
+
 ## Run only when paths change
 
 Use `RunIfChangedAttribute` to run a module when at least one repository-relative glob matches a
 path changed since the merge base with `origin/main`:
 
 ```csharp
-using ModularPipelines.Git.Attributes;
+using ModularPipelines.Git;
 
 [RunIfChanged("src/MyService/**", "test/MyService.Tests/**")]
 public class TestMyServiceModule : Module<CommandResult>

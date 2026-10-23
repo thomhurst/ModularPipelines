@@ -1,5 +1,4 @@
 using ModularPipelines.Context;
-// This file provides a base class for Git command services to reduce duplication.
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 
@@ -7,23 +6,17 @@ namespace ModularPipelines.Git;
 
 /// <summary>
 /// Base class for Git command services that provides common command execution functionality.
-/// Reduces code duplication in GitCommands and related classes.
 /// </summary>
-public abstract class GitCommandService
+/// <remarks>
+/// Initializes a new instance of the <see cref="GitCommandService"/> class.
+/// </remarks>
+/// <param name="command">The command executor.</param>
+internal abstract class GitCommandService(ICommandContext command)
 {
     /// <summary>
     /// The command executor for running CLI commands.
     /// </summary>
-    protected readonly ICommandContext Command;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="GitCommandService"/> class.
-    /// </summary>
-    /// <param name="command">The command executor.</param>
-    protected GitCommandService(ICommandContext command)
-    {
-        Command = command;
-    }
+    protected readonly ICommandContext Command = command;
 
     /// <summary>
     /// Executes a Git command with the specified options.

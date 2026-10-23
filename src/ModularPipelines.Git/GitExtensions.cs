@@ -7,7 +7,7 @@ using ModularPipelines.Engine;
 using ModularPipelines.Git.Options;
 using ModularPipelines.Reporting;
 
-namespace ModularPipelines.Git.Extensions;
+namespace ModularPipelines.Git;
 
 /// <summary>
 /// Provides extension methods for integrating Git functionality into the ModularPipelines framework.

@@ -36,7 +36,7 @@ public class GitCommandRunnerTests : TestBase
                 });
         var context = new Mock<IPipelineContext>();
         context.SetupGet(x => x.Shell).Returns(shell.Object);
-        IGitCommandRunner runner = new GitCommandRunner(context.Object, Mock.Of<ILogger<GitCommandRunner>>());
+        IGitCommandRunner runner = new GitCommandRunner(context.Object, Microsoft.Extensions.Logging.Abstractions.NullLogger<GitCommandRunner>.Instance);
 
         Task command;
         if (returnNullOnFailure)
@@ -75,7 +75,7 @@ public class GitCommandRunnerTests : TestBase
                 });
         var context = new Mock<IPipelineContext>();
         context.SetupGet(x => x.Shell).Returns(shell.Object);
-        IGitCommandRunner runner = new GitCommandRunner(context.Object, Mock.Of<ILogger<GitCommandRunner>>());
+        IGitCommandRunner runner = new GitCommandRunner(context.Object, Microsoft.Extensions.Logging.Abstractions.NullLogger<GitCommandRunner>.Instance);
 
         var command = runner.RunCommandsOrNullAsync(new GitOptions { CommandParts = ["status"] }, null, cancellation.Token);
         await started.Task.WaitAsync(TimeSpan.FromSeconds(10));
@@ -96,7 +96,7 @@ public class GitCommandRunnerTests : TestBase
             .ReturnsAsync(CommandResult.Ok(" \tcommit-hash\r\n"));
         var context = new Mock<IPipelineContext>();
         context.SetupGet(x => x.Shell).Returns(shell.Object);
-        IGitCommandRunner runner = new GitCommandRunner(context.Object, Mock.Of<ILogger<GitCommandRunner>>());
+        IGitCommandRunner runner = new GitCommandRunner(context.Object, Microsoft.Extensions.Logging.Abstractions.NullLogger<GitCommandRunner>.Instance);
 
         var output = await runner.RunCommandsOrNullAsync(
             new GitOptions { CommandParts = ["rev-parse"], Arguments = ["HEAD"] },
@@ -198,7 +198,7 @@ public class GitCommandRunnerTests : TestBase
         context.SetupGet(x => x.Shell).Returns(shell.Object);
         var runner = new GitCommandRunner(
             context.Object,
-            Mock.Of<ILogger<GitCommandRunner>>());
+            Microsoft.Extensions.Logging.Abstractions.NullLogger<GitCommandRunner>.Instance);
         var requestedOptions = new CommandExecutionOptions
         {
             MaxCapturedOutputLength = 0,

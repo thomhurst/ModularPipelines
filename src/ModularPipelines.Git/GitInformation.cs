@@ -3,7 +3,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Context;
 using ModularPipelines.FileSystem;
-using ModularPipelines.Git.Models;
 using ModularPipelines.Git.Options;
 using ModularPipelines.Helpers.Internal;
 using ModularPipelines.Options;

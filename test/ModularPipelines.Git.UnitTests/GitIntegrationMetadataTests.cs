@@ -2,7 +2,7 @@ using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Attributes;
 using ModularPipelines.Extensions;
-using ModularPipelines.Git.Extensions;
+using ModularPipelines.Git;
 using ModularPipelines.TestHelpers;
 
 namespace ModularPipelines.Git.UnitTests;

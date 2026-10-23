@@ -1,7 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Context;
-using ModularPipelines.Git.Attributes;
+using ModularPipelines.Git;
 using ModularPipelines.Git.Options;
 using ModularPipelines.Models;
 using ModularPipelines.Options;

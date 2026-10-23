@@ -1,6 +1,6 @@
 using ModularPipelines.FileSystem;
 
-namespace ModularPipelines.Git.Models;
+namespace ModularPipelines.Git;
 
 public sealed record GitRepositoryInfo(FolderPath Root)
 {

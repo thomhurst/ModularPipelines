@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Context;
 using ModularPipelines.Exceptions;
-using ModularPipelines.Git.Models;
+using ModularPipelines.Git;
 using ModularPipelines.Git.Options;
 using ModularPipelines.Options;
 using Moq;
@@ -124,6 +124,6 @@ public class GitCommitPagerTests
             .Returns(run);
         var context = new Mock<IPipelineContext>();
         context.SetupGet(x => x.Shell).Returns(shell.Object);
-        return new GitCommandRunner(context.Object, Mock.Of<ILogger<GitCommandRunner>>());
+        return new GitCommandRunner(context.Object, Microsoft.Extensions.Logging.Abstractions.NullLogger<GitCommandRunner>.Instance);
     }
 }
