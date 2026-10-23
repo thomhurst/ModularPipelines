@@ -24,7 +24,6 @@ Use the discoverable `context.Tools` surface from a module:
 
 ```csharp
 using ModularPipelines;
-using ModularPipelines.Models;
 using ModularPipelines.Newman.Options;
 
 public class UseNewmanModule : Module<CommandResult>

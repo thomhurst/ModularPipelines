@@ -9,9 +9,9 @@ The `ModularPipelines.Liquibase` package provides strongly typed options and ser
 Install the package and access Liquibase through the pipeline context:
 
 ```csharp
+using ModularPipelines;
 using ModularPipelines.Liquibase.Enums;
 using ModularPipelines.Liquibase.Options;
-using ModularPipelines.Models;
 
 public class UpdateDatabaseModule : Module<CommandResult>
 {

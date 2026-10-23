@@ -17,9 +17,9 @@ The `jq` executable must be installed and available on `PATH` when the pipeline 
 ## Process JSON
 
 ```csharp
+using ModularPipelines;
 using ModularPipelines.Context;
 using ModularPipelines.Jq.Options;
-using ModularPipelines.Models;
 
 var result = await context.Tools.Jq.ExecuteAsync(
     new JqExecuteOptions
