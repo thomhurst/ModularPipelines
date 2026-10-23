@@ -1036,6 +1036,12 @@ public class ExternalToolDefinitionTests
     [Arguments("global::System.Collections.Generic.IReadOnlyList<global::ModularPipelines.KeyValue>?")]
     [Arguments("System.Collections.Generic.IReadOnlyList<ModularPipelines.Models.KeyValue>")]
     [Arguments("System.Collections.Generic.IReadOnlyList<ModularPipelines.Models.KeyValue>?")]
+    [Arguments("global::System.Collections.Generic.IReadOnlyList<ModularPipelines.Models.KeyValue>")]
+    [Arguments("global::System.Collections.Generic.IReadOnlyList<ModularPipelines.Models.KeyValue>?")]
+    [Arguments("System.Collections.Generic.IReadOnlyList<global::ModularPipelines.Models.KeyValue>")]
+    [Arguments("System.Collections.Generic.IReadOnlyList<global::ModularPipelines.Models.KeyValue>?")]
+    [Arguments("global::System.Collections.Generic.IReadOnlyList<global::ModularPipelines.Models.KeyValue>")]
+    [Arguments("global::System.Collections.Generic.IReadOnlyList<global::ModularPipelines.Models.KeyValue>?")]
     public async Task External_Metadata_Accepts_Secret_Keys_On_KeyValue_Collections(string cSharpType)
     {
         var workspace = CreateTemporaryDirectory();
@@ -1059,6 +1065,46 @@ public class ExternalToolDefinitionTests
 
             await CreateOrchestrator().GenerateFromDefinitionAsync(tool, outputDirectory);
             await Assert.That(Directory.GetFiles(outputDirectory, "*.cs", SearchOption.AllDirectories)).IsNotEmpty();
+        }
+        finally
+        {
+            Directory.Delete(workspace, recursive: true);
+        }
+    }
+
+    [Test]
+    [Arguments("IReadOnlyList<global::KeyValue>")]
+    [Arguments("IReadOnlyList<global::KeyValue>?")]
+    [Arguments("global::IReadOnlyList<KeyValue>")]
+    [Arguments("global::IReadOnlyList<KeyValue>?")]
+    [Arguments("global::IReadOnlyList<global::KeyValue>")]
+    [Arguments("global::IReadOnlyList<global::KeyValue>?")]
+    [Arguments("System.Collections.Generic.IReadOnlyList<global::KeyValue>")]
+    [Arguments("System.Collections.Generic.IReadOnlyList<global::KeyValue>?")]
+    public async Task External_Metadata_Rejects_Secret_Keys_On_Global_Namespace_Types(string cSharpType)
+    {
+        var workspace = CreateTemporaryDirectory();
+        var outputDirectory = Path.Combine(workspace, "integration");
+
+        try
+        {
+            var tool = await LoadValidToolAsync(workspace, outputDirectory);
+            var command = tool.Commands.Single();
+            var option = command.Options.Single() with
+            {
+                CSharpType = cSharpType,
+                IsSecret = true,
+                IsKeyValue = true,
+                SecretValueKeys = ["token"],
+            };
+            tool = tool with
+            {
+                Commands = [command with { Options = [option] }],
+            };
+
+            await Assert.That(async () =>
+                    await CreateOrchestrator().GenerateFromDefinitionAsync(tool, outputDirectory))
+                .Throws<InvalidDataException>();
         }
         finally
         {
