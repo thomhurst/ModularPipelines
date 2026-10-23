@@ -12,6 +12,10 @@ on:
         type: boolean
         required: true
         default: false
+      expected-version:
+        description: 'Exact package version required when publishing (e.g. 4.0.0; include alpha suffix when selected)'
+        type: string
+        required: false
       distributed:
         description: Use Redis workers when credentials are available?
         type: boolean
@@ -705,6 +709,7 @@ jobs:
           GitHub__Repository__Id: ${{ github.repository_id }}
           GitHub__AdminToken: ${{ matrix.instance == 0 && secrets.ADMIN_TOKEN || '' }}
           Publish__ShouldPublish: ${{ github.ref == 'refs/heads/main' && inputs.publish-packages == true && matrix.instance == 0 }}
+          Publish__ExpectedVersion: ${{ inputs.expected-version }}
           # Only a publishing dispatch may select stable versions; validation runs use alpha package versions.
           Publish__IsAlpha: ${{ github.event_name != 'workflow_dispatch' || inputs.publish-packages != true || inputs.is-alpha }}
           Codacy__ApiKey: ${{ matrix.instance == 0 && secrets.CODACY_APIKEY || '' }}

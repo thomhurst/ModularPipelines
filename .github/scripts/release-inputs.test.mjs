@@ -26,3 +26,10 @@ for (const { name, event, inputs, expected } of [
     assert.equal(runInNewContext(javascript, { github: { event_name: event }, inputs }), expected);
   });
 }
+
+test('publishing dispatches accept an explicit expected package version', () => {
+  assert.match(workflow, /expected-version:\r?\n(?: {8}[^\r\n]*\r?\n)*? {8}type: string/);
+  // Validation dispatches may omit it; the version module requires it when publishing.
+  assert.match(workflow, /expected-version:\r?\n(?: {8}[^\r\n]*\r?\n)*? {8}required: false/);
+  assert.match(workflow, /Publish__ExpectedVersion:\s*\$\{\{\s*inputs\.expected-version\s*\}\}/);
+});

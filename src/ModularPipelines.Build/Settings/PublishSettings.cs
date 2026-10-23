@@ -5,4 +5,6 @@ public record PublishSettings
     public bool ShouldPublish { get; init; }
 
     public bool IsAlpha { get; init; }
+
+    public string? ExpectedVersion { get; init; }
 }
