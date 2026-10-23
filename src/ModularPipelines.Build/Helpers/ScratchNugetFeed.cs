@@ -72,9 +72,36 @@ internal sealed class ScratchNugetFeed : IAsyncDisposable
             return;
         }
 
-        await using var payload = new MemoryStream();
-        await form.Files[0].CopyToAsync(payload, token).ConfigureAwait(false);
-        payload.Position = 0;
+        var temporaryPath = Path.Combine(_directory, $".upload-{Guid.NewGuid():N}.tmp");
+        try
+        {
+            string id;
+            string version;
+            await using (var payload = new FileStream(temporaryPath, FileMode.CreateNew, FileAccess.ReadWrite, FileShare.None))
+            {
+                await form.Files[0].CopyToAsync(payload, token).ConfigureAwait(false);
+                payload.Position = 0;
+                (id, version) = await ReadPackageIdentityAsync(payload, token).ConfigureAwait(false);
+            }
+
+            // Treat request metadata as untrusted even though this endpoint is local.
+            if (HasInvalidPackageIdentity(id, version))
+            {
+                context.Response.StatusCode = StatusCodes.Status400BadRequest;
+                return;
+            }
+
+            var path = Path.Combine(_directory, $"{id}.{version}{extension}");
+            context.Response.StatusCode = CommitPackage(temporaryPath, path);
+        }
+        finally
+        {
+            File.Delete(temporaryPath);
+        }
+    }
+
+    private static async Task<(string Id, string Version)> ReadPackageIdentityAsync(Stream payload, CancellationToken token)
+    {
         using var archive = new ZipArchive(payload, ZipArchiveMode.Read, leaveOpen: true);
         var nuspec = archive.Entries.Single(entry => entry.FullName.EndsWith(".nuspec", StringComparison.OrdinalIgnoreCase));
         await using var stream = nuspec.Open();
@@ -83,24 +110,21 @@ internal sealed class ScratchNugetFeed : IAsyncDisposable
         var id = metadata.Elements().Single(element => element.Name.LocalName == "id").Value;
         // NuGet omits SemVer build metadata from archive filenames.
         var version = metadata.Elements().Single(element => element.Name.LocalName == "version").Value.Split('+')[0];
-        // Treat request metadata as untrusted even though this endpoint is local.
-        if (HasInvalidPackageIdentity(id, version))
-        {
-            context.Response.StatusCode = StatusCodes.Status400BadRequest;
-            return;
-        }
+        return (id, version);
+    }
 
-        var path = Path.Combine(_directory, $"{id}.{version}{extension}");
-        if (File.Exists(path))
+    private static int CommitPackage(string temporaryPath, string path)
+    {
+        try
         {
-            context.Response.StatusCode = StatusCodes.Status409Conflict;
-            return;
+            // A same-directory move publishes the complete archive without overwriting a duplicate.
+            File.Move(temporaryPath, path);
+            return StatusCodes.Status201Created;
         }
-
-        payload.Position = 0;
-        await using var file = new FileStream(path, FileMode.CreateNew, FileAccess.Write, FileShare.None);
-        await payload.CopyToAsync(file, token).ConfigureAwait(false);
-        context.Response.StatusCode = StatusCodes.Status201Created;
+        catch (IOException) when (File.Exists(path))
+        {
+            return StatusCodes.Status409Conflict;
+        }
     }
 
     private static bool HasInvalidPackageIdentity(string id, string version) =>

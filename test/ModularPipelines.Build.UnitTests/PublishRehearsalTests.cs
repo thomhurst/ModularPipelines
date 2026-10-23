@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.IO.Compression;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using Microsoft.Extensions.Options;
@@ -29,17 +30,7 @@ public class PublishRehearsalTests
         try
         {
             var library = await PackPackage(root, directory.FullName, "ModularPipelines.Testing", symbols: true);
-            // Exceed both Kestrel's 30,000,000-byte request limit and the 128 MiB multipart limit.
-            using (var archive = ZipFile.Open(library, ZipArchiveMode.Update))
-            {
-                var payload = archive.CreateEntry("large-payload.bin", CompressionLevel.NoCompression);
-                await using var stream = payload.Open();
-                var buffer = new byte[1024 * 1024];
-                for (var i = 0; i < 129; i++)
-                {
-                    await stream.WriteAsync(buffer);
-                }
-            }
+            await AddLargePayload(library);
 
             var content = await PackPackage(root, directory.FullName, "ModularPipelines.Templates", symbols: false);
             var feed = Path.Combine(directory.FullName, "scratch feed");
@@ -65,9 +56,11 @@ public class PublishRehearsalTests
             foreach (var package in new[] { library, Path.ChangeExtension(library, ".snupkg"), content })
             {
                 var uploaded = Directory.GetFiles(feed, Path.GetFileName(package), SearchOption.AllDirectories).Single();
-                var actual = await File.ReadAllBytesAsync(uploaded);
-                var expected = await File.ReadAllBytesAsync(package);
-                await Assert.That(actual.SequenceEqual(expected)).IsTrue();
+                await using var actual = File.OpenRead(uploaded);
+                await using var expected = File.OpenRead(package);
+                var actualHash = await SHA256.HashDataAsync(actual);
+                var expectedHash = await SHA256.HashDataAsync(expected);
+                await Assert.That(actualHash.SequenceEqual(expectedHash)).IsTrue();
             }
 
             using var manifest = JsonDocument.Parse(await File.ReadAllTextAsync(Path.Combine(feed, "manifest.json")));
@@ -87,6 +80,7 @@ public class PublishRehearsalTests
             await Assert.That(failed.Result.Status).IsEqualTo(ModuleStatus.Failed);
             await Assert.That(failed.Exception).IsTypeOf<CommandException>();
             await Assert.That(File.Exists(Path.Combine(feed, "manifest.json"))).IsFalse();
+            await Assert.That(Directory.GetFiles(feed, ".upload-*.tmp")).IsEmpty();
         }
         finally
         {
@@ -177,6 +171,34 @@ public class PublishRehearsalTests
     private class ExposedReleaseModule(IOptions<GitHubSettings> settings) : CreateReleaseModule(settings, Microsoft.Extensions.Options.Options.Create(new PublishSettings()))
     {
         public Task<Release> Execute(IModuleContext context, CancellationToken token) => base.ExecuteAsync(context, token);
+    }
+
+    private static async Task AddLargePayload(string package)
+    {
+        var temporaryPath = package + ".tmp";
+        // Create mode streams entries; Update mode buffers the new 129 MiB entry in memory.
+        using (var original = ZipFile.OpenRead(package))
+        using (var expanded = ZipFile.Open(temporaryPath, ZipArchiveMode.Create))
+        {
+            foreach (var entry in original.Entries)
+            {
+                var copy = expanded.CreateEntry(entry.FullName);
+                await using var source = entry.Open();
+                await using var destination = copy.Open();
+                await source.CopyToAsync(destination);
+            }
+
+            // Exceed both Kestrel's 30,000,000-byte request limit and the 128 MiB multipart limit.
+            var payload = expanded.CreateEntry("large-payload.bin", CompressionLevel.NoCompression);
+            await using var stream = payload.Open();
+            var buffer = new byte[1024 * 1024];
+            for (var i = 0; i < 129; i++)
+            {
+                await stream.WriteAsync(buffer);
+            }
+        }
+
+        File.Move(temporaryPath, package, overwrite: true);
     }
 
     private static async Task<string> PackPackage(string root, string directory, string id, bool symbols)
