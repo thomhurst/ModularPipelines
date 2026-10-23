@@ -731,7 +731,7 @@ public class RedisDistributedCoordinatorContractTests
     [Arguments("ı", "I")]
     [Arguments("é", "e\u0301")]
     public Task Claim_Does_Not_Match_Distinct_Unicode_Capabilities(string required, string available) =>
-        RunAsync(async (coordinator, _, _) =>
+        RunAsync(async (coordinator, _, _, _) =>
         {
             var unsupported = DistributedCoordinatorContract.CreateAssignment("Unsupported") with
             {
@@ -749,7 +749,7 @@ public class RedisDistributedCoordinatorContractTests
 
             await Assert.That(lease).IsNotNull();
             await Assert.That(lease!.Assignment.ModuleId).IsEqualTo(fallback.ModuleId);
-        });
+        }, readySignalCount: 1, workerTimeout: TimeSpan.FromSeconds(30));
 
     [Test]
     [Arguments(false)]

@@ -16,8 +16,8 @@ foreach ($step in $artifactSteps) {
     }
     else { $downloads += $name }
 }
-if ($uploads.Count -ne 7 -or $downloads.Count -ne 2) {
-    throw 'Expected the host, prerequisite results, three pipeline output artifacts, core platform test diagnostics, and publish rehearsal evidence with two matching downloads.'
+if ($uploads.Count -ne 8 -or $downloads.Count -ne 2) {
+    throw 'Expected the host, prerequisite results, three pipeline output artifacts, core platform test diagnostics, publish rehearsal evidence, and Redis test results with two matching downloads.'
 }
 $producers = @(
     @{ Job = 'fast-fail'; Output = 'test_results_artifact' },
@@ -32,4 +32,4 @@ foreach ($producer in $producers) {
     $name = [regex]::Match($job, '(?m)^      ' + $producer.Output + ': (.+)$').Groups[1].Value.Trim()
     if ($name -cnotin $uploads) { throw "Producer output '$name' does not match an attempt-scoped upload." }
 }
-Write-Output 'Distributed artifacts: seven retry-safe uploads and two producer-bound downloads passed.'
+Write-Output 'Distributed artifacts: eight retry-safe uploads and two producer-bound downloads passed.'
