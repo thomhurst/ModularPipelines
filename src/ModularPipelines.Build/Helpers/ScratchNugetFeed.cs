@@ -4,6 +4,8 @@ using System.Xml.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 namespace ModularPipelines.Build.Helpers;
@@ -38,6 +40,7 @@ internal sealed class ScratchNugetFeed : IAsyncDisposable
     {
         var builder = WebApplication.CreateSlimBuilder(new WebApplicationOptions { Args = [] });
         builder.Logging.ClearProviders();
+        builder.Services.Configure<FormOptions>(options => options.MultipartBodyLengthLimit = long.MaxValue);
         builder.WebHost.ConfigureKestrel(server =>
         {
             server.Listen(IPAddress.Loopback, 0);

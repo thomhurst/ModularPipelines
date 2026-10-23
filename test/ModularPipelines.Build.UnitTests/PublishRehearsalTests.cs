@@ -29,12 +29,16 @@ public class PublishRehearsalTests
         try
         {
             var library = await PackPackage(root, directory.FullName, "ModularPipelines.Testing", symbols: true);
-            // Exercise packages larger than Kestrel's default 30,000,000-byte request limit.
+            // Exceed both Kestrel's 30,000,000-byte request limit and the 128 MiB multipart limit.
             using (var archive = ZipFile.Open(library, ZipArchiveMode.Update))
             {
                 var payload = archive.CreateEntry("large-payload.bin", CompressionLevel.NoCompression);
                 await using var stream = payload.Open();
-                await stream.WriteAsync(new byte[32 * 1024 * 1024]);
+                var buffer = new byte[1024 * 1024];
+                for (var i = 0; i < 129; i++)
+                {
+                    await stream.WriteAsync(buffer);
+                }
             }
 
             var content = await PackPackage(root, directory.FullName, "ModularPipelines.Templates", symbols: false);
