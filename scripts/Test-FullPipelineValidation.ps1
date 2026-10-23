@@ -20,6 +20,7 @@ $corePaths = @(
     'src/ModularPipelines.Development.Analyzers/Analyzer.cs',
     'src/ModularPipelines.Cmd/Command.cs',
     'test/ModularPipelines.UnitTests/EngineTests.cs',
+    'test/ModularPipelines.Consumer.UnitTests/ModuleIdJsonTests.cs',
     'test/ModularPipelines.Cmd.UnitTests/CmdOptionsTests.cs',
     'test/ModularPipelines.Distributed.UnitTests/CoordinatorTests.cs',
     'test/ModularPipelines.TrimAotSmoke/Program.cs',
