@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Docker.Options;
 using ModularPipelines;
-using ModularPipelines.Models;
 using ModularPipelines.Docker.Enums;
 
 namespace ModularPipelines.Docker.Options;
