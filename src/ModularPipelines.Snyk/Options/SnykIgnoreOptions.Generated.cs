@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Snyk.Options;
 using ModularPipelines;
-using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Snyk.Enums;
 
@@ -75,6 +74,15 @@ public record SnykIgnoreOptions : SnykOptions, IValidatableObject
             yield return new ValidationResult("At least one of Id or FilePath must be specified.", [nameof(Id), nameof(FilePath)]);
         }
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }
