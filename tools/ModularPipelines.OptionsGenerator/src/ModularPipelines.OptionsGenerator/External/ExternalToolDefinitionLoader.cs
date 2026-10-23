@@ -383,17 +383,28 @@ public static class ExternalToolDefinitionLoader
 
     private static bool IsReadOnlyListKeyValueType(string cSharpType)
     {
-        var type = cSharpType
-            .Replace(" ", string.Empty, StringComparison.Ordinal)
-            .Replace("global::System.Collections.Generic.IReadOnlyList<", "System.Collections.Generic.IReadOnlyList<", StringComparison.Ordinal)
-            .Replace("<global::ModularPipelines.KeyValue>", "<ModularPipelines.KeyValue>", StringComparison.Ordinal)
-            .Replace("<global::ModularPipelines.Models.KeyValue>", "<ModularPipelines.Models.KeyValue>", StringComparison.Ordinal);
-        return type is "IReadOnlyList<KeyValue>"
-            or "IReadOnlyList<KeyValue>?"
-            or "System.Collections.Generic.IReadOnlyList<ModularPipelines.KeyValue>"
-            or "System.Collections.Generic.IReadOnlyList<ModularPipelines.KeyValue>?"
-            or "System.Collections.Generic.IReadOnlyList<ModularPipelines.Models.KeyValue>"
-            or "System.Collections.Generic.IReadOnlyList<ModularPipelines.Models.KeyValue>?";
+        var type = cSharpType.Replace(" ", string.Empty, StringComparison.Ordinal);
+        if (type.EndsWith('?'))
+        {
+            type = type[..^1];
+        }
+
+        var typeArgumentStart = type.IndexOf('<');
+        if (typeArgumentStart < 0 || !type.EndsWith('>'))
+        {
+            return false;
+        }
+
+        var collectionType = type[..typeArgumentStart];
+        var elementType = type[(typeArgumentStart + 1)..^1];
+        return (collectionType is "IReadOnlyList"
+                or "System.Collections.Generic.IReadOnlyList"
+                or "global::System.Collections.Generic.IReadOnlyList")
+            && (elementType is "KeyValue"
+                or "ModularPipelines.KeyValue"
+                or "global::ModularPipelines.KeyValue"
+                or "ModularPipelines.Models.KeyValue"
+                or "global::ModularPipelines.Models.KeyValue");
     }
 
     private static bool IsSupportedFlagType(string cSharpType)

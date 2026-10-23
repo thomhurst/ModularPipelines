@@ -1026,6 +1026,18 @@ public class ExternalToolDefinitionTests
     [Test]
     [Arguments("IReadOnlyList<KeyValue>")]
     [Arguments("IReadOnlyList<KeyValue>?")]
+    [Arguments("IReadOnlyList<ModularPipelines.KeyValue>")]
+    [Arguments("IReadOnlyList<ModularPipelines.KeyValue>?")]
+    [Arguments("IReadOnlyList<global::ModularPipelines.KeyValue>")]
+    [Arguments("IReadOnlyList<global::ModularPipelines.KeyValue>?")]
+    [Arguments("IReadOnlyList<ModularPipelines.Models.KeyValue>")]
+    [Arguments("IReadOnlyList<ModularPipelines.Models.KeyValue>?")]
+    [Arguments("IReadOnlyList<global::ModularPipelines.Models.KeyValue>")]
+    [Arguments("IReadOnlyList<global::ModularPipelines.Models.KeyValue>?")]
+    [Arguments("System.Collections.Generic.IReadOnlyList<KeyValue>")]
+    [Arguments("System.Collections.Generic.IReadOnlyList<KeyValue>?")]
+    [Arguments("global::System.Collections.Generic.IReadOnlyList<KeyValue>")]
+    [Arguments("global::System.Collections.Generic.IReadOnlyList<KeyValue>?")]
     [Arguments("System.Collections.Generic.IReadOnlyList<ModularPipelines.KeyValue>")]
     [Arguments("System.Collections.Generic.IReadOnlyList<ModularPipelines.KeyValue>?")]
     [Arguments("global::System.Collections.Generic.IReadOnlyList<ModularPipelines.KeyValue>")]
@@ -1081,7 +1093,15 @@ public class ExternalToolDefinitionTests
     [Arguments("global::IReadOnlyList<global::KeyValue>?")]
     [Arguments("System.Collections.Generic.IReadOnlyList<global::KeyValue>")]
     [Arguments("System.Collections.Generic.IReadOnlyList<global::KeyValue>?")]
-    public async Task External_Metadata_Rejects_Secret_Keys_On_Global_Namespace_Types(string cSharpType)
+    [Arguments("global::IReadOnlyList<ModularPipelines.KeyValue>")]
+    [Arguments("global::IReadOnlyList<ModularPipelines.KeyValue>?")]
+    [Arguments("global::System.Collections.Generic.IReadOnlyList<global::KeyValue>")]
+    [Arguments("global::System.Collections.Generic.IReadOnlyList<global::KeyValue>?")]
+    [Arguments("Other.IReadOnlyList<ModularPipelines.KeyValue>")]
+    [Arguments("Other.IReadOnlyList<ModularPipelines.KeyValue>?")]
+    [Arguments("IReadOnlyList<Other.KeyValue>")]
+    [Arguments("IReadOnlyList<Other.KeyValue>?")]
+    public async Task External_Metadata_Rejects_Secret_Keys_On_Unsupported_Types(string cSharpType)
     {
         var workspace = CreateTemporaryDirectory();
         var outputDirectory = Path.Combine(workspace, "integration");
