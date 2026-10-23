@@ -2,6 +2,7 @@
   "solution": {
     "path": "ModularPipelines.All.slnx",
     "projects": [
+      "test\\ModularPipelines.Consumer.UnitTests\\ModularPipelines.Consumer.UnitTests.csproj",
       "test\\ModularPipelines.UnitTests\\ModularPipelines.UnitTests.csproj"
     ]
   }

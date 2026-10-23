@@ -351,6 +351,9 @@ jobs:
           path: ${{ runner.temp }}/redis-test-results
           if-no-files-found: warn
           retention-days: 7
+      - name: Test consumer JSON source generation
+        if: steps.generated_integration.outputs.is_generated_integration != 'true'
+        run: dotnet run --project test/ModularPipelines.Consumer.UnitTests/ModularPipelines.Consumer.UnitTests.csproj --configuration Release --framework net11.0
       - name: Test build pipeline modules
         if: steps.generated_integration.outputs.is_generated_integration != 'true'
         run: dotnet run --project test/ModularPipelines.Build.UnitTests/ModularPipelines.Build.UnitTests.csproj --configuration Release --framework net11.0
