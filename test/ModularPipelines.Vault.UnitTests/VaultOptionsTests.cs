@@ -13,7 +13,7 @@ public class VaultOptionsTests : TestBase
 
         var commandLine = builder.Build(new VaultAuditOptions("disable"));
 
-        await Assert.That(commandLine.ToString()).IsEqualTo("vault audit disable");
+        await Assert.That(RenderCommand(commandLine)).IsEqualTo("vault audit disable");
     }
 
     [Test]

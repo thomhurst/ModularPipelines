@@ -120,7 +120,7 @@ public class JqOptionsTests : TestBase
             Arguments = ["--compact-output", "input.json"],
         });
 
-        await Assert.That(commandLine.ToString())
+        await Assert.That(RenderCommand(commandLine))
             .IsEqualTo("jq . --compact-output input.json");
     }
 
@@ -136,7 +136,7 @@ public class JqOptionsTests : TestBase
             ArgumentsContainToolOptions = true,
         });
 
-        await Assert.That(commandLine.ToString())
+        await Assert.That(RenderCommand(commandLine))
             .IsEqualTo("jq --compact-output -- -1 input.json");
     }
 
@@ -152,7 +152,7 @@ public class JqOptionsTests : TestBase
             ArgumentsContainToolOptions = true,
         });
 
-        await Assert.That(commandLine.ToString())
+        await Assert.That(RenderCommand(commandLine))
             .IsEqualTo("jq -cM -- -1 input.json");
     }
 
@@ -220,7 +220,7 @@ public class JqOptionsTests : TestBase
             ArgumentsContainToolOptions = true,
         });
 
-        await Assert.That(commandLine.ToString())
+        await Assert.That(RenderCommand(commandLine))
             .IsEqualTo("jq -Lmodules -- -1 input.json");
     }
 
@@ -236,7 +236,7 @@ public class JqOptionsTests : TestBase
             ArgumentsContainToolOptions = true,
         });
 
-        await Assert.That(commandLine.ToString())
+        await Assert.That(RenderCommand(commandLine))
             .IsEqualTo("jq --arg name value -- -1 input.json");
     }
 
@@ -252,7 +252,7 @@ public class JqOptionsTests : TestBase
             ArgumentsContainToolOptions = true,
         });
 
-        await Assert.That(commandLine.ToString())
+        await Assert.That(RenderCommand(commandLine))
             .IsEqualTo("jq --compact-output -- -1 input.json");
     }
 

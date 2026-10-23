@@ -19,7 +19,7 @@ public class StateIdentitiesOptionsTests : TestBase
 
         var commandLine = builder.Build(options);
 
-        await Assert.That(commandLine.ToString()).IsEqualTo(filterAddresses
+        await Assert.That(RenderCommand(commandLine)).IsEqualTo(filterAddresses
             ? "terraform state identities -json aws_instance.example module.example"
             : "terraform state identities -json");
     }

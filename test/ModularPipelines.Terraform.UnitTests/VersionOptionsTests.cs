@@ -11,9 +11,9 @@ public class VersionOptionsTests : TestBase
     {
         var builder = await GetService<ICommandLineBuilder>();
 
-        await Assert.That(builder.Build(new TerraformVersionOptions { Json = true }).ToString())
+        await Assert.That(RenderCommand(builder.Build(new TerraformVersionOptions { Json = true })))
             .IsEqualTo("terraform version -json");
-        await Assert.That(builder.Build(new TerraformStacksVersionOptions { Json = true }).ToString())
+        await Assert.That(RenderCommand(builder.Build(new TerraformStacksVersionOptions { Json = true })))
             .IsEqualTo("terraform stacks version -json");
     }
 }

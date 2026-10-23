@@ -14,7 +14,7 @@ public class CargoOptionsTests : TestBase
 
         var commandLine = builder.Build(new CargoAddOptions { Dep = ["serde"] });
 
-        await Assert.That(commandLine.ToString()).IsEqualTo("cargo add serde");
+        await Assert.That(RenderCommand(commandLine)).IsEqualTo("cargo add serde");
     }
 
     [Test]
@@ -24,7 +24,7 @@ public class CargoOptionsTests : TestBase
 
         var commandLine = builder.Build(new CargoAddOptions { Path = "../shared" });
 
-        await Assert.That(commandLine.ToString()).IsEqualTo("cargo add --path ../shared");
+        await Assert.That(RenderCommand(commandLine)).IsEqualTo("cargo add --path ../shared");
     }
 
     [Test]
@@ -34,7 +34,7 @@ public class CargoOptionsTests : TestBase
 
         var commandLine = builder.Build(new CargoAddOptions { Git = "https://example.test/repo.git" });
 
-        await Assert.That(commandLine.ToString())
+        await Assert.That(RenderCommand(commandLine))
             .IsEqualTo("cargo add --git https://example.test/repo.git");
     }
 
@@ -59,7 +59,7 @@ public class CargoOptionsTests : TestBase
             Arguments = ["--help"],
         });
 
-        await Assert.That(commandLine.ToString())
+        await Assert.That(RenderCommand(commandLine))
             .IsEqualTo("cargo test -- filter --help");
     }
 
@@ -75,7 +75,7 @@ public class CargoOptionsTests : TestBase
             ArgumentsContainToolOptions = true,
         });
 
-        await Assert.That(commandLine.ToString())
+        await Assert.That(RenderCommand(commandLine))
             .IsEqualTo("cargo --color=never test -- filter");
     }
 }

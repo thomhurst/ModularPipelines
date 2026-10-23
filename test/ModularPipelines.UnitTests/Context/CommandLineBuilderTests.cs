@@ -171,7 +171,7 @@ public class CommandLineBuilderTests : TestBase
             Retries = 5,
         });
 
-        await Assert.That(result.ToString()).IsEqualTo("tool --retries 5");
+        await Assert.That(RenderCommand(result)).IsEqualTo("tool --retries 5");
     }
 
     [Test]
@@ -443,7 +443,7 @@ public class CommandLineBuilderTests : TestBase
             RunTests = "tests.jq",
         });
 
-        await Assert.That(result.ToString()).IsEqualTo("jq . --run-tests tests.jq");
+        await Assert.That(RenderCommand(result)).IsEqualTo("jq . --run-tests tests.jq");
     }
 
     [Test]
@@ -458,7 +458,7 @@ public class CommandLineBuilderTests : TestBase
             Filter = "-1",
         });
 
-        await Assert.That(result.ToString()).IsEqualTo("jq --compact -- -1");
+        await Assert.That(RenderCommand(result)).IsEqualTo("jq --compact -- -1");
     }
 
     [Test]
@@ -473,7 +473,7 @@ public class CommandLineBuilderTests : TestBase
             Filter = "-1",
         });
 
-        await Assert.That(result.ToString()).IsEqualTo("tool --no-feature -- -1");
+        await Assert.That(RenderCommand(result)).IsEqualTo("tool --no-feature -- -1");
     }
 
     [Test]
@@ -505,7 +505,7 @@ public class CommandLineBuilderTests : TestBase
             Filter = "-1",
         });
 
-        await Assert.That(result.ToString()).IsEqualTo($"tool {flag} -- -1 operand");
+        await Assert.That(RenderCommand(result)).IsEqualTo($"tool {flag} -- -1 operand");
     }
 
     [Test]
@@ -541,7 +541,7 @@ public class CommandLineBuilderTests : TestBase
             Filter = "-1",
         });
 
-        await Assert.That(result.ToString()).IsEqualTo($"tool -- -1 {argument}");
+        await Assert.That(RenderCommand(result)).IsEqualTo($"tool -- -1 {argument}");
     }
 
     [Test]
@@ -557,7 +557,7 @@ public class CommandLineBuilderTests : TestBase
             Filter = "-1",
         });
 
-        await Assert.That(result.ToString()).IsEqualTo($"tool -- -1 {argument}");
+        await Assert.That(RenderCommand(result)).IsEqualTo($"tool -- -1 {argument}");
     }
 
     [Test]
@@ -571,7 +571,7 @@ public class CommandLineBuilderTests : TestBase
             ConfigPath = "config.json",
         });
 
-        await Assert.That(result.ToString()).IsEqualTo("processor config.json --custom-flag");
+        await Assert.That(RenderCommand(result)).IsEqualTo("processor config.json --custom-flag");
     }
 
     [Test]
@@ -585,7 +585,7 @@ public class CommandLineBuilderTests : TestBase
             ScpFlags = ["-F", "config"],
         });
 
-        await Assert.That(result.ToString())
+        await Assert.That(RenderCommand(result))
             .IsEqualTo("tool copy --force -- -F config source destination");
     }
 
@@ -601,7 +601,7 @@ public class CommandLineBuilderTests : TestBase
             ArgumentsContainToolOptions = true,
         });
 
-        await Assert.That(result.ToString())
+        await Assert.That(RenderCommand(result))
             .IsEqualTo("tool copy --force -- -F config source destination");
     }
 
@@ -612,7 +612,7 @@ public class CommandLineBuilderTests : TestBase
 
         var result = builder.Build(new TestTerminatedPassthroughOptions("source", "destination"));
 
-        await Assert.That(result.ToString()).IsEqualTo("tool copy source destination");
+        await Assert.That(RenderCommand(result)).IsEqualTo("tool copy source destination");
     }
 
     [Test]
@@ -689,7 +689,7 @@ public class CommandLineBuilderTests : TestBase
             ArgumentsContainToolOptions = true,
         });
 
-        await Assert.That(result.ToString())
+        await Assert.That(RenderCommand(result))
             .IsEqualTo("jq -- value --run-tests tests.jq");
     }
 
@@ -752,7 +752,7 @@ public class CommandLineBuilderTests : TestBase
             RunTests = "tests.jq",
         });
 
-        await Assert.That(result.ToString()).IsEqualTo("jq --arg name -- --run-tests tests.jq");
+        await Assert.That(RenderCommand(result)).IsEqualTo("jq --arg name -- --run-tests tests.jq");
     }
 
     [Test]
@@ -765,7 +765,7 @@ public class CommandLineBuilderTests : TestBase
             TerminalArgument = "-x",
         });
 
-        await Assert.That(result.ToString()).IsEqualTo("jq -- -x");
+        await Assert.That(RenderCommand(result)).IsEqualTo("jq -- -x");
     }
 
     [Test]
@@ -779,7 +779,7 @@ public class CommandLineBuilderTests : TestBase
             ExtensionOptions = ["--report-trx"],
         });
 
-        await Assert.That(result.ToString()).IsEqualTo(
+        await Assert.That(RenderCommand(result)).IsEqualTo(
             "dotnet test -- --filter Category=Unit -- --report-trx");
     }
 
@@ -861,7 +861,7 @@ public class CommandLineBuilderTests : TestBase
             RunSettings = ["extra"],
         });
 
-        await Assert.That(result.ToString()).IsEqualTo("jq -- -1 extra");
+        await Assert.That(RenderCommand(result)).IsEqualTo("jq -- -1 extra");
     }
 
     [Test]
@@ -876,7 +876,7 @@ public class CommandLineBuilderTests : TestBase
             TerminalArgument = "-x",
         });
 
-        await Assert.That(result.ToString()).IsEqualTo("jq -- input -x");
+        await Assert.That(RenderCommand(result)).IsEqualTo("jq -- input -x");
     }
 
     [Test]
@@ -890,7 +890,7 @@ public class CommandLineBuilderTests : TestBase
             RunSettings = ["--foo"],
         });
 
-        await Assert.That(result.ToString()).IsEqualTo("jq --arg name -- . -- --foo");
+        await Assert.That(RenderCommand(result)).IsEqualTo("jq --arg name -- . -- --foo");
     }
 
     [Test]
@@ -939,7 +939,7 @@ public class CommandLineBuilderTests : TestBase
             ArgumentsContainToolOptions = true,
         });
 
-        await Assert.That(result.ToString()).IsEqualTo("jq --arg name -- tail");
+        await Assert.That(RenderCommand(result)).IsEqualTo("jq --arg name -- tail");
     }
 
     [Test]
@@ -954,7 +954,7 @@ public class CommandLineBuilderTests : TestBase
             ArgumentsContainToolOptions = true,
         });
 
-        await Assert.That(result.ToString())
+        await Assert.That(RenderCommand(result))
             .IsEqualTo("jq --arg name value -- -1 input.json");
     }
 
@@ -970,7 +970,7 @@ public class CommandLineBuilderTests : TestBase
             ArgumentsContainToolOptions = true,
         });
 
-        await Assert.That(result.ToString())
+        await Assert.That(RenderCommand(result))
             .IsEqualTo("jq --color=never -- -1");
     }
 
@@ -986,7 +986,7 @@ public class CommandLineBuilderTests : TestBase
             ArgumentsContainToolOptions = true,
         });
 
-        await Assert.That(result.ToString())
+        await Assert.That(RenderCommand(result))
             .IsEqualTo("pulumi package info --color=never aws -- param");
     }
 
@@ -1000,7 +1000,7 @@ public class CommandLineBuilderTests : TestBase
 
         using (Assert.Multiple())
         {
-            await Assert.That(result.ToString()).IsEqualTo("test input");
+            await Assert.That(RenderCommand(result)).IsEqualTo("test input");
             await Assert.That(options.GetterCount).IsEqualTo(1);
         }
     }
@@ -1033,7 +1033,7 @@ public class CommandLineBuilderTests : TestBase
             ArgumentsContainToolOptions = true,
         });
 
-        await Assert.That(result.ToString())
+        await Assert.That(RenderCommand(result))
             .IsEqualTo("jq --define:value -- -1");
     }
 
@@ -1049,7 +1049,7 @@ public class CommandLineBuilderTests : TestBase
             ArgumentsContainToolOptions = true,
         });
 
-        await Assert.That(result.ToString())
+        await Assert.That(RenderCommand(result))
             .IsEqualTo("jq --variablevalue -- -1");
     }
 
@@ -1065,7 +1065,7 @@ public class CommandLineBuilderTests : TestBase
             ArgumentsContainToolOptions = true,
         });
 
-        await Assert.That(result.ToString())
+        await Assert.That(RenderCommand(result))
             .IsEqualTo("jq -- tail -Debug value");
     }
 
@@ -1081,7 +1081,7 @@ public class CommandLineBuilderTests : TestBase
             ArgumentsContainToolOptions = true,
         });
 
-        await Assert.That(result.ToString())
+        await Assert.That(RenderCommand(result))
             .IsEqualTo("jq --dry-run client -- -1");
     }
 
@@ -1097,7 +1097,7 @@ public class CommandLineBuilderTests : TestBase
             ArgumentsContainToolOptions = true,
         });
 
-        await Assert.That(result.ToString())
+        await Assert.That(RenderCommand(result))
             .IsEqualTo("jq -- tail --arguments one two");
     }
 
@@ -1113,7 +1113,7 @@ public class CommandLineBuilderTests : TestBase
             RunSettings = ["tail"],
         });
 
-        await Assert.That(result.ToString())
+        await Assert.That(RenderCommand(result))
             .IsEqualTo("jq --arguments one -- two -- tail");
     }
 
@@ -1129,7 +1129,7 @@ public class CommandLineBuilderTests : TestBase
             ArgumentsContainToolOptions = true,
         });
 
-        await Assert.That(result.ToString())
+        await Assert.That(RenderCommand(result))
             .IsEqualTo("jq -- tail --arguments=one two");
     }
 
@@ -1213,7 +1213,7 @@ public class CommandLineBuilderTests : TestBase
             ArgumentsContainToolOptions = true,
         });
 
-        await Assert.That(result.ToString()).IsEqualTo("tool --zero -- tail");
+        await Assert.That(RenderCommand(result)).IsEqualTo("tool --zero -- tail");
     }
 
     [Test]
@@ -1228,7 +1228,7 @@ public class CommandLineBuilderTests : TestBase
             ArgumentsContainToolOptions = true,
         });
 
-        await Assert.That(result.ToString())
+        await Assert.That(RenderCommand(result))
             .IsEqualTo("liquibase update --set --verbose -- -input");
     }
 
@@ -1245,7 +1245,7 @@ public class CommandLineBuilderTests : TestBase
             ArgumentsContainToolOptions = true,
         });
 
-        await Assert.That(result.ToString())
+        await Assert.That(RenderCommand(result))
             .IsEqualTo("jq . -- input.json --compact-output");
     }
 
@@ -1261,7 +1261,7 @@ public class CommandLineBuilderTests : TestBase
             ArgumentsContainToolOptions = true,
         });
 
-        await Assert.That(result.ToString())
+        await Assert.That(RenderCommand(result))
             .IsEqualTo("liquibase --verbose update -- -input");
     }
 
@@ -1294,7 +1294,7 @@ public class CommandLineBuilderTests : TestBase
             ArgumentsContainToolOptions = true,
         });
 
-        await Assert.That(result.ToString())
+        await Assert.That(RenderCommand(result))
             .IsEqualTo("dotnet -- tail -ss https://symbols");
     }
 
@@ -1311,7 +1311,7 @@ public class CommandLineBuilderTests : TestBase
             ArgumentsContainToolOptions = true,
         });
 
-        await Assert.That(result.ToString())
+        await Assert.That(RenderCommand(result))
             .IsEqualTo("jq --color=always --color=never -- -1");
     }
 
@@ -1343,7 +1343,7 @@ public class CommandLineBuilderTests : TestBase
             RunSettings = [],
         });
 
-        await Assert.That(result.ToString()).IsEqualTo("dotnet test");
+        await Assert.That(RenderCommand(result)).IsEqualTo("dotnet test");
     }
 
     [Test]
@@ -1394,7 +1394,7 @@ public class CommandLineBuilderTests : TestBase
             CommandParts = ["runtime", "command"],
         });
 
-        await Assert.That(result.ToString()).IsEqualTo("runtime-tool runtime command");
+        await Assert.That(RenderCommand(result)).IsEqualTo("runtime-tool runtime command");
     }
 
     [Test]
@@ -1404,7 +1404,7 @@ public class CommandLineBuilderTests : TestBase
 
         var result = builder.Build(new TestAliasOptions());
 
-        await Assert.That(result.ToString()).IsEqualTo("mytool short");
+        await Assert.That(RenderCommand(result)).IsEqualTo("mytool short");
     }
 
     [Test]
@@ -1417,7 +1417,7 @@ public class CommandLineBuilderTests : TestBase
             Force = true,
         });
 
-        await Assert.That(result.ToString()).IsEqualTo("mytool resource deploy --force");
+        await Assert.That(RenderCommand(result)).IsEqualTo("mytool resource deploy --force");
     }
 
     [Test]
@@ -1473,7 +1473,7 @@ public class CommandLineBuilderTests : TestBase
 
         var result = builder.Build(options);
 
-        await Assert.That(result.ToString()).IsEqualTo("git status -s");
+        await Assert.That(RenderCommand(result)).IsEqualTo("git status -s");
     }
 
     [Test]
@@ -1510,7 +1510,7 @@ public class CommandLineBuilderTests : TestBase
             ChangelogFile = "main.xml"
         });
 
-        await Assert.That(result.ToString()).IsEqualTo(
+        await Assert.That(RenderCommand(result)).IsEqualTo(
             "liquibase --search-path=changelogs update --changelog-file=main.xml");
     }
 
@@ -1534,7 +1534,7 @@ public class CommandLineBuilderTests : TestBase
             ],
         });
 
-        await Assert.That(result.ToString()).IsEqualTo(
+        await Assert.That(RenderCommand(result)).IsEqualTo(
             "docker --global-unmodeled --context remote buildx history logs "
             + "early-unmodeled build-reference --normal-unmodeled --follow pass-through manual");
     }
@@ -1553,7 +1553,7 @@ public class CommandLineBuilderTests : TestBase
             ],
         });
 
-        await Assert.That(result.ToString()).IsEqualTo("jq --unmodeled -- -1");
+        await Assert.That(RenderCommand(result)).IsEqualTo("jq --unmodeled -- -1");
     }
 
     [Test]
@@ -1571,7 +1571,7 @@ public class CommandLineBuilderTests : TestBase
             ],
         });
 
-        await Assert.That(result.ToString()).IsEqualTo(
+        await Assert.That(RenderCommand(result)).IsEqualTo(
             "mytool sub command --force manual terminal");
     }
 
@@ -1632,7 +1632,7 @@ public class CommandLineBuilderTests : TestBase
             Follow = true,
         });
 
-        await Assert.That(result.ToString()).IsEqualTo(
+        await Assert.That(RenderCommand(result)).IsEqualTo(
             "docker --context remote buildx history logs build-reference --follow");
     }
 

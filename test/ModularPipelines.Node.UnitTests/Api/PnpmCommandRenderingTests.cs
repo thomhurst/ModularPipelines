@@ -18,7 +18,7 @@ public class PnpmCommandRenderingTests : TestBase
 
         var commandLine = builder.Build(options);
 
-        await Assert.That(commandLine.ToString())
+        await Assert.That(RenderCommand(commandLine))
             .IsEqualTo($"pnpm {(create ? "create" : "dlx")} --cpu x64 --cpu arm64");
     }
 
@@ -34,7 +34,7 @@ public class PnpmCommandRenderingTests : TestBase
             Json = true,
         });
 
-        await Assert.That(commandLine.ToString())
+        await Assert.That(RenderCommand(commandLine))
             .IsEqualTo("pnpm stage --dry-run --json publish package.tgz");
     }
 
@@ -49,7 +49,7 @@ public class PnpmCommandRenderingTests : TestBase
             Json = true,
         });
 
-        await Assert.That(commandLine.ToString())
+        await Assert.That(RenderCommand(commandLine))
             .IsEqualTo("pnpm audit --json signatures");
     }
 }

@@ -110,6 +110,7 @@ public class GlobalOptionsBaseGenerator : ICodeGenerator
             sb.AppendLine();
         }
 
+        GeneratorUtils.GenerateRedactingPrintMembers(sb);
         sb.AppendLine("}");
 
         return sb.ToString();

@@ -17,7 +17,7 @@ public class GlobalOptionsTests : TestBase
             Json = true,
         });
 
-        await Assert.That(command.ToString()).IsEqualTo("terraform -chdir=infrastructure validate -json");
+        await Assert.That(RenderCommand(command)).IsEqualTo("terraform -chdir=infrastructure validate -json");
     }
 
     [Test]
@@ -39,7 +39,7 @@ public class GlobalOptionsTests : TestBase
     public async Task Unset_Chdir_Is_Omitted()
     {
         var builder = await GetService<ICommandLineBuilder>();
-        await Assert.That(builder.Build(new TerraformValidateOptions()).ToString()).IsEqualTo("terraform validate");
+        await Assert.That(RenderCommand(builder.Build(new TerraformValidateOptions()))).IsEqualTo("terraform validate");
     }
 
     [Test]

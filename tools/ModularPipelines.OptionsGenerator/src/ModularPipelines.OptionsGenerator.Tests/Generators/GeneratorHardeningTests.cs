@@ -1,6 +1,7 @@
 using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.External;
 using ModularPipelines.OptionsGenerator.Generators;
@@ -2041,7 +2042,10 @@ public class GeneratorHardeningTests
         var separateScopes = (await new OptionsClassGenerator().GenerateAsync(
             tool with { GlobalOptionsBeforeSubcommands = true })).Single().Content;
         await Assert.That(separateScopes).Contains("CliDebug");
-        await Assert.That(separateScopes).DoesNotContain("override");
+        var propertyOverrides = CSharpSyntaxTree.ParseText(separateScopes).GetRoot()
+            .DescendantNodes().OfType<PropertyDeclarationSyntax>()
+            .Where(property => property.Modifiers.Any(SyntaxKind.OverrideKeyword));
+        await Assert.That(propertyOverrides).IsEmpty();
     }
 
     [Test]

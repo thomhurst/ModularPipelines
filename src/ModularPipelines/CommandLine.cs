@@ -53,13 +53,17 @@ public record CommandLine
     }
 
     /// <summary>
-    /// Returns the command line as a string suitable for display.
+    /// Returns the tool name with arguments redacted for diagnostic display.
     /// </summary>
-    /// <returns>The command line as a display string.</returns>
+    /// <remarks>
+    /// Raw arguments can contain unregistered secrets. Use <see cref="Arguments"/> for execution
+    /// and <see cref="CommandInvocation.CommandInput"/> for a secret-masked command display.
+    /// </remarks>
+    /// <returns>The tool name followed by a redaction marker when arguments are present.</returns>
     public override string ToString()
     {
         return Arguments.Count == 0
             ? Tool
-            : $"{Tool} {string.Join(" ", Arguments)}";
+            : $"{Tool} <redacted>";
     }
 }

@@ -21,7 +21,7 @@ public class GlobalSwitchScopeTests : TestBase
         options.GlobalConfig = "client";
         options.LocalConfig = "command";
 
-        await Assert.That(builder.Build(options).ToString()).IsEqualTo(
+        await Assert.That(RenderCommand(builder.Build(options))).IsEqualTo(
             "tool --debug --config client run --no-debug --config command");
     }
 
@@ -39,7 +39,7 @@ public class GlobalSwitchScopeTests : TestBase
             RunSettings = ["setting=value"],
         });
 
-        await Assert.That(result.ToString()).IsEqualTo($"tool run {flag} -- setting=value");
+        await Assert.That(RenderCommand(result)).IsEqualTo($"tool run {flag} -- setting=value");
     }
 
     [Test]
@@ -56,7 +56,7 @@ public class GlobalSwitchScopeTests : TestBase
             AdditionalArguments = [new("--debug", IsGlobalOption: true)],
         });
 
-        await Assert.That(result.ToString()).IsEqualTo($"tool --debug run {name} --debug -- setting=value");
+        await Assert.That(RenderCommand(result)).IsEqualTo($"tool --debug run {name} --debug -- setting=value");
     }
 
     [Test]
@@ -70,7 +70,7 @@ public class GlobalSwitchScopeTests : TestBase
             RunSettings = ["setting=value"],
         });
 
-        await Assert.That(result.ToString()).IsEqualTo("tool run -D trace -- setting=value");
+        await Assert.That(RenderCommand(result)).IsEqualTo("tool run -D trace -- setting=value");
     }
 
     [Test]
@@ -84,7 +84,7 @@ public class GlobalSwitchScopeTests : TestBase
             RunSettings = ["setting=value"],
         });
 
-        await Assert.That(result.ToString()).IsEqualTo("tool run -c operand -- setting=value");
+        await Assert.That(RenderCommand(result)).IsEqualTo("tool run -c operand -- setting=value");
     }
 
     [Test]
@@ -98,7 +98,7 @@ public class GlobalSwitchScopeTests : TestBase
             RunSettings = ["setting=value"],
         });
 
-        await Assert.That(result.ToString()).IsEqualTo("tool --no-debug run -- setting=value");
+        await Assert.That(RenderCommand(result)).IsEqualTo("tool --no-debug run -- setting=value");
     }
 
     [Test]

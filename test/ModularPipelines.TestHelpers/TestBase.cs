@@ -18,12 +18,22 @@ public abstract class TestBase
     private readonly List<IPipeline> _pipelines = [];
 
     /// <summary>
+    /// Renders raw command components for assertions, including any secret values.
+    /// </summary>
+    protected static string RenderCommand(CommandLine commandLine)
+    {
+        return commandLine.Arguments.Count == 0
+            ? commandLine.Tool
+            : $"{commandLine.Tool} {string.Join(" ", commandLine.Arguments)}";
+    }
+
+    /// <summary>
     /// Renders a complete command without starting its executable.
     /// </summary>
     public async Task<string> RenderCommand(CommandLineToolOptions options)
     {
         var builder = await GetService<ICommandLineBuilder>();
-        return builder.Build(options).ToString();
+        return RenderCommand(builder.Build(options));
     }
 
     private class DummyModule : SimpleTestModule<IDictionary<string, object>?>

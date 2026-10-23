@@ -29,7 +29,7 @@ public class SyftGlobalOptionsTests : TestBase
     public async Task Quiet_Precedes_Command_While_Local_Flags_Follow()
     {
         var builder = await GetService<ICommandLineBuilder>();
-        await Assert.That(builder.Build(new SyftConfigOptions { Quiet = true, Load = true }).ToString())
+        await Assert.That(RenderCommand(builder.Build(new SyftConfigOptions { Quiet = true, Load = true })))
             .IsEqualTo("syft --quiet config --load");
     }
 
@@ -39,7 +39,7 @@ public class SyftGlobalOptionsTests : TestBase
     public async Task Unset_Settings_And_False_Quiet_Are_Omitted(bool? quiet)
     {
         var builder = await GetService<ICommandLineBuilder>();
-        await Assert.That(builder.Build(new SyftConfigLocationsOptions { Quiet = quiet }).ToString())
+        await Assert.That(RenderCommand(builder.Build(new SyftConfigLocationsOptions { Quiet = quiet })))
             .IsEqualTo("syft config locations");
     }
 
@@ -49,7 +49,7 @@ public class SyftGlobalOptionsTests : TestBase
     public async Task Verbosity_Keeps_Explicit_Count(int count)
     {
         var builder = await GetService<ICommandLineBuilder>();
-        await Assert.That(builder.Build(new SyftConfigLocationsOptions { Verbose = count }).ToString())
+        await Assert.That(RenderCommand(builder.Build(new SyftConfigLocationsOptions { Verbose = count })))
             .IsEqualTo($"syft --verbose={count} config locations");
     }
 
@@ -91,7 +91,7 @@ public class SyftGlobalOptionsTests : TestBase
         await Assert.That(command.Arguments.Take(2)).IsEquivalentTo(["--config=team.yaml", "login"]);
         await Assert.That(command.Arguments).Contains("--password=syft-test-password");
         var obfuscator = await GetService<ISecretObfuscator>();
-        var masked = obfuscator.Obfuscate(command.ToString(), options);
+        var masked = obfuscator.Obfuscate(RenderCommand(command), options);
         await Assert.That(masked).DoesNotContain("syft-test-password");
         await Assert.That(masked).Contains("team.yaml");
     }

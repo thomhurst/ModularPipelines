@@ -17,6 +17,6 @@ public class VersionOptionsTests : TestBase
             Output = ArgoCdVersionOutput.Json,
         };
 
-        await Assert.That(builder.Build(options).ToString()).IsEqualTo("argocd version --client --output=json");
+        await Assert.That(RenderCommand(builder.Build(options))).IsEqualTo("argocd version --client --output=json");
     }
 }
