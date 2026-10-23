@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Buildah.Options;
 using ModularPipelines;
-using ModularPipelines.Models;
 
 namespace ModularPipelines.Buildah.Options;
 
