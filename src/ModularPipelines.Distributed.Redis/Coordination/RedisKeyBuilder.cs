@@ -30,6 +30,9 @@ internal class RedisKeyBuilder(string prefix, string runId)
     /// <summary>Gets the module for each claim token, retained until run cleanup to fence late retries.</summary>
     public string Claims => $"{_runPrefix}:work:claims";
 
+    /// <summary>Gets enqueue request tokens retained until run cleanup, so retries cannot restore withdrawn work.</summary>
+    public string EnqueueReceipts => $"{_runPrefix}:work:enqueue-receipts";
+
     /// <summary>Gets lost workers for each module's expired leases, retained across claims.</summary>
     public string LeaseExpirationWorkers => $"{_runPrefix}:work:lease-expirations";
 
@@ -106,10 +109,11 @@ internal class RedisKeyBuilder(string prefix, string runId)
 
     /// <summary>
     /// Returns every key a coordination script may touch: <see cref="CoordinationKeys"/> followed by
-    /// <see cref="MasterHeartbeat"/> as <c>KEYS[13]</c> and <see cref="Claims"/> as <c>KEYS[14]</c>.
+    /// <see cref="MasterHeartbeat"/> as <c>KEYS[13]</c>, <see cref="Claims"/> as <c>KEYS[14]</c>,
+    /// and <see cref="EnqueueReceipts"/> as <c>KEYS[15]</c>.
     /// Declaring every key keeps scripts Redis Cluster safe.
     /// </summary>
-    public IReadOnlyList<string> ScriptKeys => [.. CoordinationKeys, MasterHeartbeat, Claims];
+    public IReadOnlyList<string> ScriptKeys => [.. CoordinationKeys, MasterHeartbeat, Claims, EnqueueReceipts];
 
     /// <summary>
     /// Gets the coordination keys deleted when the run ends. The completion flag is kept so workers that
@@ -120,5 +124,6 @@ internal class RedisKeyBuilder(string prefix, string runId)
         .. CoordinationKeys.Where(key => key != CompletionFlag),
         MasterHeartbeat,
         Claims,
+        EnqueueReceipts,
     ];
 }

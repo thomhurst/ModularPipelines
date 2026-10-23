@@ -39,6 +39,34 @@ public class RedisDistributedCoordinatorContractTests
         });
 
     [Test]
+    public Task Lost_Enqueue_Response_Retry_Does_Not_Restore_Withdrawn_Work() =>
+        RunAsync(async (coordinator, client, keys) =>
+        {
+            var assignment = DistributedCoordinatorContract.CreateAssignment("Withdrawn");
+            var attempts = new List<RespireValue[]>();
+            var connection = LoseFirstWriteResponse(client, attempts, async () =>
+            {
+                // A different coordinator withdraws committed work before the enqueue retries.
+                await Assert.That(await coordinator.WithdrawAssignmentAsync(assignment.ModuleId, CancellationToken.None)).IsTrue();
+            });
+            await using var writer = new RedisDistributedCoordinator(connection, keys, new RedisOptions());
+
+            await writer.EnqueueModuleAsync(assignment, CancellationToken.None);
+
+            await Assert.That(attempts).Count().IsEqualTo(2);
+            await Assert.That(attempts[1]).IsEquivalentTo(attempts[0]);
+            await Assert.That(await client.Hashes.GetAsync<string>(keys.QueueIndex, assignment.ModuleId.Value)).IsNull();
+            var worker = new WorkerId("worker");
+            var (_, restored) = await ((RedisDistributedCoordinator) coordinator).TryClaimAsync(worker, new HashSet<Capability>(), CancellationToken.None);
+            await Assert.That(restored).IsNull();
+
+            // A new enqueue of the same module remains valid; only replaying the old request is fenced.
+            await coordinator.EnqueueModuleAsync(assignment, CancellationToken.None);
+            var (_, fresh) = await ((RedisDistributedCoordinator) coordinator).TryClaimAsync(worker, new HashSet<Capability>(), CancellationToken.None);
+            await Assert.That(fresh!.Assignment.ModuleId).IsEqualTo(assignment.ModuleId);
+        });
+
+    [Test]
     [Arguments(false)]
     [Arguments(true)]
     public Task Lost_Publish_Response_Retries_Without_Losing_The_Result(bool useLease) =>
@@ -813,19 +841,24 @@ public class RedisDistributedCoordinatorContractTests
             workerTimeout: TimeSpan.FromMilliseconds(300));
 
     [Test]
-    public Task Heartbeat_Refreshes_Run_Key_Expiry() =>
+    [Arguments(false)]
+    [Arguments(true)]
+    public Task Heartbeat_Refreshes_Run_Key_Expiry(bool enqueueReceipts) =>
         RunAsync(async (coordinator, client, keys) =>
         {
             await coordinator.EnqueueModuleAsync(
                 DistributedCoordinatorContract.CreateAssignment("Contract.Ttl"),
                 CancellationToken.None);
-            await client.ExpireAsync(keys.WorkQueue, TimeSpan.FromSeconds(5));
+            var key = enqueueReceipts ? keys.EnqueueReceipts : keys.WorkQueue;
+            var initialTtl = await client.Keys.ExpiryAsync(key);
+            await Assert.That(initialTtl.TimeToLive!.Value).IsGreaterThan(TimeSpan.FromSeconds(30));
+            await client.ExpireAsync(key, TimeSpan.FromSeconds(5));
 
             await coordinator.SendHeartbeatAsync(
                 new WorkerStatus { WorkerId = new WorkerId("contract-worker") },
                 CancellationToken.None);
 
-            var ttl = await client.Keys.ExpiryAsync(keys.WorkQueue);
+            var ttl = await client.Keys.ExpiryAsync(key);
             await Assert.That(ttl.TimeToLive!.Value).IsGreaterThan(TimeSpan.FromSeconds(30));
         });
 
@@ -919,6 +952,7 @@ public class RedisDistributedCoordinatorContractTests
                     CancellationToken.None);
                 var lease = await coordinator.DequeueModuleAsync(new WorkerId("contract-worker"), new HashSet<Capability>(), CancellationToken.None);
                 await Assert.That(await client.ExistsAsync(keys.Claims)).IsTrue();
+                await Assert.That(await client.ExistsAsync(keys.EnqueueReceipts)).IsTrue();
                 await coordinator.PublishResultAsync(
                     DistributedCoordinatorContract.CreateResult("Contract.Cleanup", "done"),
                     lease,
@@ -979,8 +1013,10 @@ public class RedisDistributedCoordinatorContractTests
 
     [Test]
     public Task Lease_Reconciliation_Before_Expiry() =>
-        RunAsync((coordinator, _, _) =>
-            ModularPipelines.TestHelpers.LeaseReconciliationChecks.ReconnectBeforeExpiryAsync(coordinator, coordinator));
+        RunAsync((coordinator, _, _, _) =>
+            ModularPipelines.TestHelpers.LeaseReconciliationChecks.ReconnectBeforeExpiryAsync(coordinator, coordinator),
+            readySignalCount: 1,
+            workerTimeout: TimeSpan.FromSeconds(30));
 
     [Test]
     [Arguments(false)]
@@ -990,7 +1026,8 @@ public class RedisDistributedCoordinatorContractTests
             ModularPipelines.TestHelpers.LeaseReconciliationChecks.ReconnectAfterReassignmentAsync(
                 coordinator, () => Task.Delay(DistributedCoordinatorContract.LeaseTimeout * 3), sameWorker));
 
-    private static IRespireClient LoseFirstWriteResponse(IRespireClient client, List<RespireValue[]> attempts)
+    private static IRespireClient LoseFirstWriteResponse(
+        IRespireClient client, List<RespireValue[]> attempts, Func<Task>? afterFirstWrite = null)
     {
         var scripts = new Mock<IRespireScriptCommands>(MockBehavior.Strict);
         scripts.Setup(commands => commands.ExecuteIntegerAsync(
@@ -1001,6 +1038,11 @@ public class RedisDistributedCoordinatorContractTests
                 var result = await client.Scripts.ExecuteIntegerAsync(script, scriptKeys, arguments, token);
                 if (attempts.Count == 1)
                 {
+                    if (afterFirstWrite is not null)
+                    {
+                        await afterFirstWrite();
+                    }
+
                     // The script committed, but its response never reached the caller.
                     throw new RespireTimeoutException("EVALSHA", TimeSpan.FromSeconds(1));
                 }
