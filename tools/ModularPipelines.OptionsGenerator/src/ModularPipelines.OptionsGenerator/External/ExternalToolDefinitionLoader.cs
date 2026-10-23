@@ -383,7 +383,9 @@ public static class ExternalToolDefinitionLoader
 
     private static bool IsReadOnlyListKeyValueType(string cSharpType)
     {
-        var type = cSharpType.Replace(" ", string.Empty, StringComparison.Ordinal);
+        var type = cSharpType
+            .Replace(" ", string.Empty, StringComparison.Ordinal)
+            .Replace("global::", string.Empty, StringComparison.Ordinal);
         return type is "IReadOnlyList<KeyValue>"
             or "IReadOnlyList<KeyValue>?"
             or "System.Collections.Generic.IReadOnlyList<ModularPipelines.KeyValue>"

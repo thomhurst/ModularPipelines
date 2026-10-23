@@ -1028,6 +1028,12 @@ public class ExternalToolDefinitionTests
     [Arguments("IReadOnlyList<KeyValue>?")]
     [Arguments("System.Collections.Generic.IReadOnlyList<ModularPipelines.KeyValue>")]
     [Arguments("System.Collections.Generic.IReadOnlyList<ModularPipelines.KeyValue>?")]
+    [Arguments("global::System.Collections.Generic.IReadOnlyList<ModularPipelines.KeyValue>")]
+    [Arguments("global::System.Collections.Generic.IReadOnlyList<ModularPipelines.KeyValue>?")]
+    [Arguments("System.Collections.Generic.IReadOnlyList<global::ModularPipelines.KeyValue>")]
+    [Arguments("System.Collections.Generic.IReadOnlyList<global::ModularPipelines.KeyValue>?")]
+    [Arguments("global::System.Collections.Generic.IReadOnlyList<global::ModularPipelines.KeyValue>")]
+    [Arguments("global::System.Collections.Generic.IReadOnlyList<global::ModularPipelines.KeyValue>?")]
     [Arguments("System.Collections.Generic.IReadOnlyList<ModularPipelines.Models.KeyValue>")]
     [Arguments("System.Collections.Generic.IReadOnlyList<ModularPipelines.Models.KeyValue>?")]
     public async Task External_Metadata_Accepts_Secret_Keys_On_KeyValue_Collections(string cSharpType)
