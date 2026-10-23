@@ -18,21 +18,7 @@ internal sealed class RedisOptionsValidator(string optionsName, IOptions<Distrib
         }
 
         var failures = new List<string>();
-        try
-        {
-            if (RedisConnectionProvider.CreateConfiguration(options).Endpoints.Count == 0)
-            {
-                failures.Add(
-                    $"{nameof(RedisOptions)}.{nameof(RedisOptions.ConnectionString)} or " +
-                    $"{nameof(RedisOptions.ConfigureConnection)} must supply at least one endpoint after configuration.");
-            }
-        }
-        catch (Exception exception) when (exception is ArgumentException or RespireConfigurationException)
-        {
-            // Respire wraps malformed connection strings in RespireConfigurationException.
-            failures.Add(
-                $"{nameof(RedisOptions)}.{nameof(RedisOptions.ConnectionString)} is invalid: {exception.Message}");
-        }
+        ValidateConnection(options, failures);
 
         if (string.IsNullOrWhiteSpace(options.KeyPrefix))
         {
@@ -49,6 +35,34 @@ internal sealed class RedisOptionsValidator(string optionsName, IOptions<Distrib
             failures.Add($"{nameof(RedisOptions)}.{nameof(RedisOptions.MasterStartTimeout)} must be positive and finite.");
         }
 
+        ValidateKeyLifetime(name, options, failures);
+
+        return failures.Count == 0
+            ? ValidateOptionsResult.Success
+            : ValidateOptionsResult.Fail(failures);
+    }
+
+    private static void ValidateConnection(RedisOptions options, List<string> failures)
+    {
+        try
+        {
+            if (RedisConnectionProvider.CreateConfiguration(options).Endpoints.Count == 0)
+            {
+                failures.Add(
+                    $"{nameof(RedisOptions)}.{nameof(RedisOptions.ConnectionString)} or " +
+                    $"{nameof(RedisOptions.ConfigureConnection)} must supply at least one endpoint after configuration.");
+            }
+        }
+        catch (Exception exception) when (exception is ArgumentException or RespireConfigurationException)
+        {
+            // Respire wraps malformed connection strings in RespireConfigurationException.
+            failures.Add(
+                $"{nameof(RedisOptions)}.{nameof(RedisOptions.ConnectionString)} is invalid: {exception.Message}");
+        }
+    }
+
+    private void ValidateKeyLifetime(string? name, RedisOptions options, List<string> failures)
+    {
         if (options.TimeToLive <= TimeSpan.Zero)
         {
             failures.Add($"{nameof(RedisOptions)}.{nameof(RedisOptions.TimeToLive)} must be positive.");
@@ -74,9 +88,5 @@ internal sealed class RedisOptionsValidator(string optionsName, IOptions<Distrib
                     "so workers see a stopped master's heartbeat go stale before it expires.");
             }
         }
-
-        return failures.Count == 0
-            ? ValidateOptionsResult.Success
-            : ValidateOptionsResult.Fail(failures);
     }
 }
