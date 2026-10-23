@@ -20,4 +20,13 @@ namespace ModularPipelines.Pulumi.Options;
 [CliSubCommand("policy", "group")]
 public record PulumiPolicyGroupOptions : PulumiOptions
 {
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
+
 }
