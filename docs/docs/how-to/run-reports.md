@@ -43,9 +43,22 @@ build system, and the previous run's finish time when it supplies a duration-del
 Registering the Git or GitHub integration also adds the available commit, branch, and CI run URL.
 Correlation strings pass through secret obfuscation before persistence.
 
-## Schema v6 and rerun compatibility
+## Report schemas and rerun compatibility
 
-The current report schema is v6, introduced with failed-module reruns. It adds:
+The current report schema is v7 (`PipelineRunReport.CurrentSchemaVersion`).
+
+### Schema v7: stable module identifiers
+
+Module reports expose `ModuleRunReport.ModuleId` using the root `ModularPipelines.ModuleId`
+type. Reports retain the JSON field name `moduleTypeName` for readers of older report files;
+schema v7 writes the stable identifier used by estimates and distributed execution. Older
+supported reports remain readable as history. A duration is reused only when its stored key equals
+the new identifier; explicit identifiers and some generic type keys differ from earlier keys.
+Use `[ModuleId("build")]` on a module to preserve its key across renames.
+
+### Schema v6: failed-module rerun metadata
+
+Schema v6 introduced failed-module rerun metadata:
 
 - `PipelineRunReport.GraphFingerprint`, which identifies module types, compiled module assemblies,
   result types, and dependency edges for rerun compatibility; and
@@ -53,9 +66,15 @@ The current report schema is v6, introduced with failed-module reruns. It adds:
   including when the current run reuses a result. These are separate from the module's current-run
   `Start` and `End` execution timestamps.
 
+### Rerun baseline requirements
+
 `--rerun-failed` uses this metadata to match retained reports to typed results from an
 `IModuleResultRepository`. Reports contain status and telemetry, not typed result values.
-Older schemas remain queryable as history, but cannot supply a compatible rerun baseline.
+Older supported schemas, including v6, remain queryable as history, but cannot supply a compatible
+rerun baseline. A baseline must use the exact current schema (currently v7), the same pipeline
+identity, a matching graph fingerprint, and the same set of module identifiers. The graph fingerprint
+covers module types, compiled module assemblies, result types, and dependency edges. If no
+compatible baseline exists, selected modules execute normally.
 See [Rerun Failed Modules](command-line.md#rerun-failed-modules) for repository requirements
 and fallback behavior.
 
@@ -241,9 +260,3 @@ store retains the already-masked excerpts.
 In v4, custom stores implement `GetRunsAsync(RunHistoryQuery, CancellationToken)`. The former
 `GetLatestAsync` interface member is now an extension method, so stores need only implement the
 query operation and `SaveAsync`.
-
-Module reports expose `ModuleRunReport.ModuleId` using the root `ModularPipelines.ModuleId`
-type. Reports retain the JSON field name `moduleTypeName` for readers of older report files;
-schema v7 writes the stable identifier used by estimates and distributed execution. Older
-reports remain readable. A duration is reused only when its stored key equals the new
-identifier; explicit identifiers and some generic type keys differ from earlier keys. Use `[ModuleId("build")]` on a module to preserve its key across renames.
