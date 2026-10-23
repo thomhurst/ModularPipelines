@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.IO.Compression;
 using System.Text;
 using System.Text.Json;
 using Microsoft.Extensions.Options;
@@ -28,6 +29,14 @@ public class PublishRehearsalTests
         try
         {
             var library = await PackPackage(root, directory.FullName, "ModularPipelines.Testing", symbols: true);
+            // Exercise packages larger than Kestrel's default 30,000,000-byte request limit.
+            using (var archive = ZipFile.Open(library, ZipArchiveMode.Update))
+            {
+                var payload = archive.CreateEntry("large-payload.bin", CompressionLevel.NoCompression);
+                await using var stream = payload.Open();
+                await stream.WriteAsync(new byte[32 * 1024 * 1024]);
+            }
+
             var content = await PackPackage(root, directory.FullName, "ModularPipelines.Templates", symbols: false);
             var feed = Path.Combine(directory.FullName, "scratch feed");
             var commands = 0;

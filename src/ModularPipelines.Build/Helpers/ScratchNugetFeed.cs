@@ -38,7 +38,11 @@ internal sealed class ScratchNugetFeed : IAsyncDisposable
     {
         var builder = WebApplication.CreateSlimBuilder(new WebApplicationOptions { Args = [] });
         builder.Logging.ClearProviders();
-        builder.WebHost.ConfigureKestrel(server => server.Listen(IPAddress.Loopback, 0));
+        builder.WebHost.ConfigureKestrel(server =>
+        {
+            server.Listen(IPAddress.Loopback, 0);
+            server.Limits.MaxRequestBodySize = null;
+        });
         var app = builder.Build();
         var feed = new ScratchNugetFeed(app, directory);
         try
