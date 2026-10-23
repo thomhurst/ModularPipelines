@@ -27,7 +27,7 @@ public sealed record RedisOptions
     /// <remarks>
     /// This beta package intentionally exposes Respire's connection options so callers can use its full
     /// configuration surface. Respire is pre-1.0; upgrading this package may require changes to this
-    /// callback. The stable core v4 API compatibility guarantee does not cover this beta integration.
+    /// callback.
     /// </remarks>
     public Func<RespireOptions, RespireOptions>? ConfigureConnection { get; init; }
 
