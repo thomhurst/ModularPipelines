@@ -214,7 +214,7 @@ public class DirectModuleHooksIntegrationTests : TestBase
     [Test]
     public async Task FullPipeline_WithMultipleModules_HooksExecuteInCorrectOrder()
     {
-        var host = await TestPipelineBuilder.Create()
+        await using var host = await TestPipelineBuilder.Create()
             .AddModule<Module1>()
             .AddModule<Module2>()
             .BuildAsync();
@@ -278,7 +278,7 @@ public class DirectModuleHooksIntegrationTests : TestBase
     [Test]
     public async Task DependentModule_HooksExecuteWithCorrectDependencyOrder()
     {
-        var host = await TestPipelineBuilder.Create()
+        await using var host = await TestPipelineBuilder.Create()
             .AddModule<Module1>()
             .AddModule<DependentLoggingModule>()
             .BuildAsync();
@@ -309,7 +309,7 @@ public class DirectModuleHooksIntegrationTests : TestBase
     [Test]
     public async Task Pipeline_CompletesSuccessfully_WithAllHooksExecuted()
     {
-        var host = await TestPipelineBuilder.Create()
+        await using var host = await TestPipelineBuilder.Create()
             .AddModule<Module1>()
             .AddModule<Module2>()
             .BuildAsync();

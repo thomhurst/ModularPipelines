@@ -54,7 +54,7 @@ public class ModuleRegistrationApiTests : TestBase
         // Arrange & Act
         var builder = TestPipelineBuilder.Create();
         builder.AddModule<ModuleA>().AddModule<ModuleB>();
-        var pipeline = await builder.BuildAsync();
+        await using var pipeline = await builder.BuildAsync();
         var result = await pipeline.RunAsync();
 
         // Assert
@@ -70,7 +70,7 @@ public class ModuleRegistrationApiTests : TestBase
         // Arrange & Act
         var builder = TestPipelineBuilder.Create();
         builder.AddModule<ModuleA>().AddModule<ModuleB>().AddModule<ModuleC>();
-        var pipeline = await builder.BuildAsync();
+        await using var pipeline = await builder.BuildAsync();
         var result = await pipeline.RunAsync();
 
         // Assert
@@ -84,7 +84,7 @@ public class ModuleRegistrationApiTests : TestBase
         // Arrange & Act
         var builder = TestPipelineBuilder.Create();
         builder.AddModule<ModuleA>().AddModule<ModuleB>().AddModule<ModuleC>().AddModule<ModuleD>();
-        var pipeline = await builder.BuildAsync();
+        await using var pipeline = await builder.BuildAsync();
         var result = await pipeline.RunAsync();
 
         // Assert
@@ -98,7 +98,7 @@ public class ModuleRegistrationApiTests : TestBase
         // Arrange & Act
         var builder = TestPipelineBuilder.Create();
         builder.AddModule<ModuleA>().AddModule<ModuleB>().AddModule<ModuleC>().AddModule<ModuleD>().AddModule<ModuleE>();
-        var pipeline = await builder.BuildAsync();
+        await using var pipeline = await builder.BuildAsync();
         var result = await pipeline.RunAsync();
 
         // Assert
@@ -112,7 +112,7 @@ public class ModuleRegistrationApiTests : TestBase
         // Arrange & Act
         var builder = TestPipelineBuilder.Create();
         builder.AddModule<ModuleA>().AddModule<ModuleB>().AddModule<ModuleC>().AddModule<ModuleD>().AddModule<ModuleE>().AddModule<ModuleF>();
-        var pipeline = await builder.BuildAsync();
+        await using var pipeline = await builder.BuildAsync();
         var result = await pipeline.RunAsync();
 
         // Assert
@@ -130,7 +130,7 @@ public class ModuleRegistrationApiTests : TestBase
         // Arrange & Act
         var builder = TestPipelineBuilder.Create();
         builder.AddModule<ModuleA>().AddModule<ModuleB>().AddModule<ModuleC>();
-        var pipeline = await builder.BuildAsync();
+        await using var pipeline = await builder.BuildAsync();
         var result = await pipeline.RunAsync();
 
         // Assert
@@ -144,7 +144,7 @@ public class ModuleRegistrationApiTests : TestBase
         // Arrange & Act
         var builder = TestPipelineBuilder.Create();
         builder.AddModule<ModuleA>().AddModule<ModuleB>().AddModule<ModuleC>().AddModule<ModuleD>();
-        var pipeline = await builder.BuildAsync();
+        await using var pipeline = await builder.BuildAsync();
         var result = await pipeline.RunAsync();
 
         // Assert
@@ -202,7 +202,7 @@ public class ModuleRegistrationApiTests : TestBase
         // Test that assembly scanning can be chained with explicit registration
         var builder = TestPipelineBuilder.Create();
         builder.AddModule<TrueModule>().AddModule<NullModule>().AddModule<ModuleA>();
-        var pipeline = await builder.BuildAsync();
+        await using var pipeline = await builder.BuildAsync();
         var result = await pipeline.RunAsync();
 
         // Assert

@@ -16,7 +16,7 @@ public class PipelineRequirementBaseClassTests
     [Test]
     public async Task Sync_Requirement_With_Pass_Succeeds()
     {
-        var host = await TestPipelineBuilder.Create()
+        await using var host = await TestPipelineBuilder.Create()
             .AddModule<DummyModule>()
             .AddRequirement<PassingSyncRequirement>()
             .BuildAsync();
@@ -47,7 +47,7 @@ public class PipelineRequirementBaseClassTests
     [Test]
     public async Task Async_Requirement_With_Pass_Succeeds()
     {
-        var host = await TestPipelineBuilder.Create()
+        await using var host = await TestPipelineBuilder.Create()
             .AddModule<DummyModule>()
             .AddRequirement<PassingAsyncRequirement>()
             .BuildAsync();
@@ -78,7 +78,7 @@ public class PipelineRequirementBaseClassTests
     [Test]
     public async Task When_Helper_With_True_Passes()
     {
-        var host = await TestPipelineBuilder.Create()
+        await using var host = await TestPipelineBuilder.Create()
             .AddModule<DummyModule>()
             .AddRequirement<WhenTrueRequirement>()
             .BuildAsync();

@@ -48,7 +48,7 @@ public class DependencyInjectionTests
     [Test]
     public async Task AllDependenciesCanBeBuilt()
     {
-        var host = await TestPipelineBuilder.Create()
+        await using var host = await TestPipelineBuilder.Create()
             .AddModule<TestModule1>()
             .BuildAsync();
 

@@ -404,6 +404,7 @@ FodyWeavers.xsd
 
 requirements
 !/src/ModularPipelines/Requirements/
+!/test/ModularPipelines.UnitTests/Requirements/
 .claude/settings.local.json
 
 # Git worktrees directory

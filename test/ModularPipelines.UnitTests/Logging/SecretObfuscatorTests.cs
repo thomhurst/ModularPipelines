@@ -86,7 +86,7 @@ public class SecretObfuscatorTests
 
     private async Task RunAsync()
     {
-        var pipeline = await GetPipeline();
+        await using var pipeline = await GetPipeline();
         await pipeline.RunAsync();
     }
 }

@@ -121,7 +121,7 @@ public class ComposableModuleTests
     [Test]
     public async Task Skippable_Module_Is_Skipped_When_Condition_True()
     {
-        var host = await TestPipelineBuilder.Create()
+        await using var host = await TestPipelineBuilder.Create()
             .AddModule<AlwaysSkippedModule>()
             .BuildAsync();
 
@@ -136,7 +136,7 @@ public class ComposableModuleTests
     [Test]
     public async Task Skippable_Module_Executes_When_Condition_False()
     {
-        var host = await TestPipelineBuilder.Create()
+        await using var host = await TestPipelineBuilder.Create()
             .AddModule<NeverSkippedModule>()
             .BuildAsync();
 
@@ -150,7 +150,7 @@ public class ComposableModuleTests
     [Test]
     public async Task Timeoutable_Module_Has_Custom_Timeout()
     {
-        var host = await TestPipelineBuilder.Create()
+        await using var host = await TestPipelineBuilder.Create()
             .AddModule<TimeoutableModule>()
             .BuildAsync();
 

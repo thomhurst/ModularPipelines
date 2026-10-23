@@ -614,7 +614,7 @@ public class EngineCancellationTokenTests : TestBase
             Concurrency = options.Concurrency with { MaxParallelism = 1 },
         });
 
-        var host = await builder.BuildAsync();
+        await using var host = await builder.BuildAsync();
 
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
 
@@ -642,7 +642,7 @@ public class EngineCancellationTokenTests : TestBase
             Concurrency = options.Concurrency with { MaxParallelism = 1 },
         });
 
-        var host = await builder.BuildAsync();
+        await using var host = await builder.BuildAsync();
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
 
         await Assert.That(async () => await host.RunAsync()).Throws<InvalidOperationException>();
@@ -671,7 +671,7 @@ public class EngineCancellationTokenTests : TestBase
             Concurrency = options.Concurrency with { MaxParallelism = 2 },
         });
 
-        var host = await builder.BuildAsync();
+        await using var host = await builder.BuildAsync();
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
 
         await Assert.That(async () => await host.RunAsync()).Throws<InvalidOperationException>();
@@ -759,7 +759,7 @@ public class EngineCancellationTokenTests : TestBase
             Concurrency = options.Concurrency with { MaxParallelism = 2 },
         });
 
-        var host = await builder.BuildAsync();
+        await using var host = await builder.BuildAsync();
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
 
         await Assert.That(async () => await host.RunAsync()).Throws<OperationCanceledException>();
@@ -792,7 +792,7 @@ public class EngineCancellationTokenTests : TestBase
             Concurrency = options.Concurrency with { MaxParallelism = 1 },
         });
 
-        var host = await builder.BuildAsync();
+        await using var host = await builder.BuildAsync();
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
 
         await Assert.That(async () => await host.RunAsync()).Throws<ModuleFailedException>();
@@ -819,7 +819,7 @@ public class EngineCancellationTokenTests : TestBase
             .AddModule<BadModule>()
             .AddModule<Module1>();
 
-        var host = await builder.BuildAsync();
+        await using var host = await builder.BuildAsync();
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
 
         var summary = await host.RunAsync();
@@ -851,7 +851,7 @@ public class EngineCancellationTokenTests : TestBase
             ThrowOnPipelineFailure = true,
         });
 
-        var host = await builder.BuildAsync();
+        await using var host = await builder.BuildAsync();
 
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
 
@@ -885,7 +885,7 @@ public class EngineCancellationTokenTests : TestBase
                 ThrowOnPipelineFailure = true,
             });
 
-            var host = await builder.BuildAsync();
+            await using var host = await builder.BuildAsync();
             var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
 
             await Assert.ThrowsAsync<ModuleFailedException>(async () => await host.RunAsync());
@@ -914,7 +914,7 @@ public class EngineCancellationTokenTests : TestBase
             ModuleCancellationGracePeriod = TimeSpan.FromMilliseconds(50),
         });
 
-        var host = await builder.BuildAsync();
+        await using var host = await builder.BuildAsync();
 
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
 
@@ -949,7 +949,7 @@ public class EngineCancellationTokenTests : TestBase
             .AddModule<CoordinatedFailingModule>()
             .AddModule<CanceledBeforeStartModule>();
 
-        var host = await builder.BuildAsync();
+        await using var host = await builder.BuildAsync();
         var exception = await Assert.ThrowsAsync<ModuleFailedException>(
             async () => await host.RunAsync().WaitAsync(TestHostSettings.DefaultTestTimeout));
 
@@ -977,7 +977,7 @@ public class EngineCancellationTokenTests : TestBase
             .AddModule<CoordinatedDependencyFailureModule>()
             .AddModule<TerminatedBeforeExecutionModule>();
 
-        var host = await builder.BuildAsync();
+        await using var host = await builder.BuildAsync();
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var exception = await Assert.ThrowsAsync<ModuleFailedException>(
             async () => await host.RunAsync().WaitAsync(TestHostSettings.DefaultTestTimeout));
@@ -1010,7 +1010,7 @@ public class EngineCancellationTokenTests : TestBase
             .AddModule<StopOnFirstQueuedDependencyModule>()
             .AddModule<StopOnFirstPendingModule>();
 
-        var host = await builder.BuildAsync();
+        await using var host = await builder.BuildAsync();
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var pendingModule = host.Services.GetServices<IModule>()
             .OfType<StopOnFirstPendingModule>()
@@ -1045,7 +1045,7 @@ public class EngineCancellationTokenTests : TestBase
             .AddModule<WaitForAllCompletingModule>()
             .AddModule<WaitForAllPendingModule>();
 
-        var host = await builder.BuildAsync();
+        await using var host = await builder.BuildAsync();
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
 
         var pipelineSummary = await host.RunAsync();
