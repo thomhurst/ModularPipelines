@@ -333,14 +333,16 @@ jobs:
           MODULAR_PIPELINES_REDIS_TEST_CONNECTION_STRING: 127.0.0.1:${{ job.services.redis.ports['6379'] }}
         run: |
           # Keep subsecond lease checks from competing with hundreds of unrelated tests.
+          status=0
           for PACKAGE in ModularPipelines.Distributed.Redis ModularPipelines.Distributed.Discovery.Redis
           do
             dotnet run --project "test/$PACKAGE.UnitTests/$PACKAGE.UnitTests.csproj" \
               --configuration Release --framework net11.0 -- \
               --maximum-parallel-tests 4 \
               --results-directory "$RUNNER_TEMP/redis-test-results/$PACKAGE" \
-              --report-trx --report-trx-filename test-results.trx
+              --report-trx --report-trx-filename test-results.trx || status=$?
           done
+          exit $status
       - name: Upload Redis test results
         if: always() && steps.generated_integration.outputs.is_generated_integration != 'true'
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
