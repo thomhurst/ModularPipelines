@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines;
-using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
@@ -95,6 +94,15 @@ public record GcloudNotebooksInstancesUpdateOptions : GcloudOptions, IValidatabl
             yield return new ValidationResult("At least one of AcceleratorCoreCount, AcceleratorType, Labels, or MachineType must be specified.", [nameof(AcceleratorCoreCount), nameof(AcceleratorType), nameof(Labels), nameof(MachineType)]);
         }
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,7 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines;
-using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
@@ -558,6 +557,15 @@ public record GcloudTransferJobsUpdateOptions : GcloudOptions, IValidatableObjec
             yield return new ValidationResult("At least one of ClearIncludePrefixes, ClearExcludePrefixes, ClearMatchGlob, ClearIncludeModifiedBeforeAbsolute, ClearIncludeModifiedAfterAbsolute, ClearIncludeModifiedBeforeRelative, ClearIncludeModifiedAfterRelative, ClearIncludeStorageClasses, IncludePrefixes, ExcludePrefixes, MatchGlob, IncludeModifiedBeforeAbsolute, IncludeModifiedAfterAbsolute, IncludeModifiedBeforeRelative, IncludeModifiedAfterRelative, IncludeStorageClasses, ClearDeleteFrom, ClearPreserveMetadata, ClearCustomStorageClass, OverwriteWhen, DeleteFrom, PreserveMetadata, or CustomStorageClass must be specified.", [nameof(ClearIncludePrefixes), nameof(ClearExcludePrefixes), nameof(ClearMatchGlob), nameof(ClearIncludeModifiedBeforeAbsolute), nameof(ClearIncludeModifiedAfterAbsolute), nameof(ClearIncludeModifiedBeforeRelative), nameof(ClearIncludeModifiedAfterRelative), nameof(ClearIncludeStorageClasses), nameof(IncludePrefixes), nameof(ExcludePrefixes), nameof(MatchGlob), nameof(IncludeModifiedBeforeAbsolute), nameof(IncludeModifiedAfterAbsolute), nameof(IncludeModifiedBeforeRelative), nameof(IncludeModifiedAfterRelative), nameof(IncludeStorageClasses), nameof(ClearDeleteFrom), nameof(ClearPreserveMetadata), nameof(ClearCustomStorageClass), nameof(OverwriteWhen), nameof(DeleteFrom), nameof(PreserveMetadata), nameof(CustomStorageClass)]);
         }
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }
