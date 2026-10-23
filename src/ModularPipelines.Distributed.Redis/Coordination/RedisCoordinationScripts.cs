@@ -20,8 +20,9 @@ namespace ModularPipelines.Distributed.Redis.Coordination;
 /// <item>lease expiration workers, keyed by module identifier</item>
 /// <item>master heartbeat</item>
 /// <item>claims: claim token to module identifier</item>
+/// <item>enqueue receipts: the unique suffix of each committed enqueue request</item>
 /// </list>
-/// Scripts that change run state renew the expiry of keys 1 to 12 and 14.
+/// Scripts that change run state renew the expiry of keys 1 to 12, 14 and 15.
 /// </summary>
 internal static class RedisCoordinationScripts
 {
@@ -37,6 +38,7 @@ internal static class RedisCoordinationScripts
                 redis.call('PEXPIRE', KEYS[i], ttl)
             end
             redis.call('PEXPIRE', KEYS[14], ttl)
+            redis.call('PEXPIRE', KEYS[15], ttl)
         end
 
         """;
@@ -78,9 +80,17 @@ internal static class RedisCoordinationScripts
 
     // ARGV: time to live, class identifier, class JSON, queue member, module identifier.
     public const string Enqueue = RefreshLua + QueueIndexLua + """
+        -- Bytes 53-84 are the queue member's unique GUID suffix (see RedisQueueMember).
+        -- Keep a receipt even after withdrawal or claim removes the member from the queue.
+        local request_id = string.sub(ARGV[4], 53, 84)
+        if redis.call('SISMEMBER', KEYS[15], request_id) == 1 then
+            refresh(ARGV[1])
+            return 0
+        end
         redis.call('HSETNX', KEYS[2], ARGV[2], ARGV[3])
         redis.call('ZADD', KEYS[1], 0, ARGV[4])
         index_add(ARGV[5], ARGV[4])
+        redis.call('SADD', KEYS[15], request_id)
         refresh(ARGV[1])
         return 1
         """;
