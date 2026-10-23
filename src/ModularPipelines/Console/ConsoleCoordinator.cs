@@ -1,5 +1,6 @@
 using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.ExceptionServices;
 using MEL.Spectre;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -226,8 +227,29 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
             try
             {
                 // Flush outside the installation lock: output may call user loggers.
-                _coordinatedOut?.Flush();
-                _coordinatedError?.Flush();
+                List<Exception> exceptions = [];
+                CoordinatedTextWriter?[] writers = [_coordinatedOut, _coordinatedError];
+                foreach (var writer in writers)
+                {
+                    try
+                    {
+                        writer?.Flush();
+                    }
+                    catch (Exception exception)
+                    {
+                        exceptions.Add(exception);
+                    }
+                }
+
+                if (exceptions.Count == 1)
+                {
+                    ExceptionDispatchInfo.Capture(exceptions[0]).Throw();
+                }
+
+                if (exceptions.Count > 1)
+                {
+                    throw new AggregateException("Console flush failed.", exceptions);
+                }
             }
             finally
             {

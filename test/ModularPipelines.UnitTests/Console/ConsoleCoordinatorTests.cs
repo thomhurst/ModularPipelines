@@ -4,6 +4,7 @@ using ModularPipelines.Secrets;
 using MEL.Spectre;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
+using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Console;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.BuildSystemFormatters;
@@ -20,6 +21,64 @@ namespace ModularPipelines.UnitTests.Console;
 [TUnit.Core.NotInParallel]
 public class ConsoleCoordinatorTests
 {
+    [Test]
+    [Arguments(false, false)]
+    [Arguments(false, true)]
+    [Arguments(true, false)]
+    [Arguments(true, true)]
+    public async Task PipelineCleanupFailure_ReleasesConsoleOwnership(bool failStartup, bool cancelDisposal)
+    {
+        var originalOut = System.Console.Out;
+        var originalError = System.Console.Error;
+        var originalAnsi = AnsiConsole.Console;
+        var builder = Pipeline.CreateBuilder().AddModule<OwnershipModule>();
+        builder.Services.AddSingleton(_ => new FailingDisposalService(cancelDisposal));
+        IConsoleCoordinator? coordinator = null;
+
+        try
+        {
+            if (failStartup)
+            {
+                var exception = await Assert.ThrowsAsync<InvalidOperationException>(() => builder.BuildAsync((services, _) =>
+                {
+                    coordinator = services.GetRequiredService<IConsoleCoordinator>();
+                    services.GetRequiredService<FailingDisposalService>();
+                    return Task.FromException(new InvalidOperationException("startup failed"));
+                }));
+                await Assert.That(exception!.Message).IsEqualTo("startup failed");
+            }
+            else
+            {
+                var pipeline = await builder.BuildAsync();
+                coordinator = pipeline.Services.GetRequiredService<IConsoleCoordinator>();
+                _ = pipeline.Services.GetRequiredService<FailingDisposalService>();
+                if (cancelDisposal)
+                {
+                    await Assert.ThrowsAsync<OperationCanceledException>(() => pipeline.DisposeAsync().AsTask());
+                }
+                else
+                {
+                    await Assert.ThrowsAsync<IOException>(() => pipeline.DisposeAsync().AsTask());
+                }
+            }
+
+            await Assert.That(System.Console.Out).IsSameReferenceAs(originalOut);
+            await Assert.That(System.Console.Error).IsSameReferenceAs(originalError);
+            await Assert.That(AnsiConsole.Console).IsSameReferenceAs(originalAnsi);
+        }
+        finally
+        {
+            try
+            {
+                coordinator?.Uninstall();
+            }
+            finally
+            {
+                RestoreConsole(originalOut, originalError, originalAnsi);
+            }
+        }
+    }
+
     [Test]
     [Arguments(false, false, false)]
     [Arguments(true, false, false)]
@@ -66,13 +125,7 @@ public class ConsoleCoordinatorTests
         }
         finally
         {
-            second.Uninstall();
-            first.Uninstall();
-#pragma warning disable TUnit0055 // Restore process-wide streams even when the regression fails.
-            System.Console.SetOut(originalOut);
-            System.Console.SetError(originalError);
-#pragma warning restore TUnit0055
-            AnsiConsole.Console = originalAnsi;
+            RestoreConsole(originalOut, originalError, originalAnsi, second, first);
         }
     }
 
@@ -81,6 +134,7 @@ public class ConsoleCoordinatorTests
     {
         var originalOut = System.Console.Out;
         var originalError = System.Console.Error;
+        var originalAnsi = AnsiConsole.Console;
         using var output = new StringWriter();
         using var error = new StringWriter();
         var first = CreateCoordinator(Mock.Of<IOutputCoordinator>());
@@ -120,13 +174,7 @@ public class ConsoleCoordinatorTests
         }
         finally
         {
-            third.Uninstall();
-            second.Uninstall();
-            first.Uninstall();
-#pragma warning disable TUnit0055 // Restore the host's process-wide streams.
-            System.Console.SetOut(originalOut);
-            System.Console.SetError(originalError);
-#pragma warning restore TUnit0055
+            RestoreConsole(originalOut, originalError, originalAnsi, third, second, first);
         }
     }
 
@@ -167,8 +215,7 @@ public class ConsoleCoordinatorTests
         }
         finally
         {
-            second.Uninstall();
-            first.Uninstall();
+            RestoreConsole(originalOut, originalError, originalAnsi, second, first);
         }
     }
 
@@ -206,8 +253,142 @@ public class ConsoleCoordinatorTests
         }
         finally
         {
+            RestoreConsole(originalOut, originalError, originalAnsi, second, first);
+        }
+    }
+
+    [Test]
+    [Arguments(true, false)]
+    [Arguments(false, true)]
+    [Arguments(true, true)]
+    public async Task Uninstall_AttemptsBothFlushesAndRestoresConsole(bool failOutput, bool failError)
+    {
+        var originalOut = System.Console.Out;
+        var originalError = System.Console.Error;
+        var originalAnsi = AnsiConsole.Console;
+        using var output = new CallbackFlushWriter();
+        using var error = new CallbackFlushWriter();
+        var outputFailure = new IOException("stdout flush failed");
+        var errorFailure = new IOException("stderr flush failed");
+        var coordinator = CreateCoordinator(Mock.Of<IOutputCoordinator>());
+
+        try
+        {
+#pragma warning disable TUnit0055 // Globally non-parallel test restores the host streams in finally.
+            System.Console.SetOut(output);
+            System.Console.SetError(error);
+#pragma warning restore TUnit0055
+            var hostOut = System.Console.Out;
+            var hostError = System.Console.Error;
+            coordinator.Install();
+            System.Console.Write("stdout partial");
+            System.Console.Error.Write("stderr partial");
+            output.OnFlush = () =>
+            {
+                if (failOutput)
+                {
+                    throw outputFailure;
+                }
+            };
+            error.OnFlush = () =>
+            {
+                if (failError)
+                {
+                    throw errorFailure;
+                }
+            };
+
+            if (failOutput && failError)
+            {
+                var exception = Assert.Throws<AggregateException>(coordinator.Uninstall);
+                Exception[] expectedFailures = [outputFailure, errorFailure];
+                await Assert.That(exception!.InnerExceptions).IsEquivalentTo(expectedFailures);
+            }
+            else
+            {
+                var exception = Assert.Throws<IOException>(coordinator.Uninstall);
+                await Assert.That(exception).IsSameReferenceAs(failOutput ? outputFailure : errorFailure);
+            }
+
+            await Assert.That(output.ToString()).IsEqualTo("stdout partial");
+            await Assert.That(error.ToString()).IsEqualTo("stderr partial");
+            await Assert.That(System.Console.Out).IsSameReferenceAs(hostOut);
+            await Assert.That(System.Console.Error).IsSameReferenceAs(hostError);
+            await Assert.That(AnsiConsole.Console).IsSameReferenceAs(originalAnsi);
+            coordinator.Uninstall();
+        }
+        finally
+        {
+            output.OnFlush = null;
+            error.OnFlush = null;
+            RestoreConsole(originalOut, originalError, originalAnsi, coordinator);
+        }
+    }
+
+    [Test]
+    public async Task Install_WhileLastOwnerIsFlushing_PreservesNewOwner()
+    {
+        var originalOut = System.Console.Out;
+        var originalError = System.Console.Error;
+        var originalAnsi = AnsiConsole.Console;
+        using var output = new CallbackFlushWriter();
+        var first = CreateCoordinator(Mock.Of<IOutputCoordinator>());
+        var second = CreateCoordinator(Mock.Of<IOutputCoordinator>());
+        var flushEntered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var releaseFlush = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        Task uninstall = Task.CompletedTask;
+        Task install = Task.CompletedTask;
+
+        try
+        {
+#pragma warning disable TUnit0055 // Globally non-parallel test restores the host streams in finally.
+            System.Console.SetOut(output);
+#pragma warning restore TUnit0055
+            var hostOut = System.Console.Out;
+            first.Install();
+            var blockNextFlush = 1;
+            output.OnFlush = () =>
+            {
+                if (Interlocked.Exchange(ref blockNextFlush, 0) == 0)
+                {
+                    return;
+                }
+
+                flushEntered.TrySetResult();
+                releaseFlush.Task.GetAwaiter().GetResult();
+            };
+            uninstall = Task.Run(first.Uninstall);
+            await flushEntered.Task.WaitAsync(TimeSpan.FromSeconds(10));
+            // Installation must finish while the last owner's flush is still blocked.
+            install = Task.Run(second.Install);
+            await install.WaitAsync(TimeSpan.FromSeconds(10));
+            var secondOut = System.Console.Out;
+            var secondError = System.Console.Error;
+            var secondAnsi = AnsiConsole.Console;
+            releaseFlush.TrySetResult();
+            await uninstall.WaitAsync(TimeSpan.FromSeconds(10));
+
+            await Assert.That(System.Console.Out).IsSameReferenceAs(secondOut);
+            await Assert.That(System.Console.Error).IsSameReferenceAs(secondError);
+            await Assert.That(AnsiConsole.Console).IsSameReferenceAs(secondAnsi);
+            System.Console.WriteLine("new owner's output");
+            await Assert.That(output.ToString()).Contains("new owner's output");
             second.Uninstall();
-            first.Uninstall();
+            await Assert.That(System.Console.Out).IsSameReferenceAs(hostOut);
+            await Assert.That(System.Console.Error).IsSameReferenceAs(originalError);
+            await Assert.That(AnsiConsole.Console).IsSameReferenceAs(originalAnsi);
+        }
+        finally
+        {
+            releaseFlush.TrySetResult();
+            try
+            {
+                await Task.WhenAll(uninstall, install);
+            }
+            finally
+            {
+                RestoreConsole(originalOut, originalError, originalAnsi, second, first);
+            }
         }
     }
 
@@ -232,10 +413,7 @@ public class ConsoleCoordinatorTests
         }
         finally
         {
-            foreach (var coordinator in coordinators)
-            {
-                coordinator.Uninstall();
-            }
+            RestoreConsole(originalOut, originalError, originalAnsi, coordinators);
         }
     }
 
@@ -243,6 +421,8 @@ public class ConsoleCoordinatorTests
     public async Task OverlappingOutputCoordinator_FlushesToHostWriter()
     {
         var originalOut = System.Console.Out;
+        var originalError = System.Console.Error;
+        var originalAnsi = AnsiConsole.Console;
         var first = CreateCoordinator(Mock.Of<IOutputCoordinator>());
         var buffer = new Mock<IModuleOutputBuffer>();
         buffer.SetupGet(output => output.ModuleType).Returns(typeof(void));
@@ -272,7 +452,7 @@ public class ConsoleCoordinatorTests
         }
         finally
         {
-            first.Uninstall();
+            RestoreConsole(originalOut, originalError, originalAnsi, first);
         }
     }
 
@@ -607,6 +787,46 @@ public class ConsoleCoordinatorTests
         await Assert.That(text.Split("earlier completion").Length - 1).IsEqualTo(1);
         await Assert.That(text.Split("rendered prefix").Length - 1).IsEqualTo(renderedPrefix ? 1 : 0);
         await Assert.That(text.Split("remaining failure diagnostics").Length - 1).IsEqualTo(pendingDiagnostics ? 1 : 0);
+    }
+
+    private static void RestoreConsole(
+        TextWriter output, TextWriter error, IAnsiConsole ansiConsole, params ConsoleCoordinator[] coordinators)
+    {
+        try
+        {
+            foreach (var coordinator in coordinators)
+            {
+                coordinator.Uninstall();
+            }
+        }
+        finally
+        {
+#pragma warning disable TUnit0055 // Restore process-wide streams even when the regression fails.
+            System.Console.SetOut(output);
+            System.Console.SetError(error);
+#pragma warning restore TUnit0055
+            AnsiConsole.Console = ansiConsole;
+        }
+    }
+
+    private sealed class CallbackFlushWriter : StringWriter
+    {
+        public Action? OnFlush { get; set; }
+
+        public override void Flush() => OnFlush?.Invoke();
+    }
+
+    private sealed class FailingDisposalService(bool cancelDisposal) : IAsyncDisposable
+    {
+        public ValueTask DisposeAsync() => cancelDisposal
+            ? ValueTask.FromCanceled(new CancellationToken(canceled: true))
+            : ValueTask.FromException(new IOException("host cleanup failed"));
+    }
+
+    private sealed class OwnershipModule : Module<bool>
+    {
+        protected internal override Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) =>
+            Task.FromResult(true);
     }
 
     private static ConsoleCoordinator CreateCoordinator(

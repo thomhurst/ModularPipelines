@@ -23,6 +23,7 @@ internal sealed class OutputCoordinator(
     private readonly ILoggerFactory _loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
     private readonly IServiceProvider _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
     private readonly ILogger _logger = loggerFactory.CreateLogger<OutputCoordinator>();
+    // Bypass live interceptors when another pipeline already owns the process-wide console.
     private readonly TextWriter _console = ConsoleCoordinator.GetOriginalOutput();
     private readonly ISpectreConsoleLoggerControl _loggerControl = loggerControl ?? throw new ArgumentNullException(nameof(loggerControl));
     private readonly INonSpectreLoggerFactory _nonSpectreLoggerFactory = nonSpectreLoggerFactory
