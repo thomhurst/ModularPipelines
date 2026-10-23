@@ -28,6 +28,11 @@ public sealed record RedisDiscoveryOptions
     /// Later changes to an endpoint list the function kept do not affect the validated configuration.
     /// REST discovery does not invoke this function.
     /// </summary>
+    /// <remarks>
+    /// This beta package intentionally exposes Respire's connection options so callers can use its full
+    /// configuration surface. Respire is pre-1.0; upgrading this package may require changes to this
+    /// callback.
+    /// </remarks>
     public Func<RespireOptions, RespireOptions>? ConfigureConnection { get; init; }
 
     /// <summary>

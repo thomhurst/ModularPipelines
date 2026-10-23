@@ -45,6 +45,12 @@ CompressionLevel.NoCompression })` to configure artifact behavior in local mode.
 not enable distributed execution. Redis `ConfigureConnection` options are
 `Func<RespireOptions, RespireOptions>` transforms over the immutable Respire connection options.
 
+Both Redis integration packages remain beta independently of core v4. Their `ConfigureConnection`
+callbacks intentionally expose pre-1.0 Respire types, so package upgrades may require callback changes.
+This beta status is separate from core's versioning policy, which allows breaking changes in minor
+versions. See the compatibility policy for [Redis](../mp-packages/distributed-redis.md) and
+[Redis discovery](../mp-packages/distributed-discovery-redis.md) before upgrading.
+
 ```csharp
 builder.AddDistributedMode(o => o with
 {
