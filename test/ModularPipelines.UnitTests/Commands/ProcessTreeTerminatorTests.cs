@@ -8,6 +8,7 @@ using Moq;
 
 namespace ModularPipelines.UnitTests.Commands;
 
+[TUnit.Core.ParallelGroup(nameof(ProcessFixtureParallelLimit))]
 [TUnit.Core.ParallelLimiter<ProcessFixtureParallelLimit>]
 public class ProcessTreeTerminatorTests : TestBase
 {
