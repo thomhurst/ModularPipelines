@@ -6,6 +6,8 @@ namespace ModularPipelines.UnitTests.Helpers;
 // and dynamic compilation out of this budget's readiness and output-drain windows.
 // CommandTests also shares this budget for pipeline setup in its other tests;
 // limiting only the process fixtures still lets those startups compete with them.
+// CommandLoggerTests' PowerShell matrix and CommandInputAndExitCodeTests share
+// the same budget so focused command validation fits the agent memory guard.
 public sealed class ProcessFixtureParallelLimit : TUnit.Core.Interfaces.IParallelLimit
 {
     public int Limit => 2;

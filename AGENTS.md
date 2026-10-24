@@ -12,6 +12,7 @@ ModularPipelines is a C# pipeline framework with dependency-driven, parallel mod
 - Build the affected solution: `ModularPipelines.slnx` for core, `ModularPipelines.Tests.slnf` for core plus tests, or `src/ModularPipelines.<Tool>/ModularPipelines.<Tool>.slnx` for one integration (including its tests when present). Analyzer and example solutions are available for those areas.
 - Do not build or format `ModularPipelines.All.slnx`, or execute `src/ModularPipelines.Build`: these can exhaust workstation resources. A full build requires an explicit human request and sufficient capacity. Validate build-pipeline changes by building only its project.
 - Run the relevant TUnit executable test project. For focused runs, append `--treenode-filter` and one pattern after `--`, such as `/*/*/MyTests/*`; combine patterns only with TUnit OR parentheses, such as `/*/*/(ClassA)|(ClassB)/*`.
+- For focused command tests within the default memory budget, follow [command validation](scripts/CommandTestValidation.md).
 - Keep integration tests in their matching `ModularPipelines.<Tool>.UnitTests` project; do not add integration references to the core unit tests.
 
 ```powershell
