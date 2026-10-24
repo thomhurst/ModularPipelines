@@ -9,6 +9,9 @@
   <PropertyGroup>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageProjectUrl>https://github.com/thomhurst/ModularPipelines</PackageProjectUrl>
+    <PackageIcon>modular-pipelines-icon.png</PackageIcon>
+    <PackageTags>ci;cd;pipelines;build;automation;csharp;dotnet</PackageTags>
     <Authors>Tom Longhurst</Authors>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
@@ -33,6 +36,7 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)README.md" Pack="true" PackagePath="\" />
+    <None Include="$(MSBuildThisFileDirectory)docs/static/img/modular-pipelines-icon.png" Pack="true" PackagePath="\" />
     <AdditionalFiles Include="$(MSBuildThisFileDirectory)stylecop.json" Link="stylecop.json" />
   </ItemGroup>
   <ItemGroup>
