@@ -14,6 +14,9 @@ using Moq;
 
 namespace ModularPipelines.UnitTests.Helpers;
 
+// WSL path conversion and Bash startup share the process fixtures' bounded startup budget.
+[TUnit.Core.ParallelGroup(nameof(ProcessFixtureParallelLimit))]
+[TUnit.Core.ParallelLimiter<ProcessFixtureParallelLimit>]
 public class BashTests : TestBase
 {
     private sealed class SerialCommandInterceptor : ICommandInterceptor, IDisposable

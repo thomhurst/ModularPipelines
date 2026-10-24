@@ -1,6 +1,6 @@
 namespace ModularPipelines.UnitTests.Helpers;
 
-// Each test can start several .NET hosts. Bound their overlap so startup remains
+// Tests can start several .NET hosts or WSL commands. Bound their overlap so startup remains
 // observable within the fixture deadlines on small CI runners.
 // Their shared ParallelGroup also keeps unrelated core tests' pipeline startup
 // and dynamic compilation out of this budget's readiness and output-drain windows.
