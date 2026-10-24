@@ -65,6 +65,12 @@ internal sealed class SignalRDistributedCoordinatorFactory(
                 Url = _options.AdvertisedUrl ?? _options.ListenUrl,
                 AccessToken = _options.AccessToken,
             };
+        if (!SignalRDistributedOptionsValidator.IsSupportedEndpoint(endpoint.Url))
+        {
+            throw new InvalidOperationException(
+                "The SignalR master endpoint must be an absolute HTTPS URL, or an HTTP URL on loopback.");
+        }
+
         var accessToken = endpoint.AccessToken ?? _options.AccessToken;
         var hubUrl = GetHubUrl(endpoint.Url, _options.HubPath);
         var logger = loggerFactory.CreateLogger<SignalRWorkerCoordinator>();

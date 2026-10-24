@@ -35,7 +35,7 @@ public class ConfigurationTests
         var configuration = new ConfigurationBuilder()
             .AddInMemoryCollection(new Dictionary<string, string?>
             {
-                ["SignalR:ListenUrl"] = "http://0.0.0.0:6000",
+                ["SignalR:ListenUrl"] = "https://0.0.0.0:6000",
                 ["SignalR:AdvertisedUrl"] = "https://master.example",
                 ["SignalR:HubPath"] = "/distributed",
                 ["SignalR:AccessToken"] = "token",
@@ -55,7 +55,7 @@ public class ConfigurationTests
 
         using (Assert.Multiple())
         {
-            await Assert.That(options.ListenUrl).IsEqualTo(new Uri("http://0.0.0.0:6000"));
+            await Assert.That(options.ListenUrl).IsEqualTo(new Uri("https://0.0.0.0:6000"));
             await Assert.That(options.AdvertisedUrl).IsEqualTo(new Uri("https://master.example"));
             await Assert.That(options.HubPath).IsEqualTo("/distributed");
             await Assert.That(options.AccessToken).IsEqualTo("token");
@@ -113,7 +113,7 @@ public class ConfigurationTests
     public async Task Reachable_Master_Generates_Token_For_Discovery()
     {
         var first = SignalRDistributedCoordinatorFactory.ResolveMasterAccessToken(
-            new SignalRDistributedOptions { ListenUrl = new Uri("http://0.0.0.0:5099") },
+            new SignalRDistributedOptions { ListenUrl = new Uri("https://0.0.0.0:5099") },
             hasDiscovery: true);
         var second = SignalRDistributedCoordinatorFactory.ResolveMasterAccessToken(
             new SignalRDistributedOptions { ListenUrl = new Uri("http://localhost:5099"), Tunnel = new SignalRTunnelOptions { Enabled = true } },
@@ -127,7 +127,7 @@ public class ConfigurationTests
     public async Task Reachable_Master_Without_Token_Or_Discovery_Fails()
     {
         await Assert.That(() => SignalRDistributedCoordinatorFactory.ResolveMasterAccessToken(
-                new SignalRDistributedOptions { ListenUrl = new Uri("http://0.0.0.0:5099") },
+                new SignalRDistributedOptions { ListenUrl = new Uri("https://0.0.0.0:5099") },
                 hasDiscovery: false))
             .Throws<InvalidOperationException>();
     }
@@ -149,7 +149,7 @@ public class ConfigurationTests
     public async Task Configured_Token_Is_Used()
     {
         var token = SignalRDistributedCoordinatorFactory.ResolveMasterAccessToken(
-            new SignalRDistributedOptions { ListenUrl = new Uri("http://0.0.0.0:5099"), AccessToken = "configured" },
+            new SignalRDistributedOptions { ListenUrl = new Uri("https://0.0.0.0:5099"), AccessToken = "configured" },
             hasDiscovery: false);
 
         await Assert.That(token).IsEqualTo("configured");

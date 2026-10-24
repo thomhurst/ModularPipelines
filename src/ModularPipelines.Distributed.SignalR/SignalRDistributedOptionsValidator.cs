@@ -10,16 +10,15 @@ internal sealed class SignalRDistributedOptionsValidator : IValidateOptions<Sign
     public ValidateOptionsResult Validate(string? name, SignalRDistributedOptions options)
     {
         var failures = new List<string>();
-        if (options.ListenUrl is not { IsAbsoluteUri: true } listenUrl
-            || listenUrl.Scheme is not ("http" or "https"))
+        if (!IsSupportedEndpoint(options.ListenUrl))
         {
-            failures.Add($"{nameof(SignalRDistributedOptions.ListenUrl)} must be an absolute http or https URL.");
+            failures.Add($"{nameof(SignalRDistributedOptions.ListenUrl)} must be an absolute HTTPS URL, or an HTTP URL on loopback.");
         }
 
         if (options.AdvertisedUrl is { } advertisedUrl
-            && (!advertisedUrl.IsAbsoluteUri || advertisedUrl.Scheme is not ("http" or "https")))
+            && !IsSupportedEndpoint(advertisedUrl))
         {
-            failures.Add($"{nameof(SignalRDistributedOptions.AdvertisedUrl)} must be an absolute http or https URL.");
+            failures.Add($"{nameof(SignalRDistributedOptions.AdvertisedUrl)} must be an absolute HTTPS URL, or an HTTP URL on loopback.");
         }
 
         if (string.IsNullOrWhiteSpace(options.HubPath) || !options.HubPath.StartsWith('/'))
@@ -69,4 +68,8 @@ internal sealed class SignalRDistributedOptionsValidator : IValidateOptions<Sign
 
         return failures.Count == 0 ? ValidateOptionsResult.Success : ValidateOptionsResult.Fail(failures);
     }
+
+    internal static bool IsSupportedEndpoint(Uri? endpoint) =>
+        endpoint is { IsAbsoluteUri: true }
+        && (endpoint.Scheme == "https" || (endpoint.Scheme == "http" && endpoint.IsLoopback));
 }
